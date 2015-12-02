@@ -30,6 +30,8 @@ using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Forms
 {
+    // This is a comment, please remove it
+    
     /// <summary>
     /// Main form.
     /// </summary>
