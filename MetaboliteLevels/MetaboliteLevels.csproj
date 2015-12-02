@@ -1,0 +1,913 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F551D31E-5CD6-4929-8301-3E11DB17960D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MetaboliteLevels</RootNamespace>
+    <AssemblyName>MetaboliteLevels</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AssemblyInfoFilePath>Properties\AssemblyInfo.cs</AssemblyInfoFilePath>
+    <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+    <AssemblyVersionSettings>
+    </AssemblyVersionSettings>
+    <AssemblyFileVersionSettings>
+    </AssemblyFileVersionSettings>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\MJR\Desktop\MLPub\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>097F62E6ABF287EA7DDCCF8F0EF64CC53FB622D6</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>MetaboliteLevels_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\MainIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="RDotNet, Version=1.5.16.30632, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\R.NET.Community.1.5.16\lib\net40\RDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="RDotNet.NativeLibrary, Version=1.5.16.30632, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\R.NET.Community.1.5.16\lib\net40\RDotNet.NativeLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Algorithms\Algo.cs" />
+    <Compile Include="Algorithms\Statistics\AlgoParams.cs" />
+    <Compile Include="Algorithms\Statistics\Arguments\ArgsCorrection.cs" />
+    <Compile Include="Algorithms\Statistics\Arguments\ArgsTrendAsCorrection.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\ClustererAffinityPropagation.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\ClustererReclusterer.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\ClustererUniqueness.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\Legacy\LegacyDKMeansPPClusterer.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\Legacy\LegacyKMeansClusterer.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\Legacy\LegacyPathwayClusterer.cs" />
+    <Compile Include="Algorithms\Statistics\Configurations\ConfigurationCorrection.cs" />
+    <Compile Include="Algorithms\Statistics\Corrections\CorrectionBase.cs" />
+    <Compile Include="Algorithms\Statistics\Corrections\CorrectionDirtyRectify.cs" />
+    <Compile Include="Algorithms\Statistics\Corrections\CorrectionScript.cs" />
+    <Compile Include="Algorithms\Statistics\Results\ResultClusterer.cs" />
+    <Compile Include="Algorithms\Statistics\Results\ResultCorrection.cs" />
+    <Compile Include="Algorithms\Statistics\Results\ResultBase.cs" />
+    <Compile Include="Algorithms\Statistics\Results\ResultStatistic.cs" />
+    <Compile Include="Algorithms\Statistics\Results\ResultTrend.cs" />
+    <Compile Include="Algorithms\ValueMatrix.cs" />
+    <Compile Include="Controls\CtlErrorProvider.cs" />
+    <Compile Include="Controls\EditableComboBox.cs" />
+    <Compile Include="Data\General\CompoundLibrary.cs" />
+    <Compile Include="Algorithms\Statistics\Results\SecondaryStatistic.cs" />
+    <Compile Include="Forms\Algorithms\ClusterEvaluation\ClusterEvaluationConfiguration.cs" />
+    <Compile Include="Forms\Algorithms\ClusterEvaluation\ClusterEvaluationParameterResult.cs" />
+    <Compile Include="Forms\Algorithms\ClusterEvaluation\ClusterEvaluationPointer.cs" />
+    <Compile Include="Forms\Algorithms\ClusterEvaluation\ClusterEvaluationResults.cs" />
+    <Compile Include="Forms\Algorithms\FrmEvaluateClustering.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmEvaluateClustering.Designer.cs">
+      <DependentUpon>FrmEvaluateClustering.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmEvaluateClusteringOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmEvaluateClusteringOptions.Designer.cs">
+      <DependentUpon>FrmEvaluateClusteringOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditExpGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditExpGroup.Designer.cs">
+      <DependentUpon>FrmEditExpGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditParameters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditParameters.Designer.cs">
+      <DependentUpon>FrmEditParameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditUpdate.Designer.cs">
+      <DependentUpon>FrmEditUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmObservationFilterCondition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmObservationFilterCondition.Designer.cs">
+      <DependentUpon>FrmObservationFilterCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmPca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmPca.Designer.cs">
+      <DependentUpon>FrmPca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Generic\ListValueSet%28of T%29.cs" />
+    <Compile Include="Forms\Generic\ListValueSet.cs" />
+    <Compile Include="Forms\Startup\FrmSelectCompounds.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmSelectCompounds.Designer.cs">
+      <DependentUpon>FrmSelectCompounds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\DefaultValueBag.cs" />
+    <Compile Include="Utilities\BiDictionary.cs" />
+    <Compile Include="Utilities\ComparisonComparer.cs" />
+    <Compile Include="Utilities\Counter.cs" />
+    <Compile Include="Utilities\EErrorHandler.cs" />
+    <Compile Include="Algorithms\Statistics\Configurations\ConfigurationBase.cs" />
+    <Compile Include="Algorithms\Statistics\Arguments\ArgsBase.cs" />
+    <Compile Include="Algorithms\Statistics\Arguments\ArgsClusterer.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\ClustererBase.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\ClustererScript.cs" />
+    <Compile Include="Algorithms\Statistics\Configurations\ConfigurationClusterer.cs" />
+    <Compile Include="Algorithms\Statistics\RScript.cs" />
+    <Compile Include="Algorithms\Statistics\Statistics\StatisticConsumer.cs" />
+    <Compile Include="Algorithms\Statistics\AlgoBase.cs" />
+    <Compile Include="Algorithms\Statistics\Metrics\MetricBase.cs" />
+    <Compile Include="Algorithms\Statistics\Arguments\ArgsMetric.cs" />
+    <Compile Include="Algorithms\Statistics\Metrics\MetricInbuilt.cs" />
+    <Compile Include="Algorithms\Statistics\Configurations\ConfigurationMetric.cs" />
+    <Compile Include="Algorithms\Statistics\Metrics\MetricScript.cs" />
+    <Compile Include="Algorithms\Statistics\Statistics\StatisticPcaAnova.cs" />
+    <Compile Include="Algorithms\Statistics\Arguments\ArgsTrend.cs" />
+    <Compile Include="Algorithms\Statistics\Trends\TrendAverage.cs" />
+    <Compile Include="Algorithms\Statistics\Trends\TrendBase.cs" />
+    <Compile Include="Algorithms\Statistics\Trends\TrendFlatLine.cs" />
+    <Compile Include="Algorithms\Statistics\Trends\TrendInbuilt.cs" />
+    <Compile Include="Algorithms\Statistics\Configurations\ConfigurationTrend.cs" />
+    <Compile Include="Algorithms\Statistics\Trends\TrendScript.cs" />
+    <Compile Include="Algorithms\Statistics\Arguments\ArgsStatistic.cs" />
+    <Compile Include="Algorithms\Statistics\Containers\StatCollection.cs" />
+    <Compile Include="Algorithms\Statistics\Arguments\enums.cs" />
+    <Compile Include="Algorithms\Statistics\Inputs\InputStatistics.cs" />
+    <Compile Include="Algorithms\Statistics\Statistics\StatisticBase.cs" />
+    <Compile Include="Algorithms\Statistics\Statistics\StatisticInbuilt.cs" />
+    <Compile Include="Algorithms\Statistics\Configurations\ConfigurationStatistic.cs" />
+    <Compile Include="Algorithms\Statistics\Statistics\StatisticScript.cs" />
+    <Compile Include="Utilities\FieldWriter.cs" />
+    <Compile Include="Utilities\IProgressReporter.cs" />
+    <Compile Include="Utilities\MetaInfoCollection.cs" />
+    <Compile Include="Utilities\PartialSerialisationSurrogate.cs" />
+    <Compile Include="Utilities\PathwayToolsReader.cs" />
+    <Compile Include="Utilities\SwitchException.cs" />
+    <Compile Include="Utilities\Arr.cs" />
+    <Compile Include="Data\General\AssignmentList.cs" />
+    <Compile Include="Controls\CaptionBar.cs" />
+    <Compile Include="Controls\ConditionBox.cs" />
+    <Compile Include="Controls\CtlButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlStatistics.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlStatistics.Designer.cs">
+      <DependentUpon>CtlStatistics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtlTitleBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlTitleBar.Designer.cs">
+      <DependentUpon>CtlTitleBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtlWizard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlWizard.Designer.cs">
+      <DependentUpon>CtlWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EnumComboBox.cs" />
+    <Compile Include="Controls\SubListHandler.cs" />
+    <Compile Include="Controls\NamedItem.cs" />
+    <Compile Include="Data\DataInfo\ConditionInfo.cs" />
+    <Compile Include="Data\StylisedPeak.cs" />
+    <Compile Include="Data\Session\Visualisables\IVisualisable.cs" />
+    <Compile Include="Data\StylisedCluster.cs" />
+    <Compile Include="Data\Session\Visualisables\Assignment.cs" />
+    <Compile Include="Forms\Startup\FrmClosing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmClosing.Designer.cs">
+      <DependentUpon>FrmClosing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmAlgoCluster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmAlgoCluster.Designer.cs">
+      <DependentUpon>FrmAlgoCluster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmAlgoCorrection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmAlgoCorrection.Designer.cs">
+      <DependentUpon>FrmAlgoCorrection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmDebug.Designer.cs">
+      <DependentUpon>FrmDebug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditColumnFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditColumnFilter.Designer.cs">
+      <DependentUpon>FrmEditColumnFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmInitialSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmInitialSetup.Designer.cs">
+      <DependentUpon>FrmInitialSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmInput.Designer.cs">
+      <DependentUpon>FrmInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmInput2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmInput2.Designer.cs">
+      <DependentUpon>FrmInput2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmPeakFilterCondition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmPeakFilterCondition.Designer.cs">
+      <DependentUpon>FrmPeakFilterCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmList.Designer.cs">
+      <DependentUpon>FrmList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmMsgBox.Designer.cs">
+      <DependentUpon>FrmMsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmOldData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmOldData.Designer.cs">
+      <DependentUpon>FrmOldData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PagerControl.cs" />
+    <Compile Include="Controls\CtlHelpBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlHelpBar.Designer.cs">
+      <DependentUpon>CtlHelpBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditSession.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditSession.Designer.cs">
+      <DependentUpon>FrmEditSession.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmRScript.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmRScript.Designer.cs">
+      <DependentUpon>FrmRScript.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmAlgoTrend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmAlgoTrend.Designer.cs">
+      <DependentUpon>FrmAlgoTrend.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmAlgoStatistic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Algorithms\FrmAlgoStatistic.Designer.cs">
+      <DependentUpon>FrmAlgoStatistic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmBigList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmBigList.Designer.cs">
+      <DependentUpon>FrmBigList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmWait.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmWait.Designer.cs">
+      <DependentUpon>FrmWait.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Wizards\CoreStatisticsOptions.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\Legacy\LegacyClustererHelper.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\CoreColourSettings.cs" />
+    <Compile Include="Data\General\ELcMsMode.cs" />
+    <Compile Include="Data\Session\Visualisables\Annotation.cs" />
+    <Compile Include="Data\General\PeakValueSet.cs" />
+    <Compile Include="Data\General\Range.cs" />
+    <Compile Include="Data\Session\Visualisables\Adduct.cs" />
+    <Compile Include="Forms\Editing\FrmOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmOptions.Designer.cs">
+      <DependentUpon>FrmOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditCluster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditCluster.Designer.cs">
+      <DependentUpon>FrmEditCluster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Wizards\FrmPatternWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\FrmPatternWizard.Designer.cs">
+      <DependentUpon>FrmPatternWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tree Explorer\FrmViewTypes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Tree Explorer\FrmViewTypes.Designer.cs">
+      <DependentUpon>FrmViewTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\NativeMethods.cs" />
+    <Compile Include="Data\DataInfo\ObservationInfo.cs" />
+    <Compile Include="Utilities\ProgressStream.cs" />
+    <Compile Include="Settings\DataFileNames.cs" />
+    <Compile Include="Settings\ECandidateMode.cs" />
+    <Compile Include="Settings\ECentreMode.cs" />
+    <Compile Include="Settings\EDistanceMetric.cs" />
+    <Compile Include="Settings\EDistanceMode.cs" />
+    <Compile Include="Settings\EListDisplayMode.cs" />
+    <Compile Include="Settings\EStatisticalMethods.cs" />
+    <Compile Include="Settings\Filter.cs" />
+    <Compile Include="Settings\MainSettings.cs" />
+    <Compile Include="Settings\PeakFlag.cs" />
+    <Compile Include="Forms\Tree Explorer\TreeNodeConvertor.cs" />
+    <Compile Include="Data\DataInfo\GroupInfo.cs" />
+    <Compile Include="Utilities\UiControls.cs" />
+    <Compile Include="Forms\Tree Explorer\FrmTreeView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Tree Explorer\FrmTreeView.Designer.cs">
+      <DependentUpon>FrmTreeView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Tree Explorer\PathwayScore.cs" />
+    <Compile Include="Forms\Tree Explorer\TreeNodeExt.cs" />
+    <Compile Include="Viewers\Charts\ChartHelper.cs" />
+    <Compile Include="Viewers\Charts\ChartHelperForPatterns.cs" />
+    <Compile Include="Viewers\Charts\ChartHelperForPeaks.cs" />
+    <Compile Include="Settings\CoreOptions.cs" />
+    <Compile Include="Data\Session\Visualisables\Compound.cs" />
+    <Compile Include="Data\Session\Core.cs" />
+    <Compile Include="Forms\Generic\FrmInputLarge.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmInputLarge.Designer.cs">
+      <DependentUpon>FrmInputLarge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmDataLoadQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmDataLoadQuery.Designer.cs">
+      <DependentUpon>FrmDataLoadQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmDataLoad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmDataLoad.Designer.cs">
+      <DependentUpon>FrmDataLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmPatternSheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmPatternSheet.Designer.cs">
+      <DependentUpon>FrmPatternSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Maths.cs" />
+    <Compile Include="Data\Session\Visualisables\Pathway.cs" />
+    <Compile Include="Forms\FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataLoader\Matrix.cs" />
+    <Compile Include="Data\Session\Visualisables\Cluster.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Data\Session\Visualisables\Peak.cs" />
+    <Compile Include="Data\DataInfo\IntensityInfo.cs" />
+    <Compile Include="Viewers\ICoreWatcher.cs" />
+    <Compile Include="Viewers\Lists\Column.cs" />
+    <Compile Include="Viewers\Lists\EListInvalids.cs" />
+    <Compile Include="Viewers\Lists\ListViewHelper%28T%29.ColumnFilter.cs" />
+    <Compile Include="Viewers\Lists\ListViewHelper%28T%29.cs" />
+    <Compile Include="Viewers\Lists\ListViewHelper.cs" />
+    <Compile Include="Viewers\Lists\ListViewHelper.EOperator.cs" />
+    <Compile Include="Viewers\Lists\ShowContextMenuEventArgs.cs" />
+    <Compile Include="Viewers\Lists\ListViewHelper%28T%29.SortByColumn.cs" />
+    <Compile Include="Settings\XmlSettings.cs" />
+    <EmbeddedResource Include="Controls\CtlStatistics.resx">
+      <DependentUpon>CtlStatistics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtlTitleBar.resx">
+      <DependentUpon>CtlTitleBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtlWizard.resx">
+      <DependentUpon>CtlWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Algorithms\FrmEvaluateClustering.resx">
+      <DependentUpon>FrmEvaluateClustering.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Algorithms\FrmEvaluateClusteringOptions.resx">
+      <DependentUpon>FrmEvaluateClusteringOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmEditExpGroup.resx">
+      <DependentUpon>FrmEditExpGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmEditParameters.resx">
+      <DependentUpon>FrmEditParameters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmEditUpdate.resx">
+      <DependentUpon>FrmEditUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmObservationFilterCondition.resx">
+      <DependentUpon>FrmObservationFilterCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmPca.resx">
+      <DependentUpon>FrmPca.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Startup\FrmClosing.resx">
+      <DependentUpon>FrmClosing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Algorithms\FrmAlgoCluster.resx">
+      <DependentUpon>FrmAlgoCluster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Algorithms\FrmAlgoCorrection.resx">
+      <DependentUpon>FrmAlgoCorrection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmDebug.resx">
+      <DependentUpon>FrmDebug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmEditColumnFilter.resx">
+      <DependentUpon>FrmEditColumnFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Startup\FrmInitialSetup.resx">
+      <DependentUpon>FrmInitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmInput.resx">
+      <DependentUpon>FrmInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmInput2.resx">
+      <DependentUpon>FrmInput2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmPeakFilterCondition.resx">
+      <DependentUpon>FrmPeakFilterCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmList.resx">
+      <DependentUpon>FrmList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmMsgBox.resx">
+      <DependentUpon>FrmMsgBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Startup\FrmOldData.resx">
+      <DependentUpon>FrmOldData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmEditSession.resx">
+      <DependentUpon>FrmEditSession.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmRScript.resx">
+      <DependentUpon>FrmRScript.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Algorithms\FrmAlgoTrend.resx">
+      <DependentUpon>FrmAlgoTrend.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Algorithms\FrmAlgoStatistic.resx">
+      <DependentUpon>FrmAlgoStatistic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmBigList.resx">
+      <DependentUpon>FrmBigList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmWait.resx">
+      <DependentUpon>FrmWait.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Startup\FrmSelectCompounds.resx">
+      <DependentUpon>FrmSelectCompounds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmInputLarge.resx">
+      <DependentUpon>FrmInputLarge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Startup\FrmDataLoadQuery.resx">
+      <DependentUpon>FrmDataLoadQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Startup\FrmDataLoad.resx">
+      <DependentUpon>FrmDataLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmOptions.resx">
+      <DependentUpon>FrmOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmEditCluster.resx">
+      <DependentUpon>FrmEditCluster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmPatternSheet.resx">
+      <DependentUpon>FrmPatternSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\FrmPatternWizard.resx">
+      <DependentUpon>FrmPatternWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Tree Explorer\FrmTreeView.resx">
+      <DependentUpon>FrmTreeView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Tree Explorer\FrmViewTypes.resx">
+      <DependentUpon>FrmViewTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtlHelpBar.resx">
+      <DependentUpon>CtlHelpBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="MetaboliteLevels_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Manual.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\delete.ico" />
+    <None Include="Resources\ErrorPointerIcon.ico" />
+    <None Include="Resources\Saveall_6518.png" />
+    <None Include="Resources\NewPerformanceSession_8866.png" />
+    <None Include="Resources\Copy_6524.png" />
+    <None Include="Resources\ErrorBarIcon.ico" />
+    <None Include="Resources\ErrorBar.png" />
+    <None Include="Resources\ObjLPca.png" />
+    <None Include="Resources\ObjScriptError.png" />
+    <None Include="Resources\ObjScriptDone.png" />
+    <None Include="Resources\ObjScript.png" />
+    <None Include="Resources\ObjLScript.png" />
+    <None Include="Resources\ObjSave.png" />
+    <None Include="Resources\ObjPrefs.png" />
+    <None Include="Resources\ObjLGroups.png" />
+    <None Include="Resources\ObjScriptTrend.png" />
+    <None Include="Resources\ObjScriptStatistic.png" />
+    <None Include="Resources\ObjScriptCorrect.png" />
+    <None Include="Resources\ObjScriptClusterer.png" />
+    <None Include="Resources\ObjLScriptTrend.png" />
+    <None Include="Resources\ObjLScriptStatistic.png" />
+    <None Include="Resources\ObjLScriptCorrect.png" />
+    <None Include="Resources\ObjLScriptCluster.png" />
+    <None Include="Resources\FilteredObject_13400_16x.png" />
+    <None Include="Resources\ObjInfo.png" />
+    <None Include="Resources\ObjLInfoU.png" />
+    <None Include="Resources\ObjInfoU.png" />
+    <None Include="Resources\ObjAssignment.png" />
+    <None Include="Resources\ObjLAssignment.png" />
+    <None Include="Resources\verified9.png" />
+    <None Include="Resources\task2.png" />
+    <None Include="Resources\script1.png" />
+    <None Include="Resources\browser93.png" />
+    <None Include="Resources\browser11.png" />
+    <None Include="Resources\add10.png" />
+    <None Include="Resources\blog1.png" />
+    <None Include="Resources\arrowhead9-flipped.png" />
+    <None Include="Resources\arrowhead9.png" />
+    <None Include="Resources\square2.png" />
+    <None Include="Resources\ObjPoint.png" />
+    <None Include="Resources\ObjLVariableU.png" />
+    <None Include="Resources\ObjLVariable.png" />
+    <None Include="Resources\ObjLStatistics.png" />
+    <None Include="Resources\ObjLPatternU.png" />
+    <None Include="Resources\ObjLPattern.png" />
+    <None Include="Resources\ObjLPathway.png" />
+    <None Include="Resources\ObjLInfo.png" />
+    <None Include="Resources\ObjLGraph.png" />
+    <None Include="Resources\ObjLCore.png" />
+    <None Include="Resources\ObjLCompoundU.png" />
+    <None Include="Resources\ObjLCompound.png" />
+    <None Include="Resources\ObjLAdduct.png" />
+    <None Include="Resources\ObjVariableU.png" />
+    <None Include="Resources\ObjVariable.png" />
+    <None Include="Resources\ObjStatistics.png" />
+    <None Include="Resources\ObjPatternU.png" />
+    <None Include="Resources\ObjPattern.png" />
+    <None Include="Resources\ObjPathway.png" />
+    <None Include="Resources\ObjCompoundU.png" />
+    <None Include="Resources\ObjCompound.png" />
+    <None Include="Resources\ObjAdduct.png" />
+    <None Include="Resources\None.png" />
+    <None Include="Resources\List.png" />
+    <None Include="Resources\Line.png" />
+    <None Include="Resources\Info.png" />
+    <None Include="Resources\Graph.png" />
+    <None Include="Resources\Core.png" />
+    <None Include="Resources\ObjNone.png" />
+    <None Include="Resources\PatternD.png" />
+    <None Include="Resources\Pattern.png" />
+    <None Include="Resources\ObjVariableId.png" />
+    <None Include="Resources\ObjList.png" />
+    <None Include="Resources\ObjCore.png" />
+    <None Include="Resources\ObjCompoundId.png" />
+    <None Include="Resources\graph_performanceChart_5171_16x_LG.png" />
+    <None Include="Resources\112_Plus_Blue_16x16_72.png" />
+    <None Include="Resources\Tests.png" />
+    <None Include="Resources\MovePrevious_7195.png" />
+    <None Include="Resources\CheckBoxList_727.png" />
+    <None Include="Resources\type_16xLG.png" />
+    <None Include="Resources\112_RightArrowShort_Grey_16x16_72.png" />
+    <None Include="Resources\Bubble_16xLG.png" />
+    <None Include="Resources\lock_16xLG - Copy.png" />
+    <None Include="Resources\TestWizard.png" />
+    <None Include="Resources\TestUnivariate2.png" />
+    <None Include="Resources\TestUnivariate.png" />
+    <None Include="Resources\TestTrend.png" />
+    <None Include="Resources\TestMultivariate2.png" />
+    <None Include="Resources\TestMultivariate.png" />
+    <None Include="Resources\TestFull.png" />
+    <None Include="Resources\TestEmpty.png" />
+    <None Include="Resources\TestCorrect.png" />
+    <None Include="Resources\TestCluster.png" />
+    <None Include="Resources\lock_16xLG.png" />
+    <None Include="Resources\pane_appearance_16x16_on.png" />
+    <None Include="Resources\eye_16xLG.png" />
+    <None Include="Resources\Warning_grey_7315_16x16.png" />
+    <None Include="Resources\TestCluster1.png" />
+    <None Include="Resources\109_AllAnnotations_Warning_16x16_72.png" />
+    <None Include="Resources\wizard_16xLG.png" />
+    <None Include="Resources\test_16xLG.png" />
+    <None Include="Resources\action_add_16xLG.png" />
+    <None Include="Resources\arrow_Down_16xLG.png" />
+    <None Include="Resources\arrow_Up_16xLG.png" />
+    <None Include="Resources\PreviousPageHS.png" />
+    <None Include="Resources\NextPageHS.png" />
+    <None Include="Resources\Nextrequest_10302.png" />
+    <None Include="Resources\MainIcon1.ico" />
+    <None Include="Resources\MainIcon.ico" />
+    <None Include="Resources\Transparent.ico" />
+    <None Include="Resources\Task-Inspector-Warning.png" />
+    <None Include="Resources\StatusAnnotations_Warning_32xMD_color.png" />
+    <None Include="Resources\Clearwindowcontent_6304.png" />
+    <None Include="Resources\History_13251.png" />
+    <None Include="Resources\109_AllAnnotations_Warning_48x48_72.png" />
+    <None Include="Resources\109_AllAnnotations_Info_48x48_72.png" />
+    <None Include="Resources\109_AllAnnotations_Help_48x48_72.png" />
+    <None Include="Resources\109_AllAnnotations_Error_48x48_72.png" />
+    <None Include="Resources\109_AllAnnotations_Default_48x48_72.png" />
+    <None Include="Resources\Rename_6779.png" />
+    <None Include="Resources\OpenFileDialog_692.png" />
+    <None Include="Resources\DeleteHS1.png" />
+    <None Include="Resources\pencil_32.png" />
+    <None Include="Resources\112_UpArrowShort_Blue_16x16_72.png" />
+    <None Include="Resources\112_DownArrowShort_Blue_16x16_721.png" />
+    <None Include="Resources\112_DownArrowLong_Blue_16x16_72.png" />
+    <None Include="Resources\112_DownArrowShort_Blue_16x16_72.png" />
+    <None Include="Resources\112_UpArrowLong_Blue_16x16_72.png" />
+    <None Include="Resources\112_Minus_Orange_16x16_72.png" />
+    <None Include="Resources\CommentHS.png" />
+    <None Include="Resources\Proline2.png" />
+    <None Include="Resources\FindHS.png" />
+    <None Include="Resources\Help %283%29.png" />
+    <None Include="Resources\Help_65221.png" />
+    <None Include="Resources\Proline.png" />
+    <None Include="Resources\128x128.png" />
+    <None Include="Resources\Files_7954.png" />
+    <None Include="Resources\StartLogoBw.png" />
+    <None Include="Resources\pencil_003_16xMD.png" />
+    <None Include="Resources\Preview%28Thumbnail%29.png" />
+    <None Include="Resources\CustomActionsEditor_5850.png" />
+    <None Include="Resources\StartLogo21.png" />
+    <None Include="Resources\StartLogo2.png" />
+    <None Include="Resources\StartLogo.png" />
+    <None Include="Resources\Textfile_818_16x.png" />
+    <None Include="Resources\RLogo.png" />
+    <None Include="Resources\Help_6522.png" />
+    <None Include="Resources\DeleteHS.png" />
+    <None Include="Resources\database_32xSM.png" />
+    <None Include="Resources\Constant_495.png" />
+    <None Include="Resources\TreeView_713.png" />
+    <None Include="Resources\PC16b.png" />
+    <None Include="Resources\arrow_back_16xLG.png" />
+    <None Include="Resources\MetaboliteExplorer1.ico" />
+    <None Include="Resources\refresh_16xLG.png" />
+    <None Include="Resources\StatusAnnotations_Critical_16xLG.png" />
+    <None Include="Resources\StatusAnnotations_Complete_and_ok_16xLG.png" />
+    <None Include="Resources\SortDescending_276.png" />
+    <None Include="Resources\SortAscending_275.png" />
+    <None Include="Resources\SelectColumn_361.png" />
+    <None Include="Resources\ViewBox_10697.png" />
+    <None Include="Resources\Print_11009.png" />
+    <None Include="Resources\Open_6529.png" />
+    <None Include="Resources\save_16xLG.png" />
+    <None Include="Resources\Image1.png" />
+    <None Include="Resources\MetaboliteExplorer.ico" />
+    <None Include="Resources\package_32xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Adduct.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Compound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CompoundU.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pathway.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PatternI.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Variable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VariableE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VariableI.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VariableIE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DeleteWorkspace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ClearWorkspace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MChart\MChart\MChart.csproj">
+      <Project>{ef8cd51c-caa8-4ea6-82fc-89097b163baf}</Project>
+      <Name>MChart</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MSerialiser\MSerialiser\MSerialiser.csproj">
+      <Project>{3f76ce4d-6fae-4fc2-a6c8-947392b21e72}</Project>
+      <Name>MSerialiser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Algorithms\Statistics\ClustererStatistics\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

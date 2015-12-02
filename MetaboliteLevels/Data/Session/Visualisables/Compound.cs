@@ -1,0 +1,336 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms.DataVisualization.Charting;
+using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Properties;
+using MetaboliteLevels.Utilities;
+using MetaboliteLevels.Viewers;
+using MetaboliteLevels.Viewers.Charts;
+using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Data.General;
+using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Settings;
+using MSerialisers;
+
+namespace MetaboliteLevels.Data.Visualisables
+{
+    /// <summary>
+    /// Chemical compounds
+    /// (aka. Known metabolites)
+    /// </summary>
+    [Serializable]
+    [DeferSerialisation]
+    class Compound : IVisualisable
+    {
+        /// <summary>
+        /// Compound name
+        /// </summary>
+        public readonly string Name;
+
+        /// <summary>
+        /// Unique ID
+        /// </summary>
+        public readonly string Id;
+
+        /// <summary>
+        /// Mass
+        /// </summary>
+        public decimal Mass;
+
+        /// <summary>
+        /// Implicated pathways
+        /// </summary>
+        public readonly List<Pathway> Pathways = new List<Pathway>();
+
+        /// <summary>
+        /// Variables potentially representing this compound
+        /// </summary>
+        public readonly List<Annotation> Annotations = new List<Annotation>();
+
+        /// <summary>
+        /// Meta info
+        /// </summary>
+        public readonly MetaInfoCollection MetaInfo = new MetaInfoCollection();
+
+        /// <summary>
+        /// User provided comments.
+        /// </summary>
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// User provided name.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Defining library.
+        /// </summary>
+        public readonly List<CompoundLibrary> Libraries = new List<CompoundLibrary>();
+
+        public Compound(CompoundLibrary tag, string name, string id, decimal mz)
+        {
+            if (tag != null)
+            {
+                this.Libraries.Add(tag);
+            }
+
+            this.Name = RemoveHtml(name);
+            this.Id = id;
+            this.Mass = mz;
+        }
+
+        private static string RemoveHtml(string name)
+        {
+            name = name.Replace("&alpha;", "α");
+            name = name.Replace("&beta;", "β");
+            name = name.Replace("&gamma;", "γ");
+            name = name.Replace("&delta;", "δ");
+            name = name.Replace("&epsilon;", "ε");
+            name = name.Replace("&omega;", "ω");
+            name = name.Replace("&Alpha;", "Α");
+            name = name.Replace("&Beta;", "Β");
+            name = name.Replace("&Gamma;", "Γ");
+            name = name.Replace("&Delta;", "Δ");
+            name = name.Replace("&Epsilon;", "Ε");
+            name = name.Replace("&omega;", "Ω");
+            name = name.Replace("&Psi;", "Ψ");
+            name = name.Replace("&psi;", "ψ");
+            name = name.Replace("&Xi;", "Ξ");
+            name = name.Replace("&xi;", "ξ");
+            name = name.Replace("&Chi;", "Χ");
+            name = name.Replace("&chi;", "χ");
+            return name;
+        }
+
+        internal StylisedCluster CreateStylisedCluster(Core core, IVisualisable highlight)
+        {
+            Cluster fakeCluster = new Cluster(this.Name, null);
+            var colourInfo = new Dictionary<Peak, LineInfo>();
+            string caption = "Plot of peaks potentially representing {0}.";
+
+            // Compound --> Peaks in compound
+            // Adduct: NA
+            // Peak: Peak
+            // Cluster: Peaks in cluster
+            // Pathway: None
+
+            IEnumerable<IVisualisable> toHighlight = null;
+
+            if (highlight != null)
+            {
+                switch (highlight.VisualClass)
+                {
+                    case VisualClass.Peak:
+                        toHighlight = new HashSet<IVisualisable> { highlight };
+                        caption += " {1} is shown in red.";
+                        break;
+
+                    case VisualClass.Cluster:
+                        toHighlight = highlight.GetContents(core, VisualClass.Peak).Keys;
+                        caption += " Peaks in {1} are shown in red.";
+                        break;
+                }
+            }
+
+            Peak[] peaks = this.Annotations.Select(z => z.Peak).ToArray();
+
+            ValueMatrix vm = ValueMatrix.Create(peaks, true, core, ObsFilter.Empty, false, new EmptyProgressReporter());
+
+            for (int index = 0; index < vm.NumVectors; index++)
+            {
+                var vec = vm.Vectors[index];
+                Peak peak = vec.Peak;
+
+                fakeCluster.Assignments.Add(new Assignment(vec, fakeCluster, double.NaN));
+
+                StringBuilder sb = new StringBuilder();
+
+                if (peak.Annotations.Count > 5)
+                {
+                    sb.Append(this.Name + " OR " + (peak.Annotations.Count - 1) + " others");
+                }
+                else
+                {
+                    sb.Append(this.Name);
+
+                    foreach (Annotation c2 in peak.Annotations)
+                    {
+                        if (c2.Compound != this)
+                        {
+                            sb.Append(" OR ");
+                            sb.Append(c2.Compound.Name + " (" + c2.Adduct.Name + ")");
+                        }
+                    }
+                }
+
+                colourInfo.Add(peak, new LineInfo(peak.DisplayName + ": " + sb.ToString(), Color.Black, ChartDashStyle.Solid));
+            }
+
+            var r = new StylisedCluster(fakeCluster, this, colourInfo);
+            r.IsFake = true;
+            r.CaptionFormat = caption;
+            r.Source = highlight;
+            r.Highlight = toHighlight;
+            return r;
+        }
+
+        /// <summary>
+        /// Inherited from IVisualisable. 
+        /// </summary>
+        public string DisplayName
+        {
+            get { return Title ?? Name; }
+        }
+
+        /// <summary>
+        /// Inherited from IVisualisable. 
+        /// </summary>
+        public Image DisplayIcon
+        {
+            get { return Annotations.Count == 0 ? Resources.ObjLCompoundU : Resources.ObjLCompound; }
+        }
+
+        /// <summary>
+        /// Implements IVisualisable. 
+        /// </summary>
+        public IEnumerable<InfoLine> GetInformation(Core core)
+        {
+            yield return new InfoLine("Comment", Comment);
+            yield return new InfoLine("Display name", DisplayName);
+            yield return new InfoLine("Id", Id);
+            yield return new InfoLine("№ libraries", this.Libraries.Count);
+            yield return new InfoLine("№ libraries", this.Libraries.Count);
+            yield return new InfoLine("Mass", Mass);
+            yield return new InfoLine("Name", Name);
+            yield return new InfoLine("№ pathways", Pathways.Count);
+            yield return new InfoLine("№ annotations", Annotations.Count);
+            yield return new InfoLine("URL", Url);
+            yield return new InfoLine("Class", VisualClass.ToUiString());
+
+            foreach (InfoLine il in core._compoundsMeta.ReadAll(this.MetaInfo))
+            {
+                yield return il;
+            }
+        }
+
+        /// <summary>
+        /// Implements IVisualisable. 
+        /// </summary>
+        public IEnumerable<InfoLine> GetStatistics(Core core)
+        {
+            return new InfoLine[0];
+        }
+
+        /// <summary>
+        /// Implements IVisualisable. 
+        /// </summary>
+        public VisualClass VisualClass
+        {
+            get { return VisualClass.Compound; }
+        }
+
+        /// <summary>
+        /// Debugging.
+        /// </summary>
+        public override string ToString()
+        {
+            return DisplayName;
+        }
+
+        /// <summary>
+        /// Implements IVisualisable. 
+        /// </summary>
+        public void RequestContents(ContentsRequest request)
+        {
+            switch (request.Type)
+            {
+                case VisualClass.Peak:
+                    request.Text = "Potential peaks for {0}";
+
+                    foreach (var pp in this.Annotations)
+                    {
+                        request.Add(pp.Peak);
+                    }
+                    break;
+
+                case VisualClass.Cluster:
+                    request.Text = "Clusters representing potential peaks of {0}";
+                    request.AddHeader("Num. in compound", "Number of peaks in {0} in this cluster");
+
+                    Counter<Cluster> counts = new Counter<Cluster>();
+
+                    foreach (var p in Annotations)
+                    {
+                        foreach (Cluster pat in p.Peak.Assignments.Clusters)
+                        {
+                            counts.Increment(pat); // assume there is only one of each cluster per peak so the count holds
+                        }
+                    }
+
+                    request.AddRangeWithCounts(counts);
+
+                    break;
+
+                case VisualClass.Annotation:
+                    request.Text = "Annotations using {0}";
+                    request.AddRange(Annotations);
+                    break;
+
+                case VisualClass.Compound:
+                    break;
+
+                case VisualClass.Adduct:
+                    break;
+
+                case VisualClass.Pathway:
+                    request.Text = "List of pathways implicating {0}";
+                    request.AddRange(this.Pathways);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public string Url
+        {
+            get
+            {
+                return "http://mediccyc.noble.org/MEDIC/new-image?type=COMPOUND&object=" + Id;
+            }
+        }
+
+        public IEnumerable<Column> GetColumns(Core core)
+        {
+            var columns = new List<Column<Compound>>();
+
+            columns.Add("Name", true, λ => λ.Name);
+            columns.Add("Library", false, λ => λ.Libraries);
+            columns.Add("Mass", false, λ => λ.Mass);
+            columns.Add("Pathways", false, λ => λ.Pathways);
+            columns.Add("Annotations", true, λ => λ.Annotations);
+            columns.Add("ID", false, λ => λ.Id);
+            columns.Add("Comment", false, λ => λ.Comment);
+
+            core._compoundsMeta.ReadAllColumns(z => z.MetaInfo, columns);
+
+            return columns;
+        }
+
+        public int GetIcon()
+        {
+            // IMAGE
+            if (this.Annotations.Count == 0)
+            {
+                return UiControls.ImageListOrder.CompoundU;
+            }
+            else
+            {
+                return UiControls.ImageListOrder.Compound;
+            }
+        }
+    }
+}

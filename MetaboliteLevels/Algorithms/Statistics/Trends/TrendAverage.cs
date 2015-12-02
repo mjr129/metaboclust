@@ -1,0 +1,48 @@
+﻿using System.Collections.Generic;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
+using MetaboliteLevels.Utilities;
+
+namespace MetaboliteLevels.Algorithms.Statistics.Trends
+{
+    sealed class TrendAverage : TrendInbuilt
+    {
+        private readonly AlgoDelegate_EInput1 _avg;
+
+        public TrendAverage(AlgoDelegate_EInput1 del, string id, string name)
+            : base(id, name)
+        {
+            Description = "Calculates an average or moving average. The window width parameter 'w' must be specified.";
+            _avg = del;
+        }
+
+        public override AlgoParameters GetParams()
+        {
+            AlgoParameters.Param p1 = new AlgoParameters.Param("w", AlgoParameters.EType.Integer);
+            return new AlgoParameters(AlgoParameters.ESpecial.None, new[] { p1 });
+        }
+
+        protected override double SmoothPoint(IEnumerable<int> x, double[] y, int xTarget, object arg)
+        {
+            int medianRadius = (int)arg;
+
+            IEnumerable<int> indicesForWindow = x.Which(λ => (λ >= (xTarget - medianRadius)) && (λ <= (xTarget + medianRadius)));
+            IEnumerable<double> valuesForWindow = y.In(indicesForWindow);
+
+            return _avg(valuesForWindow);
+        }
+
+        protected override object InterpretArgs(object[] args)
+        {
+            int medianWindow = (int)args[0];
+
+            int medianRadius = (medianWindow - 1) / 2;
+
+            if (medianRadius != 0)
+            {
+                UiControls.Assert((medianRadius * 2) == (medianWindow - 1), "Moving average window must be an odd number.");
+            }
+
+            return medianRadius;
+        }
+    }
+}
