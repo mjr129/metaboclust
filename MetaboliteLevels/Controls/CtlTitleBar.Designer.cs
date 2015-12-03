@@ -113,7 +113,7 @@
             this._btnWarning.FlatAppearance.MouseDownBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnWarning.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnWarning.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnWarning.Image = global::MetaboliteLevels.Properties.Resources._109_AllAnnotations_Warning_16x16_72;
+            this._btnWarning.Image = global::MetaboliteLevels.Properties.Resources.IcoWarning;
             this._btnWarning.Location = new System.Drawing.Point(195, 11);
             this._btnWarning.Name = "_btnWarning";
             this._btnWarning.Size = new System.Drawing.Size(22, 22);

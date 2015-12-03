@@ -556,7 +556,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::MetaboliteLevels.Properties.Resources.ImageStartLogoSmall;
+            this.pictureBox2.Image = global::MetaboliteLevels.Properties.Resources.StartLogo;
             this.pictureBox2.Location = new System.Drawing.Point(492, 0);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox2.Name = "pictureBox2";
@@ -1087,7 +1087,7 @@
             // 
             // _btnAddAdduct
             // 
-            this._btnAddAdduct.Image = global::MetaboliteLevels.Properties.Resources.MovePrevious_7195;
+            this._btnAddAdduct.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
             this._btnAddAdduct.Location = new System.Drawing.Point(8, 8);
             this._btnAddAdduct.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
             this._btnAddAdduct.Name = "_btnAddAdduct";
@@ -1199,7 +1199,7 @@
             // 
             // _btnAddCompound
             // 
-            this._btnAddCompound.Image = global::MetaboliteLevels.Properties.Resources.MovePrevious_7195;
+            this._btnAddCompound.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
             this._btnAddCompound.Location = new System.Drawing.Point(8, 8);
             this._btnAddCompound.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
             this._btnAddCompound.Name = "_btnAddCompound";

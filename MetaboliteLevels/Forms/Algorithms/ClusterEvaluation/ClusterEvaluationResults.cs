@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Data.Session;
 
 namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 {
@@ -14,11 +15,13 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     [Serializable]
     class ClusterEvaluationResults
     {
+        public readonly Guid CoreGuid;
         public readonly ClusterEvaluationConfiguration Configuration;
         public readonly List<ClusterEvaluationParameterResult> Results;
 
-        public ClusterEvaluationResults(ClusterEvaluationConfiguration Configuration, List<ClusterEvaluationParameterResult> Results)
+        public ClusterEvaluationResults(Core core, ClusterEvaluationConfiguration Configuration, List<ClusterEvaluationParameterResult> Results)
         {
+            this.CoreGuid = core.CoreGuid;
             this.Configuration = Configuration;
             this.Results = Results;
         }

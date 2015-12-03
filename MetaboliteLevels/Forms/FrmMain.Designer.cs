@@ -424,7 +424,7 @@ namespace MetaboliteLevels.Forms
             // 
             // experimentalGroupsToolStripMenuItem
             // 
-            this.experimentalGroupsToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.type_16xLG;
+            this.experimentalGroupsToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuExperimentalGroups;
             this.experimentalGroupsToolStripMenuItem.Name = "experimentalGroupsToolStripMenuItem";
             this.experimentalGroupsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.experimentalGroupsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
@@ -2064,7 +2064,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel2
             // 
             this.toolStripLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel2.Image = global::MetaboliteLevels.Properties.Resources._112_RightArrowShort_Grey_16x16_72;
+            this.toolStripLabel2.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
             this.toolStripLabel2.Name = "toolStripLabel2";
             this.toolStripLabel2.Size = new System.Drawing.Size(24, 24);
             // 
@@ -2081,7 +2081,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel3
             // 
             this.toolStripLabel3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel3.Image = global::MetaboliteLevels.Properties.Resources._112_RightArrowShort_Grey_16x16_72;
+            this.toolStripLabel3.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
             this.toolStripLabel3.Name = "toolStripLabel3";
             this.toolStripLabel3.Size = new System.Drawing.Size(24, 24);
             // 
@@ -2098,7 +2098,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel1
             // 
             this.toolStripLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel1.Image = global::MetaboliteLevels.Properties.Resources._112_RightArrowShort_Grey_16x16_72;
+            this.toolStripLabel1.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(24, 24);
             // 

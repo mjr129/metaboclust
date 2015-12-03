@@ -1,0 +1,7 @@
+﻿*.exe
+bin
+obj
+packages
+.vs
+*.user
+*.DotSettings

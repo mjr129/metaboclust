@@ -308,7 +308,7 @@
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.linkLabel1.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.Image = global::MetaboliteLevels.Properties.Resources.Warning_grey_7315_16x16;
+            this.linkLabel1.Image = global::MetaboliteLevels.Properties.Resources.MnuWarning;
             this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(39, 4);
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;

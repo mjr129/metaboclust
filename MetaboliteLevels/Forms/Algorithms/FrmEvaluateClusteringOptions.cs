@@ -22,7 +22,7 @@ namespace MetaboliteLevels.Forms.Algorithms
     public partial class FrmEvaluateClusteringOptions : Form
     {
         private Core _core;
-        private ConfigurationClusterer _BF_selectedAlgorithm;
+        private ConfigurationClusterer __backingField_selectedAlgorithm;
         private bool _readonly;
         private CtlErrorProvider _errorProvider1 = new CtlErrorProvider();
 
@@ -30,11 +30,11 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             get
             {
-                return _BF_selectedAlgorithm;
+                return __backingField_selectedAlgorithm;
             }
             set
             {
-                _BF_selectedAlgorithm = value;
+                __backingField_selectedAlgorithm = value;
 
                 if (value == null)
                 {
@@ -206,7 +206,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSetAlgorithm_Click(object sender, EventArgs e)
         {
-            var newAlgo = FrmAlgoCluster.Show(this, _core, _BF_selectedAlgorithm, this._readonly, null, true);
+            var newAlgo = FrmAlgoCluster.Show(this, _core, SelectedAlgorithm, this._readonly, null, true);
 
             if (newAlgo != null)
             {

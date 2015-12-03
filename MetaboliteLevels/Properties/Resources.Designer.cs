@@ -61,46 +61,6 @@ namespace MetaboliteLevels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap _109_AllAnnotations_Warning_16x16_72 {
-            get {
-                object obj = ResourceManager.GetObject("109_AllAnnotations_Warning_16x16_72", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap _112_Plus_Blue_16x16_72 {
-            get {
-                object obj = ResourceManager.GetObject("112_Plus_Blue_16x16_72", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap _112_RightArrowShort_Grey_16x16_72 {
-            get {
-                object obj = ResourceManager.GetObject("112_RightArrowShort_Grey_16x16_72", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap browser93 {
-            get {
-                object obj = ResourceManager.GetObject("browser93", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon delete {
@@ -123,36 +83,6 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap eye_16xLG {
-            get {
-                object obj = ResourceManager.GetObject("eye_16xLG", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap FilteredObject_13400_16x {
-            get {
-                object obj = ResourceManager.GetObject("FilteredObject_13400_16x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap graph_performanceChart_5171_16x_LG {
-            get {
-                object obj = ResourceManager.GetObject("graph_performanceChart_5171_16x_LG", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap IcoHelp {
             get {
                 object obj = ResourceManager.GetObject("IcoHelp", resourceCulture);
@@ -163,39 +93,9 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ImageStartLogoScreen {
+        internal static System.Drawing.Bitmap IcoWarning {
             get {
-                object obj = ResourceManager.GetObject("ImageStartLogoScreen", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ImageStartLogoSmall {
-            get {
-                object obj = ResourceManager.GetObject("ImageStartLogoSmall", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ImageStartLogoSmallAlt {
-            get {
-                object obj = ResourceManager.GetObject("ImageStartLogoSmallAlt", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Invisible {
-            get {
-                object obj = ResourceManager.GetObject("Invisible", resourceCulture);
+                object obj = ResourceManager.GetObject("IcoWarning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -363,26 +263,6 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MnuEditComment {
-            get {
-                object obj = ResourceManager.GetObject("MnuEditComment", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap MnuEditList {
-            get {
-                object obj = ResourceManager.GetObject("MnuEditList", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap MnuEnable {
             get {
                 object obj = ResourceManager.GetObject("MnuEnable", resourceCulture);
@@ -413,9 +293,9 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MnuExplorer {
+        internal static System.Drawing.Bitmap MnuExperimentalGroups {
             get {
-                object obj = ResourceManager.GetObject("MnuExplorer", resourceCulture);
+                object obj = ResourceManager.GetObject("MnuExperimentalGroups", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -446,6 +326,26 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap MnuHistory {
             get {
                 object obj = ResourceManager.GetObject("MnuHistory", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuMoveToList {
+            get {
+                object obj = ResourceManager.GetObject("MnuMoveToList", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuNewEvaluation {
+            get {
+                object obj = ResourceManager.GetObject("MnuNewEvaluation", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -543,16 +443,6 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MnuRename {
-            get {
-                object obj = ResourceManager.GetObject("MnuRename", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap MnuSave {
             get {
                 object obj = ResourceManager.GetObject("MnuSave", resourceCulture);
@@ -603,6 +493,16 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MnuTrend {
+            get {
+                object obj = ResourceManager.GetObject("MnuTrend", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MnuUp {
             get {
                 object obj = ResourceManager.GetObject("MnuUp", resourceCulture);
@@ -613,9 +513,19 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MovePrevious_7195 {
+        internal static System.Drawing.Bitmap MnuWarning {
             get {
-                object obj = ResourceManager.GetObject("MovePrevious_7195", resourceCulture);
+                object obj = ResourceManager.GetObject("MnuWarning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuWorkflowSeparator {
+            get {
+                object obj = ResourceManager.GetObject("MnuWorkflowSeparator", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -666,26 +576,6 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap MsgWarning {
             get {
                 object obj = ResourceManager.GetObject("MsgWarning", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap NewPerformanceSession_8866 {
-            get {
-                object obj = ResourceManager.GetObject("NewPerformanceSession_8866", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap NextPageHS {
-            get {
-                object obj = ResourceManager.GetObject("NextPageHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -763,26 +653,6 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ObjCore {
-            get {
-                object obj = ResourceManager.GetObject("ObjCore", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjGraph {
-            get {
-                object obj = ResourceManager.GetObject("ObjGraph", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ObjInfo {
             get {
                 object obj = ResourceManager.GetObject("ObjInfo", resourceCulture);
@@ -826,16 +696,6 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap ObjLCluster {
             get {
                 object obj = ResourceManager.GetObject("ObjLCluster", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjLClusterU {
-            get {
-                object obj = ResourceManager.GetObject("ObjLClusterU", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -913,29 +773,9 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ObjLInfoU {
-            get {
-                object obj = ResourceManager.GetObject("ObjLInfoU", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ObjList {
             get {
                 object obj = ResourceManager.GetObject("ObjList", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjLog {
-            get {
-                object obj = ResourceManager.GetObject("ObjLog", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -956,16 +796,6 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap ObjLPca {
             get {
                 object obj = ResourceManager.GetObject("ObjLPca", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjLScript {
-            get {
-                object obj = ResourceManager.GetObject("ObjLScript", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1093,69 +923,9 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ObjScript {
-            get {
-                object obj = ResourceManager.GetObject("ObjScript", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap ObjScriptClusterer {
             get {
                 object obj = ResourceManager.GetObject("ObjScriptClusterer", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjScriptCorrect {
-            get {
-                object obj = ResourceManager.GetObject("ObjScriptCorrect", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjScriptDone {
-            get {
-                object obj = ResourceManager.GetObject("ObjScriptDone", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjScriptError {
-            get {
-                object obj = ResourceManager.GetObject("ObjScriptError", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjScriptStatistic {
-            get {
-                object obj = ResourceManager.GetObject("ObjScriptStatistic", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ObjScriptTrend {
-            get {
-                object obj = ResourceManager.GetObject("ObjScriptTrend", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1193,26 +963,6 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap OpenFileDialog_692 {
-            get {
-                object obj = ResourceManager.GetObject("OpenFileDialog_692", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pane_appearance_16x16_on {
-            get {
-                object obj = ResourceManager.GetObject("pane_appearance_16x16_on", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap PreviousPageHS {
             get {
                 object obj = ResourceManager.GetObject("PreviousPageHS", resourceCulture);
@@ -1223,9 +973,9 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap script1 {
+        internal static System.Drawing.Bitmap SmallObjFilter {
             get {
-                object obj = ResourceManager.GetObject("script1", resourceCulture);
+                object obj = ResourceManager.GetObject("SmallObjFilter", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1243,39 +993,9 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap StatusAnnotations_Warning_32xMD_color {
-            get {
-                object obj = ResourceManager.GetObject("StatusAnnotations_Warning_32xMD_color", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap task2 {
-            get {
-                object obj = ResourceManager.GetObject("task2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap TestCluster {
             get {
                 object obj = ResourceManager.GetObject("TestCluster", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TestCorrect {
-            get {
-                object obj = ResourceManager.GetObject("TestCorrect", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1303,36 +1023,6 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TestMultivariate {
-            get {
-                object obj = ResourceManager.GetObject("TestMultivariate", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Tests {
-            get {
-                object obj = ResourceManager.GetObject("Tests", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TestTrend {
-            get {
-                object obj = ResourceManager.GetObject("TestTrend", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap TestUnivariate {
             get {
                 object obj = ResourceManager.GetObject("TestUnivariate", resourceCulture);
@@ -1347,36 +1037,6 @@ namespace MetaboliteLevels.Properties {
             get {
                 object obj = ResourceManager.GetObject("Transparent", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap type_16xLG {
-            get {
-                object obj = ResourceManager.GetObject("type_16xLG", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap verified9 {
-            get {
-                object obj = ResourceManager.GetObject("verified9", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Warning_grey_7315_16x16 {
-            get {
-                object obj = ResourceManager.GetObject("Warning_grey_7315_16x16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

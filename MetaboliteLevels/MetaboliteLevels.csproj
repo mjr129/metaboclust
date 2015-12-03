@@ -649,7 +649,6 @@
     <EmbeddedResource Include="Controls\CtlHelpBar.resx">
       <DependentUpon>CtlHelpBar.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="MetaboliteLevels_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -668,6 +667,7 @@
     <Content Include="Manual.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\ObjInfo.png" />
     <None Include="Resources\delete.ico" />
     <None Include="Resources\ErrorPointerIcon.ico" />
     <None Include="Resources\Saveall_6518.png" />
@@ -692,7 +692,6 @@
     <None Include="Resources\ObjLScriptCorrect.png" />
     <None Include="Resources\ObjLScriptCluster.png" />
     <None Include="Resources\FilteredObject_13400_16x.png" />
-    <None Include="Resources\ObjInfo.png" />
     <None Include="Resources\ObjLInfoU.png" />
     <None Include="Resources\ObjInfoU.png" />
     <None Include="Resources\ObjAssignment.png" />

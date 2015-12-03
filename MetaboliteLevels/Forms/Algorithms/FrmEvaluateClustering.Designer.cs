@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEvaluateClustering));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -72,14 +72,14 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this._btnNew = new System.Windows.Forms.ToolStripButton();
             this._btnLoad = new System.Windows.Forms.ToolStripButton();
-            this._btnImport = new System.Windows.Forms.ToolStripButton();
-            this._btnExport = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this._infoLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this._btnImport = new System.Windows.Forms.ToolStripButton();
+            this._btnExport = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -534,17 +534,17 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
             this.chart1.Location = new System.Drawing.Point(0, 30);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(498, 364);
             this.chart1.TabIndex = 3;
             this.chart1.Text = "chart1";
@@ -622,9 +622,9 @@
             this.toolStripLabel2,
             this._btnNew,
             this._btnLoad,
-            this._btnImport,
+            this.toolStripLabel1,
             this._btnExport,
-            this.toolStripLabel1});
+            this._btnImport});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 8);
@@ -645,12 +645,12 @@
             // 
             this._btnNew.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnNew.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this._btnNew.Image = global::MetaboliteLevels.Properties.Resources.NewPerformanceSession_8866;
+            this._btnNew.Image = global::MetaboliteLevels.Properties.Resources.MnuNewEvaluation;
             this._btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnNew.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
             this._btnNew.Name = "_btnNew";
-            this._btnNew.Size = new System.Drawing.Size(44, 41);
-            this._btnNew.Text = "Edit";
+            this._btnNew.Size = new System.Drawing.Size(52, 41);
+            this._btnNew.Text = "Tests";
             this._btnNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this._btnNew.Click += new System.EventHandler(this._btnNewTest_Click);
             // 
@@ -667,40 +667,14 @@
             this._btnLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this._btnLoad.Click += new System.EventHandler(this._btnLoad_Click_1);
             // 
-            // _btnImport
-            // 
-            this._btnImport.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this._btnImport.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnImport.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
-            this._btnImport.Name = "_btnImport";
-            this._btnImport.Size = new System.Drawing.Size(66, 41);
-            this._btnImport.Text = "Import";
-            this._btnImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnImport.Click += new System.EventHandler(this._btnImport_Click);
-            // 
-            // _btnExport
-            // 
-            this._btnExport.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this._btnExport.Image = global::MetaboliteLevels.Properties.Resources.MnuSave;
-            this._btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnExport.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
-            this._btnExport.Name = "_btnExport";
-            this._btnExport.Size = new System.Drawing.Size(64, 41);
-            this._btnExport.Text = "Export";
-            this._btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnExport.Click += new System.EventHandler(this._btnSave_Click);
-            // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripLabel1.ForeColor = System.Drawing.Color.White;
             this.toolStripLabel1.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(212, 41);
-            this.toolStripLabel1.Text = "← Edit or select a test to begin";
+            this.toolStripLabel1.Size = new System.Drawing.Size(167, 41);
+            this.toolStripLabel1.Text = "← Select a test to begin";
             // 
             // toolTip1
             // 
@@ -740,6 +714,34 @@
             this._infoLabel.Name = "_infoLabel";
             this._infoLabel.Size = new System.Drawing.Size(158, 17);
             this._infoLabel.Text = "Create or load a test to begin";
+            // 
+            // _btnImport
+            // 
+            this._btnImport.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._btnImport.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this._btnImport.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnImport.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
+            this._btnImport.Name = "_btnImport";
+            this._btnImport.Size = new System.Drawing.Size(66, 41);
+            this._btnImport.Text = "Import";
+            this._btnImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnImport.Click += new System.EventHandler(this._btnImport_Click);
+            // 
+            // _btnExport
+            // 
+            this._btnExport.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._btnExport.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnExport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this._btnExport.Image = global::MetaboliteLevels.Properties.Resources.MnuSave;
+            this._btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnExport.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
+            this._btnExport.Name = "_btnExport";
+            this._btnExport.Size = new System.Drawing.Size(64, 41);
+            this._btnExport.Text = "Export";
+            this._btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnExport.Click += new System.EventHandler(this._btnSave_Click);
             // 
             // FrmEvaluateClustering
             // 
@@ -834,12 +836,12 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton _btnNew;
-        private System.Windows.Forms.ToolStripButton _btnExport;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel _infoLabel;
         private System.Windows.Forms.Button _btnViewScript;
-        private System.Windows.Forms.ToolStripButton _btnImport;
         private System.Windows.Forms.ToolStripButton _btnLoad;
         private System.Windows.Forms.ComboBox _lstSel;
+        private System.Windows.Forms.ToolStripButton _btnExport;
+        private System.Windows.Forms.ToolStripButton _btnImport;
     }
 }

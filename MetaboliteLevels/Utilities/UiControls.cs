@@ -388,16 +388,15 @@ namespace MetaboliteLevels.Utilities
             public const int ClusterU = 8;
             public const int Variable = 9;
             public const int VariableU = 10;
-            public const int None = 11;
-            public const int Line = 12;
-            public const int Assignment = 13;
-            public const int Warning = 14;
-            public const int TestFull = 15;
-            public const int TestEmpty = 16;
-            public const int Filter = 17;
-            public const int Statistic = 18;
-            public const int Point = 19;
-            public const int File = 20;
+            public const int Line = 11;
+            public const int Assignment = 12;
+            public const int Warning = 13;
+            public const int TestFull = 14;
+            public const int TestEmpty = 15;
+            public const int Filter = 16;
+            public const int Statistic = 17;
+            public const int Point = 18;
+            public const int File = 19;
         }              
 
         internal static void PopulateImageList(ImageList il)
@@ -414,16 +413,15 @@ namespace MetaboliteLevels.Utilities
             il.Images.Add("8", Resources.ObjClusterU);
             il.Images.Add("9", Resources.ObjVariable);
             il.Images.Add("10", Resources.ObjVariableU);
-            il.Images.Add("11", Resources.Invisible);
-            il.Images.Add("12", Resources.ObjLine);
-            il.Images.Add("13", Resources.ObjAssignment);
-            il.Images.Add("14", Resources.Warning_grey_7315_16x16);
-            il.Images.Add("15", Resources.TestFull);
-            il.Images.Add("16", Resources.TestEmpty);
-            il.Images.Add("17", Resources.FilteredObject_13400_16x);
-            il.Images.Add("18", Resources.ObjStatistics);
-            il.Images.Add("19", Resources.ObjPoint);
-            il.Images.Add("20", Resources.MnuFile);
+            il.Images.Add("11", Resources.ObjLine);
+            il.Images.Add("12", Resources.ObjAssignment);
+            il.Images.Add("13", Resources.MnuWarning);
+            il.Images.Add("14", Resources.TestFull);
+            il.Images.Add("15", Resources.TestEmpty);
+            il.Images.Add("16", Resources.SmallObjFilter);
+            il.Images.Add("17", Resources.ObjStatistics);
+            il.Images.Add("18", Resources.ObjPoint);
+            il.Images.Add("19", Resources.MnuFile);
         }
 
         public static bool IsDesigning

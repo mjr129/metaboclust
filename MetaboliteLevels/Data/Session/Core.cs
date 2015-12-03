@@ -32,6 +32,8 @@ namespace MetaboliteLevels.Data.Session
     [Serializable]
     class Core
     {
+        public readonly Guid CoreGuid;
+
         // Core data
         [UndeferSerialisation(typeof(Cluster))]
         private readonly List<Cluster> _clusters;
@@ -191,6 +193,8 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         public Core(DataFileNames fileNames, FrmDataLoad.DataSet data, List<Compound> compounds, List<Pathway> pathways, MetaInfoHeader compMeta, MetaInfoHeader pathMeta, List<Adduct> adducts, MetaInfoHeader adductsHeader, MetaInfoHeader annotationsHeader)
         {
+            this.CoreGuid = Guid.NewGuid();
+
             this.FileNames = fileNames;
             this.Options = new CoreOptions();
             this.Options.ViewTypes = new List<GroupInfo>(data.Types.OrderBy(z => z.Id));

@@ -386,7 +386,7 @@
             // 
             // _btnNewStatistic
             // 
-            this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.script1;
+            this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.MnuAdd;
             this._btnNewStatistic.Location = new System.Drawing.Point(680, 53);
             this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewStatistic.Name = "_btnNewStatistic";

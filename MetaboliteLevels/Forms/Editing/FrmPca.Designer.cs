@@ -133,7 +133,7 @@
             // 
             // usetrendLineToolStripMenuItem
             // 
-            this.usetrendLineToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.graph_performanceChart_5171_16x_LG;
+            this.usetrendLineToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuTrend;
             this.usetrendLineToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.usetrendLineToolStripMenuItem.Name = "usetrendLineToolStripMenuItem";
             this.usetrendLineToolStripMenuItem.Size = new System.Drawing.Size(219, 26);

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using System;
+using MetaboliteLevels.Settings;
 
 namespace MetaboliteLevels.Forms.Generic
 {
@@ -119,35 +120,95 @@ namespace MetaboliteLevels.Forms.Generic
             ShowError(owner, "An error occured", ex);
         }
 
-        private FrmMsgBox(string title, string subTitle, string message, Image image, ButtonSet[] buttons, int defaultButton, int cancelButton)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="title">Title (or NULL for no title)</param>
+        /// <param name="subTitle">Subtitle (or NULL for no subtitle)</param>
+        /// <param name="message">Message (or NULL for no message)</param>
+        /// <param name="image">Image (or NULL for no image)</param>
+        /// <param name="buttons">Buttons (only non-NULL entries used, use NULL or an empty array for just an OK button)</param>
+        /// <param name="defaultButton">AcceptButton index (or -1 to automatically select the first button)</param>
+        /// <param name="cancelButton">CancelButton index (or -1 to automatically select the last button)</param>
+        private FrmMsgBox(string title, string subTitle, string message, Image image, ButtonSet[] buttons, int defaultButton, int cancelButton, bool notAgainVisible)
             : this()
         {
             this.ctlTitleBar1.Text = title;
             this.ctlTitleBar1.SubText = subTitle;
             this.label1.Text = message;
-
             this.pictureBox1.Image = image;
+            this._chkNotAgain.Visible = notAgainVisible;
 
-            for (int i = 0; i < buttons.Length; i++)
+            int lastId = -1;
+
+            if (buttons != null)
             {
-                Button b = this.GetButton(i);
-                ButtonSet s = buttons[i];
-                b.Text = s.Text;
-                b.Image = s.Image;
-                b.DialogResult = s.Result;
-                b.Visible = true;
+                for (int i = 0; i < buttons.Length; i++)
+                {
+                    ButtonSet s = buttons[i];
+
+                    if (s != null)
+                    {
+                        Button b = this.GetButton(i);
+
+                        b.Text = s.Text;
+                        b.Image = s.Image;
+                        b.DialogResult = s.Result;
+                        b.Visible = true;
+
+                        lastId = i;
+                    }
+                }
             }
 
-            this.AcceptButton = this.GetButton(defaultButton);
-            this.CancelButton = this.GetButton(cancelButton);
+            if (lastId == -1)
+            {
+                Button b = this.GetButton(0);
+
+                b.Text = "OK";
+                b.Image = Resources.MnuAccept;
+                b.DialogResult = DialogResult.OK;
+                b.Visible = true;
+
+                lastId = 0;
+            }
+
+            this.AcceptButton = this.GetButton(defaultButton >= 0 ? defaultButton : 0);
+            this.CancelButton = this.GetButton(cancelButton >= 0 ? cancelButton : lastId);
 
             UiControls.CompensateForVisualStyles(this);
         }
 
-        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, ButtonSet[] buttons, int defaultButton, int cancelButton)
+        public static DialogResult Show2(Form owner, string title, string subTitle = null, string message = null, Image image = null, ButtonSet button1 = null, ButtonSet button2 = null, ButtonSet button3 = null, int defaultButton = -1, int cancelButton = -1, string dontShowAgainId = null)
         {
-            using (FrmMsgBox frm = new FrmMsgBox(title, subTitle, message, image, buttons, defaultButton, cancelButton))
+            ButtonSet[] buttons = new ButtonSet[]
             {
+                button1,
+                button2,
+                button3
+            };
+
+            return Show(owner, title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainId);
+        }
+
+        public static DialogResult Show(Form owner, string title, string subTitle = null, string message = null, Image image = null, ButtonSet[] buttons = null, int defaultButton = -1, int cancelButton = -1, string dontShowAgainId = null)
+        {
+            if (dontShowAgainId != null)
+            {
+                if (MainSettings.Instance.DoNotShowAgain.Contains("FrmMsgBox." + dontShowAgainId))
+                {
+                    return DialogResult.OK;
+                }
+            }
+
+            using (FrmMsgBox frm = new FrmMsgBox(title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainId != null))
+            {
+                if (frm._chkNotAgain.Checked)
+                {
+                    MainSettings.Instance.DoNotShowAgain.Add("FrmMsgBox." + dontShowAgainId);
+                    MainSettings.Instance.Save();
+                }
+
                 return UiControls.ShowWithDim(owner, frm);
             }
         }

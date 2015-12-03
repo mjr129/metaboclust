@@ -391,7 +391,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 object yv = col.Provider(res);
 
-                object value = _selectedResults.Configuration.ParameterValues[res.ValueIndex]; 
+                object value = _selectedResults.Configuration.ParameterValues[res.ValueIndex];
                 double x = Convert.ToDouble(value);
                 double y;
 
@@ -607,7 +607,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     resultss.Add(new ClusterEvaluationParameterResult(name, test, valueIndex, results));
                 }
 
-                ClusterEvaluationResults final = new ClusterEvaluationResults(test, resultss);
+                ClusterEvaluationResults final = new ClusterEvaluationResults(_core, test, resultss);
 
                 string folder = UiControls.GetOrCreateFixedFolder(UiControls.EInitialFolder.Evaluations);
                 string sessionName = Path.GetFileNameWithoutExtension(_core.FileNames.Session);
@@ -668,6 +668,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             SaveResults(fn, _selectedResults);
+
+            FrmMsgBox.Show(this, "Export Notice", null, "Results have been exported. Exported data will only be compatible with the current data set.", Resources.MsgInfo, dontShowAgainId: "FrmEvaluateClustering.ExportNotice");
         }
 
         /// <summary>
@@ -700,6 +702,17 @@ namespace MetaboliteLevels.Forms.Algorithms
             ClusterEvaluationResults set = FrmWait.Show(owner, "Loading results", null,
                 z => XmlSettings.LoadFromFile<ClusterEvaluationResults>(fileName, SerialisationFormat.Infer, z, guidS));
 
+            if (set.CoreGuid != core.CoreGuid)
+            {
+                if (FrmMsgBox.Show2(owner, "Error", null, "The result set loaded was not created using the current session", Resources.MsgError,
+                    new FrmMsgBox.ButtonSet("Abort", Resources.MnuCancel, DialogResult.Cancel),
+                    new FrmMsgBox.ButtonSet("Ignore", Resources.MnuWarning, DialogResult.Ignore),
+                    null, 0, 0) == DialogResult.Cancel)
+                {
+                    return null;
+                }
+            }
+
             return set;
         }
 
@@ -729,6 +742,31 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// </summary>  
         private void _btnLoad_Click_1(object sender, EventArgs e)
         {
+            if (this.availableResults.Count == 0)
+            {
+                FrmMsgBox.ButtonSet[] buttons =
+                    {
+                        new FrmMsgBox.ButtonSet("Create", Resources.MnuAccept, DialogResult.Yes),
+                        new FrmMsgBox.ButtonSet("Import", Resources.MnuFile, DialogResult.No),
+                        new FrmMsgBox.ButtonSet("Cancel", Resources.MnuAccept, DialogResult.Cancel),
+                    };
+
+                switch (FrmMsgBox.Show(this, "Select Test", "It appears you don't have any tests! Would you like to create a new one?"))
+                {
+                    case DialogResult.Yes:
+                        _btnNew.PerformClick();
+                        return;
+
+                    case DialogResult.No:
+                        _btnImport.PerformClick();
+                        return;
+
+                    default:
+                    case DialogResult.Cancel:
+                        return;
+                }
+            }
+
             ClusterEvaluationPointer res = ListValueSet.ForTests(_core, this.availableResults).ShowButtons(this);
 
             if (res != null)
