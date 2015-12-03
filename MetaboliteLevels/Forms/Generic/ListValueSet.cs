@@ -34,9 +34,9 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<T>()
             {
                 Title = title,
-                List = UiControls.GetEnumFlags<T>(),
-                Namer = z => UiControls.ToUiString((Enum)(object)z),
-                Describer = z => UiControls.ToDescription((Enum)(object)z),
+                List = EnumHelper.GetEnumFlags<T>(),
+                Namer = z => EnumHelper.ToUiString((Enum)(object)z),
+                Describer = z => EnumHelper.ToDescription((Enum)(object)z),
                 Comparator = _EnumComparator<T>,
             };
         }
@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Title = title,
                 List = Enum.GetValues(typeof(T)).Cast<T>(),
-                Namer = z => UiControls.ToUiString((Enum)(object)z),
+                Namer = z => EnumHelper.ToUiString((Enum)(object)z),
                 Describer = z => z.ToString(),
                 Comparator = _EnumComparator<T>,
                 CancelValue = cancelValue,

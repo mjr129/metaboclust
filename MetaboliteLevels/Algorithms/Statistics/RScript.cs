@@ -42,7 +42,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// <param name="quickCalcCheck">If set then this corresponds to which input parameters must be set for the script to support QuickCalc mode. This should be a string of "0" and "1" the same length as the input parameter array.</param>
         public RScript(string text, string inputs, string quickCalcCheck, string dmCalcCheck, AlgoParameters.ESpecial extraFlags)
         {
-            var conv = UiControls.GetEnumKeys<AlgoParameters.EType>();
+            var conv = EnumHelper.GetEnumKeys<AlgoParameters.EType>();
             int pos = 0;
             int lpos;
 
@@ -69,7 +69,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                     foreach (string e in ee)
                     {
                         string name = e;
-                        string type = Maths.SplitEquals(ref name);
+                        string type = StringHelper.SplitEquals(ref name);
 
                         if (type != null)
                         {

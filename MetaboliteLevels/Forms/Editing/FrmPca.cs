@@ -259,7 +259,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
             else
             {
-                value = Maths.ArrayToString(peak.Assignments.Clusters);
+                value = StringHelper.ArrayToString(peak.Assignments.Clusters);
             }
 
             return GetOrCreateSeriesForValue(plot, value);

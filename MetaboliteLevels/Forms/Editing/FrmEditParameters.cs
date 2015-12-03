@@ -61,7 +61,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._core = core;
             this._algo = algo;
 
-            List<string> elements = UiControls.SplitGroups(defaults);
+            List<string> elements = StringHelper.SplitGroups(defaults);
 
             if (algo.Parameters != null)
             {

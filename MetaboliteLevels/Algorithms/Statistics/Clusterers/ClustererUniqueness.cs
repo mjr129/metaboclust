@@ -50,7 +50,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 {
                     uniqueCombinations.Add(pats);
 
-                    string name = Maths.ArrayToString(pats, z => z.Vector.Group.ShortName + "." + z.Cluster.ShortName, " / ");
+                    string name = StringHelper.ArrayToString(pats, z => z.Vector.Group.ShortName + "." + z.Cluster.ShortName, " / ");
 
                     pat = new Cluster(name, tag);
 

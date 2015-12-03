@@ -192,7 +192,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                                 {
                                     // TODO: Time point for control outside range for observation
                                     // This should be handled by truncation of the range and removal of QCs, for now let it pass
-                                    // throw new InvalidOperationException("The observation " + obs + " needs to be corrected using the corrected data for the same timepoint, but t = " + obs.Time + " cannot be found in the generated trend: " + Maths.ArrayToString(trendOrder.OrderBy(z => z.Time)) + "\r\nYou may need to truncate datapoints outside this range prior to correction.");
+                                    // throw new InvalidOperationException("The observation " + obs + " needs to be corrected using the corrected data for the same timepoint, but t = " + obs.Time + " cannot be found in the generated trend: " + StringHelper.ArrayToString(trendOrder.OrderBy(z => z.Time)) + "\r\nYou may need to truncate datapoints outside this range prior to correction.");
                                     continue;
                                 }
 

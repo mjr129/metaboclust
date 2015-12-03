@@ -85,7 +85,7 @@ namespace MetaboliteLevels.Viewers.Charts
             if (opts.ShowAcqisition)
             {
                 // --- RAW DATA (points) ---
-                UiControls.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
+                ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
                 AddToPlot(peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.ByBatch);
 
                 // --- TREND (thick line) ---
@@ -93,7 +93,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 {
                     raw = sPeak.ForceTrend.ToArray();
                     obsOrder = ((IEnumerable<ObservationInfo>)sPeak.ForceTrendOrder).ToArray();
-                    UiControls.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
+                    ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
 
                     AddToPlot(peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold);
                 }
@@ -103,10 +103,10 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // Sort data
-            var amm = UiControls.Zip(observations.Trend, observations.Min, observations.Max).ToArray(); // TODO: this is awful sorting
+            var amm = ArrayHelper.Zip(observations.Trend, observations.Min, observations.Max).ToArray(); // TODO: this is awful sorting
 
-            UiControls.Sort(condOrder, amm, ConditionInfo.GroupTimeOrder);
-            UiControls.Sort(obsOrder, raw, ObservationInfo.GroupTimeOrder);
+            ArrayHelper.Sort(condOrder, amm, ConditionInfo.GroupTimeOrder);
+            ArrayHelper.Sort(obsOrder, raw, ObservationInfo.GroupTimeOrder);
 
             double[] avg = amm.Select(z => z.Item1).ToArray();
             double[] min = amm.Select(z => z.Item2).ToArray();
@@ -145,7 +145,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     ConditionInfo[] forder = sPeak.ForceTrendOrder.Cast<ConditionInfo>().ToArray();
                     double[] fdata = sPeak.ForceTrend.ToArray();
 
-                    UiControls.Sort(forder, fdata, ConditionInfo.GroupTimeOrder);
+                    ArrayHelper.Sort(forder, fdata, ConditionInfo.GroupTimeOrder);
 
                     AddToPlot(peak, seriesNames, fdata, "Trend data", forder, opts, EPlot.DrawLine | EPlot.DrawBold);
                 }

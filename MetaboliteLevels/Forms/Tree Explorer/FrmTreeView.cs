@@ -108,7 +108,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
             if (x is string)
             {
                 string text = (string)x;
-                string subTitle = Maths.SplitEquals(ref text, "/");
+                string subTitle = StringHelper.SplitEquals(ref text, "/");
                 _lblTitle.Text = text;
                 _lblSubtitle.Text = subTitle;
                 button1.Text = "";
@@ -280,7 +280,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
             var g = e.Graphics;
 
             string text = e.Node.Text;
-            string text2 = Maths.SplitEquals(ref text, "\t");
+            string text2 = StringHelper.SplitEquals(ref text, "\t");
 
             var size = g.MeasureString(text, treeView1.Font);
             g.DrawString(text, treeView1.Font, Brushes.Black, e.Bounds.Left, e.Bounds.Top + e.Bounds.Height / 2 - size.Height / 2);

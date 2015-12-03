@@ -189,7 +189,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 return "No parameters";
             }
 
-            string result = Maths.ArrayToString(Parameters, z => z.Name, ", ");
+            string result = StringHelper.ArrayToString(Parameters, z => z.Name, ", ");
 
             if (result.Length > 15)
             {
@@ -273,11 +273,11 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
                 if (!reversable)
                 {
-                    return "{" + Maths.ArrayToString(p, GetDisplayName, ", ") + "}";
+                    return "{" + StringHelper.ArrayToString(p, GetDisplayName, ", ") + "}";
                 }
                 else
                 {
-                    return "{" + Maths.ArrayToString(p, z =>
+                    return "{" + StringHelper.ArrayToString(p, z =>
                                                            {
                                                                var targ = z.GetTarget();
 
@@ -390,7 +390,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 return false;
             }
 
-            List<string> elements = UiControls.SplitGroups(text);
+            List<string> elements = StringHelper.SplitGroups(text);
 
             if (elements.Count != Parameters.Length)
             {

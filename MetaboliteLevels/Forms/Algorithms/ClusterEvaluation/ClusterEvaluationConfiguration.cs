@@ -60,7 +60,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         {
             get
             {
-                return ParameterName + " = " + NumberOfRepeats + " × { " + Maths.ArrayToString(ParameterValues, AlgoParameters.ParamToString) + " }";
+                return ParameterName + " = " + NumberOfRepeats + " × { " + StringHelper.ArrayToString(ParameterValues, AlgoParameters.ParamToString) + " }";
             }
         }
 

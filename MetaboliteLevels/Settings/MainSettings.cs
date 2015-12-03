@@ -58,7 +58,7 @@ namespace MetaboliteLevels.Settings
             XmlSettings.SaveLoad(save, "RecentSessions.dat", ref RecentSessions);
             XmlSettings.SaveLoad(save, "RecentWorkspaces.dat", ref RecentWorkspaces);
             XmlSettings.SaveLoad(save, "General.dat", ref General);
-        }
+        }                                  
 
         public void Save()
         {
@@ -77,14 +77,14 @@ namespace MetaboliteLevels.Settings
             RecentSessions.RemoveAll(λ => λ.FileName.ToUpper() == fnu);
             RecentSession e = new RecentSession(fileName, title);
             RecentSessions.Add(e);
-            UiControls.TrimList(RecentSessions, MAX_RECENT_SESSIONS);
+            ArrayHelper.TrimList(RecentSessions, MAX_RECENT_SESSIONS);
         }
 
         internal void AddRecentWorkspace(DataFileNames fileNames)
         {
             RecentWorkspaces.RemoveAll(λ => λ.Title == fileNames.Title);
             RecentWorkspaces.Add(fileNames);
-            UiControls.TrimList(RecentWorkspaces, MAX_RECENT_WORKSPACES);
+            ArrayHelper.TrimList(RecentWorkspaces, MAX_RECENT_WORKSPACES);
         }
 
         [Serializable]

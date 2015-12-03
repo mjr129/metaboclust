@@ -373,7 +373,7 @@ namespace MetaboliteLevels.Data.Session
 
             // Get first change
             var newListEnabled = newList.WhereEnabled().ToList();
-            int firstChange = refreshAll ? 0 : UiControls.GetIndexOfFirstDifference(_corrections, newListEnabled);
+            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference(_corrections, newListEnabled);
 
             // Remove old results
             _ClearCorrections(firstChange);
@@ -548,7 +548,7 @@ namespace MetaboliteLevels.Data.Session
 
             // Get changes
             var newListEnabled = newList.WhereEnabled().ToList();
-            int firstChange = refreshAll ? 0 : UiControls.GetIndexOfFirstDifference(this._statistics, newListEnabled);
+            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference(this._statistics, newListEnabled);
 
             // Remove old results
             for (int i = firstChange; i < this._statistics.Count; i++)

@@ -581,7 +581,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                     for (int repetition = 0; repetition < test.NumberOfRepeats; repetition++)
                     {
-                        string newName = AlgoParameters.ParamToString(false, null, value) + " " + UiControls.Circle(repetition + 1);
+                        string newName = AlgoParameters.ParamToString(false, null, value) + " " + StringHelper.Circle(repetition + 1);
 
                         object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
                         copyOfParameters[test.ParameterIndex] = value;

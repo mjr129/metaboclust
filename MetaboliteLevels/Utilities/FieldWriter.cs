@@ -87,7 +87,7 @@ namespace MetaboliteLevels.Utilities
         {
             w.Write("Peak", Peak.Name);
             w.Write("Group", Group != null ? Group.Id.ToString() : "");
-            w.Write("Values", Maths.ArrayToString(Values));
+            w.Write("Values", StringHelper.ArrayToString(Values));
         }
 
         public static Vector Read(FieldReader r, Core core, ConditionInfo[] conditions, ObservationInfo[] observations)
@@ -104,5 +104,5 @@ namespace MetaboliteLevels.Utilities
                 groupName.Length == 0 ? null : core.Groups.First(z => z.Id == groupId),
                 conditions,
                 observations,
-                Maths.StringToArray(values, double.Parse).ToArray());
+                StringHelper.StringToArray(values, double.Parse).ToArray());
         }*/

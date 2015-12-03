@@ -53,7 +53,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     _lstParameters.Items.Add(param);
                 }
 
-                _txtStatistics.Text = Maths.ArrayToString(UiControls.SplitEnum(value.Args.Statistics));
+                _txtStatistics.Text = StringHelper.ArrayToString(EnumHelper.SplitEnum(value.Args.Statistics));
 
                 _lstParameters_SelectedIndexChanged(null, EventArgs.Empty);
             }
@@ -118,7 +118,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             AlgoParameters.Param pa = (AlgoParameters.Param)_lstParameters.SelectedItem;
 
-            object[] opts = Maths.StringToArray(_txtValues.Text, z => AlgoParameters.TryReadParameter(_core, z, pa.Type), "\r\n");
+            object[] opts = StringHelper.StringToArray(_txtValues.Text, z => AlgoParameters.TryReadParameter(_core, z, pa.Type), "\r\n");
             int num;
 
             if (!int.TryParse(_txtNumTimes.Text, out num))
@@ -163,7 +163,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 SelectedAlgorithm = def.ClustererConfiguration;
                 _lstParameters.SelectedIndex = def.ParameterIndex;
-                _txtValues.Text = Maths.ArrayToString(def.ParameterValues, z => AlgoParameters.ParamToString(true, core, z), "\r\n");
+                _txtValues.Text = StringHelper.ArrayToString(def.ParameterValues, z => AlgoParameters.ParamToString(true, core, z), "\r\n");
                 _txtNumTimes.Text = def.NumberOfRepeats.ToString();
             }
 
@@ -190,7 +190,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (format != null)
             {
-                int[] elems = Maths.StringToArray(format, int.Parse, ":");
+                int[] elems = StringHelper.StringToArray(format, int.Parse, ":");
                 int step = elems.Length >= 2 ? elems[2] : 1;
 
                 StringBuilder sb = new StringBuilder();

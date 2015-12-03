@@ -312,7 +312,7 @@ namespace MetaboliteLevels.Forms
         {
             bool forceShow = false;
 
-        __RETRY__:
+            __RETRY__:
 
             if (!FrmInitialSetup.Show(this, forceShow))
             {
@@ -1293,7 +1293,7 @@ namespace MetaboliteLevels.Forms
                     {
                         IEnumerable<string> rta = _core._peakMeta.GetValue(v.MetaInfo, "rt");
 
-                        string rt = Maths.ArrayToString(rta);
+                        string rt = StringHelper.ArrayToString(rta);
 
                         StringBuilder sb = new StringBuilder();
                         foreach (var pc in v.Annotations)
@@ -1305,8 +1305,8 @@ namespace MetaboliteLevels.Forms
                             sb.Append(pc.Compound.Name + " [" + pc.Adduct.Name + "]");
                         }
 
-                        string patNames = Maths.ArrayToString(v.Assignments.Clusters, "; ");
-                        string patIndices = Maths.ArrayToString(v.Assignments.Clusters, z => _core.Clusters.IndexOf(z).ToString(), "; ");
+                        string patNames = StringHelper.ArrayToString(v.Assignments.Clusters, "; ");
+                        string patIndices = StringHelper.ArrayToString(v.Assignments.Clusters, z => _core.Clusters.IndexOf(z).ToString(), "; ");
                         sw.WriteLine(v.DisplayName + "," + v.DisplayName + ",\"" + patNames + "\",\"" + patIndices + "\"," + v.Mz + "," + rt + ",\"" + sb.ToString() + "\"");
                     }
                 }

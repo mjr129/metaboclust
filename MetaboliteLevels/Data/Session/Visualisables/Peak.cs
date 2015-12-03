@@ -128,7 +128,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
         public override string ToString()
         {
-            return DisplayName + " (" + Maths.ArrayToString(Assignments.Clusters) + ")";
+            return DisplayName + " (" + StringHelper.ArrayToString(Assignments.Clusters) + ")";
         }
 
         public bool ToggleCommentFlag(PeakFlag f)
@@ -172,7 +172,7 @@ namespace MetaboliteLevels.Data.Visualisables
             yield return new InfoLine("Alt. Observations", this.AltObservations != null);
             yield return new InfoLine("№ assignments", Assignments.List.Count);
             yield return new InfoLine("Comment", Comment);
-            yield return new InfoLine("Flags", Maths.ArrayToString(CommentFlags));
+            yield return new InfoLine("Flags", StringHelper.ArrayToString(CommentFlags));
             yield return new InfoLine("№ corrections", this.CorrectionChain.Count);
             yield return new InfoLine("Display name", this.DisplayName);
             yield return new InfoLine("Index", Index);
@@ -331,7 +331,7 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Clusters\\All (scores)", true, λ => λ.Assignments.Scores);
 
             columns.Add(COLNAME_CLUSTERS_UNIQUE, true, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
-            columns.Add("Clusters\\Grouped", false, λ => Maths.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.ShortName + "=") : "") + z.Cluster.ShortName)));
+            columns.Add("Clusters\\Grouped", false, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.ShortName + "=") : "") + z.Cluster.ShortName)));
 
             foreach (var group in core.Groups)
             {
@@ -352,7 +352,7 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Clusters\\Groupless", false, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
             columns.Add("Clusters\\Groupless (scores)", false, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
 
-            columns.Add("Flags\\All", false, λ => Maths.ArrayToString(λ.CommentFlags));
+            columns.Add("Flags\\All", false, λ => StringHelper.ArrayToString(λ.CommentFlags));
 
 
             columns.Add("Comment", false, λ => λ.Comment);

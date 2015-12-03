@@ -87,15 +87,15 @@ namespace MetaboliteLevels.Settings
             sb.AppendLine("AltData: " + AltData);
 
             sb.AppendLine("--- Compound information ---");
-            sb.AppendLine("Compounds: " + Maths.ArrayToString(CompoundLibraies));
-            sb.AppendLine("Adducts: " + Maths.ArrayToString(AdductLibraries));
+            sb.AppendLine("Compounds: " + StringHelper.ArrayToString(CompoundLibraies));
+            sb.AppendLine("Adducts: " + StringHelper.ArrayToString(AdductLibraries));
             sb.AppendLine("Identifications: " + Identifications);
             sb.AppendLine("AutomaticIdentifications: " + AutomaticIdentifications);
 
             sb.AppendLine("--- Experimental information ---");
             sb.AppendLine("ConditionInfo: " + ConditionInfo);
-            sb.AppendLine("ConditionsOfInterest: " + Maths.ArrayToString(ConditionsOfInterest));
-            sb.AppendLine("ControlConditions: " + Maths.ArrayToString(ControlConditions));
+            sb.AppendLine("ConditionsOfInterest: " + StringHelper.ArrayToString(ConditionsOfInterest));
+            sb.AppendLine("ControlConditions: " + StringHelper.ArrayToString(ControlConditions));
             sb.AppendLine("StandardStatisticalMethods: " + StandardStatisticalMethods.ToString());
 
             return sb.ToString();

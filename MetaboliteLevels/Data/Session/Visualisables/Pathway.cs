@@ -214,7 +214,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     }
                 }
 
-                string seriesName = peak.DisplayName + (!peak.Assignments.List.IsEmpty() ? (" (" + Maths.ArrayToString(peak.Assignments.Clusters) + ")") : "") + ": " + legend.ToString();
+                string seriesName = peak.DisplayName + (!peak.Assignments.List.IsEmpty() ? (" (" + StringHelper.ArrayToString(peak.Assignments.Clusters) + ")") : "") + ": " + legend.ToString();
                 var li = new LineInfo(seriesName, col, System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid);
                 colours.Add(peak, li);
             }

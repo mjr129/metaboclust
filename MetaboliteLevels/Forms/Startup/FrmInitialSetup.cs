@@ -19,6 +19,8 @@ namespace MetaboliteLevels.Forms.Startup
         {
             InitializeComponent();
             UiControls.SetIcon(this);
+                                                  
+            ctlButton4.Visible = Debugger.IsAttached;
 
             this._txtDataSetData.Text = MainSettings.Instance.General.RBinPath;
             this._txtPathwayTools.Text = MainSettings.Instance.General.PathwayToolsDatabasesPath;
@@ -185,6 +187,11 @@ namespace MetaboliteLevels.Forms.Startup
         private void ctlButton3_Click(object sender, EventArgs e)
         {
             tableLayoutPanel2.Visible = !tableLayoutPanel2.Visible;
+        }
+
+        private void ctlButton4_Click(object sender, EventArgs e)
+        {
+            FrmSetWorkspace.Show(this);
         }
     }
 }

@@ -162,7 +162,7 @@ namespace MetaboliteLevels.Controls
         {
             if (_integerBehaviour)
             {
-                _textBox.Text = Maths.ArrayToStringInt(_lastValidSelection.Cast<int>());
+                _textBox.Text = StringHelper.ArrayToStringInt(_lastValidSelection.Cast<int>());
             }
             else
             {
@@ -242,7 +242,7 @@ namespace MetaboliteLevels.Controls
 
             if (_integerBehaviour)
             {
-                List<int> ints = Maths.StringToArrayInt(_textBox.Text, EErrorHandler.ReturnNull);
+                List<int> ints = StringHelper.StringToArrayInt(_textBox.Text, EErrorHandler.ReturnNull);
 
                 if (ints == null || ints.Any(z => !choices.Cast<int>().Contains(z)))
                 {

@@ -65,7 +65,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
             foreach (Pathway p in sortOrder)
             {
                 int count = p.Compounds.Count(λ => λ.Annotations.Count != 0);
-                AddExpandableNode(tnPathways, p, Maths.AsFraction(count, p.Compounds.Count));
+                AddExpandableNode(tnPathways, p, StringHelper.AsFraction(count, p.Compounds.Count));
             }
 
             // COMPOUNDS
@@ -394,7 +394,7 @@ The numbers in brackets after the pathway name show:
             var l = node.AddSubNode("Information", "LIST", "Information/Information about this peak");
             l.AddSubNode("Name = " + x.DisplayName);
             l.AddSubNode("Comment = " + x.Comment);
-            l.AddSubNode("Cluster = " + (x.Assignments.Count != 0 ? Maths.ArrayToString(x.Assignments.Clusters) : "(none)"));
+            l.AddSubNode("Cluster = " + (x.Assignments.Count != 0 ? StringHelper.ArrayToString(x.Assignments.Clusters) : "(none)"));
             //l.AddSubNode("Is exemplar for = " + x.ExemplarCluster);
             l.AddSubNode("Data index = " + x.Index);
             l.AddSubNode("LC-MS mode = " + x.LcmsMode);
@@ -419,7 +419,7 @@ The numbers in brackets after the pathway name show:
             //}
 
             l = node.AddSubNode("Statistics", "LIST", "Statistics/Statistics calculated for this variable");
-            l.AddSubNode("score = " + (x.Assignments.Count != 0 ? Maths.ArrayToString(x.Assignments.Scores) : "(none)"));
+            l.AddSubNode("score = " + (x.Assignments.Count != 0 ? StringHelper.ArrayToString(x.Assignments.Scores) : "(none)"));
 
             foreach (var kvp in x.Statistics)
             {
@@ -524,7 +524,7 @@ The numbers in brackets after the pathway name show:
 
             foreach (var kvp in vars)
             {
-                AddExpandableNode(l, kvp.Key, Maths.AsFraction(kvp.Value, kvp.Key.Annotations.Count));
+                AddExpandableNode(l, kvp.Key, StringHelper.AsFraction(kvp.Value, kvp.Key.Annotations.Count));
             }
         }
 

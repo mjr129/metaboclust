@@ -73,7 +73,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 if (!(v is string) && v is IEnumerable)
                 {
                     IEnumerable l = (IEnumerable)v;
-                    return Maths.ArrayToString(l, "|").ToUpper();
+                    return StringHelper.ArrayToString(l, "|").ToUpper();
                 }
 
                 return Owner.AsString(v).ToUpper();

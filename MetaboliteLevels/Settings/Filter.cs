@@ -391,7 +391,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Gʀᴏᴜᴘ " + Operator.ToUiString() + " {" + Maths.ArrayToString(Possibilities, z => z.ShortName) + "}";
+                return "Gʀᴏᴜᴘ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities, z => z.ShortName) + "}";
             }
         }
 
@@ -415,7 +415,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Rᴇᴘʟɪᴄᴀᴛᴇ " + Operator.ToUiString() + " {" + Maths.ArrayToStringInt(Possibilities) + "}";
+                return "Rᴇᴘʟɪᴄᴀᴛᴇ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt(Possibilities) + "}";
             }
         }
 
@@ -439,7 +439,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Bᴀᴛᴄʜ " + Operator.ToUiString() + " {" + Maths.ArrayToString(Possibilities, z => z.Id.ToString()) + "}";
+                return "Bᴀᴛᴄʜ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities, z => z.Id.ToString()) + "}";
             }
         }
 
@@ -465,7 +465,7 @@ namespace MetaboliteLevels.Settings
             public override string ToString()
             {
                 // Oʀᴅᴇʀ
-                return "Aᴄǫᴜɪsɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + Maths.ArrayToStringInt(Possibilities) + "}";
+                return "Aᴄǫᴜɪsɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt(Possibilities) + "}";
             }
         }
 
@@ -489,7 +489,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Tɪᴍᴇ " + Operator.ToUiString() + " {" + Maths.ArrayToStringInt(Possibilities) + "}";
+                return "Tɪᴍᴇ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt(Possibilities) + "}";
             }
         }
 
@@ -513,7 +513,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Oʙsᴇʀᴠᴀᴛɪᴏɴ " + Operator.ToUiString() + " {" + Maths.ArrayToString(Possibilities) + "}";
+                return "Oʙsᴇʀᴠᴀᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities) + "}";
             }
         }
 
@@ -537,7 +537,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Cᴏɴᴅɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + Maths.ArrayToString(Possibilities) + "}";
+                return "Cᴏɴᴅɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities) + "}";
             }
         }
 
@@ -698,7 +698,7 @@ namespace MetaboliteLevels.Settings
             public ConditionPeak(ELogicOperator op, bool negate, IEnumerable<Peak> peaks, EElementOperator peaksOp)
                 : base(op, negate)
             {
-                this.Peaks = new ReadOnlyCollection<WeakReference<Peak>>(peaks.Select(UiControls.ToWeakReference).ToList());
+                this.Peaks = new ReadOnlyCollection<WeakReference<Peak>>(peaks.Select(WeakReferenceHelper.ToWeakReference).ToList());
                 this.PeaksOp = peaksOp;
             }
 
@@ -709,7 +709,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Pᴇᴀᴋ " + PeaksOp.ToUiString() + " {" + Maths.ArrayToString(Peaks, z => z.DisplayName) + "}";
+                return "Pᴇᴀᴋ " + PeaksOp.ToUiString() + " {" + StringHelper.ArrayToString(Peaks, z => z.DisplayName) + "}";
             }
         }
 
@@ -723,7 +723,7 @@ namespace MetaboliteLevels.Settings
                 : base(op, negate)
             {
                 this.ClustersOp = clusterOp;
-                this.Clusters = new ReadOnlyCollection<WeakReference<Cluster>>(clusters.Select(UiControls.ToWeakReference).ToList());
+                this.Clusters = new ReadOnlyCollection<WeakReference<Cluster>>(clusters.Select(WeakReferenceHelper.ToWeakReference).ToList());
             }
 
             protected override bool Test(Peak p)
@@ -733,7 +733,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Pᴀᴛᴛᴇʀɴ " + ClustersOp.ToUiString() + " {" + Maths.ArrayToString(Clusters, z => z.DisplayName) + "}";
+                return "Pᴀᴛᴛᴇʀɴ " + ClustersOp.ToUiString() + " {" + StringHelper.ArrayToString(Clusters, z => z.DisplayName) + "}";
             }
         }
 
@@ -747,7 +747,7 @@ namespace MetaboliteLevels.Settings
                 : base(op, negate)
             {
                 this.FlagsOp = flagsOp;
-                this.Flags = new ReadOnlyCollection<WeakReference<PeakFlag>>(flags.Select(UiControls.ToWeakReference).ToList());
+                this.Flags = new ReadOnlyCollection<WeakReference<PeakFlag>>(flags.Select(WeakReferenceHelper.ToWeakReference).ToList());
             }
 
             protected override bool Test(Peak p)
@@ -757,7 +757,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Fʟᴀɢ " + FlagsOp.ToUiString() + " {" + Maths.ArrayToString(Flags, z => z.Id) + "}";
+                return "Fʟᴀɢ " + FlagsOp.ToUiString() + " {" + StringHelper.ArrayToString(Flags, z => z.Id) + "}";
             }
         }
     }

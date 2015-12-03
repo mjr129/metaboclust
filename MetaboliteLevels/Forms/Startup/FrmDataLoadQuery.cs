@@ -782,15 +782,9 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (FrmMsgBox.ShowYesNo(this, "Restore Settings", "Restore settings to defaults and restart program?", Resources.MsgWarning))
             {
-                RestartProgram();
+                UiControls.RestartProgram();
             }
-        }
-
-        private static void RestartProgram()
-        {
-            Process.Start(Application.ExecutablePath);
-            Application.Exit();
-        }
+        }               
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
@@ -820,7 +814,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void restartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RestartProgram();
+            UiControls.RestartProgram();
         }
 
         public void UpdateCacheOfTypes()
@@ -940,7 +934,7 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 MainSettings.Instance.DoNotShowAgain.Clear();
                 MainSettings.Instance.Save();
-                RestartProgram();
+                UiControls.RestartProgram();
             }
         }
 
@@ -1015,7 +1009,7 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (FrmInitialSetup.Show(this, true))
             {
-                RestartProgram();
+                UiControls.RestartProgram();
             }
         }
 

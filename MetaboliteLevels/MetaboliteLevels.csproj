@@ -220,7 +220,14 @@
     <Compile Include="Forms\Startup\FrmSelectCompounds.Designer.cs">
       <DependentUpon>FrmSelectCompounds.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Startup\FrmSetWorkspace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Startup\FrmSetWorkspace.Designer.cs">
+      <DependentUpon>FrmSetWorkspace.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings\DefaultValueBag.cs" />
+    <Compile Include="Utilities\ArrayHelper.cs" />
     <Compile Include="Utilities\BiDictionary.cs" />
     <Compile Include="Utilities\ComparisonComparer.cs" />
     <Compile Include="Utilities\Counter.cs" />
@@ -255,11 +262,13 @@
     <Compile Include="Algorithms\Statistics\Statistics\StatisticInbuilt.cs" />
     <Compile Include="Algorithms\Statistics\Configurations\ConfigurationStatistic.cs" />
     <Compile Include="Algorithms\Statistics\Statistics\StatisticScript.cs" />
+    <Compile Include="Utilities\EnumHelper.cs" />
     <Compile Include="Utilities\FieldWriter.cs" />
     <Compile Include="Utilities\IProgressReporter.cs" />
     <Compile Include="Utilities\MetaInfoCollection.cs" />
     <Compile Include="Utilities\PartialSerialisationSurrogate.cs" />
     <Compile Include="Utilities\PathwayToolsReader.cs" />
+    <Compile Include="Utilities\StringHelper.cs" />
     <Compile Include="Utilities\SwitchException.cs" />
     <Compile Include="Utilities\Arr.cs" />
     <Compile Include="Data\General\AssignmentList.cs" />
@@ -470,6 +479,7 @@
     </Compile>
     <Compile Include="Forms\Tree Explorer\PathwayScore.cs" />
     <Compile Include="Forms\Tree Explorer\TreeNodeExt.cs" />
+    <Compile Include="Utilities\WeakReferenceHelper.cs" />
     <Compile Include="Viewers\Charts\ChartHelper.cs" />
     <Compile Include="Viewers\Charts\ChartHelperForPatterns.cs" />
     <Compile Include="Viewers\Charts\ChartHelperForPeaks.cs" />
@@ -631,6 +641,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmPatternSheet.resx">
       <DependentUpon>FrmPatternSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Startup\FrmSetWorkspace.resx">
+      <DependentUpon>FrmSetWorkspace.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Wizards\FrmPatternWizard.resx">
       <DependentUpon>FrmPatternWizard.cs</DependentUpon>

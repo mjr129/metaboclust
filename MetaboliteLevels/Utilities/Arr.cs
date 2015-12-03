@@ -467,7 +467,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
                 mat_meta[i] = new string[metas.Length];
                 for (int ki = 0; ki < metas.Length; ki++)
                 {
-                    mat_meta[i][ki] = Maths.ArrayToString(p.MetaInfo.Read(ki));
+                    mat_meta[i][ki] = StringHelper.ArrayToString(p.MetaInfo.Read(ki));
                 }
 
                 mat_pat[i] = new double[core.Clusters.Count];

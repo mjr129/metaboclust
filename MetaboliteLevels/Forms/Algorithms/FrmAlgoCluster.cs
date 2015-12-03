@@ -88,10 +88,10 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _lstMeasure.SelectedItem = def.Args.Distance != null ? def.Args.Distance.Cached : null;
 
                 // Distance params
-                _txtMeasureParams.Text = Maths.ArrayToString(def.Args.Distance.Args.Parameters);
+                _txtMeasureParams.Text = StringHelper.ArrayToString(def.Args.Distance.Args.Parameters);
 
                 // Suppress distance
-                _cbStatistics.SelectedItems = UiControls.SplitEnum<EClustererStatistics>(def.Args.Statistics);
+                _cbStatistics.SelectedItems = EnumHelper.SplitEnum<EClustererStatistics>(def.Args.Statistics);
 
                 // Input vector
                 _radObs.Checked = def.Args.SourceMode == EAlgoSourceMode.Full;

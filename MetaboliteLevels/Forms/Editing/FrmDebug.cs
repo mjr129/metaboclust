@@ -345,10 +345,10 @@ namespace MetaboliteLevels.Forms.Editing
             sb.AppendLine("  Avg. Worst   = " + worst / bwcount);
             sb.AppendLine();
             sb.AppendLine("Distribution");
-            sb.AppendLine("  all.names = c(" + Maths.ArrayToString(all, λ => "\"" + λ.Item1.DisplayName + "\"") + " )");
-            sb.AppendLine("  all.values = c(" + Maths.ArrayToString(all, λ => λ.Item2.ToString()) + " )");
-            sb.AppendLine("  signif.names = c(" + Maths.ArrayToString(all2, λ => λ.Item1.DisplayName) + " )");
-            sb.AppendLine("  signif.values = c(" + Maths.ArrayToString(all2, λ => λ.Item2.ToString()) + " )");
+            sb.AppendLine("  all.names = c(" + StringHelper.ArrayToString(all, λ => "\"" + λ.Item1.DisplayName + "\"") + " )");
+            sb.AppendLine("  all.values = c(" + StringHelper.ArrayToString(all, λ => λ.Item2.ToString()) + " )");
+            sb.AppendLine("  signif.names = c(" + StringHelper.ArrayToString(all2, λ => λ.Item1.DisplayName) + " )");
+            sb.AppendLine("  signif.values = c(" + StringHelper.ArrayToString(all2, λ => λ.Item2.ToString()) + " )");
 
             if (warning)
             {
@@ -386,7 +386,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (selected != null && !selected.IsEmpty())
                 {
-                    FrmInputLarge.ShowFixed(this, Text, "Property Descriptor", "Example property descriptor", Maths.ArrayToString(selected, z => z.Substring(z.IndexOf(':') + 1) + " = {" + z + "}", ", "));
+                    FrmInputLarge.ShowFixed(this, Text, "Property Descriptor", "Example property descriptor", StringHelper.ArrayToString(selected, z => z.Substring(z.IndexOf(':') + 1) + " = {" + z + "}", ", "));
                 }
             }
         }
@@ -517,18 +517,18 @@ namespace MetaboliteLevels.Forms.Editing
                 sb.AppendLine("    " + type1 + " <= " + cutoff + " < " + type2);
                 sb.AppendLine();
                 sb.AppendLine("    TRAINING SET (" + co + ")");
-                sb.AppendLine("        " + type1 + " correct: " + Maths.AsFraction(best.Item2, best.Item2 + best.Item3));
-                sb.AppendLine("        " + type2 + " correct: " + Maths.AsFraction(best.Item4, best.Item4 + best.Item5));
-                sb.AppendLine("        Total correct: " + Maths.AsFraction(best.Item2 + best.Item4, best.Item2 + best.Item4 + best.Item3 + best.Item5));
-                sb.AppendLine("        Variables used: " + Maths.AsFraction(best.Item2 + best.Item4 + best.Item3 + best.Item5, core.Peaks.Count));
+                sb.AppendLine("        " + type1 + " correct: " + StringHelper.AsFraction(best.Item2, best.Item2 + best.Item3));
+                sb.AppendLine("        " + type2 + " correct: " + StringHelper.AsFraction(best.Item4, best.Item4 + best.Item5));
+                sb.AppendLine("        Total correct: " + StringHelper.AsFraction(best.Item2 + best.Item4, best.Item2 + best.Item4 + best.Item3 + best.Item5));
+                sb.AppendLine("        Variables used: " + StringHelper.AsFraction(best.Item2 + best.Item4 + best.Item3 + best.Item5, core.Peaks.Count));
                 sb.AppendLine();
                 if (co != core.Peaks.Count)
                 {
                     sb.AppendLine("    TEST SET (" + (core.Peaks.Count - co) + ")");
-                    sb.AppendLine("        " + type1 + " correct: " + Maths.AsFraction(bestTest.Item2, bestTest.Item2 + bestTest.Item3));
-                    sb.AppendLine("        " + type2 + " correct: " + Maths.AsFraction(bestTest.Item4, bestTest.Item4 + bestTest.Item5));
-                    sb.AppendLine("        Total correct: " + Maths.AsFraction(bestTest.Item2 + bestTest.Item4, bestTest.Item2 + bestTest.Item4 + bestTest.Item3 + bestTest.Item5));
-                    sb.AppendLine("        Variables used: " + Maths.AsFraction(bestTest.Item2 + bestTest.Item4 + bestTest.Item3 + bestTest.Item5, core.Peaks.Count));
+                    sb.AppendLine("        " + type1 + " correct: " + StringHelper.AsFraction(bestTest.Item2, bestTest.Item2 + bestTest.Item3));
+                    sb.AppendLine("        " + type2 + " correct: " + StringHelper.AsFraction(bestTest.Item4, bestTest.Item4 + bestTest.Item5));
+                    sb.AppendLine("        Total correct: " + StringHelper.AsFraction(bestTest.Item2 + bestTest.Item4, bestTest.Item2 + bestTest.Item4 + bestTest.Item3 + bestTest.Item5));
+                    sb.AppendLine("        Variables used: " + StringHelper.AsFraction(bestTest.Item2 + bestTest.Item4 + bestTest.Item3 + bestTest.Item5, core.Peaks.Count));
                     sb.AppendLine();
                     sb.AppendLine("    SCORE: " + (bestTest.Item1 * 100).ToString("F02"));
                 }
@@ -569,8 +569,8 @@ namespace MetaboliteLevels.Forms.Editing
             sa.Append("Peak, ");
             sb.Append("Peak, ");
 
-            sa.AppendLine(Maths.ArrayToString(_core.Observations, z => z.ToString()));
-            sb.AppendLine(Maths.ArrayToString(_core.Conditions, z => z.ToString()));
+            sa.AppendLine(StringHelper.ArrayToString(_core.Observations, z => z.ToString()));
+            sb.AppendLine(StringHelper.ArrayToString(_core.Conditions, z => z.ToString()));
 
             foreach (string elemm in e)
             {
@@ -582,8 +582,8 @@ namespace MetaboliteLevels.Forms.Editing
                     sa.Append(p.DisplayName + ", ");
                     sb.Append(p.DisplayName + ", ");
 
-                    sa.AppendLine(Maths.ArrayToString(p.Observations.Raw));
-                    sb.AppendLine(Maths.ArrayToString(p.Observations.Trend));
+                    sa.AppendLine(StringHelper.ArrayToString(p.Observations.Raw));
+                    sb.AppendLine(StringHelper.ArrayToString(p.Observations.Trend));
                 }
             }
 
@@ -622,8 +622,8 @@ namespace MetaboliteLevels.Forms.Editing
 
             sb.AppendLine("Variables:");
             sb.AppendLine("    № variables = " + core.Peaks.Count);
-            sb.AppendLine("    № with potential IDs = " + Maths.AsFraction(vwpid, core.Peaks.Count));
-            sb.AppendLine("    № significant (based on cluster) = " + Maths.AsFraction(sigs, core.Peaks.Count));
+            sb.AppendLine("    № with potential IDs = " + StringHelper.AsFraction(vwpid, core.Peaks.Count));
+            sb.AppendLine("    № significant (based on cluster) = " + StringHelper.AsFraction(sigs, core.Peaks.Count));
             sb.AppendLine("    Average distance = " + td.ToString("F02"));
             sb.AppendLine();
 
@@ -634,20 +634,20 @@ namespace MetaboliteLevels.Forms.Editing
 
             foreach (Cluster p in core.Clusters)
             {
-                sb.AppendLine("    " + p.DisplayName + " = " + Maths.AsFraction(p.Assignments.Count, core.Peaks.Count));
+                sb.AppendLine("    " + p.DisplayName + " = " + StringHelper.AsFraction(p.Assignments.Count, core.Peaks.Count));
             }
             sb.AppendLine();
 
             int pc = core.Pathways.Count(p => !p.Compounds.TrueForAll(c => c.Annotations.Count == 0));
             sb.AppendLine("Pathways:");
             sb.AppendLine("    № pathways = " + core.Pathways.Count);
-            sb.AppendLine("    № with 1+ potential IDs = " + Maths.AsFraction(pc, core.Pathways.Count));
+            sb.AppendLine("    № with 1+ potential IDs = " + StringHelper.AsFraction(pc, core.Pathways.Count));
             sb.AppendLine();
 
             int cc = core.Compounds.Count(c => c.Annotations.Count != 0);
             sb.AppendLine("Compounds:");
             sb.AppendLine("    № compounds = " + core.Compounds.Count);
-            sb.AppendLine("    № with potential variables = " + Maths.AsFraction(cc, core.Compounds.Count));
+            sb.AppendLine("    № with potential variables = " + StringHelper.AsFraction(cc, core.Compounds.Count));
             sb.AppendLine();
 
             sb.AppendLine("Adducts:");
@@ -677,7 +677,7 @@ namespace MetaboliteLevels.Forms.Editing
                     }
                 }
 
-                sb.AppendLine("    " + flag + " = " + Maths.AsFraction(c, core.Peaks.Count));
+                sb.AppendLine("    " + flag + " = " + StringHelper.AsFraction(c, core.Peaks.Count));
             }
 
             FrmInputLarge.ShowFixed(this, "View statistics", "Statistics summary", null, sb.ToString());

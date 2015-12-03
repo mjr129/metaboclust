@@ -566,7 +566,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 int minX = _core.TimeRange.Min;
                 int maxX = _core.TimeRange.Max;
                 int x = 0;
-                string text = Maths.ArrayToString(orderOfGroups, z => z.Name, ", ");
+                string text = StringHelper.ArrayToString(orderOfGroups, z => z.Name, ", ");
 
                 DrawAxisBar(x, minX, maxX, text);
             }

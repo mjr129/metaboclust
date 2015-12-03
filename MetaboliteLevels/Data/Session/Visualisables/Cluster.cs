@@ -387,7 +387,7 @@ namespace MetaboliteLevels.Data.Visualisables
             yield return new InfoLine("№ assignments", this.Assignments.Count);
             yield return new InfoLine("№ centres", this.Centres.Count);
             yield return new InfoLine("Comments", Comment);
-            yield return new InfoLine("Flags", Maths.ArrayToString(CommentFlags));
+            yield return new InfoLine("Flags", StringHelper.ArrayToString(CommentFlags));
             yield return new InfoLine("Display name", DisplayName);
             yield return new InfoLine("№ exemplars", this.Exemplars.Count);
             yield return new InfoLine("Method", this.Method?.ToString());

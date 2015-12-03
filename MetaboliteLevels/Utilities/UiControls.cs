@@ -20,6 +20,7 @@ using MetaboliteLevels.Algorithms.Statistics.Statistics;
 using MetaboliteLevels.Algorithms.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.General;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -47,28 +48,10 @@ namespace MetaboliteLevels.Utilities
         // A zero-width space
         // Yes it is really there!
         public const string ZEROSPACE = "​";
-
-        private static Dictionary<string, string> _strings = new Dictionary<string, string>();
+        
         private static string _startupPath;
 
-        /// <summary>
-        /// (MJR) Like PadRight / PadLeft but also truncates the string if it is too long.
-        /// </summary>
-        public static string FixWidth(this string str, int wid = 10, bool r = true)
-        {
-            if (str.Length > wid)
-            {
-                return str.Substring(0, wid);
-            }
-            else if (r)
-            {
-                return str.PadRight(wid);
-            }
-            else
-            {
-                return str.PadLeft(wid);
-            }
-        }
+       
 
         public static void ShowError(this ErrorProvider self, Control control, string text)
         {
@@ -76,125 +59,9 @@ namespace MetaboliteLevels.Utilities
             self.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
         }
 
-        /// <summary>
-        /// (MJR) Is the enum empty?
-        /// </summary>
-        public static bool IsEmpty(this IEnumerable enumerable)
-        {
-            return !enumerable.GetEnumerator().MoveNext();
-        }
+       
 
-        /// <summary>
-        /// (MJR) Returns the unique elements.
-        /// </summary>
-        public static HashSet<T> Unique<T>(this IEnumerable<T> self)
-        {
-            return new HashSet<T>(self);
-        }
-
-        /// <summary>
-        /// (MJR) Like Linq.Concat for single elements
-        /// </summary>
-        public static IEnumerable<T> ConcatSingle<T>(this IEnumerable<T> self, T toAdd)
-        {
-            return self.Concat(new T[] { toAdd });
-        }
-
-        /// <summary>
-        /// (MJR) Appends item(s) to an array, returns the result.
-        /// </summary>
-        public static T[] Append<T>(this T[] self, params T[] toAdd)
-        {
-            int p = self.Length;
-            Array.Resize(ref self, self.Length + toAdd.Length);
-
-            for (int i = 0; i < toAdd.Length; i++)
-            {
-                self[p + i] = toAdd[i];
-            }
-
-            return self;
-        }
-
-        /// <summary>
-        /// (MJR) Converts or returns a reference to the list.
-        /// </summary>
-        public static List<T> AsList<T>(this IEnumerable<T> enumerable)
-        {
-            if (enumerable == null)
-            {
-                return null;
-            }
-
-            var list = enumerable as List<T>;
-
-            if (list != null)
-            {
-                return list;
-            }
-
-            return enumerable.ToList();
-        }
-
-        /// <summary>
-        /// (MJR) Replaces the contents of this list with another.
-        /// </summary>
-        public static void ReplaceAll<T>(this List<T> self, IEnumerable<T> newContent)
-        {
-            if (newContent == self)
-            {
-                return;
-            }
-
-            self.Clear();
-            self.AddRange(newContent);
-        }
-
-        public static WeakReference<T> ToWeakReference<T>(T self)
-            where T : class
-        {
-            if (self == null)
-            {
-                return null;
-            }
-            else
-            {
-                return new WeakReference<T>(self);
-            }
-        }
-
-        /// <summary>
-        /// (MJR) Gets the target of a weak reference, or default(T) if it has expired.
-        /// </summary>
-        public static T GetTarget<T>(this WeakReference<T> self)
-            where T : class
-        {
-            T r;
-
-            if (self.TryGetTarget(out r))
-            {
-                return r;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// (MJR) Gets the target of a weak reference, or throws an exception if it has expired.
-        /// </summary>
-        public static T GetTargetOrThrow<T>(this WeakReference<T> self)
-            where T : class
-        {
-            T r;
-
-            if (self.TryGetTarget(out r))
-            {
-                return r;
-            }
-
-            throw new InvalidOperationException("Attempt to get cached " + typeof(T).Name + " failed. The " + typeof(T).Name + " may have been deleted or renamed since it was referenced.");
-        }
-
+      
         public static string Title
         {
             get
@@ -242,38 +109,7 @@ namespace MetaboliteLevels.Utilities
             Random = new Random();
         }
 
-        public static void AddRange<T>(this HashSet<T> self, IEnumerable<T> toAdd)
-        {
-            foreach (T o in toAdd)
-            {
-                self.Add(o);
-            }
-        }
-
-        public static void AddRange<TKey, TValue>(this Dictionary<TKey, TValue> self, Dictionary<TKey, TValue> toAdd)
-        {
-            foreach (KeyValuePair<TKey, TValue> kvp in toAdd)
-            {
-                self.Add(kvp.Key, kvp.Value);
-            }
-        }
-
-        public static void AddRange<TKey, TValue>(this Dictionary<TKey, TValue> self, IEnumerable<TValue> toAdd, Converter<TValue, TKey> keySelector)
-        {
-            foreach (TValue kvp in toAdd)
-            {
-                self.Add(keySelector(kvp), kvp);
-            }
-        }
-
-        public static void AddRange<TKey, TValue, TEnum>(this Dictionary<TKey, TValue> self, IEnumerable<TEnum> toAdd, Converter<TEnum, TKey> keySelector, Converter<TEnum, TValue> valueSelector)
-            where TEnum : struct, IComparable, IFormattable, IConvertible // aka. Enum
-        {
-            foreach (TEnum kvp in toAdd)
-            {
-                self.Add(keySelector(kvp), valueSelector(kvp));
-            }
-        }
+       
 
         public static string ColourToName(Color colour)
         {
@@ -368,7 +204,7 @@ namespace MetaboliteLevels.Utilities
                 if (System.Diagnostics.Debugger.IsAttached)
                 {
                     System.Diagnostics.Debugger.Break();
-                }                                                 
+                }
 
                 throw new Exception("Assert failed: " + (message ?? "No details provided"));
             }
@@ -397,7 +233,7 @@ namespace MetaboliteLevels.Utilities
             public const int Statistic = 17;
             public const int Point = 18;
             public const int File = 19;
-        }              
+        }
 
         internal static void PopulateImageList(ImageList il)
         {
@@ -622,7 +458,7 @@ namespace MetaboliteLevels.Utilities
                 string left;
                 string right;
 
-                if (Maths.SplitEquals(filter, out left, out right))
+                if (StringHelper.SplitEquals(filter, out left, out right))
                 {
                     if (finalFilter.Length != 0)
                     {
@@ -686,122 +522,7 @@ namespace MetaboliteLevels.Utilities
             return folder;
         }
 
-        /// <summary>
-        /// (MJR) Returns the indices of the enumerable
-        /// </summary>
-        public static IEnumerable<int> Indices(this IList self)
-        {
-            return Enumerable.Range(0, self.Count);
-        }
-
-        /// <summary>
-        /// (MJR) Returns the indices of the enumerable
-        /// </summary>
-        public static IEnumerable<int> Indices(this IEnumerable self)
-        {
-            var e = self.GetEnumerator();
-            int i = 0;
-
-            while (e.MoveNext())
-            {
-                yield return ++i;
-            }
-        }
-
-        /// <summary>
-        /// (MJR) Yields a set of KVPs containing the objects and their indices
-        /// </summary>
-        public static IEnumerable<KeyValuePair<int, T>> IndicesAndObject<T>(this IEnumerable<T> self)
-        {
-            int i = 0;
-
-            foreach (T o in self)
-            {
-                yield return new KeyValuePair<int, T>(i++, o);
-            }
-        }
-
-        /// <summary>
-        /// (MJR) Returns the value of the [key], if not present a new one is automatically added using new [TValue]().
-        /// </summary>
-        internal static TValue GetOrNew<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key)
-            where TValue : new()
-        {
-            TValue value;
-
-            if (!dict.TryGetValue(key, out value))
-            {
-                value = new TValue();
-                dict.Add(key, value);
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// (MJR) Returns the value of the [key], if not present a new one is automatically added using [creator].
-        /// </summary>
-        internal static TValue GetOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, Converter<TKey, TValue> creator)
-        {
-            TValue value;
-
-            if (!dict.TryGetValue(key, out value))
-            {
-                value = creator(key);
-                dict.Add(key, value);
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// (MJR) Returns the value of the [key], if not present a new one is automatically added using new [TValue]()
-        /// and initialised using [action].
-        /// </summary>
-        internal static TValue GetOrNew<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, Action<TKey, TValue> action)
-            where TValue : new()
-        {
-            TValue value;
-
-            if (!dict.TryGetValue(key, out value))
-            {
-                value = new TValue();
-                dict.Add(key, value);
-                action(key, value);
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// (MJR) Returns the value of the [key], if not present returns double.NaN.
-        /// </summary>
-        internal static double GetOrNan<TKey>(this Dictionary<TKey, double> dict, TKey key)
-        {
-            double value;
-
-            if (!dict.TryGetValue(key, out value))
-            {
-                return double.NaN;
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// (MJR) Returns the value of the [key], if not present returns [defaultValue].
-        /// </summary>
-        internal static TValue GetOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue defaultValue)
-        {
-            TValue value;
-
-            if (!dict.TryGetValue(key, out value))
-            {
-                return defaultValue;
-            }
-
-            return value;
-        }
+      
 
         /// <summary>
         /// (MJR) Shows a ContextMenuStrip at under [sender] if sender is a control, otherwise at the current mouse cursor position.
@@ -820,68 +541,16 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        /// <summary>
-        /// (MJR) Returns the first item in the IEnumerable or null if the IEnumerable is empty.
-        /// </summary>
-        internal static object FirstOrDefault2(this IEnumerable self)
+       
+
+        internal static void RestartProgram()
         {
-            var e = self.GetEnumerator();
-
-            if (e.MoveNext())
-            {
-                return e.Current;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// (MJR) Returns the first item in the IEnumerable or [default] if the IEnumerable is empty.
-        /// </summary>
-        internal static T FirstOrDefault<T>(this IEnumerable<T> self, T @default)
-        {
-            if (self == null)
-            {
-                return @default;
-            }
-
-            IEnumerator<T> e = self.GetEnumerator();
-
-            if (e.MoveNext())
-            {
-                return e.Current;
-            }
-
-            return @default;
+            Process.Start(Application.ExecutablePath);
+            Application.Exit();
         }
 
 
-        /// <summary>
-        /// (MJR) Counts items in enumerable. Iteratively.
-        /// </summary>
-        public static int CountAll(this IEnumerable self)
-        {
-            int i = 0;
-            var e = self.GetEnumerator();
-
-            while (e.MoveNext())
-            {
-                i++;
-            }
-
-            return i;
-        }
-
-        /// <summary>
-        /// Truncates the list to the specified size.
-        /// </summary>
-        internal static void TrimList<T>(List<T> list, int max)
-        {
-            if (list.Count > max)
-            {
-                list.RemoveRange(max, list.Count - max);
-            }
-        }
+       
 
         /// <summary>
         /// Invokes the object's constructor on itself, potentially initialising the object.
@@ -915,24 +584,7 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        /// <summary>
-        /// (MJR) Capitalises the first letter of the string.
-        /// Other characters remain unchanged.
-        /// </summary>
-        public static string ToSentence(this string self)
-        {
-            if (self == null)
-            {
-                return null;
-            }
-
-            if (self.Length <= 1)
-            {
-                return self.ToUpper();
-            }
-
-            return self.Substring(0, 1).ToUpper() + self.Substring(1);
-        }
+    
 
         /// <summary>
         /// Gets a sequentially numbered file.
@@ -954,35 +606,7 @@ namespace MetaboliteLevels.Utilities
             return fileName;
         }
 
-        /// <summary>
-        /// (MJR) Capitalises the first letter of the string and characters after a space or punctuation.
-        /// </summary>
-        public static string ToTitle(this string self)
-        {
-            char[] r = new char[self.Length];
-            bool u = true;
-
-            for (int n = 0; n < self.Length; n++)
-            {
-                r[n] = u ? char.ToUpper(self[n]) : self[n];
-                u = !char.IsLetterOrDigit(self[n]);
-            }
-
-            return new string(r);
-        }
-
-        /// <summary>
-        /// (MJR) Formats x unless it is null or empty, in which case it returns empty.
-        /// </summary>
-        public static string FormatIf(this string x, string prefix = "", string suffix = "")
-        {
-            if (string.IsNullOrEmpty(x))
-            {
-                return "";
-            }
-
-            return prefix + x + suffix;
-        }
+       
 
         /// <summary>
         /// (MJR) Converts an string to small caps.
@@ -1014,47 +638,7 @@ namespace MetaboliteLevels.Utilities
             return new string(result);
         }
 
-        /// <summary>
-        /// (MJR) Converts an enum to a string accounting for Name attributes.
-        /// </summary>
-        public static string ToUiString(this Enum @enum)
-        {
-            string name = @enum.ToString();
-            FieldInfo fieldInfo = @enum.GetType().GetField(name);
-
-            if (fieldInfo != null) // i.e. if not a valid enum such as "-1"
-            {
-                NameAttribute nameAttr = (NameAttribute)fieldInfo.GetCustomAttribute<NameAttribute>();
-
-                if (nameAttr != null)
-                {
-                    return nameAttr.Name;
-                }
-            }
-
-            return name;
-        }
-
-        /// <summary>
-        /// (MJR) Converts an enum to a string accounting for Name attributes.
-        /// </summary>
-        public static string ToDescription(Enum @enum)
-        {
-            string name = @enum.ToString();
-            FieldInfo fieldInfo = @enum.GetType().GetField(name);
-
-            if (fieldInfo != null) // i.e. if not a valid enum such as "-1"
-            {
-                DescriptionAttribute nameAttr = (DescriptionAttribute)fieldInfo.GetCustomAttribute<DescriptionAttribute>();
-
-                if (nameAttr != null)
-                {
-                    return nameAttr.Description;
-                }
-            }
-
-            return null;
-        }
+      
 
         /// <summary>
         /// Converts an image to grayscale.
@@ -1114,24 +698,7 @@ namespace MetaboliteLevels.Utilities
             return result;
         }
 
-        /// <summary>
-        /// Returns the names of an enum as a dictionary.
-        /// Includes C# names and the UI strings (if present).
-        /// </summary>
-        internal static Dictionary<string, T> GetEnumKeys<T>()
-            where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
-        {
-            Dictionary<string, T> res = new Dictionary<string, T>();
-
-            foreach (Enum val in Enum.GetValues(typeof(T)))
-            {
-                T t = (T)(object)val;
-                res[val.ToString().ToUpper()] = t;
-                res[val.ToUiString().ToUpper()] = t;
-            }
-
-            return res;
-        }
+    
 
         /// <summary>
         /// Enumerates all controls within [ctrl] of type [T].
@@ -1174,103 +741,8 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        /// <summary>
-        /// Converts a string to a subscript.
-        /// Handles numbers only.
-        /// </summary>
-        internal static string ToSubScript(int p)
-        {
-            string txtt = p.ToString();
-            byte[] txt = Encoding.ASCII.GetBytes(txtt);
-            byte c0 = 0x30;
-            string chars = "₀₁₂₃₄₅₆₇₈₉";
-            StringBuilder sb = new StringBuilder(txtt.Length);
-
-            foreach (byte c in txt)
-            {
-                char cn;
-
-                if (c == 0x2D)
-                {
-                    cn = '₋';
-                }
-                else if (c == 0x2e)
-                {
-                    cn = '.';
-                }
-                else
-                {
-                    cn = chars[c - c0];
-                }
-
-                sb.Append(cn);
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// (MJR) Splits a string about "," accounting for nested sequences using "{" and "}".
-        /// </summary>
-        internal static List<string> SplitGroups(this string text)
-        {
-            bool isInBrackets = false;
-            StringBuilder current = new StringBuilder();
-            char[] delimiters = { ',' };
-            char[] startBracket = { '{' };
-            char[] endBracket = { '}' };
-            char[] ignorable = { ' ' };
-
-            bool isNewElement = true;
-
-            List<string> result = new List<string>();
-
-            foreach (char c in text)
-            {
-                if (isInBrackets && endBracket.Contains(c))
-                {
-                    isInBrackets = false;
-                }
-                else if (!isInBrackets && delimiters.Contains(c))
-                {
-                    result.Add(current.ToString());
-                    current.Clear();
-                }
-                else if (!isInBrackets && isNewElement && startBracket.Contains(c))
-                {
-                    isInBrackets = true;
-                }
-                else
-                {
-                    if (isNewElement && !ignorable.Contains(c))
-                    {
-                        isNewElement = false;
-                    }
-
-                    current.Append(c);
-                }
-            }
-
-            result.Add(current.ToString());
-            current.Clear();
-
-            return result;
-        }
-
-        /// <summary>
-        /// (MJR) Converts an enumerable to a dictionary.
-        /// </summary>
-        internal static Dictionary<TKey, TValue> ToDictionary<TEnumerable, TKey, TValue>(this IEnumerable<TEnumerable> enumerable, Converter<TEnumerable, TKey> keySelector, Converter<TEnumerable, TValue> valueSelector)
-        {
-            Dictionary<TKey, TValue> r = new Dictionary<TKey, TValue>(enumerable.Count());
-
-            foreach (TEnumerable e in enumerable)
-            {
-                r.Add(keySelector(e), valueSelector(e));
-            }
-
-            return r;
-        }
+      
+   
 
         /// <summary>
         /// Creates a color1 image with a color2 border.
@@ -1322,68 +794,7 @@ namespace MetaboliteLevels.Utilities
             return bmp;
         }
 
-        /// <summary>
-        /// Returns the index of the first difference between two lists.
-        /// </summary>
-        internal static int GetIndexOfFirstDifference<T>(IEnumerable<T> dest, IEnumerable<T> source)
-        {
-            // if its new
-            // if anything before has been added
-            // if anything before has been removed
-            // if anything before has been changed
-            var d = dest.GetEnumerator();
-            var s = source.GetEnumerator();
-            int i = 0;
-
-            while (s.MoveNext())
-            {
-                if (!d.MoveNext() || !d.Current.Equals(s.Current))
-                {
-                    return i;
-                }
-
-                i++;
-            }
-
-            return i;
-        }
-
-        /// <summary>
-        /// Sorts the [values] based on [order].
-        /// </summary>
-        internal static void Sort<TKey, TValue>(TKey[] keys, TValue[] values, Comparison<TKey> order)
-        {
-            Array.Sort(keys, values, new ComparisonComparer<TKey>(order));
-        }
-
-        /// <summary>
-        /// (MJR) Merges two sequences into a tuple
-        /// </summary>
-        internal static IEnumerable<Tuple<T1, T2>> Zip<T1, T2>(this IEnumerable<T1> a, IEnumerable<T2> b)
-        {
-            var x = a.GetEnumerator();
-            var y = b.GetEnumerator();
-
-            while (x.MoveNext() && y.MoveNext())
-            {
-                yield return new Tuple<T1, T2>(x.Current, y.Current);
-            }
-        }
-
-        /// <summary>
-        /// (MJR) Merges three sequences into a tuple
-        /// </summary>
-        internal static IEnumerable<Tuple<T1, T2, T3>> Zip<T1, T2, T3>(this IEnumerable<T1> a, IEnumerable<T2> b, IEnumerable<T3> c)
-        {
-            var x = a.GetEnumerator();
-            var y = b.GetEnumerator();
-            var z = c.GetEnumerator();
-
-            while (x.MoveNext() && y.MoveNext() && z.MoveNext())
-            {
-                yield return new Tuple<T1, T2, T3>(x.Current, y.Current, z.Current);
-            }
-        }
+   
 
         /// <summary>
         /// Blends two colours.
@@ -1515,96 +926,11 @@ namespace MetaboliteLevels.Utilities
             return Blend(Color.Green, Color.Red, pct);
         }
 
-        /// <summary>
-        /// Converts a string to circled text (numbers only).
-        /// </summary>
-        internal static string Circle(int closure)
-        {
-            //string chars = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛";
-            string chars = "⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇";
-            //string chars = "⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳";
+      
 
-            if (closure < 1 || closure >= chars.Length)
-            {
-                return "(" + closure + ")";
-            }
+    
 
-            return chars[closure - 1].ToString();
-        }
-
-        /// <summary>
-        /// Splits an enum into its constituent flags.
-        /// </summary>
-        internal static IEnumerable<T> SplitEnum<T>(T stats)
-            where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
-        {
-            int e = (int)(object)stats;
-
-            for (int x = 1; x != 0; x = x << 1)
-            {
-                if ((e & x) == x)
-                {
-                    yield return (T)(object)x;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Combines an enums constituent flags into a single enum.
-        /// </summary>
-        internal static T SumEnum<T>(IEnumerable<T> enumerable)
-            where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
-        {
-            int flags = 0;
-
-            foreach (T t in enumerable)
-            {
-                flags |= (int)(object)t;
-            }
-
-            return (T)(object)flags;
-        }
-
-
-
-        /// <summary>
-        /// Returns the constituent flags of an enum.
-        /// </summary>
-        internal static IEnumerable<T> GetEnumFlags<T>()
-            where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
-        {
-            HashSet<int> vals = Enum.GetValues(typeof(T)).Cast<int>().Unique();
-
-            foreach (int i in vals)
-            {
-                if (i != 0 && (i & (i - 1)) == 0)
-                {
-                    yield return (T)(object)i;
-                }
-            }
-        }
-
-        /// <summary>
-        /// (MJR) Interns the string
-        /// Used to save the memory overhead of many identical strings (at the cost of speed)
-        /// </summary>       
-        public static string Reduce(this string text)
-        {
-            string result = string.IsInterned(text);
-
-            if (result != null)
-            {
-                return result;
-            }
-
-            if (_strings.TryGetValue(text, out result))
-            {
-                return result;
-            }
-
-            _strings.Add(text, text);
-            return text;
-        }
+     
 
         /// <summary>
         /// 
@@ -1629,6 +955,16 @@ namespace MetaboliteLevels.Utilities
 
                 return _startupPath;
             }
+        }
+
+        /// <summary>
+        /// Sets the startup path (REQUIRES APPLICATION RESTART).
+        /// </summary>                                           
+        public static void SetStartupPath(string text)
+        {
+            string rerouteFile = Path.Combine(Application.StartupPath, "reroute.txt");
+
+            File.WriteAllText(rerouteFile, text);
         }
     }
 

@@ -785,10 +785,10 @@ namespace MetaboliteLevels.Viewers.Lists
                         return count.ToString();
 
                     case Settings.EListDisplayMode.CountAndContent:
-                        return "(" + count.ToString() + ") " + Maths.ArrayToString(enu, AsString);
+                        return "(" + count.ToString() + ") " + StringHelper.ArrayToString(enu, AsString);
 
                     case Settings.EListDisplayMode.Content:
-                        return Maths.ArrayToString(enu, AsString);
+                        return StringHelper.ArrayToString(enu, AsString);
                 }
             }
 
