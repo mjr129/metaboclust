@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Forms.Generic
@@ -8,24 +11,25 @@ namespace MetaboliteLevels.Forms.Generic
     public partial class FrmWait : Form
     {
         private Callable function;
+        private Stopwatch _operationTimer = Stopwatch.StartNew();
+        private bool _allowClose;
+        private Thread _thread;
+        private Info _info;
+        private ProgressReporter _prog;
 
         private class Info : IProgressReporter
         {
             private FrmWait form;
+            private Stopwatch _stopwatch = Stopwatch.StartNew();
 
             public Info(FrmWait frmWait)
             {
                 this.form = frmWait;
             }
 
-            public void ReportProgress(string message)
+            void IProgressReporter.ReportProgressDetails(string title, int percent)
             {
-                form.backgroundWorker1.ReportProgress(0, message);
-            }
-
-            public void ReportProgress(int percent)
-            {
-                form.backgroundWorker1.ReportProgress(percent, null);
+                form.backgroundWorker1.ReportProgress(percent, title);
             }
         }
 
@@ -34,12 +38,12 @@ namespace MetaboliteLevels.Forms.Generic
             public Exception Error;
             public object Result { get; private set; }
 
-            internal void Invoke(Info info)
+            internal void Invoke(ProgressReporter info)
             {
                 Result = OnInvoke(info);
             }
 
-            protected abstract object OnInvoke(Info info);
+            protected abstract object OnInvoke(ProgressReporter info);
         }
 
         private class Callable<TResult, TArgs> : Callable
@@ -47,12 +51,12 @@ namespace MetaboliteLevels.Forms.Generic
             public TArgs args;
 
             // Info and args
-            public Func<Info, TArgs, TResult> InfoArgsWithResult;
-            public Action<Info, TArgs> InfoArgsWithoutResult;
+            public Func<ProgressReporter, TArgs, TResult> InfoArgsWithResult;
+            public Action<ProgressReporter, TArgs> InfoArgsWithoutResult;
 
             // Info
-            public Func<Info, TResult> InfoWithResult;
-            public Action<Info> InfoWithoutResult;
+            public Func<ProgressReporter, TResult> InfoWithResult;
+            public Action<ProgressReporter> InfoWithoutResult;
 
             // Args
             public Func<TArgs, TResult> ArgsWithResult;
@@ -62,7 +66,7 @@ namespace MetaboliteLevels.Forms.Generic
             public Func<TResult> WithResult;
             public Action WithoutResult;
 
-            protected override object OnInvoke(Info info)
+            protected override object OnInvoke(ProgressReporter info)
             {
                 if (InfoArgsWithResult != null)
                 {
@@ -116,7 +120,7 @@ namespace MetaboliteLevels.Forms.Generic
             Show(owner, title, subtitle, new Callable<NA, NA> { WithoutResult = action });
         }
 
-        internal static void Show(Form owner, string title, string subtitle, Action<IProgressReporter> action)
+        internal static void Show(Form owner, string title, string subtitle, Action<ProgressReporter> action)
         {
             Show(owner, title, subtitle, new Callable<NA, NA> { InfoWithoutResult = action });
         }
@@ -126,7 +130,7 @@ namespace MetaboliteLevels.Forms.Generic
             Show(owner, title, subtitle, new Callable<NA, TArgs> { ArgsWithoutResult = action, args = args });
         }
 
-        internal static void Show<TArgs>(Form owner, string title, string subtitle, Action<IProgressReporter, TArgs> action, TArgs args)
+        internal static void Show<TArgs>(Form owner, string title, string subtitle, Action<ProgressReporter, TArgs> action, TArgs args)
         {
             Show(owner, title, subtitle, new Callable<NA, TArgs> { InfoArgsWithoutResult = action, args = args });
         }
@@ -136,7 +140,7 @@ namespace MetaboliteLevels.Forms.Generic
             return (TResult)Show(owner, title, subtitle, new Callable<TResult, NA> { WithResult = action });
         }
 
-        internal static TResult Show<TResult>(Form owner, string title, string subtitle, Func<IProgressReporter, TResult> action)
+        internal static TResult Show<TResult>(Form owner, string title, string subtitle, Func<ProgressReporter, TResult> action)
         {
             return (TResult)Show(owner, title, subtitle, new Callable<TResult, NA> { InfoWithResult = action });
         }
@@ -146,7 +150,7 @@ namespace MetaboliteLevels.Forms.Generic
             return (TResult)Show(owner, title, subtitle, new Callable<TResult, TArgs> { ArgsWithResult = action, args = args });
         }
 
-        internal static TResult Show<TResult, TArgs>(Form owner, string title, string subtitle, Func<IProgressReporter, TArgs, TResult> action, TArgs args)
+        internal static TResult Show<TResult, TArgs>(Form owner, string title, string subtitle, Func<ProgressReporter, TArgs, TResult> action, TArgs args)
         {
             return (TResult)Show(owner, title, subtitle, new Callable<TResult, TArgs> { InfoArgsWithResult = action, args = args });
         }
@@ -178,24 +182,39 @@ namespace MetaboliteLevels.Forms.Generic
             this.ctlTitleBar1.Text = title;
             this.ctlTitleBar1.SubText = subtitle;
             this.function = callable;
+            this.flowLayoutPanel1.Visible = Debugger.IsAttached;
             UiControls.CompensateForVisualStyles(this);
             backgroundWorker1.RunWorkerAsync();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            Info info = new Info(this);
+            _info = new Info(this);
+            _thread = Thread.CurrentThread;
+            _prog = new ProgressReporter(_info);
 
-            function.Invoke(info);
+            // Give a chance for the form to show
+            Thread.Sleep(1000);
+
+            function.Invoke(_prog);
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+
+            if (!_allowClose)
+            {
+                flowLayoutPanel1.Visible = true;
+                e.Cancel = true;
+            }
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (e.UserState != null)
-            {
-                ctlTitleBar1.SubText = e.UserState.ToString();
-            }
-            else if (e.ProgressPercentage >= 0 && e.ProgressPercentage <= 100)
+            ctlTitleBar1.SubText = e.UserState.ToString();
+
+            if (e.ProgressPercentage >= 0 && e.ProgressPercentage <= 100)
             {
                 progressBar1.Style = ProgressBarStyle.Continuous;
                 progressBar1.Maximum = 100;
@@ -205,16 +224,80 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 progressBar1.Style = ProgressBarStyle.Marquee;
             }
+
+            label1.Text = StringHelper.TimeAsString(_operationTimer.Elapsed);
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            _allowClose = true;
+
             if (e.Error != null)
             {
                 function.Error = e.Error;
             }
 
             DialogResult = DialogResult.OK;
+        }
+
+        private void _chkStop_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_chkStop.Checked)
+            {
+                _prog.SetCancelAsync(true);
+            }
+            else
+            {
+                _prog.SetCancelAsync(false);
+            }
+        }
+
+        private void _chkSuspend_CheckedChanged(object sender, EventArgs e)
+        {
+#pragma warning disable CS0618 // Type or member is obsolete
+            if (_chkSuspend.Checked)
+            {
+                _thread.Suspend();
+            }
+            else
+            {
+                _thread.Resume();
+            }
+#pragma warning restore CS0618 // Type or member is obsolete
+        }
+
+        private void _chkDeprioritise_CheckedChanged(object sender, EventArgs e)
+        {
+            _chkPrioritise.Enabled = !_chkDeprioritise.Checked;
+
+            if (_chkDeprioritise.Checked)
+            {
+                _thread.Priority = ThreadPriority.Lowest;
+            }
+            else
+            {
+                _thread.Priority = ThreadPriority.Normal;
+            }
+        }
+
+        private void _chkPrioritise_CheckedChanged(object sender, EventArgs e)
+        {
+            _chkDeprioritise.Enabled = !_chkPrioritise.Checked;
+
+            if (_chkPrioritise.Checked)
+            {
+                _thread.Priority = ThreadPriority.Highest;
+            }
+            else
+            {
+                _thread.Priority = ThreadPriority.Normal;
+            }
+
+        }
+
+        private void _chkLazy_CheckedChanged(object sender, EventArgs e)
+        {
+            _prog.SetLazyModeAsync(_chkLazy.Checked);
         }
     }
 }

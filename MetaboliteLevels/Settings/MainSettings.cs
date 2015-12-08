@@ -46,7 +46,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// Resets the main settings to their defaults.
         /// </summary>
-        public static void Reset()
+        public static void Reset(ProgressReporter prog)
         {
             Instance = new MainSettings();
             Instance.Save();
@@ -54,10 +54,11 @@ namespace MetaboliteLevels.Settings
 
         private void SaveLoad(bool save)
         {
-            XmlSettings.SaveLoad(save, "DoNotShowAgain.dat", ref DoNotShowAgain);
-            XmlSettings.SaveLoad(save, "RecentSessions.dat", ref RecentSessions);
-            XmlSettings.SaveLoad(save, "RecentWorkspaces.dat", ref RecentWorkspaces);
-            XmlSettings.SaveLoad(save, "General.dat", ref General);
+            ProgressReporter prog = ProgressReporter.GetEmpty(); // too fast to warrent dialogue
+            XmlSettings.SaveLoad(save, "DoNotShowAgain.dat", ref DoNotShowAgain, null, prog);
+            XmlSettings.SaveLoad(save, "RecentSessions.dat", ref RecentSessions, null, prog);
+            XmlSettings.SaveLoad(save, "RecentWorkspaces.dat", ref RecentWorkspaces, null, prog);
+            XmlSettings.SaveLoad(save, "General.dat", ref General, null, prog);
         }                                  
 
         public void Save()

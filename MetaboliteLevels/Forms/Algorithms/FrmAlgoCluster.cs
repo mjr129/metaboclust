@@ -70,10 +70,10 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (def != null)
             {
                 // Name
-                _txtName.Text = def.Name;
+                _txtName.Text = def.OverrideDisplayName;
 
                 // Comment
-                _comment = def.Comments;
+                _comment = def.Comment;
 
                 // Method
                 _lstMethod.SelectedItem = def.Cached;

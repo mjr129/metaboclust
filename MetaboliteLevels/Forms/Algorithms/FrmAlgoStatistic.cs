@@ -234,9 +234,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (defaultSelection != null)
             {
-                _txtName.Text = defaultSelection.Name;
+                _txtName.Text = defaultSelection.OverrideDisplayName;
                 ctlTitleBar1.SubText = defaultSelection.AlgoName;
-                _comments = defaultSelection.Comments;
+                _comments = defaultSelection.Comment;
                 _lstMethod.SelectedItem = defaultSelection.Cached;
                 _txtParams.Text = AlgoParameters.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
 

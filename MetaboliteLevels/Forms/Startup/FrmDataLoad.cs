@@ -50,10 +50,8 @@ namespace MetaboliteLevels.Forms.Startup
 
         private readonly DataFileNames _fileNames; // files to load...
         private readonly string _sessionFileName; // ... OR session to load
-        private readonly Stopwatch _lastUpdate = Stopwatch.StartNew(); // used for display updates
 
         private Core _result; // the result
-        private int _majorProgressStep = 0; // progress bar
 
         /// <summary>
         /// Constructor
@@ -130,11 +128,14 @@ namespace MetaboliteLevels.Forms.Startup
         /// </summary>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            _prog = new ProgressReporter(this);
+
             // LOAD FROM SESSION?
             if (_sessionFileName != null)
             {
-                ReportProgress("Loading session");
-                _result = Core.Load(_sessionFileName, this);
+                _prog.Enter("Loading session");
+                _result = Core.Load(_sessionFileName, _prog);
+                _prog.Leave();
                 return;
             }
 
@@ -148,48 +149,47 @@ namespace MetaboliteLevels.Forms.Startup
             MetaInfoHeader annotationsHeader = new MetaInfoHeader();
 
             // DATA SETS
-            DataSet data = Load_1_DataSets(_fileNames, this);
+            DataSet data = Load_1_DataSets(_fileNames, _prog);
 
             // COMPOUNDS & PATHWAYS
-            Load_2_Compounds(compounds, pathways, pathwayHeader, compoundHeader, _fileNames.CompoundLibraies, this);
+            Load_2_Compounds(compounds, pathways, pathwayHeader, compoundHeader, _fileNames.CompoundLibraies, _prog);
 
             // ADDUCTS
-            Load_3_Adducts(adducts, _fileNames.AdductLibraries, adductsHeader, this);
+            Load_3_Adducts(adducts, _fileNames.AdductLibraries, adductsHeader, _prog);
 
             // M/Zs
-            Load_4_MatchMzs(data.Peaks, adducts, compounds);
+            Load_4_MatchMzs(data.Peaks, adducts, compounds, _prog);
 
             // IDENTIFICATIONS
             if (!string.IsNullOrEmpty(_fileNames.Identifications))
             {
-                Load_5_UserIdentifications(annotationsHeader, data.Peaks, compounds, adducts, _fileNames.Identifications, this);
+                Load_5_UserIdentifications(annotationsHeader, data.Peaks, compounds, adducts, _fileNames.Identifications, _prog);
             }
 
             // Set result
             _result = new Core(_fileNames, data, compounds, pathways, compoundHeader, pathwayHeader, adducts, adductsHeader, annotationsHeader);
 
             // STATISTICS
-            Load_6_CalculateDefaultStatistics(_result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson));
+            Load_6_CalculateDefaultStatistics(_result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson), _prog);
         }
 
         /// <summary>
         /// Loads identifications.
         /// </summary>
-        private static void Load_5_UserIdentifications(MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, IProgressReporter prog)
+        private static void Load_5_UserIdentifications(MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, ProgressReporter prog)
         {
-            prog.ReportProgress("Loading identifications");
-
+            prog.Enter("Loading identifications");
             Matrix<string> mat = new Matrix<string>(fileName, true, true, prog);
+            prog.Leave();
 
-            prog.ReportProgress("Interpreting identifications");
-
+            prog.Enter("Interpreting identifications");
             int peakCol = mat.OptionalColIndex(IDFILE_PEAK_HEADER);
             int mzCol = mat.OptionalColIndex(VARFILE_MZ_HEADER);
             int compoundsCol = mat.ColIndex(IDFILE_COMPOUNDS_HEADER);
 
             for (int row = 0; row < mat.NumRows; row++)
             {
-                prog.ReportProgress(row, mat.NumRows);
+                prog.SetProgress(row, mat.NumRows);
 
                 string peakName;
                 decimal mz = decimal.Zero;
@@ -208,7 +208,7 @@ namespace MetaboliteLevels.Forms.Startup
                     mz = decimal.Parse(mat[row, mzCol]);
                 }
 
-                Peak peak = peaks.First(z => z.Name == peakName);
+                Peak peak = peaks.First(z => z.DefaultDisplayName == peakName);
 
                 string[] compounds = mat[row, compoundsCol].Split(",".ToCharArray());
 
@@ -218,7 +218,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                     foreach (Compound compound in ccompounds)
                     {
-                        if (compound.Id == compoundName || compound.Name == compoundName)
+                        if (compound.Id == compoundName || compound.DefaultDisplayName == compoundName)
                         {
                             annotation = new Annotation(peak, compound, CreateOrGetEmpty(adducts));
                             break;
@@ -239,6 +239,8 @@ namespace MetaboliteLevels.Forms.Startup
                     annotation.Adduct.Annotations.Add(annotation);
                 }
             }
+
+            prog.Leave();
         }
 
         private static Adduct CreateOrGetEmpty(List<Adduct> adducts)
@@ -254,16 +256,16 @@ namespace MetaboliteLevels.Forms.Startup
             return result;
         }
 
-        private static void Load_3_Adducts(List<Adduct> adducts, List<string> fileNames, MetaInfoHeader header, IProgressReporter prog)
+        private static void Load_3_Adducts(List<Adduct> adducts, List<string> fileNames, MetaInfoHeader header, ProgressReporter prog)
         {
             for (int index = 0; index < fileNames.Count; index++)
             {
                 string fileName = fileNames[index];
-                prog.ReportProgress("Loading adducts (" + index + " of " + fileNames.Count + ")");
-
+                prog.Enter("Loading adducts (" + index + " of " + fileNames.Count + ")");
                 Matrix<string> mat = new Matrix<string>(fileName, true, true, prog);
+                prog.Leave();
 
-                prog.ReportProgress("Interpreting adducts (" + index + " of " + fileNames.Count + ")");
+                prog.Enter("Interpreting adducts (" + index + " of " + fileNames.Count + ")");
 
                 int nameCol = mat.ColIndex(ADDUCTFILE_NAME_HEADER);
                 int chargeCol = mat.ColIndex(ADDUCTFILE_CHARGE_HEADER);
@@ -271,7 +273,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                 for (int row = 0; row < mat.NumRows; row++)
                 {
-                    prog.ReportProgress(row, mat.NumRows);
+                    prog.SetProgress(row, mat.NumRows);
 
                     Adduct a = new Adduct(mat[row, nameCol], int.Parse(mat[row, chargeCol]), decimal.Parse(mat[row, mzCol]));
 
@@ -279,17 +281,18 @@ namespace MetaboliteLevels.Forms.Startup
 
                     adducts.Add(a);
                 }
+
+                prog.Leave();
             }
         }
 
-        private void Load_4_MatchMzs(List<Peak> peaks, List<Adduct> adducts, List<Compound> compounds)
+        private static void Load_4_MatchMzs(List<Peak> peaks, List<Adduct> adducts, List<Compound> compounds, ProgressReporter prog)
         {
-            ReportProgress("Matching peaks to compounds");
-            SetMajorStep(12);
+            prog.Enter("Matching peaks to compounds");
 
             for (int pi = 0; pi < peaks.Count; pi++)
             {
-                this.ReportProgress(pi, peaks.Count);
+                prog.SetProgress(pi, peaks.Count);
 
                 Peak p = peaks[pi];
 
@@ -317,12 +320,13 @@ namespace MetaboliteLevels.Forms.Startup
                 }
             }
 
-            ReportProgress("Matching peaks to peaks");
-            SetMajorStep(13);
+            prog.Leave();
+
+            prog.Enter("Matching peaks to peaks");
 
             for (int pi = 0; pi < peaks.Count; pi++)
             {
-                this.ReportProgress(pi, peaks.Count);
+                prog.SetProgress(pi, peaks.Count);
 
                 Peak p = peaks[pi];
 
@@ -342,6 +346,8 @@ namespace MetaboliteLevels.Forms.Startup
                     }
                 }
             }
+
+            prog.Leave();
         }
 
         internal static void GetCompoundLibraries(out List<CompoundLibrary> compounds, out List<NamedItem<string>> adducts)
@@ -390,7 +396,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Loads a pathway tools database into the specified lists.
         /// </summary>
-        private static void LoadPathwayToolsDatabase(List<Pathway> pathwaysOut, List<Compound> compoundsOut, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, string databaseDirectory, CompoundLibrary tag, IProgressReporter prog)
+        private static void LoadPathwayToolsDatabase(List<Pathway> pathwaysOut, List<Compound> compoundsOut, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, string databaseDirectory, CompoundLibrary tag, ProgressReporter prog)
         {
             string pathwayFile = Path.Combine(databaseDirectory, "pathways.dat");
             string compoundsFile = Path.Combine(databaseDirectory, "compounds.dat");
@@ -550,6 +556,7 @@ namespace MetaboliteLevels.Forms.Startup
         }
 
         private const string ALT_NAMES_KEY = "Alt. Names";
+        private ProgressReporter _prog;
 
         private static Compound AddWithoutConflict(MetaInfoHeader header, CompoundLibrary tag, Dictionary<string, Compound> compounds, string id, string name, decimal mass)
         {
@@ -557,13 +564,13 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (compounds.TryGetValue(id, out compound))
             {
-                if (compound.Name != name)
+                if (compound.DefaultDisplayName != name)
                 {
-                    Debug.WriteLine("Warning: Compound with ID \"" + id + "\" has conflicting name \"" + compound.Name + "\" vs \"" + name + "\" in another database.");
+                    Debug.WriteLine("Warning: Compound with ID \"" + id + "\" has conflicting name \"" + compound.DefaultDisplayName + "\" vs \"" + name + "\" in another database.");
 
                     if (header.GetValue(compound.MetaInfo, ALT_NAMES_KEY).IsEmpty())
                     {
-                        compound.MetaInfo.Write(header, ALT_NAMES_KEY, compound.Name + ((compound.Libraries.Count != 0) ? (" [from: " + compound.Libraries[0].ToString() + "]") : ""));
+                        compound.MetaInfo.Write(header, ALT_NAMES_KEY, compound.DefaultDisplayName + ((compound.Libraries.Count != 0) ? (" [from: " + compound.Libraries[0].ToString() + "]") : ""));
                     }
 
                     compound.MetaInfo.Write(header, ALT_NAMES_KEY, name + ((tag != null) ? (" [from: " + tag + "]") : ""));
@@ -622,13 +629,13 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (pathways.TryGetValue(id, out pathway))
             {
-                if (pathway.Name != name)
+                if (pathway.DefaultDisplayName != name)
                 {
-                    Debug.WriteLine("Warning: Pathway with ID \"" + id + "\" has conflicting name \"" + pathway.Name + "\" vs \"" + name + "\" in another database.");
+                    Debug.WriteLine("Warning: Pathway with ID \"" + id + "\" has conflicting name \"" + pathway.DefaultDisplayName + "\" vs \"" + name + "\" in another database.");
 
                     if (header.GetValue(pathway.MetaInfo, ALT_NAMES_KEY).IsEmpty())
                     {
-                        pathway.MetaInfo.Write(header, ALT_NAMES_KEY, pathway.Name + ((pathway.Libraries.Count != 0) ? (" [from: " + pathway.Libraries[0].ToString() + "]") : ""));
+                        pathway.MetaInfo.Write(header, ALT_NAMES_KEY, pathway.DefaultDisplayName + ((pathway.Libraries.Count != 0) ? (" [from: " + pathway.Libraries[0].ToString() + "]") : ""));
                     }
 
                     pathway.MetaInfo.Write(header, ALT_NAMES_KEY, name + ((tag != null) ? (" [from: " + tag + "]") : ""));
@@ -645,11 +652,11 @@ namespace MetaboliteLevels.Forms.Startup
             return pathway;
         }
 
-        private static void Load_2_Compounds(List<Compound> compounds, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, List<CompoundLibrary> toLoad, IProgressReporter prog)
+        private static void Load_2_Compounds(List<Compound> compounds, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, List<CompoundLibrary> toLoad, ProgressReporter prog)
         {
             for (int index = 0; index < toLoad.Count; index++)
             {
-                prog.ReportProgress("Loading compound library (" + index + " of " + toLoad.Count + ")...");
+                prog.Enter("Loading compound library (" + index + " of " + toLoad.Count + ")...");
 
                 var cl = toLoad[index];
 
@@ -661,10 +668,12 @@ namespace MetaboliteLevels.Forms.Startup
                 {
                     LoadCsvDatabase(compounds, pathwaysList, pathwayMeta, compoundMeta, cl.CompoundFile, cl.PathwayFile, cl, prog);
                 }
+
+                prog.Leave();
             }
         }
 
-        private static void LoadCsvDatabase(List<Compound> compoundsOut, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, string compFile, string patFile, CompoundLibrary tag, IProgressReporter prog)
+        private static void LoadCsvDatabase(List<Compound> compoundsOut, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, string compFile, string patFile, CompoundLibrary tag, ProgressReporter prog)
         {
             Dictionary<string, Pathway> pathways = new Dictionary<string, Pathway>();
 
@@ -679,7 +688,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                 for (int row = 0; row < pathwayMatrix.NumRows; row++)
                 {
-                    prog.ReportProgress(row, pathwayMatrix.NumRows);
+                    prog.SetProgress(row, pathwayMatrix.NumRows);
 
                     string name = pathwayMatrix[row, nameCol];
                     string id = pathwayMatrix[row, idCol];
@@ -705,7 +714,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                 for (int row = 0; row < mat.NumRows; row++)
                 {
-                    prog.ReportProgress(row, mat.NumRows);
+                    prog.SetProgress(row, mat.NumRows);
 
                     string id = mat[row, idCol];
                     string name = mat[row, nameCol];
@@ -742,7 +751,7 @@ namespace MetaboliteLevels.Forms.Startup
             return LoadConditionInfo(fileName, null);
         }
 
-        private static Dictionary<int, string> LoadConditionInfo(string fileName, IProgressReporter reportProgress)
+        private static Dictionary<int, string> LoadConditionInfo(string fileName, ProgressReporter reportProgress)
         {
             Dictionary<int, string> output = new Dictionary<int, string>();
 
@@ -774,7 +783,7 @@ namespace MetaboliteLevels.Forms.Startup
             public MetaInfoHeader PeakMetaHeader;
         }
 
-        private static DataSet Load_1_DataSets(DataFileNames dfn, IProgressReporter prog)
+        private static DataSet Load_1_DataSets(DataFileNames dfn, ProgressReporter prog)
         {
             DataSet result = new DataSet();
             result.PeakMetaHeader = new MetaInfoHeader();
@@ -790,8 +799,9 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (!string.IsNullOrEmpty(dfn.ConditionInfo))
             {
-                prog.ReportProgress("Loading conditions");
+                prog.Enter("Loading conditions");
                 conditionNames = LoadConditionInfo(dfn.ConditionInfo, prog);
+                prog.Leave();
             }
             else
             {
@@ -799,17 +809,21 @@ namespace MetaboliteLevels.Forms.Startup
             }
 
             // Load data
-            prog.ReportProgress("Loading intensities");
+            prog.Enter("Loading intensities");
             Matrix<double> data = new Matrix<double>(dfn.Data, true, true, prog);
+            prog.Leave();
 
-            prog.ReportProgress("Loading alt. intensities");
+            prog.Enter("Loading alt. intensities");
             Matrix<double> altData = !string.IsNullOrWhiteSpace(dfn.AltData) ? new Matrix<double>(dfn.AltData, true, true, prog) : null;
+            prog.Leave();
 
-            prog.ReportProgress("Loading observations");
+            prog.Enter("Loading observations");
             Matrix<int> info = new Matrix<int>(dfn.ObservationInfo, true, true, prog);
+            prog.Leave();
 
-            prog.ReportProgress("Loading peaks");
+            prog.Enter("Loading peaks");
             Matrix<string> varInfo = new Matrix<string>(dfn.PeakInfo, true, true, prog);
+            prog.Leave();
 
             // Get "obsinfo" columns
             int dayCol = info.OptionalColIndex(OBSFILE_TIME_HEADER);
@@ -952,7 +966,7 @@ namespace MetaboliteLevels.Forms.Startup
             for (int peakIndex = 0; peakIndex < data.NumCols; peakIndex++)
             {
                 // Feedback
-                prog.ReportProgress(peakIndex, data.NumCols);
+                prog.SetProgress(peakIndex, data.NumCols);
                 UiControls.Assert(data.ColNames[peakIndex] == varInfo.RowNames[peakIndex], "Data order mismatch error. The data file contains observation \"" + data.ColNames[peakIndex] + "\" on row " + peakIndex + " but the peak information file has observation \"" + varInfo.RowNames[peakIndex] + "\" on row " + peakIndex + ".");
 
                 // --------------------
@@ -1048,10 +1062,9 @@ namespace MetaboliteLevels.Forms.Startup
             return list.Select(z => types.First(x => x.Id == z)).ToList();
         }
 
-        private void Load_6_CalculateDefaultStatistics(Core core, bool calcT, bool calcP)
+        private static void Load_6_CalculateDefaultStatistics(Core core, bool calcT, bool calcP, ProgressReporter prog)
         {
-            SetMajorStep(5);
-            ReportProgress("Creating statistics");
+            prog.Enter("Creating statistics");
 
             // Create filters
             List<ObsFilter> allFilters = new List<ObsFilter>();
@@ -1160,13 +1173,15 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Calculate values
             ConfigurationStatistic[] allTests = allTTests.Concat(allPearson).ToArray();
-            core.SetStatistics(allTests, true, this);
+            core.SetStatistics(allTests, true, prog);
+
+            prog.Leave();
         }
 
         /// <summary>
         /// Creates an absolute maximum statistic of other statistics.
         /// </summary>
-        private ConfigurationStatistic CreateAbsMaxStatistic(List<ConfigurationStatistic> pStatOpts, string name)
+        private static ConfigurationStatistic CreateAbsMaxStatistic(List<ConfigurationStatistic> pStatOpts, string name)
         {
             object pStatMinParam1 = pStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
             ArgsStatistic pStatMinArgs = new ArgsStatistic(EAlgoSourceMode.Full, null, EAlgoInputBSource.None, null, null, new[] { pStatMinParam1 });
@@ -1177,7 +1192,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Creates an mathematical minimum statistic of other statistics.
         /// </summary>
-        private ConfigurationStatistic CreateMinStatistic(List<ConfigurationStatistic> tStatOpts, string name)
+        private static ConfigurationStatistic CreateMinStatistic(List<ConfigurationStatistic> tStatOpts, string name)
         {
             object tStatMinParam1 = tStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
             ArgsStatistic tStatMinArgs = new ArgsStatistic(EAlgoSourceMode.Full, null, EAlgoInputBSource.None, null, null, new[] { tStatMinParam1 });
@@ -1188,7 +1203,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Calculates a default T-test statistic.
         /// </summary>
-        private ConfigurationStatistic CreateTTestStatistic(string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
+        private static ConfigurationStatistic CreateTTestStatistic(string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
         {
             ArgsStatistic args = new ArgsStatistic(EAlgoSourceMode.Full, typeOfInterest, EAlgoInputBSource.SamePeak, controlConditions, null, null);
             var stat = new ConfigurationStatistic("T-TEST: " + name, null, Algo.ID_METRIC_TTEST, args);
@@ -1198,44 +1213,22 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Calculates a default pearson correlation statistic.
         /// </summary>
-        private ConfigurationStatistic CreatePearsonStatistic(string name, ObsFilter typeOfInterest)
+        private static ConfigurationStatistic CreatePearsonStatistic(string name, ObsFilter typeOfInterest)
         {
             ArgsStatistic argsPearson = new ArgsStatistic(EAlgoSourceMode.Trend, typeOfInterest, EAlgoInputBSource.Time, null, null, null);
             var statPearson = new ConfigurationStatistic("PEARSON: " + name, "Pearson correlation of the trend-line for " + name + " against time.", Algo.ID_METRIC_PEARSON, argsPearson);
             return statPearson;
         }
 
-        public void ReportProgress(string message)
+        void IProgressReporter.ReportProgressDetails(string title, int v)
         {
-            backgroundWorker1.ReportProgress(0, message);
-        }
-
-        private void SetMajorStep(int value)
-        {
-            _majorProgressStep = value;
-        }
-
-        public void ReportProgress(int v)
-        {
-            Debug.Assert(v >= 0 && v <= 100);
-
-            if (_lastUpdate.ElapsedMilliseconds > 10)
-            {
-                backgroundWorker1.ReportProgress(v);
-                _lastUpdate.Restart();
-            }
+            backgroundWorker1.ReportProgress(v, title);
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (e.UserState == null)
-            {
-                progressBar1.Value = e.ProgressPercentage;
-            }
-            else
-            {
-                _lblInfo.Text = e.UserState.ToString();
-            }
+            progressBar1.Value = e.ProgressPercentage;
+            _lblInfo.Text = e.UserState.ToString();
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -1257,7 +1250,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Application.Exit();
+            _prog.SetCancelAsync(true);
         }
     }
 }

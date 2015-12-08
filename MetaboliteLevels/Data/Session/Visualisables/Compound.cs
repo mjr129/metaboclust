@@ -28,7 +28,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Compound name
         /// </summary>
-        public readonly string Name;
+        private readonly string _defaultName;
 
         /// <summary>
         /// Unique ID
@@ -63,7 +63,12 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// User provided name.
         /// </summary>
-        public string Title { get; set; }
+        public string OverrideDisplayName { get; set; }
+
+        /// <summary>
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Defining library.
@@ -77,7 +82,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 this.Libraries.Add(tag);
             }
 
-            this.Name = RemoveHtml(name);
+            this._defaultName = RemoveHtml(name);
             this.Id = id;
             this.Mass = mz;
         }
@@ -105,9 +110,20 @@ namespace MetaboliteLevels.Data.Visualisables
             return name;
         }
 
+        /// <summary>
+        /// Default display name.
+        /// </summary>
+        public string DefaultDisplayName
+        {
+            get
+            {
+                return _defaultName;
+            }
+        }
+
         internal StylisedCluster CreateStylisedCluster(Core core, IVisualisable highlight)
         {
-            Cluster fakeCluster = new Cluster(this.Name, null);
+            Cluster fakeCluster = new Cluster(this.DefaultDisplayName, null);
             var colourInfo = new Dictionary<Peak, LineInfo>();
             string caption = "Plot of peaks potentially representing {0}.";
 
@@ -137,7 +153,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             Peak[] peaks = this.Annotations.Select(z => z.Peak).ToArray();
 
-            ValueMatrix vm = ValueMatrix.Create(peaks, true, core, ObsFilter.Empty, false, new EmptyProgressReporter());
+            ValueMatrix vm = ValueMatrix.Create(peaks, true, core, ObsFilter.Empty, false, ProgressReporter.GetEmpty());
 
             for (int index = 0; index < vm.NumVectors; index++)
             {
@@ -150,18 +166,18 @@ namespace MetaboliteLevels.Data.Visualisables
 
                 if (peak.Annotations.Count > 5)
                 {
-                    sb.Append(this.Name + " OR " + (peak.Annotations.Count - 1) + " others");
+                    sb.Append(this.DefaultDisplayName + " OR " + (peak.Annotations.Count - 1) + " others");
                 }
                 else
                 {
-                    sb.Append(this.Name);
+                    sb.Append(this.DefaultDisplayName);
 
                     foreach (Annotation c2 in peak.Annotations)
                     {
                         if (c2.Compound != this)
                         {
                             sb.Append(" OR ");
-                            sb.Append(c2.Compound.Name + " (" + c2.Adduct.Name + ")");
+                            sb.Append(c2.Compound.DefaultDisplayName + " (" + c2.Adduct.DefaultDisplayName + ")");
                         }
                     }
                 }
@@ -182,13 +198,13 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public string DisplayName
         {
-            get { return Title ?? Name; }
+            get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
         }
 
         /// <summary>
         /// Inherited from IVisualisable. 
         /// </summary>
-        public Image DisplayIcon
+        public Image REMOVE_THIS_FUNCTION
         {
             get { return Annotations.Count == 0 ? Resources.ObjLCompoundU : Resources.ObjLCompound; }
         }
@@ -204,7 +220,7 @@ namespace MetaboliteLevels.Data.Visualisables
             yield return new InfoLine("№ libraries", this.Libraries.Count);
             yield return new InfoLine("№ libraries", this.Libraries.Count);
             yield return new InfoLine("Mass", Mass);
-            yield return new InfoLine("Name", Name);
+            yield return new InfoLine("Name", DefaultDisplayName);
             yield return new InfoLine("№ pathways", Pathways.Count);
             yield return new InfoLine("№ annotations", Annotations.Count);
             yield return new InfoLine("URL", Url);
@@ -307,7 +323,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             var columns = new List<Column<Compound>>();
 
-            columns.Add("Name", true, λ => λ.Name);
+            columns.Add("Name", true, λ => λ.DefaultDisplayName);
             columns.Add("Library", false, λ => λ.Libraries);
             columns.Add("Mass", false, λ => λ.Mass);
             columns.Add("Pathways", false, λ => λ.Pathways);
@@ -320,7 +336,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return columns;
         }
 
-        public int GetIcon()
+        public UiControls.ImageListOrder GetIcon()
         {
             // IMAGE
             if (this.Annotations.Count == 0)

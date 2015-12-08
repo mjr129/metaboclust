@@ -69,12 +69,7 @@ namespace MetaboliteLevels.Data.General
                     i--;
                 }
             }
-        }
-
-        internal void Assert()
-        {
-            throw new NotImplementedException();
-        }
+        }   
 
         public IList<Peak> PeaksAsList
         {

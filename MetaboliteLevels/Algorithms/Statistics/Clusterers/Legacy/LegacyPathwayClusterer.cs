@@ -17,18 +17,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         {
         }
 
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             Dictionary<Pathway, Cluster> d = new Dictionary<Pathway, Cluster>();
             List<Cluster> result = new List<Cluster>();
 
-            prog.ReportProgress("Finding pathways");
+            prog.Enter("Finding pathways");
 
             for (int index = 0; index < vmatrix.NumVectors; index++)
             {
                 var vec = vmatrix.Vectors[index];
                 Peak peak = vec.Peak;
-                prog.ReportProgress(index, vmatrix.NumVectors);
+                prog.SetProgress(index, vmatrix.NumVectors);
 
                 foreach (Annotation c in peak.Annotations)
                 {
@@ -38,7 +38,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
 
                         if (!d.TryGetValue(p, out pat))
                         {
-                            pat = new Cluster(p.Name, tag);
+                            pat = new Cluster(p.DefaultDisplayName, tag);
                             pat.States |= Data.Visualisables.Cluster.EStates.Pathway;
                             result.Add(pat);
                             d.Add(p, pat);
@@ -51,6 +51,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
                     }
                 }
             }
+
+            prog.Leave();
 
             return result;
         }

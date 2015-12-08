@@ -28,28 +28,35 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// <summary>
         /// K-means centering.
         /// </summary>
-        public static void PerformKMeansCentering(ValueMatrix vmatrix, IReadOnlyList<Cluster> toChoose, ConfigurationMetric metric, IProgressReporter prog)
+        public static void PerformKMeansCentering(ValueMatrix vmatrix, IReadOnlyList<Cluster> toChoose, ConfigurationMetric metric, ProgressReporter prog)
         {
             int n = 0;
 
             do
             {
-                prog.ReportProgress("k-means (iteration " + (++n) + ")");
+                if (n != 0)
+                {
+                    prog.Leave();
+                }
+
+                prog.Enter("k-means (iteration " + (++n) + ")");
             } while (Assign(vmatrix, toChoose, ECandidateMode.Assignments, metric, prog));
+
+            prog.Leave();
         }
 
         /// <summary>
         /// Assigns peaks to clusters
         /// A single k-means iteration.
         /// </summary>
-        public static bool Assign(ValueMatrix vmatrix, IReadOnlyList<Cluster> toChoose, ECandidateMode source, ConfigurationMetric distanceMetric, IProgressReporter prog)
+        public static bool Assign(ValueMatrix vmatrix, IReadOnlyList<Cluster> toChoose, ECandidateMode source, ConfigurationMetric distanceMetric, ProgressReporter prog)
         {
             // Get the current cluster centres
-            prog.ReportProgress(0, vmatrix.NumVectors);
+            prog.SetProgress(0, vmatrix.NumVectors);
 
             for (int index = 0; index < toChoose.Count; index++)
             {
-                prog.ReportProgress(index, toChoose.Count);
+                prog.SetProgress(index, toChoose.Count);
                 toChoose[index].SetCentre(ECentreMode.Average, source);
             }
 
@@ -69,7 +76,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             for (int index = 0; index < vmatrix.NumVectors; index++)
             {
                 Vector vec = vmatrix.Vectors[index];
-                prog.ReportProgress(index, vmatrix.NumVectors);
+                prog.SetProgress(index, vmatrix.NumVectors);
 
                 ClusterScore best = FindClosestCluster(vec.Values, toChoose, distanceMetric);
 

@@ -12,6 +12,8 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using System.Collections.ObjectModel;
 using MetaboliteLevels.Data.DataInfo;
+using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Settings
 {
@@ -21,27 +23,84 @@ namespace MetaboliteLevels.Settings
     /// IMMUTABLE (exc. names, comments and enabled status)
     /// </summary>
     [Serializable]
-    internal abstract class Filter
+    internal abstract class Filter : IVisualisable
     {
+        /// <summary>
+        /// Enabled or disabled
+        /// </summary>
+        public bool Enabled { get; set; }
+
+        VisualClass IVisualisable.VisualClass
+        {
+            get
+            {
+                return VisualClass.None;
+            }
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                return IVisualisableExtensions.GetDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
+            }
+        }
+
+        public string DefaultDisplayName
+        {
+            get
+            {
+                return ParamsAsString();
+            }
+        }
+
+        public abstract override string ToString();
+
         /// <summary>
         /// Name, provided by user
         /// Doesn't affect the filter itself
         /// </summary>
-        public string Name { get; set; }
+        public string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Comments, provided by user
         /// Doesn't affect the filter itself
         /// </summary>
-        public string Comments { get; set; }
-
-        /// <summary>
-        /// Enabled or disabled (list visibility), provided by user
-        /// Doesn't affect the filter itself
-        /// </summary>
-        public bool Enabled { get; set; }
+        public string Comment { get; set; }
 
         public abstract string ParamsAsString();
+
+        UiControls.ImageListOrder IVisualisable.GetIcon()
+        {
+            return UiControls.ImageListOrder.Filter;
+        }
+
+        IEnumerable<InfoLine> IVisualisable.GetInformation(Core core)
+        {
+            return null;
+        }
+
+        IEnumerable<InfoLine> IVisualisable.GetStatistics(Core core)
+        {
+            return null;
+        }
+
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        {
+            List<Column<Filter>> result = new List<Column<Filter>>();
+
+            result.Add("Name", true, z => z.DisplayName);
+            result.Add("Enabled", false, z => z.Enabled);
+            result.Add("Comments", false, z => z.Comment);
+            result.Add("Parameters", true, z => z.ParamsAsString());
+
+            return result;
+        }
+
+        void IVisualisable.RequestContents(ContentsRequest list)
+        {
+            // NA
+        }
 
         public enum EStatOperator
         {
@@ -110,10 +169,10 @@ namespace MetaboliteLevels.Settings
             IsNot,
         }
 
-        protected Filter(string name, string comments)
+        protected Filter(string overrideDisplayName, string comment)
         {
-            this.Name = name;
-            this.Comments = comments;
+            this.OverrideDisplayName = overrideDisplayName;
+            this.Comment = comment;
             this.Enabled = true;
         }
     }
@@ -135,8 +194,8 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// Ctor
         /// </summary>
-        protected Filter(string name, string comments, IEnumerable<ConditionBase> filters)
-            : base(name, comments)
+        protected Filter(string overrideDisplayName, string comment, IEnumerable<ConditionBase> filters)
+            : base(overrideDisplayName, comment)
         {
             if (filters != null)
             {
@@ -152,7 +211,7 @@ namespace MetaboliteLevels.Settings
         /// Base class for condition
         /// </summary>
         [Serializable]
-        public abstract class ConditionBase
+        public abstract class ConditionBase : IVisualisable
         {
             public readonly ELogicOperator CombiningOperator;
             public readonly bool Negate;
@@ -163,13 +222,83 @@ namespace MetaboliteLevels.Settings
                 this.CombiningOperator = op;
             }
 
+            public string Comment { get; set; }
+
+            public string DefaultDisplayName
+            {
+                get
+                {
+                    return this.ToString();
+                }
+            }
+
+            public abstract override string ToString();
+
+            public string DisplayName
+            {
+                get
+                {
+                    return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
+                }
+            }
+
+            public bool Enabled { get; set; }
+
+            public string OverrideDisplayName { get; set; }
+
+            VisualClass IVisualisable.VisualClass
+            {
+                get
+                {
+                    return VisualClass.None;
+                }
+            }
+
+            IEnumerable<Column> IVisualisable.GetColumns(Core core)
+            {
+                List<Column<ConditionBase>> columns = new List<Column<ConditionBase>>();
+
+                columns.Add("Name", true, z => z.DisplayName);
+                columns.Add("Comments", false, z => z.Comment);
+                columns.Add("Enabled", false, z => z.Enabled);
+
+                return columns;
+            }
+
+            UiControls.ImageListOrder IVisualisable.GetIcon()
+            {
+                return UiControls.ImageListOrder.Filter;
+            }
+
+            IEnumerable<InfoLine> IVisualisable.GetInformation(Core core)
+            {
+                // NA
+                return null;
+            }
+
+            IEnumerable<InfoLine> IVisualisable.GetStatistics(Core core)
+            {
+                // NA
+                return null;
+            }
+
             public bool Preview(T target)
             {
                 return (Test(target) ^ Negate);
             }
 
+            void IVisualisable.RequestContents(ContentsRequest list)
+            {
+                // NA
+            }
+
             public bool Test(bool previousResult, T target)
             {
+                if (!Enabled)
+                {
+                    return true;
+                }
+
                 switch (CombiningOperator)
                 {
                     case ELogicOperator.And:
@@ -242,7 +371,7 @@ namespace MetaboliteLevels.Settings
         /// </summary>
         public override string ToString()
         {
-            return Name ?? ParamsAsString();
+            return DisplayName;
         }
 
         /// <summary>
@@ -355,8 +484,8 @@ namespace MetaboliteLevels.Settings
     {
         public static ObsFilter Empty = new ObsFilter(null, null, null);
 
-        public ObsFilter(string name, string comments, IEnumerable<Condition> filters)
-            : base(name, comments, filters)
+        public ObsFilter(string overrideDisplayName, string comment, IEnumerable<Condition> filters)
+            : base(overrideDisplayName, comment, filters)
         {
             // NA
         }

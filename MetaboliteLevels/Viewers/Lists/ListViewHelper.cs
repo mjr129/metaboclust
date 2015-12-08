@@ -61,49 +61,50 @@ namespace MetaboliteLevels.Viewers.Lists
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="lv">Listview to handle</param>
+        /// <param name="listView">Listview to handle</param>
         /// <param name="ts">Toolstrip to create options on</param>
         /// <param name="previewProvider">Provider of thumbnails</param>
-        protected ListViewHelper(ListView lv, Core core, IPreviewProvider previewProvider)
+        protected ListViewHelper(ListView listView, Core core, IPreviewProvider previewProvider)
         {
-            this._listView = lv;
+            this._listView = listView;
             this._previewProvider = previewProvider;
             this._core = core;
 
-            _imgListNormal = lv.SmallImageList;
+            _imgListNormal = listView.SmallImageList;
             _imgListPreviews = new ImageList();
             _imgListPreviews.ImageSize = new Size(64, 64);
 
             // Setup listview
-            lv.VirtualMode = true;
+            listView.VirtualMode = true;
 
             // Set events
-            lv.RetrieveVirtualItem += _listView_RetrieveVirtualItem;
-            lv.ItemActivate += _listView_ItemActivate;
-            lv.MouseDown += _listView_MouseDown;
+            listView.RetrieveVirtualItem += _listView_RetrieveVirtualItem;
+            listView.ItemActivate += _listView_ItemActivate;
+            listView.MouseDown += _listView_MouseDown;
 
-            lv.View = View.Details;
-            lv.HeaderStyle = ColumnHeaderStyle.Clickable;
-            lv.AllowColumnReorder = true;
-            lv.FullRowSelect = true;
-            lv.GridLines = true;
+            listView.View = View.Details;
+            listView.HeaderStyle = ColumnHeaderStyle.Clickable;
+            listView.AllowColumnReorder = true;
+            listView.FullRowSelect = true;
+            listView.GridLines = true;
 
-            if (lv.SmallImageList == null)
+            if (listView.SmallImageList == null)
             {
-                lv.SmallImageList = new ImageList();
-                lv.SmallImageList.ImageSize = new Size(24, 24);
-                UiControls.PopulateImageList(lv.SmallImageList);
+                listView.SmallImageList = new ImageList();
+                listView.SmallImageList.ImageSize = new Size(24, 24);
+                UiControls.PopulateImageList(listView.SmallImageList);
             }
 
-            if (lv.LargeImageList == null)
+            if (listView.LargeImageList == null)
             {
-                lv.LargeImageList = lv.SmallImageList;
+                listView.LargeImageList = listView.SmallImageList;
             }
 
             _toolStrip = new ToolStrip();
-            lv.Parent.Controls.Add(_toolStrip);
+            _toolStrip.Dock = DockStyle.Top;
+            listView.Parent.Controls.Add(_toolStrip);
             _toolStrip.BringToFront();
-            lv.BringToFront();
+            listView.BringToFront();
 
             _listView.ColumnClick += listView_ColumnClick;
             _listView.ColumnReordered += _listView_ColumnReordered;
@@ -512,7 +513,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         void tsExportVisible_Click(object sender, EventArgs e)
         {
-            string fn = _listView.FindForm().BrowseForFile(null, UiControls.EFileExtension.Csv  , FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
+            string fn = _listView.FindForm().BrowseForFile(null, UiControls.EFileExtension.Csv, FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
 
             if (fn != null)
             {
@@ -559,7 +560,11 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
 
                 string text = Encoding.UTF8.GetString(ms.ToArray());
-                Clipboard.SetText(text);
+
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    Clipboard.SetText(text);
+                }
             }
         }
 
@@ -700,7 +705,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
         protected void SetFont()
         {
-            _listView.Font = _enablePreviews ? UiControls.largeFont : UiControls.normalFont;
+            _listView.Font = _enablePreviews ? FontHelper.LargeRegularFont : FontHelper.RegularFont;
         }
 
         protected void ClearPreviewList()
@@ -1031,7 +1036,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
             else
             {
-                lvi.ImageIndex = tag.GetIcon();
+                lvi.ImageIndex = (int)tag.GetIcon();
             }
 
             // Update columns
@@ -1046,8 +1051,20 @@ namespace MetaboliteLevels.Viewers.Lists
                     ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem();
 
                     object result = c.GetRow(tag);
+                    Color color = c.GetColour(tag);
+
+                    if (!tag.Enabled)
+                    {
+                        lvsi.Font = FontHelper.StrikeFont;
+                        color = Color.Gray;
+                    }
+                    else
+                    {
+                        lvsi.Font = FontHelper.RegularFont;
+                    }
+
                     lvsi.Text = AsString(result);
-                    lvsi.ForeColor = c.GetColour(tag);
+                    lvsi.ForeColor = color;
 
                     lvi.SubItems.Add(lvsi);
                 }

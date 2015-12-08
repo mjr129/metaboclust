@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         {
         }
 
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // Get parameters
             // COUNT LIMIT
@@ -48,8 +48,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             // Do k-means (if requested)
             if (doKMeans)
             {
-                prog.ReportProgress("k-means");
+                prog.Enter("k-means");
                 LegacyClustererHelper.PerformKMeansCentering(vmatrix, autoGenClusters, args.Distance, prog);
+                prog.Leave();
             }
 
             // Return full list
@@ -61,7 +62,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// Ignores insignificant variables.
         /// Returns new clusters (these won't be added to the core so make sure to do so)
         /// </summary>
-        private static List<Cluster> AutogenerateClusters(ValueMatrix vmatrix, List<Cluster> seed, double? stoppingDistance, int? stoppingCount, ConfigurationMetric metric, ConfigurationClusterer tag, IProgressReporter prog)
+        private static List<Cluster> AutogenerateClusters(ValueMatrix vmatrix, List<Cluster> seed, double? stoppingDistance, int? stoppingCount, ConfigurationMetric metric, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // Make a log of whatever limits have been set
             if (!stoppingCount.HasValue && !stoppingDistance.HasValue)
@@ -78,9 +79,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             double distance = stoppingDistance ?? Double.MinValue;
 
             // Get the most distant variable
-            prog.ReportProgress("Initialising assignments");
+            prog.Enter("Initialising assignments");
             LegacyClustererHelper.Assign(vmatrix, result, ECandidateMode.Exemplars, metric, prog);
             Assignment mostDistant = GetMostDistantAssignment(result);
+            prog.Leave();
 
             // Continue until our limits are breached
             while ((count > 0) && (mostDistant.Score > distance))
@@ -88,7 +90,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
                 // Check we haven't got unreasonable limits
                 iterations++;
 
-                prog.ReportProgress("Centre generation (iteration " + iterations + ")");
+                prog.Enter("Centre generation (iteration " + iterations + ")");
 
                 if (iterations > 1000)
                 {
@@ -112,6 +114,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
                 // Get the next most distant variable
                 count = count - 1;
                 mostDistant = GetMostDistantAssignment(result);
+
+                prog.Leave();
             }
 
             // Return the number of iterations

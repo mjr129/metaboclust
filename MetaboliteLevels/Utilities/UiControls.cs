@@ -1,4 +1,6 @@
-﻿using System;
+﻿// #define ENABLE_DIMMER
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,41 +29,97 @@ namespace MetaboliteLevels.Utilities
     /// <summary>
     /// Miscellaneous functions.
     /// </summary>
-    static class UiControls
+    internal static class UiControls
     {
-        // Fonts
-        internal static Font normalFont;
-        internal static Font largeFont;
-        internal static Font boldFont;
-        internal static Font italicFont;
-        internal static Font strikeFont;
-        internal static Font largeBoldFont;
-
         // Dictionaries
-        internal static Dictionary<Version, string> BreakingVersions;
-        internal static Dictionary<int, string> ColourNames;
-        internal static int ColourIndex;
+        public static Dictionary<Version, string> BreakingVersions;
+        public static Dictionary<int, string> ColourNames;
+        public static int ColourIndex;
 
         // Random numbers
         public static Random Random;
 
-        // A zero-width space
-        // Yes it is really there!
+        // A zero-width space.
+        // Yes it is really there! Don't delete it.
         public const string ZEROSPACE = "​";
-        
-        private static string _startupPath;
 
-       
+        // Where the application stores its data.
+        private static string __startupPath;
 
+        /// <summary>
+        /// Initialises this class.
+        /// REQUIRED.
+        /// </summary>             
+        internal static void Initialise(Font font)
+        {
+            FontHelper.Initialise(font);
+            BreakingVersions = new Dictionary<Version, string>();
+            BreakingVersions.Add(new Version(1, 0, 0, 3565), "Refactoring.");
+            Random = new Random();
+        }
+
+        /// <summary>
+        /// (MJR) Shows an error provider on a control, using the application default position.
+        /// </summary>                                                                         
         public static void ShowError(this ErrorProvider self, Control control, string text)
         {
             self.SetError(control, text);
             self.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
         }
 
-       
+        /// <summary>
+        /// Adds a caption after the last item in the menu.
+        /// </summary>                                     
+        public static void AddMenuCaption(ToolStripDropDownMenu destination, string text)
+        {
+            ToolStripLabel tsl = new ToolStripLabel()
+            {
+                Text = Path.GetFileName(text) + " (explore)",
+                Tag = text,
+                Font = FontHelper.SmallRegularFont,
+                ForeColor = Color.SteelBlue,
+                Margin = new Padding(24, 0, 8, 8),
+                Visible = true,
+                LinkBehavior = LinkBehavior.HoverUnderline,
+                LinkColor = Color.SteelBlue,
+                IsLink = true,
+                TextAlign = ContentAlignment.TopLeft,
+                ToolTipText = text + "\r\nClick to show in Windows Explorer",
+            };
 
-      
+            tsl.AutoSize = false;
+            tsl.Size = tsl.GetPreferredSize(Size.Empty);
+            tsl.Text = Path.GetFileName(text);
+            tsl.MouseEnter += Tsl_MouseEnter;
+            tsl.MouseLeave += Tsl_MouseLeave;
+            tsl.Click += Tsl_Click;
+
+            destination.Items.Add(tsl);
+        }
+
+        private static void Tsl_MouseLeave(object sender, EventArgs e)
+        {
+            ToolStripLabel tsl = (ToolStripLabel)sender;
+
+            tsl.Text = Path.GetFileName((string)tsl.Tag);
+        }
+
+        private static void Tsl_MouseEnter(object sender, EventArgs e)
+        {
+            ToolStripLabel tsl = (ToolStripLabel)sender;
+
+            tsl.Text = Path.GetFileName((string)tsl.Tag) + " (explore)";
+        }
+
+        private static void Tsl_Click(object sender, EventArgs e)
+        {
+            ToolStripLabel tsl = (ToolStripLabel)sender;
+            Process.Start("explorer.exe", "/select,\"" + (string)tsl.Tag + "\"");
+        }
+
+        /// <summary>
+        /// Gets the application title.
+        /// </summary>                 
         public static string Title
         {
             get
@@ -70,7 +128,9 @@ namespace MetaboliteLevels.Utilities
                 return t.Title;
             }
         }
-
+        /// <summary>
+        /// Gets the application desceription.
+        /// </summary>          
         public static string Description
         {
             get
@@ -80,6 +140,9 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Gets the application version.
+        /// </summary>          
         public static Version Version
         {
             get
@@ -88,6 +151,9 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Gets the application version, as a string, including whether it is a debug build.
+        /// </summary>          
         public static string VersionString
         {
             get
@@ -96,21 +162,9 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        internal static void Initialise(Font Font)
-        {
-            largeFont = new Font("Segoe UI", 14, FontStyle.Regular);
-            normalFont = new Font("Segoe UI", 9, FontStyle.Regular);
-            boldFont = new Font(normalFont, FontStyle.Bold);
-            largeBoldFont = new Font("Segoe UI", 14, FontStyle.Bold);
-            italicFont = new Font(normalFont, FontStyle.Italic);
-            strikeFont = new Font(normalFont, FontStyle.Strikeout);
-            BreakingVersions = new Dictionary<Version, string>();
-            BreakingVersions.Add(new Version(1, 0, 0, 3565), "Refactoring.");
-            Random = new Random();
-        }
-
-       
-
+        /// <summary>
+        /// Converts a colour to its name.
+        /// </summary>                    
         public static string ColourToName(Color colour)
         {
             if (colour.IsNamedColor)
@@ -138,6 +192,9 @@ namespace MetaboliteLevels.Utilities
             return colour.R.ToString() + ", " + colour.G + ", " + colour.B;
         }
 
+        /// <summary>
+        /// Sets the properties of an object to their [DefaultAttribute] value.
+        /// </summary>                                                         
         public static void ApplyDefaultsFromAttributes(object obj)
         {
             foreach (PropertyInfo property in obj.GetType().GetProperties())
@@ -158,8 +215,12 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Shows a form, dimming the form behind it.
+        /// </summary>                               
         public static DialogResult ShowWithDim(Form owner, dynamic form)
         {
+#if ENABLE_DIMMER
             if (!owner.Visible)
             {
                 return form.ShowDialog(owner);
@@ -175,8 +236,14 @@ namespace MetaboliteLevels.Utilities
             owner.Focus();
 
             return result;
+#else
+            return form.ShowDialog(owner);
+#endif
         }
 
+        /// <summary>
+        /// Creates the overlay that dims a form.
+        /// </summary>  
         public static Form CreateDimmer(Form owner)
         {
             Form dimmer = new Form
@@ -197,6 +264,9 @@ namespace MetaboliteLevels.Utilities
             return dimmer;
         }
 
+        /// <summary>
+        /// Asserts the condition is true (regardless of build).
+        /// </summary>                             
         internal static void Assert(bool p, string message = null)
         {
             if (!p)
@@ -210,64 +280,88 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        public static class ImageListOrder
+        internal static Image GetImage(ImageListOrder v, bool bold)
         {
-            // keep in tandem
-            public const int Adduct = 0;
-            public const int Compound = 1;
-            public const int CompoundU = 2;
-            public const int Info = 3;
-            public const int InfoU = 4;
-            public const int List = 5;
-            public const int Pathway = 6;
-            public const int Cluster = 7;
-            public const int ClusterU = 8;
-            public const int Variable = 9;
-            public const int VariableU = 10;
-            public const int Line = 11;
-            public const int Assignment = 12;
-            public const int Warning = 13;
-            public const int TestFull = 14;
-            public const int TestEmpty = 15;
-            public const int Filter = 16;
-            public const int Statistic = 17;
-            public const int Point = 18;
-            public const int File = 19;
+            switch (v)
+            {
+                case ImageListOrder.Adduct: return bold ? Resources.ObjLAdduct : Resources.ObjAdduct;
+                case ImageListOrder.Compound: return bold ? Resources.ObjLCompound : Resources.ObjCompound;
+                case ImageListOrder.CompoundU: return bold ? Resources.ObjLCompoundU : Resources.ObjCompoundU;
+                case ImageListOrder.Info: return bold ? Resources.ObjLInfo : Resources.ObjInfo;
+                case ImageListOrder.InfoU: return bold ? Resources.ObjInfo : Resources.ObjInfoU; // No large
+                case ImageListOrder.List: return bold ? Resources.ObjList : Resources.ObjList; // No large
+                case ImageListOrder.Pathway: return bold ? Resources.ObjLPathway : Resources.ObjPathway;
+                case ImageListOrder.Cluster: return bold ? Resources.ObjLCluster : Resources.ObjCluster;
+                case ImageListOrder.ClusterU: return bold ? Resources.ObjCluster : Resources.ObjClusterU; // No large
+                case ImageListOrder.Variable: return bold ? Resources.ObjVariable : Resources.ObjVariable;
+                case ImageListOrder.VariableU: return bold ? Resources.ObjLVariableU : Resources.ObjVariableU;
+                case ImageListOrder.Line: return bold ? Resources.ObjLine : Resources.ObjLine; // No large
+                case ImageListOrder.Assignment: return bold ? Resources.ObjLAssignment : Resources.ObjAssignment;
+                case ImageListOrder.Warning: return bold ? Resources.MnuWarning : Resources.MnuWarning;
+                case ImageListOrder.TestFull: return bold ? Resources.TestFull : Resources.TestFull;
+                case ImageListOrder.TestEmpty: return bold ? Resources.TestEmpty : Resources.TestEmpty;
+                case ImageListOrder.Filter: return bold ? Resources.SmallObjFilter : Resources.SmallObjFilter;
+                case ImageListOrder.Statistic: return bold ? Resources.ObjLStatistics : Resources.ObjStatistics;
+                case ImageListOrder.Point: return bold ? Resources.ObjPoint : Resources.ObjPoint; // No large
+                case ImageListOrder.File: return bold ? Resources.MnuFile : Resources.MnuFile;
+                default: throw new SwitchException(v);
+            }
         }
 
+        /// <summary>
+        /// Order of images in the standard image list (see PopulateImageList).
+        /// </summary>
+        public enum ImageListOrder : int
+        {
+            MIN = 0,
+            Adduct = 0,
+            Compound = 1,
+            CompoundU = 2,
+            Info = 3,
+            InfoU = 4,
+            List = 5,
+            Pathway = 6,
+            Cluster = 7,
+            ClusterU = 8,
+            Variable = 9,
+            VariableU = 10,
+            Line = 11,
+            Assignment = 12,
+            Warning = 13,
+            TestFull = 14,
+            TestEmpty = 15,
+            Filter = 16,
+            Statistic = 17,
+            Point = 18,
+            File = 19,
+            MAX = File,
+        }
+
+        /// <summary>
+        /// Creates an image list with the common images (see ImageListOrder). 
+        /// </summary>                                            
         internal static void PopulateImageList(ImageList il)
         {
-            // keep in tandem
-            il.Images.Add("0", Resources.ObjAdduct);
-            il.Images.Add("1", Resources.ObjCompound);
-            il.Images.Add("2", Resources.ObjCompoundU);
-            il.Images.Add("3", Resources.ObjInfo);
-            il.Images.Add("4", Resources.ObjInfoU);
-            il.Images.Add("5", Resources.ObjList);
-            il.Images.Add("6", Resources.ObjPathway);
-            il.Images.Add("7", Resources.ObjCluster);
-            il.Images.Add("8", Resources.ObjClusterU);
-            il.Images.Add("9", Resources.ObjVariable);
-            il.Images.Add("10", Resources.ObjVariableU);
-            il.Images.Add("11", Resources.ObjLine);
-            il.Images.Add("12", Resources.ObjAssignment);
-            il.Images.Add("13", Resources.MnuWarning);
-            il.Images.Add("14", Resources.TestFull);
-            il.Images.Add("15", Resources.TestEmpty);
-            il.Images.Add("16", Resources.SmallObjFilter);
-            il.Images.Add("17", Resources.ObjStatistics);
-            il.Images.Add("18", Resources.ObjPoint);
-            il.Images.Add("19", Resources.MnuFile);
+            for (ImageListOrder n = ImageListOrder.MIN; n < ImageListOrder.MAX; n++)
+            {
+                il.Images.Add(n.ToString(), GetImage(n, false));
+            }
         }
 
+        /// <summary>
+        /// Returns true in the designer.
+        /// </summary>
         public static bool IsDesigning
         {
             get
             {
-                return normalFont == null;
+                return FontHelper.RegularFont == null;
             }
         }
 
+        /// <summary>
+        /// Returns true in a debug build.
+        /// </summary>
         public static bool IsDebug
         {
             get
@@ -280,11 +374,14 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Gets the manual text for the [topic].
+        /// </summary>                           
         internal static string GetManText(string topic)
         {
             StringBuilder sb = new StringBuilder();
             bool reading = false;
-            string manFile = Path.Combine(UiControls.StartupPath, "Manual.dat");
+            string manFile = Path.Combine(Application.StartupPath, "Manual.dat");
             topic = topic.ToUpper();
 
             if (!File.Exists(manFile))
@@ -317,6 +414,10 @@ namespace MetaboliteLevels.Utilities
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Sets the forms icon to the main application icon.
+        /// This is called on all forms.
+        /// </summary>                  
         internal static void SetIcon(Form frm)
         {
             //frm.Icon = Resources.MetaboliteExplorer;
@@ -324,6 +425,10 @@ namespace MetaboliteLevels.Utilities
             //frm.Font = new Font("Segoe UI", 14, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
+        /// <summary>
+        /// Stops the application looking weird if VisualStyles are off.
+        /// This is called on all forms but must be done AFTER control creation.
+        /// </summary>                 
         internal static void CompensateForVisualStyles(Form frm)
         {
             if (!Application.RenderWithVisualStyles)
@@ -332,6 +437,9 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Used by [CompensateForVisualStyles(Form)].
+        /// </summary>                               
         private static void CompensateForVisualStyles(Button obj)
         {
             if (obj.FlatStyle == FlatStyle.Standard || obj.FlatStyle == FlatStyle.System)
@@ -342,6 +450,9 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Disposes [d] if not null.
+        /// </summary>               
         internal static void Dispose(IDisposable d)
         {
             if (d != null)
@@ -350,11 +461,17 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Returns a new colour in sequence.
+        /// </summary>                       
         internal static Color NextColour()
         {
             return Maths.BasicColours[ColourIndex++ % Maths.BasicColours.Length];
         }
 
+        /// <summary>
+        /// File extensions.
+        /// </summary>
         public enum EFileExtension
         {
             //[Name("Sessions=mdat|MS-NRBF sessions=mdat-bin|Sesialised binary sessions=mdat-mbin|Serialied text format sessions=.mdat-tbin|Serialised fast binary sessions=mdat-fbin|Serialised compact binary sessions=mdat-cbin|XML sessions=mdat-xml|Data contact sessions=mdat-con")]
@@ -378,6 +495,9 @@ namespace MetaboliteLevels.Utilities
             RData
         }
 
+        /// <summary>
+        /// Application data folders.
+        /// </summary>
         public enum EInitialFolder
         {
             None,
@@ -411,8 +531,14 @@ namespace MetaboliteLevels.Utilities
 
             [Name("Evaluations")]
             Evaluations,
+
+            [Name("Temporary")]
+            Temporary,
         }
 
+        /// <summary>
+        /// Shows the browse file dialogue.
+        /// </summary>                     
         public static string BrowseForFile(this Form owner, string fileName, EFileExtension extension, FileDialogMode mode, EInitialFolder initialFolder)
         {
             if (mode == FileDialogMode.Save)
@@ -433,6 +559,9 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Used by [BrowseForFile].
+        /// </summary>                     
         private static string Browse(Form owner, FileDialog fd, string fileName, EFileExtension extension, EInitialFolder initialFolder)
         {
             if (!string.IsNullOrEmpty(fileName))
@@ -522,7 +651,7 @@ namespace MetaboliteLevels.Utilities
             return folder;
         }
 
-      
+
 
         /// <summary>
         /// (MJR) Shows a ContextMenuStrip at under [sender] if sender is a control, otherwise at the current mouse cursor position.
@@ -541,19 +670,18 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-       
-
+        /// <summary>
+        /// Restarts the program.
+        /// </summary>           
         internal static void RestartProgram()
         {
             Process.Start(Application.ExecutablePath);
             Application.Exit();
         }
 
-
-       
-
         /// <summary>
         /// Invokes the object's constructor on itself, potentially initialising the object.
+        /// Used in "OnDeserializing" methods to emulate XmlSerializer behaviour in [BinaryFormatter].
         /// </summary>
         internal static void InvokeConstructor(object self)
         {
@@ -584,8 +712,6 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-    
-
         /// <summary>
         /// Gets a sequentially numbered file.
         /// </summary>                        
@@ -606,39 +732,15 @@ namespace MetaboliteLevels.Utilities
             return fileName;
         }
 
-       
 
-        /// <summary>
-        /// (MJR) Converts an string to small caps.
-        /// </summary>
-        public static string ToSmallCaps(this string x)
+
+        internal static string GetTemporaryFile(string suffixAndExtension, Guid guid)
         {
-            //string caps = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘʀꜱᴛᴜᴠᴡʏᴢ";
-            string caps = "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ";
-            char[] result = new char[x.Length];
+            string dir = GetOrCreateFixedFolder(EInitialFolder.Temporary);
+            string fn = guid.ToString() + suffixAndExtension;
 
-            for (int n = 0; n < x.Length; n++)
-            {
-                char c = x[n];
-
-                if (c >= 'a' && c <= 'z')
-                {
-                    result[n] = caps[c - 'a'];
-                }
-                else if (c >= 'A' && c <= 'Z')
-                {
-                    result[n] = caps[c - 'A'];
-                }
-                else
-                {
-                    result[n] = c;
-                }
-            }
-
-            return new string(result);
+            return Path.Combine(dir, fn);
         }
-
-      
 
         /// <summary>
         /// Converts an image to grayscale.
@@ -698,7 +800,7 @@ namespace MetaboliteLevels.Utilities
             return result;
         }
 
-    
+
 
         /// <summary>
         /// Enumerates all controls within [ctrl] of type [T].
@@ -741,9 +843,6 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-      
-   
-
         /// <summary>
         /// Creates a color1 image with a color2 border.
         /// </summary>
@@ -785,16 +884,14 @@ namespace MetaboliteLevels.Utilities
                 if (text.Length != 0)
                 {
                     string txt = text.Substring(0, 1);
-                    var sz = g.MeasureString(txt, UiControls.boldFont);
+                    var sz = g.MeasureString(txt, FontHelper.BoldFont);
 
-                    g.DrawString(txt, UiControls.boldFont, Brushes.White, bmp.Width / 2 - sz.Width / 2, bmp.Height / 2 - sz.Height / 2);
+                    g.DrawString(txt, FontHelper.BoldFont, Brushes.White, bmp.Width / 2 - sz.Width / 2, bmp.Height / 2 - sz.Height / 2);
                 }
             }
 
             return bmp;
         }
-
-   
 
         /// <summary>
         /// Blends two colours.
@@ -926,11 +1023,17 @@ namespace MetaboliteLevels.Utilities
             return Blend(Color.Green, Color.Red, pct);
         }
 
-      
+        internal static Guid[] GenerateGuids(int length)
+        {
+            Guid[] result = new Guid[length];
 
-    
+            for (int n = 0; n < length; n++)
+            {
+                result[n] = Guid.NewGuid();
+            }
 
-     
+            return result;
+        }
 
         /// <summary>
         /// 
@@ -939,21 +1042,21 @@ namespace MetaboliteLevels.Utilities
         {
             get
             {
-                if (_startupPath == null)
+                if (__startupPath == null)
                 {
                     string rerouteFile = Path.Combine(Application.StartupPath, "reroute.txt");
 
                     if (File.Exists(rerouteFile))
                     {
-                        _startupPath = File.ReadAllText(rerouteFile).Trim();
+                        __startupPath = File.ReadAllText(rerouteFile).Trim();
                     }
                     else
                     {
-                        _startupPath = Application.StartupPath;
+                        __startupPath = Application.StartupPath;
                     }
                 }
 
-                return _startupPath;
+                return __startupPath;
             }
         }
 

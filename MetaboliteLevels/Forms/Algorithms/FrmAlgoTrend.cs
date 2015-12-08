@@ -53,9 +53,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (def != null)
             {
-                this._txtName.Text = def.Name;
+                this._txtName.Text = def.OverrideDisplayName;
                 this._lstMethod.SelectedItem = def.Cached;
-                this._comments = def.Comments;
+                this._comments = def.Comment;
                 this._txtParams.Text = AlgoParameters.ParamsToReversableString(def.Args.Parameters, core);
             }
 

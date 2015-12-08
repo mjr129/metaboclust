@@ -20,7 +20,7 @@ namespace MetaboliteLevels.Forms.Startup
             InitializeComponent();
             UiControls.SetIcon(this);
                                                   
-            ctlButton4.Visible = Debugger.IsAttached;
+            //ctlButton4.Visible = Debugger.IsAttached;
 
             this._txtDataSetData.Text = MainSettings.Instance.General.RBinPath;
             this._txtPathwayTools.Text = MainSettings.Instance.General.PathwayToolsDatabasesPath;
@@ -47,9 +47,16 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void TestFile(string p)
         {
-            if (File.Exists(Path.Combine(p, @"R.dll")))
+            string dll = Path.Combine(p, @"R.dll");
+
+            if (File.Exists(dll))
             {
-                _cmsR.Items.Add(p).Click += contextMenuStrip1_Click;
+                FileVersionInfo version = FileVersionInfo.GetVersionInfo(dll);
+
+                ToolStripMenuItem tsmi = new ToolStripMenuItem("Version " + version.FileVersion);
+                tsmi.Tag = p;
+                tsmi.Click += contextMenuStrip1_Click;
+                _cmsR.Items.Add(tsmi);
 
                 _potentials = true;
             }
@@ -57,7 +64,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         void contextMenuStrip1_Click(object sender, EventArgs e)
         {
-            _txtDataSetData.Text = ((ToolStripMenuItem)sender).Text;
+            _txtDataSetData.Text = (string)((ToolStripMenuItem)sender).Tag;
         }
 
         private void _btnDataSetData_Click(object sender, EventArgs e)

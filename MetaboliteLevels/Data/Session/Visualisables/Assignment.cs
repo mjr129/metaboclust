@@ -44,7 +44,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Comments
         /// </summary>
-        public string Title { get; set; }
+        public string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Statistics (from Silhouette Width)
@@ -61,6 +61,11 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         [NonSerialized]
         public double[] CurrentStatisticVector;
+
+        /// <summary>
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Ctor.
@@ -121,15 +126,11 @@ namespace MetaboliteLevels.Data.Visualisables
                    };
         }
 
-        public string DisplayName
+        public string DefaultDisplayName
         {
             get
             {
-                if (Title != null)
-                {
-                    return Title;
-                }
-                else if (this.Vector.Group == null)
+                if (this.Vector.Group == null)
                 {
                     return this.Cluster.DisplayName + "···" + this.Peak.DisplayName;
                 }
@@ -140,12 +141,20 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
-        public Image DisplayIcon
+        public string DisplayName
+        {
+            get
+            {
+                return IVisualisableExtensions.GetDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
+            }
+        }
+
+        public Image REMOVE_THIS_FUNCTION
         {
             get { return Resources.ObjLAssignment; }
         }
 
-        public int GetIcon()
+        public UiControls.ImageListOrder GetIcon()
         {
             return UiControls.ImageListOrder.Assignment;
         }

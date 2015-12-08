@@ -20,18 +20,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
     /// </summary>
     class ClustererReclusterer : ClustererBase
     {
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             ConfigurationClusterer config = ((WeakReference<ConfigurationClusterer>)args.Parameters[0]).GetTargetOrThrow();
             List<Cluster> myClusters = new List<Cluster>();
 
             // Iterate existing clusters
-            prog.ReportProgress("Iterating existing");
+            prog.Enter("Iterating existing");
 
             for (int index = 0; index < config.Results.Clusters.Length; index++)
             {
                 Cluster cluster = config.Results.Clusters[index];
-                prog.ReportProgress(index, config.Results.Clusters.Length);
+                prog.SetProgress(index, config.Results.Clusters.Length);
 
                 if (!cluster.States.HasFlag(Data.Visualisables.Cluster.EStates.Insignificants))
                 {
@@ -47,8 +47,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 }
             }
 
-            prog.ReportProgress("Assigning peaks");
+            prog.Leave();
+
+            prog.Enter("Assigning peaks");
             LegacyClustererHelper.Assign(vmatrix, myClusters, ECandidateMode.Exemplars, args.Distance, prog);
+            prog.Leave();
 
             Cluster matchCluster = new Cluster("Matches", tag);
             matchCluster.States |= Data.Visualisables.Cluster.EStates.Insignificants;

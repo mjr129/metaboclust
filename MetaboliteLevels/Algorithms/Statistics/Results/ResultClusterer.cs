@@ -82,7 +82,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         /// <summary>
         /// Action completed - calcula
         /// </summary>
-        internal void FinalizeResults(Core core, ConfigurationMetric metric, ValueMatrix vmatrix, DistanceMatrix dmatrix, EClustererStatistics statistics, IProgressReporter prog)
+        internal void FinalizeResults(Core core, ConfigurationMetric metric, ValueMatrix vmatrix, DistanceMatrix dmatrix, EClustererStatistics statistics, ProgressReporter prog)
         {
             UiControls.Assert(Assignments.IsEmpty(), "FinalizeResults on ClusterResults already called.");
 
@@ -106,7 +106,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
 
             // If we don't have a DMatrix we should calculate the sil. width manually
             // The DMatrix might be too big to pass to R so its better just to avoid it.
-            prog.ReportProgress("Calculating assignment statistics");
+            prog.Enter("Calculating assignment statistics");
             int progressIndicator = 0;
             List<ObsFilter> groupFilters = new List<ObsFilter>();
 
@@ -155,7 +155,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
 
                     foreach (Assignment assignment in cluster.Assignments.List)
                     {
-                        prog.ReportProgress(progressIndicator++, Assignments.Count * groupFilters.Count);
+                        prog.SetProgress(progressIndicator++, Assignments.Count * groupFilters.Count);
 
                         if (centreVector != null)
                         {
@@ -248,6 +248,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             {
                 this.ClustererStatistics.Add(STAT_CLUSTERER_BIC, ClustererStatisticsHelper.CalculateBic(realClusters, Assignments));
             }
+
+            prog.Leave();
         }
 
         private void AllGroupsFilters(Core core, List<ObsFilter> results)

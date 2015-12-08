@@ -31,16 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBigList));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnAdd = new MetaboliteLevels.Controls.CtlButton();
+            this._btnDuplicate = new MetaboliteLevels.Controls.CtlButton();
             this._btnRemove = new MetaboliteLevels.Controls.CtlButton();
             this._btnView = new MetaboliteLevels.Controls.CtlButton();
             this._btnEdit = new MetaboliteLevels.Controls.CtlButton();
@@ -49,7 +46,7 @@
             this._btnDown = new MetaboliteLevels.Controls.CtlButton();
             this._btnEnableDisable = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._btnDuplicate = new MetaboliteLevels.Controls.CtlButton();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -72,42 +69,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(960, 651);
             this.tableLayoutPanel2.TabIndex = 23;
-            // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.FullRowSelect = true;
-            this.listView1.HideSelection = false;
-            this.listView1.LargeImageList = this.imageList1;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Margin = new System.Windows.Forms.Padding(0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(810, 595);
-            this.listView1.SmallImageList = this.imageList1;
-            this.listView1.TabIndex = 4;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.ItemActivate += new System.EventHandler(this.listView1_ItemActivate);
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Name";
-            this.columnHeader1.Width = 480;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Algorithm";
-            this.columnHeader2.Width = 0;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Configuration";
-            this.columnHeader3.Width = 0;
             // 
             // imageList1
             // 
@@ -191,6 +152,20 @@
             this._btnAdd.UseDefaultSize = true;
             this._btnAdd.UseVisualStyleBackColor = false;
             this._btnAdd.Click += new System.EventHandler(this._btnAdd_Click);
+            // 
+            // _btnDuplicate
+            // 
+            this._btnDuplicate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this._btnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("_btnDuplicate.Image")));
+            this._btnDuplicate.Location = new System.Drawing.Point(8, 48);
+            this._btnDuplicate.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this._btnDuplicate.Name = "_btnDuplicate";
+            this._btnDuplicate.Size = new System.Drawing.Size(128, 40);
+            this._btnDuplicate.TabIndex = 6;
+            this._btnDuplicate.Text = "Duplicate";
+            this._btnDuplicate.UseDefaultSize = true;
+            this._btnDuplicate.UseVisualStyleBackColor = false;
+            this._btnDuplicate.Click += new System.EventHandler(this._btnDuplicate_Click);
             // 
             // _btnRemove
             // 
@@ -314,21 +289,18 @@
             this.ctlTitleBar1.Text = "Text goes here";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // _btnDuplicate
+            // listView1
             // 
-            this._btnDuplicate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("_btnDuplicate.Image")));
-            this._btnDuplicate.Location = new System.Drawing.Point(8, 48);
-            this._btnDuplicate.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._btnDuplicate.Name = "_btnDuplicate";
-            this._btnDuplicate.Size = new System.Drawing.Size(128, 40);
-            this._btnDuplicate.TabIndex = 6;
-            this._btnDuplicate.Text = "Duplicate";
-            this._btnDuplicate.UseDefaultSize = true;
-            this._btnDuplicate.UseVisualStyleBackColor = false;
-            this._btnDuplicate.Click += new System.EventHandler(this._btnDuplicate_Click);
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.Location = new System.Drawing.Point(0, 0);
+            this.listView1.Margin = new System.Windows.Forms.Padding(0);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(810, 595);
+            this.listView1.TabIndex = 25;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
             // 
-            // FrmStatisticsList
+            // FrmBigList
             // 
             this.AcceptButton = this._btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -339,7 +311,7 @@
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FrmStatisticsList";
+            this.Name = "FrmBigList";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Title goes here";
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -362,10 +334,6 @@
         private MetaboliteLevels.Controls.CtlButton _btnView;
         private MetaboliteLevels.Controls.CtlButton _btnEdit;
         private MetaboliteLevels.Controls.CtlButton _btnRemove;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
         private MetaboliteLevels.Controls.CtlButton _btnRename;
         private MetaboliteLevels.Controls.CtlButton _btnCancel;
         private Controls.CtlButton _btnUp;
@@ -373,5 +341,6 @@
         private Controls.CtlButton _btnEnableDisable;
         private System.Windows.Forms.ImageList imageList1;
         private Controls.CtlButton _btnDuplicate;
+        private System.Windows.Forms.ListView listView1;
     }
 }

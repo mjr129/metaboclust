@@ -101,35 +101,18 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Tests
         /// </summary>             
-        public static ListValueSet<ClusterEvaluationPointer> ForTests(Core core, List<ClusterEvaluationPointer> tests)
+        public static ListValueSet<ClusterEvaluationPointer> ForTests(Core core)
         {
             return new ListValueSet<ClusterEvaluationPointer>()
             {
                 Title = "Test Queue",
-                List = tests,
-                Namer = z => z.TestParameterDescription,
+                List = core.EvaluationResultFiles,
+                Namer = z => z.DisplayName,
                 Describer = z => z.ConfigurationDescription + (z.FileName != null ? ("\r\n @ " + z.FileName) : ""),
                 IconProvider = _GetIcon,
-                ItemEditor = (x, y, z) => FrmEvaluateClusteringOptions.Show(x, core, y, z),
-                ListEditor = z => EvaluationResultsEditor(z, core, tests),
+                ItemEditor = (x, y, z) => FrmEvaluateClusteringOptions.Show(x, core, y, z)
             };
-        }
-
-        /// <summary>
-        /// Used by [ForTests]
-        /// </summary>        
-        public static bool EvaluationResultsEditor(Form owner, Core core, List<ClusterEvaluationPointer> tests)
-        {
-            var newList = ForTests(core, tests).ShowBigList(owner);
-
-            if (newList != null)
-            {
-                tests.ReplaceAll(newList);
-                return true;
-            }
-
-            return false;
-        }
+        } 
 
         /// <summary>
         /// Acquisitions
@@ -148,7 +131,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Helper function for [ForTests]
         /// </summary>         
-        private static int _GetIcon(ClusterEvaluationPointer input)
+        private static UiControls.ImageListOrder _GetIcon(ClusterEvaluationPointer input)
         {
             if (input.HasResults)
             {
@@ -324,7 +307,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Title = "Peak Filters",
                 List = core.PeakFilters,
-                Describer = z => z.ParamsAsString() + z.Comments.FormatIf("\r\nComments: "),
+                Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListEditor = z => FrmBigList.ShowPeakFilters(z, core)
             };
         }
@@ -338,7 +321,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Title = "Observation Filters",
                 List = core.ObsFilters,
-                Describer = z => z.ParamsAsString() + z.Comments.FormatIf("\r\nComments: "),
+                Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListEditor = z => FrmBigList.ShowObsFilters(z, core)
             };
         }
@@ -376,7 +359,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// </summary>
         private static string _GetComment(ConfigurationBase z)
         {
-            return z.Description + z.Comments.FormatIf("\r\nComments: ");
+            return z.Description + z.Comment.FormatIf("\r\nComments: ");
         }
 
         /// <summary>

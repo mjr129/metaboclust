@@ -17,7 +17,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         {
         }
 
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // GET OPTIONS
             int k = (int)args.Parameters[0];
@@ -42,8 +42,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             }
 
             // Assign to exemplars
-            prog.ReportProgress("Initialising assignments");
+            prog.Enter("Initialising assignments");
             LegacyClustererHelper.Assign(vmatrix, clusters, Settings.ECandidateMode.Exemplars, args.Distance, prog);
+            prog.Leave();
 
             // Centre
             LegacyClustererHelper.PerformKMeansCentering(vmatrix, clusters, args.Distance, prog);

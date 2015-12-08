@@ -481,7 +481,6 @@
             this.toolTip1.SetToolTip(this.ctlButton4, "Shows the option to change the application workspace (you are seeing this option " +
         "because you are in debug mode).");
             this.ctlButton4.UseVisualStyleBackColor = false;
-            this.ctlButton4.Visible = false;
             this.ctlButton4.Click += new System.EventHandler(this.ctlButton4_Click);
             // 
             // _cmsR

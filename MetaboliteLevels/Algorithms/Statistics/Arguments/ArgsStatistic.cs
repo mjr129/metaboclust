@@ -65,7 +65,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
                         break;
 
                     case EAlgoInputBSource.AltPeak:
-                        r.Append("peak " + VectorBPeak.DisplayIcon);
+                        r.Append("peak " + VectorBPeak.REMOVE_THIS_FUNCTION);
                         break;
 
                     case EAlgoInputBSource.Time:

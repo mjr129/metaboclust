@@ -102,7 +102,7 @@ namespace MetaboliteLevels.Algorithms
         /// <param name="obsFilterOrNull">Filter or NULL (== ObsFilter.Empty)</param>
         /// <param name="splitGroups">Create a unique vector for each experimental group (as opposed to concatenating)</param>
         /// <returns>ValueMatrix for peaks</returns>
-        public static ValueMatrix Create(IReadOnlyList<Peak> peaks, bool useTrend, Core core, ObsFilter obsFilterOrNull, bool splitGroups, IProgressReporter prog)
+        public static ValueMatrix Create(IReadOnlyList<Peak> peaks, bool useTrend, Core core, ObsFilter obsFilterOrNull, bool splitGroups, ProgressReporter prog)
         {
             int x = peaks.Count;
             ConditionInfo[] obs1;
@@ -126,7 +126,7 @@ namespace MetaboliteLevels.Algorithms
                 GroupInfo group = groups[groupIndex];
                 int groupOffset = groupIndex * peaks.Count;
 
-                prog.ReportProgress(groupIndex, groups.Length);
+                prog.SetProgress(groupIndex, groups.Length);
 
                 if (useTrend)
                 {
@@ -321,7 +321,7 @@ namespace MetaboliteLevels.Algorithms
         /// <summary>
         /// Returns the distance matrix for a set of peaks.
         /// </summary>
-        public static DistanceMatrix Create(Core core, ValueMatrix valueMatrix, ConfigurationMetric metric, IProgressReporter prog)
+        public static DistanceMatrix Create(Core core, ValueMatrix valueMatrix, ConfigurationMetric metric, ProgressReporter prog)
         {
             int n = valueMatrix.NumVectors;
 
@@ -339,7 +339,7 @@ namespace MetaboliteLevels.Algorithms
 
             for (int i = 0; i < n; i++)
             {
-                prog.ReportProgress(i, n);
+                prog.SetProgress(i, n);
 
                 for (int j = 0; j < n; j++)
                 {

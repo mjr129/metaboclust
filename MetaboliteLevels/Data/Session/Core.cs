@@ -173,15 +173,15 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Saves all data
         /// </summary>
-        public void Save(string fileName)
+        public void Save(string fileName, ProgressReporter prog)
         {
-            XmlSettings.SaveToFile<Core>(fileName, this, SerialisationFormat.Infer);
+            XmlSettings.SaveToFile<Core>(fileName, this, SerialisationFormat.Infer, null, prog);
         }
 
         /// <summary>
         /// Loads all data
         /// </summary>
-        public static Core Load(string fileName, IProgressReporter progress)
+        public static Core Load(string fileName, ProgressReporter progress)
         {
             Core result = XmlSettings.LoadFromFile<Core>(fileName, SerialisationFormat.Infer, progress);
             result._cache = new CachedData(result);
@@ -355,15 +355,12 @@ namespace MetaboliteLevels.Data.Session
         /// Cluster stats : updated
         /// Clustering    : not changed - must be manually reperformed
         /// </summary>
-        internal bool SetCorrections(IReadOnlyList<ConfigurationCorrection> newList, bool refreshAll, bool updateStatistics, bool updateTrends, bool updateClusters, IProgressReporter reportProgress)
+        internal bool SetCorrections(IReadOnlyList<ConfigurationCorrection> newList, bool refreshAll, bool updateStatistics, bool updateTrends, bool updateClusters, ProgressReporter reportProgress)
         {
             bool result = true;
 
-            // Report
-            if (reportProgress != null)
-            {
-                reportProgress.ReportProgress("Applying corrections...");
-            }
+            // Report                        
+            reportProgress.Enter("Applying corrections...");
 
             if (newList == null)
             {
@@ -400,7 +397,7 @@ namespace MetaboliteLevels.Data.Session
                     {
                         if (reportProgress != null)
                         {
-                            reportProgress.ReportProgress(peakIndex, Peaks.Count, corIndex - firstChange, newListEnabled.Count);
+                            reportProgress.SetProgress(peakIndex, Peaks.Count, corIndex - firstChange, newListEnabled.Count);
                         }
 
                         Peak x = Peaks[peakIndex];
@@ -469,6 +466,8 @@ namespace MetaboliteLevels.Data.Session
                 }
             }
 
+            reportProgress.Leave();
+
             return result;
         }
 
@@ -530,15 +529,12 @@ namespace MetaboliteLevels.Data.Session
         /// Cluster stats : updated
         /// Clustering    : don't use statistics (ignored)
         /// </summary>
-        internal bool SetStatistics(IReadOnlyList<ConfigurationStatistic> newList, bool refreshAll, IProgressReporter reportProgress)
+        internal bool SetStatistics(IReadOnlyList<ConfigurationStatistic> newList, bool refreshAll, ProgressReporter reportProgress)
         {
             bool result = true;
 
-            // Report
-            if (reportProgress != null)
-            {
-                reportProgress.ReportProgress("Calculating statistics...");
-            }
+            // Report               
+            reportProgress.Enter("Calculating statistics...");
 
             if (newList == null)
             {
@@ -572,10 +568,7 @@ namespace MetaboliteLevels.Data.Session
                 {
                     for (int peakIndex = 0; peakIndex < Peaks.Count; peakIndex++)
                     {
-                        if (reportProgress != null)
-                        {
-                            reportProgress.ReportProgress(peakIndex, Peaks.Count, statIndex - firstChange, newListEnabled.Count - firstChange);
-                        }
+                        reportProgress.SetProgress(peakIndex, Peaks.Count, statIndex - firstChange, newListEnabled.Count - firstChange);
 
                         Peak x = Peaks[peakIndex];
                         double value = stat.Calculate(this, x);
@@ -605,6 +598,8 @@ namespace MetaboliteLevels.Data.Session
                 x.CalculateAveragedStatistics();
             }
 
+            reportProgress.Leave();
+
             return result;
         }
 
@@ -628,15 +623,12 @@ namespace MetaboliteLevels.Data.Session
         /// Cluster stats : updated with statistics
         /// Clustering    : not changed - must be manually reperformed
         /// </summary>
-        internal bool SetTrends(IEnumerable<ConfigurationTrend> newList, bool refreshAll, bool updateStatistics, bool updateClusters, IProgressReporter info)
+        internal bool SetTrends(IEnumerable<ConfigurationTrend> newList, bool refreshAll, bool updateStatistics, bool updateClusters, ProgressReporter info)
         {
             bool result = true;
 
             // Report
-            if (info != null)
-            {
-                info.ReportProgress("Calculating trends...");
-            }
+            info.Enter("Calculating trends...");
 
             if (newList == null)
             {
@@ -691,6 +683,8 @@ namespace MetaboliteLevels.Data.Session
                 SetClusterers(null, true, info);
             }
 
+            info.Leave();
+
             return result;
         }
 
@@ -699,11 +693,11 @@ namespace MetaboliteLevels.Data.Session
             return new ConfigurationTrend(null, null, Algo.ID_TREND_FLAT_MEAN, new ArgsTrend(null));
         }
 
-        private void _ApplyTrend(IProgressReporter info, ConfigurationTrend trend)
+        private void _ApplyTrend(ProgressReporter info, ConfigurationTrend trend)
         {
             for (int index = 0; index < Peaks.Count; index++)
             {
-                info.ReportProgress(index, Peaks.Count);
+                info.SetProgress(index, Peaks.Count);
 
                 Peak p = Peaks[index];
 
@@ -727,15 +721,12 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Sets clusters and applies clustering algorithm.
         /// </summary>
-        public bool SetClusterers(IEnumerable<ConfigurationClusterer> newList, bool refreshAll, IProgressReporter reportProgress)
+        public bool SetClusterers(IEnumerable<ConfigurationClusterer> newList, bool refreshAll, ProgressReporter reportProgress)
         {
             bool result = true;
 
-            // Report
-            if (reportProgress != null)
-            {
-                reportProgress.ReportProgress("Calculating clusters...");
-            }
+            // Report                        
+            reportProgress.Enter("Calculating clusters...");
 
             if (newList == null)
             {
@@ -795,6 +786,8 @@ namespace MetaboliteLevels.Data.Session
             this._clusterersComplete.ReplaceAll(newList);
             this._clusterers.ReplaceAll(newListEnabled);
 
+            reportProgress.Leave();
+
             return result;
         }
 
@@ -818,7 +811,7 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Adds and applies a single new clustering algorithm.
         /// </summary>
-        public void AddClusterer(ConfigurationClusterer toAdd, IProgressReporter setProgress)
+        public void AddClusterer(ConfigurationClusterer toAdd, ProgressReporter setProgress)
         {
             List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>(ClusterersComplete);
             existing.Add(toAdd);
@@ -874,28 +867,28 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Gets object GUIDs (prior to partial (de)serialisation)
         /// </summary>                                   
-        public GuidSerialiser GetLookups()
+        public LookupByGuidSerialiser GetLookups()
         {
             if (_guids == null)
             {
                 _guids = new Dictionary<Guid, WeakReference>();
             }
 
-            GuidSerialiser result = new GuidSerialiser(_guids);
+            LookupByGuidSerialiser result = new LookupByGuidSerialiser(_guids);
 
-            result.Add(typeof(Peak), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(Compound), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(Pathway), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(Adduct), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(PeakFilter), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ObsFilter), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ConfigurationCorrection), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ConfigurationStatistic), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ConfigurationClusterer), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ConfigurationTrend), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(GroupInfo), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ObservationInfo), GuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ConditionInfo), GuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(Peak), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(Compound), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(Pathway), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(Adduct), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(PeakFilter), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(ObsFilter), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(ConfigurationCorrection), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(ConfigurationStatistic), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            //result.Add(typeof(ConfigurationClusterer), LookupByGuidSerialiser.ETypeBehaviour.Default); <-- Don't add these because they can be temporary
+            result.Add(typeof(ConfigurationTrend), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(GroupInfo), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(ObservationInfo), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add(typeof(ConditionInfo), LookupByGuidSerialiser.ETypeBehaviour.Default);
 
             return result;
         }
@@ -903,9 +896,16 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Retrieves and sets object GUIDs (after partial serialisation)
         /// </summary>                                   
-        public void SetLookups(GuidSerialiser src)
+        /// <returns>If anything has changed</returns>
+        public bool SetLookups(LookupByGuidSerialiser src)
         {
-            src.Populate(_guids);
+            if (src.HasLookupTableChanged)
+            {
+                src.GetLookupTable(_guids);
+                return true;
+            }
+
+            return false;
         }
     }
 }

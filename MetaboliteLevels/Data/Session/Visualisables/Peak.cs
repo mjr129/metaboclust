@@ -31,16 +31,15 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly int Index;
 
-        /// <summary>     
-        /// Original name of this variable.
-        /// Use DisplayName to get the name.
+        /// <summary>
+        /// The ID (name) of the peak.
         /// </summary>
-        public readonly string Name;
+        public readonly string Id;
 
         /// <summary>
         /// User comments.
         /// </summary>
-        public string Title { get; set; }
+        public string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Which cluster has this been assigned to.
@@ -113,17 +112,33 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly ELcmsMode LcmsMode;
 
         /// <summary>
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
-        public Peak(int index, string name, PeakValueSet observations, PeakValueSet altObservations, ELcmsMode lcmsmode, decimal mz)
+        public Peak(int index, string id, PeakValueSet observations, PeakValueSet altObservations, ELcmsMode lcmsmode, decimal mz)
         {
             this.Index = index;
-            this.Name = name;
+            this.Id = id;
             this.OriginalObservations = observations;
             this.Observations = observations;
             this.AltObservations = altObservations;
             this.Mz = mz;
             this.LcmsMode = lcmsmode;
+        }
+
+        /// <summary>     
+        /// Default display name.
+        /// </summary>
+        public string DefaultDisplayName
+        {
+            get
+            {
+                return Id;
+            }
         }
 
         public override string ToString()
@@ -150,13 +165,13 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public string DisplayName
         {
-            get { return Title ?? Name; }
+            get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
         }
 
         /// <summary>
         /// Inherited from IVisualisable. 
         /// </summary>
-        public Image DisplayIcon
+        public Image REMOVE_THIS_FUNCTION
         {
             get
             {
@@ -179,8 +194,8 @@ namespace MetaboliteLevels.Data.Visualisables
             yield return new InfoLine("LC-MS mode", this.LcmsMode.ToUiString());
             yield return new InfoLine("m/z", Mz);
             yield return new InfoLine("Display name", DisplayName);
-            yield return new InfoLine("Original name", Name);
-            yield return new InfoLine("Custom name", Title);
+            yield return new InfoLine("Original name", DefaultDisplayName);
+            yield return new InfoLine("Custom name", OverrideDisplayName);
             yield return new InfoLine("№ Observations (all)", this.Observations.Raw.Length);
             yield return new InfoLine("№ Observations (trend)", this.Observations.Trend.Length);
             yield return new InfoLine("№ potential compounds", Annotations.Count);
@@ -386,7 +401,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return columns;
         }
 
-        public int GetIcon()
+        public UiControls.ImageListOrder GetIcon()
         {
             return this.Annotations.Count == 0 ? UiControls.ImageListOrder.VariableU : UiControls.ImageListOrder.Variable;
         }

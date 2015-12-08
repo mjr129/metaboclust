@@ -12,19 +12,29 @@ namespace MetaboliteLevels.Data.Visualisables
     interface ITitlable
     {
         /// <summary>
-        /// Name of this item.
+        /// Displayed name of this item.
         /// </summary>
         string DisplayName { get; }
 
         /// <summary>
-        /// User title (may be NULL)
+        /// Assigned name of this item.
         /// </summary>
-        string Title { get; set; }
+        string DefaultDisplayName { get; }
+
+        /// <summary>
+        /// User overriden name of this item
+        /// </summary>
+        string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Comments applied to this item.
         /// </summary>
         string Comment { get; set; }
+
+        /// <summary>
+        /// Is this object enabled?
+        /// </summary>
+        bool Enabled { get; set; }
     }
 
     /// <summary>
@@ -32,16 +42,16 @@ namespace MetaboliteLevels.Data.Visualisables
     /// Peaks...clusters...adducts...metabolites...pathways.
     /// </summary>
     interface IVisualisable : ITitlable
-    {         
+    {
         /// <summary>
         /// Icon for this item.
         /// </summary>
-        Image DisplayIcon { get; }
+        // Image REMOVE_THIS_FUNCTION { get; }
 
         /// <summary>
         /// Icon for this item (as an index - see [UiControls]).
         /// </summary>
-        int GetIcon();
+        UiControls.ImageListOrder GetIcon();
 
         /// <summary>
         /// VisualClass of IVisualisable.
@@ -101,6 +111,14 @@ namespace MetaboliteLevels.Data.Visualisables
             ContentsRequest cl = new ContentsRequest(core, self, type);
             self.RequestContents(cl);
             return cl;
+        }
+
+        /// <summary>
+        /// Gets the display name.
+        /// </summary>    
+        internal static string GetDisplayName(string userTitle, string defaultName)
+        {
+            return string.IsNullOrEmpty(userTitle) ? defaultName : userTitle;
         }
 
         /// <summary>

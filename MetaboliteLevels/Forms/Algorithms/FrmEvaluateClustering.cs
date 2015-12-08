@@ -42,11 +42,6 @@ namespace MetaboliteLevels.Forms.Algorithms
         private readonly ChartHelperForClusters _chcClusters;
         private readonly ListViewHelper<ColumnWrapper> _lvhStatistics;
 
-        /// <summary>
-        /// Results - see [ResultSetPointer]
-        /// </summary>
-        private readonly List<ClusterEvaluationPointer> availableResults = new List<ClusterEvaluationPointer>();
-
         private readonly Core _core;
         private readonly ConfigurationClusterer _templateConfig;
         private ClusterEvaluationResults _selectedResults;
@@ -65,7 +60,6 @@ namespace MetaboliteLevels.Forms.Algorithms
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
-            _core.EvaluationResultFiles.ReplaceAll(availableResults);
         }
 
         public FrmEvaluateClustering()
@@ -97,14 +91,13 @@ namespace MetaboliteLevels.Forms.Algorithms
                 core.EvaluationResultFiles = new List<ClusterEvaluationPointer>();
             }
 
-            availableResults = new List<ClusterEvaluationPointer>(core.EvaluationResultFiles); // core.EvaluationResults
-
             UiControls.CompensateForVisualStyles(this);
         }
 
         class ColumnWrapper : IVisualisable
         {
-            public string Title { get; set; }
+            public string OverrideDisplayName { get; set; }
+
             public string Comments { get; set; }
 
             private readonly ClusterEvaluationResults Results;
@@ -116,17 +109,21 @@ namespace MetaboliteLevels.Forms.Algorithms
                 this.Column = col;
             }
 
+            string ITitlable.DefaultDisplayName { get { return Column.Id; } }
+
+            bool ITitlable.Enabled { get { return true; } set { } }
+
             public string DisplayName
             {
-                get { return Title ?? Column.Id; }
+                get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, Column.Id); }
             }
 
-            public Image DisplayIcon
+            public Image REMOVE_THIS_FUNCTION
             {
                 get { return Resources.ObjLStatistics; }
             }
 
-            public int GetIcon()
+            UiControls.ImageListOrder IVisualisable.GetIcon()
             {
                 return UiControls.ImageListOrder.Statistic;
             }
@@ -168,8 +165,6 @@ namespace MetaboliteLevels.Forms.Algorithms
                 // NA
             }
         }
-
-
 
         private void SelectResults(ClusterEvaluationResults config)
         {
@@ -240,7 +235,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     if (node == null)
                     {
                         node = new TreeNode(elem);
-                        node.ImageIndex = UiControls.ImageListOrder.Line;
+                        node.ImageIndex = (int)UiControls.ImageListOrder.Line;
                         node.SelectedImageIndex = node.ImageIndex;
                         node.Name = elem;
                         col.Add(node);
@@ -249,7 +244,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     col = node.Nodes;
                 }
 
-                node.ImageIndex = UiControls.ImageListOrder.Statistic;
+                node.ImageIndex = (int)UiControls.ImageListOrder.Statistic;
                 node.SelectedImageIndex = node.ImageIndex;
                 node.Tag = v.Column;
             }
@@ -486,21 +481,29 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
+        private bool Paranoid
+        {
+            get
+            {
+                return paranoidModeToolStripMenuItem.Checked;
+            }
+        }
+
         /// <summary>
         /// Handles button: New test
         /// </summary>              
         private void _btnNewTest_Click(object sender, EventArgs e)
         {
-            if (!ListValueSet.EvaluationResultsEditor(this, _core, availableResults))
+            if (!FrmBigList.ShowTests(this, _core))
             {
                 return;
             }
 
-            bool hasError = false;
+            bool loop2 = false;
 
-            while (availableResults.Any(z => !z.HasResults))
+            while (_core.EvaluationResultFiles.Any(z => !z.HasResults && z.Enabled))
             {
-                var toRun = availableResults.Where(z => !z.HasResults).ToArray();
+                var toRun = _core.EvaluationResultFiles.Where(z => !z.HasResults && z.Enabled).ToArray();
 
                 if (toRun.Length == 0)
                 {
@@ -510,24 +513,24 @@ namespace MetaboliteLevels.Forms.Algorithms
                 FrmMsgBox.ButtonSet[] buttons;
                 string msg;
 
-                if (hasError)
+                if (loop2)
                 {
                     buttons = new FrmMsgBox.ButtonSet[]
-                {
-                    new FrmMsgBox.ButtonSet("Continue", Resources.MnuAccept, DialogResult.Yes),
-                    new FrmMsgBox.ButtonSet("Later", Resources.MnuAdd, DialogResult.No),
-                    new FrmMsgBox.ButtonSet("Discard", Resources.MnuDelete, DialogResult.Abort),
-               };
+                        {
+                            new FrmMsgBox.ButtonSet("Continue", Resources.MnuAccept, DialogResult.Yes),
+                            new FrmMsgBox.ButtonSet("Later", Resources.MnuAdd, DialogResult.No),
+                            new FrmMsgBox.ButtonSet("Discard", Resources.MnuDelete, DialogResult.Abort),
+                       };
 
                     msg = "An error occured but " + toRun.Length.ToString() + " tests are still queued. You can continue running them now, save them for later, or discard them.";
                 }
                 else
                 {
                     buttons = new FrmMsgBox.ButtonSet[]
-                       {
-                    new FrmMsgBox.ButtonSet("Now", Resources.MnuAccept, DialogResult.Yes),
-                    new FrmMsgBox.ButtonSet("Later", Resources.MnuAdd, DialogResult.No)
-               };
+                         {
+                            new FrmMsgBox.ButtonSet("Now", Resources.MnuAccept, DialogResult.Yes),
+                            new FrmMsgBox.ButtonSet("Later", Resources.MnuAdd, DialogResult.No)
+                       };
 
                     msg = toRun.Length.ToString() + " tests are ready to run. You can save these for later or run them now.";
                 }
@@ -542,94 +545,144 @@ namespace MetaboliteLevels.Forms.Algorithms
                         return;
 
                     case DialogResult.Abort:
-                        availableResults.RemoveAll(test => !test.HasResults);
+                        _core.EvaluationResultFiles.RemoveAll(test => !test.HasResults);
                         return;
                 }
 
-                foreach (var test in toRun)
+                if (Paranoid)
                 {
-                    ClusterEvaluationPointer pointerToFile = RunTest(test.Configuration);
-
-                    if (pointerToFile == null)
+                    if (string.IsNullOrWhiteSpace(_core.FileNames.Session))
                     {
-                        hasError = true;
-                        break;
+                        FrmMsgBox.ShowError(this, "The evaluations cannot be conducted because the session has not yet been saved. Please return to the main screen and save the session before continuing.");
+                        return;
                     }
+                    else if (!FrmMsgBox.ShowOkCancel(this, "Save Session", "To avoid data loss the current session must be saved. The current session is \"" + _core.FileNames.Session + "\".", null, "FrmEvaluateClustering.SaveBetweenEvaluations"))
+                    {
+                        return;
+                    }
+                }
 
-                    availableResults.Remove(test);
-                    availableResults.Add(pointerToFile);
+                BeginWait(_tlpHeaderParams);
+
+                try
+                {
+                    FrmWait.Show(this, "Please wait", null, z => RunTests(_core, toRun, z, Paranoid));
+                }
+                catch (Exception ex)
+                {
+                    FrmMsgBox.ShowError(this, ex);
+                }
+                finally
+                {
+                    EndWait(_tlpHeaderParams);
+                }
+
+                loop2 = true;
+            }
+        }
+
+        private static bool RunTests(Core core, ClusterEvaluationPointer[] toRun, ProgressReporter proggy, bool paranoid)
+        {
+            // Save the session because each test-config has a test-GUID that allows the user to 
+            // resume testing even if the previous results are lost. Saving the session assures 
+            // the user won't loose the test-configs.
+            // The session may also be saved if serialisation-GUIDs have changed, so this way
+            // we also ensure consistancy in that the session is ALWAYS saved.
+            if (paranoid)
+            {
+                SaveSession(core, proggy);
+            }
+
+            for (int n = 0; n < toRun.Length; n++)
+            {
+                var test = toRun[n];
+                ClusterEvaluationPointer pointerToFile;
+
+                try
+                {
+                    pointerToFile = RunTest(core, test, test.Configuration, proggy, paranoid, n, toRun.Length);
+                }
+                catch (Exception)
+                {
+                    test.Configuration.Enabled = false;
+                    throw;
+                }
+
+                core.EvaluationResultFiles.Remove(test);
+                core.EvaluationResultFiles.Add(pointerToFile);
+
+                // Test swapped for results!
+                if (paranoid)
+                {
+                    SaveSession(core, proggy);
                 }
             }
+
+            return true;
         }
 
         /// <summary>
         /// Actual test running
         /// </summary>             
-        private ClusterEvaluationPointer RunTest(ClusterEvaluationConfiguration test)
+        private static ClusterEvaluationPointer RunTest(Core core, ClusterEvaluationPointer origPointer, ClusterEvaluationConfiguration test, ProgressReporter proggy, bool paranoid, int index, int of)
         {
-            try
+            UiControls.Assert(core.FileNames.Session != null);
+
+            List<ClusterEvaluationParameterResult> results = new List<ClusterEvaluationParameterResult>();
+
+            // Iterate over parameters
+            for (int valueIndex = 0; valueIndex < test.ParameterValues.Length; valueIndex++)
             {
-                BeginWait(_tlpHeaderParams);
+                object value = test.ParameterValues[valueIndex];
 
-                List<ClusterEvaluationParameterResult> resultss = new List<ClusterEvaluationParameterResult>();
+                List<ResultClusterer> repetitions = new List<ResultClusterer>();
 
-                for (int valueIndex = 0; valueIndex < test.ParameterValues.Length; valueIndex++)
+                // Iterate over repetitions
+                for (int repetition = 0; repetition < test.NumberOfRepeats; repetition++)
                 {
-                    object value = test.ParameterValues[valueIndex];
+                    proggy.Enter("Test " + index + "/" + of + ", parameter " + valueIndex + "/" + test.ParameterValues.Length + ", repetition " + repetition + "/" + test.NumberOfRepeats);
 
-                    List<ResultClusterer> results = new List<ResultClusterer>();
+                    string newName = AlgoParameters.ParamToString(false, null, value) + " " + StringHelper.Circle(repetition + 1);
 
-                    for (int repetition = 0; repetition < test.NumberOfRepeats; repetition++)
+                    object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
+                    copyOfParameters[test.ParameterIndex] = value;
+                    ArgsClusterer copyOfArgs = new ArgsClusterer(test.ClustererConfiguration.Args.PeakFilter, test.ClustererConfiguration.Args.Distance, test.ClustererConfiguration.Args.SourceMode, test.ClustererConfiguration.Args.ObsFilter, test.ClustererConfiguration.Args.SplitGroups, test.ClustererConfiguration.Args.Statistics, copyOfParameters);
+                    var copyOfConfig = new ConfigurationClusterer(newName, test.ClustererConfiguration.Comment, test.ClustererConfiguration.Id, copyOfArgs);
+
+                    ResultClusterer result = TryLoadIntermediateResult(core, test.Guid, valueIndex, repetition, proggy);
+
+                    if (result == null)
                     {
-                        string newName = AlgoParameters.ParamToString(false, null, value) + " " + StringHelper.Circle(repetition + 1);
+                        proggy.Enter("Clustering");
+                        result = copyOfConfig.Cluster(core, 0, proggy);
+                        proggy.Leave();
 
-                        object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
-                        copyOfParameters[test.ParameterIndex] = value;
-                        ArgsClusterer copyOfArgs = new ArgsClusterer(test.ClustererConfiguration.Args.PeakFilter, test.ClustererConfiguration.Args.Distance, test.ClustererConfiguration.Args.SourceMode, test.ClustererConfiguration.Args.ObsFilter, test.ClustererConfiguration.Args.SplitGroups, test.ClustererConfiguration.Args.Statistics, copyOfParameters);
-                        var copyOfConfig = new ConfigurationClusterer(newName, test.ClustererConfiguration.Comments, test.ClustererConfiguration.Id, copyOfArgs);
-
-                        string title = "Generating Clusters (test " + (valueIndex + 1) + " of " + test.ParameterValues.Length + ")";
-
-                        try
+                        if (paranoid)
                         {
-                            results.Add(FrmWait.Show<ResultClusterer>(this, title, "Please wait", z => copyOfConfig.Cluster(_core, 0, z)));
-                        }
-                        catch (Exception ex)
-                        {
-                            FrmMsgBox.ShowError(this, "Error performing clustering", ex);
-                            test.Enabled = false;
-                            return null;
+                            SaveIntermediateResult(core, test.Guid, valueIndex, repetition, result, proggy);
                         }
                     }
 
+                    repetitions.Add(result);
+
                     string name = AlgoParameters.ParamToString(false, null, value);
 
-                    resultss.Add(new ClusterEvaluationParameterResult(name, test, valueIndex, results));
-                }
+                    results.Add(new ClusterEvaluationParameterResult(name, test, valueIndex, repetitions));
 
-                ClusterEvaluationResults final = new ClusterEvaluationResults(_core, test, resultss);
-
-                string folder = UiControls.GetOrCreateFixedFolder(UiControls.EInitialFolder.Evaluations);
-                string sessionName = Path.GetFileNameWithoutExtension(_core.FileNames.Session);
-                string fileName = _core.Options.ClusteringEvaluationResultsFileName;
-                fileName = fileName.Replace("{SESSION}", sessionName);
-                fileName = fileName.Replace("{RESULTS}", folder + "\\");
-
-                try
-                {
-                    return SaveResults(fileName, final);
-                }
-                catch (Exception ex)
-                {
-                    test.Enabled = false;
-                    FrmMsgBox.ShowError(this, "Error saving results", ex);
-                    return null;
+                    proggy.Leave();
                 }
             }
-            finally
-            {
-                EndWait(_tlpHeaderParams);
-            }
+
+            ClusterEvaluationResults final = new ClusterEvaluationResults(core, test, results);
+
+            string folder = UiControls.GetOrCreateFixedFolder(UiControls.EInitialFolder.Evaluations);
+            string sessionName = Path.GetFileNameWithoutExtension(core.FileNames.Session);
+            string fileName = core.Options.ClusteringEvaluationResultsFileName;
+            fileName = fileName.Replace("{SESSION}", sessionName);
+            fileName = fileName.Replace("{RESULTS}", folder + "\\");
+            fileName = UiControls.GetNewFile(fileName);
+
+            return SaveResults(core, fileName, origPointer, final, proggy);
         }
 
         /// <summary>
@@ -639,14 +692,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             if (_selectedResults != null)
             {
-                if (_selectedResults.Configuration.ClustererConfiguration == null)
-                {
-                    FrmMsgBox.ShowInfo(this, "Configuration", _selectedResults.Configuration.ClustererDescription);
-                }
-                else
-                {
-                    FrmAlgoCluster.Show(this, _core, _selectedResults.Configuration.ClustererConfiguration, true, null, true);
-                }
+                FrmAlgoCluster.Show(this, _core, _selectedResults.Configuration.ClustererConfiguration, true, null, true);
             }
         }
 
@@ -667,24 +713,103 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return;
             }
 
-            SaveResults(fn, _selectedResults);
+            FrmWait.Show(this, "Please wait", null, z => SaveResults(_core, fn, null, _selectedResults, z));
 
             FrmMsgBox.Show(this, "Export Notice", null, "Results have been exported. Exported data will only be compatible with the current data set.", Resources.MsgInfo, dontShowAgainId: "FrmEvaluateClustering.ExportNotice");
         }
 
         /// <summary>
         /// Saves results to file
+        /// 
+        /// Returns pointer (unless originalPointer is NULL, in which case the action is assumed to be an export and is ignored).
         /// </summary>          
-        private ClusterEvaluationPointer SaveResults(string fileName, ClusterEvaluationResults results)
+        private static ClusterEvaluationPointer SaveResults(Core core, string fileName, ClusterEvaluationPointer originalPointer, ClusterEvaluationResults results, ProgressReporter proggy)
         {
-            GuidSerialiser guidS = _core.GetLookups();
+            LookupByGuidSerialiser guidS = core.GetLookups();
 
-            FrmWait.Show(this, "Saving results", null,
-                () => XmlSettings.SaveToFile(fileName, results, SerialisationFormat.Infer, guidS));
+            proggy.Enter("Saving results");
+            XmlSettings.SaveToFile(fileName, results, SerialisationFormat.Infer, guidS, proggy);
 
-            _core.SetLookups(guidS);
+            if (core.SetLookups(guidS))
+            {
+                // UIDs have changed
+                SaveSession(core, proggy);
+            }
 
-            return new ClusterEvaluationPointer(fileName, results);
+            proggy.Leave();
+
+            if (originalPointer == null)
+            {
+                return null;
+            }
+
+            return new ClusterEvaluationPointer(fileName, originalPointer);
+        }
+
+        /// <summary>
+        /// I wrote this when the program crashed after an hour.
+        /// Intermediate results can now be saved to avoid losing data.
+        /// </summary>          
+        private static void SaveIntermediateResult(Core core, Guid guid, int value, int repetition, ResultClusterer result, ProgressReporter proggy)
+        {
+            string fileName = UiControls.GetTemporaryFile("." + value + "." + repetition + ".intermediate.dat", guid);
+
+            LookupByGuidSerialiser guidS = core.GetLookups();
+
+            proggy.Enter("Saving intermediate results");
+            XmlSettings.SaveToFile<ResultClusterer>(fileName, result, SerialisationFormat.MSerialiserCompactBinary, guidS, proggy);
+
+            if (core.SetLookups(guidS))
+            {
+                // UIDs have changed
+                SaveSession(core, proggy);
+            }
+
+            proggy.Leave();
+        }
+
+        /// <summary>
+        /// Saves the core after GUIDs have changed.
+        /// </summary>
+        private static void SaveSession(Core core, ProgressReporter proggy)
+        {
+            proggy.Enter("Saving session");
+            core.Save(core.FileNames.Session, proggy);
+            proggy.Leave();
+        }
+
+        /// <summary>
+        /// I wrote this when the program crashed after an hour.
+        /// Intermediate results can now be saved to avoid losing data.
+        /// </summary>          
+        private static ResultClusterer TryLoadIntermediateResult(Core core, Guid guid, int value, int repetition, ProgressReporter proggy)
+        {
+            string fileName = UiControls.GetTemporaryFile("." + value + "." + repetition + ".intermediate.dat", guid);
+
+            if (!File.Exists(fileName))
+            {
+                return null;
+            }
+
+            LookupByGuidSerialiser guidS = core.GetLookups();
+
+            proggy.Enter("Loading saved results");
+            ResultClusterer result;
+
+            try
+            {
+                result = XmlSettings.LoadFromFile<ResultClusterer>(fileName, SerialisationFormat.MSerialiserCompactBinary, proggy, guidS);
+            }
+            catch
+            {
+                proggy.Leave();
+                return null;
+            }
+
+            UiControls.Assert(!guidS.HasLookupTableChanged);
+            proggy.Leave();
+
+            return result;
         }
 
         /// <summary>
@@ -697,19 +822,22 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         public static ClusterEvaluationResults LoadResults(Form owner, Core core, string fileName)
         {
-            GuidSerialiser guidS = core.GetLookups();
+            LookupByGuidSerialiser guidS = core.GetLookups();
 
             ClusterEvaluationResults set = FrmWait.Show(owner, "Loading results", null,
                 z => XmlSettings.LoadFromFile<ClusterEvaluationResults>(fileName, SerialisationFormat.Infer, z, guidS));
 
-            if (set.CoreGuid != core.CoreGuid)
+            if (set != null)
             {
-                if (FrmMsgBox.Show2(owner, "Error", null, "The result set loaded was not created using the current session", Resources.MsgError,
-                    new FrmMsgBox.ButtonSet("Abort", Resources.MnuCancel, DialogResult.Cancel),
-                    new FrmMsgBox.ButtonSet("Ignore", Resources.MnuWarning, DialogResult.Ignore),
-                    null, 0, 0) == DialogResult.Cancel)
+                if (set.CoreGuid != core.CoreGuid)
                 {
-                    return null;
+                    if (FrmMsgBox.Show2(owner, "Error", null, "The result set loaded was not created using the current session", Resources.MsgError,
+                        new FrmMsgBox.ButtonSet("Abort", Resources.MnuCancel, DialogResult.Cancel),
+                        new FrmMsgBox.ButtonSet("Ignore", Resources.MnuWarning, DialogResult.Ignore),
+                        null, 0, 0) == DialogResult.Cancel)
+                    {
+                        return null;
+                    }
                 }
             }
 
@@ -729,10 +857,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             ClusterEvaluationResults set = LoadResults(fn);
+            ClusterEvaluationPointer fakePointer = new ClusterEvaluationPointer(set.Configuration);
 
             if (set != null)
             {
-                this.availableResults.Add(new ClusterEvaluationPointer(fn, set));
+                _core.EvaluationResultFiles.Add(new ClusterEvaluationPointer(fn, fakePointer));
                 SelectResults(set);
             }
         }
@@ -742,7 +871,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// </summary>  
         private void _btnLoad_Click_1(object sender, EventArgs e)
         {
-            if (this.availableResults.Count == 0)
+            if (_core.EvaluationResultFiles.Count == 0)
             {
                 FrmMsgBox.ButtonSet[] buttons =
                     {
@@ -767,22 +896,24 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
             }
 
-            ClusterEvaluationPointer res = ListValueSet.ForTests(_core, this.availableResults).ShowButtons(this);
+            ClusterEvaluationPointer res = ListValueSet.ForTests(_core).ShowButtons(this);
 
-            if (res != null)
+            if (res == null)
             {
-                if (!res.HasResults)
-                {
-                    FrmMsgBox.ShowError(this, "Load Data", "This test has not yet been run.");
-                    return;
-                }
+                return;
+            }
 
-                ClusterEvaluationResults set = LoadResults(res.FileName);
+            if (!res.HasResults)
+            {
+                FrmMsgBox.ShowError(this, "Load Data", "This test has not yet been run!");
+                return;
+            }
 
-                if (set != null)
-                {
-                    SelectResults(set);
-                }
+            ClusterEvaluationResults set = LoadResults(res.FileName);
+
+            if (set != null)
+            {
+                SelectResults(set);
             }
         }
 

@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Forms.Editing
     /// </summary>
     public partial class FrmDebug : Form, IProgressReporter
     {
-        private Stopwatch _lastProgressTime = Stopwatch.StartNew();
+        private Stopwatch _lastProgressFlash = Stopwatch.StartNew();
         private int _waitCounter;
         private Core _core;
         private bool _result;
@@ -66,17 +66,13 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        public void ReportProgress(string title)
-        {
-            toolStripStatusLabel2.Text = title;
-        }
 
         private void BeginWait(string p, bool pb = false)
         {
             _waitCounter++;
             toolStripStatusLabel2.Text = p;
             toolStripStatusLabel2.Visible = true;
-            _lastProgressTime.Restart();
+            _lastProgressFlash.Restart();
             _statusMain.BackColor = Color.Red;
             _statusMain.Refresh();
 
@@ -89,8 +85,10 @@ namespace MetaboliteLevels.Forms.Editing
         /// <summary>
         /// Updates the progress bar
         /// </summary>
-        public void ReportProgress(int value)
+        void IProgressReporter.ReportProgressDetails(string title, int value)
         {
+            toolStripStatusLabel2.Text = title;
+
             if (value > 0)
             {
                 toolStripProgressBar1.Maximum = 100;
@@ -104,11 +102,11 @@ namespace MetaboliteLevels.Forms.Editing
 
             _statusMain.Refresh();
 
-            if (_lastProgressTime.ElapsedMilliseconds > 1000)
+            if (_lastProgressFlash.ElapsedMilliseconds > 1000)
             {
-                _lastProgressTime.Restart();
+                _lastProgressFlash.Restart();
                 _statusMain.BackColor = _statusMain.BackColor == Color.Red ? Color.Orange : Color.Red;
-            }
+            }               
         }
 
         private FrmDebug()
@@ -156,7 +154,7 @@ namespace MetaboliteLevels.Forms.Editing
             ConfigurationClusterer config = new ConfigurationClusterer("create_clusters_from_pathways",
                                                                        "create_clusters_from_pathways", Algo.ID_PATFROMPATH, args);
 
-            _core.AddClusterer(config, this);
+            _core.AddClusterer(config, new ProgressReporter(this));
 
             EndWait();
         }
@@ -174,7 +172,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
 
             FrmInputLarge.ShowFixed(this, "Debugging", "Type Info", null, sb.ToString());
-        }       
+        }
 
         [InList]
         [Description("Input and run R command and view the result")]
@@ -201,13 +199,15 @@ namespace MetaboliteLevels.Forms.Editing
         [Description("Finds the closest and most different peaks")]
         void find_distance_range()
         {
+            ProgressReporter prog = new ProgressReporter(this);
+
             double smallest = double.MaxValue;
             double largest = double.MinValue;
             Tuple<Peak, Peak> smallestT = null;
             Tuple<Peak, Peak> largestT = null;
             ConfigurationMetric metric = new ConfigurationMetric(null, null, Algo.ID_METRIC_EUCLIDEAN, null);
-            ValueMatrix vmatrix = ValueMatrix.Create(_core.Peaks, true, _core, ObsFilter.Empty, false, this);
-            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix, metric, this);
+            ValueMatrix vmatrix = ValueMatrix.Create(_core.Peaks, true, _core, ObsFilter.Empty, false, prog);
+            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix, metric, prog);
 
             for (int peakIndex1 = 0; peakIndex1 < _core.Peaks.Count; peakIndex1++)
             {
@@ -247,9 +247,10 @@ namespace MetaboliteLevels.Forms.Editing
         [Description("Compares two peaks")]
         void compare_variables()
         {
+            ProgressReporter prog = new ProgressReporter(this);
             ConfigurationMetric metric = new ConfigurationMetric(null, null, Algo.ID_METRIC_EUCLIDEAN, null);
-            ValueMatrix vmatrix = ValueMatrix.Create(_core.Peaks, true, _core, ObsFilter.Empty, false, this);
-            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix, metric, this);
+            ValueMatrix vmatrix = ValueMatrix.Create(_core.Peaks, true, _core, ObsFilter.Empty, false, prog);
+            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix, metric, prog);
 
             Peak v1 = PickVariable();
 
@@ -367,7 +368,7 @@ namespace MetaboliteLevels.Forms.Editing
             FrmMsgBox.ShowInfo(this, "Message", "This is a message");
 
             FrmInputLarge.ShowFixed(this, "Break query", "Allow debugger to take control", "Showing text stored in temporary string", "");
-        }                        
+        }
 
         [Description("View object fields")]
         [InList]
@@ -403,7 +404,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 foreach (Peak p in _core.Peaks)
                 {
-                    p.Title = hc.ConvertToString(p, _core);
+                    p.OverrideDisplayName = hc.ConvertToString(p, _core);
                 }
             }
         }
@@ -593,7 +594,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             EndWait();
 
-            string fn = UiControls.BrowseForFile(this, null, UiControls.EFileExtension.Csv , FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
+            string fn = UiControls.BrowseForFile(this, null, UiControls.EFileExtension.Csv, FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
 
             if (fn != null)
             {
@@ -601,7 +602,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 FrmMsgBox.ShowCompleted(this, "Extract Profiles", "Data saved to: " + fn);
             }
-        }       
+        }
 
         [InList]
         [Description("View information about the current dataset.")]

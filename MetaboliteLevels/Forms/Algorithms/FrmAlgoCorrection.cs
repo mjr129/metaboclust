@@ -212,10 +212,10 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Default
             if (def != null)
             {
-                _txtName.Text = def.Name;
+                _txtName.Text = def.OverrideDisplayName;
                 _txtParameters.Text = AlgoParameters.ParamsToReversableString(def.Args.Parameters, core);
                 _lstMethod.SelectedItem = def.Cached;
-                _comments = def.Comments;
+                _comments = def.Comment;
 
                 if (def.IsUsingTrend)
                 {

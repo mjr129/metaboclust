@@ -23,7 +23,7 @@ namespace MetaboliteLevels.Utilities
         private readonly string _fn;
         private int _ln;
 
-        public PathwayToolsReader(string fn, IProgressReporter prog)
+        public PathwayToolsReader(string fn, ProgressReporter prog)
         {
             _fn = fn;
             var fs = File.OpenRead(fn);

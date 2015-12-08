@@ -148,7 +148,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
             }
             else if (x is Compound)
             {
-                button1.Text = "Click here to view " + ((Compound)x).Name + " online";
+                button1.Text = "Click here to view " + ((Compound)x).DefaultDisplayName + " online";
 
                 button1.Tag = x;
 
@@ -164,8 +164,8 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
                 chart1.Visible = true;
                 chart2.Visible = false;
 
-                _lblTitle.Text = c.Name;
-                _lblSubtitle.Text = "Plot of " + c.Annotations.Select(z => z.Peak).Unique().Count + " variables potentially representing " + c.Name + ".";
+                _lblTitle.Text = c.DefaultDisplayName;
+                _lblSubtitle.Text = "Plot of " + c.Annotations.Select(z => z.Peak).Unique().Count + " variables potentially representing " + c.DefaultDisplayName + ".";
 
                 if (pp != null)
                 {
@@ -176,7 +176,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
             }
             else if (x is Pathway)
             {
-                button1.Text = "Click here to view " + ((Pathway)x).Name + " online";
+                button1.Text = "Click here to view " + ((Pathway)x).DefaultDisplayName + " online";
 
                 button1.Tag = x;
 
@@ -191,8 +191,8 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
                 chart1.Visible = true;
                 chart2.Visible = false;
 
-                _lblTitle.Text = p.Name;
-                _lblSubtitle.Text = "Plot of " + fakeCluster.Cluster.Assignments.Count + " variables potentially representing compounds in the " + p.Name + " pathway.\r\nEach compound or group of compounds are shown in a different colour.";
+                _lblTitle.Text = p.DefaultDisplayName;
+                _lblSubtitle.Text = "Plot of " + fakeCluster.Cluster.Assignments.Count + " variables potentially representing compounds in the " + p.DefaultDisplayName + " pathway.\r\nEach compound or group of compounds are shown in a different colour.";
                 _patChart.Plot(fakeCluster);
             }
 

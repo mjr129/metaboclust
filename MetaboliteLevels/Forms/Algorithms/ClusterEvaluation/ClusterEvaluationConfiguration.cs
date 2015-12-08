@@ -9,10 +9,11 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
-{                    
+{
     /// <summary>
     /// A configuration for a test (either to be run or already run)
     /// </summary>
+    [Serializable]
     class ClusterEvaluationConfiguration
     {
         public readonly ConfigurationClusterer ClustererConfiguration;
@@ -23,18 +24,20 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
         public readonly string[] ParameterValuesAsString;
         public readonly double[] ParameterValuesAsDouble;
-        public readonly string ParameterName;
-        public readonly string ClustererDescription;
+        public readonly string ParameterName;            
+
+        private readonly Guid _guid;
+        public Guid Guid { get { return _guid; } }
 
         public ClusterEvaluationConfiguration(ConfigurationClusterer clustererConfiguration, int parameter, object[] values, int numberOfTimes)
         {
             this.ClustererConfiguration = clustererConfiguration;
             this.ParameterIndex = parameter;
             this.ParameterValues = values;
+            this._guid = Guid.NewGuid();
             this.NumberOfRepeats = numberOfTimes;
 
-            this.ParameterName = clustererConfiguration.Cached.GetParams().Parameters[ParameterIndex].Name;
-            this.ClustererDescription = clustererConfiguration.Description;
+            this.ParameterName = clustererConfiguration.Cached.GetParams().Parameters[ParameterIndex].Name;   
             this.ParameterValuesAsString = ParameterValues.Select(AlgoParameters.ParamToString).ToArray();
             this.ParameterValuesAsDouble = ParameterValues.Select(ToDouble).ToArray();
         }
@@ -53,7 +56,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
         public override string ToString()
         {
-            return ClustererDescription + " : " + ParamsAsString;
+            return ClustererConfiguration.DisplayName + " : " + ParamsAsString;
         }
 
         public string ParamsAsString

@@ -3,6 +3,10 @@ using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using System.Collections.Generic;
 using System.Linq;
 using MetaboliteLevels.Algorithms.Statistics.Results;
+using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
@@ -11,12 +15,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// See the typed class ConfigurationBase(of TStat, TArgs) for more details.
     /// </summary>
     [Serializable]
-    abstract class ConfigurationBase
+    abstract class ConfigurationBase : IVisualisable
     {
         // Name/Comments are for info and can be changed without having to change the object and recalculate the statistic
-        public string Name;
-        public string Comments;
-        public bool Enabled;
         public string Error { get; protected set; }
 
         // ID and parameters for algorithm
@@ -24,8 +25,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
         protected ConfigurationBase(string name, string comments, string id)
         {
-            Name = name;
-            Comments = comments;
+            OverrideDisplayName = name;
+            Comment = comments;
             Id = id;
             Enabled = true;
         }
@@ -38,8 +39,39 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         public abstract bool IsAvailable { get; }
         public abstract string AlgoName { get; }
         public abstract string ArgsToString { get; }
-        public abstract string Description { get; }
         public abstract bool HasResults { get; }
+
+        VisualClass IVisualisable.VisualClass { get { return VisualClass.None; } }
+
+        public string Description
+        {
+            get
+            {
+                return AlgoName + "; " + ArgsToString;
+            }
+        }
+
+        public override string ToString()
+        {
+            return DisplayName;
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
+            }
+        }
+
+        public string DefaultDisplayName { get { return Description; } }
+
+        public string OverrideDisplayName { get; set; }
+
+        public string Comment { get; set; }
+
+        public bool Enabled { get; set; }
+
         public abstract void ClearResults();
 
         public void SetError(Exception ex)
@@ -56,6 +88,50 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         public void ClearError()
         {
             Error = null;
+        }
+
+        UiControls.ImageListOrder IVisualisable.GetIcon()
+        {
+            if (HasError)
+            {
+                return UiControls.ImageListOrder.Warning;
+            }
+            else if (HasResults)
+            {
+                return UiControls.ImageListOrder.TestFull;
+            }
+            else
+            {
+                return UiControls.ImageListOrder.TestEmpty;
+            }
+        }
+
+        IEnumerable<InfoLine> IVisualisable.GetInformation(Core core)
+        {
+            // NA
+            return null;
+        }
+
+        IEnumerable<InfoLine> IVisualisable.GetStatistics(Core core)
+        {
+            // NA
+            return null;
+        }
+
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        {
+            List<Column<ConfigurationBase>> columns = new List<Column<ConfigurationBase>>();
+
+            columns.Add("Name", true, z => z.DisplayName);
+            columns.Add("Comments", false, z => z.Comment);
+            columns.Add("Enabled", false, z => z.Enabled);
+
+            return columns;
+        }
+
+        void IVisualisable.RequestContents(ContentsRequest list)
+        {
+            // NA
         }
     }
 
@@ -193,26 +269,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             get
             {
                 return Args == null ? string.Empty : Args.ToString(TryGetCached());
-            }
-        }
-
-        public override string Description
-        {
-            get
-            {
-                return AlgoName + "; " + ArgsToString;
-            }
-        }
-
-        public override string ToString()
-        {
-            if (Name != null)
-            {
-                return Name;
-            }
-            else
-            {
-                return Description;
             }
         }
     }

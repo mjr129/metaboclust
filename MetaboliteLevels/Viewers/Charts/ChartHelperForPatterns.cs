@@ -301,9 +301,10 @@ namespace MetaboliteLevels.Viewers.Charts
                 g.Clear(Color.LightGray);
                 g.DrawLine(Pens.Silver, 0, 0, width, height);
                 g.DrawLine(Pens.Silver, width, 0, 0, height);
-                Rectangle rect = new Rectangle(sz.Width / 2 - x.DisplayIcon.Width / 2, sz.Height / 2 - x.DisplayIcon.Height / 2, x.DisplayIcon.Width, x.DisplayIcon.Height);
+                Image icon = UiControls.GetImage(x.GetIcon(), true);
+                Rectangle rect = new Rectangle(sz.Width / 2 - icon.Width / 2, sz.Height / 2 - icon.Height / 2, icon.Width, icon.Height);
                 g.FillRectangle(Brushes.White, rect);
-                g.DrawImage(x.DisplayIcon, rect);
+                g.DrawImage(icon, rect);
                 g.DrawRectangle(Pens.Silver, rect);
             }
 

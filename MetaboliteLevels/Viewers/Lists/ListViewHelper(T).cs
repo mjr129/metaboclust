@@ -16,7 +16,7 @@ using MetaboliteLevels.Utilities;
 namespace MetaboliteLevels.Viewers.Lists
 {
     partial class ListViewHelper<T> : ListViewHelper, ICoreWatcher
-        where T : class, IVisualisable
+        where T : IVisualisable
     {
         private Func<Core, IEnumerable<T>> _sourceOption1;
         private ContentsRequest _sourceOption2;
@@ -35,19 +35,19 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             if (_sourceOption1 != null)
             {
-                return _sourceOption1(_core);
+                return (IEnumerable<IVisualisable>)_sourceOption1(_core);
             }
             else if (_sourceOption2 != null)
             {
-                return _sourceOption2.Keys.Cast<T>();
+                return (IEnumerable<IVisualisable>)_sourceOption2.Keys.Cast<T>();
             }
             else if (_sourceOption3 != null)
             {
-                return _sourceOption3;
+                return (IEnumerable<IVisualisable>)_sourceOption3;
             }
             else
             {
-                return new List<T>();
+                return new List<IVisualisable>();
             }
         }
 

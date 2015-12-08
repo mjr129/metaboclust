@@ -230,12 +230,12 @@ namespace MetaboliteLevels.Viewers.Charts
 
             if (!ParseElementCollection.IsNullOrEmpty(_core.Options.PlotTitle))
             {
-                _chart.Titles.Add(new Title(_core.Options.PlotTitle.ConvertToString(o, _core), Docking.Top, UiControls.largeBoldFont, _core.Options.Colours.AxisTitle));
+                _chart.Titles.Add(new Title(_core.Options.PlotTitle.ConvertToString(o, _core), Docking.Top, FontHelper.LargeBoldFont, _core.Options.Colours.AxisTitle));
             }
 
             if (!ParseElementCollection.IsNullOrEmpty(_core.Options.PlotSubTitle))
             {
-                _chart.Titles.Add(new Title(_core.Options.PlotSubTitle.ConvertToString(o, _core), Docking.Top, UiControls.italicFont, _core.Options.Colours.AxisTitle));
+                _chart.Titles.Add(new Title(_core.Options.PlotSubTitle.ConvertToString(o, _core), Docking.Top, FontHelper.ItalicFont, _core.Options.Colours.AxisTitle));
             }
         }
 

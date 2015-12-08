@@ -63,58 +63,68 @@ namespace MetaboliteLevels.Settings
     /// </summary>
     static class XmlSettings
     {
-        public static void Save<T>(string id, SerialisationFormat format, T data)
+        public static void Save<T>(string id, SerialisationFormat format, T data, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             string fn = GetFile(id, format);
 
-            SaveToFile<T>(fn, data, format);
+            SaveToFile<T>(fn, data, format, serialiser, prog);
         }
 
-        public static void SaveToFile<T>(string fn, T data, SerialisationFormat format, ObjectSerialiser serialiser = null)
+        public static void SaveToFile<T>(string fn, T data, SerialisationFormat format, ObjectSerialiser serialiser, ProgressReporter prog)
         {
-            // Create backup
-            if (MainSettings.Instance.General.AutoBackup)
-            {
-                if (File.Exists(fn))
-                {
-                    string bakFile = fn + ".bak";
-
-                    if (File.Exists(bakFile))
-                    {
-                        File.Delete(bakFile);
-                    }
-
-                    File.Move(fn, bakFile);
-                }
-            }
-
-            if (data == null)
-            {
-                // Special case for deleting files
-                File.Delete(fn);
-                return;
-            }
-
-            // Save to a temporary file (in case we get an error we don't want to destroy the original by saving over it with a corrupt copy)
-            string tempFile = fn + ".tmp";
+            // Can't cancel halfway through writing a file
+            prog.DisableThrowOnCancel();
 
             try
             {
-                using (Stream sw = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+                // Create backup
+                if (MainSettings.Instance.General.AutoBackup)
                 {
-                    format = Infer(fn, format);
-                    Serialise<T>(data, sw, format, serialiser);
-                }
-            }
-            catch
-            {
-                File.Delete(tempFile);
-                throw;
-            }
+                    if (File.Exists(fn))
+                    {
+                        string bakFile = fn + ".bak";
 
-            // Move the temp file to the new location
-            File.Delete(fn);
-            File.Move(tempFile, fn);
+                        if (File.Exists(bakFile))
+                        {
+                            File.Delete(bakFile);
+                        }
+
+                        File.Move(fn, bakFile);
+                    }
+                }
+
+                if (data == null)
+                {
+                    // Special case for deleting files
+                    File.Delete(fn);
+                    return;
+                }
+
+                // Save to a temporary file (in case we get an error we don't want to destroy the original by saving over it with a corrupt copy)
+                string tempFile = fn + ".tmp";
+
+                try
+                {
+                    using (Stream sw = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+                    {
+                        format = Infer(fn, format);
+                        _Serialise<T>(data, sw, format, serialiser, prog);
+                    }
+                }
+                catch
+                {
+                    File.Delete(tempFile);
+                    throw;
+                }
+
+                // Move the temp file to the new location
+                File.Delete(fn);
+                File.Move(tempFile, fn);
+            }
+            finally
+            {
+                prog.ReenableThrowOnCancel();
+            }
         }
 
         private static SerialisationFormat Infer(string fn, SerialisationFormat format)
@@ -177,24 +187,24 @@ namespace MetaboliteLevels.Settings
             return dcs;
         }
 
-        private static void Serialise<T>(T data, Stream s, SerialisationFormat format, ObjectSerialiser serialiser)
+        private static void _Serialise<T>(T data, Stream s, SerialisationFormat format, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             switch (format)
             {
                 case SerialisationFormat.MSerialiserBinary:
-                    MSerialiser.SerialiseStream(s, data, ETransmission.Binary, serialiser);
+                    MSerialiser.SerialiseStream(s, data, ETransmission.Binary, new[] { serialiser }, prog);
                     return;
 
                 case SerialisationFormat.MSerialiserText:
-                    MSerialiser.SerialiseStream(s, data, ETransmission.Text, serialiser);
+                    MSerialiser.SerialiseStream(s, data, ETransmission.Text, new[] { serialiser }, prog);
                     return;
 
                 case SerialisationFormat.MSerialiserCompactBinary:
-                    MSerialiser.SerialiseStream(s, data, ETransmission.CompactBinary, serialiser);
+                    MSerialiser.SerialiseStream(s, data, ETransmission.CompactBinary, new[] { serialiser }, prog);
                     return;
 
                 case SerialisationFormat.MSerialiserFastBinary:
-                    MSerialiser.SerialiseStream(s, data, ETransmission.FastBinary, serialiser);
+                    MSerialiser.SerialiseStream(s, data, ETransmission.FastBinary, new[] { serialiser }, prog);
                     return;
 
                 case SerialisationFormat.Xml:
@@ -217,21 +227,21 @@ namespace MetaboliteLevels.Settings
             }
         }
 
-        private static T Deserialise<T>(Stream s, SerialisationFormat format, ObjectSerialiser serialiser)
+        private static T Deserialise<T>(Stream s, SerialisationFormat format, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             switch (format)
             {
                 case SerialisationFormat.MSerialiserBinary:
-                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.Binary, serialiser);
+                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.Binary, new[] { serialiser }, prog);
 
                 case SerialisationFormat.MSerialiserText:
-                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.Text, serialiser);
+                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.Text, new[] { serialiser }, prog);
 
                 case SerialisationFormat.MSerialiserCompactBinary:
-                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.CompactBinary, serialiser);
+                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.CompactBinary, new[] { serialiser }, prog);
 
                 case SerialisationFormat.MSerialiserFastBinary:
-                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.FastBinary, serialiser);
+                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.FastBinary, new[] { serialiser }, prog);
 
                 case SerialisationFormat.Xml:
                     var xs = CreateXmlSerialiser<T>();
@@ -257,29 +267,29 @@ namespace MetaboliteLevels.Settings
             return result;
         }
 
-        public static T LoadFromFile<T>(string fn, SerialisationFormat format, IProgressReporter progress, ObjectSerialiser serialiser = null)
+        public static T LoadFromFile<T>(string fn, SerialisationFormat format, ProgressReporter progress, ObjectSerialiser serialiser = null)
         {
             T result;
             TryLoadFromFile(fn, format, progress, out result, default(T), serialiser);
             return result;
         }
 
-        public static T Load<T>(string id, SerialisationFormat format, T @default, ObjectSerialiser serialiser)
+        public static T Load<T>(string id, SerialisationFormat format, T @default, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             T result;
-            TryLoad(id, format, null, out result, @default, serialiser);
+            TryLoad(id, format, prog, out result, @default, serialiser);
             return result;
         }
 
-        public static void SaveLoad<T>(bool save, string id, ref T @default)
+        public static void SaveLoad<T>(bool save, string id, ref T @default, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             if (save)
             {
-                Save(id, SerialisationFormat.Binary, @default);
+                Save(id, SerialisationFormat.Binary, @default, serialiser, prog);
             }
             else
             {
-                @default = Load(id, SerialisationFormat.Binary, @default, null);
+                @default = Load(id, SerialisationFormat.Binary, @default, serialiser, prog);
             }
         }
 
@@ -300,19 +310,19 @@ namespace MetaboliteLevels.Settings
             return TryLoad(id, format, null, out result, default(T), serialiser);
         }
 
-        public static bool TryLoadFromFile<T>(string fn, SerialisationFormat format, IProgressReporter progress, out T result, ObjectSerialiser serialiser)
+        public static bool TryLoadFromFile<T>(string fn, SerialisationFormat format, ProgressReporter progress, out T result, ObjectSerialiser serialiser)
         {
             return TryLoadFromFile(fn, format, progress, out result, default(T), serialiser);
         }
 
-        public static bool TryLoad<T>(string id, SerialisationFormat format, IProgressReporter progress, out T result, T @default, ObjectSerialiser serialiser)
+        public static bool TryLoad<T>(string id, SerialisationFormat format, ProgressReporter progress, out T result, T @default, ObjectSerialiser serialiser)
         {
             string fn = GetFile(id, format);
 
             return TryLoadFromFile<T>(fn, format, progress, out result, @default, serialiser);
         }
 
-        public static bool TryLoadFromFile<T>(string fn, SerialisationFormat format, IProgressReporter progress, out T result, T @default, ObjectSerialiser serialiser)
+        public static bool TryLoadFromFile<T>(string fn, SerialisationFormat format, ProgressReporter progress, out T result, T @default, ObjectSerialiser serialiser)
         {
             if (!File.Exists(fn))
             {
@@ -330,12 +340,12 @@ namespace MetaboliteLevels.Settings
                     {
                         using (ProgressStream ps = new ProgressStream(sr, progress))
                         {
-                            result = Deserialise<T>(ps, format, serialiser);
+                            result = Deserialise<T>(ps, format, serialiser, progress);
                         }
                     }
                     else
                     {
-                        result = Deserialise<T>(sr, format, serialiser);
+                        result = Deserialise<T>(sr, format, serialiser, progress);
                     }
                 }
 

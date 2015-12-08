@@ -24,7 +24,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// ACTION!
         /// </summary>
-        internal ResultClusterer Cluster(Core core, int isPreview, IProgressReporter prog)
+        internal ResultClusterer Cluster(Core core, int isPreview, ProgressReporter prog)
         {
             // Get results
             ValueMatrix vmatrix;

@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                               "ClustererScript must take at least one of value matrix or distance matrix");
         }
 
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             object[] inputs =
             {
@@ -34,11 +34,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 _script.IsInputPresent(1) ? dmatrix.Values : null
             };
 
-            prog.ReportProgress("Running script");
-            prog.ReportProgress(-1);
+            prog.Enter("Running script");
+            prog.SetProgressMarquee();
             int[] clusters = Arr.Instance.RunScriptIntV(_script, inputs, args.Parameters).ToArray();
-            prog.ReportProgress("Creating clusters");
-            return CreateClustersFromIntegers(vmatrix, clusters, tag);
+            prog.Leave();
+            prog.Enter("Creating clusters");
+            var result = CreateClustersFromIntegers(vmatrix, clusters, tag);
+            prog.Leave();
+            return result;
         }
 
         public override AlgoParameters GetParams()

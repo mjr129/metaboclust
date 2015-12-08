@@ -31,7 +31,12 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// User modifiable comment
         /// </summary>
-        public string Title { get; set; }
+        public string OverrideDisplayName { get; set; }
+
+        /// <summary>
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Constructor
@@ -43,15 +48,23 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Adduct = adduct;
         }
 
+        public string DefaultDisplayName
+        {
+            get
+            {
+                return Compound.DisplayName;
+            }
+        }
+
         public string DisplayName
         {
             get
             {
-                return Title ?? Compound.Name;
+                return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, Compound.DisplayName);
             }
         }
 
-        public Image DisplayIcon
+        public Image REMOVE_THIS_FUNCTION
         {
             get
             {
@@ -67,7 +80,7 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
-        public int GetIcon()
+        public UiControls.ImageListOrder GetIcon()
         {
             return UiControls.ImageListOrder.Compound;
         }

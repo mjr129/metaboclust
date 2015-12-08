@@ -264,6 +264,7 @@
     <Compile Include="Algorithms\Statistics\Statistics\StatisticScript.cs" />
     <Compile Include="Utilities\EnumHelper.cs" />
     <Compile Include="Utilities\FieldWriter.cs" />
+    <Compile Include="Utilities\FontHelper.cs" />
     <Compile Include="Utilities\IProgressReporter.cs" />
     <Compile Include="Utilities\MetaInfoCollection.cs" />
     <Compile Include="Utilities\PartialSerialisationSurrogate.cs" />

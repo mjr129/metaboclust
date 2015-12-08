@@ -19,9 +19,9 @@ namespace MetaboliteLevels.Data.Visualisables
     class Adduct : IVisualisable
     {
         /// <summary>
-        /// Adduct name (may be NULL - use DisplayName)
+        /// Adduct name (may be NULL)
         /// </summary>
-        public string Name;
+        private readonly string _defaultName;
 
         /// <summary>
         /// Charge
@@ -42,7 +42,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// User comments.
         /// </summary>
-        public string Title { get; set; }
+        public string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Annotations
@@ -55,11 +55,16 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly MetaInfoCollection MetaInfo = new MetaInfoCollection();
 
         /// <summary>
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public Adduct(string name, int charge, decimal mz)
         {
-            this.Name = name;
+            this._defaultName = name;
             this.Charge = charge;
             this.Mz = mz;
         }
@@ -71,7 +76,25 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return Name == null;
+                return DefaultDisplayName == null;
+            }
+        }
+
+        /// <summary>
+        /// Default display name.
+        /// </summary>
+        public string DefaultDisplayName
+        {
+            get
+            {
+                if (_defaultName == null)
+                {
+                    return "Unknown adduct";
+                }
+                else
+                {
+                    return _defaultName;
+                }
             }
         }
 
@@ -82,18 +105,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                if (Title != null)
-                {
-                    return Title;
-                }
-                else if (Name == null)
-                {
-                    return "Unknown adduct";
-                }
-                else
-                {
-                    return Name;
-                }
+                return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
             }
         }
 
@@ -108,7 +120,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Implements IVisualisable. 
         /// </summary>
-        public Image DisplayIcon
+        public Image REMOVE_THIS_FUNCTION
         {
             get { return Resources.ObjLAdduct; }
         }
@@ -122,7 +134,7 @@ namespace MetaboliteLevels.Data.Visualisables
             yield return new InfoLine("Comment", Comment);
             yield return new InfoLine("Display name", DisplayName);
             yield return new InfoLine("Mass", Mz);
-            yield return new InfoLine("Name", Name);
+            yield return new InfoLine("Name", DefaultDisplayName);
             yield return new InfoLine("Class", VisualClass);
 
             foreach (InfoLine il in core._adductsMeta.ReadAll(this.MetaInfo))
@@ -194,14 +206,14 @@ namespace MetaboliteLevels.Data.Visualisables
         public IEnumerable<Column> GetColumns(Session.Core core)
         {
             List<Column<Adduct>> result = new List<Column<Adduct>>();
-            result.Add("Name", true, λ => λ.Name);
+            result.Add("Name", true, λ => λ.DefaultDisplayName);
             result.Add("Charge", false, λ => λ.Charge);
             result.Add("Mass", false, λ => λ.Mz);
             result.Add("Comment", false, λ => λ.Comment);
             return result;
         }
 
-        public int GetIcon()
+        public UiControls.ImageListOrder GetIcon()
         {
             // IMAGE
             return UiControls.ImageListOrder.Adduct;

@@ -128,7 +128,7 @@ namespace MetaboliteLevels.Controls
                 }
 
                 lvi.SubItems.Add(il.Value == null ? "" : il.Value.ToString());
-                lvi.ImageIndex = il.IsMeta ? UiControls.ImageListOrder.InfoU : UiControls.ImageListOrder.Info;
+                lvi.ImageIndex = (int)(il.IsMeta ? UiControls.ImageListOrder.InfoU : UiControls.ImageListOrder.Info);
                 lvi.ForeColor = il.IsMeta ? Color.DarkBlue : Color.Black;
                 list.Items.Add(lvi);
             }

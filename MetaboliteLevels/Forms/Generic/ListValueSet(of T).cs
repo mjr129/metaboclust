@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session;
 
 namespace MetaboliteLevels.Forms.Generic
 {
@@ -63,7 +65,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// How to get icons for the list (OPTIONAL)
         /// </summary>
-        public Converter<T, int> IconProvider { get; set; }
+        public Converter<T, UiControls.ImageListOrder> IconProvider { get; set; }
 
         /// <summary>
         /// How to modify the list (OPTIONAL)
@@ -248,9 +250,10 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Shows the big list (FrmBigList).
         /// </summary>         
-        public List<T> ShowBigList(Form owner)
+        public List<T> ShowBigList<T2>(ListValueSet<T2> self, Form owner, Core core)
+            where T2 : IVisualisable
         {
-            return FrmBigList.ShowGeneric(owner, this, false);
+            return (List<T>)(object)FrmBigList.ShowGeneric<T2>(owner, core, self, false);
         }
 
         /// <summary>

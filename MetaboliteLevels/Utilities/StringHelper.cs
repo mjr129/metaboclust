@@ -16,6 +16,36 @@ namespace MetaboliteLevels.Utilities
         private static Dictionary<string, string> _strings = new Dictionary<string, string>();
 
         /// <summary>
+        /// (MJR) Converts an string to small caps.
+        /// </summary>
+        public static string ToSmallCaps(this string x)
+        {
+            //string caps = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘʀꜱᴛᴜᴠᴡʏᴢ";
+            string caps = "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ";
+            char[] result = new char[x.Length];
+
+            for (int n = 0; n < x.Length; n++)
+            {
+                char c = x[n];
+
+                if (c >= 'a' && c <= 'z')
+                {
+                    result[n] = caps[c - 'a'];
+                }
+                else if (c >= 'A' && c <= 'Z')
+                {
+                    result[n] = caps[c - 'A'];
+                }
+                else
+                {
+                    result[n] = c;
+                }
+            }
+
+            return new string(result);
+        }
+
+        /// <summary>
         /// (MJR) Like PadRight / PadLeft but also truncates the string if it is too long.
         /// </summary>
         public static string FixWidth(this string str, int wid = 10, bool r = true)
@@ -219,6 +249,18 @@ namespace MetaboliteLevels.Utilities
 
             return result;
         }
+
+        internal static string TimeAsString(TimeSpan elapsed)
+        {
+            if (elapsed.TotalMinutes > 1)
+            {
+                return (int)elapsed.TotalMinutes + " minutes";
+            }
+            else
+            {
+                return (int)elapsed.TotalSeconds + " seconds";
+            }
+        }           
 
         public static string ArrayToString(IEnumerable array, string delimiter = ", ")
         {

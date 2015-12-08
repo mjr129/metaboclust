@@ -77,17 +77,17 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
             var tnCompoundsWith = tnCompounds.AddSubNode(compoundsWith.Length + " with matched variables", "LIST", "Compound list/Lists all compounds in the current dataset which have variables potentially identifying them. Numbers in brackets show the number of variables.");
             var tnCompoundsWithout = tnCompounds.AddSubNode(compoundsWithout.Length + " without matched variables", "LIST", "Compound list/Lists all compounds in the current dataset which do not have variables potentially identifying them.");
 
-            foreach (Compound c in core.Compounds.OrderBy(λ => λ.Name))
+            foreach (Compound c in core.Compounds.OrderBy(λ => λ.DefaultDisplayName))
             {
                 AddExpandableNode(tnCompoundsAll, c, c.Annotations.Count != 0 ? c.Annotations.Count.ToString() : null);
             }
 
-            foreach (Compound c in compoundsWith.OrderBy(λ => λ.Name))
+            foreach (Compound c in compoundsWith.OrderBy(λ => λ.DefaultDisplayName))
             {
                 AddExpandableNode(tnCompoundsWith, c, c.Annotations.Count != 0 ? c.Annotations.Count.ToString() : null);
             }
 
-            foreach (Compound c in compoundsWithout.OrderBy(λ => λ.Name))
+            foreach (Compound c in compoundsWithout.OrderBy(λ => λ.DefaultDisplayName))
             {
                 AddExpandableNode(tnCompoundsWithout, c);
             }
@@ -96,7 +96,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
             // ADDUCTS
             var tnAdducts = root.AddSubNode(core.Adducts.Count.ToString() + " adducts", "LIST", "Adduct list/Lists all adducts in the current dataset.");
 
-            foreach (Adduct a in core.Adducts.OrderBy(λ => λ.Name))
+            foreach (Adduct a in core.Adducts.OrderBy(λ => λ.DefaultDisplayName))
             {
                 AddExpandableNode(tnAdducts, a);
             }
@@ -232,21 +232,21 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
 
         public static TreeNode AddExpandableNode(TreeNodeCollection parent, Adduct a, string extraText = null)
         {
-            var node = parent.AddSubNode(CreateText(a.Name, extraText), "ADDUCT", a);
+            var node = parent.AddSubNode(CreateText(a.DefaultDisplayName, extraText), "ADDUCT", a);
             AddExpander(node);
             return node;
         }
 
         public static TreeNode AddExpandableNode(TreeNodeCollection parent, Compound c, string extraText = null)
         {
-            var node = parent.AddSubNode(CreateText(c.Name, extraText), "COMPOUND", c);
+            var node = parent.AddSubNode(CreateText(c.DefaultDisplayName, extraText), "COMPOUND", c);
             AddExpander(node);
             return node;
         }
 
         public static TreeNode AddExpandableNode(TreeNodeCollection parent, Pathway p, string extraText = null)
         {
-            var node = parent.AddSubNode(CreateText(p.Name, extraText), "PATHWAY", p);
+            var node = parent.AddSubNode(CreateText(p.DefaultDisplayName, extraText), "PATHWAY", p);
             AddExpander(node);
             return node;
         }
@@ -351,7 +351,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
 
             l = node.AddSubNode(compoundsInCluster.Count + " implicated compounds", "LIST", "Compound list/Shows the compounds potentially identified by variables in this cluster. Numbers in brackets show the number of variables potentially identifying this compound that are in this cluster, out of the total number.");
 
-            foreach (Compound c in compoundsInCluster.OrderBy(λ => λ.Name))
+            foreach (Compound c in compoundsInCluster.OrderBy(λ => λ.DefaultDisplayName))
             {
                 AddExpandableNode(l, c, c.Annotations.Count(λ => λ.Peak.Assignments.Clusters.Contains(x)) + " / " + c.Annotations.Count);
             }
@@ -437,14 +437,14 @@ The numbers in brackets after the pathway name show:
                 //AddExpandableNode(l2, ac.Compound);
                 //AddExpandableNode(l2, ac.Adduct);
 
-                AddExpandableNode(l, ac.Compound, ac.Adduct.Name);
+                AddExpandableNode(l, ac.Compound, ac.Adduct.DefaultDisplayName);
             }
         }
 
         private static void Expand(TreeNode node, Compound x)
         {
             var l = node.AddSubNode("Information", "LIST", "Information/Information about this compound");
-            l.AddSubNode("Name = " + x.Name);
+            l.AddSubNode("Name = " + x.DefaultDisplayName);
             l.AddSubNode("ID = " + x.Id);
             l.AddSubNode("Mass = " + x.Mass);
             l.AddSubNode("Pathways = " + x.Pathways.Count);
@@ -463,7 +463,7 @@ The numbers in brackets after the pathway name show:
                         sb.Append(", ");
                     }
 
-                    sb.Append(c.Adduct.Name);
+                    sb.Append(c.Adduct.DefaultDisplayName);
                 }
 
                 AddExpandableNode(l, c.Peak, sb.Length != 0 ? sb.ToString() : null);
@@ -480,7 +480,7 @@ The numbers in brackets after the pathway name show:
         private static void Expand(TreeNode node, Pathway x)
         {
             var l = node.AddSubNode("Information", "LIST", "Information/Information about this pathway");
-            l.AddSubNode("Name = " + x.Name);
+            l.AddSubNode("Name = " + x.DefaultDisplayName);
             l.AddSubNode("Database ID = " + x.Id);
             l.AddSubNode("Compounds = " + x.Compounds.Count);
 
@@ -531,7 +531,7 @@ The numbers in brackets after the pathway name show:
         private static void Expand(TreeNode node, Adduct x)
         {
             var l = node.AddSubNode("Information", "LIST", "Information/Information about this adduct");
-            l.AddSubNode("Name = " + x.Name);
+            l.AddSubNode("Name = " + x.DefaultDisplayName);
             l.AddSubNode("Charge = " + x.Charge);
             l.AddSubNode("Mass = " + x.Mz);
         }

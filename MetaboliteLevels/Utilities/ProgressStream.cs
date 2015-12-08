@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MetaboliteLevels.Utilities
@@ -7,10 +8,10 @@ namespace MetaboliteLevels.Utilities
     class ProgressStream : Stream
     {
         private Stream _stream;
-        private IProgressReporter _progressHandler;
+        private ProgressReporter _progressHandler;
 
-        public ProgressStream(Stream stream, IProgressReporter progressHandler)
-        {
+        public ProgressStream(Stream stream, ProgressReporter progressHandler)
+        {            
             _stream = stream;
             _progressHandler = progressHandler;
         }
@@ -20,7 +21,7 @@ namespace MetaboliteLevels.Utilities
             if (_progressHandler != null)
             {
                 // Convert to percentage now to avoid large int errors later
-                _progressHandler.ReportProgress((int)((_stream.Position * 100) / _stream.Length), 100);
+                _progressHandler.SetProgress((int)((_stream.Position * 100) / _stream.Length), 100);
             }
         }
 
@@ -58,11 +59,11 @@ namespace MetaboliteLevels.Utilities
         }
 
         public override void Close()
-        {
+        {                           
             _stream.Close();
-        }
+        }    
 
-        public override Task CopyToAsync(Stream destination, int bufferSize, System.Threading.CancellationToken cancellationToken)
+        public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
         {
             return _stream.CopyToAsync(destination, bufferSize, cancellationToken);
         }
@@ -73,7 +74,7 @@ namespace MetaboliteLevels.Utilities
         }
 
         protected override void Dispose(bool disposing)
-        {
+        {                           
             if (disposing)
             {
                 _stream.Dispose();

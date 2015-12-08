@@ -21,7 +21,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             // NA
         }
 
-        public ResultClusterer Calculate(Core core, int isPreview, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog, out ValueMatrix vmatrixOut, out DistanceMatrix dmatrixOut)
+        public ResultClusterer Calculate(Core core, int isPreview, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog, out ValueMatrix vmatrixOut, out DistanceMatrix dmatrixOut)
         {
             IReadOnlyList<Peak> peaks;
 
@@ -76,15 +76,19 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             // CREATE VMATRIX AND FILTER OBSERVATIONS
             bool useTrend = args.SourceMode != EAlgoSourceMode.Full;
 
-            prog.ReportProgress("Creating value matrix");
+            prog.Enter("Creating value matrix");
             ValueMatrix vmatrix = ValueMatrix.Create(filter.Passed, useTrend, core, args.ObsFilter, args.SplitGroups, prog);
-            prog.ReportProgress("Creating distance matrix");
+            prog.Leave();
+
+            prog.Enter("Creating distance matrix");
             DistanceMatrix dmatrix = GetParams().Special.HasFlag(AlgoParameters.ESpecial.ClustererIgnoresDistanceMatrix) ? null : DistanceMatrix.Create(core, vmatrix, args.Distance, prog);
+            prog.Leave();
             IEnumerable<Cluster> clusters;
 
             // CLUSTER USING VMATRIX OR DMATRIX
-            prog.ReportProgress("Clustering");
+            prog.Enter("Clustering");
             clusters = Cluster(vmatrix, dmatrix, args, tag, prog);
+            prog.Leave();
 
             vmatrixOut = vmatrix;
             dmatrixOut = dmatrix;
@@ -96,7 +100,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// 
         /// If the cluster does't make use of the distance matrix OR the distance metric it should flag itself with DoesNotSupportDistanceMetrics.
         /// </summary>
-        protected abstract IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog);
+        protected abstract IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog);
 
         protected static IEnumerable<Cluster> CreateClustersFromIntegers(ValueMatrix vmatrix, IList<int> clusters, ConfigurationClusterer tag)
         {

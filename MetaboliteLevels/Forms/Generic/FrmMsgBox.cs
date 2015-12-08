@@ -23,7 +23,7 @@ namespace MetaboliteLevels.Forms.Generic
             }
         }
 
-        internal static bool ShowOkCancel(Form owner, string title, string message, Image image = null)
+        internal static bool ShowOkCancel(Form owner, string title, string message, Image image = null, string dontShowAgainId = null)
         {
             if (image == null)
             {
@@ -33,7 +33,7 @@ namespace MetaboliteLevels.Forms.Generic
             ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.Yes)
                                   , new ButtonSet("Cancel", Resources.MnuBack, DialogResult.No) };
 
-            return Show(owner, title, null, message, image, buttons, 0, -1) == DialogResult.Yes;
+            return Show(owner, title, null, message, image, buttons, 0, -1, dontShowAgainId) == DialogResult.Yes;
         }
 
         public static DialogResult ShowYesCancel(Form owner, string title, string message, Image image = null)

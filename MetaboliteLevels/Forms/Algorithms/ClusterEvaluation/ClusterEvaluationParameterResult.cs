@@ -21,8 +21,14 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     [Serializable]
     class ClusterEvaluationParameterResult : IVisualisable
     {
-        public string Title { get; set; }
+        public string OverrideDisplayName { get; set; }
+
         public string Comments { get; set; }
+
+        /// <summary>
+        /// Not used (meaningless).
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
 
         public ClusterEvaluationConfiguration Owner;
 
@@ -30,7 +36,15 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
         public List<ResultClusterer> Repetitions;
 
-        private readonly string Name;
+        public string DefaultDisplayName
+        {
+            get
+            {
+                return _defaultName;
+            }
+        }
+
+        private readonly string _defaultName;
 
         public override string ToString()
         {
@@ -52,7 +66,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
         public ClusterEvaluationParameterResult(string name, ClusterEvaluationConfiguration owner, int valueIndex, List<ResultClusterer> results)
         {
-            Name = name;
+            _defaultName = name;
             Owner = owner;
             ValueIndex = valueIndex;
             Repetitions = results;
@@ -60,15 +74,15 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
         public string DisplayName
         {
-            get { return Title ?? Name; }
+            get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
         }
 
-        public Image DisplayIcon
+        public Image REMOVE_THIS_FUNCTION
         {
             get { return Resources.ObjPoint; }
         }
 
-        public int GetIcon()
+        public UiControls.ImageListOrder GetIcon()
         {
             return UiControls.ImageListOrder.Point;
         }

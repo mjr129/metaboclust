@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// <summary>
         /// ACTION!
         /// </summary>
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vm, DistanceMatrix dm, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(ValueMatrix vm, DistanceMatrix dm, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // Construct similarity matrix
             int N = vm.NumVectors;
@@ -50,12 +50,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             // SET LAMBDA (change rate)
             const double lambda = 0.5;
 
-            prog.ReportProgress(-1);
+            prog.SetProgress(-1);
 
             // CALCULATE NEXT R AND NEXT A
             for (int iter = 0; iter < 100; iter++)
             {
-                prog.ReportProgress("Affinity Propagation Iteration " + iter);
+                prog.Enter("Affinity Propagation Iteration " + iter);
 
                 // CALCULATE R
                 // r[i,k] =   s[i,k]
@@ -133,6 +133,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                         a[i, k] = a[i, k] * lambda + an[i, k] * (1 - lambda);
                     }
                 }
+
+                prog.Leave();
             }
 
             // CALCULATE EXEMPLARS "E"

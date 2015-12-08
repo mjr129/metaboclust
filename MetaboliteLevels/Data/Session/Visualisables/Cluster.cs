@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         ///User comments.
         /// </summary>
-        public string Title { get; set; }
+        public string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Name of cluster
@@ -93,6 +93,11 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly Dictionary<string, double> ClusterStatistics = new Dictionary<string, double>();
 
         /// <summary>
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public Cluster(string shortName, ConfigurationClusterer creationReason)
@@ -108,14 +113,14 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return Title ?? Name;
+                return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
             }
         }
 
         /// <summary>
         /// Name of cluster.
         /// </summary>
-        public string Name
+        public string DefaultDisplayName
         {
             get
             {
@@ -374,7 +379,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Inherited from IVisualisable. 
         /// </summary>
-        public Image DisplayIcon
+        public Image REMOVE_THIS_FUNCTION
         {
             get { return Properties.Resources.ObjLCluster; }
         }
@@ -392,7 +397,7 @@ namespace MetaboliteLevels.Data.Visualisables
             yield return new InfoLine("№ exemplars", this.Exemplars.Count);
             yield return new InfoLine("Method", this.Method?.ToString());
             yield return new InfoLine("Name", this.DisplayName);
-            yield return new InfoLine("Override name", this.Title);
+            yield return new InfoLine("Override name", this.OverrideDisplayName);
             yield return new InfoLine("№ related clusters", this.Related.Count);
             yield return new InfoLine("Short name", this.ShortName);
             yield return new InfoLine("States", this.States.ToUiString());
@@ -602,7 +607,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        public int GetIcon()
+        public UiControls.ImageListOrder GetIcon()
         {
             // IMAGE
             if (this.States == EStates.Insignificants)

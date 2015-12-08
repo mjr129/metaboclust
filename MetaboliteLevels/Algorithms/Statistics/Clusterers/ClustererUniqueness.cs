@@ -22,7 +22,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         {
         }
 
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, IProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             ConfigurationClusterer config = ((WeakReference<ConfigurationClusterer>)args.Parameters[0]).GetTarget();
             List<List<Assignment>> uniqueCombinations = new List<List<Assignment>>();
@@ -30,13 +30,13 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             List<ConditionInfo[]> conditions = new List<ConditionInfo[]>();
             List<ObservationInfo[]> observations = new List<ObservationInfo[]>();
 
-            prog.ReportProgress("Finding unique matches");
+            prog.Enter("Finding unique matches");
 
             for (int vmatIndex = 0; vmatIndex < vmatrix.NumVectors; vmatIndex++)
             {
                 Vector vp = vmatrix.Vectors[vmatIndex];
                 Peak peak = vp.Peak;
-                prog.ReportProgress(vmatIndex, vmatrix.NumVectors);
+                prog.SetProgress(vmatIndex, vmatrix.NumVectors);
 
                 List<Assignment> pats = new List<Assignment>(peak.Assignments.List
                                                          .Where(z => config.Results.Clusters.Contains(z.Cluster))
@@ -99,6 +99,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 Vector v = new Vector(peak, null, conditions[index], observations[index], values);
                 pat.Assignments.Add(new Assignment(v, pat, pats.Count));
             }
+
+            prog.Leave();
 
             return newClusters;
         }

@@ -56,7 +56,7 @@ namespace MetaboliteLevels.DataLoader
             get { return Data[row, col]; }
         }
 
-        public Matrix(string fileName, bool hasRowNames, bool hasColNames, IProgressReporter progress)
+        public Matrix(string fileName, bool hasRowNames, bool hasColNames, ProgressReporter progress)
         {
             UiControls.Assert(!string.IsNullOrWhiteSpace(fileName), "Filename is missing.");
 
@@ -169,7 +169,7 @@ namespace MetaboliteLevels.DataLoader
 
                     if (progress != null)
                     {
-                        progress.ReportProgress(rowIndex, NumRows);
+                        progress.SetProgress(rowIndex, NumRows);
                     }
 
                     rowIndex++;
@@ -313,12 +313,7 @@ namespace MetaboliteLevels.DataLoader
             }
 
             return target;
-        }
-
-        internal string NextUid()
-        {
-            throw new NotImplementedException();
-        }
+        }    
 
         internal void WriteMeta(int row, MetaInfoCollection collection, MetaInfoHeader headers)
         {

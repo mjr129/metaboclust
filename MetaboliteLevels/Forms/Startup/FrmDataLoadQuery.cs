@@ -19,7 +19,7 @@ using System.Collections;
 namespace MetaboliteLevels.Forms.Startup
 {
     /// <summary>
-    /// Edits: DataFileNames OR selects the session to load THEN calls FrmDataLoad.
+    /// The "please load your data" screen.
     /// </summary>
     public partial class FrmDataLoadQuery : Form
     {
@@ -111,7 +111,8 @@ namespace MetaboliteLevels.Forms.Startup
 
                 tsmi.Click += tsmi_Click;
 
-                _cmsRecentWorkspaces.Items.Add(tsmi);
+                _cmsRecentWorkspaces.Items.Add(tsmi); 
+                UiControls.AddMenuCaption(_cmsRecentWorkspaces, entry.Session);
             }
 
             _mnuBrowseWorkspaceSep = new ToolStripSeparator();
@@ -147,6 +148,7 @@ namespace MetaboliteLevels.Forms.Startup
                 tsmi.Click += tsmi2_Click;
 
                 _cmsRecentSessions.Items.Add(tsmi);
+                UiControls.AddMenuCaption(_cmsRecentSessions, entry.FileName);
             }
 
             if (recentSessions.Count == 0)
@@ -177,7 +179,7 @@ namespace MetaboliteLevels.Forms.Startup
                     }
                 }
             }
-        }
+        }              
 
         protected override void OnSizeChanged(EventArgs e)
         {
@@ -387,7 +389,7 @@ namespace MetaboliteLevels.Forms.Startup
                     MainSettings.Instance.RecentWorkspaces.Remove(fn);
                     MainSettings.Instance.Save();
                     s.Enabled = false;
-                    s.Font = UiControls.strikeFont;
+                    s.Font = FontHelper.StrikeFont;
                 }
             }
             else

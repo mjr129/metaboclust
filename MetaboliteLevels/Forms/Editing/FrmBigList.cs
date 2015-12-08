@@ -11,10 +11,12 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Forms.Algorithms;
+using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
 using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
+using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -30,36 +32,28 @@ namespace MetaboliteLevels.Forms.Editing
         {
             public abstract ConfigInit Initialise();
             public virtual string GetMissingName(object target) { return target.ToString(); }
-            public abstract object EditObject(Form owner, object target, bool read);
-            public abstract void ApplyPendingChange(object target, PendingChange pendingChange);
-            public abstract void ApplyChanges(IProgressReporter info, ArrayList alist);
-            public virtual bool PrepareForApply(Form form, ArrayList arrayList, int numEnabled) { return true; }
-            public abstract PendingChange GetUnchanged(object target);
+            public abstract IVisualisable EditObject(Form owner, IVisualisable target, bool read);
+            public abstract void ApplyChanges(ProgressReporter info, List<IVisualisable> alist);
+            public virtual bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return true; }
             public virtual void AfterApply(Form form) { }
             public virtual bool AddAtInitialise() { return false; }
-            public abstract void GetListViewItem(object target, out string col1, out string col2, out int img);
         }
 
         /// <summary>
         /// Strongly types BigListConfig.
         /// </summary>
         private abstract class BigListConfig<T> : BigListConfig
+            where T : IVisualisable
         {
             protected virtual string GetMissingName(T target) { return target.ToString(); }
-            protected abstract T EditObject(Form owner, T target, bool read);
-            protected abstract void ApplyPendingChange(T target, PendingChange pendingChange);
-            protected abstract void ApplyChanges(IProgressReporter info, List<T> alist);
+            protected abstract T EditObject(Form owner, T target, bool read);                 
+            protected abstract void ApplyChanges(ProgressReporter info, List<T> alist);
             protected virtual bool PrepareForApply(Form form, List<T> arrayList, int numEnabled) { return true; }
-            protected abstract PendingChange GetUnchanged(T target);
-            protected abstract void GetListViewItem(T target, out string col1, out string col2, out int img);
 
             public sealed override string GetMissingName(object target) { return GetMissingName((T)target); }
-            public sealed override object EditObject(Form owner, object target, bool read) { return EditObject(owner, (T)target, read); }
-            public sealed override void ApplyPendingChange(object target, PendingChange pendingChange) { ApplyPendingChange((T)target, pendingChange); }
-            public sealed override bool PrepareForApply(Form form, ArrayList arrayList, int numEnabled) { return PrepareForApply(form, arrayList.Cast<T>().ToList(), numEnabled); }
-            public sealed override PendingChange GetUnchanged(object target) { return GetUnchanged((T)target); }
-            public sealed override void ApplyChanges(IProgressReporter info, ArrayList alist) { ApplyChanges(info, alist.Cast<T>().ToList()); }
-            public sealed override void GetListViewItem(object target, out string col1, out string col2, out int img) { GetListViewItem((T)target, out col1, out col2, out img); }
+            public sealed override IVisualisable EditObject(Form owner, IVisualisable target, bool read) { return EditObject(owner, (T)target, read); }
+            public sealed override bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return PrepareForApply(form, arrayList.Cast<T>().ToList(), numEnabled); }
+            public sealed override void ApplyChanges(ProgressReporter info, List<IVisualisable> alist) { ApplyChanges(info, alist.Cast<T>().ToList()); }
         }
 
         /// <summary>
@@ -83,17 +77,8 @@ namespace MetaboliteLevels.Forms.Editing
                     Caption: "Filters",
                     Title: _obs ? "Observation Filters" : "Peak Filters",
                     SubTitle: "Add or remove filters",
-                    List: _obs ? (ICollection)_core.ObsFilters : _core.PeakFilters,
-                    SupportsRename: true,
-                    SupportsDisable: true
+                    List: _obs ? _core.ObsFilters.Cast<IVisualisable>() : _core.PeakFilters.Cast<IVisualisable>()
                 );
-            }
-
-            protected override void GetListViewItem(Filter target, out string col1, out string col2, out int img)
-            {
-                col1 = target.GetType().Name;
-                col2 = target.ParamsAsString();
-                img = UiControls.ImageListOrder.Filter;
             }
 
             protected override Filter EditObject(Form owner, Filter target, bool read)
@@ -106,16 +91,9 @@ namespace MetaboliteLevels.Forms.Editing
                 {
                     return FrmBigList.ShowPeakFilter(owner, _core, (PeakFilter)target, read);
                 }
-            }
+            } 
 
-            protected override void ApplyPendingChange(Filter target, PendingChange pendingChange)
-            {
-                target.Name = pendingChange.Name;
-                target.Comments = pendingChange.Comments;
-                target.Enabled = pendingChange.Enabled;
-            }
-
-            protected override void ApplyChanges(IProgressReporter info, List<Filter> alist)
+            protected override void ApplyChanges(ProgressReporter info, List<Filter> alist)
             {
                 if (_obs)
                 {
@@ -126,14 +104,10 @@ namespace MetaboliteLevels.Forms.Editing
                     _core.SetPeakFilters(alist.Cast<PeakFilter>());
                 }
             }
-
-            protected override PendingChange GetUnchanged(Filter target)
-            {
-                return new PendingChange(target.Name, target.Comments, target.Enabled);
-            }
         }
 
         private sealed class BigListConfigForListValueSet<T> : BigListConfig<T>
+            where T : IVisualisable
         {
             private readonly ListValueSet<T> _values;
             public List<T> Result;
@@ -148,39 +122,48 @@ namespace MetaboliteLevels.Forms.Editing
                 return new ConfigInit
                 (
                     Caption: _values.Title,
-                    List: _values.List.ToList(),
+                    List: _values.List.Cast<IVisualisable>().ToList(),
                     SubTitle: _values.SubTitle,
-                    SupportsRename: false,
-                    Title: _values.Title,
-                    SupportsDisable: false
+                    Title: _values.Title
                 );
             }
 
-            protected override void ApplyChanges(IProgressReporter info, List<T> alist)
+            protected override void ApplyChanges(ProgressReporter info, List<T> alist)
             {
                 Result = alist;
-            }
-
-            protected override void ApplyPendingChange(T target, PendingChange pendingChange)
-            {
-                // NA (SupportsRename is FALSE)
-            }
+            }    
 
             protected override T EditObject(Form owner, T target, bool read)
             {
                 return _values.ItemEditor(owner, target, read);
             }
+        }
 
-            protected override void GetListViewItem(T target, out string col1, out string col2, out int img)
+        private sealed class BigListConfigForTests : BigListConfig<ClusterEvaluationPointer>
+        {
+            private Core core;
+
+            public BigListConfigForTests(Core core)
             {
-                col1 = _values.Namer(target);
-                col2 = _values.Describer(target);
-                img = _values.IconProvider(target);
+                this.core = core;
             }
 
-            protected override PendingChange GetUnchanged(T target)
+            public override ConfigInit Initialise()
             {
-                return new PendingChange(_values.Namer(target), _values.Describer(target), true);
+                return new ConfigInit("Tests",
+                    core.EvaluationResultFiles,
+                    "Tests",
+                    "Create or modify tests");
+            }
+
+            protected override void ApplyChanges(ProgressReporter info, List<ClusterEvaluationPointer> alist)
+            {
+                core.EvaluationResultFiles.ReplaceAll(alist);
+            }   
+
+            protected override ClusterEvaluationPointer EditObject(Form owner, ClusterEvaluationPointer target, bool read)
+            {
+                return FrmEvaluateClusteringOptions.Show(owner, core, target, read);
             }
         }
 
@@ -204,14 +187,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _obs = obs;
             }
 
-            public override void GetListViewItem(object target, out string col1, out string col2, out int img)
-            {
-                col1 = target.GetType().Name;
-                col2 = "-";
-                img = UiControls.ImageListOrder.Filter;
-            }
-
-            public override object EditObject(Form owner, object target, bool read)
+            public override IVisualisable EditObject(Form owner, IVisualisable target, bool read)
             {
                 if (_obs)
                 {
@@ -223,26 +199,16 @@ namespace MetaboliteLevels.Forms.Editing
                 }
             }
 
-            public override void ApplyPendingChange(object target, PendingChange pendingChange)
-            {
-                // Not supported
-            }
-
-            public override void ApplyChanges(IProgressReporter info, ArrayList alist)
+            public override void ApplyChanges(ProgressReporter info, List<IVisualisable> alist)
             {
                 if (_obs)
                 {
-                    Result = new ObsFilter(_filter.Name, _filter.Comments, alist.Cast<ObsFilter.Condition>());
+                    Result = new ObsFilter(_filter.OverrideDisplayName, _filter.Comment, alist.Cast<ObsFilter.Condition>());
                 }
                 else
                 {
-                    Result = new PeakFilter(_filter.Name, _filter.Comments, alist.Cast<PeakFilter.Condition>());
+                    Result = new PeakFilter(_filter.OverrideDisplayName, _filter.Comment, alist.Cast<PeakFilter.Condition>());
                 }
-            }
-
-            public override PendingChange GetUnchanged(object target)
-            {
-                return new PendingChange(target.ToString(), string.Empty, true);
             }
 
             public override ConfigInit Initialise()
@@ -252,9 +218,9 @@ namespace MetaboliteLevels.Forms.Editing
                     Caption: "Filter Conditions",
                     Title: "Edit Filter Conditions",
                     SubTitle: "Add or remove conditions",
-                    List: _obs ? (ICollection)((ObsFilter)_filter).Conditions : ((PeakFilter)_filter).Conditions,
-                    SupportsRename: false,
-                    SupportsDisable: false
+                    List: _obs
+                            ? (IEnumerable<IVisualisable>)((ObsFilter)_filter).Conditions
+                            : (IEnumerable<IVisualisable>)((PeakFilter)_filter).Conditions
                 );
             }
         }
@@ -274,25 +240,6 @@ namespace MetaboliteLevels.Forms.Editing
             private IVisualisable _autoApply;
             private FrmEditUpdate.EChangeLevel _toUpdate;
             private bool _success;
-
-            protected override void GetListViewItem(ConfigurationBase target, out string col1, out string col2, out int img)
-            {
-                col1 = target.Name;
-                col2 = target.ArgsToString;
-
-                if (target.HasError)
-                {
-                    img = UiControls.ImageListOrder.Warning;
-                }
-                else if (target.HasResults)
-                {
-                    img = UiControls.ImageListOrder.TestFull;
-                }
-                else
-                {
-                    img = UiControls.ImageListOrder.TestEmpty;
-                }
-            }
 
             public BigListConfigForAlgorithms(Core core, EAlgorithmType mode, IVisualisable autoApply)
             {
@@ -337,12 +284,7 @@ namespace MetaboliteLevels.Forms.Editing
                 }
             }
 
-            protected override PendingChange GetUnchanged(ConfigurationBase z)
-            {
-                return new PendingChange(z.Name, z.Comments, z.Enabled);
-            }
-
-            protected override bool PrepareForApply(Form form, List<ConfigurationBase> list, int numEnabled)
+            protected override bool PrepareForApply(Form form, List<ConfigurationBase> list, int numEnabled) // TODO: Remove "numEnabled", it doesn't work anymore
             {
                 switch (_mode)
                 {
@@ -360,12 +302,14 @@ namespace MetaboliteLevels.Forms.Editing
 
                     case EAlgorithmType.Trend:
                         {
-                            if (numEnabled == 0)
+                            int numEnabledX = list.Count(z => z.Enabled);
+
+                            if (numEnabledX == 0)
                             {
                                 FrmMsgBox.ShowError(form, "A trendline must be defined.");
                                 return false;
                             }
-                            else if (numEnabled > 1)
+                            else if (numEnabledX > 1)
                             {
                                 FrmMsgBox.ShowError(form, "Only one trend can be activated at once.");
                                 return false;
@@ -382,7 +326,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return true;
             }
 
-            protected override void ApplyChanges(IProgressReporter info, List<ConfigurationBase> list)
+            protected override void ApplyChanges(ProgressReporter info, List<ConfigurationBase> list)
             {
                 switch (_mode)
                 {
@@ -422,13 +366,6 @@ namespace MetaboliteLevels.Forms.Editing
                 }
             }
 
-            protected override void ApplyPendingChange(ConfigurationBase config, PendingChange ch)
-            {
-                config.Name = ch.Name;
-                config.Enabled = ch.Enabled;
-                config.Comments = ch.Comments;
-            }
-
             public override ConfigInit Initialise()
             {
                 switch (_mode)
@@ -439,9 +376,7 @@ namespace MetaboliteLevels.Forms.Editing
                             Caption: "Statistics",
                             Title: "Edit Statistics",
                             SubTitle: "Add or remove statistics",
-                            List: _core.StatisticsComplete,
-                            SupportsRename: true,
-                            SupportsDisable: true
+                            List: _core.StatisticsComplete
                         );
 
                     case EAlgorithmType.Corrections:
@@ -450,9 +385,7 @@ namespace MetaboliteLevels.Forms.Editing
                             Caption: "Corrections",
                             Title: "Edit Data Corrections",
                             SubTitle: "Add, remove or reorder data correction methods",
-                            List: _core.CorrectionsComplete,
-                            SupportsRename: true,
-                            SupportsDisable: true
+                            List: _core.CorrectionsComplete
                         );
 
                     case EAlgorithmType.Clusters:
@@ -461,9 +394,7 @@ namespace MetaboliteLevels.Forms.Editing
                             Caption: "Clustering",
                             Title: "Edit Clustering Methods",
                             SubTitle: "Add, remove or reorder data clustering methods",
-                            List: _core.ClusterersComplete,
-                            SupportsRename: true,
-                            SupportsDisable: true
+                            List: _core.ClusterersComplete
                         );
 
                     case EAlgorithmType.Trend:
@@ -472,9 +403,7 @@ namespace MetaboliteLevels.Forms.Editing
                             Caption: "Trends",
                             Title: "Edit Trend Generation",
                             SubTitle: "Select trend generation method",
-                            List: _core.TrendsComplete,
-                            SupportsRename: true,
-                            SupportsDisable: true
+                            List: _core.TrendsComplete
                         );
 
                     default:
@@ -550,55 +479,56 @@ namespace MetaboliteLevels.Forms.Editing
 
         private sealed class ConfigInit
         {
+            public readonly IEnumerable<IVisualisable> List;
             public readonly string Caption;
-            public readonly ICollection List;
             public readonly string SubTitle;
             public readonly string Title;
-            public readonly bool SupportsRename;
-            public readonly bool SupportsDisable;
 
-            public ConfigInit(string Caption, ICollection List, string Title, string SubTitle, bool SupportsRename, bool SupportsDisable)
+            public ConfigInit(string Caption, IEnumerable<IVisualisable> List, string Title, string SubTitle)
             {
                 this.Caption = Caption;
                 this.List = List;
                 this.Title = Title;
                 this.SubTitle = SubTitle;
-                this.SupportsRename = SupportsRename;
-                this.SupportsDisable = SupportsDisable;
             }
         }
 
-        private sealed class PendingChange
+        private sealed class OriginalStatus
         {
-            public bool Apply;
-            public string Comments;
-            public bool Enabled;
-            public string Name;
+            public bool Required;
+            public string OriginalComment;
+            public bool OriginalEnabled;
+            public string OriginalOverrideDisplayName;
 
-            public PendingChange(string name, string comments, bool enabled)
+            public OriginalStatus(string name, string comments, bool enabled)
             {
-                this.Name = name;
-                this.Comments = comments;
-                this.Enabled = enabled;
+                this.OriginalOverrideDisplayName = name;
+                this.OriginalComment = comments;
+                this.OriginalEnabled = enabled;
             }
         }
 
         private readonly BigListConfig _config;
-        private readonly ArrayList _list;
-        private readonly Dictionary<object, PendingChange> _pendingChanges = new Dictionary<object, PendingChange>();
-        private readonly Font _strikeFont;
+        private readonly List<IVisualisable> _list;
+        private readonly Dictionary<IVisualisable, OriginalStatus> _originalStatuses = new Dictionary<IVisualisable, OriginalStatus>();
         private bool _activated;
+        private readonly ListViewHelper<IVisualisable> _listViewHelper;
+        private bool _keepChanges;
 
         private FrmBigList()
         {
             InitializeComponent();
             UiControls.SetIcon(this);
-            _strikeFont = new Font(Font, FontStyle.Strikeout);
+            UiControls.PopulateImageList(imageList1);
         }
 
-        private FrmBigList(BigListConfig config, bool readOnly)
+        private FrmBigList(Core core, BigListConfig config, bool readOnly)
             : this()
         {
+            _listViewHelper = new ListViewHelper<IVisualisable>(listView1, core, null, null);
+            listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
+            _listViewHelper.Activate += listView1_ItemActivate;
+
             _config = config;
 
             ConfigInit init = _config.Initialise();
@@ -606,13 +536,8 @@ namespace MetaboliteLevels.Forms.Editing
             Text = init.Caption;
             ctlTitleBar1.Text = init.Title;
             ctlTitleBar1.SubText = init.SubTitle;
-            _list = new ArrayList(init.List);
-
-            UiControls.PopulateImageList(imageList1);
-
-            UpdateList(null);
-
-            UiControls.CompensateForVisualStyles(this);
+            _list = new List<IVisualisable>(init.List);
+            _listViewHelper.DivertList(_list);
 
             if (readOnly)
             {
@@ -627,40 +552,39 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnCancel.Text = "Close";
             }
 
-            if (!init.SupportsRename)
-            {
-                _btnRename.Visible = false;
-            }
-
-            if (!init.SupportsDisable)
-            {
-                _btnEnableDisable.Visible = false;
-            }
+            UiControls.CompensateForVisualStyles(this);
         }
 
         internal static bool ShowAlgorithms(Form owner, Core core, EAlgorithmType algoType, IVisualisable autoApply)
         {
             var config = new BigListConfigForAlgorithms(core, algoType, autoApply);
-            return Show(owner, config, false);
+            return Show(owner, core, config, false);
         }
 
         internal static bool ShowPeakFilters(Form owner, Core core)
         {
             var config = new BigListConfigForPeakFilters(core, false);
-            return Show(owner, config, false);
+            return Show(owner, core, config, false);
         }
 
         internal static bool ShowObsFilters(Form owner, Core core)
         {
             var config = new BigListConfigForPeakFilters(core, true);
-            return Show(owner, config, false);
+            return Show(owner, core, config, false);
         }
 
-        internal static List<T> ShowGeneric<T>(Form owner, ListValueSet<T> list, bool readOnly)
+        internal static bool ShowTests(Form owner, Core core)
+        {
+            var config = new BigListConfigForTests(core);
+            return Show(owner, core, config, false);
+        }
+
+        internal static List<T> ShowGeneric<T>(Form owner, Core core, ListValueSet<T> list, bool readOnly)
+            where T : IVisualisable
         {
             var config = new BigListConfigForListValueSet<T>(list);
 
-            if (Show(owner, config, readOnly))
+            if (Show(owner, core, config, readOnly))
             {
                 return (List<T>)config.Result;
             }
@@ -677,7 +601,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             var config = new BigListConfigForFilter(core, filter, true);
 
-            if (Show(owner, config, readOnly))
+            if (Show(owner, core, config, readOnly))
             {
                 return (ObsFilter)config.Result;
             }
@@ -694,7 +618,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             var config = new BigListConfigForFilter(core, filter, false);
 
-            if (Show(owner, config, readOnly))
+            if (Show(owner, core, config, readOnly))
             {
                 return (PeakFilter)config.Result;
             }
@@ -702,9 +626,9 @@ namespace MetaboliteLevels.Forms.Editing
             return null;
         }
 
-        private static bool Show(Form owner, BigListConfig config, bool readOnly)
+        private static bool Show(Form owner, Core core, BigListConfig config, bool readOnly)
         {
-            using (var frm = new FrmBigList(config, readOnly))
+            using (var frm = new FrmBigList(core, config, readOnly))
             {
                 if (owner is FrmBigList)
                 {
@@ -712,6 +636,24 @@ namespace MetaboliteLevels.Forms.Editing
                 }
 
                 return (UiControls.ShowWithDim(owner, frm) == DialogResult.OK);
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            if (!_keepChanges)
+            {
+                foreach (var kvp in this._originalStatuses)
+                {
+                    if (kvp.Value.Required)
+                    {
+                        kvp.Key.OverrideDisplayName = kvp.Value.OriginalOverrideDisplayName;
+                        kvp.Key.Comment = kvp.Value.OriginalComment;
+                        kvp.Key.Enabled = kvp.Value.OriginalEnabled;
+                    }
+                }
             }
         }
 
@@ -730,104 +672,48 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private void UpdateList(object selected)
-        {
-            this.listView1.Items.Clear();
-
-            ListViewItem selItem = null;
-
-            foreach (object config in _list)
-            {
-                ListViewItem lvi = CreateListViewItem(config);
-
-                if (config == selected)
-                {
-                    selItem = lvi;
-                }
-            }
-
-            if (selItem != null)
-            {
-                selItem.Selected = true;
-                selItem.EnsureVisible();
-            }
-        }
-
-        private ListViewItem CreateListViewItem(object v)
-        {
-            PendingChange change = Get(v);
-
-            string name;
-
-            if (string.IsNullOrEmpty(change.Name))
-            {
-                name = _config.GetMissingName(v);
-            }
-            else
-            {
-                name = change.Name;
-            }
-
-            var lvi = new ListViewItem(name);
-            string col1;
-            string col2;
-            int img;
-            _config.GetListViewItem(v, out col1, out col2, out img);
-            lvi.SubItems.Add(col1);
-            lvi.SubItems.Add(col2);
-            lvi.Tag = v;
-            lvi.ImageIndex = img;
-
-            if (change.Enabled)
-            {
-                lvi.Font = Font;
-                lvi.ForeColor = Color.Black;
-            }
-            else
-            {
-                lvi.Font = _strikeFont;
-                lvi.ForeColor = Color.Gray;
-            }
-
-            listView1.Items.Add(lvi);
-            return lvi;
-        }
-
         private void _btnAdd_Click(object sender, EventArgs e)
         {
-            object o = _config.EditObject(this, null, false);
+            IVisualisable o = _config.EditObject(this, null, false);
 
             if (o != null)
             {
                 Replace(null, o);
-                UpdateList(o);
+
+                _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
+                _listViewHelper.Selection = o;
             }
         }
 
-        private void Rename(object stat)
+        private void Rename(IVisualisable stat)
         {
-            PendingChange change = Get(stat);
+            OriginalStatus origStatus = Get(stat);
 
-            string name = change.Name;
-            string comment = change.Comments;
+            string name = stat.OverrideDisplayName;
+            string comment = stat.Comment;
 
-            if (FrmInput2.Show(this, stat.ToString(), "Rename", stat.ToString(), ref name, ref comment,
-                               false))
+            if (FrmInput2.Show(this, stat.DefaultDisplayName, "Rename", stat.ToString(), ref name, ref comment, false))
             {
-                change.Name = name;
-                change.Comments = comment;
-                change.Apply = true;
+                stat.OverrideDisplayName = name;
+                stat.Comment = comment;
 
-                UpdateList(stat);
+                origStatus.Required = true;
+
+                _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
             }
         }
 
-        private PendingChange Get(object o)
+        private OriginalStatus Get(IVisualisable o)
         {
-            return _pendingChanges.GetOrCreate(o, _config.GetUnchanged);
+            return _originalStatuses.GetOrCreate<IVisualisable, OriginalStatus>(o, GetUnchanged);
         }
 
-        private void Replace(object remove, object create)
+        private OriginalStatus GetUnchanged(IVisualisable input)
+        {
+            return new OriginalStatus(input.OverrideDisplayName, input.Comment, input.Enabled);
+        }
+
+        private void Replace(IVisualisable remove, IVisualisable create)
         {
             if (remove != null)
             {
@@ -842,7 +728,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnView_Click(object sender, EventArgs e)
         {
-            object o = GetSelected();
+            IVisualisable o = GetSelected();
 
             if (o != null)
             {
@@ -850,42 +736,39 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private object GetSelected()
+        private IVisualisable GetSelected()
         {
-            if (listView1.SelectedItems.Count != 0)
-            {
-                return listView1.SelectedItems[0].Tag;
-            }
-
-            return null;
+            return _listViewHelper.Selection;
         }
 
         private void _btnEdit_Click(object sender, EventArgs e)
         {
-            object p = GetSelected();
+            IVisualisable p = GetSelected();
 
             if (p == null)
             {
                 return;
             }
 
-            object o = _config.EditObject(this, p, false);
+            IVisualisable o = _config.EditObject(this, p, false);
 
             if (o == p)
             {
                 // If they are the same object then only name/comments can have changed
+                _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
+                _listViewHelper.Selection = o;
             }
             else if (o != null)
             {
                 Replace(p, o);
+                _listViewHelper.Rebuild(EListInvalids.ContentsChanged); // because "edit" means "swap"
+                _listViewHelper.Selection = o;
             }
-
-            UpdateList(o);
         }
 
         private void _btnRemove_Click(object sender, EventArgs e)
         {
-            object p = GetSelected();
+            IVisualisable p = GetSelected();
 
             if (p == null)
             {
@@ -893,17 +776,19 @@ namespace MetaboliteLevels.Forms.Editing
             }
 
             Replace(p, null);
-            UpdateList(null);
+
+            _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
+            _listViewHelper.Selection = p;
         }
 
-        private void listView1_ItemActivate(object sender, EventArgs e)
+        private void listView1_ItemActivate(object sender, ListViewItemEventArgs e)
         {
             _btnEdit.PerformClick();
         }
 
         private void _btnRename_Click(object sender, EventArgs e)
         {
-            object stat = GetSelected();
+            IVisualisable stat = GetSelected();
 
             if (stat == null)
             {
@@ -911,6 +796,9 @@ namespace MetaboliteLevels.Forms.Editing
             }
 
             Rename(stat);
+
+            _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
+            _listViewHelper.Selection = stat;
         }
 
         private void _btnUp_Click(object sender, EventArgs e)
@@ -920,7 +808,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void MoveItem(int direction)
         {
-            object sel = GetSelected();
+            IVisualisable sel = GetSelected();
 
             if (sel == null)
             {
@@ -942,7 +830,7 @@ namespace MetaboliteLevels.Forms.Editing
             _list.Remove(sel);
             _list.Insert(newIndex, sel);
 
-            UpdateList(sel);
+            _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
         }
 
         private void _btnDown_Click(object sender, EventArgs e)
@@ -952,23 +840,13 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnOk_Click(object sender, EventArgs e)
         {
-            int numEnabled = _list.Cast<object>().Count(z => Get(z).Enabled);
+            _keepChanges = true;
+            int numEnabled = _list.Cast<IVisualisable>().Count(z => Get(z).OriginalEnabled);
 
             if (!_config.PrepareForApply(this, _list, numEnabled))
             {
                 return;
-            }
-
-            // Pending changes (renames only)
-            foreach (object i in _list)
-            {
-                PendingChange ch = Get(i);
-
-                if (ch.Apply)
-                {
-                    _config.ApplyPendingChange(i, ch);
-                }
-            }
+            }               
 
             FrmWait.Show(this, "Applying changes", null, _config.ApplyChanges, _list);
 
@@ -979,34 +857,28 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnEnableDisable_Click(object sender, EventArgs e)
         {
-            object first = GetSelected();
+            IVisualisable first = GetSelected();
 
-            if (first != null)
+            if (first == null)
             {
-                PendingChange change = Get(first);
-
-                bool newState = !change.Enabled;
-
-                foreach (ListViewItem lvi in listView1.SelectedItems)
-                {
-                    object p = lvi.Tag;
-
-                    change = Get(p);
-
-                    change.Enabled = newState;
-                    change.Apply = true;
-                }
-
-                UpdateList(first);
+                return;
             }
+
+            OriginalStatus change = Get(first);
+
+            first.Enabled = !first.Enabled;
+            change.Required = true;
+
+            _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
+            _listViewHelper.Selection = first;
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs ev)
         {
-            object p = GetSelected();
+            IVisualisable p = GetSelected();
 
-            bool e = listView1.SelectedItems.Count == 1;
-            bool f = listView1.SelectedItems.Count >= 1;
+            bool e = p != null;
+            bool f = e;
 
             _btnRemove.Enabled = e;
             _btnView.Enabled = e;
@@ -1017,7 +889,7 @@ namespace MetaboliteLevels.Forms.Editing
             _btnDuplicate.Enabled = e;
             _btnEnableDisable.Enabled = f;
 
-            if (f && Get(p).Enabled)
+            if (f && Get(p).OriginalEnabled)
             {
                 _btnEnableDisable.Text = "Disable";
                 _btnEnableDisable.Image = Resources.MnuDisable;
@@ -1031,19 +903,21 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnDuplicate_Click(object sender, EventArgs e)
         {
-            object p = GetSelected();
+            IVisualisable p = GetSelected();
 
             if (p == null)
             {
                 return;
             }
 
-            object o = _config.EditObject(this, p, false);
+            IVisualisable o = _config.EditObject(this, p, false);
 
             if (o != null)
             {
                 Replace(null, o);
-                UpdateList(o);
+
+                _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
+                _listViewHelper.Selection = o;
             }
         }
     }

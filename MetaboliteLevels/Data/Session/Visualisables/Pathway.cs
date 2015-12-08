@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Pathway name
         /// </summary>
-        public readonly string Name;
+        private readonly string _defaultName;
 
         /// <summary>
         /// Unique ID
@@ -40,7 +40,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// User comments.
         /// </summary>
-        public string Title { get; set; }
+        public string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Source libraries.
@@ -56,6 +56,11 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly List<Compound> Compounds = new List<Compound>();
 
+        /// <summary>
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
+
         public Pathway(CompoundLibrary tag, string name, string id)
         {
             if (tag != null)
@@ -64,7 +69,18 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             this.Id = id;
-            this.Name = !string.IsNullOrWhiteSpace(name) ? name : "Compounds not assigned to any pathway";
+            this._defaultName = !string.IsNullOrWhiteSpace(name) ? name : "Compounds not assigned to any pathway";
+        }
+
+        /// <summary>
+        /// Default display name.
+        /// </summary>
+        public string DefaultDisplayName
+        {
+            get
+            {
+                return _defaultName;
+            }
         }
 
         /// <summary>
@@ -134,12 +150,12 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             // Assign each combination of compounds a unique colour
-            Cluster fakeCluster = new Cluster(this.Name, null);
+            Cluster fakeCluster = new Cluster(this.DefaultDisplayName, null);
             List<List<Compound>> uniqueCombinations = new List<List<Compound>>();
             Color[] colors = { Color.Blue, Color.Green, Color.Olive, Color.DarkRed, Color.DarkMagenta, Color.DarkCyan, Color.LightGreen, Color.LightBlue, Color.Magenta, Color.Cyan, Color.YellowGreen };
             int cindex = -1;
 
-            ValueMatrix vm = ValueMatrix.Create(peaks.Keys.ToArray(), true, core, ObsFilter.Empty, false, new EmptyProgressReporter());
+            ValueMatrix vm = ValueMatrix.Create(peaks.Keys.ToArray(), true, core, ObsFilter.Empty, false, ProgressReporter.GetEmpty());
 
             for (int vIndex = 0; vIndex < vm.NumVectors; vIndex++)
             {
@@ -168,7 +184,7 @@ namespace MetaboliteLevels.Data.Visualisables
                             legend.Append(" OR ");
                         }
 
-                        legend.Append(potential.Compound.Name);
+                        legend.Append(potential.Compound.DefaultDisplayName);
                     }
                     else
                     {
@@ -232,13 +248,13 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public string DisplayName
         {
-            get { return Title ?? Name; }
+            get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
         }
 
         /// <summary>
         /// Inherited from IVisualisable. 
         /// </summary>
-        public Image DisplayIcon
+        public Image REMOVE_THIS_FUNCTION
         {
             get { return Properties.Resources.ObjLPathway; }
         }
@@ -252,7 +268,7 @@ namespace MetaboliteLevels.Data.Visualisables
             yield return new InfoLine("Display name", DisplayName);
             yield return new InfoLine("Id", Id);
             yield return new InfoLine("№ libraries", this.Libraries.Count);
-            yield return new InfoLine("Name", Name);
+            yield return new InfoLine("Name", DefaultDisplayName);
             yield return new InfoLine("№ related pathways", this.RelatedPathways.Count);
             yield return new InfoLine("URL", this.Url);
             yield return new InfoLine("Class", this.VisualClass.ToUiString());
@@ -401,7 +417,7 @@ namespace MetaboliteLevels.Data.Visualisables
             var result = new List<Column<Pathway>>();
 
             result.Add("ID", false, λ => λ.Id);
-            result.Add("Name", true, λ => λ.Name);
+            result.Add("Name", true, λ => λ.DefaultDisplayName);
             result.Add("Library", false, λ => λ.Libraries);
             result.Add("Compounds", false, λ => λ.Compounds);
             result.Add("Comment", false, λ => λ.Comment);
@@ -411,7 +427,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return result;
         }
 
-        public int GetIcon()
+        public UiControls.ImageListOrder GetIcon()
         {
             return UiControls.ImageListOrder.Pathway;
         }

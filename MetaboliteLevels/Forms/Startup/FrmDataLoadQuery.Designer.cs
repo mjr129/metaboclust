@@ -132,6 +132,7 @@
             this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -160,13 +161,14 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // _txtDataSetData
             // 
             this._txtDataSetData.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetData.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetData.Location = new System.Drawing.Point(58, 195);
+            this._txtDataSetData.Location = new System.Drawing.Point(58, 187);
             this._txtDataSetData.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetData.Name = "_txtDataSetData";
             this._txtDataSetData.Size = new System.Drawing.Size(641, 29);
@@ -208,7 +210,7 @@
             // 
             this._txtDataSetObs.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetObs.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetObs.Location = new System.Drawing.Point(58, 259);
+            this._txtDataSetObs.Location = new System.Drawing.Point(58, 251);
             this._txtDataSetObs.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetObs.Name = "_txtDataSetObs";
             this._txtDataSetObs.Size = new System.Drawing.Size(641, 29);
@@ -218,7 +220,7 @@
             // _lblDataSetData
             // 
             this._lblDataSetData.AutoSize = true;
-            this._lblDataSetData.Location = new System.Drawing.Point(34, 167);
+            this._lblDataSetData.Location = new System.Drawing.Point(34, 159);
             this._lblDataSetData.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
             this._lblDataSetData.Name = "_lblDataSetData";
             this._lblDataSetData.Size = new System.Drawing.Size(105, 21);
@@ -229,7 +231,7 @@
             // _lblDataSetObs
             // 
             this._lblDataSetObs.AutoSize = true;
-            this._lblDataSetObs.Location = new System.Drawing.Point(34, 231);
+            this._lblDataSetObs.Location = new System.Drawing.Point(34, 223);
             this._lblDataSetObs.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
             this._lblDataSetObs.Name = "_lblDataSetObs";
             this._lblDataSetObs.Size = new System.Drawing.Size(194, 21);
@@ -240,7 +242,7 @@
             // _lblDataSetVar
             // 
             this._lblDataSetVar.AutoSize = true;
-            this._lblDataSetVar.Location = new System.Drawing.Point(34, 295);
+            this._lblDataSetVar.Location = new System.Drawing.Point(34, 287);
             this._lblDataSetVar.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
             this._lblDataSetVar.Name = "_lblDataSetVar";
             this._lblDataSetVar.Size = new System.Drawing.Size(142, 21);
@@ -252,7 +254,7 @@
             // 
             this._txtDataSetVar.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetVar.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetVar.Location = new System.Drawing.Point(58, 323);
+            this._txtDataSetVar.Location = new System.Drawing.Point(58, 315);
             this._txtDataSetVar.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetVar.Name = "_txtDataSetVar";
             this._txtDataSetVar.Size = new System.Drawing.Size(641, 29);
@@ -273,7 +275,7 @@
             // _chkAltVals
             // 
             this._chkAltVals.AutoSize = true;
-            this._chkAltVals.Location = new System.Drawing.Point(14, 368);
+            this._chkAltVals.Location = new System.Drawing.Point(14, 360);
             this._chkAltVals.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
             this._chkAltVals.Name = "_chkAltVals";
             this._chkAltVals.Size = new System.Drawing.Size(230, 25);
@@ -286,7 +288,7 @@
             // _chkCondInfo
             // 
             this._chkCondInfo.AutoSize = true;
-            this._chkCondInfo.Location = new System.Drawing.Point(14, 452);
+            this._chkCondInfo.Location = new System.Drawing.Point(14, 444);
             this._chkCondInfo.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
             this._chkCondInfo.Name = "_chkCondInfo";
             this._chkCondInfo.Size = new System.Drawing.Size(201, 25);
@@ -301,7 +303,7 @@
             this._txtAltVals.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtAltVals.Enabled = false;
             this._txtAltVals.ForeColor = System.Drawing.Color.Blue;
-            this._txtAltVals.Location = new System.Drawing.Point(34, 407);
+            this._txtAltVals.Location = new System.Drawing.Point(34, 399);
             this._txtAltVals.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
             this._txtAltVals.Name = "_txtAltVals";
             this._txtAltVals.Size = new System.Drawing.Size(665, 29);
@@ -313,7 +315,7 @@
             this._txtCondInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtCondInfo.Enabled = false;
             this._txtCondInfo.ForeColor = System.Drawing.Color.Blue;
-            this._txtCondInfo.Location = new System.Drawing.Point(34, 491);
+            this._txtCondInfo.Location = new System.Drawing.Point(34, 483);
             this._txtCondInfo.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
             this._txtCondInfo.Name = "_txtCondInfo";
             this._txtCondInfo.Size = new System.Drawing.Size(665, 29);
@@ -442,7 +444,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3371, 521);
+            this.pictureBox1.Location = new System.Drawing.Point(3389, 521);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -458,11 +460,11 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this._lbl32Bit, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this._btnMostRecent, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this._btnNewSession, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this._btnReturnToSession, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this._btnReconfigure, 1, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 38);
@@ -473,6 +475,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(748, 682);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
@@ -483,7 +486,7 @@
             this._lbl32Bit.BackColor = System.Drawing.Color.Red;
             this._lbl32Bit.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._lbl32Bit.ForeColor = System.Drawing.Color.White;
-            this._lbl32Bit.Location = new System.Drawing.Point(30, 465);
+            this._lbl32Bit.Location = new System.Drawing.Point(38, 465);
             this._lbl32Bit.Name = "_lbl32Bit";
             this._lbl32Bit.Size = new System.Drawing.Size(432, 65);
             this._lbl32Bit.TabIndex = 20;
@@ -504,7 +507,7 @@
             this._btnMostRecent.MaximumSize = new System.Drawing.Size(658, 672);
             this._btnMostRecent.Name = "_btnMostRecent";
             this._btnMostRecent.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-            this._btnMostRecent.Size = new System.Drawing.Size(441, 74);
+            this._btnMostRecent.Size = new System.Drawing.Size(458, 74);
             this._btnMostRecent.TabIndex = 2;
             this._btnMostRecent.Text = "    Last file";
             this._btnMostRecent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -525,7 +528,7 @@
             this._btnNewSession.MaximumSize = new System.Drawing.Size(658, 672);
             this._btnNewSession.Name = "_btnNewSession";
             this._btnNewSession.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-            this._btnNewSession.Size = new System.Drawing.Size(441, 74);
+            this._btnNewSession.Size = new System.Drawing.Size(458, 74);
             this._btnNewSession.TabIndex = 0;
             this._btnNewSession.Text = "    Create a new session";
             this._btnNewSession.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -546,7 +549,7 @@
             this._btnReturnToSession.MaximumSize = new System.Drawing.Size(658, 672);
             this._btnReturnToSession.Name = "_btnReturnToSession";
             this._btnReturnToSession.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-            this._btnReturnToSession.Size = new System.Drawing.Size(441, 74);
+            this._btnReturnToSession.Size = new System.Drawing.Size(458, 74);
             this._btnReturnToSession.TabIndex = 1;
             this._btnReturnToSession.Text = "    Return to an existing session";
             this._btnReturnToSession.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -557,11 +560,10 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::MetaboliteLevels.Properties.Resources.StartLogo;
-            this.pictureBox2.Location = new System.Drawing.Point(492, 0);
+            this.pictureBox2.Location = new System.Drawing.Point(-248, 0);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox2.Name = "pictureBox2";
-            this.tableLayoutPanel1.SetRowSpan(this.pictureBox2, 3);
-            this.pictureBox2.Size = new System.Drawing.Size(256, 248);
+            this.pictureBox2.Size = new System.Drawing.Size(480, 480);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox2.TabIndex = 3;
             this.pictureBox2.TabStop = false;
@@ -776,7 +778,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(749, 537);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(749, 529);
             this.tableLayoutPanel2.TabIndex = 0;
             this._tipSideBar.SetToolTip(this.tableLayoutPanel2, "*");
             // 
@@ -784,7 +786,7 @@
             // 
             this._btnCondInfo.Enabled = false;
             this._btnCondInfo.Image = ((System.Drawing.Image)(resources.GetObject("_btnCondInfo.Image")));
-            this._btnCondInfo.Location = new System.Drawing.Point(707, 491);
+            this._btnCondInfo.Location = new System.Drawing.Point(707, 483);
             this._btnCondInfo.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnCondInfo.Name = "_btnCondInfo";
             this._btnCondInfo.Size = new System.Drawing.Size(28, 29);
@@ -797,7 +799,7 @@
             // _btnDataSetVar
             // 
             this._btnDataSetVar.Image = ((System.Drawing.Image)(resources.GetObject("_btnDataSetVar.Image")));
-            this._btnDataSetVar.Location = new System.Drawing.Point(707, 323);
+            this._btnDataSetVar.Location = new System.Drawing.Point(707, 315);
             this._btnDataSetVar.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnDataSetVar.Name = "_btnDataSetVar";
             this._btnDataSetVar.Size = new System.Drawing.Size(28, 29);
@@ -810,7 +812,7 @@
             // _btnDataSetObs
             // 
             this._btnDataSetObs.Image = ((System.Drawing.Image)(resources.GetObject("_btnDataSetObs.Image")));
-            this._btnDataSetObs.Location = new System.Drawing.Point(707, 259);
+            this._btnDataSetObs.Location = new System.Drawing.Point(707, 251);
             this._btnDataSetObs.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnDataSetObs.Name = "_btnDataSetObs";
             this._btnDataSetObs.Size = new System.Drawing.Size(28, 29);
@@ -823,7 +825,7 @@
             // _btnDataSetData
             // 
             this._btnDataSetData.Image = ((System.Drawing.Image)(resources.GetObject("_btnDataSetData.Image")));
-            this._btnDataSetData.Location = new System.Drawing.Point(707, 195);
+            this._btnDataSetData.Location = new System.Drawing.Point(707, 187);
             this._btnDataSetData.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnDataSetData.Name = "_btnDataSetData";
             this._btnDataSetData.Size = new System.Drawing.Size(28, 29);
@@ -836,7 +838,7 @@
             // 
             this._btnAltVals.Enabled = false;
             this._btnAltVals.Image = ((System.Drawing.Image)(resources.GetObject("_btnAltVals.Image")));
-            this._btnAltVals.Location = new System.Drawing.Point(707, 407);
+            this._btnAltVals.Location = new System.Drawing.Point(707, 399);
             this._btnAltVals.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnAltVals.Name = "_btnAltVals";
             this._btnAltVals.Size = new System.Drawing.Size(28, 29);
@@ -1036,7 +1038,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(748, 720);
+            this.tabPage3.Size = new System.Drawing.Size(757, 720);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Compounds";
             this.tabPage3.ToolTipText = "*";
@@ -1067,7 +1069,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(740, 712);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(749, 712);
             this.tableLayoutPanel7.TabIndex = 19;
             // 
             // flowLayoutPanel4
@@ -1078,7 +1080,7 @@
             this.flowLayoutPanel4.Controls.Add(this._btnBrowseAdducts);
             this.flowLayoutPanel4.Controls.Add(this._btnDelAdduct);
             this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(348, 411);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(352, 411);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(44, 111);
@@ -1146,7 +1148,7 @@
             this._lstAdducts.Location = new System.Drawing.Point(8, 411);
             this._lstAdducts.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this._lstAdducts.Name = "_lstAdducts";
-            this._lstAdducts.Size = new System.Drawing.Size(340, 301);
+            this._lstAdducts.Size = new System.Drawing.Size(344, 301);
             this._lstAdducts.TabIndex = 7;
             this._tipPopup.SetToolTip(this._lstAdducts, "Selected libraries");
             this._tipSideBar.SetToolTip(this._lstAdducts, "*Adducts");
@@ -1158,11 +1160,11 @@
             this._lstAvailableAdducts.ForeColor = System.Drawing.Color.Blue;
             this._lstAvailableAdducts.FormattingEnabled = true;
             this._lstAvailableAdducts.ItemHeight = 21;
-            this._lstAvailableAdducts.Location = new System.Drawing.Point(392, 411);
+            this._lstAvailableAdducts.Location = new System.Drawing.Point(396, 411);
             this._lstAvailableAdducts.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this._lstAvailableAdducts.Name = "_lstAvailableAdducts";
             this._lstAvailableAdducts.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this._lstAvailableAdducts.Size = new System.Drawing.Size(340, 301);
+            this._lstAvailableAdducts.Size = new System.Drawing.Size(345, 301);
             this._lstAvailableAdducts.TabIndex = 5;
             this._tipPopup.SetToolTip(this._lstAvailableAdducts, "Available libraries");
             this._tipSideBar.SetToolTip(this._lstAvailableAdducts, "*Adducts");
@@ -1177,7 +1179,7 @@
             this._lstCompounds.Location = new System.Drawing.Point(8, 74);
             this._lstCompounds.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this._lstCompounds.Name = "_lstCompounds";
-            this._lstCompounds.Size = new System.Drawing.Size(340, 300);
+            this._lstCompounds.Size = new System.Drawing.Size(344, 300);
             this._lstCompounds.TabIndex = 5;
             this._tipSideBar.SetToolTip(this._lstCompounds, "*Compounds");
             // 
@@ -1190,7 +1192,7 @@
             this.flowLayoutPanel3.Controls.Add(this._btnAddCompoundLibrary);
             this.flowLayoutPanel3.Controls.Add(this._btnRemoveLibrary);
             this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(348, 74);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(352, 74);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(44, 148);
@@ -1259,11 +1261,11 @@
             this._lstAvailCompounds.ForeColor = System.Drawing.Color.Blue;
             this._lstAvailCompounds.FormattingEnabled = true;
             this._lstAvailCompounds.ItemHeight = 21;
-            this._lstAvailCompounds.Location = new System.Drawing.Point(392, 74);
+            this._lstAvailCompounds.Location = new System.Drawing.Point(396, 74);
             this._lstAvailCompounds.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this._lstAvailCompounds.Name = "_lstAvailCompounds";
             this._lstAvailCompounds.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this._lstAvailCompounds.Size = new System.Drawing.Size(340, 300);
+            this._lstAvailCompounds.Size = new System.Drawing.Size(345, 300);
             this._lstAvailCompounds.TabIndex = 5;
             this._tipSideBar.SetToolTip(this._lstAvailCompounds, "*Compounds");
             // 
@@ -1297,7 +1299,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(748, 720);
+            this.tabPage2.Size = new System.Drawing.Size(757, 720);
             this.tabPage2.TabIndex = 8;
             this.tabPage2.Text = "Annotations";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1322,7 +1324,7 @@
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(742, 714);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(751, 714);
             this.tableLayoutPanel9.TabIndex = 0;
             // 
             // label11
@@ -1341,7 +1343,7 @@
             // 
             this._btnIdentifications.Enabled = false;
             this._btnIdentifications.Image = ((System.Drawing.Image)(resources.GetObject("_btnIdentifications.Image")));
-            this._btnIdentifications.Location = new System.Drawing.Point(696, 137);
+            this._btnIdentifications.Location = new System.Drawing.Point(705, 137);
             this._btnIdentifications.Margin = new System.Windows.Forms.Padding(8);
             this._btnIdentifications.Name = "_btnIdentifications";
             this._btnIdentifications.Size = new System.Drawing.Size(28, 29);
@@ -1372,7 +1374,7 @@
             this._txtIdentifications.Location = new System.Drawing.Point(34, 137);
             this._txtIdentifications.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._txtIdentifications.Name = "_txtIdentifications";
-            this._txtIdentifications.Size = new System.Drawing.Size(646, 29);
+            this._txtIdentifications.Size = new System.Drawing.Size(655, 29);
             this._txtIdentifications.TabIndex = 5;
             this._tipSideBar.SetToolTip(this._txtIdentifications, "*Identifications");
             // 
@@ -1512,7 +1514,7 @@
             this._txtHelp.Margin = new System.Windows.Forms.Padding(4);
             this._txtHelp.Multiline = true;
             this._txtHelp.Name = "_txtHelp";
-            this._txtHelp.Size = new System.Drawing.Size(33, 700);
+            this._txtHelp.Size = new System.Drawing.Size(35, 700);
             this._txtHelp.TabIndex = 1;
             this._tipSideBar.SetToolTip(this._txtHelp, "*");
             // 
@@ -1525,7 +1527,7 @@
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(33, 26);
+            this.textBox1.Size = new System.Drawing.Size(35, 26);
             this.textBox1.TabIndex = 2;
             this._tipSideBar.SetToolTip(this.textBox1, "*");
             // 
@@ -1547,7 +1549,7 @@
             this.splitContainer1.Panel2.Controls.Add(this._txtHelp);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Size = new System.Drawing.Size(988, 726);
-            this.splitContainer1.SplitterDistance = 950;
+            this.splitContainer1.SplitterDistance = 948;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 18;
             // 
@@ -1575,8 +1577,20 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(1020, 758);
             this.tableLayoutPanel4.TabIndex = 19;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.pictureBox2);
+            this.panel1.Location = new System.Drawing.Point(512, 3);
+            this.panel1.MaximumSize = new System.Drawing.Size(233, 253);
+            this.panel1.MinimumSize = new System.Drawing.Size(233, 253);
+            this.panel1.Name = "panel1";
+            this.tableLayoutPanel1.SetRowSpan(this.panel1, 3);
+            this.panel1.Size = new System.Drawing.Size(233, 253);
+            this.panel1.TabIndex = 20;
             // 
             // FrmDataLoadQuery
             // 
@@ -1632,6 +1646,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1740,5 +1756,6 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label _lbl32Bit;
+        private System.Windows.Forms.Panel panel1;
     }
 }

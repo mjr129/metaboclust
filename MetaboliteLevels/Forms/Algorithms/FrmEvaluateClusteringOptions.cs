@@ -44,18 +44,27 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return;
                 }
 
+                var prevParam = (AlgoParameters.Param)_lstParameters.SelectedItem;
+
                 _lstParameters.Items.Clear();
 
                 _txtAlgorithm.Text = value.ToString();
 
-                foreach (var param in value.Cached.GetParams().Parameters)
+                foreach (AlgoParameters.Param param in value.Cached.GetParams().Parameters)
                 {
                     _lstParameters.Items.Add(param);
                 }
 
                 _txtStatistics.Text = StringHelper.ArrayToString(EnumHelper.SplitEnum(value.Args.Statistics));
 
-                _lstParameters_SelectedIndexChanged(null, EventArgs.Empty);
+                if (prevParam != null && _lstParameters.Items.Contains(prevParam))
+                {
+                    _lstParameters.SelectedItem = prevParam;
+                }
+                else
+                {
+                    _lstParameters_SelectedIndexChanged(null, EventArgs.Empty);
+                }
             }
         }
 
@@ -119,12 +128,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             AlgoParameters.Param pa = (AlgoParameters.Param)_lstParameters.SelectedItem;
 
             object[] opts = StringHelper.StringToArray(_txtValues.Text, z => AlgoParameters.TryReadParameter(_core, z, pa.Type), "\r\n");
-            int num;
-
-            if (!int.TryParse(_txtNumTimes.Text, out num))
-            {
-                num = -1;
-            }
+            int num = (int)_numNumTimes.Value;
 
             if (opts.Length == 0 || (opts.Length == 1 && opts[0] == null))
             {
@@ -140,7 +144,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (num <= 0 || num > 99)
             {
-                _errorProvider1.ShowError(_txtNumTimes, "Repeat count is invalid");
+                _errorProvider1.ShowError(_numNumTimes, "Repeat count is invalid");
                 return null;
             }
 
@@ -164,7 +168,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 SelectedAlgorithm = def.ClustererConfiguration;
                 _lstParameters.SelectedIndex = def.ParameterIndex;
                 _txtValues.Text = StringHelper.ArrayToString(def.ParameterValues, z => AlgoParameters.ParamToString(true, core, z), "\r\n");
-                _txtNumTimes.Text = def.NumberOfRepeats.ToString();
+                _numNumTimes.Value = def.NumberOfRepeats;
             }
 
             UiControls.CompensateForVisualStyles(this);

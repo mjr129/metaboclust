@@ -38,7 +38,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._core = core;
             this._cluster = cluster;
 
-            this._txtName.Text = cluster.Title;
+            this._txtName.Text = cluster.OverrideDisplayName;
             this._txtComment.Text = cluster.Comment;
         }
 
@@ -52,14 +52,14 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private void ApplyDelete(IProgressReporter reportProgress)
+        private void ApplyDelete(ProgressReporter reportProgress)
         {
             _core.SetClusterers(_core.Clusterers.Where(z => z != _cluster.Method), false, reportProgress);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _cluster.Title = _txtName.Text;
+            _cluster.OverrideDisplayName = _txtName.Text;
             _cluster.Comment = _txtComment.Text;
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }

@@ -31,7 +31,7 @@ using MetaboliteLevels.Viewers.Lists;
 namespace MetaboliteLevels.Forms
 {
     // This is a comment, please remove it
-    
+
     /// <summary>
     /// Main form.
     /// </summary>
@@ -380,7 +380,7 @@ namespace MetaboliteLevels.Forms
 
                 if (e.variable != null)
                 {
-                    _btnGraphPat2.Image = e.variable.DisplayIcon;
+                    _btnGraphPat2.Image = e.variable.REMOVE_THIS_FUNCTION;
                 }
                 else
                 {
@@ -463,7 +463,7 @@ namespace MetaboliteLevels.Forms
                 if (object1 != null)
                 {
                     _lblCurrentSel.Text = object1.DisplayName;
-                    _btnSel.Image = object1.DisplayIcon;
+                    _btnSel.Image = UiControls.GetImage(object1.GetIcon(), true);
                 }
                 else
                 {
@@ -475,7 +475,7 @@ namespace MetaboliteLevels.Forms
                 if (object2 != null)
                 {
                     _lblSel2.Text = object2.DisplayName;
-                    _btnSel2.Image = object2.DisplayIcon;
+                    _btnSel2.Image = UiControls.GetImage(object2.GetIcon(), true);
                     _lblSel2.Visible = true;
                     _btnSel2.Visible = true;
                 }
@@ -633,7 +633,7 @@ namespace MetaboliteLevels.Forms
             }
             else
             {
-                _btnGraphPat.Image = p.ActualElement.DisplayIcon;
+                _btnGraphPat.Image = UiControls.GetImage(p.ActualElement.GetIcon(), true);
             }
 
             _patChart.Plot(p);
@@ -723,7 +723,7 @@ namespace MetaboliteLevels.Forms
             }
             else
             {
-                _btnGraphVar.Image = peak.DisplayIcon;
+                _btnGraphVar.Image = peak.REMOVE_THIS_FUNCTION;
             }
 
             _peakList.Selection = peak; // make sure it is selected
@@ -849,10 +849,10 @@ namespace MetaboliteLevels.Forms
                 bool e = _core.Options.ViewTypes.Contains(ti);
 
                 var tsmi = new ToolStripMenuItem("Display " + ti.Name)
-                           {
-                               Tag = ti,
-                               Image = UiControls.CreateSolidColourImage(e, ti)
-                           };
+                {
+                    Tag = ti,
+                    Image = UiControls.CreateSolidColourImage(e, ti)
+                };
 
                 var tsmi2 = new ToolStripButton(ti.Name)
                 {
@@ -938,7 +938,7 @@ namespace MetaboliteLevels.Forms
 
             try
             {
-                FrmWait.Show(this, "Saving session", null, () => _core.Save(fileName));
+                FrmWait.Show(this, "Saving session", null, z => _core.Save(fileName, z));
 
                 success = true;
             }
@@ -1302,7 +1302,7 @@ namespace MetaboliteLevels.Forms
                             {
                                 sb.Append(", ");
                             }
-                            sb.Append(pc.Compound.Name + " [" + pc.Adduct.Name + "]");
+                            sb.Append(pc.Compound.DefaultDisplayName + " [" + pc.Adduct.DefaultDisplayName + "]");
                         }
 
                         string patNames = StringHelper.ArrayToString(v.Assignments.Clusters, "; ");
@@ -1475,7 +1475,7 @@ namespace MetaboliteLevels.Forms
 
             foreach (IVisualisable o in _viewHistory)
             {
-                ToolStripButton historyButton = new ToolStripButton(o.DisplayName, o.DisplayIcon);
+                ToolStripButton historyButton = new ToolStripButton(o.DisplayName, UiControls.GetImage(o.GetIcon(), true));
                 historyButton.Click += historyButton_Click;
                 historyButton.Tag = o;
                 _btnBack.DropDownItems.Add(historyButton);
@@ -1744,7 +1744,7 @@ namespace MetaboliteLevels.Forms
         {
             bool changes = false;
 
-        repeat:
+            repeat:
             var group = ListValueSet.ForGroups(_core).IncludeMessage("View or modify experimental groups").ShowList(this);
 
             if (group != null)
