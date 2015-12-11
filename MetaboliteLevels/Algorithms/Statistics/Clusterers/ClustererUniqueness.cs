@@ -96,7 +96,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 pat = newClusters[index];
 
                 double[] values = pats.Select(z => z.Vector.Values).SelectMany(z => z).ToArray();
-                Vector v = new Vector(peak, null, conditions[index], observations[index], values);
+                Vector v = new Vector(peak, null, conditions[index], observations[index], values, vmatIndex);
                 pat.Assignments.Add(new Assignment(v, pat, pats.Count));
             }
 

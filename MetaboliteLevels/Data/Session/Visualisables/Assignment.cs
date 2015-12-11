@@ -57,12 +57,6 @@ namespace MetaboliteLevels.Data.Visualisables
         public Dictionary<string, double> AssignmentStatistics = new Dictionary<string, double>();
 
         /// <summary>
-        /// Only to speed up statistic calculations
-        /// </summary>
-        [NonSerialized]
-        public double[] CurrentStatisticVector;
-
-        /// <summary>
         /// Unused (can't be disabled)
         /// </summary>
         bool ITitlable.Enabled { get { return true; } set { } }

@@ -79,6 +79,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             get { return Clusters.Where(z => z.States == Cluster.EStates.None); }
         }
 
+        public class ForStat
+        {
+            internal Assignment Assignment;
+            internal double[] ClusterVector;
+            internal ObsFilter ObsFilter;
+            public Vector AssignmentVector;
+            internal DistanceMatrix DistanceMatrix;
+        }
+
         /// <summary>
         /// Action completed - calcula
         /// </summary>
@@ -107,39 +116,47 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             // If we don't have a DMatrix we should calculate the sil. width manually
             // The DMatrix might be too big to pass to R so its better just to avoid it.
             prog.Enter("Calculating assignment statistics");
-            int progressIndicator = 0;
             List<ObsFilter> groupFilters = new List<ObsFilter>();
 
             // No filter
             groupFilters.Add(null);
 
-            // Defined filters
-            if (statistics.HasFlag(EClustererStatistics.IncludePartialVectorsForFilters))
+            if (!vmatrix.SplitGroups)
             {
-                groupFilters.AddRange(core.ObsFilters);
+                // Defined filters
+                if (statistics.HasFlag(EClustererStatistics.IncludePartialVectorsForFilters))
+                {
+                    groupFilters.AddRange(core.ObsFilters);
+                }
+
+                // Group filters (if not already)
+                if (statistics.HasFlag(EClustererStatistics.IncludePartialVectorsForGroups))
+                {
+                    AllGroupsFilters(core, groupFilters);
+                }
             }
 
-            // Group filters (if not already)
-            if (statistics.HasFlag(EClustererStatistics.IncludePartialVectorsForGroups))
-            {
-                AllGroupsFilters(core, groupFilters);
-            }
+            List<ForStat> needsCalculating = new List<ForStat>();
 
             foreach (ObsFilter obsFilter in groupFilters)
             {
-                int[] filteredIndices = GetFilterIndices(obsFilter);
+                ValueMatrix vmatFiltered;
+                DistanceMatrix dmatFiltered;
+                int[] filteredIndices;
 
-                foreach (Assignment ass in Assignments)
+                if (obsFilter == null)
                 {
-                    if (filteredIndices != null)
-                    {
-                        ass.CurrentStatisticVector = ass.Vector.Values.In2(filteredIndices); // TODO: Not thread safe but it is too slow to use a lookup
-                    }
-                    else
-                    {
-                        ass.CurrentStatisticVector = ass.Vector.Values;
-                    }
+                    vmatFiltered = vmatrix;
+                    dmatFiltered = dmatrix;
+                    filteredIndices = null;
                 }
+                else
+                {
+                    vmatFiltered = ValueMatrix.Create(vmatrix, obsFilter, out filteredIndices);
+                    dmatFiltered = null;
+                }
+
+                Dictionary<Cluster, double[]> centreVectors = new Dictionary<Cluster, double[]>();
 
                 foreach (Cluster cluster in realClusters)
                 {
@@ -153,92 +170,56 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
                         centreVector = centreVector.In2(filteredIndices);
                     }
 
-                    foreach (Assignment assignment in cluster.Assignments.List)
+                    centreVectors.Add(cluster, centreVector);
+                }
+
+                foreach (Assignment ass in Assignments)
+                {
+                    ForStat f = new ForStat();
+                    f.Assignment = ass;
+                    f.ObsFilter = obsFilter;
+
+                    if (filteredIndices != null)
                     {
-                        prog.SetProgress(progressIndicator++, Assignments.Count * groupFilters.Count);
+                        f.AssignmentVector = vmatFiltered.Vectors[ass.Vector.Index];
+                    }
+                    else
+                    {
+                        f.AssignmentVector = ass.Vector;
+                    }
 
-                        if (centreVector != null)
+                    f.ClusterVector = centreVectors[ass.Cluster];
+
+                    if (statistics.HasFlag(EClustererStatistics.SilhouetteWidth))
+                    {
+                        if (dmatFiltered == null)
                         {
-                            if (statistics.HasFlag(EClustererStatistics.EuclideanFromAverage))
-                            {
-                                // Euclidean
-                                assignment.AssignmentStatistics.Add(CreatePartialKey(obsFilter, STAT_ASSIGNMENT_EUCLIDEAN_FROM_AVG), Maths.Euclidean(assignment.CurrentStatisticVector, centreVector));
-                            }
-
-                            if (metric != null // Metric available
-                                && statistics.HasFlag(EClustererStatistics.DistanceFromAverage) // Set to do
-                                && !(metric.Id == Algo.ID_METRIC_EUCLIDEAN && statistics.HasFlag(EClustererStatistics.EuclideanFromAverage))) // Not done already!
-                            {
-                                // Distance
-                                assignment.AssignmentStatistics.Add(CreatePartialKey(obsFilter, metric.ToString() + STAT_ASSIGNMENT_DISTANCE_FROM_AVG), metric.Calculate(assignment.CurrentStatisticVector, centreVector));
-                            }
-                        }
-
-                        double silhouetteWidth;
-                        Cluster nextNearestCluster = null;
-                        double nextNearestClusterId;
-
-                        if (statistics.HasFlag(EClustererStatistics.SilhouetteWidth))
-                        {
-                            ClustererStatisticsHelper.CalculateSilhouette(assignment, realClusters, metric, out silhouetteWidth, out nextNearestCluster);
-
-                            if (!double.TryParse(nextNearestCluster.ShortName, out nextNearestClusterId))
-                            {
-                                nextNearestClusterId = double.NaN;
-                            }
-
-                            // Silhouette
-                            assignment.AssignmentStatistics.Add(CreatePartialKey(obsFilter, STAT_ASSIGNMENT_SILHOUETTE_WIDTH), silhouetteWidth);
-                            assignment.AssignmentStatistics.Add(CreatePartialKey(obsFilter, STAT_ASSIGNMENT_NEXT_NEAREST_CLUSTER), nextNearestClusterId);
-                        }
-
-                        // Score is constant so only create one
-                        if (obsFilter == null)
-                        {
-                            // Score
-                            assignment.AssignmentStatistics.Add(STAT_ASSIGNMENT_SCORE, assignment.Score);
-
-                            // Next nearest cluster
-                            assignment.NextNearestCluster = nextNearestCluster;
+                            dmatFiltered = DistanceMatrix.Create(core, vmatrix, metric, prog);
                         }
                     }
+
+                    f.DistanceMatrix = dmatFiltered;
+
+                    needsCalculating.Add(f);
                 }
             }
 
-            // Clear the CurrentStatisticVector, it's a massive memory waste
-            foreach (Assignment ass in Assignments)
-            {
-                ass.CurrentStatisticVector = null;
-            }
+            // ASSIGNMENT STATS
+            ProgressParallelHandler progP = prog.CreateParallelHandler(needsCalculating.Count);
+            Parallel.ForEach(needsCalculating, z => CalculateAssignmentStatistics(statistics, z, realClusters, metric, progP));
 
-            //////////////////
             // CLUSTER STATS
-            foreach (Cluster cluster in this.Clusters)
-            {
-                cluster.CalculateAveragedStatistics();
-                cluster.CalculateCommentFlags();
+            progP = prog.CreateParallelHandler(this.Clusters.Length);
+            Parallel.ForEach(this.Clusters, z => CalculateClusterStatistics(core, statistics, z, progP));
 
-                var clusterStatistics = cluster.ClusterStatistics;
-                var assignments = cluster.Assignments.List;
+            // SUMMARY STATS
+            CalculateSummaryStatistics(core, statistics, realClusters);
 
-                int hcomp, numcomp, hpeak, numpath;
-                ClustererStatisticsHelper.CalculateHighestCompounds(cluster, out hcomp, out numcomp);
-                ClustererStatisticsHelper.CalculateHighestPeaks(cluster, out hpeak, out numpath);
-                clusterStatistics.Add(STAT_CLUSTER_AVERAGE_HIGHEST_NUM_COMPOUNDS, hcomp);
-                clusterStatistics.Add(STAT_CLUSTER_AVERAGE_NUM_COMPOUNDS, numcomp);
-                clusterStatistics.Add(STAT_CLUSTER_AVERAGE_HIGHEST_NUM_PEAKS, hpeak);
-                clusterStatistics.Add(STAT_CLUSTER_AVERAGE_NUM_PATHWAYS, numpath);
+            prog.Leave();
+        }
 
-                //////////////////////////
-                // GROUP STATS (cluster)
-                if (statistics.HasFlag(EClustererStatistics.ClusterAverages))
-                {
-                    AddAveragedStatistics(core, clusterStatistics, assignments);
-                }
-            }
-
-            //////////////////////
-            // GROUP STATS (all)
+        private void CalculateSummaryStatistics(Core core, EClustererStatistics statistics, Cluster[] realClusters)
+        {
             if (statistics.HasFlag(EClustererStatistics.AlgorithmAverages))
             {
                 AddAveragedStatistics(core, this.ClustererStatistics, Assignments);
@@ -248,8 +229,83 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             {
                 this.ClustererStatistics.Add(STAT_CLUSTERER_BIC, ClustererStatisticsHelper.CalculateBic(realClusters, Assignments));
             }
+        }
 
-            prog.Leave();
+        private static void CalculateClusterStatistics(Core core, EClustererStatistics statistics, Cluster cluster, ProgressParallelHandler prog)
+        {
+            prog.SafeIncrement();
+            cluster.CalculateAveragedStatistics();
+            cluster.CalculateCommentFlags();
+
+            var clusterStatistics = cluster.ClusterStatistics;
+            var assignments = cluster.Assignments.List;
+
+            int hcomp, numcomp, hpeak, numpath;
+            ClustererStatisticsHelper.CalculateHighestCompounds(cluster, out hcomp, out numcomp);
+            ClustererStatisticsHelper.CalculateHighestPeaks(cluster, out hpeak, out numpath);
+            clusterStatistics.Add(STAT_CLUSTER_AVERAGE_HIGHEST_NUM_COMPOUNDS, hcomp);
+            clusterStatistics.Add(STAT_CLUSTER_AVERAGE_NUM_COMPOUNDS, numcomp);
+            clusterStatistics.Add(STAT_CLUSTER_AVERAGE_HIGHEST_NUM_PEAKS, hpeak);
+            clusterStatistics.Add(STAT_CLUSTER_AVERAGE_NUM_PATHWAYS, numpath);
+
+            //////////////////////////
+            // GROUP STATS (cluster)
+            if (statistics.HasFlag(EClustererStatistics.ClusterAverages))
+            {
+                AddAveragedStatistics(core, clusterStatistics, assignments);
+            }
+        }
+
+        private static void CalculateAssignmentStatistics(EClustererStatistics statistics, ForStat stat, Cluster[] realClusters, ConfigurationMetric metric, ProgressParallelHandler prog)
+        {
+            prog.SafeIncrement();
+
+            // STATS: Distance from avg
+            if (stat.ClusterVector != null)
+            {
+                // Euclidean
+                if (statistics.HasFlag(EClustererStatistics.EuclideanFromAverage))
+                {
+                    stat.Assignment.AssignmentStatistics.Add(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_EUCLIDEAN_FROM_AVG), Maths.Euclidean(stat.AssignmentVector.Values, stat.ClusterVector));
+                }
+
+                // Custom (if applicable)
+                if (metric != null
+                    && statistics.HasFlag(EClustererStatistics.DistanceFromAverage)
+                    && !(metric.Id == Algo.ID_METRIC_EUCLIDEAN && statistics.HasFlag(EClustererStatistics.EuclideanFromAverage)))
+                {
+                    stat.Assignment.AssignmentStatistics.Add(CreatePartialKey(stat.ObsFilter, metric.ToString() + STAT_ASSIGNMENT_DISTANCE_FROM_AVG), metric.Calculate(stat.AssignmentVector.Values, stat.ClusterVector));
+                }
+            }
+
+            // STATS: Silhouette
+            double silhouetteWidth;
+            Cluster nextNearestCluster = null;
+            double nextNearestClusterId;
+
+            if (statistics.HasFlag(EClustererStatistics.SilhouetteWidth))
+            {
+                ClustererStatisticsHelper.CalculateSilhouette(stat, realClusters, out silhouetteWidth, out nextNearestCluster);
+
+                if (!double.TryParse(nextNearestCluster.ShortName, out nextNearestClusterId))
+                {
+                    nextNearestClusterId = double.NaN;
+                }
+
+                // Silhouette
+                stat.Assignment.AssignmentStatistics.Add(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_SILHOUETTE_WIDTH), silhouetteWidth);
+                stat.Assignment.AssignmentStatistics.Add(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_NEXT_NEAREST_CLUSTER), nextNearestClusterId);
+            }
+
+            // STATS: Score
+            if (stat.ObsFilter == null)
+            {
+                // Score
+                stat.Assignment.AssignmentStatistics.Add(STAT_ASSIGNMENT_SCORE, stat.Assignment.Score);
+
+                // Next nearest cluster
+                stat.Assignment.NextNearestCluster = nextNearestCluster;
+            }
         }
 
         private void AllGroupsFilters(Core core, List<ObsFilter> results)
@@ -292,26 +348,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             return true;
         }
 
-        private int[] GetFilterIndices(ObsFilter ofilter)
-        {
-            if (ofilter != null)
-            {
-                if (Assignments.First().Vector.Observations != null)
-                {
-                    return Assignments.First().Vector.Observations.Which(z => ofilter.Test(z)).ToArray();
-                }
-                else
-                {
-                    return Assignments.First().Vector.Conditions.Which(z => ofilter.Test(z)).ToArray();
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
 
-        private string CreatePartialKey(ObsFilter obsFilter, string key)
+
+        private static string CreatePartialKey(ObsFilter obsFilter, string key)
         {
             if (obsFilter != null)
             {

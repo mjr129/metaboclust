@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Algorithms;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -122,6 +123,34 @@ namespace MetaboliteLevels.Utilities
         public static IEnumerable<int> Indices(this IList self)
         {
             return Enumerable.Range(0, self.Count);
+        }
+
+        /// <summary>
+        /// (MJR) Compares all adjacent elements
+        /// </summary>
+        internal static bool CompareAdjacent<T>(this IEnumerable<T> self, Func<T, T, bool> comparer)
+        {
+            T prevT = default(T);
+            bool hasT = false;
+
+            foreach (T t in self)
+            {
+                if (hasT)
+                {
+                    if (!comparer(prevT, t))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    hasT = true;
+                }
+
+                prevT = t;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -371,7 +400,7 @@ namespace MetaboliteLevels.Utilities
             }
 
             return @default;
-        }         
+        }
 
         public static IEnumerable<T> Corresponding<T>(this IEnumerable<T> array1, IEnumerable<bool> array2)
         {

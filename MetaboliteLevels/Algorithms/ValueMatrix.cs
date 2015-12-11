@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.IO;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Algorithms
 {
@@ -21,14 +22,16 @@ namespace MetaboliteLevels.Algorithms
         public readonly ConditionInfo[] Conditions;
         public readonly ObservationInfo[] Observations;
         public readonly double[] Values;
+        public readonly int Index;
 
-        public Vector(Peak peak, GroupInfo group, ConditionInfo[] conditions, ObservationInfo[] observations, double[] values)
+        public Vector(Peak peak, GroupInfo group, ConditionInfo[] conditions, ObservationInfo[] observations, double[] values, int index)
         {
             Peak = peak;
             Group = group;
             Conditions = conditions;
             Observations = observations;
             Values = values;
+            Index = index;
         }
 
         internal bool DiffGroups(Vector vector)
@@ -93,6 +96,69 @@ namespace MetaboliteLevels.Algorithms
             return Flatten(Vectors.Select(z => z.Values).ToArray());
         }
 
+        public bool SplitGroups
+        {
+            get
+            {
+                return Vectors[0].Group != null;
+            }
+        }
+
+        private int[] GetFilterIndices(ObsFilter ofilter)
+        {
+            if (this.SplitGroups)
+            {
+                throw new InvalidOperationException("GetFilterIndices invalid where SplitGroups is true.");
+            }
+
+            if (ofilter == null)
+            {
+                return Enumerable.Range(0, this.Vectors[0].Values.Length).ToArray();
+            }
+
+            if (this.UsesTrend)
+            {
+                return this.Vectors[0].Conditions.Which(z => ofilter.Test(z)).ToArray();
+            }
+            else
+            {
+                return this.Vectors[0].Observations.Which(z => ofilter.Test(z)).ToArray();
+            }
+        }
+
+        public static ValueMatrix Create(ValueMatrix original, ObsFilter obsFilter, out int[] filteredIndices)
+        {
+            filteredIndices = original.GetFilterIndices(obsFilter);
+            Vector[] newVectors = new Vector[original.Vectors.Length];
+
+            if (original.UsesTrend)
+            {
+                Debug.Assert(original.Vectors.CompareAdjacent((x, y) => object.ReferenceEquals(x.Conditions, y.Conditions)));
+
+                var conditions = original.Vectors[0].Conditions.In(filteredIndices).ToArray(); // We assume all condition arrays are equal
+
+                for (int r = 0; r < original.NumVectors; r++)
+                {
+                    Vector o = original.Vectors[r];
+                    newVectors[r] = new Vector(o.Peak, o.Group, conditions, null, o.Values.In(filteredIndices).ToArray(), r);
+                }
+            }
+            else
+            {
+                Debug.Assert(original.Vectors.CompareAdjacent((x, y) => object.ReferenceEquals(x.Observations, y.Observations)));
+
+                var observations = original.Vectors[0].Observations.In(filteredIndices).ToArray(); // We assume all observation arrays are equal
+
+                for (int r = 0; r < original.NumVectors; r++)
+                {
+                    Vector o = original.Vectors[r];
+                    newVectors[r] = new Vector(o.Peak, o.Group, null, observations, o.Values.In(filteredIndices).ToArray(), r);
+                }
+            }
+
+            return new ValueMatrix(original.UsesTrend, newVectors);
+        }
+
         /// <summary>
         /// Creates a values matrix from a list of peaks.
         /// </summary>
@@ -105,8 +171,8 @@ namespace MetaboliteLevels.Algorithms
         public static ValueMatrix Create(IReadOnlyList<Peak> peaks, bool useTrend, Core core, ObsFilter obsFilterOrNull, bool splitGroups, ProgressReporter prog)
         {
             int x = peaks.Count;
-            ConditionInfo[] obs1;
-            ObservationInfo[] obs2;
+            ConditionInfo[] conditions;
+            ObservationInfo[] observations;
             GroupInfo[] groups;
             var obsFilter = obsFilterOrNull ?? ObsFilter.Empty;
 
@@ -142,12 +208,12 @@ namespace MetaboliteLevels.Algorithms
                         which = core.Conditions.WhichInOrder(z => z.Group == group && obsFilter.Test(z), ConditionInfo.GroupTimeOrder).ToArray();
                     }
 
-                    obs1 = core.Conditions.In(which).ToArray();
+                    conditions = core.Conditions.In(which).ToArray();
                     int y = which.Length;
 
                     if (groupIndex != 0)
                     {
-                        ValidateOrder(vectors[groupOffset - 1].Conditions, obs1);
+                        ValidateOrder(vectors[groupOffset - 1].Conditions, conditions);
                     }
 
                     ValidateSize(core, vectors.Length, which.Length);
@@ -161,7 +227,7 @@ namespace MetaboliteLevels.Algorithms
                             s[j] = peaks[i].Observations.Trend[which[j]];
                         }
 
-                        vectors[groupOffset + i] = new Vector(peaks[i], group, obs1, null, s);
+                        vectors[groupOffset + i] = new Vector(peaks[i], group, conditions, null, s, groupOffset + i);
                     }
                 }
                 else
@@ -178,12 +244,12 @@ namespace MetaboliteLevels.Algorithms
                         which = core.Observations.WhichInOrder(z => z.Group == group && obsFilter.Test(z), ObservationInfo.GroupTimeOrder).ToArray();
                     }
 
-                    obs2 = core.Observations.In(which).ToArray();
+                    observations = core.Observations.In(which).ToArray();
                     int y = which.Length;
 
                     if (groupIndex != 0)
                     {
-                        ValidateOrder(vectors[groupOffset - 1].Observations, obs2);
+                        ValidateOrder(vectors[groupOffset - 1].Observations, observations);
                     }
 
                     ValidateSize(core, vectors.Length, which.Length);
@@ -197,12 +263,17 @@ namespace MetaboliteLevels.Algorithms
                             s[j] = peaks[i].Observations.Raw[which[j]];
                         }
 
-                        vectors[groupOffset + i] = new Vector(peaks[i], group, null, obs2, s);
+                        vectors[groupOffset + i] = new Vector(peaks[i], group, null, observations, s, groupOffset + i);
                     }
                 }
             }
 
             return new ValueMatrix(useTrend, vectors);
+        }
+
+        internal int FindIndex(Vector vector)
+        {
+            return Vectors.IndexOf(vector);
         }
 
         private static void ValidateSize(Core core, int numIVs, int lenIVs)

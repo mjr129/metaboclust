@@ -642,17 +642,19 @@ namespace MetaboliteLevels.Forms.Algorithms
                 {
                     proggy.Enter("Test " + index + "/" + of + ", parameter " + valueIndex + "/" + test.ParameterValues.Length + ", repetition " + repetition + "/" + test.NumberOfRepeats);
 
+                    // Create config
                     string newName = AlgoParameters.ParamToString(false, null, value) + " " + StringHelper.Circle(repetition + 1);
-
                     object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
                     copyOfParameters[test.ParameterIndex] = value;
                     ArgsClusterer copyOfArgs = new ArgsClusterer(test.ClustererConfiguration.Args.PeakFilter, test.ClustererConfiguration.Args.Distance, test.ClustererConfiguration.Args.SourceMode, test.ClustererConfiguration.Args.ObsFilter, test.ClustererConfiguration.Args.SplitGroups, test.ClustererConfiguration.Args.Statistics, copyOfParameters);
                     var copyOfConfig = new ConfigurationClusterer(newName, test.ClustererConfiguration.Comment, test.ClustererConfiguration.Id, copyOfArgs);
 
+                    // Try load previus result
                     ResultClusterer result = TryLoadIntermediateResult(core, test.Guid, valueIndex, repetition, proggy);
 
                     if (result == null)
                     {
+                        // Do clustering!
                         proggy.Enter("Clustering");
                         result = copyOfConfig.Cluster(core, 0, proggy);
                         proggy.Leave();
@@ -663,6 +665,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                         }
                     }
 
+                    // Add result
                     repetitions.Add(result);
 
                     string name = AlgoParameters.ParamToString(false, null, value);

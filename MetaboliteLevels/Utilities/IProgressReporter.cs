@@ -14,6 +14,28 @@ namespace MetaboliteLevels.Utilities
         void ReportProgressDetails(string title, int percent);
     }
 
+    class ProgressParallelHandler
+    {
+        private int count;
+        private int current;
+        private ProgressReporter progressReporter;
+
+        public ProgressParallelHandler(ProgressReporter progressReporter, int count)
+        {
+            this.progressReporter = progressReporter;
+            this.count = count;
+        }
+
+        public void SafeIncrement()
+        {
+            lock(this)
+            {
+                ++current;
+                progressReporter.SetProgress(current, count);
+            }
+        }
+    }
+
     internal class ProgressReporter : ISerialiserReceiver
     {
         private const int MAX_UPDATE_TIME = 250;
@@ -157,5 +179,10 @@ namespace MetaboliteLevels.Utilities
                 // NA
             }
         }
+
+        internal ProgressParallelHandler CreateParallelHandler(int count)
+        {
+            return new ProgressParallelHandler(this, count);
+        }  
     }
 }

@@ -23,6 +23,7 @@ using MetaboliteLevels.Algorithms.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.General;
 using System.Diagnostics;
+using MetaboliteLevels.Algorithms;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -160,6 +161,23 @@ namespace MetaboliteLevels.Utilities
             {
                 return Version.ToString() + (IsDebug ? " (DEBUG BUILD)" : ".R");
             }
+        }
+
+        /// <summary>
+        /// (MJR)
+        /// </summary>
+        internal static Dictionary<T,int> CreateIndexLookup<T>(this IEnumerable<T> self)
+        {
+            Dictionary<T, int> result = new Dictionary<T, int>();
+            int n = 0;
+
+            foreach (T t in self)
+            {
+                result.Add(t, n);
+                ++n;
+            }
+
+            return result;
         }
 
         /// <summary>

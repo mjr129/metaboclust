@@ -9,6 +9,8 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Algorithms.Statistics;
+using MetaboliteLevels.Algorithms.Statistics.Results;
+using MetaboliteLevels.Algorithms;
 
 namespace MetaboliteLevels.Data.General
 {
@@ -23,18 +25,19 @@ namespace MetaboliteLevels.Data.General
         /// fuck it, just use R.
         /// actually ballocks, can't, R can't handle big matrices
         /// </summary>
-        public static void CalculateSilhouette(Assignment ass, IReadOnlyList<Cluster> clusters, ConfigurationMetric metric, out double silhouette, out Cluster nearestCluster)
+        public static void CalculateSilhouette(ResultClusterer.ForStat ass, IReadOnlyList<Cluster> clusters, out double silhouette, out Cluster nearestCluster)
         {
-            double a = CalculateSilhouette_CalculateD(ass, ass.Cluster.Assignments.List, metric);
+            // a = d(i, c) where c is i's cluster
+            double a = CalculateSilhouette_CalculateD(ass, ass.Assignment.Cluster.Assignments.List);
 
             Cluster nearest = null;
             double b = double.MaxValue;
 
             foreach (Cluster cluster in clusters)
             {
-                if (cluster != ass.Cluster)
+                if (cluster != ass.Assignment.Cluster)
                 {
-                    double d = CalculateSilhouette_CalculateD(ass, cluster.Assignments.List, metric);
+                    double d = CalculateSilhouette_CalculateD(ass, cluster.Assignments.List);
 
                     if (d < b)
                     {
@@ -54,13 +57,13 @@ namespace MetaboliteLevels.Data.General
         /// Used by CalculateSilhouette.
         /// Calculates d(i).
         /// </summary>
-        private static double CalculateSilhouette_CalculateD(Assignment ass, IReadOnlyList<Assignment> ass2s, ConfigurationMetric metric)
+        private static double CalculateSilhouette_CalculateD(ResultClusterer.ForStat stat, IReadOnlyList<Assignment> ass2s)
         {
             double[] result = new double[ass2s.Count];
 
             for (int index = 0; index < ass2s.Count; index++)
             {
-                result[index] = metric.Calculate(ass.CurrentStatisticVector, ass2s[index].CurrentStatisticVector);
+                result[index] = stat.DistanceMatrix.Values[stat.Assignment.Vector.Index, ass2s[index].Vector.Index];
             }
 
             if (result.Length == 0)
