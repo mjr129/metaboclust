@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmWait));
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -37,8 +38,8 @@
             this._chkDeprioritise = new System.Windows.Forms.CheckBox();
             this._chkPrioritise = new System.Windows.Forms.CheckBox();
             this._chkSuspend = new System.Windows.Forms.CheckBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this._chkLazy = new System.Windows.Forms.CheckBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -48,7 +49,7 @@
             this.ctlTitleBar1.AutoSize = true;
             this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.HelpText = resources.GetString("ctlTitleBar1.HelpText");
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
@@ -120,7 +121,7 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(425, 34);
             this.flowLayoutPanel1.TabIndex = 4;
             this.flowLayoutPanel1.Visible = false;
-            this.flowLayoutPanel1.WrapContents = false;                                                            
+            this.flowLayoutPanel1.WrapContents = false;
             // 
             // _chkStop
             // 
@@ -170,14 +171,6 @@
             this._chkSuspend.UseVisualStyleBackColor = true;
             this._chkSuspend.CheckedChanged += new System.EventHandler(this._chkSuspend_CheckedChanged);
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
             // _chkLazy
             // 
             this._chkLazy.AutoSize = true;
@@ -189,6 +182,14 @@
             this._chkLazy.Text = "Lazy";
             this._chkLazy.UseVisualStyleBackColor = true;
             this._chkLazy.CheckedChanged += new System.EventHandler(this._chkLazy_CheckedChanged);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // FrmWait
             // 
