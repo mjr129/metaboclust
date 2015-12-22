@@ -509,6 +509,15 @@ namespace MetaboliteLevels.Utilities
             return which;
         }
 
+        public static IEnumerable<int> WhichOrder<T>(this T[] array, Comparison<T> order)
+        {
+            int[] which = array.Indices().ToArray();
+
+            ArrayHelper.Sort(array, which, order);
+
+            return which;
+        }
+
         /// <summary>
         /// (MJR) Yields indices of array where the predicate is true.
         /// </summary>
@@ -574,6 +583,17 @@ namespace MetaboliteLevels.Utilities
             while (e1.MoveNext() && e2.MoveNext())
             {
                 array[e1.Current] = e2.Current;
+            }
+        }
+
+        /// <summary>
+        /// (MJR) Add with a lock
+        /// </summary>           
+        public static void ThreadSafeAdd<T, U>(this Dictionary<T, U> self, T key, U value)
+        {
+            lock(self)
+            {
+                self.Add(key, value);
             }
         }
     }

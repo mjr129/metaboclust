@@ -407,6 +407,7 @@ namespace MetaboliteLevels.Algorithms
             }
 
             double[,] s = new double[n, n];
+            prog.Enter("Calculating distance matrix");
 
             for (int i = 0; i < n; i++)
             {
@@ -417,6 +418,8 @@ namespace MetaboliteLevels.Algorithms
                     s[i, j] = metric.Calculate(valueMatrix[i], valueMatrix[j]);
                 }
             }
+
+            prog.Leave();
 
             return new DistanceMatrix(s, valueMatrix);
         }

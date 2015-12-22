@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MetaboliteLevels</RootNamespace>
     <AssemblyName>MetaboliteLevels</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyInfoFilePath>Properties\AssemblyInfo.cs</AssemblyInfoFilePath>
     <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
@@ -36,6 +36,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,7 +44,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -163,6 +164,9 @@
     <Compile Include="Algorithms\Statistics\Results\ResultTrend.cs" />
     <Compile Include="Algorithms\ValueMatrix.cs" />
     <Compile Include="Controls\CtlErrorProvider.cs" />
+    <Compile Include="Controls\CtlTableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\EditableComboBox.cs" />
     <Compile Include="Data\General\CompoundLibrary.cs" />
     <Compile Include="Algorithms\Statistics\Results\SecondaryStatistic.cs" />
@@ -230,6 +234,7 @@
     <Compile Include="Utilities\ArrayHelper.cs" />
     <Compile Include="Utilities\BiDictionary.cs" />
     <Compile Include="Utilities\ComparisonComparer.cs" />
+    <Compile Include="Utilities\ConstAttribute.cs" />
     <Compile Include="Utilities\Counter.cs" />
     <Compile Include="Utilities\EErrorHandler.cs" />
     <Compile Include="Algorithms\Statistics\Configurations\ConfigurationBase.cs" />

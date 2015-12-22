@@ -42,6 +42,16 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             return UiControls.Blend(Color.White, color, 0.5);
         }
+
+        public static int GroupOrder(GroupInfoBase a, GroupInfoBase b)
+        {
+            return a.Id.CompareTo(b.Id);
+        }
+
+        public static int GroupOrderBy(GroupInfoBase a)
+        {
+            return a.Id;
+        }
     }
 
     /// <summary>

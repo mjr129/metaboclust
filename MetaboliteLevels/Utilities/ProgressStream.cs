@@ -11,17 +11,26 @@ namespace MetaboliteLevels.Utilities
         private ProgressReporter _progressHandler;
 
         public ProgressStream(Stream stream, ProgressReporter progressHandler)
-        {            
+        {
             _stream = stream;
             _progressHandler = progressHandler;
         }
 
-        private void ReportProgress()
+        private void ReportProgressRead()
         {
             if (_progressHandler != null)
             {
                 // Convert to percentage now to avoid large int errors later
                 _progressHandler.SetProgress((int)((_stream.Position * 100) / _stream.Length), 100);
+                _progressHandler.SetBytes(_stream.Position);
+            }
+        }
+
+        private void ReportProgressWrite()
+        {
+            if (_progressHandler != null)
+            {
+                _progressHandler.SetBytes(_stream.Position);
             }
         }
 
@@ -59,9 +68,9 @@ namespace MetaboliteLevels.Utilities
         }
 
         public override void Close()
-        {                           
+        {
             _stream.Close();
-        }    
+        }
 
         public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
         {
@@ -74,7 +83,7 @@ namespace MetaboliteLevels.Utilities
         }
 
         protected override void Dispose(bool disposing)
-        {                           
+        {
             if (disposing)
             {
                 _stream.Dispose();
@@ -111,7 +120,7 @@ namespace MetaboliteLevels.Utilities
         public override int Read(byte[] buffer, int offset, int count)
         {
             int result = _stream.Read(buffer, offset, count);
-            ReportProgress();
+            ReportProgressRead();
             return result;
         }
 
@@ -167,6 +176,7 @@ namespace MetaboliteLevels.Utilities
         public override void Write(byte[] buffer, int offset, int count)
         {
             _stream.Write(buffer, offset, count);
+            ReportProgressWrite();
         }
 
         public override Task WriteAsync(byte[] buffer, int offset, int count, System.Threading.CancellationToken cancellationToken)

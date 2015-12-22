@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this._lblInfo = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1 = new Controls.CtlTableLayoutPanel();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -156,7 +156,7 @@
         #endregion
 
         private System.Windows.Forms.Label _lblInfo;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private Controls.CtlTableLayoutPanel tableLayoutPanel1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.LinkLabel linkLabel1;

@@ -24,7 +24,7 @@ namespace MetaboliteLevels.Forms.Startup
     /// <summary>
     /// Performs loading of the dataset / session.
     /// </summary>
-    public partial class FrmDataLoad : Form, IProgressReporter
+    public partial class FrmDataLoad : Form, IProgressReceiver
     {
         // column headers
         private const string OBSFILE_TIME_HEADER = "time,day,t";
@@ -1220,15 +1220,34 @@ namespace MetaboliteLevels.Forms.Startup
             return statPearson;
         }
 
-        void IProgressReporter.ReportProgressDetails(string title, int v)
+        void IProgressReceiver.ReportProgressDetails(ProgressReporter.ProgInfo info)
         {
-            backgroundWorker1.ReportProgress(v, title);
+            backgroundWorker1.ReportProgress(0, info);
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            progressBar1.Value = e.ProgressPercentage;
-            _lblInfo.Text = e.UserState.ToString();
+            ProgressReporter.ProgInfo info = (ProgressReporter.ProgInfo)e.UserState;
+
+            if (info.Percent >= 0)
+            {
+                progressBar1.Value = info.Percent;
+                progressBar1.Maximum = 100;
+                progressBar1.Style = ProgressBarStyle.Continuous;
+            }
+            else
+            {
+                progressBar1.Style = ProgressBarStyle.Marquee;
+            }
+
+            if (info.CText != null)
+            {
+                _lblInfo.Text = info.Text + " (" + info.CText + ")";
+            }
+            else
+            {
+                _lblInfo.Text = info.Text;
+            }
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

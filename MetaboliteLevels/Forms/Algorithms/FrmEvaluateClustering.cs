@@ -151,7 +151,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                 cols.Add("Name", true, z => z.DisplayName);
 
-                foreach (var v in Results.Results)
+                foreach (ClusterEvaluationParameterResult v in Results.Results)
                 {
                     var closure = v;
                     cols.Add(Results.Configuration.ParameterName + " = " + closure.DisplayName, false, z => z.Column.GetRow(closure));
@@ -166,7 +166,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        private void SelectResults(ClusterEvaluationResults config)
+        private void SelectResults(string fileName, ClusterEvaluationResults config)
         {
             _selectedResults = config;
 
@@ -180,10 +180,13 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (config == null)
             {
+                this.Text = "Evaluate Clustering";
+                toolStripTextBox1.Text = string.Empty;
                 return;
             }
 
-            toolStripLabel1.Text = config.ToString();
+            toolStripTextBox1.Text = config.ToString();
+            this.Text = "Evaluate Clustering - " + fileName;
             _lvhConfigs.DivertList(config.Results);
 
             List<ColumnWrapper> cols2 = new List<ColumnWrapper>();
@@ -805,7 +808,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
             catch
             {
-                proggy.Leave();
+                proggy.Leave(); // Result will probably be NULL rather than throwing an exception
                 return null;
             }
 
@@ -826,9 +829,18 @@ namespace MetaboliteLevels.Forms.Algorithms
         public static ClusterEvaluationResults LoadResults(Form owner, Core core, string fileName)
         {
             LookupByGuidSerialiser guidS = core.GetLookups();
+            ClusterEvaluationResults set;
 
-            ClusterEvaluationResults set = FrmWait.Show(owner, "Loading results", null,
-                z => XmlSettings.LoadFromFile<ClusterEvaluationResults>(fileName, SerialisationFormat.Infer, z, guidS));
+            try
+            {
+                set = FrmWait.Show(owner, "Loading results", null,
+                   z => XmlSettings.LoadFromFile<ClusterEvaluationResults>(fileName, SerialisationFormat.Infer, z, guidS));
+            }
+            catch (Exception ex)
+            {
+                FrmMsgBox.ShowError(owner, ex);
+                return null;
+            }
 
             if (set != null)
             {
@@ -865,7 +877,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (set != null)
             {
                 _core.EvaluationResultFiles.Add(new ClusterEvaluationPointer(fn, fakePointer));
-                SelectResults(set);
+                SelectResults(fn, set);
             }
         }
 
@@ -916,7 +928,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (set != null)
             {
-                SelectResults(set);
+                SelectResults(res.FileName, set);
             }
         }
 

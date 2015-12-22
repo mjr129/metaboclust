@@ -14,6 +14,16 @@ namespace MetaboliteLevels.Utilities
     internal static class Maths
     {
         /// <summary>
+        /// A set of basic colours.
+        /// </summary>
+        public static readonly Color[] BasicColours = { Color.FromArgb(128, 0, 0), Color.FromArgb(0, 128, 0), Color.FromArgb(0, 0, 128), Color.FromArgb(128, 128, 0), Color.FromArgb(128, 0, 128), Color.FromArgb(0, 128, 128), Color.FromArgb(128, 128, 128), Color.FromArgb(255, 0, 0), Color.FromArgb(0, 255, 0), Color.FromArgb(0, 0, 255), Color.FromArgb(255, 255, 0), Color.FromArgb(255, 0, 255), Color.FromArgb(0, 255, 255) };
+
+        /// <summary>
+        /// The names of the [BasicColours] array.
+        /// </summary>
+        public static readonly string[] BasicColourNames = { "dark red", "dark green", "dark blue", "dark yellow", "dark magenta", "dark cyan", "gray", "bright red", "bright green", "bright blue", "bright yellow", "bright magenta", "bright cyan" };
+
+        /// <summary>
         /// Calculates the Euclidean distance between two vectors.
         /// </summary>
         public static double Euclidean(double[] a, double[] b)
@@ -47,17 +57,12 @@ namespace MetaboliteLevels.Utilities
             t = Math.Sqrt(t);
 
             return t;
-        }
-
-       
-
+        } 
 
         /// <summary>
-        /// Unique combinations of [count] numbers, with each combination containing [len] elements.
+        /// Returns the unique combinations of [count] numbers, with each combination containing
+        /// [len] elements.
         /// </summary>
-        /// <param name="len"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
         public static IEnumerable<int[]> UniqueCombinations(int len, int count)
         {
             // A special case if len is greater than the count then just return the maximum number we can
@@ -105,27 +110,42 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Returns the minimum of vars.
+        /// </summary>                  
         public static T Min<T>(IEnumerable<T> vars) where T : IComparable
         {
             return GenericMax<T>(vars, -1);
         }
 
+        /// <summary>
+        /// Returns the maximum of vars.
+        /// </summary>                  
         public static T Max<T>(IEnumerable<T> vars) where T : IComparable
         {
             return GenericMax<T>(vars, 1);
         }
 
+        /// <summary>
+        /// Returns the absolute minimum of vars.
+        /// </summary>                  
         public static double AbsMin(IEnumerable<double> vars)
         {
             return AbsMax(vars, -1);
         }
 
+        /// <summary>
+        /// Returns the absolute maximum of vars.
+        /// </summary>                  
         public static double AbsMax(IEnumerable<double> vars)
         {
             return AbsMax(vars, 1);
         }
 
-        public static double AbsMax(IEnumerable<double> vars, int v)
+        /// <summary>
+        /// Returns the absolute minimum ([v] = -1) or maximum ([v] = 1) of vars.
+        /// </summary>                  
+        private static double AbsMax(IEnumerable<double> vars, int v)
         {
             bool assigned = false;
             double absResult = 0;
@@ -148,6 +168,9 @@ namespace MetaboliteLevels.Utilities
             return result;
         }
 
+        /// <summary>
+        /// Returns the minimum ([v] = -1) or maximum ([v] = 1) of vars.
+        /// </summary>               
         private static T GenericMax<T>(IEnumerable<T> vars, int v) where T : IComparable
         {
             bool assigned = false;
@@ -168,7 +191,7 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// Calculates the median.
+        /// Returns the median of vars.
         /// </summary>
         public static double Median(IEnumerable<double> vars)
         {
@@ -176,7 +199,7 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// Calculates the median.
+        /// Calculates the median of vars.
         /// </summary>
         public static double Median(double[] vars)
         {
@@ -192,15 +215,14 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-       
-
-      
-
-        public static T FindHighest<T>(this IEnumerable<T> list, Comparison<T> comparison) where T : class
+        /// <summary>
+        /// Returns the highest of [vars] as defined by the [comparison].
+        /// </summary>                                                   
+        public static T FindHighest<T>(this IEnumerable<T> vars, Comparison<T> comparison) where T : class
         {
             T max = null;
 
-            foreach (T t in list)
+            foreach (T t in vars)
             {
                 if (max == null || comparison(t, max) > 0)
                 {
@@ -211,6 +233,9 @@ namespace MetaboliteLevels.Utilities
             return max;
         }
 
+        /// <summary>
+        /// Returns the highest of [vars] as defined by the [convertor].
+        /// </summary>                                                   
         public static T FindHighest<T>(this IEnumerable<T> list, Converter<T, IComparable> convertor) where T : class
         {
             T max = null;
@@ -226,6 +251,9 @@ namespace MetaboliteLevels.Utilities
             return max;
         }
 
+        /// <summary>
+        /// Returns the lowest of [vars] as defined by the [convertor].
+        /// </summary>              
         public static T FindLowest<T>(this IEnumerable<T> list, Converter<T, IComparable> convertor) where T : class
         {
             T max = null;
@@ -241,6 +269,9 @@ namespace MetaboliteLevels.Utilities
             return max;
         }
 
+        /// <summary>
+        /// Returns the lowest of [vars] as defined by the [comparison].
+        /// </summary>              
         public static T FindLowest<T>(this IEnumerable<T> list, Comparison<T> comparison) where T : class
         {
             T max = null;
@@ -254,12 +285,12 @@ namespace MetaboliteLevels.Utilities
             }
 
             return max;
-        }
-
+        }                
     
 
         /// <summary>
         /// Shuffles a list.
+        /// Modifies the original list.
         /// </summary>
         public static void Shuffle<T>(this IList<T> list, int seed = 0)
         {
@@ -275,14 +306,17 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        public static readonly Color[] BasicColours = { Color.FromArgb(128, 0, 0), Color.FromArgb(0, 128, 0), Color.FromArgb(0, 0, 128), Color.FromArgb(128, 128, 0), Color.FromArgb(128, 0, 128), Color.FromArgb(0, 128, 128), Color.FromArgb(128, 128, 128), Color.FromArgb(255, 0, 0), Color.FromArgb(0, 255, 0), Color.FromArgb(0, 0, 255), Color.FromArgb(255, 255, 0), Color.FromArgb(255, 0, 255), Color.FromArgb(0, 255, 255) };
-        public static readonly string[] BasicColourNames = { "dark red", "dark green", "dark blue", "dark yellow", "dark magenta", "dark cyan", "gray", "bright red", "bright green", "bright blue", "bright yellow", "bright magenta", "bright cyan" };
-
-        internal static Color GetBasicColour(int ci)
+        /// <summary>
+        /// Returns the basic colour indexed by [i] (looping - any value is valid).
+        /// </summary>             
+        internal static Color GetBasicColour(int i)
         {
-            return BasicColours[ci % BasicColours.Length];
+            return BasicColours[i % BasicColours.Length];
         }
 
+        /// <summary>
+        /// Returns the name of the basic colour indexed by [i] (looping - any value is valid).
+        /// </summary>             
         internal static string GetBasicColourName(int index)
         {
             return BasicColourNames[index % BasicColours.Length];
@@ -382,29 +416,11 @@ namespace MetaboliteLevels.Utilities
             }
 
             return Math.Sqrt(total / count);
-        }
+        }      
 
-        /*   /// <summary>
-           /// Measures the distance between two vectors using the specified metric.
-           /// </summary>
-           internal static double MeasureDistance(double[] a, double[] b, EDistanceMetric distanceMetric)
-           {
-               switch (distanceMetric)
-               {
-                   case EDistanceMetric.Euclidean:
-                       return Maths.Euclidean(a, b);
-
-                   case EDistanceMetric.Pearson:
-                       return Arr.Instance.Pearson(a, b);
-
-                   case EDistanceMetric.Qian:
-                       return Maths.Qian(a, b);
-
-                   default:
-                       throw new SwitchException(distanceMetric);
-               }
-           }   */
-
+        /// <summary>
+        /// Retuns the Qian distance between two vectors.
+        /// </summary>                                   
         public static double QianDistance(double[] X, double[] Y)
         {
             return -Qian(X, Y);
@@ -481,6 +497,9 @@ namespace MetaboliteLevels.Utilities
             return s;
         }
 
+        /// <summary>
+        /// Normalises the vector.
+        /// </summary>            
         private static double[] Normalise(double[] X)
         {
             double mean = Mean(X);
@@ -491,7 +510,7 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// Returns the value of the largest absolute value
+        /// Returns the absolute maximum of two numbers.
         /// </summary>
         private static double AbsMax(double a, double b)
         {
@@ -504,7 +523,5 @@ namespace MetaboliteLevels.Utilities
                 return b;
             }
         }
-    }
-
-    
+    }    
 }

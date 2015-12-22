@@ -252,9 +252,13 @@ namespace MetaboliteLevels.Utilities
 
         internal static string TimeAsString(TimeSpan elapsed)
         {
-            if (elapsed.TotalMinutes > 1)
+            if (elapsed.TotalMinutes > 2)
             {
                 return (int)elapsed.TotalMinutes + " minutes";
+            }
+            else if (elapsed.TotalMinutes > 1)
+            {
+                return (int)elapsed.TotalMinutes + " minute";
             }
             else
             {
@@ -535,6 +539,22 @@ namespace MetaboliteLevels.Utilities
         internal static string AsFraction(int a, int b)
         {
             return a.ToString() + " / " + b + " (" + (((double)a / b) * 100).ToString("F00") + "%)";
+        }
+
+        internal static string DisplayBytes(long bytes)
+        {
+            if (bytes < 1024)
+            {
+                return bytes + "b";
+            }
+            else if (bytes < (1024 * 1024))
+            {
+                return (bytes / 1024) + "kb";
+            }
+            else
+            {
+                return (bytes / (1024 * 1024)) + "Mb";
+            }
         }
     }
 

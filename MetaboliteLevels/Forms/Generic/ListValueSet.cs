@@ -105,14 +105,14 @@ namespace MetaboliteLevels.Forms.Generic
         {
             return new ListValueSet<ClusterEvaluationPointer>()
             {
-                Title = "Test Queue",
+                Title = "Test Results",
                 List = core.EvaluationResultFiles,
                 Namer = z => z.DisplayName,
-                Describer = z => z.ConfigurationDescription + (z.FileName != null ? ("\r\n @ " + z.FileName) : ""),
+                Describer = z => z.ConfigurationDescription + "\r\n" + z.ParameterDescription + (z.FileName != null ? ("\r\n" + z.FileName) : ""),
                 IconProvider = _GetIcon,
                 ItemEditor = (x, y, z) => FrmEvaluateClusteringOptions.Show(x, core, y, z)
             };
-        } 
+        }
 
         /// <summary>
         /// Acquisitions

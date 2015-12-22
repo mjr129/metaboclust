@@ -1145,7 +1145,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 {
                     if (needsComma)
                     {
-                        sw.Write(",");
+                        sw.Write(", ");
                     }
                     else
                     {
@@ -1158,6 +1158,8 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
             }
 
+            sw.WriteLine();
+
             // Write data
             foreach (IVisualisable item in _filteredList)
             {
@@ -1169,7 +1171,7 @@ namespace MetaboliteLevels.Viewers.Lists
                     {
                         if (needsComma)
                         {
-                            sw.Write(",");
+                            sw.Write(", ");
                         }
                         else
                         {
@@ -1177,11 +1179,19 @@ namespace MetaboliteLevels.Viewers.Lists
                         }
 
                         object v = c.GetRow(item);
-                        string txt = AsString(v);
 
-                        sw.Write("\"");
-                        sw.Write(txt);
-                        sw.Write("\"");
+                        if (v.GetType().IsPrimitive && !(v is char))
+                        {                  
+                            sw.Write(v.ToString());
+                        }
+                        else
+                        {
+                            string txt = AsString(v);
+
+                            sw.Write("\"");
+                            sw.Write(txt);
+                            sw.Write("\"");
+                        }
                     }
                 }
 

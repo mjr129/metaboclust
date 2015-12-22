@@ -23,7 +23,7 @@ namespace MetaboliteLevels.Forms.Editing
     /// <summary>
     /// Additional and debugging options.
     /// </summary>
-    public partial class FrmDebug : Form, IProgressReporter
+    public partial class FrmDebug : Form, IProgressReceiver
     {
         private Stopwatch _lastProgressFlash = Stopwatch.StartNew();
         private int _waitCounter;
@@ -85,15 +85,15 @@ namespace MetaboliteLevels.Forms.Editing
         /// <summary>
         /// Updates the progress bar
         /// </summary>
-        void IProgressReporter.ReportProgressDetails(string title, int value)
+        void IProgressReceiver.ReportProgressDetails(ProgressReporter.ProgInfo info )
         {
-            toolStripStatusLabel2.Text = title;
+            toolStripStatusLabel2.Text = info.Text;
 
-            if (value > 0)
+            if (info.Percent >= 0)
             {
                 toolStripProgressBar1.Maximum = 100;
                 toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
-                toolStripProgressBar1.Value = value;
+                toolStripProgressBar1.Value = info.Percent;
             }
             else
             {

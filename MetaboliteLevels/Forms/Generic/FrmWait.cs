@@ -17,7 +17,7 @@ namespace MetaboliteLevels.Forms.Generic
         private Info _info;
         private ProgressReporter _prog;
 
-        private class Info : IProgressReporter
+        private class Info : IProgressReceiver
         {
             private FrmWait form;
             private Stopwatch _stopwatch = Stopwatch.StartNew();
@@ -27,9 +27,9 @@ namespace MetaboliteLevels.Forms.Generic
                 this.form = frmWait;
             }
 
-            void IProgressReporter.ReportProgressDetails(string title, int percent)
+            void IProgressReceiver.ReportProgressDetails(ProgressReporter.ProgInfo info)
             {
-                form.backgroundWorker1.ReportProgress(percent, title);
+                form.backgroundWorker1.ReportProgress(0, info);
             }
         }
 
@@ -212,13 +212,15 @@ namespace MetaboliteLevels.Forms.Generic
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            ctlTitleBar1.SubText = e.UserState.ToString();
+            ProgressReporter.ProgInfo info = (ProgressReporter.ProgInfo)e.UserState;
 
-            if (e.ProgressPercentage >= 0 && e.ProgressPercentage <= 100)
+            ctlTitleBar1.SubText = info.Text;
+
+            if (info.Percent >= 0)
             {
                 progressBar1.Style = ProgressBarStyle.Continuous;
                 progressBar1.Maximum = 100;
-                progressBar1.Value = e.ProgressPercentage;
+                progressBar1.Value = info.Percent;
             }
             else
             {
@@ -226,6 +228,16 @@ namespace MetaboliteLevels.Forms.Generic
             }
 
             label1.Text = StringHelper.TimeAsString(_operationTimer.Elapsed);
+
+            if (info.CText != null)
+            {
+                label2.Text = info.CText;
+                label2.Visible = true;
+            }
+            else
+            {
+                label2.Visible = false;
+            }  
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

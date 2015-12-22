@@ -109,7 +109,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
             // Set the selected cluster
             Cluster p = sp != null ? sp.Cluster : null;
-            var colours = sp != null ? sp.Colours : null;
+            Dictionary<Peak, LineInfo> colours = sp != null ? sp.Colours : null;
             SelectedCluster = p;
 
             if (sp != null)
@@ -143,6 +143,7 @@ namespace MetaboliteLevels.Viewers.Charts
             int numClusterCentres = 0;
             HashSet<GroupInfo> groups = p.Assignments.List.Select(z => z.Vector.Group).Unique(); // array containing groups or null
             bool isMultiGroup = groups.Count != 1;
+            GroupInfo[] groupOrder = _core.Groups.OrderBy(GroupInfo.GroupOrderBy).ToArray();
 
             // --- PLOT PATTERN ASSIGNMENTS ---
             // Iterate variables in cluster
@@ -151,134 +152,154 @@ namespace MetaboliteLevels.Viewers.Charts
                 Assignment assignment = toPlot[assignmentIndex];
                 Vector vec = assignment.Vector;
                 Peak peak = vec.Peak;
+                Dictionary<GroupInfo, Series> vecSeries = new Dictionary<GroupInfo, Series>();
 
-                // We are plotting a cluster so don't plot the full variables
-                // - go through each condition of interest in turn
-                foreach (GroupInfo type in core.ConditionsOfInterest)
+                double[] vector = vec.Values;
+
+                ///////////////////
+                // PLOT THE POINT
+                // Okay! Now plot the values pertinent to this peak & type
+                if (vec.Conditions != null)
                 {
-                    //////////////////////
-                    // CREATE THE SERIES
-                    // Each peak + condition gets its own series (yes we end up with lots of series)
-                    Series series = _chart.Series.Add(vec.ToString() + " | " + type.Name);
+                    IEnumerable<int> order = vec.Conditions.WhichOrder(ConditionInfo.GroupTimeOrder);
 
-                    // If the parameters specify a colour for this peak use that, else use the default
-                    if (colours != null && colours.ContainsKey(peak))
+                    foreach (int index in order)
                     {
-                        series.Color = colours[peak].Colour;
-                        series.BorderDashStyle = colours[peak].DashStyle;
-                        series.Name = colours[peak].SeriesName + " | " + type.Name;
+                        // Peak, by condition
+                        ConditionInfo cond = vec.Conditions[index];
+                        GroupInfo group = cond.Group;
+                        Series series = GetOrCreateSeries(vecSeries, group, vec, sp);
+                        int originalIndex = index;
+
+                        int typeOffset = GetTypeOffset(groupOrder, group, isMultiGroup);
+
+                        int x = typeOffset + cond.Time;
+                        double v = vector[originalIndex];
+                        DataPoint cdp = new DataPoint(x, v);
+                        cdp.Tag = new IntensityInfo(cond.Time, null, cond.Group, v);
+                        series.Points.Add(cdp);
                     }
-                    else
+                }
+                else if (vec.Observations != null)
+                {
+                    IEnumerable<int> order = vec.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateOrder);
+
+                    foreach (int index in order)
                     {
-                        series.Color = type.Colour;
+                        // Peak, by observation
+                        ObservationInfo obs = vec.Observations[index];
+                        GroupInfo group = obs.Group;
+                        Series series = GetOrCreateSeries(vecSeries, group, vec, sp);
+
+                        int originalIndex = index;
+
+                        int typeOffset = GetTypeOffset(groupOrder, group, isMultiGroup);
+
+                        int x = typeOffset + obs.Time;
+                        double v = vector[originalIndex];
+                        DataPoint cdp = new DataPoint(x, v);
+                        cdp.Tag = new IntensityInfo(obs.Time, obs.Rep, obs.Group, v);
+                        series.Points.Add(cdp);
                     }
-
-                    series.BorderWidth = sp.Source == peak ? 2 : 1;
-                    series.ChartType = SeriesChartType.Line;
-                    series.IsVisibleInLegend = false;
-                    series.Tag = peak;
-
-                    if (sp.Highlight != null && sp.Highlight.Contains(peak))
-                    {
-                        series.Color = Color.Red;
-                    }
-
-                    double[] vector = vec.Values;
-
-                    ///////////////////
-                    // PLOT THE POINT
-                    // Okay! Now plot the values pertinent to this peak & type
-                    if (vec.Conditions != null)
-                    {
-                        for (int index = 0; index < vec.Conditions.Length; index++)
-                        {
-                            ConditionInfo cond = vec.Conditions[index];
-                            int originalIndex = index;
-
-                            int typeOffset = GetTypeOffset(type, isMultiGroup);
-
-                            if (cond.Group == type)
-                            {
-                                int x = typeOffset + cond.Time;
-                                double v = vector[originalIndex];
-                                DataPoint cdp = new DataPoint(x, v);
-                                cdp.Tag = new IntensityInfo(cond.Time, null, cond.Group, v);
-                                series.Points.Add(cdp);
-                            }
-                        }
-                    }
-                    else if (vec.Observations != null)
-                    {
-                        for (int index = 0; index < vec.Observations.Length; index++)
-                        {
-                            ObservationInfo obs = vec.Observations[index];
-                            int originalIndex = index;
-
-                            int typeOffset = GetTypeOffset(type, isMultiGroup);
-
-                            if (obs.Group == type)
-                            {
-                                int x = typeOffset + obs.Time;
-                                double v = vector[originalIndex];
-                                DataPoint cdp = new DataPoint(x, v);
-                                cdp.Tag = new IntensityInfo(obs.Time, obs.Rep, obs.Group, v);
-                                series.Points.Add(cdp);
-                            }
-                        }
-                    }
-                } // For group
-            }
+                }
+            } // For group  
 
             // --- PLOT PATTERN CENTRES ---
             if (!sp.IsPreview && core.Options.ShowCentres && p.Centres.Count < 100)
             {
-                foreach (GroupInfo group in groups)
+                var templateAssignment = p.Assignments.List.First();
+
+                foreach (double[] centre in p.Centres)
                 {
-                    var templateAssignment = p.Assignments.List.First(z => z.Vector.Group == group);
+                    var series = _chart.Series.Add("Cluster centre #" + (++numClusterCentres));
+                    series.ChartType = SeriesChartType.Line;
+                    series.Color = colourSettings.ClusterCentre;
+                    series.IsVisibleInLegend = false;
+                    series.BorderDashStyle = ChartDashStyle.Dash;
+                    series.MarkerStyle = MarkerStyle.Diamond;
+                    series.MarkerSize = 8;
+                    series.BorderWidth = 2;
 
-                    foreach (double[] centre in p.Centres)
+                    if (templateAssignment.Vector.Conditions != null)
                     {
-                        var series = _chart.Series.Add("Cluster centre #" + (++numClusterCentres));
-                        series.ChartType = SeriesChartType.Line;
-                        series.Color = colourSettings.ClusterCentre;
-                        series.IsVisibleInLegend = false;
-                        series.BorderDashStyle = ChartDashStyle.Dash;
-                        series.MarkerStyle = MarkerStyle.Diamond;
-                        series.MarkerSize = 8;
+                        IEnumerable<int> order = templateAssignment.Vector.Conditions.WhichOrder(ConditionInfo.GroupTimeOrder);
 
-                        if (templateAssignment.Vector.Conditions != null)
+                        foreach (int index in order)
                         {
-                            for (int index = 0; index < templateAssignment.Vector.Conditions.Length; index++)
-                            {
-                                ConditionInfo cond = templateAssignment.Vector.Conditions[index];
-                                double dp = centre[index];
-                                int x = GetTypeOffset(cond.Group, isMultiGroup) + cond.Time;
-                                DataPoint cdp = new DataPoint(x, dp);
-                                cdp.Tag = new IntensityInfo(cond.Time, null, cond.Group, dp);
-                                series.Points.Add(cdp);
-                            }
+                            // Centre, by condition
+                            ConditionInfo cond = templateAssignment.Vector.Conditions[index];
+                            double dp = centre[index];
+                            int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
+                            DataPoint cdp = new DataPoint(x, dp);
+                            cdp.Tag = new IntensityInfo(cond.Time, null, cond.Group, dp);
+                            series.Points.Add(cdp);
                         }
-                        else
+                    }
+                    else
+                    {
+                        IEnumerable<int> order = templateAssignment.Vector.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateOrder);
+
+                        foreach (int index in order)
                         {
-                            for (int index = 0; index < templateAssignment.Vector.Observations.Length; index++)
-                            {
-                                ObservationInfo cond = templateAssignment.Vector.Observations[index];
-                                double dp = centre[index];
-                                int x = GetTypeOffset(cond.Group, isMultiGroup) + cond.Time;
-                                DataPoint cdp = new DataPoint(x, dp);
-                                cdp.Tag = new IntensityInfo(cond.Time, cond.Rep, cond.Group, dp);
-                                series.Points.Add(cdp);
-                            }
+                            // Centre, by observation
+                            ObservationInfo cond = templateAssignment.Vector.Observations[index];
+                            double dp = centre[index];
+                            int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
+                            DataPoint cdp = new DataPoint(x, dp);
+                            cdp.Tag = new IntensityInfo(cond.Time, cond.Rep, cond.Group, dp);
+                            series.Points.Add(cdp);
                         }
                     }
                 }
             }
 
             // LABELS
-            DrawLabels(!isMultiGroup, core.ConditionsOfInterest);
+            DrawLabels(!isMultiGroup, groupOrder);
         }
 
-        private int GetTypeOffset(GroupInfo type, bool groupMode)
+        private Series GetOrCreateSeries(Dictionary<GroupInfo, Series> serieses, GroupInfo group, Vector vec, StylisedCluster sp)
+        {
+            Series series;
+
+            if (serieses.TryGetValue(group, out series))
+            {
+                return series;
+            }
+
+            Peak peak = vec.Peak;
+            Dictionary<Peak, LineInfo> colours = sp != null ? sp.Colours : null;
+
+            // Each peak + condition gets its own series (yes we end up with lots of series)
+            series = _chart.Series.Add(vec.ToString() + " | " + group.Name);
+
+            // If the parameters specify a colour for this peak use that, else use the default
+            if (colours != null && colours.ContainsKey(peak))
+            {
+                series.Color = colours[peak].Colour;
+                series.BorderDashStyle = colours[peak].DashStyle;
+                series.Name = colours[peak].SeriesName + " | " + group.Name;
+            }
+            else
+            {
+                series.Color = group.Colour;
+            }
+
+            series.BorderWidth = sp.Source == peak ? 2 : 1;
+            series.ChartType = SeriesChartType.Line;
+            series.IsVisibleInLegend = false;
+            series.Tag = peak;
+
+            if (sp.Highlight != null && sp.Highlight.Contains(peak))
+            {
+                series.Color = Color.Red;
+            }
+
+            serieses.Add(group, series);
+
+            return series;
+        }
+
+        private int GetTypeOffset(IEnumerable<GroupInfo> order, GroupInfo type, bool groupMode)
         {
             if (groupMode)
             {
@@ -286,7 +307,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
             else
             {
-                return base.GetTypeOffset(_core.ConditionsOfInterest.Concat(_core.Groups), type);
+                return base.GetTypeOffset(order, type);
             }
         }
 

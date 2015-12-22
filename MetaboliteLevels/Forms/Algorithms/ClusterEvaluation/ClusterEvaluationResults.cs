@@ -25,5 +25,10 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             this.Configuration = Configuration;
             this.Results = Results;
         }
+
+        public override string ToString()
+        {
+            return Configuration.ToString();
+        }
     }
 }

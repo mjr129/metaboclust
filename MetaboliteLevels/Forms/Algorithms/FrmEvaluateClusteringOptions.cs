@@ -194,16 +194,24 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (format != null)
             {
-                int[] elems = StringHelper.StringToArray(format, int.Parse, ":");
-                int step = elems.Length >= 2 ? elems[2] : 1;
-
-                StringBuilder sb = new StringBuilder();
-                for (int x = elems[0]; x <= elems[1]; x += step)
+                try
                 {
-                    sb.AppendLine(x.ToString());
-                }
+                    int[] elems = StringHelper.StringToArray(format, int.Parse, ":");
+                    int step = elems.Length >= 2 ? elems[2] : 1;
 
-                _txtValues.Text = sb.ToString();
+                    StringBuilder sb = new StringBuilder();
+                    for (int x = elems[0]; x <= elems[1]; x += step)
+                    {
+                        sb.AppendLine(x.ToString());
+                    }
+
+                    _txtValues.Text = sb.ToString();
+                }
+                catch (Exception ex)
+                {
+                    FrmMsgBox.ShowError(this, ex);
+                    _txtValues.Text = string.Empty;
+                }
             }
 
         }
