@@ -1,4 +1,5 @@
-﻿using MetaboliteLevels.Algorithms.Statistics.Arguments;
+﻿using System;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Inputs;
 using MetaboliteLevels.Utilities;
 
@@ -11,16 +12,19 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
     {
         public readonly RScript _script;
         public const string INPUTS = "value.a=a,value.b=b,intensity.a=-,intensity.b=-,group.a=-,group.b=-,time.a=-,time.b=-,rep.a=-,rep.b=-";
+        private readonly bool _supportsQuickCalculate;
 
         public MetricScript(string script, string id, string name)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS, "1100000000",null, AlgoParameters.ESpecial.StatisticHasTwoInputs);
+            this._script = new RScript(script, INPUTS);
+
+            _supportsQuickCalculate = _script.CheckInputMask("1100000000");   
         }
 
         public override double QuickCalculate(double[] a, double[] b, object[] args)
         {
-            UiControls.Assert(_script.RequiredParameters.SupportsQuickCalculate, "Quick calculate called on a non quick-calculate script.");
+            UiControls.Assert(SupportsQuickCalculate, "Quick calculate called on a non quick-calculate script.");
 
             object[] inputs = { a, b };
             return Arr.Instance.RunScriptDouble(_script, inputs, args);
@@ -45,9 +49,19 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
             }
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
             return _script.RequiredParameters;
         }
+
+        public override bool SupportsQuickCalculate
+        {
+            get
+            {
+                return _supportsQuickCalculate;
+            }
+        }
+
+        public override bool SupportsInputFilters { get { return true; } }
     }
 }

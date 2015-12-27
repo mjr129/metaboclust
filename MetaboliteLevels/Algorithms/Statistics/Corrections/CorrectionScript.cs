@@ -17,7 +17,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Corrections
         public CorrectionScript(string script, string id, string name)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS, null,null,  AlgoParameters.ESpecial.None);
+            this._script = new RScript(script, INPUTS);
         }
 
         public override double[] Calculate(double[] raw, ArgsCorrection args)
@@ -28,7 +28,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Corrections
             return Arr.Instance.RunScriptDoubleV(_script, inputs, parameters).ToArray();
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
             return _script.RequiredParameters;
         }

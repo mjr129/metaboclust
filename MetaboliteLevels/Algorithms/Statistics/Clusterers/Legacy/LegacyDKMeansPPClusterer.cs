@@ -14,11 +14,22 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
 {
     class LegacyDKMeansPPClusterer : ClustererBase
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>  
         public LegacyDKMeansPPClusterer(string id, string name)
             : base(id, name)
         {
+            Description = "k-means clustering using the k-means++ initial centre assignment, always choosing the most likley (most distant) centre.";
         }
 
+        public override bool RequiresDistanceMatrix { get { return false; } }
+        public override bool SupportsDistanceMetrics { get { return true; } }
+        public override bool SupportsObservationFilters { get { return true; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // Get parameters
@@ -122,19 +133,22 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             return result;
         }
 
-        public override AlgoParameters GetParams()
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            AlgoParameters.Param[] p = {
-                                           new AlgoParameters.Param("k", AlgoParameters.EType.Integer),
-                                           new AlgoParameters.Param("d", AlgoParameters.EType.Double),
-                                           new AlgoParameters.Param("seed.peak", AlgoParameters.EType.WeakRefPeak),
-                                           new AlgoParameters.Param("seed.group", AlgoParameters.EType.Group),
-                                           new AlgoParameters.Param("use.kmeans", AlgoParameters.EType.Integer)
-                                       };
+            return new AlgoParameterCollection( new AlgoParameter("k", EAlgoParameterType.Integer),
+                                                new AlgoParameter("d", EAlgoParameterType.Double),
+                                                new AlgoParameter("seed.peak", EAlgoParameterType.WeakRefPeak),
+                                                new AlgoParameter("seed.group", EAlgoParameterType.Group),
+                                                new AlgoParameter("use.kmeans", EAlgoParameterType.Integer)
+                                              );
+        }    
 
-            return new AlgoParameters(AlgoParameters.ESpecial.ClustererIgnoresDistanceMatrix, p);
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
         private static Assignment GetMostDistantAssignment(IEnumerable<Cluster> clusters)
         {
             Assignment furthest = null;

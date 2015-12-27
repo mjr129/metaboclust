@@ -26,9 +26,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
             return Arr.Instance.PcaAnova(input.PeakA, input.Core, groups.ToList(), reps.ToList());
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameters(AlgoParameters.ESpecial.None, null);
+            return null;
         }
+
+        public override bool SupportsInputFilters { get { return true; } }
     }
 }

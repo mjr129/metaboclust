@@ -50,13 +50,16 @@ namespace MetaboliteLevels.Algorithms
         private const string SCRIPT_PEARSON = @"cor(a, b)";
         private const string SCRIPT_KMEANS = "## k = integer\r\nkmeans(x, k)$cluster";
 
+        // Delegates
+        private delegate T Delegate_Constructor<T>(string scriptText, string id, string name);
+
         // Our stores of algorithms, by category
-        public readonly StatCollection<AlgoBase> All = new StatCollection<AlgoBase>();                      // all stats
-        public readonly StatCollection<MetricBase> Metrics = new StatCollection<MetricBase>();              // metrics which support quick calculate
-        public readonly StatCollection<StatisticBase> Statistics = new StatCollection<StatisticBase>();     // stats and metrics
-        public readonly StatCollection<ClustererBase> Clusterers = new StatCollection<ClustererBase>();         // cluster algos
-        public readonly StatCollection<TrendBase> Trends = new StatCollection<TrendBase>();                 // trend algos
-        public readonly StatCollection<CorrectionBase> Corrections = new StatCollection<CorrectionBase>();  // correction algos
+        public readonly StatCollection<AlgoBase> All = new StatCollection<AlgoBase>();                      // All algorithms
+        public readonly StatCollection<MetricBase> Metrics = new StatCollection<MetricBase>();              // Metrics (statistical algorithms which support quick calculate)
+        public readonly StatCollection<StatisticBase> Statistics = new StatCollection<StatisticBase>();     // Statistical algorithms
+        public readonly StatCollection<ClustererBase> Clusterers = new StatCollection<ClustererBase>();     // Clusterer algorithms
+        public readonly StatCollection<TrendBase> Trends = new StatCollection<TrendBase>();                 // Trend generating algorithms
+        public readonly StatCollection<CorrectionBase> Corrections = new StatCollection<CorrectionBase>();  // Correction algorithms
 
         // Instance of this class
         public static Algo Instance { get; private set; }
@@ -100,14 +103,14 @@ namespace MetaboliteLevels.Algorithms
             Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.MAE));
             Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Manhattan));
             Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.MSE));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Pearson, ID_METRIC_PEARSONDISTANCE, "Pearson (distance)"));
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Pearson, ID_METRIC_PEARSONDISTANCE, "1 - Pearson (distance)"));
             Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.SAD));
             Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.SSD));
             Statistics.Add(new MetricInbuilt(Maths.Qian, @"QIAN", "Qian"));
-            Statistics.Add(new MetricInbuilt(Maths.QianDistance, @"QIAN_DISTANCE", "Qian's S (-) (distance)"));
+            Statistics.Add(new MetricInbuilt(Maths.QianDistance, @"QIAN_DISTANCE", "Qian × -1 (distance)"));
 
-            Statistics.Add(new MetricScript(SCRIPT_TTEST, ID_METRIC_TTEST, "t-test") { Description = "Conducts a t-test and returns the p-value" });
-            Statistics.Add(new MetricScript(SCRIPT_PEARSON, ID_METRIC_PEARSON, "Pearson"));
+            Statistics.Add(new MetricScript(SCRIPT_TTEST, ID_METRIC_TTEST, "t-test (p)") { Description = "Conducts a t-test and returns the p-value" });
+            Statistics.Add(new MetricScript(SCRIPT_PEARSON, ID_METRIC_PEARSON, "Pearson (r)"));
 
             // Statistics
             Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.InterquartileRange));
@@ -132,6 +135,8 @@ namespace MetaboliteLevels.Algorithms
             Statistics.Add(new StatisticConsumer(Maths.AbsMin, "STATS_ABSMIN", "Absolute Minimum:"));
             Statistics.Add(new StatisticConsumer(Maths.Max, ID_STATS_MAX, "Maximum:"));
             Statistics.Add(new StatisticConsumer(Maths.Min, ID_STATS_MIN, "Minimum:"));
+            Statistics.Add(new StatisticConsumer(Maths.Sum, "STATS_SUM", "Sum:"));
+            Statistics.Add(new StatisticConsumer(Maths.NegSum, "STATS_NEGSUM", "-Sum:"));
 
             // Trends
             Trends.Add(new TrendFlatLine(Maths.Mean, ID_TREND_FLAT_MEAN, "Straight line across mean"));
@@ -149,12 +154,13 @@ namespace MetaboliteLevels.Algorithms
             Corrections.Add(new CorrectionDirtyRectify(@"ZERO_MISSING", "Zero invalid values"));
 
             // Clusterers
-            Clusterers.Add(new ClustererScript(SCRIPT_KMEANS, ID_KMEANS, "k-means"));
-            Clusterers.Add(new LegacyKMeansClusterer(ID_KMEANSWIZ, "k-means (legacy)"));
-            Clusterers.Add(new LegacyDKMeansPPClusterer(ID_DKMEANSPPWIZ, "d-k-means++ (legacy)"));
-            Clusterers.Add(new LegacyPathwayClusterer(ID_PATFROMPATH, "pathways (legacy)"));
-            Clusterers.Add(new ClustererReclusterer("RECLUSTERER", "Cluster to existing clusters"));
-            Clusterers.Add(new ClustererUniqueness("UNIQCLUST", "Find unique clusters"));
+            Clusterers.Add(new ClustererScript(SCRIPT_KMEANS, ID_KMEANS, "k-means (R)"));
+            Clusterers.Add(new LegacyKMeansClusterer(ID_KMEANSWIZ, "k-means (inbuilt)"));
+            Clusterers.Add(new LegacyDKMeansPPClusterer(ID_DKMEANSPPWIZ, "d-k-means++ (inbuilt)"));
+            Clusterers.Add(new LegacyPathwayClusterer(ID_PATFROMPATH, "*Cluster to pathways"));
+            Clusterers.Add(new ClustererReclusterer("RECLUSTERER", "*Cluster to existing clusters"));
+            Clusterers.Add(new ClustererUniqueness("UNIQCLUST", "*Find unique clusters"));
+            Clusterers.Add(new ClustererAffinityPropagation("AFFINITY", "Affinity propagation (inbuilt)"));
 
             // From files
             PopulateFiles(Statistics, UiControls.EInitialFolder.FOLDER_STATISTICS, (txt, id, name) => new StatisticScript(txt, id, name));
@@ -163,21 +169,25 @@ namespace MetaboliteLevels.Algorithms
             PopulateFiles(Clusterers, UiControls.EInitialFolder.FOLDER_CLUSTERERS, (txt, id, name) => new ClustererScript(txt, id, name));
             PopulateFiles(Corrections, UiControls.EInitialFolder.FOLDER_CORRECTIONS, (txt, id, name) => new CorrectionScript(txt, id, name));
 
-            Metrics.AddRange(Statistics.Where(z => z is MetricBase && z.GetParams().SupportsQuickCalculate).Cast<MetricBase>());
+            // Derivative collections
+            Metrics.AddRange(Statistics.Where(z => z.IsMetric && ((MetricBase)z).SupportsQuickCalculate).Cast<MetricBase>());
             All.AddRange(Statistics);
             All.AddRange(Trends);
             All.AddRange(Clusterers);
             All.AddRange(Corrections);
-        }   
+        }
 
-private static void PopulateFiles<T>(StatCollection<T> col, UiControls.EInitialFolder folder, Func<string, string, string, T> func)
-            where T : AlgoBase
+        /// <summary>
+        /// Adds the algorithms stored on disk.
+        /// </summary>                         
+        private static void PopulateFiles<T>(StatCollection<T> targetCollection, UiControls.EInitialFolder searchFolder, Delegate_Constructor<T> constructorMethod)
+                    where T : AlgoBase
         {
-            foreach (string fn in Directory.GetFiles(UiControls.GetOrCreateFixedFolder(folder), "*.r"))
+            foreach (string fn in Directory.GetFiles(UiControls.GetOrCreateFixedFolder(searchFolder), "*.r"))
             {
-                string id = GetId(folder, fn);
+                string id = GetId(searchFolder, fn);
                 string name = Path.GetFileName(fn);
-                col.Add(func(File.ReadAllText(fn), id, name));
+                targetCollection.Add(constructorMethod(File.ReadAllText(fn), id, name));
             }
         }
 

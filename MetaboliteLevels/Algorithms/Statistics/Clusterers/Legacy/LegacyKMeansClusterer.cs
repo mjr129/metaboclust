@@ -12,11 +12,22 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
 {
     internal class LegacyKMeansClusterer : ClustererBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public LegacyKMeansClusterer(string id, string name)
             : base(id, name)
         {
+            Description = "k-means clustering";
         }
 
+        public override bool RequiresDistanceMatrix { get { return false; } }
+        public override bool SupportsDistanceMetrics { get { return true; } }
+        public override bool SupportsObservationFilters { get { return true; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // GET OPTIONS
@@ -52,10 +63,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             return clusters;
         }
 
-        public override AlgoParameters GetParams()
-        {
-            var parameters = new[] { new AlgoParameters.Param("k", AlgoParameters.EType.Integer) };
-            return new AlgoParameters(AlgoParameters.ESpecial.ClustererIgnoresDistanceMatrix, parameters);
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override AlgoParameterCollection CreateParamaterDesription()
+        {                                                                                        
+            return new AlgoParameterCollection(new AlgoParameter("k", EAlgoParameterType.Integer));
+        }          
     }
 }

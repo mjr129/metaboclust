@@ -14,89 +14,54 @@ using System.Diagnostics;
 
 namespace MetaboliteLevels.Algorithms
 {
-    [Serializable]
-    internal class Vector
-    {
-        public readonly Peak Peak;
-        public readonly GroupInfo Group;
-        public readonly ConditionInfo[] Conditions;
-        public readonly ObservationInfo[] Observations;
-        public readonly double[] Values;
-        public readonly int Index;
+  
 
-        public Vector(Peak peak, GroupInfo group, ConditionInfo[] conditions, ObservationInfo[] observations, double[] values, int index)
-        {
-            Peak = peak;
-            Group = group;
-            Conditions = conditions;
-            Observations = observations;
-            Values = values;
-            Index = index;
-        }
-
-        internal bool DiffGroups(Vector vector)
-        {
-            return Conditions != vector.Conditions || Observations != vector.Observations;
-        }
-
-        public override string ToString()
-        {
-            if (Group == null)
-            {
-                return Peak.DisplayName;
-            }
-            else
-            {
-                return Peak.DisplayName + "∩" + Group.Name;
-            }
-        }
-    }
-
+    /// <summary>
+    /// A matrix of Vector rows, where each vector represents an input
+    /// </summary>
     [Serializable]
     class ValueMatrix
     {
-        public readonly bool UsesTrend;
-        public readonly Vector[] Vectors;
+        public readonly bool UsesTrend;     // Do the vectors use [Vector.Observations] or [Vector.Trend]
+        public readonly Vector[] Vectors;   // The vectors
 
+        /// <summary>
+        /// (Private) Constructor.
+        /// </summary>            
         private ValueMatrix(bool useTrend, Vector[] vectors)
         {
             this.UsesTrend = useTrend;
             this.Vectors = vectors;
         }
 
+        /// <summary>
+        /// Peaks in the matrix.
+        /// </summary>
         public IEnumerable<Peak> Peaks
         {
             get { return Vectors.Select(z => z.Peak); }
         }
 
+        /// <summary>
+        /// Number of vectors.
+        /// </summary>
         public int NumVectors
         {
             get { return Vectors.Length; }
         }
 
-        internal static double[,] Flatten(double[][] jagged)
+        /// <summary>
+        /// Gets a flat array representing the vectors.
+        /// </summary>           
+        public double[,] Flatten()
         {
-            int numi = jagged.Length;
-            int numj = jagged[0].Length;
-            double[,] result = new double[numi, numj];
-
-            for (int i = 0; i < numi; i++)
-            {
-                for (int j = 0; j < numj; j++)
-                {
-                    result[i, j] = jagged[i][j];
-                }
-            }
-
-            return result;
+            return ArrayHelper.Flatten(Vectors.Select(z => z.Values).ToArray());
         }
 
-        internal double[,] Flatten()
-        {
-            return Flatten(Vectors.Select(z => z.Values).ToArray());
-        }
-
-        public bool SplitGroups
+        /// <summary>
+        /// Returns if the peaks in the matrix have been split to one vector per experimental groups.
+        /// </summary>
+        public bool HasSplitGroups
         {
             get
             {
@@ -106,7 +71,7 @@ namespace MetaboliteLevels.Algorithms
 
         private int[] GetFilterIndices(ObsFilter ofilter)
         {
-            if (this.SplitGroups)
+            if (this.HasSplitGroups)
             {
                 throw new InvalidOperationException("GetFilterIndices invalid where SplitGroups is true.");
             }
@@ -126,6 +91,9 @@ namespace MetaboliteLevels.Algorithms
             }
         }
 
+        /// <summary>
+        /// Creates a ValueMatrix from an existing one by applying [obsFilter].
+        /// </summary>              
         public static ValueMatrix Create(ValueMatrix original, ObsFilter obsFilter, out int[] filteredIndices)
         {
             filteredIndices = original.GetFilterIndices(obsFilter);
@@ -270,12 +238,7 @@ namespace MetaboliteLevels.Algorithms
 
             return new ValueMatrix(useTrend, vectors);
         }
-
-        internal int FindIndex(Vector vector)
-        {
-            return Vectors.IndexOf(vector);
-        }
-
+        
         private static void ValidateSize(Core core, int numIVs, int lenIVs)
         {
             int bytesRequired = (numIVs * lenIVs) * 8;
@@ -353,6 +316,9 @@ namespace MetaboliteLevels.Algorithms
             }
         }
 
+        /// <summary>
+        /// Finds the index of a vector.
+        /// </summary>                  
         public int FindIndex(Peak peak, GroupInfo group)
         {
             int index = Vectors.FirstIndexWhere(z => z.Peak == peak && z.Group == group);
@@ -364,71 +330,5 @@ namespace MetaboliteLevels.Algorithms
 
             return index;
         }
-    }
-
-    [Serializable]
-    internal class DistanceMatrix
-    {
-        public readonly double[,] Values; // Peak, Peak
-        public readonly ValueMatrix ValueMatrix;
-
-        public int NumPeaks
-        {
-            get { return Values.GetLength(0); }
-        }
-
-        public IEnumerable<Peak> Peaks
-        {
-            get { return ValueMatrix.Peaks; }
-        }
-
-        public DistanceMatrix(double[,] values, ValueMatrix peaks)
-        {
-            this.Values = values;
-            this.ValueMatrix = peaks;
-        }
-
-
-        /// <summary>
-        /// Returns the distance matrix for a set of peaks.
-        /// </summary>
-        public static DistanceMatrix Create(Core core, ValueMatrix valueMatrix, ConfigurationMetric metric, ProgressReporter prog)
-        {
-            int n = valueMatrix.NumVectors;
-
-            int bytesRequired = (n * n) * 8;
-            int mbRequired = bytesRequired / (1024 * 1024);
-            int limit = core.Options.ObjectSizeLimit * 1024 * 1024;
-
-            if (bytesRequired > limit)
-            {
-                // It ain't gonna happen. I'm not creating a distance matrix over 500Mb
-                throw new InvalidOperationException("n = " + n + " input vectors. n * n = " + (n * n) + " elements in the distance matrix. 8 bytes per element gives " + (n * n * 8) + " bytes, or " + mbRequired + " megabytes. ObjectSizeLimit is " + core.Options.ObjectSizeLimit + " Mb. Reduce the number of input vectors by filtering the data, or change the limit from the preferences menu. Some algorithms also have the option to disable the distance matrix.");
-            }
-
-            double[,] s = new double[n, n];
-            prog.Enter("Calculating distance matrix");
-
-            for (int i = 0; i < n; i++)
-            {
-                prog.SetProgress(i, n);
-
-                for (int j = 0; j < n; j++)
-                {
-                    s[i, j] = metric.Calculate(valueMatrix[i], valueMatrix[j]);
-                }
-            }
-
-            prog.Leave();
-
-            return new DistanceMatrix(s, valueMatrix);
-        }
-
-        internal double Extract(Peak v1, GroupInfo g1, Peak v2, GroupInfo g2)
-        {
-            int i = ValueMatrix.FindIndex(v1, g1);
-            int j = ValueMatrix.FindIndex(v2, g2);
-            return Values[i, j];
-        }
-    }
+    }     
 }

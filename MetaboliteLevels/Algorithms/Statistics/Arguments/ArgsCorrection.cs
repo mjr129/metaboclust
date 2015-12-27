@@ -5,6 +5,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
     /// <summary>
     /// Arguments for CorrectionBase derivatives.
+    /// 
+    /// Nothing really special here!
     /// </summary>
     [Serializable]
     class ArgsCorrection : ArgsBase
@@ -20,7 +22,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 
             if (Parameters != null)
             {
-                sb.Append(AlgoParameters.ParamsToHumanReadableString(Parameters,algorithm ));
+                sb.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters,algorithm ));
             }
 
             return sb.ToString();

@@ -15,10 +15,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
             _avg = del;
         }
 
-        public override AlgoParameters GetParams()
-        {
-            AlgoParameters.Param p1 = new AlgoParameters.Param("w", AlgoParameters.EType.Integer);
-            return new AlgoParameters(AlgoParameters.ESpecial.None, new[] { p1 });
+        protected override AlgoParameterCollection CreateParamaterDesription()
+        {                                          
+            return new AlgoParameterCollection(new AlgoParameter("w", EAlgoParameterType.Integer));
         }
 
         protected override double SmoothPoint(IEnumerable<int> x, double[] y, int xTarget, object arg)

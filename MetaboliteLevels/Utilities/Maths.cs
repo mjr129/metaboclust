@@ -392,6 +392,36 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
+        /// Calculates the sum of a set of values.
+        /// </summary>
+        internal static double Sum(IEnumerable<double> values)
+        {
+            double total = 0;   
+
+            foreach (double d in values)
+            {
+                total += d;  
+            }
+
+            return total;
+        }
+
+        /// <summary>
+        /// Calculates the negative sum of a set of values.
+        /// </summary>
+        internal static double NegSum(IEnumerable<double> values)
+        {
+            double total = 0;
+
+            foreach (double d in values)
+            {
+                total -= d;
+            }
+
+            return total;
+        }
+
+        /// <summary>
         /// Calculates the standard deviation of a set of values.
         /// For a faster version if the mean is already known use the other overload.
         /// </summary>

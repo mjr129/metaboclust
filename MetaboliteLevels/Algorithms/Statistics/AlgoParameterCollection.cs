@@ -7,165 +7,55 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Data.DataInfo;
+using System.Collections;
 
 namespace MetaboliteLevels.Algorithms.Statistics
 {
     /// <summary>
     /// Algorithms return this class to say what inputs and parameters they require.
     /// </summary>
-    class AlgoParameters
+    class AlgoParameterCollection : IReadOnlyList<AlgoParameter>
     {
-        /// <summary>
-        /// Type of parameter.
-        /// </summary>
-        public enum EType
-        {
-            /// <summary>
-            /// Integer
-            /// E.g. k in k-means
-            /// </summary>
-            [Name("Int")]
-            Integer,
-
-            /// <summary>
-            /// Double
-            /// </summary>
-            [Name("Double")]
-            Double,
-
-            /// <summary>
-            /// WeakReference&lt;ConfigurationStatistic&gt;[]
-            /// </summary>
-            [Name("StatisticArray")]
-            WeakRefStatisticArray,
-
-
-            /// <summary>
-            /// WeakReference&lt;Peak&gt;
-            /// </summary>
-            [Name("Peak")]
-            WeakRefPeak,
-
-            /// <summary>
-            /// GroupInfo
-            /// </summary>
-            [Name("Group")]
-            Group,
-
-            /// <summary>
-            /// WeakReference&lt;ConfigurationClusterer&gt;
-            /// </summary>
-            [Name("ConfigurationClusterer")]
-            WeakRefConfigurationClusterer,
-        }
-
-        /// <summary>
-        /// Special flags.
-        /// </summary>
-        [Flags]
-        public enum ESpecial
-        {
-            None = 0x00,
-
-            /// <summary>
-            /// Class takes two input vectors as the input (e.g. "control-intensity" vs "drought-intensity" or even "intensity" vs. "time")
-            /// (Probably redundant since only and all MetricBase derived classes return this.)
-            /// </summary>
-            StatisticHasTwoInputs = 0x01,
-
-            /// <summary>
-            /// For classes derived from [MetricBase] only.
-            /// Designates support for the QuickCalculate method that takes two input vectors and no filters.
-            /// Most metrics will support this unless they use some obscure script that requires additional information, such as time or rep№s for each peak.
-            /// </summary>
-            MetricSupportsQuickCalculate = 0x02,
-
-            /// <summary>
-            /// For all classes.
-            /// Designates lack of support for observation input filters (e.g. "control" vs. "drought").
-            /// Most statistics will support filters on the input vectors unless they themselves wish to perform more complex internal filtering of the input.
-            /// </summary>
-            AlgorithmIgnoresObservationFilters = 0x04,
-
-            /// <summary>
-            /// For ClusterBase derivatives.
-            /// Designates lack of support for distance metrics.
-            /// </summary>
-            ClustererIgnoresDistanceMetrics = 0x08,
-
-            /// <summary>
-            /// For ClusterBase derivatives.
-            /// Designates that the distance matrix is not required and time can be saved by not generating it.
-            /// </summary>
-            ClustererIgnoresDistanceMatrix = 0x10,
-        }
-
-        /// <summary>
-        /// Parameter (e.g. k for k-means)
-        /// </summary>
-        public class Param
-        {
-            public readonly string Name; // name
-            public readonly EType Type; // type
-
-            public Param(string name, EType type)
-            {
-                Name = name;
-                Type = type;
-            }
-
-            /// <summary>
-            /// Used in lists
-            /// </summary>
-            public override string ToString()
-            {
-                return Name + " (" + Type.ToUiString().ToSmallCaps() + ")";
-            }
-        }
-
         /// <summary>
         /// User configurable parameters (e.g. k in k-means)
         /// </summary>
-        public readonly Param[] Parameters;
-
-        /// <summary>
-        /// See ESpecial
-        /// </summary>
-        public readonly ESpecial Special;
+        private AlgoParameter[] _parameters;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AlgoParameters(ESpecial special, params Param[] parameters)
+        public AlgoParameterCollection(params AlgoParameter[] parameters)
         {
             if (parameters != null && parameters.Length != 0)
             {
-                this.Parameters = parameters;
+                this._parameters = parameters;
             }
             else
             {
-                this.Parameters = null;
+                this._parameters = null;
             }
-
-            this.Special = special;
         }
 
         /// <summary>
-        /// Requires more than 1 input vector?
+        /// Accessor
         /// </summary>
-        public bool HasMultipleInputs
+        public AlgoParameter this[int index]
         {
-            get { return HasSpecial(ESpecial.StatisticHasTwoInputs); }
+            get
+            {
+                return _parameters[index];
+            }
         }
 
         /// <summary>
-        /// Has the special flag [flag] set.
+        /// Accessor
         /// </summary>
-        /// <param name="flag"></param>
-        /// <returns></returns>
-        private bool HasSpecial(ESpecial flag)
+        public int Count
         {
-            return (Special & flag) == flag;
+            get
+            {
+                return _parameters.Length;
+            }
         }
 
         /// <summary>
@@ -175,7 +65,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         {
             get
             {
-                return Parameters != null;
+                return _parameters != null;
             }
         }
 
@@ -189,7 +79,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 return "No parameters";
             }
 
-            string result = StringHelper.ArrayToString(Parameters, z => z.Name, ", ");
+            string result = StringHelper.ArrayToString(_parameters, z => z.Name, ", ");
 
             if (result.Length > 15)
             {
@@ -224,7 +114,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
             StringBuilder sb = new StringBuilder();
 
-            Param[] algoParameters = (!reversable && algorithm != null) ? algorithm.GetParams().Parameters : null;
+            AlgoParameter[] algoParameters = (!reversable && algorithm != null) ? algorithm.Parameters._parameters : null;
 
             for (int i = 0; i < parameters.Length; i++)
             {
@@ -392,17 +282,17 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
             List<string> elements = StringHelper.SplitGroups(text);
 
-            if (elements.Count != Parameters.Length)
+            if (elements.Count != _parameters.Length)
             {
                 parameters = null;
                 return false;
             }
 
-            object[] result = new object[Parameters.Length];
+            object[] result = new object[_parameters.Length];
 
-            for (int i = 0; i < Parameters.Length; i++)
+            for (int i = 0; i < _parameters.Length; i++)
             {
-                result[i] = TryReadParameter(core, elements[i], Parameters[i].Type);
+                result[i] = TryReadParameter(core, elements[i], _parameters[i].Type);
 
                 if (result[i] == null)
                 {
@@ -415,13 +305,13 @@ namespace MetaboliteLevels.Algorithms.Statistics
             return true;
         }
 
-        public static object TryReadParameter(Core core, string element, EType paramType)
+        public static object TryReadParameter(Core core, string element, EAlgoParameterType paramType)
         {
             string elementId = element.Trim().ToUpper();
 
             switch (paramType)
             {
-                case EType.Double:
+                case EAlgoParameterType.Double:
                     {
                         double vd;
 
@@ -443,7 +333,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                         }
                     }
 
-                case EType.Integer:
+                case EAlgoParameterType.Integer:
                     {
                         int vi;
 
@@ -465,7 +355,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                         }
                     }
 
-                case EType.WeakRefStatisticArray:
+                case EAlgoParameterType.WeakRefStatisticArray:
                     {
                         string[] e2 = element.Split(",;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
@@ -499,7 +389,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                         return r;
                     }
 
-                case EType.WeakRefConfigurationClusterer:
+                case EAlgoParameterType.WeakRefConfigurationClusterer:
                     {
                         int ival;
 
@@ -519,7 +409,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                     }
 
 
-                case EType.WeakRefPeak:
+                case EAlgoParameterType.WeakRefPeak:
                     {
                         string peakName = elementId;
 
@@ -535,7 +425,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                         }
                     }
 
-                case EType.Group:
+                case EAlgoParameterType.Group:
                     {
                         int ival;
 
@@ -552,20 +442,14 @@ namespace MetaboliteLevels.Algorithms.Statistics
             }
         }
 
-        public bool SupportsQuickCalculate
+        public IEnumerator<AlgoParameter> GetEnumerator()
         {
-            get
-            {
-                return HasSpecial(ESpecial.MetricSupportsQuickCalculate);
-            }
+            return ((IEnumerable<AlgoParameter>)_parameters).GetEnumerator();
         }
 
-        public bool SupportsInputFilters
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            get
-            {
-                return !HasSpecial(ESpecial.AlgorithmIgnoresObservationFilters);
-            }
+            return _parameters.GetEnumerator();
         }
     }
 }

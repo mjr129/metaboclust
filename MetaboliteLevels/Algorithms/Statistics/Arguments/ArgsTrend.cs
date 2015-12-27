@@ -4,6 +4,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
     /// <summary>
     /// Arguments for trends (see TrendBase).
+    /// 
+    /// Nothing special here!
     /// </summary>
     [Serializable]
     class ArgsTrend : ArgsBase
@@ -17,7 +19,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         {
             if (Parameters != null)
             {
-                return ("(" + AlgoParameters.ParamsToHumanReadableString(Parameters, algorithm) + ") ");
+                return ("(" + AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm) + ") ");
             }
 
             return string.Empty;

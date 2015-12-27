@@ -12,11 +12,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsStatistic : ArgsBase
     {
-        public readonly EAlgoSourceMode SourceMode;                 // Sort of information to get
-        public readonly EAlgoInputBSource VectorBSource;            // Where to get vector B
-        public readonly ObsFilter VectorAConstraint;                // Contents (types) of VectorA
-        public readonly ObsFilter VectorBConstraint;                // Contents (types) of VectorB (only used if VectorBSource is Peak, otherwise this is the same as ConstraintA)
-        public readonly Peak VectorBPeak;                           // Peak to compare to
+        public readonly EAlgoSourceMode SourceMode;                 // Where the input vectors come from
+        public readonly EAlgoInputBSource VectorBSource;            // Where the second input vector comes from
+        public readonly ObsFilter VectorAConstraint;                // Filter on the first input vector
+        public readonly ObsFilter VectorBConstraint;                // Filter on the second input vector (only used if [VectorBSource] is Peak)
+        public readonly Peak VectorBPeak;                           // Which peak the second input vector comes from (only used if [VectorBSource] is AltPeak)
 
         public ArgsStatistic(EAlgoSourceMode src, ObsFilter atypes, EAlgoInputBSource bsrc, ObsFilter btypes, Peak compareTo, object[] parameters)
             : base(parameters)
@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 
             if (Parameters != null)
             {
-                r.Append(AlgoParameters.ParamsToHumanReadableString(Parameters, algorithm));
+                r.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm));
             }
 
             r.Append("; ");

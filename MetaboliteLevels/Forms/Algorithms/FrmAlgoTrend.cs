@@ -56,7 +56,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 this._txtName.Text = def.OverrideDisplayName;
                 this._lstMethod.SelectedItem = def.Cached;
                 this._comments = def.Comment;
-                this._txtParams.Text = AlgoParameters.ParamsToReversableString(def.Args.Parameters, core);
+                this._txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
             }
 
             CheckAndChange(null, null);
@@ -107,9 +107,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             title = string.IsNullOrWhiteSpace(_txtName.Text) ? null : _txtName.Text;
 
             // Parameters
-            if (sel.GetParams().HasCustomisableParams)
+            if (sel.Parameters.HasCustomisableParams)
             {
-                if (!sel.GetParams().TryStringToParams(_core, _txtParams.Text, out args))
+                if (!sel.Parameters.TryStringToParams(_core, _txtParams.Text, out args))
                 {
                     return null;
                 }
@@ -173,12 +173,12 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void CheckAndChange(object sender, EventArgs e)
         {
             var sm = (TrendBase)_lstMethod.SelectedItem;
-            bool s = sm != null && sm.GetParams().HasCustomisableParams;
+            bool s = sm != null && sm.Parameters.HasCustomisableParams;
 
             _lblParams.Visible = s;
             _txtParams.Visible = s;
             _btnEditParameters.Visible = s;
-            _lblParams.Text = s ? sm.GetParams().ParamNames() : "Parameters";
+            _lblParams.Text = s ? sm.Parameters.ParamNames() : "Parameters";
 
             Check(sender, e);
         }

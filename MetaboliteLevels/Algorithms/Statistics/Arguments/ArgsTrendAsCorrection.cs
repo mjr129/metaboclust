@@ -12,10 +12,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsTrendAsCorrection : ArgsTrend
     {
-        public readonly ECorrectionMode Mode;
-        public readonly ECorrectionMethod Method;
-        public readonly GroupInfo ControlGroup;
-        public readonly ObsFilter Constraint;
+        public readonly ECorrectionMode Mode;       // How to run the correction
+        public readonly ECorrectionMethod Method;   // What method we use
+        public readonly GroupInfo ControlGroup;     // Control group (only used when [Mode] is [Control])
+        public readonly ObsFilter Constraint;       // Constraint on the input vector
 
         public ArgsTrendAsCorrection(ECorrectionMode mode, ECorrectionMethod method, GroupInfo controlGroup, ObsFilter constraint, object[] args)
             : base(args)
@@ -30,27 +30,5 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         {
             return Mode.ToUiString() + " " + Method.ToUiString() + " " + base.ToString(algorithm);
         }
-    }
-
-    /// <summary>
-    /// The data the correction is performed upon.
-    /// </summary>
-    public enum ECorrectionMode
-    {
-        /// <summary>Correct batchwise</summary>
-        Batch = 1,
-        /// <summary>Correct for the control group</summary>
-        Control = 2,
-    }
-
-    /// <summary>
-    /// The data the correction is performed upon.
-    /// </summary>
-    public enum ECorrectionMethod
-    {
-        /// <summary>Correct via subtraction</summary>
-        Subtract,
-        /// <summary>Correct via division</summary>
-        Divide,
-    }
+    }                                   
 }

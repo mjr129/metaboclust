@@ -21,6 +21,25 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             // NA
         }
 
+        /// <summary>
+        /// Designates support for observation input filters (e.g. "control, days 5-12" only).
+        /// Most algorithms will support filters on the input vectors unless they themselves need to perform internal
+        /// filtering of the input.
+        ///</summary>
+        public abstract bool SupportsObservationFilters { get; }
+
+        /// <summary>
+        /// For ClusterBase derivatives.
+        /// Designates support for distance metrics.
+        /// </summary>
+        public abstract bool SupportsDistanceMetrics { get; }
+
+        /// <summary>
+        /// For ClusterBase derivatives.
+        /// Designates requirement of a distance metrics.
+        /// </summary>
+        public abstract bool RequiresDistanceMatrix { get; }
+
         public ResultClusterer Calculate(Core core, int isPreview, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog, out ValueMatrix vmatrixOut, out DistanceMatrix dmatrixOut)
         {
             IReadOnlyList<Peak> peaks;
@@ -81,7 +100,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             prog.Leave();
 
             prog.Enter("Creating distance matrix");
-            DistanceMatrix dmatrix = GetParams().Special.HasFlag(AlgoParameters.ESpecial.ClustererIgnoresDistanceMatrix) ? null : DistanceMatrix.Create(core, vmatrix, args.Distance, prog);
+            DistanceMatrix dmatrix = RequiresDistanceMatrix ? DistanceMatrix.Create(core, vmatrix, args.Distance, prog) : null;
             prog.Leave();
             IEnumerable<Cluster> clusters;
 
@@ -127,6 +146,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             return r;
         }
 
-        public abstract override AlgoParameters GetParams();
+        protected abstract override AlgoParameterCollection CreateParamaterDesription();
     }
 }

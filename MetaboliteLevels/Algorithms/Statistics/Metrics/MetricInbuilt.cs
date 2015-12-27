@@ -1,4 +1,5 @@
-﻿using MetaboliteLevels.Algorithms.Statistics.Arguments;
+﻿using System;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Inputs;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Metrics
@@ -35,9 +36,19 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
             return _delegate(a, b);
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameters(AlgoParameters.ESpecial.MetricSupportsQuickCalculate | AlgoParameters.ESpecial.StatisticHasTwoInputs, null);
+            return null;
         }
+
+        public override bool SupportsQuickCalculate
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public override bool SupportsInputFilters { get { return true; } }
     }
 }

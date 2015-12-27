@@ -5,6 +5,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
     // Enums used by some ArgsBase derivatives.
 
+    // Delegates
+    delegate double AlgoDelegate_Input1(double[] a);
+    delegate double AlgoDelegate_EInput1(IEnumerable<double> a);
+    // ReSharper disable once InconsistentNaming
+    delegate double AlgoDelegate_Input2(double[] a, double[] b);
+
     /// <summary>
     /// Which input vector to get?
     /// </summary>
@@ -37,9 +43,25 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         DmPeak,     // Points from provided second peak (e.g. for calculating distance matrix - currently never used)
     }
 
-    // Delegates
-    delegate double AlgoDelegate_Input1(double[] a);
-    delegate double AlgoDelegate_EInput1(IEnumerable<double> a);
-    // ReSharper disable once InconsistentNaming
-    delegate double AlgoDelegate_Input2(double[] a, double[] b);
+    /// <summary>
+    /// The data the correction is performed upon.
+    /// </summary>
+    public enum ECorrectionMode
+    {
+        /// <summary>Correct batchwise</summary>
+        Batch = 1,
+        /// <summary>Correct for the control group</summary>
+        Control = 2,
+    }
+
+    /// <summary>
+    /// The data the correction is performed upon.
+    /// </summary>
+    public enum ECorrectionMethod
+    {
+        /// <summary>Correct via subtraction</summary>
+        Subtract,
+        /// <summary>Correct via division</summary>
+        Divide,
+    }
 }

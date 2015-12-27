@@ -52,9 +52,9 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return null;
             }
 
-            if (algo.GetParams().HasCustomisableParams)
+            if (algo.Parameters.HasCustomisableParams)
             {
-                if (!algo.GetParams().TryStringToParams(_core, _txtParameters.Text, out parameters))
+                if (!algo.Parameters.TryStringToParams(_core, _txtParameters.Text, out parameters))
                 {
                     return null;
                 }
@@ -130,15 +130,15 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             AlgoBase trend = (AlgoBase)_lstMethod.SelectedItem;
 
-            bool paramsVisible = trend != null && trend.GetParams().HasCustomisableParams;
+            bool paramsVisible = trend != null && trend.Parameters.HasCustomisableParams;
 
             _lblParams.Visible = paramsVisible;
             _txtParameters.Visible = paramsVisible;
             _btnEditParameters.Visible = paramsVisible;
-            _lblParams.Text = paramsVisible ? trend.GetParams().ParamNames() : "Parameters";
+            _lblParams.Text = paramsVisible ? trend.Parameters.ParamNames() : "Parameters";
 
             object[] tmp;
-            bool paramsValid = trend != null && (!trend.GetParams().HasCustomisableParams || trend.GetParams().TryStringToParams(_core, _txtParameters.Text, out tmp));
+            bool paramsValid = trend != null && (!trend.Parameters.HasCustomisableParams || trend.Parameters.TryStringToParams(_core, _txtParameters.Text, out tmp));
             bool usingTrend = trend is TrendBase;
             bool correctorVisible = paramsValid && usingTrend;
 
@@ -213,7 +213,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (def != null)
             {
                 _txtName.Text = def.OverrideDisplayName;
-                _txtParameters.Text = AlgoParameters.ParamsToReversableString(def.Args.Parameters, core);
+                _txtParameters.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
                 _lstMethod.SelectedItem = def.Cached;
                 _comments = def.Comment;
 

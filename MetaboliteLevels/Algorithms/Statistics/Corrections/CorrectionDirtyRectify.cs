@@ -36,11 +36,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Corrections
             return result;
         }
 
-        public override AlgoParameters GetParams()
-        {
-            AlgoParameters.Param param1 = new AlgoParameters.Param("zero", AlgoParameters.EType.Double);
-
-            return new AlgoParameters(AlgoParameters.ESpecial.None, param1);
+        protected override AlgoParameterCollection CreateParamaterDesription()
+        {                                                                                          
+            return new AlgoParameterCollection(new AlgoParameter("zero", EAlgoParameterType.Double));
         }
     }
 }

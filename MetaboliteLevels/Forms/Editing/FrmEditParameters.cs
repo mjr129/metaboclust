@@ -21,14 +21,14 @@ namespace MetaboliteLevels.Forms.Editing
 {
     public partial class FrmEditParameters : Form
     {
-        private AlgoParameters _algo;
+        private AlgoParameterCollection _parameters;
         private List<TextBox> _textBoxes = new List<TextBox>();
         private Core _core;
         private string _result;
 
         internal static void Show(AlgoBase algo, TextBox paramBox, Core core)
         {
-            string newText = FrmEditParameters.Show(paramBox.FindForm(), core, algo.GetParams(), paramBox.Text);
+            string newText = FrmEditParameters.Show(paramBox.FindForm(), core, algo.Parameters, paramBox.Text);
 
             if (newText != null)
             {
@@ -36,7 +36,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        internal static string Show(Form owner, Core core, AlgoParameters algo, string defaults)
+        internal static string Show(Form owner, Core core, AlgoParameterCollection algo, string defaults)
         {
             using (FrmEditParameters frm = new FrmEditParameters(core, algo, defaults))
             {
@@ -55,19 +55,19 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.SetIcon(this);
         }
 
-        private FrmEditParameters(Core core, AlgoParameters algo, string defaults)
+        private FrmEditParameters(Core core, AlgoParameterCollection algo, string defaults)
             : this()
         {
             this._core = core;
-            this._algo = algo;
+            this._parameters = algo;
 
             List<string> elements = StringHelper.SplitGroups(defaults);
 
-            if (algo.Parameters != null)
+            if (algo.HasCustomisableParams)
             {
-                for (int index = 0; index < algo.Parameters.Length; index++)
+                for (int index = 0; index < algo.Count; index++)
                 {
-                    var param = algo.Parameters[index];
+                    var param = algo[index];
                     int row = index + 1;
 
                     tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0f));
@@ -112,13 +112,13 @@ namespace MetaboliteLevels.Forms.Editing
         {
             int index = (int)((Button)sender).Tag;
             TextBox textBox = _textBoxes[index];
-            var param = this._algo.Parameters[index];
+            var param = this._parameters[index];
 
-            object value = AlgoParameters.TryReadParameter(_core, textBox.Text, param.Type);
+            object value = AlgoParameterCollection.TryReadParameter(_core, textBox.Text, param.Type);
 
             switch (param.Type)
             {
-                case AlgoParameters.EType.WeakRefConfigurationClusterer:
+                case EAlgoParameterType.WeakRefConfigurationClusterer:
                     {
                         ConfigurationClusterer def = ((WeakReference<ConfigurationClusterer>)value).GetTarget();
                         var sel = ListValueSet.ForClusterers(_core).Select(def).ShowList(this);
@@ -132,11 +132,11 @@ namespace MetaboliteLevels.Forms.Editing
                     }
                     break;
 
-                case AlgoParameters.EType.Group:
+                case EAlgoParameterType.Group:
                     value = ListValueSet.ForGroups(_core).Select((GroupInfo)value).ShowList(this);
                     break;
 
-                case AlgoParameters.EType.WeakRefPeak:
+                case EAlgoParameterType.WeakRefPeak:
                     {
                         var sel = ListValueSet.ForPeaks(_core).Select(((WeakReference<Peak>)value).GetTarget()).ShowList(this);
 
@@ -149,7 +149,7 @@ namespace MetaboliteLevels.Forms.Editing
                     }
                     break;
 
-                case AlgoParameters.EType.WeakRefStatisticArray:
+                case EAlgoParameterType.WeakRefStatisticArray:
                     {
                         var tvalue = (WeakReference<ConfigurationStatistic>[])value;
                         IEnumerable<ConfigurationStatistic> def = tvalue.Select(z => z.GetTarget()).Where(z => z != null);
@@ -164,8 +164,8 @@ namespace MetaboliteLevels.Forms.Editing
                     }
                     break;
 
-                case AlgoParameters.EType.Integer:
-                case AlgoParameters.EType.Double:
+                case EAlgoParameterType.Integer:
+                case EAlgoParameterType.Double:
                     {
                         FrmMsgBox.ButtonSet[] btns =
                     {
@@ -174,7 +174,7 @@ namespace MetaboliteLevels.Forms.Editing
                         new FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)
                     };
 
-                        bool isInt = param.Type == AlgoParameters.EType.Integer;
+                        bool isInt = param.Type == EAlgoParameterType.Integer;
 
                         switch (FrmMsgBox.Show(this, "Select Integer", null, "Select a value or enter a custom value into the textbox", Resources.MsgHelp, btns, 2, 2))
                         {
@@ -204,18 +204,18 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            textBox.Text = AlgoParameters.ParamsToReversableString(new[] { value }, _core);
+            textBox.Text = AlgoParameterCollection.ParamsToReversableString(new[] { value }, _core);
         }
 
         private void _btnOk_Click(object sender, EventArgs e)
         {
-            object[] results = new object[_algo.Parameters.Length];
+            object[] results = new object[_parameters.Count];
 
-            for (int index = 0; index < _algo.Parameters.Length; index++)
+            for (int index = 0; index < _parameters.Count; index++)
             {
-                var param = _algo.Parameters[index];
+                var param = _parameters[index];
 
-                results[index] = AlgoParameters.TryReadParameter(_core, _textBoxes[index].Text, param.Type);
+                results[index] = AlgoParameterCollection.TryReadParameter(_core, _textBoxes[index].Text, param.Type);
 
                 if (results[index] == null)
                 {
@@ -224,7 +224,7 @@ namespace MetaboliteLevels.Forms.Editing
                 }
             }
 
-            _result = AlgoParameters.ParamsToReversableString(results, _core);
+            _result = AlgoParameterCollection.ParamsToReversableString(results, _core);
             DialogResult = DialogResult.OK;
         }
     }

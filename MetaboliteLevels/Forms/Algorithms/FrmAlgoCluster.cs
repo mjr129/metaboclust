@@ -79,7 +79,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _lstMethod.SelectedItem = def.Cached;
 
                 // Params
-                _txtParams.Text = AlgoParameters.ParamsToReversableString(def.Args.Parameters, core);
+                _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
 
                 // PeakFilter
                 _ecbPeakFilter.SelectedItem = def.Args.PeakFilter;
@@ -167,9 +167,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Parameters
             object[] parameters;
 
-            if (sel.GetParams().HasCustomisableParams)
+            if (sel.Parameters.HasCustomisableParams)
             {
-                if (!sel.GetParams().TryStringToParams(_core, _txtParams.Text, out parameters))
+                if (!sel.Parameters.TryStringToParams(_core, _txtParams.Text, out parameters))
                 {
                     errorProvider1.SetError(_txtParams, "Enter a set of valid parameters for your selected method");
                     return null;
@@ -214,9 +214,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Distance metric params
             object[] dMetParams;
 
-            if (dMet != null && dMet.GetParams().HasCustomisableParams)
+            if (dMet != null && dMet.Parameters.HasCustomisableParams)
             {
-                if (!dMet.GetParams().TryStringToParams(_core, _txtMeasureParams.Text, out dMetParams))
+                if (!dMet.Parameters.TryStringToParams(_core, _txtMeasureParams.Text, out dMetParams))
                 {
                     errorProvider1.SetError(_txtMeasureParams, "Specify a set of valid parameters for your selected distance measure");
                     return null;
@@ -228,7 +228,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             // Obs source
-            if (!sel.GetParams().SupportsInputFilters)
+            if (!sel.SupportsObservationFilters)
             {
                 src = EAlgoSourceMode.None;
             }
@@ -247,7 +247,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             // Vector A
-            if (!sel.GetParams().SupportsInputFilters)
+            if (!sel.SupportsObservationFilters)
             {
                 obsFilter = null;
             }
@@ -278,14 +278,14 @@ namespace MetaboliteLevels.Forms.Algorithms
             bool s = stat != null;
 
             // Stat has params?
-            bool paramsVisible = s && stat.GetParams().HasCustomisableParams;
+            bool paramsVisible = s && stat.Parameters.HasCustomisableParams;
             _txtParams.Enabled = paramsVisible;
             _btnEditParameters.Enabled = paramsVisible;
             _lblParams.Enabled = paramsVisible;
-            _lblParams.Text = paramsVisible ? stat.GetParams().ParamNames() : "Parameters";
+            _lblParams.Text = paramsVisible ? stat.Parameters.ParamNames() : "Parameters";
 
             // Stat is valid?
-            bool peakFilterVisible = s && (!stat.GetParams().HasCustomisableParams || stat.GetParams().TryStringToParams(_core, _txtParams.Text, out tmp));
+            bool peakFilterVisible = s && (!stat.Parameters.HasCustomisableParams || stat.Parameters.TryStringToParams(_core, _txtParams.Text, out tmp));
             _lblPeaks.Enabled = peakFilterVisible;
             _ecbPeakFilter.Enabled = peakFilterVisible;
 
@@ -298,17 +298,17 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lblMeasure2.Enabled = distanceVisible;
             _lstMeasure.Enabled = distanceVisible;
             _btnNewDistance.Enabled = distanceVisible;
-            linkLabel1.Visible = distanceVisible && stat.GetParams().Special.HasFlag(AlgoParameters.ESpecial.ClustererIgnoresDistanceMetrics);
+            linkLabel1.Visible = distanceVisible && !stat.SupportsDistanceMetrics;
 
             // Distance params
-            bool distParamsVisible = performanceVisible && met != null && met.GetParams().HasCustomisableParams;
+            bool distParamsVisible = performanceVisible && met != null && met.Parameters.HasCustomisableParams;
             _txtMeasureParams.Enabled = distParamsVisible;
             _btnEditDistanceParameters.Enabled = distParamsVisible;
             _lblMeasureParams.Enabled = distParamsVisible;
-            _lblMeasureParams.Text = distParamsVisible ? met.GetParams().ParamNames() : "Parameters";
+            _lblMeasureParams.Text = distParamsVisible ? met.Parameters.ParamNames() : "Parameters";
 
             // Input vector
-            bool obsFilterVisible = peakFilterVisible && stat.GetParams().SupportsInputFilters;
+            bool obsFilterVisible = peakFilterVisible && stat.SupportsObservationFilters;
             _lblApply.Visible = obsFilterVisible;
             _radObs.Enabled = obsFilterVisible;
             _radTrend.Enabled = obsFilterVisible;

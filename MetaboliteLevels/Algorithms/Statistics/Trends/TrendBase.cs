@@ -28,7 +28,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         /// <summary>
         /// Gets parameters.
         /// </summary>
-        public abstract override AlgoParameters GetParams();
+        protected abstract override AlgoParameterCollection CreateParamaterDesription();
 
         /// <summary>
         /// Smooths input data by type with x = time.

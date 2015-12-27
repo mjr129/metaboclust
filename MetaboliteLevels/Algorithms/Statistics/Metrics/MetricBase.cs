@@ -21,5 +21,24 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
         /// This is only available if the statistic has declared [ESpecial.SupportsQuickCalculate] on its parameters.
         /// </summary>
         public abstract double QuickCalculate(double[] a, double[] b, object[] parameters);
+
+        /// <summary>
+        /// OVERRIDE
+        /// </summary>
+        public sealed override bool IsMetric
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        /// <summary>                                    
+        /// Designates support for the QuickCalculate method that takes two input vectors and no filters.
+        /// Most metrics will support this unless they use some obscure script that requires additional information, such as time or rep№s for each peak.
+        /// </summary>
+
+        public abstract bool SupportsQuickCalculate { get; }
+
     }
 }

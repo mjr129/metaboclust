@@ -63,9 +63,9 @@ namespace MetaboliteLevels.Controls
             var dm = ((MetricBase)(this.comboBox1.SelectedItem));
             object[] parameters;
 
-            if (dm.GetParams().HasCustomisableParams)
+            if (dm.Parameters.HasCustomisableParams)
             {
-                if (!dm.GetParams().TryStringToParams(_core, _txtParams.Text, out parameters))
+                if (!dm.Parameters.TryStringToParams(_core, _txtParams.Text, out parameters))
                 {
                     return null;
                 }
@@ -94,9 +94,9 @@ namespace MetaboliteLevels.Controls
         {
             var dm = ((MetricBase)(this.comboBox1.SelectedItem));
 
-            if (dm != null && dm.GetParams().HasCustomisableParams)
+            if (dm != null && dm.Parameters.HasCustomisableParams)
             {
-                label1.Text = dm.GetParams().ParamNames();
+                label1.Text = dm.Parameters.ParamNames();
                 _txtParams.Text = "";
                 tableLayoutPanel1.Visible = true;
                 _btnEditParameters.Visible = true;

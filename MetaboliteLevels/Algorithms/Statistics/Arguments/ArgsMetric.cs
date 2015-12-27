@@ -4,6 +4,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
     /// <summary>
     /// Arguments for metrics (See MetricBase).
+    /// 
+    /// Nothing really special here!
     /// </summary>
     [Serializable]
     class ArgsMetric : ArgsBase
@@ -17,7 +19,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         {
             if (Parameters != null)
             {
-                return  AlgoParameters.ParamsToHumanReadableString(Parameters, algorithm);
+                return  AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm);
             }
 
             return "";

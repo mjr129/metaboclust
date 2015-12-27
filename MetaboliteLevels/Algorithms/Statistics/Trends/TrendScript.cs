@@ -15,7 +15,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         public TrendScript(string script, string id, string name)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS, null, null, AlgoParameters.ESpecial.None);
+            this._script = new RScript(script, INPUTS);
         }
 
         protected override double[] Smooth(IEnumerable<double> vIn, IEnumerable<int> o, IEnumerable<int> c, object[] args)
@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
             return r;
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
             return _script.RequiredParameters;
         }

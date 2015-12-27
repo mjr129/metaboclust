@@ -121,7 +121,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             // No filter
             groupFilters.Add(null);
 
-            if (!vmatrix.SplitGroups)
+            if (!vmatrix.HasSplitGroups)
             {
                 // Defined filters
                 if (statistics.HasFlag(EClustererStatistics.IncludePartialVectorsForFilters))

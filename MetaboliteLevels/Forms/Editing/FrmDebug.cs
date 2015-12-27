@@ -260,7 +260,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (v2 != null)
                 {
-                    double result = dmatrix.Extract(v1, null, v2, null);
+                    double result = dmatrix.Find(v1, null, v2, null);
 
                     FrmInputLarge.ShowFixed(this, "Compare variables", v1.DisplayName + " - " + v2.DisplayName, "Showing the distance between two variables' vectors", result.ToString());
                 }

@@ -596,5 +596,25 @@ namespace MetaboliteLevels.Utilities
                 self.Add(key, value);
             }
         }
+
+        /// <summary>
+        /// Flattens a jagged array.
+        /// </summary>              
+        internal static double[,] Flatten(double[][] jagged)
+        {
+            int numi = jagged.Length;
+            int numj = jagged[0].Length;
+            double[,] result = new double[numi, numj];
+
+            for (int i = 0; i < numi; i++)
+            {
+                for (int j = 0; j < numj; j++)
+                {
+                    result[i, j] = jagged[i][j];
+                }
+            }
+
+            return result;
+        }
     }
 }

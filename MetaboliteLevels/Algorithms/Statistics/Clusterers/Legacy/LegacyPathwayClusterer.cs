@@ -12,11 +12,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
 {
     class LegacyPathwayClusterer : ClustererBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public LegacyPathwayClusterer(string id, string name)
             : base(id, name)
         {
+            Description = "Creates clusters based on the pathways in which the peaks' potential metabolites may be involved.";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             Dictionary<Pathway, Cluster> d = new Dictionary<Pathway, Cluster>();
@@ -57,9 +64,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             return result;
         }
 
-        public override AlgoParameters GetParams()
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameters(AlgoParameters.ESpecial.AlgorithmIgnoresObservationFilters | AlgoParameters.ESpecial.ClustererIgnoresDistanceMetrics | AlgoParameters.ESpecial.ClustererIgnoresDistanceMatrix, null);
+            return null;
         }
+
+        public override bool SupportsObservationFilters { get { return false; } }
+
+        public override bool RequiresDistanceMatrix { get { return false; } }
+
+        public override bool SupportsDistanceMetrics { get { return false; } }
     }
 }

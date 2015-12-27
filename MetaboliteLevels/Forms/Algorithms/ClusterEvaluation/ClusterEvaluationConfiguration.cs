@@ -37,8 +37,8 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             this._guid = Guid.NewGuid();
             this.NumberOfRepeats = numberOfTimes;
 
-            this.ParameterName = clustererConfiguration.Cached.GetParams().Parameters[ParameterIndex].Name;   
-            this.ParameterValuesAsString = ParameterValues.Select(AlgoParameters.ParamToString).ToArray();
+            this.ParameterName = clustererConfiguration.Cached.Parameters[ParameterIndex].Name;   
+            this.ParameterValuesAsString = ParameterValues.Select(AlgoParameterCollection.ParamToString).ToArray();
             this.ParameterValuesAsDouble = ParameterValues.Select(ToDouble).ToArray();
         }
 
@@ -63,7 +63,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         {
             get
             {
-                return ParameterName + " = " + NumberOfRepeats + " × { " + StringHelper.ArrayToString(ParameterValues, AlgoParameters.ParamToString) + " }";
+                return ParameterName + " = " + NumberOfRepeats + " × { " + StringHelper.ArrayToString(ParameterValues, AlgoParameterCollection.ParamToString) + " }";
             }
         }
 

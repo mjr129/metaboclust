@@ -11,6 +11,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         public readonly string Id;
         public readonly string Name;
         public string Description { get; set; }
+        private AlgoParameterCollection _parameters;
 
         public AlgoBase(string id, string name)
         {
@@ -23,6 +24,19 @@ namespace MetaboliteLevels.Algorithms.Statistics
             return Name;
         }
 
-        public abstract AlgoParameters GetParams();
+        public AlgoParameterCollection Parameters
+        {
+            get
+            {
+                if (_parameters == null)
+                {
+                    _parameters = CreateParamaterDesription();
+                }
+
+                return _parameters;
+            }
+        }
+
+        protected abstract AlgoParameterCollection CreateParamaterDesription();
     }
 }

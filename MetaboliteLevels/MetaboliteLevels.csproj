@@ -144,7 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\Algo.cs" />
-    <Compile Include="Algorithms\Statistics\AlgoParams.cs" />
+    <Compile Include="Algorithms\Statistics\AlgoParameter.cs" />
+    <Compile Include="Algorithms\DistanceMatrix.cs" />
+    <Compile Include="Algorithms\Statistics\AlgoParameterCollection.cs" />
     <Compile Include="Algorithms\Statistics\Arguments\ArgsCorrection.cs" />
     <Compile Include="Algorithms\Statistics\Arguments\ArgsTrendAsCorrection.cs" />
     <Compile Include="Algorithms\Statistics\Clusterers\ClustererAffinityPropagation.cs" />
@@ -157,12 +159,14 @@
     <Compile Include="Algorithms\Statistics\Corrections\CorrectionBase.cs" />
     <Compile Include="Algorithms\Statistics\Corrections\CorrectionDirtyRectify.cs" />
     <Compile Include="Algorithms\Statistics\Corrections\CorrectionScript.cs" />
+    <Compile Include="Algorithms\Statistics\EAlgoParameterType.cs" />
     <Compile Include="Algorithms\Statistics\Results\ResultClusterer.cs" />
     <Compile Include="Algorithms\Statistics\Results\ResultCorrection.cs" />
     <Compile Include="Algorithms\Statistics\Results\ResultBase.cs" />
     <Compile Include="Algorithms\Statistics\Results\ResultStatistic.cs" />
     <Compile Include="Algorithms\Statistics\Results\ResultTrend.cs" />
     <Compile Include="Algorithms\ValueMatrix.cs" />
+    <Compile Include="Algorithms\Vector.cs" />
     <Compile Include="Controls\CtlErrorProvider.cs" />
     <Compile Include="Controls\CtlTableLayoutPanel.cs">
       <SubType>Component</SubType>

@@ -8,18 +8,45 @@ using MetaboliteLevels.Algorithms.Statistics.Results;
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
     /// <summary>
-    /// Arguments for clusterers (see ClustererBase).
+    /// ArgsBase for clusterers.
     /// </summary>
     [Serializable]
     class ArgsClusterer : ArgsBase
     {
+        /// <summary>
+        /// Defines what peaks go into the "insignificants" cluster.
+        /// </summary>
         public readonly PeakFilter PeakFilter;
+
+        /// <summary>
+        /// Defines what creates the cluster vectors.
+        /// </summary>
         public readonly ObsFilter ObsFilter;
+
+        /// <summary>
+        /// Defines the distance metric used.
+        /// (Not used by all algorithms!)
+        /// </summary>
         public readonly ConfigurationMetric Distance;
+
+        /// <summary>
+        /// Defines where the data comes from.
+        /// </summary>
         public readonly EAlgoSourceMode SourceMode;
+
+        /// <summary>
+        /// When set peaks are split into one vecror per group.
+        /// </summary>
         public readonly bool SplitGroups;
+
+        /// <summary>
+        /// What statistics to calculate when the algorithm is complete.
+        /// </summary>
         public readonly EClustererStatistics Statistics;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>  
         public ArgsClusterer(PeakFilter sigFilter, ConfigurationMetric distance, EAlgoSourceMode src, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters)
             : base(parameters)
         {
@@ -37,7 +64,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 
             if (Parameters != null)
             {
-                sb.Append(AlgoParameters.ParamsToHumanReadableString(Parameters, algorithm));
+                sb.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm));
             }
 
             sb.Append("; x = " + SourceMode.ToUiString());

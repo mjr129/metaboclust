@@ -10,12 +10,13 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
     sealed class StatisticScript : StatisticBase
     {
         public const string INPUTS = "input=x,intensity=-,group=-,time=-,rep=-";
-        public readonly RScript _script;
+        public readonly RScript _script;                
 
         public StatisticScript(string script, string id, string name)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS, "10000", null, AlgoParameters.ESpecial.None);
+            this._script = new RScript(script, INPUTS);
+            // this._script.CheckInputMask("10000");
         }
 
         public override double Calculate(InputStatistic input)
@@ -29,9 +30,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
             return Arr.Instance.RunScriptDouble(_script, inputs, input.Args.Parameters);
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
             return _script.RequiredParameters;
         }
+
+        public override bool SupportsInputFilters { get { return true; } }
     }
 }

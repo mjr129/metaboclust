@@ -11,17 +11,25 @@ using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 {
-    class ClustererAffinityPropagation : ClustererBase  // TODO: Include in algo
+    /// <summary>
+    /// Affinity propagation clustering.
+    /// </summary>
+    class ClustererAffinityPropagation : ClustererBase
     {
         public ClustererAffinityPropagation(string id, string name)
             : base(id, name)
         {
+            Description = "Clusters using Affinity Propogation";
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameters(AlgoParameters.ESpecial.None, null);
+            return null;
         }
+
+        public override bool RequiresDistanceMatrix { get { return true; } }
+        public override bool SupportsDistanceMetrics { get { return true; } }
+        public override bool SupportsObservationFilters { get { return true; } }
 
         /// <summary>
         /// ACTION!

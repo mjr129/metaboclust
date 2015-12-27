@@ -17,14 +17,28 @@ namespace MetaboliteLevels.Utilities
     /// </summary>
     class Arr
     {
+        /// <summary>
+        /// R.NET Engine
+        /// </summary>
         readonly REngine R;
+
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
         public static Arr Instance { get; private set; }
 
+        /// <summary>
+        /// Initialises the R instance.
+        /// </summary>                     
         public static void Initialize(string rBinPath)
         {
             Instance = new Arr(rBinPath);
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="rBinPath">Where R binaries live</param>
         public Arr(string rBinPath)
         {
             var envPath = Environment.GetEnvironmentVariable("PATH");
@@ -34,6 +48,9 @@ namespace MetaboliteLevels.Utilities
             TestR();
         }
 
+        /// <summary>
+        /// Checks if R is working and connected.
+        /// </summary>
         public void TestR()
         {
             if (R.Evaluate("2+2").AsNumeric()[0] != 4)
@@ -42,33 +59,16 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        public double TTest(Peak v, Core core, List<GroupInfo> type1, List<GroupInfo> type2)
-        {
-            var a = v.Observations.Raw.Corresponding(core.Observations, λ => type1.Contains(λ.Group));
-            var b = v.Observations.Raw.Corresponding(core.Observations, λ => type2.Contains(λ.Group));
+        /// <summary>
+        /// Gets the overlapping time range for the specified [groups].
+        /// </summary>                                                 
 
-            return DoTTest(a, b);
-        }
-
-        public double DoTTest(IEnumerable<double> a, IEnumerable<double> b)
-        {
-            var v1 = R.CreateNumericVector(a);
-            var v2 = R.CreateNumericVector(b);
-
-            R.SetSymbol("a", v1);
-            R.SetSymbol("b", v2);
-
-            double result = R.Evaluate(@"t.test(a, b)$p.value").AsNumeric()[0];
-
-            return result;
-        }
-
-        private static Range GetOverlappingTimeRange(Core core, IEnumerable<GroupInfo> types)
+        private static Range GetOverlappingTimeRange(Core core, IEnumerable<GroupInfo> groups)
         {
             int min = int.MinValue; // sic
             int max = int.MaxValue;
 
-            foreach (GroupInfo type in types)
+            foreach (GroupInfo type in groups)
             {
                 int minA = int.MaxValue;
                 int maxA = int.MinValue;
@@ -93,7 +93,10 @@ namespace MetaboliteLevels.Utilities
             return new Range(min, max);
         }
 
-        public double PcaAnova(Peak v, Core core, List<GroupInfo> types, List<int> reps)
+        /// <summary>
+        /// Does Arian's PCA-ANOVA idea.
+        /// </summary>                
+        public double PcaAnova(Peak peak, Core core, List<GroupInfo> types, List<int> replicates)
         {
             Range times = GetOverlappingTimeRange(core, types);
 
@@ -106,7 +109,7 @@ namespace MetaboliteLevels.Utilities
             // ...
 
             // Create and clear the matrix
-            int rowCount = types.Count * reps.Count;
+            int rowCount = types.Count * replicates.Count;
             int colCount = times.Count;
             double[,] matrix = new double[rowCount, colCount];
 
@@ -123,7 +126,7 @@ namespace MetaboliteLevels.Utilities
 
             for (int r = 0; r < rowCount; r++)
             {
-                groups[r] = types[r / reps.Count].Id;
+                groups[r] = types[r / replicates.Count].Id;
             }
 
             // Fill out the values we know
@@ -131,15 +134,15 @@ namespace MetaboliteLevels.Utilities
             {
                 ObservationInfo o = core.Observations[i];
                 int typeIndex = types.IndexOf(o.Group);
-                int repIndex = reps.IndexOf(o.Rep);
+                int repIndex = replicates.IndexOf(o.Rep);
 
                 if (times.Contains(o.Time) && typeIndex != -1 && repIndex != -1)
                 {
                     int timeIndex = o.Time - times.Min;
 
-                    int row = typeIndex * reps.Count + repIndex;
+                    int row = typeIndex * replicates.Count + repIndex;
                     UiControls.Assert(double.IsNaN(matrix[row, timeIndex]), "Duplicate day/time/rep observations in dataset are not allowed.");
-                    matrix[row, timeIndex] = v.Observations.Raw[i];
+                    matrix[row, timeIndex] = peak.Observations.Raw[i];
                 }
             }
 
@@ -151,13 +154,13 @@ namespace MetaboliteLevels.Utilities
                     if (double.IsNaN(matrix[r, c]))
                     {
                         // Missing values - average other values for this point
-                        int repIndex = r % reps.Count;
+                        int repIndex = r % replicates.Count;
                         int typeStart = r - repIndex;
 
                         double total = 0;
                         int count = 0;
 
-                        for (int rep = 0; rep < reps.Count; rep++)
+                        for (int rep = 0; rep < replicates.Count; rep++)
                         {
                             int newRow = typeStart + rep;
 
@@ -199,6 +202,9 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             }
         }
 
+        /// <summary>
+        /// Does PCA.
+        /// </summary>
         public void Pca(double[,] m, out double[,] scores, out double[,] loadings)
         {
             using (var v1 = R.CreateNumericMatrix(m))
@@ -209,135 +215,21 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
 
                 scores = R.Evaluate(@"p$x").AsNumericMatrix().ToArray();
                 loadings = R.Evaluate(@"p$rotation").AsNumericMatrix().ToArray();
-            }             
-        }
-
-        public double Pearson(Peak v, Core core, GroupInfo type1)
-        {
-            IEnumerable<int> indices = core.Conditions.Which(λ => λ.Group == type1);
-            IEnumerable<double> values = v.Observations.Trend.In(indices);
-            IEnumerable<double> times = core.Conditions.In(indices).Select(λ => (double)λ.Time);
-
-            double result;
-
-            using (var v1 = R.CreateNumericVector(values))
-            using (var v2 = R.CreateNumericVector(times))
-            {
-
-                R.SetSymbol("a", v1);
-                R.SetSymbol("b", v2);
-                result = R.Evaluate(@"cor(a, b)").AsNumeric()[0];
-
-                // By taking medians we can get everything = 0 for the variables, which gives a NaN result
-                if (double.IsNaN(result))
-                {
-                    result = 0;
-                }
             }
-
-            return result;
         }
 
-        internal double Pearson(double[] p, double[] centre)
-        {
-            double result;
-
-            using (var v1 = R.CreateNumericVector(p))
-            using (var v2 = R.CreateNumericVector(centre))
-            {
-                R.SetSymbol("a", v1);
-                R.SetSymbol("b", v2);
-                result = R.Evaluate(@"cor(a, b)").AsNumeric()[0];
-            }
-
-            return -result; // negative result so small is still better
-        }
+        /// <summary>
+        /// Evaluates the expression.
+        /// </summary>               
 
         internal double Evaluate(string text)
         {
             return R.Evaluate(text).AsNumeric()[0];
         }
 
-        internal int[] Cluster(double[,] distanceMatrix, double[,] valueMatrix, string script)
-        {
-            NumericMatrix dmat = null;
-            NumericMatrix vmat = null;
-            int[] result;
-
-            try
-            {
-                if (distanceMatrix != null)
-                {
-                    dmat = R.CreateNumericMatrix(distanceMatrix);
-                    R.SetSymbol("d", dmat);
-                }
-
-                if (valueMatrix != null)
-                {
-                    vmat = R.CreateNumericMatrix(valueMatrix);
-                    R.SetSymbol("v", vmat);
-                }
-
-                result = R.Evaluate(script).AsInteger().ToArray();
-            }
-            finally
-            {
-                if (dmat != null)
-                {
-                    dmat.Dispose();
-                }
-
-                if (vmat != null)
-                {
-                    vmat.Dispose();
-                }
-            }
-
-            return result;
-        }
-
         /// <summary>
-        /// Doesn't provide enough information.
-        /// </summary>
-        internal double[] Statistics(double[,] distanceMatrix, double[,] valueMatrix, string script)
-        {
-            NumericMatrix dmat = null;
-            NumericMatrix vmat = null;
-            double[] result;
-
-            try
-            {
-                if (distanceMatrix != null)
-                {
-                    dmat = R.CreateNumericMatrix(distanceMatrix);
-                    R.SetSymbol("d", dmat);
-                }
-
-                if (valueMatrix != null)
-                {
-                    vmat = R.CreateNumericMatrix(valueMatrix);
-                    R.SetSymbol("v", vmat);
-                }
-
-                result = R.Evaluate(script).AsNumeric().ToArray();
-
-            }
-            finally
-            {
-                if (dmat != null)
-                {
-                    dmat.Dispose();
-                }
-
-                if (vmat != null)
-                {
-                    vmat.Dispose();
-                }
-            }
-
-            return result;
-        }
-
+        /// Runs an RScript object that returns a double.
+        /// </summary>                                   
         internal double RunScriptDouble(RScript script, object[] inputs, object[] args)
         {
             ApplyInputs(script, inputs);
@@ -346,6 +238,9 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             return R.Evaluate(script.Script).AsNumeric()[0];
         }
 
+        /// <summary>
+        /// Runs an RScript object that returns a integer vector.
+        /// </summary>                                   
         internal IEnumerable<int> RunScriptIntV(RScript script, object[] inputs, object[] args)
         {
             ApplyInputs(script, inputs);
@@ -354,6 +249,9 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             return R.Evaluate(script.Script).AsInteger();
         }
 
+        /// <summary>
+        /// Runs an RScript object that returns a double vector.
+        /// </summary>                                   
         internal IEnumerable<double> RunScriptDoubleV(RScript script, object[] inputs, object[] args)
         {
             ApplyInputs(script, inputs);
@@ -362,6 +260,9 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             return R.Evaluate(script.Script).AsNumeric();
         }
 
+        /// <summary>
+        /// (Private) Applies the inputs of an RScript object.
+        /// </summary>                                        
         private void ApplyInputs(RScript script, object[] inputs)
         {
             UiControls.Assert(inputs.Length == script.InputNames.Length, "Number of inputs requested by script must match number of inputs provided.");
@@ -397,28 +298,31 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             }
         }
 
+        /// <summary>
+        /// (Private) Applies the arguments of an RScript object.
+        /// </summary>            
         private void ApplyArgs(RScript script, object[] args)
         {
-            UiControls.Assert((args == null) == (script.RequiredParameters.Parameters == null));
+            UiControls.Assert((args != null) == script.RequiredParameters.HasCustomisableParams);
 
-            if (script.RequiredParameters.Parameters != null)
+            if (script.RequiredParameters.HasCustomisableParams)
             {
-                var req = script.RequiredParameters.Parameters;
+                var req = script.RequiredParameters;
 
-                UiControls.Assert(req.Length == args.Length);
+                UiControls.Assert(req.Count == args.Length);
 
-                for (int i = 0; i < req.Length; i++)
+                for (int i = 0; i < req.Count; i++)
                 {
                     var p = req[i];
                     object v = args[i];
 
                     switch (p.Type)
                     {
-                        case AlgoParameters.EType.Double:
+                        case EAlgoParameterType.Double:
                             R.SetSymbol(p.Name, R.CreateNumeric((double)v));
                             break;
 
-                        case AlgoParameters.EType.Integer:
+                        case EAlgoParameterType.Integer:
                             R.SetSymbol(p.Name, R.CreateInteger((int)v));
                             break;
 
@@ -442,7 +346,6 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             double[][] mat_raw = new double[np][];
             double[][] mat_pat = new double[np][];
             double[][] mat_avg = new double[np][];
-            //double[][] mat_val = new double[np][];
             double[][] mat_stats = new double[np][];
             string[][] mat_meta = new string[np][];
 
@@ -455,7 +358,6 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
 
                 mat_raw[i] = p.Observations.Raw;
                 mat_avg[i] = p.Observations.Trend;
-                //mat_val[i] = p.Values;
 
                 mat_stats[i] = new double[stats.Length];
                 for (int ki = 0; ki < stats.Length; ki++)
@@ -521,7 +423,6 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
 
             var rmat_raw = R.CreateDataFrame(mat_raw, peakNames, obsNames);
             var rmat_avg = R.CreateDataFrame(mat_avg, peakNames, conNames);
-            //var rmat_val = R.CreateDataFrame(mat_val, peakNames, vconNames);
             var rmat_stats = R.CreateDataFrame(mat_stats, peakNames, statsNames);
             var rmat_meta = R.CreateDataFrame(mat_meta, peakNames, metaNames);
             var rmat_obs = R.CreateDataFrame(mat_obs, obsNames, obsCols);
@@ -544,54 +445,6 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             R.Evaluate(cmd);
 
             R.ClearGlobalEnvironment();
-        }
-
-        /// <summary>
-        /// Calculates silhouette widths
-        /// </summary>
-        /// <param name="clusters">Cluster assignments</param>
-        /// <param name="dmatrix">Distance matrix</param>
-        /// <returns>"cluster"   "neighbor"  "sil_width"</returns>
-        internal double[,] CalculateSilhouette(Cluster[] clusters, DistanceMatrix dmatrix)
-        {
-            var peaks = dmatrix.Peaks.ToArray();
-            int[] assignmentVector = new int[peaks.Length];
-
-            for (int peakIndex = 0; peakIndex < peaks.Length; peakIndex++)
-            {
-                Peak p = peaks[peakIndex];
-
-                int clusterIndex = clusters.FirstIndexWhere(z => z.Assignments.Peaks.Contains(p));
-
-                assignmentVector[peakIndex] = clusterIndex;
-            }
-
-            var vec = R.CreateIntegerVector(assignmentVector);
-            NumericMatrix dmat;
-
-            try
-            {
-                dmat = R.CreateNumericMatrix(dmatrix.Values);
-            }
-            catch
-            {
-                dmat = R.CreateNumericMatrix(dmatrix.NumPeaks, dmatrix.NumPeaks);
-
-                for (int i = 0; i < dmatrix.NumPeaks; i++)
-                {
-                    for (int j = 0; j < dmatrix.NumPeaks; j++)
-                    {
-                        dmat[i, j] = dmatrix.Values[i, j];
-                    }
-                }
-            }
-
-            R.SetSymbol("assignments", vec);
-            R.SetSymbol("dmatrix", dmat);
-
-            NumericMatrix result = R.Evaluate("library(cluster); as.matrix(silhouette(assignments, dmatrix = dmatrix));").AsNumericMatrix();
-
-            return result.ToArray();
         }
     }
 }

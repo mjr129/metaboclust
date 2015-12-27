@@ -20,6 +20,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
     /// </summary>
     class ClustererReclusterer : ClustererBase
     {
+        public ClustererReclusterer(string id, string name)
+            : base(id, name)
+        {
+            Description = "Performs k-means clustering on vectors starting with the cluster centres at existing cluster assignments.";
+        }
+
         protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             ConfigurationClusterer config = ((WeakReference<ConfigurationClusterer>)args.Parameters[0]).GetTargetOrThrow();
@@ -92,17 +98,13 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             return result;
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            AlgoParameters.Param param = new AlgoParameters.Param("Existing clusters (input vector size must match)", AlgoParameters.EType.WeakRefConfigurationClusterer);
-            AlgoParameters.Param[] @params = { param };
-
-            return new AlgoParameters(AlgoParameters.ESpecial.ClustererIgnoresDistanceMatrix, @params);
+            return new AlgoParameterCollection(new AlgoParameter("Existing clusters (input vector size must match)", EAlgoParameterType.WeakRefConfigurationClusterer));
         }
 
-        public ClustererReclusterer(string id, string name)
-            : base(id, name)
-        {
-        }
+        public override bool RequiresDistanceMatrix { get { return false; } }
+        public override bool SupportsDistanceMetrics { get { return true; } }
+        public override bool SupportsObservationFilters { get { return true; } }
     }
 }

@@ -646,7 +646,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     proggy.Enter("Test " + index + "/" + of + ", parameter " + valueIndex + "/" + test.ParameterValues.Length + ", repetition " + repetition + "/" + test.NumberOfRepeats);
 
                     // Create config
-                    string newName = AlgoParameters.ParamToString(false, null, value) + " " + StringHelper.Circle(repetition + 1);
+                    string newName = AlgoParameterCollection.ParamToString(false, null, value) + " " + StringHelper.Circle(repetition + 1);
                     object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
                     copyOfParameters[test.ParameterIndex] = value;
                     ArgsClusterer copyOfArgs = new ArgsClusterer(test.ClustererConfiguration.Args.PeakFilter, test.ClustererConfiguration.Args.Distance, test.ClustererConfiguration.Args.SourceMode, test.ClustererConfiguration.Args.ObsFilter, test.ClustererConfiguration.Args.SplitGroups, test.ClustererConfiguration.Args.Statistics, copyOfParameters);
@@ -671,7 +671,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     // Add result
                     repetitions.Add(result);
 
-                    string name = AlgoParameters.ParamToString(false, null, value);
+                    string name = AlgoParameterCollection.ParamToString(false, null, value);
 
                     results.Add(new ClusterEvaluationParameterResult(name, test, valueIndex, repetitions));
 

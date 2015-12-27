@@ -17,11 +17,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
     /// </summary>
     class ClustererUniqueness : ClustererBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public ClustererUniqueness(string id, string name)
             : base(id, name)
         {
+            Description = "Sorts peaks into clusters based on the clusters to which they have been assigned by a previous clustering algorithm. (The previous algorithm must have been capable of assigning peaks to multiple clusters - such as by creating a vector per experimental group.";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             ConfigurationClusterer config = ((WeakReference<ConfigurationClusterer>)args.Parameters[0]).GetTarget();
@@ -105,6 +112,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             return newClusters;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private int FindMatch(List<List<Assignment>> uniqueCombinations, List<Assignment> pats)
         {
             for (int index = 0; index < uniqueCombinations.Count; index++)
@@ -121,6 +131,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             return -1;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static bool IsEqual(List<Assignment> pats, List<Assignment> list)
         {
             for (int index = 0; index < pats.Count; index++)
@@ -139,13 +152,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             return true;
         }
 
-        public override AlgoParameters GetParams()
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            AlgoParameters.Param[] @params = new AlgoParameters.Param[]
-                                       {
-                                           new AlgoParameters.Param("source", AlgoParameters.EType.WeakRefConfigurationClusterer)
-                                       };
-            return new AlgoParameters(AlgoParameters.ESpecial.ClustererIgnoresDistanceMetrics | AlgoParameters.ESpecial.AlgorithmIgnoresObservationFilters | AlgoParameters.ESpecial.ClustererIgnoresDistanceMatrix, @params);
+            return new AlgoParameterCollection(new AlgoParameter("source", EAlgoParameterType.WeakRefConfigurationClusterer));
         }
+
+        public override bool SupportsObservationFilters { get { return false; } }
+
+        public override bool RequiresDistanceMatrix { get { return false; } }
+
+        public override bool SupportsDistanceMetrics { get { return false; } }
     }
 }

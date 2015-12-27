@@ -15,7 +15,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// <summary>
         /// Parameters of the script.
         /// </summary>
-        public readonly AlgoParameters RequiredParameters;
+        public readonly AlgoParameterCollection RequiredParameters;
 
         /// <summary>
         /// Script text
@@ -40,9 +40,9 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// <param name="text">Script text</param>
         /// <param name="inputs">Input parameters</param>
         /// <param name="quickCalcCheck">If set then this corresponds to which input parameters must be set for the script to support QuickCalc mode. This should be a string of "0" and "1" the same length as the input parameter array.</param>
-        public RScript(string text, string inputs, string quickCalcCheck, string dmCalcCheck, AlgoParameters.ESpecial extraFlags)
+        public RScript(string text, string inputs)
         {
-            var conv = EnumHelper.GetEnumKeys<AlgoParameters.EType>();
+            var conv = EnumHelper.GetEnumKeys<EAlgoParameterType>();
             int pos = 0;
             int lpos;
 
@@ -55,7 +55,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 inputNames.Add(new Tuple<string, string>(ieee[0].ToUpper(), ieee[1])); // ID, DefaultName
             }
 
-            var Parameters = new List<AlgoParameters.Param>();
+            var Parameters = new List<AlgoParameter>();
 
             while (true)
             {
@@ -76,11 +76,11 @@ namespace MetaboliteLevels.Algorithms.Statistics
                             name = name.Trim();
                             type = type.Trim().ToUpper();
 
-                            AlgoParameters.EType etype;
+                            EAlgoParameterType etype;
 
                             if (conv.TryGetValue(type, out etype))
                             {
-                                Parameters.Add(new AlgoParameters.Param(name, etype));
+                                Parameters.Add(new AlgoParameter(name, etype));
                             }
                             else
                             {
@@ -106,67 +106,50 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
             string[] inputNamesA = inputNames.Select(z => z.Item2 == "-" ? null : z.Item2).ToArray();
 
-            bool supportsQuickCalculate;
-
-            if (quickCalcCheck != null)
-            {
-                supportsQuickCalculate = true;
-
-                UiControls.Assert(inputNamesA.Length == quickCalcCheck.Length && quickCalcCheck.All(z => z == '0' || z == '1'), "Invalid quick calc check string.");
-
-                for (int i = 0; i < inputNamesA.Length; i++)
-                {
-                    if ((inputNamesA[i] == null) != (quickCalcCheck[i] == '1'))
-                    {
-                        supportsQuickCalculate = false;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                supportsQuickCalculate = false;
-            }
-
-            bool supportsDistanceMeasure;
-
-            if (dmCalcCheck != null)
-            {
-                supportsDistanceMeasure = true;
-
-                UiControls.Assert(inputNamesA.Length == dmCalcCheck.Length && dmCalcCheck.All(z => z == '-' || z == '1'),
-                                  "Invalid distance check string.");
-
-                for (int i = 0; i < inputNamesA.Length; i++)
-                {
-                    if ((dmCalcCheck[i] == '1') && (inputNamesA[i] == null))
-                    {
-                        supportsDistanceMeasure = false;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                supportsDistanceMeasure = true;
-            }
-
 
             Script = text.Substring(lpos);
 
-            this.InputNames = inputNamesA;
+            this.InputNames = inputNamesA;     
 
-            if (supportsQuickCalculate)
+            RequiredParameters = new AlgoParameterCollection(Parameters.Count != 0 ? Parameters.ToArray() : null);
+        }
+
+        /// <summary>
+        /// Determines if the inputs match the specified mask.
+        /// </summary>
+        /// <param name="mask">Mask containing '1' (present) '0' (not present) and '-' (doesn't matter)</param>
+        /// <returns>Whether inputs batch mask</returns>
+        public bool CheckInputMask(string mask)
+        {
+            UiControls.Assert(InputNames.Length == mask.Length && mask.All(z => z == '0' || z == '1' || z == '-'), "Invalid quick calc check string.");
+
+            for (int i = 0; i < InputNames.Length; i++)
             {
-                extraFlags |= AlgoParameters.ESpecial.MetricSupportsQuickCalculate;
+                char c = mask[i];
+
+                switch (c)
+                {
+                    case '0':
+                        if (InputNames[i] != null)
+                        {
+                            return false;
+                        }
+                        break;
+
+                    case '1':
+                        if (InputNames[i] == null)
+                        {
+                            return false;
+                        }
+                        break;
+
+                    case '-':
+                    default:
+                        break;
+                }
             }
 
-            if (!supportsDistanceMeasure)
-            {
-                extraFlags |= AlgoParameters.ESpecial.ClustererIgnoresDistanceMetrics | AlgoParameters.ESpecial.ClustererIgnoresDistanceMatrix;
-            }
-
-            RequiredParameters = new AlgoParameters(extraFlags, Parameters.Count != 0 ? Parameters.ToArray() : null);
+            return true;
         }
 
         private static string ReadLine(string text, ref int pos)

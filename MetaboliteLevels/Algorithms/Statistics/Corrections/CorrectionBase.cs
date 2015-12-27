@@ -21,6 +21,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Corrections
 
         public abstract double[] Calculate(double[] raw, ArgsCorrection args);
 
-        public abstract override AlgoParameters GetParams();
+        protected abstract override AlgoParameterCollection CreateParamaterDesription();
     }
 }

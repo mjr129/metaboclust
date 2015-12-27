@@ -79,9 +79,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Parameters
             object[] parameters;
 
-            if (sel.GetParams().HasCustomisableParams)
+            if (sel.Parameters.HasCustomisableParams)
             {
-                if (!sel.GetParams().TryStringToParams(_core, _txtParams.Text, out parameters))
+                if (!sel.Parameters.TryStringToParams(_core, _txtParams.Text, out parameters))
                 {
                     return null;
                 }
@@ -91,7 +91,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 parameters = null;
             }
 
-            if (!sel.GetParams().SupportsInputFilters)
+            if (!sel.SupportsInputFilters)
             {
                 filter1 = null;
                 filter2 = null;
@@ -127,7 +127,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
 
                 // Vector B
-                if (!sel.GetParams().HasMultipleInputs)
+                if (!sel.IsMetric)
                 {
                     // If the stat isn't comparing anything there is nothing to set
                     bsrc = EAlgoInputBSource.None;
@@ -238,7 +238,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 ctlTitleBar1.SubText = defaultSelection.AlgoName;
                 _comments = defaultSelection.Comment;
                 _lstMethod.SelectedItem = defaultSelection.Cached;
-                _txtParams.Text = AlgoParameters.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
+                _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
 
                 _radObs.Checked = defaultSelection.Args.SourceMode == EAlgoSourceMode.Full;
                 _radTrend.Checked = defaultSelection.Args.SourceMode == EAlgoSourceMode.Trend;
@@ -378,16 +378,16 @@ namespace MetaboliteLevels.Forms.Algorithms
             StatisticBase stat = NamedItem<StatisticBase>.Extract(_lstMethod.SelectedItem);
             bool m = stat != null;
 
-            bool p = m && stat.GetParams().HasCustomisableParams;
+            bool p = m && stat.Parameters.HasCustomisableParams;
             _txtParams.Visible = p;
             _btnEditParameters.Visible = p;
             _lblParams.Visible = p;
-            _lblParams.Text = p ? stat.GetParams().ParamNames() : "Parameters";
+            _lblParams.Text = p ? stat.Parameters.ParamNames() : "Parameters";
 
             object[] tmp;
             bool s = m
-                    && (!stat.GetParams().HasCustomisableParams || stat.GetParams().TryStringToParams(_core, _txtParams.Text, out tmp))
-                    && stat.GetParams().SupportsInputFilters;
+                    && (!stat.Parameters.HasCustomisableParams || stat.Parameters.TryStringToParams(_core, _txtParams.Text, out tmp))
+                    && stat.SupportsInputFilters;
 
             _lblApply.Visible = s;
             _radObs.Visible = s;
@@ -401,10 +401,10 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (stat != null)
             {
-                _lblAVec.Text = stat.GetParams().HasMultipleInputs ? "Compare" : "For";
+                _lblAVec.Text = stat.IsMetric ? "Compare" : "For";
             }
 
-            bool b = a && stat.GetParams().HasMultipleInputs;
+            bool b = a && stat.IsMetric;
 
             _radBCorTime.Visible = b;
             _radSamePeak.Visible = b;

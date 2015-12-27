@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
         {
             var src = (IEnumerable<WeakReference<ConfigurationStatistic>>)input.Args.Parameters[0];
 
-            double[] vals = src.Select(delegate(WeakReference<ConfigurationStatistic> z)
+            double[] vals = src.Select(delegate (WeakReference<ConfigurationStatistic> z)
                                        {
                                            ConfigurationStatistic a = z.GetTarget();
 
@@ -42,11 +42,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
             return _delegate(vals);
         }
 
-        public override AlgoParameters GetParams()
+        protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            var a = new AlgoParameters.Param("statistics", AlgoParameters.EType.WeakRefStatisticArray);
-
-            return new AlgoParameters(AlgoParameters.ESpecial.AlgorithmIgnoresObservationFilters, new[] { a });
+            return new AlgoParameterCollection(new AlgoParameter("statistics", EAlgoParameterType.WeakRefStatisticArray));
         }
+
+        public override bool SupportsInputFilters { get { return false; } }
     }
 }

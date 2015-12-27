@@ -200,7 +200,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Parameters
         /// </summary>
-        internal static ListValueSet<int> ForParameters(AlgoParameters.Param[] parameters, int selectedIndex, string message = null)
+        internal static ListValueSet<int> ForParameters(AlgoParameter[] parameters, int selectedIndex, string message = null)
         {
             return new ListValueSet<int>()
             {
