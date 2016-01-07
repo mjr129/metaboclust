@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace MetaboliteLevels.Forms.Editing
             public virtual bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return true; }
             public virtual void AfterApply(Form form) { }
             public virtual bool AddAtInitialise() { return false; }
+            public virtual EReplaceMode BeforeReplace(Form owner, IVisualisable remove, IVisualisable create) { return EReplaceMode.Default; }
         }
 
         /// <summary>
@@ -46,14 +48,16 @@ namespace MetaboliteLevels.Forms.Editing
             where T : IVisualisable
         {
             protected virtual string GetMissingName(T target) { return target.ToString(); }
-            protected abstract T EditObject(Form owner, T target, bool read);                 
+            protected abstract T EditObject(Form owner, T target, bool read);
             protected abstract void ApplyChanges(ProgressReporter info, List<T> alist);
             protected virtual bool PrepareForApply(Form form, List<T> arrayList, int numEnabled) { return true; }
+            protected virtual EReplaceMode BeforeReplace(Form owner, T remove, T create) { return EReplaceMode.Default; }
 
             public sealed override string GetMissingName(object target) { return GetMissingName((T)target); }
             public sealed override IVisualisable EditObject(Form owner, IVisualisable target, bool read) { return EditObject(owner, (T)target, read); }
             public sealed override bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return PrepareForApply(form, arrayList.Cast<T>().ToList(), numEnabled); }
             public sealed override void ApplyChanges(ProgressReporter info, List<IVisualisable> alist) { ApplyChanges(info, alist.Cast<T>().ToList()); }
+            public sealed override EReplaceMode BeforeReplace(Form owner, IVisualisable remove, IVisualisable create) { return BeforeReplace(owner, (T)remove, (T)create); }
         }
 
         /// <summary>
@@ -91,7 +95,7 @@ namespace MetaboliteLevels.Forms.Editing
                 {
                     return FrmBigList.ShowPeakFilter(owner, _core, (PeakFilter)target, read);
                 }
-            } 
+            }
 
             protected override void ApplyChanges(ProgressReporter info, List<Filter> alist)
             {
@@ -131,7 +135,7 @@ namespace MetaboliteLevels.Forms.Editing
             protected override void ApplyChanges(ProgressReporter info, List<T> alist)
             {
                 Result = alist;
-            }    
+            }
 
             protected override T EditObject(Form owner, T target, bool read)
             {
@@ -159,7 +163,7 @@ namespace MetaboliteLevels.Forms.Editing
             protected override void ApplyChanges(ProgressReporter info, List<ClusterEvaluationPointer> alist)
             {
                 core.EvaluationResultFiles.ReplaceAll(alist);
-            }   
+            }
 
             protected override ClusterEvaluationPointer EditObject(Form owner, ClusterEvaluationPointer target, bool read)
             {
@@ -233,6 +237,14 @@ namespace MetaboliteLevels.Forms.Editing
             Corrections
         }
 
+        private enum EReplaceMode
+        {
+            Replace,
+            CreateNew,
+            Cancel,
+            Default = Replace,
+        }
+
         private sealed class BigListConfigForAlgorithms : BigListConfig<ConfigurationBase>
         {
             private readonly Core _core;
@@ -251,6 +263,39 @@ namespace MetaboliteLevels.Forms.Editing
             public override bool AddAtInitialise()
             {
                 return _autoApply != null;
+            }
+
+            protected override EReplaceMode BeforeReplace(Form owner, ConfigurationBase remove, ConfigurationBase create)
+            {
+                if (remove != null && remove.HasResults)
+                {
+                    if (create != null)
+                    {
+                        string text1 = "The configuration to be modified has results associated with it";
+                        string text2 = "Changing this configuration will result in the loss of the associated results. If needed the original configuration can be retained (the new configuration will still be created).";
+
+                        FrmMsgBox.ButtonSet[] btns = {  new FrmMsgBox.ButtonSet( "Replace", Resources.MnuAccept, DialogResult.No),
+                                                        new FrmMsgBox.ButtonSet( "Retain", Resources.MnuCopy, DialogResult.Yes),
+                                                        new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel)};
+
+                        switch (FrmMsgBox.Show(owner, owner.Text, text1, text2, Resources.MsgHelp, btns, "FrmBigList.EditConfig", DialogResult.No))
+                        {
+                            case DialogResult.No:
+                                return EReplaceMode.Replace;
+
+                            case DialogResult.Yes:
+                                return EReplaceMode.CreateNew;
+
+                            case DialogResult.Cancel:
+                                return EReplaceMode.Cancel;
+
+                            default:
+                                throw new SwitchException();
+                        }
+                    }
+                }
+
+                return base.BeforeReplace(owner, remove, create);
             }
 
             public override void AfterApply(Form form)
@@ -425,28 +470,13 @@ namespace MetaboliteLevels.Forms.Editing
                                                      new   FrmMsgBox.ButtonSet("Clear error", Resources.MnuDelete, DialogResult.No),
                                                      new   FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
-                    switch (FrmMsgBox.Show(owner, "Error report", "Last time this configuration was run it reported an error", o.Error, Resources.MsgWarning, btns, 0, 2))
+                    switch (FrmMsgBox.Show(owner, "Error report", "Last time this configuration was run it reported an error", o.Error, Resources.MsgWarning, btns))
                     {
                         case DialogResult.Yes:
                             break;
 
                         case DialogResult.No:
                             o.ClearError();
-                            break;
-
-                        case DialogResult.Cancel:
-                            return null;
-                    }
-                }
-
-                if (o != null && o.HasResults)
-                {
-                    FrmMsgBox.ButtonSet[] btns = { new   FrmMsgBox.ButtonSet("Continue", Resources.MnuAccept, DialogResult.Yes),
-                                                     new   FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)};
-
-                    switch (FrmMsgBox.Show(owner, "Results report", "This configuration already has results associated with it", "Editing this configuration will result in the loss of the current results", Resources.MsgInfo, btns, 0, 2))
-                    {
-                        case DialogResult.Yes:
                             break;
 
                         case DialogResult.Cancel:
@@ -678,10 +708,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (o != null)
             {
-                Replace(null, o);
-
-                _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
-                _listViewHelper.Selection = o;
+                Replace(null, o);              
             }
         }
 
@@ -724,6 +751,13 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 _list.Add(create);
             }
+
+            _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
+
+            if (create != null)
+            {
+                _listViewHelper.Selection = create;
+            }
         }
 
         private void _btnView_Click(object sender, EventArgs e)
@@ -743,26 +777,47 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnEdit_Click(object sender, EventArgs e)
         {
-            IVisualisable p = GetSelected();
+            IVisualisable original = GetSelected();
+            IVisualisable toEdit = original;
 
-            if (p == null)
+            if (original == null)
             {
                 return;
             }
 
-            IVisualisable o = _config.EditObject(this, p, false);
+            while (true)
+            {
+                IVisualisable modified = _config.EditObject(this, toEdit, false);
 
-            if (o == p)
-            {
-                // If they are the same object then only name/comments can have changed
-                _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
-                _listViewHelper.Selection = o;
-            }
-            else if (o != null)
-            {
-                Replace(p, o);
-                _listViewHelper.Rebuild(EListInvalids.ContentsChanged); // because "edit" means "swap"
-                _listViewHelper.Selection = o;
+                if (modified == original)
+                {
+                    // If they are the same object then only name/comments can have changed
+                    _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
+                    _listViewHelper.Selection = modified;
+                    return;
+                }
+                else if (modified != null)
+                {
+                    EReplaceMode replaceMode = _config.BeforeReplace(this, original, modified);
+
+                    switch (replaceMode)
+                    {
+                        case EReplaceMode.CreateNew:
+                            Replace(null, modified);               
+                            return;
+
+                        case EReplaceMode.Replace:
+                            Replace(original, modified);          
+                            return;
+
+                        case EReplaceMode.Cancel:
+                            toEdit = modified;
+                            break;
+
+                        default:
+                            throw new SwitchException(replaceMode);
+                    }
+                }
             }
         }
 
@@ -775,10 +830,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            Replace(p, null);
-
-            _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
-            _listViewHelper.Selection = p;
+            Replace(p, null);                 
         }
 
         private void listView1_ItemActivate(object sender, ListViewItemEventArgs e)
@@ -846,7 +898,7 @@ namespace MetaboliteLevels.Forms.Editing
             if (!_config.PrepareForApply(this, _list, numEnabled))
             {
                 return;
-            }               
+            }
 
             FrmWait.Show(this, "Applying changes", null, _config.ApplyChanges, _list);
 
@@ -915,9 +967,6 @@ namespace MetaboliteLevels.Forms.Editing
             if (o != null)
             {
                 Replace(null, o);
-
-                _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
-                _listViewHelper.Selection = o;
             }
         }
     }

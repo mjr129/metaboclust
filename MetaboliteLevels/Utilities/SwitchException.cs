@@ -12,5 +12,10 @@ namespace MetaboliteLevels.Utilities
         {
             // NA
         }
+
+        public SwitchException()
+            : this("Unknown")
+        {
+        }
     }
 }

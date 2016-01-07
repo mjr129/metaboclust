@@ -121,7 +121,7 @@ namespace MetaboliteLevels.Controls
         {
             if (MainSettings.Instance != null)
             {
-                base.Visible = !MainSettings.Instance.DoNotShowAgain.Contains(_hash);
+                base.Visible = !MainSettings.Instance.DoNotShowAgain.ContainsKey(_hash);
             }
             else
             {
@@ -141,16 +141,16 @@ namespace MetaboliteLevels.Controls
 
         public static bool GetHidden(string uid)
         {
-            return MainSettings.Instance.DoNotShowAgain.Contains(uid);
+            return MainSettings.Instance.DoNotShowAgain.ContainsKey(uid);
         }
 
         public static void SetHidden(string uid, bool inList)
         {
-            if (MainSettings.Instance.DoNotShowAgain.Contains(uid) != inList)
+            if (MainSettings.Instance.DoNotShowAgain.ContainsKey(uid) != inList)
             {
                 if (inList)
                 {
-                    MainSettings.Instance.DoNotShowAgain.Add(uid);
+                    MainSettings.Instance.DoNotShowAgain.Add(uid, 0);
                 }
                 else
                 {

@@ -69,7 +69,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// </summary>
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return null;
+            return new AlgoParameterCollection();
         }
 
         public override bool SupportsObservationFilters { get { return false; } }

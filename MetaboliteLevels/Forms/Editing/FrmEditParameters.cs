@@ -176,7 +176,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                         bool isInt = param.Type == EAlgoParameterType.Integer;
 
-                        switch (FrmMsgBox.Show(this, "Select Integer", null, "Select a value or enter a custom value into the textbox", Resources.MsgHelp, btns, 2, 2))
+                        switch (FrmMsgBox.Show(this, "Select Integer", null, "Select a value or enter a custom value into the textbox", Resources.MsgHelp, btns, DialogResult.Cancel, DialogResult.Cancel))
                         {
                             case DialogResult.Yes:
                                 value = isInt ? (object)int.MaxValue : (object)double.MaxValue;

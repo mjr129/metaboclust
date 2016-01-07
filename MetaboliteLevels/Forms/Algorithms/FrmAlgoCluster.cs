@@ -301,7 +301,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             linkLabel1.Visible = distanceVisible && !stat.SupportsDistanceMetrics;
 
             // Distance params
-            bool distParamsVisible = performanceVisible && met != null && met.Parameters.HasCustomisableParams;
+            bool distParamsVisible = performanceVisible && met != null && met.Parameters != null && met.Parameters.HasCustomisableParams;
             _txtMeasureParams.Enabled = distParamsVisible;
             _btnEditDistanceParameters.Enabled = distParamsVisible;
             _lblMeasureParams.Enabled = distParamsVisible;

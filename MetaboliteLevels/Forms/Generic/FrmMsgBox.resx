@@ -120,37 +120,6 @@
   <data name="label1.Text" xml:space="preserve">
     <value>This is a message telling the user something. If you are seeing this there is an error or the programmer forgot to put the message text in. Sorry about that. There is also some more text here for testing, but you shouldn't be seeing this either.</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="_btn1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAADRSURBVDhPnZM7EsMgDEQ5Ss7ik3AOWmfc+0SuqaiTHIKk
-        oSXaRPLw0WAnmnkFoF3xEaaNlJIlNiI3YM5yWh+0eCGC9z475/I0TRWYwxpykMuyb7A4LsvSCVvWdYVJ
-        rExoELCgCTTYJIjYYmtaojDP1/yMr3y/PfY5Po6FwaaduQRCGMBI5qCBFgZVcotWXYD20ECrLqgGpWBU
-        HagGpWhUHYhBd4kiHFUvL7F7RtnFqPr+jNwL4UwXClUjIWjwaeUz3ai2MoJN/vtMZdDiD9/ZmDfaTDV9
-        HwpIXwAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="_btn2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAADRSURBVDhPnZM7EsMgDEQ5Ss7ik3AOWmfc+0SuqaiTHIKk
-        oSXaRPLw0WAnmnkFoF3xEaaNlJIlNiI3YM5yWh+0eCGC9z475/I0TRWYwxpykMuyb7A4LsvSCVvWdYVJ
-        rExoELCgCTTYJIjYYmtaojDP1/yMr3y/PfY5Po6FwaaduQRCGMBI5qCBFgZVcotWXYD20ECrLqgGpWBU
-        HagGpWhUHYhBd4kiHFUvL7F7RtnFqPr+jNwL4UwXClUjIWjwaeUz3ai2MoJN/vtMZdDiD9/ZmDfaTDV9
-        HwpIXwAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="_btn3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAADRSURBVDhPnZM7EsMgDEQ5Ss7ik3AOWmfc+0SuqaiTHIKk
-        oSXaRPLw0WAnmnkFoF3xEaaNlJIlNiI3YM5yWh+0eCGC9z475/I0TRWYwxpykMuyb7A4LsvSCVvWdYVJ
-        rExoELCgCTTYJIjYYmtaojDP1/yMr3y/PfY5Po6FwaaduQRCGMBI5qCBFgZVcotWXYD20ECrLqgGpWBU
-        HagGpWhUHYhBd4kiHFUvL7F7RtnFqPr+jNwL4UwXClUjIWjwaeUz3ai2MoJN/vtMZdDiD9/ZmDfaTDV9
-        HwpIXwAAAABJRU5ErkJggg==
-</value>
-  </data>
   <metadata name="$this.DrawGrid" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>

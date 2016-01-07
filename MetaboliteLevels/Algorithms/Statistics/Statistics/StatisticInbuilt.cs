@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return null;
+            return new AlgoParameterCollection();
         }
 
         public override bool SupportsInputFilters { get { return true; } }

@@ -13,6 +13,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Data.DataInfo;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Forms.Generic
 {
@@ -332,11 +333,13 @@ namespace MetaboliteLevels.Forms.Generic
 
         public static T ShowRadio<T>(Form owner, ListValueSet<T> listValueSet)
         {
+            Debug.Assert(listValueSet.List.Count() < 50, "When list count is large you might be better using a different view method.");
             return Show<T>(owner, new FormListRadioButtonArray(), listValueSet, false).FirstOrDefault(listValueSet.CancelValue);
         }
 
         public static T ShowButtons<T>(Form owner, ListValueSet<T> listValueSet)
         {
+            Debug.Assert(listValueSet.List.Count() < 50, "When list count is large you might be better using a different view method.");
             return Show<T>(owner, new FormListButtonArray(), listValueSet, false).FirstOrDefault(listValueSet.CancelValue);
         }
 
@@ -347,6 +350,7 @@ namespace MetaboliteLevels.Forms.Generic
 
         public static IEnumerable<T> ShowCheckBox<T>(Form owner, ListValueSet<T> listValueSet)
         {
+            Debug.Assert(listValueSet.List.Count() < 50, "When list count is large you might be better using a different view method.");
             return Show<T>(owner, new FormListCheckBoxArray(), listValueSet, true);
         }
 

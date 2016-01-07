@@ -15,7 +15,7 @@ namespace MetaboliteLevels.Settings
         private const int MAX_RECENT_WORKSPACES = 20;
         private const int MAX_RECENT_SESSIONS = 10;
 
-        public HashSet<string> DoNotShowAgain = new HashSet<string>();
+        public Dictionary<string, int> DoNotShowAgain = new Dictionary<string, int>();
         public List<RecentSession> RecentSessions = new List<RecentSession>();
         public List<DataFileNames> RecentWorkspaces = new List<DataFileNames>();
         public GeneralSettings General = new GeneralSettings();
@@ -59,7 +59,7 @@ namespace MetaboliteLevels.Settings
             XmlSettings.SaveLoad(save, "RecentSessions.dat", ref RecentSessions, null, prog);
             XmlSettings.SaveLoad(save, "RecentWorkspaces.dat", ref RecentWorkspaces, null, prog);
             XmlSettings.SaveLoad(save, "General.dat", ref General, null, prog);
-        }                                  
+        }
 
         public void Save()
         {

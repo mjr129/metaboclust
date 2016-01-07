@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 if (_parameters == null)
                 {
                     _parameters = CreateParamaterDesription();
+                    Debug.Assert(_parameters != null);
                 }
 
                 return _parameters;

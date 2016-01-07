@@ -30,17 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMsgBox));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this._chkNotAgain = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btn1 = new MetaboliteLevels.Controls.CtlButton();
-            this._btn2 = new MetaboliteLevels.Controls.CtlButton();
-            this._btn3 = new MetaboliteLevels.Controls.CtlButton();
-            this._chkNotAgain = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -63,8 +59,23 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(695, 211);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(695, 196);
             this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // _chkNotAgain
+            // 
+            this._chkNotAgain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._chkNotAgain.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this._chkNotAgain, 2);
+            this._chkNotAgain.Location = new System.Drawing.Point(8, 163);
+            this._chkNotAgain.Margin = new System.Windows.Forms.Padding(8);
+            this._chkNotAgain.Name = "_chkNotAgain";
+            this._chkNotAgain.Size = new System.Drawing.Size(663, 25);
+            this._chkNotAgain.TabIndex = 2;
+            this._chkNotAgain.Text = "Don\'t show this message again";
+            this._chkNotAgain.UseVisualStyleBackColor = true;
+            this._chkNotAgain.CheckedChanged += new System.EventHandler(this._chkNotAgain_CheckedChanged);
             // 
             // pictureBox1
             // 
@@ -112,65 +123,13 @@
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Controls.Add(this._btn1);
-            this.flowLayoutPanel1.Controls.Add(this._btn2);
-            this.flowLayoutPanel1.Controls.Add(this._btn3);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(263, 155);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(679, 155);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel1.MinimumSize = new System.Drawing.Size(16, 16);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(432, 56);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(16, 16);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.WrapContents = false;
-            // 
-            // _btn1
-            // 
-            this._btn1.Image = ((System.Drawing.Image)(resources.GetObject("_btn1.Image")));
-            this._btn1.Location = new System.Drawing.Point(8, 8);
-            this._btn1.Margin = new System.Windows.Forms.Padding(8);
-            this._btn1.Name = "_btn1";
-            this._btn1.Size = new System.Drawing.Size(128, 40);
-            this._btn1.TabIndex = 3;
-            this._btn1.Text = "Button 1";
-            this._btn1.UseVisualStyleBackColor = true;
-            this._btn1.Visible = false;
-            // 
-            // _btn2
-            // 
-            this._btn2.Image = ((System.Drawing.Image)(resources.GetObject("_btn2.Image")));
-            this._btn2.Location = new System.Drawing.Point(152, 8);
-            this._btn2.Margin = new System.Windows.Forms.Padding(8);
-            this._btn2.Name = "_btn2";
-            this._btn2.Size = new System.Drawing.Size(128, 40);
-            this._btn2.TabIndex = 4;
-            this._btn2.Text = "Button 2";
-            this._btn2.UseVisualStyleBackColor = true;
-            this._btn2.Visible = false;
-            // 
-            // _btn3
-            // 
-            this._btn3.Image = ((System.Drawing.Image)(resources.GetObject("_btn3.Image")));
-            this._btn3.Location = new System.Drawing.Point(296, 8);
-            this._btn3.Margin = new System.Windows.Forms.Padding(8);
-            this._btn3.Name = "_btn3";
-            this._btn3.Size = new System.Drawing.Size(128, 40);
-            this._btn3.TabIndex = 5;
-            this._btn3.Text = "Button 3";
-            this._btn3.UseVisualStyleBackColor = true;
-            this._btn3.Visible = false;
-            // 
-            // _chkNotAgain
-            // 
-            this._chkNotAgain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._chkNotAgain.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this._chkNotAgain, 2);
-            this._chkNotAgain.Location = new System.Drawing.Point(8, 178);
-            this._chkNotAgain.Margin = new System.Windows.Forms.Padding(8);
-            this._chkNotAgain.Name = "_chkNotAgain";
-            this._chkNotAgain.Size = new System.Drawing.Size(247, 25);
-            this._chkNotAgain.TabIndex = 2;
-            this._chkNotAgain.Text = "Don\'t show this message again";
-            this._chkNotAgain.UseVisualStyleBackColor = true;
             // 
             // FrmMsgBox
             // 
@@ -191,7 +150,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,9 +162,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private Controls.CtlButton _btn1;
-        private Controls.CtlButton _btn2;
-        private Controls.CtlButton _btn3;
         private System.Windows.Forms.CheckBox _chkNotAgain;
     }
 }

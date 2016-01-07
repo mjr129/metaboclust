@@ -70,7 +70,16 @@ namespace MetaboliteLevels.Controls
                 sel.SelectedStates = null;
             }
 
-            var newSelected = sel.ShowCheckBox(_textBox.FindForm());
+            IEnumerable<T> newSelected;
+
+            if (_args.List.Count() < 10)
+            {
+                newSelected = sel.ShowCheckBox(_textBox.FindForm());
+            }
+            else
+            {
+                newSelected = sel.ShowCheckList(_textBox.FindForm());
+            }
 
             if (newSelected != null)
             {

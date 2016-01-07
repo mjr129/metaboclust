@@ -38,7 +38,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return null;
+            return new AlgoParameterCollection();
         }
 
         public override bool SupportsQuickCalculate

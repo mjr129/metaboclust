@@ -24,7 +24,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return null;
+            return new AlgoParameterCollection();
         }
 
         public override bool RequiresDistanceMatrix { get { return true; } }

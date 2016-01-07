@@ -119,7 +119,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
                 // Basic check
                 if (!newCluster.Assignments.Vectors.Contains(mostDistant.Vector))
                 {
-                    throw new InvalidOperationException("Problem creating new cluster from peak - " + mostDistant.Peak.DisplayName + " doesn't like being in its own cluster. Check this peak for discrepancies.");
+                    throw new InvalidOperationException("Problem creating new cluster from vector - " + mostDistant.Vector.ToString() + " doesn't like being in its own cluster. Check this vector for discrepancies.");
                 }
 
                 // Get the next most distant variable

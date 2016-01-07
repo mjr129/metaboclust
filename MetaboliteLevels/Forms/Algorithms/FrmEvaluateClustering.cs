@@ -538,7 +538,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     msg = toRun.Length.ToString() + " tests are ready to run. You can save these for later or run them now.";
                 }
 
-                switch (FrmMsgBox.Show(this, "Save Tests", null, msg, Resources.MsgWarning, buttons, 0, 2))
+                switch (FrmMsgBox.Show(this, "Save Tests", null, msg, Resources.MsgWarning, buttons))
                 {
                     case DialogResult.Yes:
                         break;
@@ -559,7 +559,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                         FrmMsgBox.ShowError(this, "The evaluations cannot be conducted because the session has not yet been saved. Please return to the main screen and save the session before continuing.");
                         return;
                     }
-                    else if (!FrmMsgBox.ShowOkCancel(this, "Save Session", "To avoid data loss the current session must be saved. The current session is \"" + _core.FileNames.Session + "\".", null, "FrmEvaluateClustering.SaveBetweenEvaluations"))
+                    else if (!FrmMsgBox.ShowOkCancel(this, "Save Session", "To avoid data loss the current session must be saved. The current session is \"" + _core.FileNames.Session + "\".", "FrmEvaluateClustering.SaveBetweenEvaluations", DialogResult.OK))
                     {
                         return;
                     }
@@ -721,7 +721,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             FrmWait.Show(this, "Please wait", null, z => SaveResults(_core, fn, null, _selectedResults, z));
 
-            FrmMsgBox.Show(this, "Export Notice", null, "Results have been exported. Exported data will only be compatible with the current data set.", Resources.MsgInfo, dontShowAgainId: "FrmEvaluateClustering.ExportNotice");
+            FrmMsgBox.ShowInfo(this, "Export Notice", "Results have been exported. Exported data will only be compatible with the current data set.", "FrmEvaluateClustering.ExportNotice");
         }
 
         /// <summary>
@@ -846,13 +846,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 if (set.CoreGuid != core.CoreGuid)
                 {
-                    if (FrmMsgBox.Show2(owner, "Error", null, "The result set loaded was not created using the current session", Resources.MsgError,
-                        new FrmMsgBox.ButtonSet("Abort", Resources.MnuCancel, DialogResult.Cancel),
-                        new FrmMsgBox.ButtonSet("Ignore", Resources.MnuWarning, DialogResult.Ignore),
-                        null, 0, 0) == DialogResult.Cancel)
-                    {
-                        return null;
-                    }
+                    FrmMsgBox.ShowError(owner, "Wrong Session", "The result set selected was not created using the current session. In order to view these results you must load the relevant session.\r\n\r\nCurrent session: " + core.CoreGuid + "\r\nResults session: " + set.CoreGuid);
+                    return null;
                 }
             }
 
@@ -895,7 +890,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                         new FrmMsgBox.ButtonSet("Cancel", Resources.MnuAccept, DialogResult.Cancel),
                     };
 
-                switch (FrmMsgBox.Show(this, "Select Test", "It appears you don't have any tests! Would you like to create a new one?"))
+                switch (FrmMsgBox.Show(this, "Select Test", null, "It appears you don't have any tests! Would you like to create a new one?", Resources.MsgHelp, buttons))
                 {
                     case DialogResult.Yes:
                         _btnNew.PerformClick();

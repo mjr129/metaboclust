@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return null;
+            return new AlgoParameterCollection();
         }
 
         protected override double[] Smooth(IEnumerable<double> y, IEnumerable<int> xIn, IEnumerable<int> xOut, object[] args)

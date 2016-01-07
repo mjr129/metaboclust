@@ -82,7 +82,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                 if (config == null)
                 {
-                    if (!FrmMsgBox.ShowOkCancel(owner, "Open Configuration", "The selected configuration has been saved to disk and must be loaded before it is viewed or modified.", Resources.MsgWarning))
+                    if (!FrmMsgBox.ShowOkCancel(owner, "Open Configuration", "The selected configuration has been saved to disk and must be loaded before it is viewed or modified."))
                     {
                         return null;
                     }
