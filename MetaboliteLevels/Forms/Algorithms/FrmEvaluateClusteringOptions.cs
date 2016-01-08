@@ -87,7 +87,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                         return null;
                     }
 
-                    config = FrmEvaluateClustering.LoadResults(owner, core, options.FileName)?.Configuration;
+                    config = FrmWait.Show<ClusterEvaluationResults>(owner, "Loading results", null, z => FrmEvaluateClustering.LoadResults(core, options.FileName, z))?.Configuration;
 
                     if (config == null)
                     {

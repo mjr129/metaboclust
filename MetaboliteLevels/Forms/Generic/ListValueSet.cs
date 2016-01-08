@@ -42,6 +42,19 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
+        /// Strings
+        /// </summary>
+        public static ListValueSet<int> ForString(string title, params string[] options)
+        {
+            return new ListValueSet<int>()
+            {
+                Title = title,
+                List = options.Indices(),
+                Namer = z => options[z]
+            };
+        }
+
+        /// <summary>
         /// Enum without flags
         /// </summary>
         public static ListValueSet<T> ForDiscreteEnum<T>(string title, T cancelValue)

@@ -733,21 +733,29 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Gets a sequentially numbered file.
         /// </summary>                        
-        internal static string GetNewFile(string v, string format = "-{0}")
+        internal static string GetNewFile(string fileName, string format = "-{0}", bool checkOriginal = false)
         {
             int n = 0;
 
-            string prefix = Path.Combine(Path.GetDirectoryName(v), Path.GetFileNameWithoutExtension(v));
-            string suffix = Path.GetExtension(v);
-            string fileName;
+            string prefix = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName));
+            string suffix = Path.GetExtension(fileName);
+            string result;
+
+            if (checkOriginal)
+            {
+                if (!File.Exists(fileName))
+                {
+                    return fileName;
+                }
+            }
 
             do
             {
                 n++;
-                fileName = prefix + string.Format(format, n) + suffix;
-            } while (File.Exists(fileName));
+                result = prefix + string.Format(format, n) + suffix;
+            } while (File.Exists(result));
 
-            return fileName;
+            return result;
         }
 
 

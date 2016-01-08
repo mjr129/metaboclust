@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEvaluateClustering));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -74,6 +74,7 @@
             this._btnLoad = new System.Windows.Forms.ToolStripButton();
             this._btnExport = new System.Windows.Forms.ToolStripButton();
             this._btnImport = new System.Windows.Forms.ToolStripButton();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,7 +83,8 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.paranoidModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.updateResultsDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -537,17 +539,17 @@
             // 
             // chart1
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 30);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(498, 364);
             this.chart1.TabIndex = 3;
             this.chart1.Text = "chart1";
@@ -698,6 +700,18 @@
             this._btnImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this._btnImport.Click += new System.EventHandler(this._btnImport_Click);
             // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripTextBox1.ForeColor = System.Drawing.Color.White;
+            this.toolStripTextBox1.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.ReadOnly = true;
+            this.toolStripTextBox1.Size = new System.Drawing.Size(320, 41);
+            this.toolStripTextBox1.Text = "← Select a test to begin";
+            // 
             // toolTip1
             // 
             this.toolTip1.Active = false;
@@ -742,14 +756,16 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(794, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(763, 17);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // toolStripDropDownButton1
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.paranoidModeToolStripMenuItem});
+            this.paranoidModeToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.updateResultsDataToolStripMenuItem});
             this.toolStripDropDownButton1.Image = global::MetaboliteLevels.Properties.Resources.MnuSave;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -762,21 +778,21 @@
             this.paranoidModeToolStripMenuItem.CheckOnClick = true;
             this.paranoidModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.paranoidModeToolStripMenuItem.Name = "paranoidModeToolStripMenuItem";
-            this.paranoidModeToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.paranoidModeToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.paranoidModeToolStripMenuItem.Text = "&Paranoid mode";
             this.paranoidModeToolStripMenuItem.ToolTipText = resources.GetString("paranoidModeToolStripMenuItem.ToolTipText");
             // 
-            // toolStripTextBox1
+            // toolStripMenuItem1
             // 
-            this.toolStripTextBox1.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripTextBox1.ForeColor = System.Drawing.Color.White;
-            this.toolStripTextBox1.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.ReadOnly = true;
-            this.toolStripTextBox1.Size = new System.Drawing.Size(320, 41);
-            this.toolStripTextBox1.Text = "← Select a test to begin";
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(216, 6);
+            // 
+            // updateResultsDataToolStripMenuItem
+            // 
+            this.updateResultsDataToolStripMenuItem.Name = "updateResultsDataToolStripMenuItem";
+            this.updateResultsDataToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.updateResultsDataToolStripMenuItem.Text = "Batch process results data...";
+            this.updateResultsDataToolStripMenuItem.Click += new System.EventHandler(this.updateResultsDataToolStripMenuItem_Click);
             // 
             // FrmEvaluateClustering
             // 
@@ -881,5 +897,7 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem paranoidModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem updateResultsDataToolStripMenuItem;
     }
 }

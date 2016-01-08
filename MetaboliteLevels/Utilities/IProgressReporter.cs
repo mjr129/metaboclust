@@ -115,7 +115,13 @@ namespace MetaboliteLevels.Utilities
         /// <returns>See ReportProgress.</returns>
         public bool SetProgressMarquee()
         {
-            return SetProgress(-1);
+            if (_percent == -1)
+            {
+                return ReportProgress();
+            }
+
+            _percent = -1;
+            return Update(); // force an update since marquee usually indicates we won't get another chance!
         }
 
         /// <summary>
@@ -165,10 +171,10 @@ namespace MetaboliteLevels.Utilities
         /// Forces progress reporter to update the UI.
         /// Use sparingly to avoid a UI backlog.
         /// </summary>
-        public void Update()
+        public bool Update()
         {
             _forceUpdate = true;
-            ReportProgress();
+            return ReportProgress();
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -821,33 +822,26 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// <summary>
         /// Loads results from file.
         /// </summary>              
-        private ClusterEvaluationResults LoadResults(string fileName)
+        private ClusterEvaluationResults LoadResults(string fileName, ProgressReporter z)
         {
-            return LoadResults(this, _core, fileName);
+            return LoadResults(_core, fileName, z);
         }
 
-        public static ClusterEvaluationResults LoadResults(Form owner, Core core, string fileName)
+        /// <summary>
+        /// Loads results from file.
+        /// </summary>       
+        public static ClusterEvaluationResults LoadResults(Core core, string fileName, ProgressReporter z)
         {
             LookupByGuidSerialiser guidS = core.GetLookups();
             ClusterEvaluationResults set;
 
-            try
-            {
-                set = FrmWait.Show(owner, "Loading results", null,
-                   z => XmlSettings.LoadFromFile<ClusterEvaluationResults>(fileName, SerialisationFormat.Infer, z, guidS));
-            }
-            catch (Exception ex)
-            {
-                FrmMsgBox.ShowError(owner, ex);
-                return null;
-            }
+            set = XmlSettings.LoadFromFile<ClusterEvaluationResults>(fileName, SerialisationFormat.Infer, z, guidS);
 
             if (set != null)
             {
                 if (set.CoreGuid != core.CoreGuid)
                 {
-                    FrmMsgBox.ShowError(owner, "Wrong Session", "The result set selected was not created using the current session. In order to view these results you must load the relevant session.\r\n\r\nCurrent session: " + core.CoreGuid + "\r\nResults session: " + set.CoreGuid);
-                    return null;
+                    throw new InvalidOperationException("Wrong Session - The result set selected was not created using the current session. In order to view these results you must load the relevant session.\r\n\r\nCurrent session: " + core.CoreGuid + "\r\nResults session: " + set.CoreGuid);
                 }
             }
 
@@ -866,7 +860,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return;
             }
 
-            ClusterEvaluationResults set = LoadResults(fn);
+            ClusterEvaluationResults set = FrmWait.Show(this, "Loading results", null, z => LoadResults(fn, z));
             ClusterEvaluationPointer fakePointer = new ClusterEvaluationPointer(set.Configuration);
 
             if (set != null)
@@ -919,7 +913,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return;
             }
 
-            ClusterEvaluationResults set = LoadResults(res.FileName);
+            ClusterEvaluationResults set = FrmWait.Show(this, "Loading results", null, z => LoadResults(res.FileName, z));
 
             if (set != null)
             {
@@ -930,6 +924,114 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void _lstSel_SelectedIndexChanged(object sender, EventArgs e)
         {
             _lstParams_SelectedIndexChanged(sender, e);
+        }
+
+        private void updateResultsDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string option1 = "Export statistics to CSV";
+            string option2 = "Convert results data to latest format";
+
+            IEnumerable<int> options = ListValueSet.ForString("Batch Options", option1, option2).ShowCheckBox(this);
+
+            if (options == null || options.Count() == 0)
+            {
+                return;
+            }
+
+            IEnumerable<ClusterEvaluationPointer> tests = ListValueSet.ForTests(_core).ShowCheckBox(this);
+
+            if (tests == null)
+            {
+                return;
+            }
+
+            string log = FrmWait.Show<string>(this, "Batch Process", null, proggy => BatchProcess(options.Contains(0), options.Contains(1), tests, proggy));
+
+            FrmInputLarge.ShowFixed(this, this.Text, "Batch Process", "Results of the batch process", log);
+        }
+
+        private string BatchProcess(bool exportCsv, bool resave, IEnumerable<ClusterEvaluationPointer> tests, ProgressReporter proggy)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (ClusterEvaluationPointer res in tests)
+            {
+                sb.AppendLine("CONFIG: " + res.ConfigurationDescription);
+                sb.AppendLine("PARAMS: " + res.ParameterDescription);
+                sb.AppendLine("NAME: " + res.OverrideDisplayName);
+                sb.AppendLine("FILE: " + res.FileName);
+
+                if (!res.HasResults)
+                {
+                    sb.AppendLine(" - No results.");
+                    continue;
+                }
+
+                Stopwatch timer = Stopwatch.StartNew();
+                proggy.Enter("Loading results");
+                ClusterEvaluationResults set = LoadResults(res.FileName, proggy);
+                proggy.Leave();
+
+                if (set == null)
+                {
+                    sb.AppendLine(" - Load failed.");
+                    continue;
+                }
+
+                sb.AppendLine(" - LOAD-TIME: " + timer.Elapsed);
+
+                if (exportCsv)
+                {
+                    timer.Restart();
+                    proggy.Enter("Selecting results");
+                    proggy.SetProgressMarquee();
+                    this.Invoke((MethodInvoker)(() => SelectResults(res.FileName, set)));
+                    proggy.Leave();
+                    sb.AppendLine(" - DISPLAY-TIME: " + timer.Elapsed);
+
+                    string csvFileName = Path.Combine(Path.GetDirectoryName(res.FileName), Path.GetFileNameWithoutExtension(res.FileName) + ".csv");
+                    csvFileName = UiControls.GetNewFile(csvFileName, checkOriginal: true);
+
+                    try
+                    {
+                        timer.Restart();
+                        proggy.Enter("Exporting CSV");
+                        proggy.SetProgressMarquee();
+                        this.Invoke((MethodInvoker)(() => _lvhStatistics.ExportAll(csvFileName)));
+                        proggy.Leave();
+                        sb.AppendLine(" - EXPORT-TIME: " + timer.Elapsed);
+                        sb.AppendLine(" - EXPORT: " + csvFileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        sb.AppendLine(" - Export failed: " + ex.Message);
+                    }
+                }
+
+                if (resave)
+                {
+                    string bakFileName = Path.Combine(Path.GetDirectoryName(res.FileName), Path.GetFileNameWithoutExtension(res.FileName) + ".old");
+                    bakFileName = UiControls.GetNewFile(bakFileName, checkOriginal: true);
+                    timer.Restart();
+                    proggy.Enter("Backing up original");
+                    proggy.SetProgressMarquee();
+                    File.Copy(res.FileName, bakFileName, false);
+                    proggy.Leave();
+                    sb.AppendLine(" - BACKUP-TIME: " + timer.Elapsed);
+                    sb.AppendLine(" - BACKUP: " + bakFileName);
+
+                    timer.Restart();
+                    proggy.Enter("Saving in latest format");
+                    SaveResults(_core, res.FileName, null, set, proggy);
+                    proggy.Leave();
+                    sb.AppendLine(" - SAVE-TIME: " + timer.Elapsed);
+                    sb.AppendLine(" - SAVE: " + res.FileName);
+                }
+
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
         }
     }
 }

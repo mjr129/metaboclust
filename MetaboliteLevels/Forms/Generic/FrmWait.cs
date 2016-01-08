@@ -181,8 +181,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             this.ctlTitleBar1.Text = title;
             this.ctlTitleBar1.SubText = subtitle;
-            this.function = callable;
-            this.flowLayoutPanel1.Visible = Debugger.IsAttached;
+            this.function = callable;                           
             UiControls.CompensateForVisualStyles(this);
             backgroundWorker1.RunWorkerAsync();
         }

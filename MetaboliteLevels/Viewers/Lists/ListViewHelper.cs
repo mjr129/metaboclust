@@ -535,16 +535,24 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 try
                 {
-                    using (StreamWriter sw = new StreamWriter(fn))
-                    {
-                        SaveItems(sw, true);
-                    }
+                    ExportAll(fn);
                 }
                 catch (Exception ex)
                 {
                     FrmMsgBox.ShowError(_listView.FindForm(), ex);
                 }
             }
+        }
+
+        /// <summary>
+        /// Exports all data
+        /// </summary>                     
+        public void ExportAll(string fileName)
+        {    
+            using (StreamWriter sw = new StreamWriter(fileName))
+            {
+                SaveItems(sw, true);
+            }  
         }
 
         /// <summary>
@@ -1181,7 +1189,7 @@ namespace MetaboliteLevels.Viewers.Lists
                         object v = c.GetRow(item);
 
                         if (v.GetType().IsPrimitive && !(v is char))
-                        {                  
+                        {
                             sw.Write(v.ToString());
                         }
                         else
