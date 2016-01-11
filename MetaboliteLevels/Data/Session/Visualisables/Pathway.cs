@@ -101,7 +101,7 @@ namespace MetaboliteLevels.Data.Visualisables
             // Compound: Pathway for compound -> Peaks (PEAKS IN COMPOUND)
             // Pathway: NA
 
-            IEnumerable<IVisualisable> toHighlight = null;
+            StylisedCluster.HighlightElement[] toHighlight = null;
             const string caption1 = "Plot of peaks potentially representing compounds implicated in {0}.";
             string caption2 = " Sets of peaks that may represent the same compound or set of compounds are shown in the same colour. Other peaks are shown in black.";
             string caption3 = "";
@@ -111,18 +111,20 @@ namespace MetaboliteLevels.Data.Visualisables
                 switch (highlightContents.VisualClass)
                 {
                     case VisualClass.Compound:
-                        toHighlight = highlightContents.GetContents(core, VisualClass.Peak).Keys;
+                        Compound highlightCompound = (Compound)highlightContents;
+                        toHighlight = highlightCompound.Annotations.Select(z => new StylisedCluster.HighlightElement(z, null)).ToArray();
                         caption3 = " Peaks potentially representing {1} are shown in red.";
                         break;
 
                     case VisualClass.Cluster:
-                        toHighlight = highlightContents.GetContents(core, VisualClass.Peak).Keys;
+                        Cluster highlightCluster = (Cluster)highlightContents;
+                        toHighlight = highlightCluster.Assignments.Vectors.Select(StylisedCluster.HighlightElement.FromVector).ToArray();
                         caption3 = " Peaks potentially representing compounds in {1} are shown in red.";
 
                         break;
 
                     case VisualClass.Peak:
-                        toHighlight = new List<IVisualisable> { highlightContents };
+                        toHighlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)highlightContents, null) };
                         caption3 = " {1} is shown in red.";
                         break;
                 }

@@ -257,7 +257,7 @@ namespace MetaboliteLevels.Viewers.Charts
             DrawLabels(!isMultiGroup, groupOrder);
         }
 
-        private Series GetOrCreateSeries(Dictionary<GroupInfo, Series> serieses, GroupInfo group, Vector vec, StylisedCluster sp)
+        private Series GetOrCreateSeries(Dictionary<GroupInfo, Series> serieses, GroupInfo group, Vector vector, StylisedCluster sp)
         {
             Series series;
 
@@ -266,11 +266,11 @@ namespace MetaboliteLevels.Viewers.Charts
                 return series;
             }
 
-            Peak peak = vec.Peak;
+            Peak peak = vector.Peak;
             Dictionary<Peak, LineInfo> colours = sp != null ? sp.Colours : null;
 
             // Each peak + condition gets its own series (yes we end up with lots of series)
-            series = _chart.Series.Add(vec.ToString() + " | " + group.Name);
+            series = _chart.Series.Add(vector.ToString() + " | " + group.Name);
 
             // If the parameters specify a colour for this peak use that, else use the default
             if (colours != null && colours.ContainsKey(peak))
@@ -289,9 +289,17 @@ namespace MetaboliteLevels.Viewers.Charts
             series.IsVisibleInLegend = false;
             series.Tag = peak;
 
-            if (sp.Highlight != null && sp.Highlight.Contains(peak))
+            if (sp.Highlight != null)
             {
-                series.Color = Color.Red;
+                foreach (var highlight in sp.Highlight)
+                {
+                    if (highlight.Peak == vector.Peak
+                        && (highlight.Group == null || highlight.Group == group))
+                    {
+                        series.Color = Color.Red;
+                        break;
+                    }
+                }
             }
 
             serieses.Add(group, series);

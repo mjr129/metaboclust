@@ -654,7 +654,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                     var copyOfConfig = new ConfigurationClusterer(newName, test.ClustererConfiguration.Comment, test.ClustererConfiguration.Id, copyOfArgs);
 
                     // Try load previus result
-                    ResultClusterer result = TryLoadIntermediateResult(core, test.Guid, valueIndex, repetition, proggy);
+                    ResultClusterer result = null;
+
+                    if (paranoid)
+                    {
+                        result = TryLoadIntermediateResult(core, test.Guid, valueIndex, repetition, proggy);
+                    }
 
                     if (result == null)
                     {

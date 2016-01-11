@@ -27,6 +27,11 @@ namespace MetaboliteLevels.Utilities
         public static T GetTarget<T>(this WeakReference<T> self)
             where T : class
         {
+            if (self == null)
+            {
+                return null;
+            }
+
             T r;
 
             if (self.TryGetTarget(out r))

@@ -755,21 +755,6 @@ namespace MetaboliteLevels.Data.Session
                     {
                         ResultClusterer results = config.Cluster(this, -1, reportProgress);
                         config.SetResults(results);
-
-                        IEnumerable<Cluster> newClusters = results.Clusters;
-
-                        // Add clusters...
-                        // ...to core
-                        _clusters.AddRange(newClusters);
-
-                        // ...to Peaks
-                        foreach (var cluster in newClusters)
-                        {
-                            foreach (var a in cluster.Assignments.List)
-                            {
-                                a.Peak.Assignments.Add(a);
-                            }
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -786,23 +771,35 @@ namespace MetaboliteLevels.Data.Session
             this._clusterersComplete.ReplaceAll(newList);
             this._clusterers.ReplaceAll(newListEnabled);
 
+            // Set the enabled clusters
+            this._clusters.Clear();
+                
+            foreach (Peak peak in Peaks)
+            {
+                peak.Assignments.ClearAll();
+            }
+
+            foreach (ConfigurationClusterer config in _clusterers)
+            {
+                this._clusters.AddRange(config.Results.Clusters);
+
+                // ...to Peaks
+                foreach (Cluster cluster in config.Results.Clusters)
+                {
+                    foreach (var a in cluster.Assignments.List)
+                    {
+                        a.Peak.Assignments.Add(a);
+                    }
+                }
+            }
+
             reportProgress.Leave();
 
             return result;
         }
 
         private void _ClearCluster(ConfigurationClusterer config)
-        {
-            // Remove clusters...
-            // ...from core
-            _clusters.RemoveAll(z => z.Method == config);
-
-            // ...from peaks
-            foreach (Peak peak in Peaks)
-            {
-                peak.Assignments.Clear(config);
-            }
-
+        {             
             config.Enabled = false;
             config.ClearResults();
             config.ClearError();

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Viewers;
 using MetaboliteLevels.Viewers.Charts;
@@ -14,6 +16,33 @@ namespace MetaboliteLevels.Data
     /// </summary>
     class StylisedCluster
     {
+        public class HighlightElement
+        {
+            public readonly IVisualisable Peak;
+            public readonly GroupInfo Group;
+
+            public HighlightElement(IVisualisable visualisable, GroupInfo group)
+            {
+                Peak = visualisable;
+                Group = group;
+            }
+
+            public static HighlightElement FromAnnotation(Annotation arg)
+            {
+                return new HighlightElement(arg.Peak, null);
+            }
+
+            public static HighlightElement FromPeak(Peak arg)
+            {
+                return new HighlightElement(arg, null);
+            }
+
+            public static HighlightElement FromVector(Vector arg)
+            {
+                return new HighlightElement(arg.Peak, arg.Group);
+            }
+        };
+
         /// <summary>
         /// The cluster
         /// </summary>
@@ -43,7 +72,7 @@ namespace MetaboliteLevels.Data
         /// <summary>
         /// If any of the peak within should be highlighted in red
         /// </summary>
-        public IEnumerable<IVisualisable> Highlight;
+        public IEnumerable<HighlightElement> Highlight;
 
         /// <summary>
         /// Caption

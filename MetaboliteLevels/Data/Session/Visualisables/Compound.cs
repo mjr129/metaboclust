@@ -133,19 +133,20 @@ namespace MetaboliteLevels.Data.Visualisables
             // Cluster: Peaks in cluster
             // Pathway: None
 
-            IEnumerable<IVisualisable> toHighlight = null;
+            StylisedCluster.HighlightElement[] toHighlight = null;
 
             if (highlight != null)
             {
                 switch (highlight.VisualClass)
                 {
                     case VisualClass.Peak:
-                        toHighlight = new HashSet<IVisualisable> { highlight };
+                        toHighlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)highlight, null) };
                         caption += " {1} is shown in red.";
                         break;
 
                     case VisualClass.Cluster:
-                        toHighlight = highlight.GetContents(core, VisualClass.Peak).Keys;
+                        Cluster highlightCluster = (Cluster)highlight;
+                        toHighlight = highlightCluster.Assignments.Vectors.Select(StylisedCluster.HighlightElement.FromVector).ToArray();
                         caption += " Peaks in {1} are shown in red.";
                         break;
                 }

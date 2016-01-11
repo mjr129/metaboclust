@@ -147,7 +147,7 @@ namespace MetaboliteLevels.Data.Visualisables
             // Peak: Handled by selection - take no action
             // Compound: Peaks in compound
 
-            IEnumerable<IVisualisable> highlight = null;
+            StylisedCluster.HighlightElement[] highlight = null;
             string caption = "Peaks assigned to {0}.";
 
             if (toHighlight != null)
@@ -155,18 +155,19 @@ namespace MetaboliteLevels.Data.Visualisables
                 switch (toHighlight.VisualClass)
                 {
                     case VisualClass.Compound:
-                        highlight = toHighlight.GetContents(core, VisualClass.Peak).Keys;
+                        Compound highlightCompound = (Compound)toHighlight;
+                        highlight = highlightCompound.Annotations.Select(StylisedCluster.HighlightElement.FromAnnotation).ToArray();
                         caption += " Peaks potentially representing {1} are shown in red.";
                         break;
 
                     case VisualClass.Pathway:
-                        highlight = toHighlight.GetContents(core, VisualClass.Peak).Keys;
-                        caption += " Peaks potentially representing compounds in the {1} are shown in red.";
+                        highlight = toHighlight.GetContents(core, VisualClass.Peak).Keys.Cast<Peak>().Select(StylisedCluster.HighlightElement.FromPeak).ToArray();
+                        caption += " Peaks potentially representing compounds in {1} are shown in red.";
                         break;
 
                     case VisualClass.Peak:
-                        //highlight = new List<IVisualisable>() { toHighlight };
-                        //caption += " {1} is highlighted in red.";
+                        highlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)toHighlight, null) };
+                        caption = " {1} is shown in red.";
                         break;
                 }
             }
