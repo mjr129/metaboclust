@@ -65,16 +65,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (readOnly)
             {
-                UiControls.EnumerateControls<TextBox>(this, z => z.ReadOnly = true);
-                UiControls.EnumerateControls<CheckBox>(this, z => z.AutoCheck = false);
-                UiControls.EnumerateControls<RadioButton>(this, z => z.AutoCheck = false);
-                UiControls.EnumerateControls<Button>(this, z => z.Enabled = false);
-                _lstMethod.Enabled = false;
+                UiControls.MakeReadOnly(this, _tlpPreview);
 
                 _btnComment.Enabled = true;
-                _btnOk.Visible = false;
-                _btnCancel.Enabled = true;
-                _btnCancel.Text = "Close";
 
                 ctlTitleBar1.Text = "View Trend";
             }
@@ -265,7 +258,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
             var sm = (TrendBase)_lstMethod.SelectedItem;
-            FrmEditParameters.Show(sm, _txtParams, _core);
+            FrmEditParameters.Show(sm, _txtParams, _core, _readOnly);
         }
     }
 }

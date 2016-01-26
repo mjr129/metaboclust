@@ -236,6 +236,11 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             CheckAndChange();
 
+            if (readOnly)
+            {
+                UiControls.MakeReadOnly(this, _tlpPreview);
+            }
+
             UiControls.CompensateForVisualStyles(this);
         }
 
@@ -494,7 +499,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
             AlgoBase trend = (AlgoBase)_lstMethod.SelectedItem;
-            FrmEditParameters.Show(trend, _txtParameters, _core);
+            FrmEditParameters.Show(trend, _txtParameters, _core, _readOnly);
         }
     }
 }

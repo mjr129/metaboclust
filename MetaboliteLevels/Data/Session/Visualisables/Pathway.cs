@@ -97,7 +97,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             // Adduct: NA
             // Peak: Pathways for peak -> Peaks (THIS PEAK)
-            // Cluster: Pathways for cluster -> Peaks (PEAKS IN PATTERN)
+            // Cluster: Pathways for cluster -> Peaks (PEAKS IN CLUSTER)
             // Compound: Pathway for compound -> Peaks (PEAKS IN COMPOUND)
             // Pathway: NA
 

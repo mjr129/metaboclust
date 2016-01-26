@@ -24,6 +24,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.General;
 using System.Diagnostics;
 using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Forms.Algorithms;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -166,7 +167,7 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// (MJR)
         /// </summary>
-        internal static Dictionary<T,int> CreateIndexLookup<T>(this IEnumerable<T> self)
+        internal static Dictionary<T, int> CreateIndexLookup<T>(this IEnumerable<T> self)
         {
             Dictionary<T, int> result = new Dictionary<T, int>();
             int n = 0;
@@ -280,6 +281,67 @@ namespace MetaboliteLevels.Utilities
             dimmer.Show(owner);
 
             return dimmer;
+        }
+
+        /// <summary>
+        /// Makes the form read-only by disabling text-boxes, etc.
+        /// </summary>                                            
+        internal static void MakeReadOnly(Control form, Control ignore = null)
+        {
+            foreach (Control control in UiControls.EnumerateControls(form, ignore))
+            {
+                TextBox textBox = control as TextBox;
+
+                if (textBox != null)
+                {
+                    textBox.ReadOnly = true;
+                    continue;
+                }
+
+                Button button = control as Button;
+
+                if (button != null)
+                {
+                    if (button.DialogResult == DialogResult.Cancel)
+                    {
+                        button.Text = "Close";
+                    }
+                    else if (button.DialogResult == DialogResult.OK)
+                    {
+                        button.Visible = false;
+                    }
+                    else
+                    {
+                        button.Enabled = false;
+                    }
+
+                    continue;
+                }
+
+                CheckBox checkBox = control as CheckBox;
+
+                if (checkBox != null)
+                {
+                    checkBox.AutoCheck = false;
+                    continue;
+                }
+
+                RadioButton radioButton = control as RadioButton;
+
+                if (radioButton != null)
+                {
+                    radioButton.AutoCheck = false;
+                    continue;
+                }
+
+                ComboBox comboBox = control as ComboBox;
+
+                if (comboBox != null)
+                {
+                    comboBox.Enabled = false;
+                    continue;
+                }
+            }
         }
 
         /// <summary>
@@ -827,6 +889,26 @@ namespace MetaboliteLevels.Utilities
         }
 
 
+        /// <summary>
+        /// Enumerates all controls within [ctrl] of type [T].
+        /// </summary>
+        internal static IEnumerable<Control> EnumerateControls(Control ctrl, Control ignore)
+        {
+            if (ctrl == ignore)
+            {
+                yield break;
+            }
+
+            foreach (Control ctrl2 in ctrl.Controls)
+            {
+                foreach (Control ctrl3 in EnumerateControls(ctrl2, ignore))
+                {
+                    yield return ctrl3;
+                }
+            }
+
+            yield return ctrl;
+        }
 
         /// <summary>
         /// Enumerates all controls within [ctrl] of type [T].
@@ -999,7 +1081,7 @@ namespace MetaboliteLevels.Utilities
             where T : class
         {
             List<T> result = new List<T>();
-            bool fails = false;
+            bool success = true;
 
             foreach (WeakReference<T> refr in self)
             {
@@ -1011,12 +1093,12 @@ namespace MetaboliteLevels.Utilities
                 }
                 else
                 {
-                    fails = true;
+                    success = false;
                 }
             }
 
             strong = result;
-            return fails;
+            return success;
         }
 
         /// <summary>

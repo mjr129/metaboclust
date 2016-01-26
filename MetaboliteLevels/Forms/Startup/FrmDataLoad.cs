@@ -825,6 +825,8 @@ namespace MetaboliteLevels.Forms.Startup
             Matrix<string> varInfo = new Matrix<string>(dfn.PeakInfo, true, true, prog);
             prog.Leave();
 
+            prog.Enter("Formatting data");
+
             // Get "obsinfo" columns
             int dayCol = info.OptionalColIndex(OBSFILE_TIME_HEADER);
             int repCol = info.OptionalColIndex(OBSFILE_REPLICATE_HEADER);
@@ -1031,6 +1033,8 @@ namespace MetaboliteLevels.Forms.Startup
                 result.Peaks.Add(peak);
             }
 
+            prog.Leave();
+
             return result;
         }
 
@@ -1063,9 +1067,7 @@ namespace MetaboliteLevels.Forms.Startup
         }
 
         private static void Load_6_CalculateDefaultStatistics(Core core, bool calcT, bool calcP, ProgressReporter prog)
-        {
-            prog.Enter("Creating statistics");
-
+        {           
             // Create filters
             List<ObsFilter> allFilters = new List<ObsFilter>();
             Dictionary<GroupInfo, ObsFilter> singleGroupFilters = new Dictionary<GroupInfo, ObsFilter>();
@@ -1174,8 +1176,6 @@ namespace MetaboliteLevels.Forms.Startup
             // Calculate values
             ConfigurationStatistic[] allTests = allTTests.Concat(allPearson).ToArray();
             core.SetStatistics(allTests, true, prog);
-
-            prog.Leave();
         }
 
         /// <summary>

@@ -21,6 +21,7 @@ using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Properties;
 using System.Collections.ObjectModel;
+using MetaboliteLevels.Algorithms.Statistics.Configurations;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -29,7 +30,7 @@ namespace MetaboliteLevels.Forms.Editing
     /// </summary>
     public partial class FrmPca : Form
     {
-        private Core core;
+        private Core _core;
 
         private ObsFilter _obsFilter;
         private PeakFilter _peakFilter;
@@ -38,7 +39,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private int _component;
 
-        private double[,] _scores;   
+        private double[,] _scores;
         private Column _colourBy;
 
         internal static void Show(Form owner, Core core)
@@ -57,10 +58,12 @@ namespace MetaboliteLevels.Forms.Editing
         private FrmPca(Core core)
             : this()
         {
-            this.core = core;
+            this._core = core;
 
             _peakFilter = PeakFilter.Empty;
             _obsFilter = ObsFilter.Empty;
+
+            _selectedCorrection = core.Corrections.Last();
 
             UpdateScores();
         }
@@ -69,7 +72,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             StringBuilder ft = new StringBuilder();
 
-            var peaks = _peakFilter.Test(core.Peaks).Passed;
+            var peaks = _peakFilter.Test(_core.Peaks).Passed;
 
             double[,] valueMatrix = null;
 
@@ -77,19 +80,22 @@ namespace MetaboliteLevels.Forms.Editing
             _mnuTrend.Text = _trend ? "Trend" : "Full data";
             _mnuObsFilter.Text = _obsFilter.ToString();
             _mnuPeakFilter.Text = _peakFilter.ToString();
+            _mnuCorrections.Text = _selectedCorrection != null ? _selectedCorrection.DisplayName : "Original data";
+
+            int corIndex = _core.Corrections.IndexOf(_selectedCorrection);
 
             IEnumerable conds;
             IEnumerable<int> which;
 
             if (_trend)
             {
-                which = core.Conditions.Which(_obsFilter.Test);
-                conds = core.Conditions.In(which);
+                which = _core.Conditions.Which(_obsFilter.Test);
+                conds = _core.Conditions.In(which);
             }
             else
             {
-                which = core.Observations.Which(_obsFilter.Test);
-                conds = core.Observations.In(which);
+                which = _core.Observations.Which(_obsFilter.Test);
+                conds = _core.Observations.In(which);
             }
 
             for (int peakIndex = 0; peakIndex < peaks.Count; peakIndex++)
@@ -97,13 +103,15 @@ namespace MetaboliteLevels.Forms.Editing
                 IEnumerable<double> vals;
                 Peak peak = peaks[peakIndex];
 
+                var src = corIndex == -1 ? peak.OriginalObservations : peak.CorrectionChain[corIndex];
+                          
                 if (_trend)
                 {
-                    vals = peak.Observations.Trend.In(which);
+                    vals = src.Trend.In(which);
                 }
                 else
                 {
-                    vals = peak.Observations.Raw.In(which);
+                    vals = src.Raw.In(which);
                 }
 
                 if (valueMatrix == null)
@@ -162,7 +170,7 @@ namespace MetaboliteLevels.Forms.Editing
             else
             {
                 plotPoints = _scores;
-            }                                                           
+            }
 
             // Get the component
             if (_component < 0)
@@ -179,7 +187,7 @@ namespace MetaboliteLevels.Forms.Editing
             _btnNextPc.Enabled = _component != plotPoints.GetLength(1) - 1;
 
             _btnScoresOrLoadings.Text = _plotSource == EPlotSource.Loadings ? "Loadings" : "Scores";
-            _lblComp.Text = "PC" + (_component + 1).ToString() + " / " + plotPoints.GetLength(1);
+            _lblPcNumber.Text = "PC" + (_component + 1).ToString() + " / " + plotPoints.GetLength(1);
 
             if (WhatPlotting == EPlotting.Peaks)
             {
@@ -270,6 +278,7 @@ namespace MetaboliteLevels.Forms.Editing
         private double[,] _loadings;
         private ReadOnlyCollection<Peak> _pcaPeaks;
         private IEnumerable _pcaObservations;
+        private ConfigurationCorrection _selectedCorrection;
 
         private static MChart.Series GetOrCreateSeriesForValue(MChart.Plot plot, object value)
         {
@@ -344,7 +353,7 @@ namespace MetaboliteLevels.Forms.Editing
         private void toolStripDropDownButton3_DropDownOpening(object sender, EventArgs e)
         {
             ClearCmsFilter(_mnuObsFilter);
-            AddFilters(_mnuObsFilter, core.ObsFilters, true);
+            AddFilters(_mnuObsFilter, _core.ObsFilters, true);
         }
 
         private void AddFilters(ToolStripDropDownButton button, IEnumerable source, bool isObservationFilter)
@@ -376,17 +385,17 @@ namespace MetaboliteLevels.Forms.Editing
         private void toolStripDropDownButton1_DropDownOpening(object sender, EventArgs e)
         {
             ClearCmsFilter(_mnuPeakFilter);
-            AddFilters(_mnuPeakFilter, core.PeakFilters, false);
+            AddFilters(_mnuPeakFilter, _core.PeakFilters, false);
         }
 
         private void editPeakFilters_Click(object sender, EventArgs e)
         {
-            FrmBigList.ShowPeakFilters(this, core);
+            FrmBigList.ShowPeakFilters(this, _core);
         }
 
         private void editObsFilters_Click(object sender, EventArgs e)
         {
-            FrmBigList.ShowObsFilters(this, core);
+            FrmBigList.ShowObsFilters(this, _core);
         }
 
         void setFilter_Click(object sender, EventArgs e)
@@ -424,10 +433,14 @@ namespace MetaboliteLevels.Forms.Editing
             if (sel == null || sel.Coordinate == null)
             {
                 _lblSelection.Text = "No selection";
+                _btnMarkAsOutlier.Text = "Mark as outlier";
+                _btnMarkAsOutlier.Enabled = false;
             }
             else
             {
                 _lblSelection.Text = sel.Series.Name.ToString() + ": " + sel.Coordinate.Tag + " = (" + sel.X + ", " + sel.Y + ")";
+                _btnMarkAsOutlier.Text = sel.Series.Name.ToString() + ": " + sel.Coordinate.Tag;
+                _btnMarkAsOutlier.Enabled = true;
             }
         }
 
@@ -474,36 +487,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnColour_Click(object sender, EventArgs e)
         {
-            if (WhatPlotting == EPlotting.Peaks)
-            {
-                IEnumerable<Column> columns = core.Peaks.First().GetColumns(core);
 
-                Column selected = ListValueSet.ForColumns(columns).IncludeMessage("Select the item to colour by").ShowList(this);
-
-                if (selected != null && selected != _colourBy)
-                {
-                    if (selected.Id == Peak.COLNAME_CLUSTERS_UNIQUE)
-                    {
-                        _colourBy = null;
-                    }
-                    else
-                    {
-                        _colourBy = selected;
-                    }
-
-                    UpdatePlot();
-                }
-            }
-            else
-            {
-                EColourBy colourBy = ListValueSet.ForDiscreteEnum<EColourBy>("Colour by", _colourBy2).ShowButtons(this);
-
-                if (colourBy != _colourBy2)
-                {
-                    _colourBy2 = colourBy;
-                    UpdatePlot();
-                }
-            }
         }
 
         private enum EColourBy
@@ -550,6 +534,265 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _plotSource = EPlotSource.Loadings;
             UpdatePlot();
+        }
+
+        private void saveImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string fileName = UiControls.BrowseForFile(this, null, UiControls.EFileExtension.PngOrEmf, FileDialogMode.SaveAs, UiControls.EInitialFolder.SavedImages);
+
+            if (fileName != null)
+            {
+                try
+                {
+                    _chart.DrawToBitmap().Save(fileName);
+                }
+                catch (Exception ex)
+                {
+                    FrmMsgBox.ShowError(this, ex);
+                }
+            }
+        }
+
+        private void _btnMarkAsOutlier_Click(object sender, EventArgs e)
+        {
+            object item = _chart.SelectedItem.Coordinate.Tag;
+
+            Peak peak = item as Peak;
+
+            bool safeToReplace = false;
+
+            if (peak != null)
+            {
+                List<PeakFilter.Condition> filters = new List<PeakFilter.Condition>(_peakFilter.Conditions.Cast<PeakFilter.Condition>());
+                bool needsNewFilter = true;
+
+                foreach (PeakFilter.Condition filter in filters)
+                {
+                    PeakFilter.ConditionPeak klalkq = filter as PeakFilter.ConditionPeak;
+
+                    if (klalkq != null
+                        && klalkq.CombiningOperator == Filter.ELogicOperator.And
+                        && klalkq.Negate == false
+                        && klalkq.PeaksOp == Filter.EElementOperator.IsNot)
+                    {
+                        needsNewFilter = false;
+
+                        List<Peak> strong;
+
+                        if (!klalkq.Peaks.TryGetStrong(out strong))
+                        {
+                            FrmMsgBox.ShowError(this, "Couldn't modify current filter because it contains expired data.");
+                            return;
+                        }
+
+                        filters.Remove(klalkq);
+                        filters.Add(new PeakFilter.ConditionPeak(Filter.ELogicOperator.And, false, strong.ConcatSingle(peak), Filter.EElementOperator.IsNot));
+                        safeToReplace = filters.Count == 1;
+                        break;
+                    }
+                }
+
+                if (needsNewFilter)
+                {
+                    filters.Add(new PeakFilter.ConditionPeak(Filter.ELogicOperator.And, false, new[] { peak }, Filter.EElementOperator.IsNot));
+                }
+
+                PeakFilter newFilter = new PeakFilter(null, null, filters);
+
+                if (safeToReplace)
+                {
+                    _core.SetPeakFilters(_core.PeakFiltersComplete.ReplaceSingle(_peakFilter, newFilter).ToArray());
+                }
+                else
+                {
+                    _core.SetPeakFilters(_core.PeakFiltersComplete.ConcatSingle(newFilter).ToArray());
+                }
+
+                _peakFilter = newFilter;
+
+                UpdateScores();
+                return;
+            }
+
+            ObservationInfo observationInfo = item as ObservationInfo;
+
+            if (observationInfo != null)
+            {
+                bool needsNewFilter2 = true;
+
+                List<ObsFilter.Condition> filters2 = new List<ObsFilter.Condition>(_obsFilter.Conditions.Cast<ObsFilter.Condition>());
+
+                foreach (ObsFilter.ConditionObservation fikaklq in filters2)
+                {
+                    ObsFilter.ConditionObservation qkklqq = fikaklq as ObsFilter.ConditionObservation;
+
+                    if (qkklqq != null
+                        && qkklqq.CombiningOperator == Filter.ELogicOperator.And
+                         && qkklqq.Negate == false
+                         && qkklqq.Operator == Filter.EElementOperator.IsNot)
+                    {
+                        needsNewFilter2 = false;
+
+                        filters2.Remove(qkklqq);
+                        filters2.Add(new ObsFilter.ConditionObservation(Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, qkklqq.Possibilities.ConcatSingle(observationInfo)));
+                        safeToReplace = filters2.Count == 1;
+                        break;
+                    }
+                }
+
+                if (needsNewFilter2)
+                {
+                    filters2.Add(new ObsFilter.ConditionObservation(Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, new[] { observationInfo }));
+                }
+
+                ObsFilter obsFilter = new ObsFilter(null, null, filters2);
+
+                if (safeToReplace)
+                {
+                    _core.SetObsFilters(_core.ObsFiltersComplete.ReplaceSingle(_obsFilter, obsFilter).ToArray());
+                }
+                else
+                {
+                    _core.SetObsFilters(_core.ObsFiltersComplete.ConcatSingle(obsFilter).ToArray());
+                }
+
+                _obsFilter = obsFilter;
+
+                UpdateScores();
+            }
+
+
+            ConditionInfo conditionInfo = item as ConditionInfo;
+
+            if (conditionInfo != null)
+            {
+                List<ObsFilter.Condition> filters3 = new List<ObsFilter.Condition>(_obsFilter.Conditions.Cast<ObsFilter.Condition>());
+
+                bool needsNewFilter3 = true;
+
+                foreach (ObsFilter.Condition sklqklklq in filters3)
+                {
+                    ObsFilter.ConditionCondition wklqklklq = sklqklklq as ObsFilter.ConditionCondition;
+
+                    if (wklqklklq != null
+                        && wklqklklq.CombiningOperator == Filter.ELogicOperator.And
+                         && wklqklklq.Negate == false
+                         && wklqklklq.Operator == Filter.EElementOperator.IsNot)
+                    {
+                        needsNewFilter3 = false;
+
+                        filters3.Remove(wklqklklq);
+                        filters3.Add(new ObsFilter.ConditionCondition(Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, wklqklklq.Possibilities.ConcatSingle(conditionInfo)));
+                        safeToReplace = filters3.Count == 1;
+                        break;
+                    }
+                }
+
+                if (needsNewFilter3)
+                {
+                    filters3.Add(new ObsFilter.ConditionObservation(Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, new[] { observationInfo }));
+                }
+
+                ObsFilter obsFilter = new ObsFilter(null, null, filters3);
+
+                if (safeToReplace)
+                {
+                    _core.SetObsFilters(_core.ObsFiltersComplete.ReplaceSingle(_obsFilter, obsFilter).ToArray());
+                }
+                else
+                {
+                    _core.SetObsFilters(_core.ObsFiltersComplete.ConcatSingle(obsFilter).ToArray());
+                }
+
+                _obsFilter = obsFilter;
+
+                UpdateScores();
+            }
+        }
+
+        private void _mnuTrend_DropDownOpening(object sender, EventArgs e)
+        {
+
+        }
+
+        private void _mnuCorrections_correction_Click(object sender, EventArgs e)
+        {
+            _selectedCorrection = (ConfigurationCorrection)((ToolStripMenuItem)sender).Tag;
+
+            UpdateScores();
+        }
+
+        private void _mnuCorrections_DropDownOpening(object sender, EventArgs e)
+        {
+            _mnuCorrections.DropDownItems.Clear();
+
+            foreach (ConfigurationCorrection correction in _core.Corrections)
+            {
+                ToolStripMenuItem tsmi = new ToolStripMenuItem(correction.ToString()) { Tag = correction };
+                tsmi.Click += _mnuCorrections_correction_Click;
+
+                _mnuCorrections.DropDownItems.Add(tsmi);
+            }
+        }
+
+        private void _btnColour_DropDownOpening(object sender, EventArgs e)
+        {
+            _btnColour.DropDownItems.Clear();
+
+            if (WhatPlotting == EPlotting.Peaks)
+            {
+                IEnumerable<Column> columns = _core.Peaks.First().GetColumns(_core);
+
+                foreach (Column Column in columns)
+                {
+                    ToolStripMenuItem tsmi = new ToolStripMenuItem(Column.Id) { Tag = Column };
+                    tsmi.Click += _btnColour_column_Click;
+
+                    _btnColour.DropDownItems.Add(tsmi);
+                }
+            }
+            else
+            {
+                IEnumerable<EColourBy> colourBy = Enum.GetValues(typeof(EColourBy)).Cast<EColourBy>();
+
+                foreach (EColourBy en in colourBy)
+                {
+                    ToolStripMenuItem tsmi = new ToolStripMenuItem(en.ToUiString()) { Tag = en };
+                    tsmi.Click += _btnColour_colourBy_Click;
+
+                    _btnColour.DropDownItems.Add(tsmi);
+                }
+            }
+        }
+
+        private void _btnColour_colourBy_Click(object sender, EventArgs e)
+        {
+            EColourBy colourBy = (EColourBy)((ToolStripMenuItem)sender).Tag;
+
+            if (colourBy != _colourBy2)
+            {
+                _colourBy2 = colourBy;
+                UpdatePlot();
+            }
+        }
+
+        private void _btnColour_column_Click(object sender, EventArgs e)
+        {
+            Column selected = (Column)((ToolStripMenuItem)sender).Tag;
+
+            if (selected != null && selected != _colourBy)
+            {
+                if (selected.Id == Peak.COLNAME_CLUSTERS_UNIQUE)
+                {
+                    _colourBy = null;
+                }
+                else
+                {
+                    _colourBy = selected;
+                }
+
+                UpdatePlot();
+            }
         }
     }
 }

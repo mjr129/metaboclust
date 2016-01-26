@@ -34,8 +34,8 @@
             this._txtStatisticValue = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button2 = new MetaboliteLevels.Controls.CtlButton();
-            this.button1 = new MetaboliteLevels.Controls.CtlButton();
+            this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
+            this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -96,13 +96,12 @@
             // 
             // _txtStatisticValue
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtStatisticValue, 2);
             this._txtStatisticValue.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtStatisticValue.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtStatisticValue.Location = new System.Drawing.Point(632, 245);
             this._txtStatisticValue.Margin = new System.Windows.Forms.Padding(8);
             this._txtStatisticValue.Name = "_txtStatisticValue";
-            this._txtStatisticValue.Size = new System.Drawing.Size(286, 30);
+            this._txtStatisticValue.Size = new System.Drawing.Size(239, 30);
             this._txtStatisticValue.TabIndex = 2;
             this._txtStatisticValue.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -129,8 +128,8 @@
             this.flowLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel4.AutoSize = true;
             this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel4.Controls.Add(this.button2);
-            this.flowLayoutPanel4.Controls.Add(this.button1);
+            this.flowLayoutPanel4.Controls.Add(this._btnCancel);
+            this.flowLayoutPanel4.Controls.Add(this._btnOk);
             this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel4.Location = new System.Drawing.Point(638, 388);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
@@ -139,33 +138,33 @@
             this.flowLayoutPanel4.TabIndex = 4;
             this.flowLayoutPanel4.WrapContents = false;
             // 
-            // button2
+            // _btnCancel
             // 
-            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this.button2.Location = new System.Drawing.Point(152, 8);
-            this.button2.Margin = new System.Windows.Forms.Padding(8);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(128, 40);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Cancel";
-            this.button2.UseDefaultSize = true;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
+            this._btnCancel.Location = new System.Drawing.Point(152, 8);
+            this._btnCancel.Margin = new System.Windows.Forms.Padding(8);
+            this._btnCancel.Name = "_btnCancel";
+            this._btnCancel.Size = new System.Drawing.Size(128, 40);
+            this._btnCancel.TabIndex = 1;
+            this._btnCancel.Text = "Cancel";
+            this._btnCancel.UseDefaultSize = true;
+            this._btnCancel.UseVisualStyleBackColor = true;
+            this._btnCancel.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button1
+            // _btnOk
             // 
-            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this.button1.Location = new System.Drawing.Point(8, 8);
-            this.button1.Margin = new System.Windows.Forms.Padding(8);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(128, 40);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "OK";
-            this.button1.UseDefaultSize = true;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this._btnOk_Click);
+            this._btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
+            this._btnOk.Location = new System.Drawing.Point(8, 8);
+            this._btnOk.Margin = new System.Windows.Forms.Padding(8);
+            this._btnOk.Name = "_btnOk";
+            this._btnOk.Size = new System.Drawing.Size(128, 40);
+            this._btnOk.TabIndex = 0;
+            this._btnOk.Text = "OK";
+            this._btnOk.UseDefaultSize = true;
+            this._btnOk.UseVisualStyleBackColor = true;
+            this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
             // 
             // flowLayoutPanel5
             // 
@@ -306,7 +305,7 @@
             this._chkIsInCluster.Location = new System.Drawing.Point(24, 98);
             this._chkIsInCluster.Margin = new System.Windows.Forms.Padding(24, 8, 8, 16);
             this._chkIsInCluster.Name = "_chkIsInCluster";
-            this._chkIsInCluster.Size = new System.Drawing.Size(78, 25);
+            this._chkIsInCluster.Size = new System.Drawing.Size(77, 25);
             this._chkIsInCluster.TabIndex = 0;
             this._chkIsInCluster.Text = "Cluster";
             this._chkIsInCluster.UseVisualStyleBackColor = true;
@@ -527,7 +526,7 @@
             this.ctlTitleBar1.Size = new System.Drawing.Size(926, 87);
             this.ctlTitleBar1.SubText = "Define the terms of this condition";
             this.ctlTitleBar1.TabIndex = 0;
-            this.ctlTitleBar1.Text = "Edit Condition";
+            this.ctlTitleBar1.Text = "TEXT GOES HERE";
             this.ctlTitleBar1.WarningText = null;
             // 
             // FrmPeakFilterCondition
@@ -564,8 +563,8 @@
         private System.Windows.Forms.TextBox _txtStatisticValue;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
-        private MetaboliteLevels.Controls.CtlButton button1;
-        private MetaboliteLevels.Controls.CtlButton button2;
+        private MetaboliteLevels.Controls.CtlButton _btnOk;
+        private MetaboliteLevels.Controls.CtlButton _btnCancel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
         private System.Windows.Forms.Label _lblSigPeaks;
         private System.Windows.Forms.Label _lblInsigPeaks;

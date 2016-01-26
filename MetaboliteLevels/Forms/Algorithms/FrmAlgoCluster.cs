@@ -30,6 +30,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<PeakFilter> _ecbPeakFilter;
         private EditableComboBox<ObsFilter> _ecbObsFilter;
         private ConditionBox<EClustererStatistics> _cbStatistics;
+        private readonly bool _readOnly;
 
         internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, Cluster toBreakUp, bool hideOptimise)
         {
@@ -61,6 +62,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _ecbPeakFilter = EditableComboBox.ForPeakFilter(_lstPeakFilter, _btnPeakFilter, core);
             _ecbObsFilter = EditableComboBox.ForObsFilter(_lstObsFilter, _btnObsFilter, core);
             _cbStatistics = ListValueSet.ForFlagsEnum<EClustererStatistics>("Cluster Statistics").CreateConditionBox(_txtStatistics, _btnSetStatistics);
+            _readOnly = readOnly;
 
             if (toBreakUp != null)
             {
@@ -106,17 +108,10 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (readOnly)
             {
-                UiControls.EnumerateControls<TextBox>(this, z => z.ReadOnly = true);
-                UiControls.EnumerateControls<CheckBox>(this, z => z.AutoCheck = false);
-                UiControls.EnumerateControls<RadioButton>(this, z => z.AutoCheck = false);
-                UiControls.EnumerateControls<Button>(this, z => z.Enabled = false);
-                _lstMethod.Enabled = false;
+                UiControls.MakeReadOnly(this);
 
-                _btnComment.Enabled = true;
-                _btnOk.Visible = false;
-                _btnCancel.Enabled = true;
-                _btnCancel.Text = "Close";
-
+                _btnParameterOptimiser.Visible = false;
+                _btnComment.Enabled = true;   
                 ctlTitleBar1.Text = "View Clustering Algorithm";
             }
             else if (def != null)
@@ -139,7 +134,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (hideOptimise)
             {
-                ctlButton1.Visible = false;
+                _btnParameterOptimiser.Visible = false;
                 _btnOk.Text = "Continue";
             }
         }
@@ -377,13 +372,13 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
             ClustererBase stat = (ClustererBase)_lstMethod.SelectedItem;
-            FrmEditParameters.Show(stat, _txtParams, _core);
+            FrmEditParameters.Show(stat, _txtParams, _core, _readOnly);
         }
 
         private void _btnEditDistanceParameters_Click(object sender, EventArgs e)
         {
             var dMet = (MetricBase)_lstMeasure.SelectedItem;
-            FrmEditParameters.Show(dMet, _txtParams, _core);
+            FrmEditParameters.Show(dMet, _txtParams, _core, _readOnly);
         }
 
         private void _btnNewDistance_Click(object sender, EventArgs e)

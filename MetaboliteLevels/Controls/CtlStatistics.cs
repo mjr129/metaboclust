@@ -111,7 +111,7 @@ namespace MetaboliteLevels.Controls
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
             var dm = ((MetricBase)(this.comboBox1.SelectedItem));
-            FrmEditParameters.Show(dm, _txtParams, _core);
+            FrmEditParameters.Show(dm, _txtParams, _core, false);
         }
     }
 }

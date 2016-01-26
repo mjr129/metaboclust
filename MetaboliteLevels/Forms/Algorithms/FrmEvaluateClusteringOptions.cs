@@ -174,12 +174,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             UiControls.CompensateForVisualStyles(this);
 
             if (readOnly)
-            {
-                _btnOk.Visible = false;
-                _btnCancel.Text = "Close";
-                _btnCreateRange.Visible = false;
-                UiControls.EnumerateControls<TextBox>(this, z => z.ReadOnly = true);
-                UiControls.EnumerateControls<ComboBox>(this, z => z.Enabled = false);
+            {   
+                UiControls.MakeReadOnly(this);
             }
         }
 

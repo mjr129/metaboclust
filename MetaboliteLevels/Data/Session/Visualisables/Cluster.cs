@@ -567,9 +567,9 @@ namespace MetaboliteLevels.Data.Visualisables
             var result = new List<Column<Cluster>>();
 
             result.Add("Method Name", false, λ => λ.Method.ToString());
-            result.Add("Method №", true, λ => 1 + core.Clusterers.IndexOf(λ.Method));
+            result.Add("Method №", false, λ => 1 + core.Clusterers.IndexOf(λ.Method));
             result.Add("Name", true, λ => λ.DisplayName);
-            result.Add("Assignments\\All", false, λ => λ.Assignments.Peaks.ToArray());
+            result.Add("Assignments\\All", true, λ => λ.Assignments.Peaks.ToArray());
             result.Add("Assignments\\All (scores)", false, λ => λ.Assignments.Scores.ToArray());
 
             foreach (GroupInfo group in core.Groups)

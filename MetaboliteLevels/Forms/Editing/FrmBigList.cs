@@ -191,15 +191,15 @@ namespace MetaboliteLevels.Forms.Editing
                 _obs = obs;
             }
 
-            public override IVisualisable EditObject(Form owner, IVisualisable target, bool read)
+            public override IVisualisable EditObject(Form owner, IVisualisable target, bool readOnly)
             {
                 if (_obs)
                 {
-                    return FrmObservationFilterCondition.Show(owner, _core, (ObsFilter.Condition)target, read);
+                    return FrmObservationFilterCondition.Show(owner, _core, (ObsFilter.Condition)target, readOnly);
                 }
                 else
                 {
-                    return FrmPeakFilterCondition.Show(owner, _core, (PeakFilter.Condition)target, read);
+                    return FrmPeakFilterCondition.Show(owner, _core, (PeakFilter.Condition)target, readOnly);
                 }
             }
 
@@ -220,8 +220,8 @@ namespace MetaboliteLevels.Forms.Editing
                 return new ConfigInit
                 (
                     Caption: "Filter Conditions",
-                    Title: "Edit Filter Conditions",
-                    SubTitle: "Add or remove conditions",
+                    Title: "Filter Conditions",
+                    SubTitle: null,
                     List: _obs
                             ? (IEnumerable<IVisualisable>)((ObsFilter)_filter).Conditions
                             : (IEnumerable<IVisualisable>)((PeakFilter)_filter).Conditions
@@ -579,6 +579,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnAdd.Visible = false;
                 _btnDuplicate.Visible = false;
                 _btnOk.Visible = false;
+                _btnRemove.Visible = false;
                 _btnCancel.Text = "Close";
             }
 
@@ -803,11 +804,11 @@ namespace MetaboliteLevels.Forms.Editing
                     switch (replaceMode)
                     {
                         case EReplaceMode.CreateNew:
-                            Replace(null, modified);               
+                            Replace(null, modified);
                             return;
 
                         case EReplaceMode.Replace:
-                            Replace(original, modified);          
+                            Replace(original, modified);
                             return;
 
                         case EReplaceMode.Cancel:
@@ -817,6 +818,10 @@ namespace MetaboliteLevels.Forms.Editing
                         default:
                             throw new SwitchException(replaceMode);
                     }
+                }
+                else
+                {
+                    return;
                 }
             }
         }

@@ -124,7 +124,7 @@
   <data name="_btnNewStatistic.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAABGSURBVDhP3ZExCgAwCMR8m/9/j2uLcEOFgJ0vkClyHRpE
+        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABGSURBVDhP3ZExCgAwCMR8m/9/j2uLcEOFgJ0vkClyHRpE
         VR1SeaePM3PoPNCBpAESX/vVaYCkY1J/MelAA8o7JgOk8kPEBZNVkqxhV43UAAAAAElFTkSuQmCC
 </value>
   </data>
@@ -140,11 +140,11 @@
   <data name="_btnObsFilter.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAABGSURBVDhP3ZExCgAwCMR8m/9/j2uLcEOFgJ0vkClyHRpE
+        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABGSURBVDhP3ZExCgAwCMR8m/9/j2uLcEOFgJ0vkClyHRpE
         VR1SeaePM3PoPNCBpAESX/vVaYCkY1J/MelAA8o7JgOk8kPEBZNVkqxhV43UAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="ctlButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_btnParameterOptimiser.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAACOSURBVDhP7ZABDYAgFESJYASjGMEIRrKBNtAG2kCbaAO9x2D7MEigt735d/+OIe5XUZ2YxCXu
@@ -155,6 +155,20 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>579, 17</value>
   </metadata>
+  <data name="_btnPeakFilter.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABGSURBVDhP3ZExCgAwCMR8m/9/j2uLcEOFgJ0vkClyHRpE
+        VR1SeaePM3PoPNCBpAESX/vVaYCkY1J/MelAA8o7JgOk8kPEBZNVkqxhV43UAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="_btnNewDistance.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABGSURBVDhP3ZExCgAwCMR8m/9/j2uLcEOFgJ0vkClyHRpE
+        VR1SeaePM3PoPNCBpAESX/vVaYCkY1J/MelAA8o7JgOk8kPEBZNVkqxhV43UAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="_btnCancel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -173,20 +187,6 @@
         rExoELCgCTTYJIjYYmtaojDP1/yMr3y/PfY5Po6FwaaduQRCGMBI5qCBFgZVcotWXYD20ECrLqgGpWBU
         HagGpWhUHYhBd4kiHFUvL7F7RtnFqPr+jNwL4UwXClUjIWjwaeUz3ai2MoJN/vtMZdDiD9/ZmDfaTDV9
         HwpIXwAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="_btnPeakFilter.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAABGSURBVDhP3ZExCgAwCMR8m/9/j2uLcEOFgJ0vkClyHRpE
-        VR1SeaePM3PoPNCBpAESX/vVaYCkY1J/MelAA8o7JgOk8kPEBZNVkqxhV43UAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="_btnNewDistance.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAABGSURBVDhP3ZExCgAwCMR8m/9/j2uLcEOFgJ0vkClyHRpE
-        VR1SeaePM3PoPNCBpAESX/vVaYCkY1J/MelAA8o7JgOk8kPEBZNVkqxhV43UAAAAAElFTkSuQmCC
 </value>
   </data>
   <metadata name="errorProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

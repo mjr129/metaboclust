@@ -34,6 +34,7 @@ namespace MetaboliteLevels.Forms.Editing
         private EnumComboBox<Filter.EElementOperator> _lsoObs;
         private EnumComboBox<Filter.EElementOperator> _lsoRep;
         private EnumComboBox<Filter.EElementOperator> _lsoTime;
+        private readonly bool _readOnly;
 
         /// <summary>
         /// Shows the form.
@@ -74,6 +75,9 @@ namespace MetaboliteLevels.Forms.Editing
             : this()
         {
             this._core = core;
+            this._readOnly = readOnly;
+
+            ctlTitleBar1.Text = readOnly ? "View Condition" : "Edit Condition";
 
             // Setup boxes
             _cbAq = ListValueSet.ForAcquisitions(core).CreateConditionBox(_txtAq, _btnAq);
@@ -171,13 +175,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (readOnly)
             {
-                button1.Visible = false;
-                UiControls.EnumerateControls<TextBox>(this, z => z.Enabled = false);
-                UiControls.EnumerateControls<Button>(this, z => z.Enabled = false);
-                UiControls.EnumerateControls<ComboBox>(this, z => z.Enabled = false);
-                UiControls.EnumerateControls<RadioButton>(this, z => z.Enabled = false);
-                UiControls.EnumerateControls<CheckBox>(this, z => z.Enabled = false);
-                button2.Enabled = true;
+                UiControls.MakeReadOnly(this);
             }
         }
 
@@ -256,7 +254,7 @@ namespace MetaboliteLevels.Forms.Editing
             var sel = GetSelection(out err);
             label2.Text = err;
             label2.Visible = !string.IsNullOrEmpty(err);
-            button1.Enabled = sel != null;
+            _btnOk.Enabled = sel != null;
 
             _lsoAq.Visible = _cbAq.Visible = _chkAq.Checked;
             _lsoBatch.Visible = _cbBatch.Visible = _chkBatch.Checked;

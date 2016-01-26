@@ -84,6 +84,34 @@ namespace MetaboliteLevels.Utilities
             self.AddRange(newContent);
         }
 
+        public static IEnumerable<T> ReplaceSingle<T>(this IEnumerable<T> self, T find, T replace)
+        {
+            bool hasFound = false;
+
+            foreach (T t in self)
+            {
+                if (t.Equals(find))
+                {
+                    if (hasFound)
+                    {
+                        throw new InvalidOperationException("ReplaceSingle contained more than one element to find.");
+                    }
+
+                    hasFound = true;
+                    yield return replace;
+                }
+                else
+                {
+                    yield return t;
+                }
+            }
+
+            if (!hasFound)
+            {
+                throw new InvalidOperationException("ReplaceSingle did not contain the element to find.");
+            }
+        }
+
         public static void AddRange<T>(this HashSet<T> self, IEnumerable<T> toAdd)
         {
             foreach (T o in toAdd)
@@ -591,7 +619,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>           
         public static void ThreadSafeAdd<T, U>(this Dictionary<T, U> self, T key, U value)
         {
-            lock(self)
+            lock (self)
             {
                 self.Add(key, value);
             }

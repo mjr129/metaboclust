@@ -145,7 +145,7 @@ namespace MetaboliteLevels.Viewers.Charts
             bool isMultiGroup = groups.Count != 1;
             GroupInfo[] groupOrder = _core.Groups.OrderBy(GroupInfo.GroupOrderBy).ToArray();
 
-            // --- PLOT PATTERN ASSIGNMENTS ---
+            // --- PLOT CLUSTER ASSIGNMENTS ---
             // Iterate variables in cluster
             for (int assignmentIndex = 0; assignmentIndex < toPlot.Count; assignmentIndex++)
             {
@@ -204,7 +204,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
             } // For group  
 
-            // --- PLOT PATTERN CENTRES ---
+            // --- PLOT CLUSTER CENTRES ---
             if (!sp.IsPreview && core.Options.ShowCentres && p.Centres.Count < 100)
             {
                 var templateAssignment = p.Assignments.List.First();

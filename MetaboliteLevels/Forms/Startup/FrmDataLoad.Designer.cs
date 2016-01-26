@@ -48,7 +48,7 @@
             this._lblInfo.Padding = new System.Windows.Forms.Padding(8, 8, 8, 0);
             this._lblInfo.Size = new System.Drawing.Size(125, 25);
             this._lblInfo.TabIndex = 0;
-            this._lblInfo.Text = "TEXT GOES HERE";
+            this._lblInfo.Text = "";
             // 
             // tableLayoutPanel1
             // 

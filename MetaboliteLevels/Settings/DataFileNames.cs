@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Settings
         {
             if (string.IsNullOrWhiteSpace(Title))
             {
-                return "Untitled workspace";
+                return "Untitled session";
             }
 
             return Title;

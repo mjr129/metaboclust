@@ -26,9 +26,9 @@ namespace MetaboliteLevels.Forms.Editing
         private Core _core;
         private string _result;
 
-        internal static void Show(AlgoBase algo, TextBox paramBox, Core core)
+        internal static void Show(AlgoBase algo, TextBox paramBox, Core core, bool readOnly)
         {
-            string newText = FrmEditParameters.Show(paramBox.FindForm(), core, algo.Parameters, paramBox.Text);
+            string newText = FrmEditParameters.Show(paramBox.FindForm(), core, algo.Parameters, paramBox.Text, readOnly);
 
             if (newText != null)
             {
@@ -36,9 +36,9 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        internal static string Show(Form owner, Core core, AlgoParameterCollection algo, string defaults)
+        internal static string Show(Form owner, Core core, AlgoParameterCollection algo, string defaults, bool readOnly)
         {
-            using (FrmEditParameters frm = new FrmEditParameters(core, algo, defaults))
+            using (FrmEditParameters frm = new FrmEditParameters(core, algo, defaults, readOnly))
             {
                 if (frm.ShowDialog(owner) == DialogResult.OK)
                 {
@@ -55,11 +55,12 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.SetIcon(this);
         }
 
-        private FrmEditParameters(Core core, AlgoParameterCollection algo, string defaults)
+        private FrmEditParameters(Core core, AlgoParameterCollection algo, string defaults, bool readOnly)
             : this()
         {
             this._core = core;
             this._parameters = algo;
+            this.ctlTitleBar1.Text = readOnly ? "View parameters" : "Edit Parameters";
 
             List<string> elements = StringHelper.SplitGroups(defaults);
 
@@ -91,6 +92,7 @@ namespace MetaboliteLevels.Forms.Editing
                     textBox.Visible = true;
                     textBox.Margin = new Padding(8, 8, 8, 8);
                     textBox.Text = elements.Count > index ? elements[index] : "";
+                    textBox.ReadOnly = readOnly;
                     tableLayoutPanel1.Controls.Add(textBox, 2, row);
                     _textBoxes.Add(textBox);
 
@@ -101,8 +103,15 @@ namespace MetaboliteLevels.Forms.Editing
                     button.Margin = new Padding(8, 8, 8, 8);
                     button.Tag = index;
                     button.Click += button_Click;
+                    button.Enabled = !readOnly;
                     tableLayoutPanel1.Controls.Add(button, 3, row);
                 }
+            }
+
+            if (readOnly)
+            {
+                _btnOk.Visible = false;
+                _btnCancel.Text = "Close";
             }
 
             UiControls.CompensateForVisualStyles(this);

@@ -24,7 +24,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
             root.ImageKey = "LIST";
             root.SelectedImageKey = "LIST";
 
-            // PATTERNS
+            // CLUSTERS
             var tnClusters = root.AddSubNode(core.Clusters.Count.ToString() + " clusters", "LIST", "Cluster list/Lists all clusters in the current dataset.");
 
             foreach (Cluster p in core.Clusters)
@@ -260,7 +260,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
 
         public static TreeNode AddExpandableNode(TreeNodeCollection parent, Cluster p, string extraText = null)
         {
-            var node = parent.AddSubNode(CreateText(p.DisplayName, extraText), "PATTERN", p);
+            var node = parent.AddSubNode(CreateText(p.DisplayName, extraText), "CLUSTER", p);
             AddExpander(node);
             return node;
         }
@@ -305,7 +305,7 @@ namespace MetaboliteLevels.Forms.Tree_Explorer
         }
 
         /// <summary>
-        /// PATTERN
+        /// CLUSTER
         /// </summary>
         private static void Expand(TreeNode node, Cluster x)
         {
@@ -388,7 +388,7 @@ The numbers in brackets after the pathway name show:
             }
             else
             {
-                node.AddSubNode("(Not in any cluster)", "PATTERN");
+                node.AddSubNode("(Not in any cluster)", "CLUSTER");
             }
 
             var l = node.AddSubNode("Information", "LIST", "Information/Information about this peak");

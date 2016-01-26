@@ -29,6 +29,7 @@ namespace MetaboliteLevels.Forms.Editing
         private bool _isInitialised;
         private EnumComboBox<Filter.EElementOperator> _lsoFilter;
         private EditableComboBox<PeakFilter> _ecbFilter;
+        private readonly bool _readOnly;
 
         /// <summary>
         /// Shows the form.
@@ -69,6 +70,9 @@ namespace MetaboliteLevels.Forms.Editing
             : this()
         {
             this._core = core;
+            this._readOnly = readOnly;
+
+            ctlTitleBar1.Text = readOnly ? "View Condition" : "Edit Condition";
 
             // Setup boxes
             _cbPeaks = ListValueSet.ForPeaks(core).CreateConditionBox(_txtIsInSet, _btnIsInSet);
@@ -183,13 +187,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (readOnly)
             {
-                button1.Visible = false;
-                UiControls.EnumerateControls<TextBox>(this, z => z.Enabled = false);
-                UiControls.EnumerateControls<Button>(this, z => z.Enabled = false);
-                UiControls.EnumerateControls<ComboBox>(this, z => z.Enabled = false);
-                UiControls.EnumerateControls<RadioButton>(this, z => z.Enabled = false);
-                UiControls.EnumerateControls<CheckBox>(this, z => z.Enabled = false);
-                button2.Enabled = true;
+                UiControls.MakeReadOnly(this);
             }
         }
 
@@ -222,7 +220,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (sel == null)
                 {
-                    error = "Select one or more PATTERNs";
+                    error = "Select one or more clusters";
                     return null;
                 }
 
@@ -230,7 +228,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (!en.HasValue)
                 {
-                    error = "Select the PATTERN set operator";
+                    error = "Select the cluster set operator";
                     return null;
                 }
 
@@ -354,7 +352,7 @@ namespace MetaboliteLevels.Forms.Editing
             var sel = GetSelection(out err);
             label2.Text = err;
             label2.Visible = !string.IsNullOrEmpty(err);
-            button1.Enabled = sel != null;
+            _btnOk.Enabled = sel != null;
 
             _lsoPeaks.Visible = _chkIsInSet.Checked;
             _cbPeaks.Visible = _chkIsInSet.Checked;

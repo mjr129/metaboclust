@@ -49,7 +49,7 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this._lstMeasure = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.ctlButton1 = new MetaboliteLevels.Controls.CtlButton();
+            this._btnParameterOptimiser = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new System.Windows.Forms.Button();
             this._btnOk = new System.Windows.Forms.Button();
@@ -341,7 +341,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel3, 3);
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.ctlButton1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this._btnParameterOptimiser, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel1, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 602);
@@ -352,22 +352,22 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(968, 200);
             this.tableLayoutPanel3.TabIndex = 16;
             // 
-            // ctlButton1
+            // _btnParameterOptimiser
             // 
-            this.ctlButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ctlButton1.AutoSize = true;
-            this.ctlButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlButton1.ForeColor = System.Drawing.Color.Black;
-            this.ctlButton1.Image = ((System.Drawing.Image)(resources.GetObject("ctlButton1.Image")));
-            this.ctlButton1.Location = new System.Drawing.Point(8, 153);
-            this.ctlButton1.Margin = new System.Windows.Forms.Padding(8);
-            this.ctlButton1.Name = "ctlButton1";
-            this.ctlButton1.Size = new System.Drawing.Size(203, 39);
-            this.ctlButton1.TabIndex = 3;
-            this.ctlButton1.Text = "Parameter optimiser...";
-            this.toolTip1.SetToolTip(this.ctlButton1, "Test multiple parameters");
-            this.ctlButton1.UseVisualStyleBackColor = false;
-            this.ctlButton1.Click += new System.EventHandler(this.ctlButton1_Click);
+            this._btnParameterOptimiser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._btnParameterOptimiser.AutoSize = true;
+            this._btnParameterOptimiser.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._btnParameterOptimiser.ForeColor = System.Drawing.Color.Black;
+            this._btnParameterOptimiser.Image = ((System.Drawing.Image)(resources.GetObject("_btnParameterOptimiser.Image")));
+            this._btnParameterOptimiser.Location = new System.Drawing.Point(8, 153);
+            this._btnParameterOptimiser.Margin = new System.Windows.Forms.Padding(8);
+            this._btnParameterOptimiser.Name = "_btnParameterOptimiser";
+            this._btnParameterOptimiser.Size = new System.Drawing.Size(203, 39);
+            this._btnParameterOptimiser.TabIndex = 3;
+            this._btnParameterOptimiser.Text = "Parameter optimiser...";
+            this.toolTip1.SetToolTip(this._btnParameterOptimiser, "Test multiple parameters");
+            this._btnParameterOptimiser.UseVisualStyleBackColor = false;
+            this._btnParameterOptimiser.Click += new System.EventHandler(this.ctlButton1_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -738,7 +738,7 @@
         private System.Windows.Forms.Button _btnNewDistance;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.ToolTip toolTip1;
-        private Controls.CtlButton ctlButton1;
+        private Controls.CtlButton _btnParameterOptimiser;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.TextBox _txtStatistics;
         private System.Windows.Forms.Button _btnSetStatistics;

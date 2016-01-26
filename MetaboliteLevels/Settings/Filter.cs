@@ -24,12 +24,27 @@ namespace MetaboliteLevels.Settings
     /// </summary>
     [Serializable]
     internal abstract class Filter : IVisualisable
-    {
+    {         
         /// <summary>
-        /// Enabled or disabled
+        /// CONSTRUCTOR
+        /// </summary>  
+        protected Filter(string overrideDisplayName, string comment)
+        {
+            this.OverrideDisplayName = overrideDisplayName;
+            this.Comment = comment;
+            this.Enabled = true;
+        }
+
+        #region IVisualisable
+
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
         /// </summary>
         public bool Enabled { get; set; }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
+        /// </summary>
         VisualClass IVisualisable.VisualClass
         {
             get
@@ -38,6 +53,9 @@ namespace MetaboliteLevels.Settings
             }
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
+        /// </summary>
         public string DisplayName
         {
             get
@@ -46,6 +64,9 @@ namespace MetaboliteLevels.Settings
             }
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
+        /// </summary>
         public string DefaultDisplayName
         {
             get
@@ -54,37 +75,43 @@ namespace MetaboliteLevels.Settings
             }
         }
 
-        public abstract override string ToString();
-
         /// <summary>
-        /// Name, provided by user
-        /// Doesn't affect the filter itself
+        /// IMPLEMENTS IVisualisable.
         /// </summary>
         public string OverrideDisplayName { get; set; }
 
         /// <summary>
-        /// Comments, provided by user
-        /// Doesn't affect the filter itself
+        /// IMPLEMENTS IVisualisable.
         /// </summary>
         public string Comment { get; set; }
 
-        public abstract string ParamsAsString();
-
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
+        /// </summary>
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.Filter;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
+        /// </summary>
         IEnumerable<InfoLine> IVisualisable.GetInformation(Core core)
         {
             return null;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
+        /// </summary>
         IEnumerable<InfoLine> IVisualisable.GetStatistics(Core core)
         {
             return null;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
+        /// </summary>
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             List<Column<Filter>> result = new List<Column<Filter>>();
@@ -97,10 +124,25 @@ namespace MetaboliteLevels.Settings
             return result;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable.
+        /// </summary>
         void IVisualisable.RequestContents(ContentsRequest list)
         {
             // NA
         }
+
+        #endregion
+
+        /// <summary>
+        /// OVERRIDES Object.
+        /// </summary>
+        public abstract override string ToString();
+
+        /// <summary>
+        /// Describes the filter.
+        /// </summary>          
+        public abstract string ParamsAsString();
 
         public enum EStatOperator
         {
@@ -167,14 +209,7 @@ namespace MetaboliteLevels.Settings
 
             [Name("is not")]
             IsNot,
-        }
-
-        protected Filter(string overrideDisplayName, string comment)
-        {
-            this.OverrideDisplayName = overrideDisplayName;
-            this.Comment = comment;
-            this.Enabled = true;
-        }
+        }      
     }
 
     /// <summary>
@@ -215,9 +250,11 @@ namespace MetaboliteLevels.Settings
         {
             public readonly ELogicOperator CombiningOperator;
             public readonly bool Negate;
+            public bool Enabled { get; set; }
 
             protected ConditionBase(ELogicOperator op, bool negate)
             {
+                this.Enabled = true;
                 this.Negate = negate;
                 this.CombiningOperator = op;
             }
@@ -241,8 +278,6 @@ namespace MetaboliteLevels.Settings
                     return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
                 }
             }
-
-            public bool Enabled { get; set; }
 
             public string OverrideDisplayName { get; set; }
 
@@ -326,12 +361,22 @@ namespace MetaboliteLevels.Settings
             }
 
             StringBuilder sb = new StringBuilder();
+            bool firstTest = true;
 
             for (int index = 0; index < Conditions.Count; index++)
             {
-                var test = Conditions[index];
+                ConditionBase test = Conditions[index];
 
-                if (index != 0)
+                if (!test.Enabled)
+                {
+                    continue;
+                }
+
+                if (firstTest)
+                {
+                    firstTest = false;
+                }
+                else
                 {
                     switch (test.CombiningOperator)
                     {
@@ -363,11 +408,16 @@ namespace MetaboliteLevels.Settings
                 }
             }
 
+            if (firstTest)
+            {
+                return "No filter";
+            }
+
             return sb.ToString();
         }
 
         /// <summary>
-        /// Describes the filter (Name ?? ParamsAsString()).
+        /// IMPLEMENTS Object
         /// </summary>
         public override string ToString()
         {
@@ -690,7 +740,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Fɪʟᴛᴇʀ {" + Filter.ToString() + "} = " + FilterOp;
+                return "Fɪʟᴛᴇʀ {" + Filter + "} = " + FilterOp;
             }
         }
 

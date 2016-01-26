@@ -55,7 +55,7 @@
             this.ctlTitleBar1.Size = new System.Drawing.Size(842, 66);
             this.ctlTitleBar1.SubText = "";
             this.ctlTitleBar1.TabIndex = 0;
-            this.ctlTitleBar1.Text = "Edit Parameters";
+            this.ctlTitleBar1.Text = "TEXT GOES HERE";
             this.ctlTitleBar1.WarningText = null;
             // 
             // tableLayoutPanel1

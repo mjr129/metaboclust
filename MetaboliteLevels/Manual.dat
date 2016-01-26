@@ -1,4 +1,4 @@
-﻿[Workspace]
+﻿[Session]
 Name your session here.
 
 Try to be descriptve, the software will allow you to display a shorter name and add comments to your session later, but this is the name you will see when loading your data.
@@ -180,11 +180,11 @@ Columns:
     * Column 2: y visualisation coordinate
     
 [Saved session]
-Use to restore pattern assignments.
+Use to restore cluster assignments.
 
-OPTIONAL: No patterns will be assigned if this is not specified.
+OPTIONAL: No clusters will be assigned if this is not specified.
 
-EXPECTS: Pattern assignments in XML format.
+EXPECTS: Cluster assignments in XML format.
 
 FILE LAYOUT:
 These files can be created from the File-->Save menu and are only used in this program.

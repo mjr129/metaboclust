@@ -87,6 +87,7 @@ namespace MetaboliteLevels.Viewers.Lists
             listView.AllowColumnReorder = true;
             listView.FullRowSelect = true;
             listView.GridLines = true;
+            listView.HideSelection = false;
 
             if (listView.SmallImageList == null)
             {

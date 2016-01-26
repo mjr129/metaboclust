@@ -261,16 +261,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (readOnly)
             {
-                UiControls.EnumerateControls<TextBox>(this, z => z.ReadOnly = true);
-                UiControls.EnumerateControls<CheckBox>(this, z => z.AutoCheck = false);
-                UiControls.EnumerateControls<RadioButton>(this, z => z.AutoCheck = false);
-                UiControls.EnumerateControls<Button>(this, z => z.Enabled = false);
-                _lstMethod.Enabled = false;
+                UiControls.MakeReadOnly(this, _tlpPreivew);
 
-                _btnComment.Enabled = true;
-                _btnOk.Visible = false;
-                _btnCancel.Enabled = true;
-                _btnCancel.Text = "Close";
+                _btnComment.Enabled = true;   
 
                 ctlTitleBar1.Text = "View Statistic";
             }
@@ -510,7 +503,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
             StatisticBase stat = NamedItem<StatisticBase>.Extract(_lstMethod.SelectedItem);
-            FrmEditParameters.Show(stat, _txtParams, _core);
+            FrmEditParameters.Show(stat, _txtParams, _core, _readOnly);
         }
     }
 }
