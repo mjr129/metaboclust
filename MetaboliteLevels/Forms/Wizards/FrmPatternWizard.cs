@@ -13,6 +13,8 @@ using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Settings;
+using MetaboliteLevels.Viewers.Charts;
+using MetaboliteLevels.Data;
 
 namespace MetaboliteLevels.Forms.Wizards
 {
@@ -20,10 +22,11 @@ namespace MetaboliteLevels.Forms.Wizards
     {
         CtlWizard wizard;
         private Core _core;
-        Peak student;
-        Peak pearson;
+        Peak _lowestPeak;
+        Peak _highestPeak;
         Peak current;
         private EditableComboBox<Settings.ObsFilter> _ecbFilter;
+        private readonly ChartHelperForPeaks _chart;
 
         internal static bool Show(Form owner, Core core)
         {
@@ -43,6 +46,8 @@ namespace MetaboliteLevels.Forms.Wizards
             : this()
         {
             this._core = core;
+
+            _chart = new ChartHelperForPeaks(null, core, panel1);
 
             _ecbFilter = EditableComboBox.ForObsFilter(_lstFilters, _btnEditFilters, core);
             _lstGroups.Items.AddRange(NamedItem.GetRange(core.Groups, z => z.Name).ToArray());
@@ -80,10 +85,10 @@ namespace MetaboliteLevels.Forms.Wizards
 
             if (b)
             {
-                student = _core.Peaks.FindLowest(λ => λ.GetStatistic(stat));
-                pearson = _core.Peaks.FindHighest(λ => λ.GetStatistic(stat));
-                _lblSeedStudent.Text = student.DisplayName;
-                _lblSeedPearson.Text = pearson.DisplayName;
+                _lowestPeak = _core.Peaks.FindLowest(λ => λ.GetStatistic(stat));
+                _highestPeak = _core.Peaks.FindHighest(λ => λ.GetStatistic(stat));
+                _lblSeedStudent.Text = _lowestPeak.DisplayName;
+                _lblSeedPearson.Text = _highestPeak.DisplayName;
             }
             else
             {
@@ -98,18 +103,18 @@ namespace MetaboliteLevels.Forms.Wizards
         }
 
         private void _lblSeedStudent_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            FrmMain.SearchForAndSetSelectedPeak(this, student);
+        {                                                 
+            _radSeedLowest.Checked = true;
         }
 
         private void _lblSeedPearson_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            FrmMain.SearchForAndSetSelectedPeak(this, pearson);
+        {                                                 
+            _radSeedHighest.Checked = true;
         }
 
         private void _lblSeedCurrent_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            FrmMain.SearchForAndSetSelectedPeak(this, current);
+        {   
+            _radSeedCurrent.Checked = true;
         }
 
         private bool ValidatePage(int p)
@@ -158,7 +163,7 @@ namespace MetaboliteLevels.Forms.Wizards
 
             int param1_numClusters = _radStopN.Checked ? int.Parse(_txtStopN.Text) : int.MinValue;
             double param2_distanceLimit = _radStopD.Checked ? double.Parse(_txtStopD.Text) : double.MinValue;
-            WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>(_radSeedCurrent.Checked ? current : _radSeedHighest.Checked ? pearson : student);
+            WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>(_radSeedCurrent.Checked ? current : _radSeedHighest.Checked ? _highestPeak : _lowestPeak);
             GroupInfo param4_seedGroup = NamedItem<GroupInfo>.Extract(_lstGroups.SelectedItem);
             int param5_doKMeans = _radFinishK.Checked ? 1 : 0;
             object[] parameters = { param1_numClusters, param2_distanceLimit, param3_seedPeak, param4_seedGroup, param5_doKMeans };
@@ -241,6 +246,19 @@ namespace MetaboliteLevels.Forms.Wizards
             if (wizard != null)
             {
                 wizard.Revalidate();
+            }
+
+            if (_radSeedCurrent.Checked)
+            {
+                _chart.Plot(new StylisedPeak(current));
+            }
+            else if (_radSeedHighest.Checked)
+            {
+                _chart.Plot(new StylisedPeak(_highestPeak));
+            }
+            else if (_radSeedLowest.Checked)
+            {
+                _chart.Plot(new StylisedPeak(_lowestPeak));
             }
         }
 

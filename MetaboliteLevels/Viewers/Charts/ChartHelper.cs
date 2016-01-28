@@ -8,12 +8,15 @@ using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Forms;
+using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Viewers.Charts
 {
-    class ChartHelper : ICoreWatcher
+    abstract class ChartHelper : ICoreWatcher
     {
         protected Core _core;
         protected Chart _chart;
@@ -29,10 +32,24 @@ namespace MetaboliteLevels.Viewers.Charts
         protected bool _enableHighlightSeries;
 
         private readonly CaptionBar _captionBar;
-        private Button _menuButton;
-        ContextMenuStrip cms;
+        private readonly ToolStrip _menuBar;
+        private readonly ToolStripSplitButton _plotButton;
+        private readonly ToolStripSplitButton _userDetailsButton;
+        private readonly ToolStripSplitButton _selectionButton;
 
         private const int GROUP_SEPARATION = 2;
+        private Label _selectionLabel;
+
+        private Label _menuLabel;
+        private readonly ISelectionHolder _selector;
+        private readonly ToolStripItem _btnNavigateToPlot;
+
+
+
+        protected abstract IVisualisable CurrentPlot
+        {
+            get;
+        }
 
         protected void SetCaption(string format, params IVisualisable[] p)
         {
@@ -44,29 +61,18 @@ namespace MetaboliteLevels.Viewers.Charts
 
         public void ChangeCore(Core newCore)
         {
-            ClearPlot(false, null);
+            PrepareNewPlot(false, null);
             this._core = newCore;
         }
 
-        public ChartHelper(Chart chart, Core core, Button menuButton)
+        public ChartHelper(ISelectionHolder selector, Core core, Control targetSite)
         {
-            if (chart == null)
-            {
-                // If no chart is specified create an invisible one
-                chart = new Chart();
-
-                chart.ChartAreas.Add(new ChartArea());
-            }
-            else if (menuButton != null)
-            {
-                // If we have a button then create a captionbar too
-                this._captionBar = new CaptionBar(chart.Parent);
-            }
-
-            this._chart = chart;
+            this._selector = selector;
             this._core = core;
-            this._menuButton = menuButton;
 
+            // CHART
+            this._chart = new Chart();
+            this._chart.ChartAreas.Add(new ChartArea());
             Color c = core.Options.Colours.MinorGrid;
             Color c2 = core.Options.Colours.MajorGrid;
             this._chart.ChartAreas[0].AxisX.LineColor = c;
@@ -86,24 +92,100 @@ namespace MetaboliteLevels.Viewers.Charts
             this._chart.MouseMove += chart_MouseMove;
             this._chart.MouseUp += chart_MouseUp;
 
-            if (menuButton != null)
+            if (targetSite == null)
             {
-                menuButton.Click += menuButton_Click;
+                return;
+            }
 
-                cms = new ContextMenuStrip();
-                cms.Items.Add("Toggle legend", null, ToggleLegend_Click);
-                cms.Items.Add("Reset scale (MMB)", null, ResetScale_Click);
-                cms.Items.Add("Clear selection (MMB)", null, ResetSel_Click);
-                cms.Items.Add("Copy caption text to clipboard", null, ShowCaption_Click);
-                cms.Items.Add("Display caption text...", null, ShowCaption2_Click);
-                cms.Items.Add("Copy image to clipboard", null, ShowImage_Click);
-                cms.Items.Add("Save image...", null, SaveImage_Click);
+            _chart.Dock = DockStyle.Fill;
+            targetSite.Controls.Add(_chart);
+
+            // CAPTION BAR
+            this._captionBar = new CaptionBar(targetSite, selector);
+
+            // MENU BAR
+            this._menuBar = new ToolStrip();
+            targetSite.Controls.Add(_menuBar);
+            _menuBar.SendToBack();                
+
+            // PLOT BUTTON
+            _plotButton = new ToolStripSplitButton("No selection");
+            _plotButton.Enabled = false;
+            this._menuBar.Items.Add(_plotButton);
+
+            // USER DETAILS BUTTON
+            _userDetailsButton = new ToolStripSplitButton("...");
+            _userDetailsButton.Click += (x, y) => _userDetailsButton.ShowDropDown();
+            _userDetailsButton.DropDownItems.Add("Configure...", null, _userDetailsButton_Clicked);
+            this._menuBar.Items.Add(_userDetailsButton);
+
+            // SELECTION BUTTON
+            _selectionButton = new ToolStripSplitButton("No selection");
+            _selectionButton.Alignment = ToolStripItemAlignment.Right;
+            _selectionButton.Enabled = false;
+            this._menuBar.Items.Add(_selectionButton);
+
+            // PLOT BUTTON ITEMS       
+            _plotButton.DropDownOpening += _menuButtonMenu_Opening;
+            _plotButton.Click += (x, y) => _plotButton.ShowDropDown();
+            _btnNavigateToPlot = _plotButton.DropDownItems.Add("Select this", null, SelectThis_Click);
+            _plotButton.DropDownItems.Add(new ToolStripSeparator());
+            _plotButton.DropDownItems.Add("Toggle legend", null, ToggleLegend_Click);
+            _plotButton.DropDownItems.Add("Reset scale\tMMB", null, ResetScale_Click);
+            _plotButton.DropDownItems.Add("Clear selection\tMMB", null, ResetSel_Click);
+            _plotButton.DropDownItems.Add("Copy caption text to clipboard", null, ShowCaption_Click);
+            _plotButton.DropDownItems.Add("Display caption text...", null, ShowCaption2_Click);
+            _plotButton.DropDownItems.Add("Copy image to clipboard", null, ShowImage_Click);
+            _plotButton.DropDownItems.Add("Save image...", null, SaveImage_Click);
+
+            _btnNavigateToPlot.Font = new Font(_btnNavigateToPlot.Font, FontStyle.Bold);
+
+            // SELECTION BUTTON ITEMS
+            _selectionButton.DropDownOpening += _selectionButtonMenu_Opening;
+            _selectionButton.Click += (x, y) => _selectionButton.ShowDropDown();
+        }
+
+        private void _userDetailsButton_Clicked(object sender, EventArgs e)
+        {
+            FrmOptions.Show(_chart.FindForm(), _core);
+        }
+
+        private void _menuButtonMenu_Opening(object sender, EventArgs e)
+        {
+            _btnNavigateToPlot.Text = "Navigate to " + new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
+        }
+
+        private void _selectionButtonMenu_Opening(object sender, EventArgs e)
+        {
+            _selectionButton.DropDownItems.Clear();
+
+            HashSet<IVisualisable> items = new HashSet<IVisualisable>();
+
+            foreach (Series series in _selectedSeriesList)
+            {
+                IVisualisable visualisable = series.Tag as IVisualisable;
+
+                if (visualisable == null || items.Contains(visualisable))
+                {
+                    continue;
+                }
+
+                items.Add(visualisable);
+                ToolStripItem mnuSelectSelection = _selectionButton.DropDownItems.Add("Navigate to " + visualisable.DisplayName, null, SelectThisSelection_Click);
+                mnuSelectSelection.Font = new Font(mnuSelectSelection.Font, FontStyle.Bold);
+                mnuSelectSelection.Tag = visualisable;
             }
         }
 
-        void menuButton_Click(object sender, EventArgs e)
+        private void SelectThisSelection_Click(object sender, EventArgs e)
         {
-            cms.Show(_menuButton, 0, _menuButton.Height);
+            ToolStripItem tsender = (ToolStripItem)sender;
+            _selector.Selection = new VisualisableSelection((IVisualisable)tsender.Tag, null, EActivateOrigin.External);
+        }
+
+        private void SelectThis_Click(object sender, EventArgs e)
+        {
+            _selector.Selection = new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
         }
 
         private void ToggleLegend_Click(object sender, EventArgs e)
@@ -188,11 +270,43 @@ namespace MetaboliteLevels.Viewers.Charts
             _chart.ChartAreas[0].CursorY.Position = 100000;
         }
 
-        public void ClearPlot(bool axes, IVisualisable o)
+        public void ClearPlot()
+        {
+            PrepareNewPlot(false, null);
+        }
+
+        protected void PrepareNewPlot(bool axes, IVisualisable toPlot)
         {
             ResetChartAreas();
-
             ClearSelection();
+
+            if (_plotButton != null)
+            {
+                if (toPlot != null)
+                {
+                    _plotButton.Text = toPlot.DisplayName;
+                    _plotButton.Image = UiControls.GetImage(toPlot.GetIcon(), true);
+
+                    string userComment = _core.Options.GetUserComment(_core, toPlot);
+
+                    if (string.IsNullOrWhiteSpace(userComment))
+                    {
+                        userComment = "(Click to configure text)";
+                    }
+
+                    _userDetailsButton.Text = userComment;
+                    _plotButton.Enabled = true;
+                    _userDetailsButton.Enabled = true;
+                }
+                else
+                {
+                    _plotButton.Text = "No selection";
+                    _plotButton.Image = Resources.ObjNone;
+                    _plotButton.Enabled = false;
+                    _userDetailsButton.Text = "";
+                    _userDetailsButton.Enabled = false;
+                }
+            }
 
             _chart.Series.Clear();
             _chart.ChartAreas[0].AxisX.CustomLabels.Clear();
@@ -204,7 +318,7 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 if (!ParseElementCollection.IsNullOrEmpty(_core.Options.AxisLabelX))
                 {
-                    _chart.ChartAreas[0].AxisX.Title = _core.Options.AxisLabelX.ConvertToString(o, _core);
+                    _chart.ChartAreas[0].AxisX.Title = _core.Options.AxisLabelX.ConvertToString(toPlot, _core);
                 }
                 else
                 {
@@ -213,7 +327,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                 if (!ParseElementCollection.IsNullOrEmpty(_core.Options.AxisLabelY))
                 {
-                    _chart.ChartAreas[0].AxisY.Title = _core.Options.AxisLabelY.ConvertToString(o, _core);
+                    _chart.ChartAreas[0].AxisY.Title = _core.Options.AxisLabelY.ConvertToString(toPlot, _core);
                 }
                 else
                 {
@@ -230,12 +344,12 @@ namespace MetaboliteLevels.Viewers.Charts
 
             if (!ParseElementCollection.IsNullOrEmpty(_core.Options.PlotTitle))
             {
-                _chart.Titles.Add(new Title(_core.Options.PlotTitle.ConvertToString(o, _core), Docking.Top, FontHelper.LargeBoldFont, _core.Options.Colours.AxisTitle));
+                _chart.Titles.Add(new Title(_core.Options.PlotTitle.ConvertToString(toPlot, _core), Docking.Top, FontHelper.LargeBoldFont, _core.Options.Colours.AxisTitle));
             }
 
             if (!ParseElementCollection.IsNullOrEmpty(_core.Options.PlotSubTitle))
             {
-                _chart.Titles.Add(new Title(_core.Options.PlotSubTitle.ConvertToString(o, _core), Docking.Top, FontHelper.ItalicFont, _core.Options.Colours.AxisTitle));
+                _chart.Titles.Add(new Title(_core.Options.PlotSubTitle.ConvertToString(toPlot, _core), Docking.Top, FontHelper.ItalicFont, _core.Options.Colours.AxisTitle));
             }
         }
 
@@ -462,7 +576,7 @@ namespace MetaboliteLevels.Viewers.Charts
         {
             // Series are tagged with the variables they represent
             // When multiple series are selected they all have the same variable so no worries about using the first one
-            Peak variable = _selectedSeriesList.Count != 0 ? (Peak)_selectedSeriesList[0].Tag : null;
+            Peak peak = _selectedSeriesList.Count != 0 ? (Peak)_selectedSeriesList[0].Tag : null;
 
             // Points are tagged with the observation
             IntensityInfo dataPoint;
@@ -510,12 +624,29 @@ namespace MetaboliteLevels.Viewers.Charts
                     name = null;
                 }
 
-                ChartSelectionEventArgs e = new ChartSelectionEventArgs(variable, dataPoint, name);
+                ChartSelectionEventArgs e = new ChartSelectionEventArgs(peak, dataPoint, name);
                 SelectionChanged(this, e);
             }
 
+            // Update text
+            if (_selectionButton != null)
+            {
+                if (dataPoint != null)
+                {
+                    _selectionButton.Text = _selectedSeriesList[0].Name + " " + dataPoint.ToString();
+                    _selectionButton.Image = UiControls.CreateSolidColourImage(true, dataPoint.Group);
+                    _selectionButton.Enabled = true;
+                }
+                else
+                {
+                    _selectionButton.Text = "No selection";
+                    _selectionButton.Image = Resources.ObjNone;
+                    _selectionButton.Enabled = false;
+                }
+            }
+
             // Perform derived-class-specific actions
-            OnSelection(variable, dataPoint);
+            OnSelection(peak, dataPoint);
         }
 
         protected virtual void OnSelection(Peak v, IntensityInfo dp)
@@ -631,13 +762,13 @@ namespace MetaboliteLevels.Viewers.Charts
 
     class ChartSelectionEventArgs : EventArgs
     {
-        public readonly Peak variable;
+        public readonly Peak peak;
         public readonly IntensityInfo dataPoint;
         public readonly string seriesName;
 
         public ChartSelectionEventArgs(Peak variable, IntensityInfo dataPoint, string seriesName)
         {
-            this.variable = variable;
+            this.peak = variable;
             this.dataPoint = dataPoint;
             this.seriesName = seriesName;
         }

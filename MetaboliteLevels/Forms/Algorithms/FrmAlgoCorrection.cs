@@ -195,8 +195,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             _selectedPeak = previewPeak;
 
             // Charts
-            _chartOrig = new ChartHelperForPeaks(chart1, _core, null);
-            _chartChanged = new ChartHelperForPeaks(chart2, _core, null);
+            _chartOrig = new ChartHelperForPeaks(null, _core, panel1);
+            _chartChanged = new ChartHelperForPeaks(null, _core, panel2);
 
             // Choicelists
             _ecbFilter = EditableComboBox.ForObsFilter(_lstFilter, _btnFilter, core);
@@ -275,8 +275,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (_selectedPeak == null)
             {
                 _lblPreview.Text = "Preview (please select peak)";
-                _chartOrig.ClearPlot(false, null);
-                _chartChanged.ClearPlot(false, null);
+                _chartOrig.ClearPlot();
+                _chartChanged.ClearPlot();
                 return;
             }
 

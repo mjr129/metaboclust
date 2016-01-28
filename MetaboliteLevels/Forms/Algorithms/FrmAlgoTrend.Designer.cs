@@ -30,15 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAlgoTrend));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.newMetricToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newStatisticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this._btnNewStatistic = new System.Windows.Forms.Button();
             this._btnComment = new System.Windows.Forms.Button();
+            this.ctlButton1 = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlButton2 = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlButton3 = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new System.Windows.Forms.Button();
             this._btnOk = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -56,17 +56,13 @@
             this._tlpPreview = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.ctlButton1 = new MetaboliteLevels.Controls.CtlButton();
-            this.ctlButton2 = new MetaboliteLevels.Controls.CtlButton();
-            this.ctlButton3 = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.contextMenuStrip1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreview.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // newMetricToolStripMenuItem
@@ -112,6 +108,51 @@
             this.toolTip1.SetToolTip(this._btnComment, "Comments");
             this._btnComment.UseVisualStyleBackColor = true;
             this._btnComment.Click += new System.EventHandler(this._btnComment_Click);
+            // 
+            // ctlButton1
+            // 
+            this.ctlButton1.BackColor = System.Drawing.SystemColors.Control;
+            this.ctlButton1.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewSelect;
+            this.ctlButton1.Location = new System.Drawing.Point(2, 2);
+            this.ctlButton1.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            this.ctlButton1.Name = "ctlButton1";
+            this.ctlButton1.Size = new System.Drawing.Size(29, 29);
+            this.ctlButton1.TabIndex = 2;
+            this.ctlButton1.Text = null;
+            this.toolTip1.SetToolTip(this.ctlButton1, "Select preview peak");
+            this.ctlButton1.UseDefaultSize = true;
+            this.ctlButton1.UseVisualStyleBackColor = false;
+            this.ctlButton1.Click += new System.EventHandler(this._btnSelectPreview_Click);
+            // 
+            // ctlButton2
+            // 
+            this.ctlButton2.BackColor = System.Drawing.SystemColors.Control;
+            this.ctlButton2.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewPrevious;
+            this.ctlButton2.Location = new System.Drawing.Point(39, 2);
+            this.ctlButton2.Margin = new System.Windows.Forms.Padding(0);
+            this.ctlButton2.Name = "ctlButton2";
+            this.ctlButton2.Size = new System.Drawing.Size(29, 29);
+            this.ctlButton2.TabIndex = 2;
+            this.ctlButton2.Text = null;
+            this.toolTip1.SetToolTip(this.ctlButton2, "Previous peak");
+            this.ctlButton2.UseDefaultSize = true;
+            this.ctlButton2.UseVisualStyleBackColor = false;
+            this.ctlButton2.Click += new System.EventHandler(this._btnPreviousPreview_Click);
+            // 
+            // ctlButton3
+            // 
+            this.ctlButton3.BackColor = System.Drawing.SystemColors.Control;
+            this.ctlButton3.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewNext;
+            this.ctlButton3.Location = new System.Drawing.Point(68, 2);
+            this.ctlButton3.Margin = new System.Windows.Forms.Padding(0);
+            this.ctlButton3.Name = "ctlButton3";
+            this.ctlButton3.Size = new System.Drawing.Size(29, 29);
+            this.ctlButton3.TabIndex = 2;
+            this.ctlButton3.Text = null;
+            this.toolTip1.SetToolTip(this.ctlButton3, "Next peak");
+            this.ctlButton3.UseDefaultSize = true;
+            this.ctlButton3.UseVisualStyleBackColor = false;
+            this.ctlButton3.Click += new System.EventHandler(this._btnEditParameters_Click);
             // 
             // _btnCancel
             // 
@@ -320,7 +361,7 @@
             this._tlpPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpPreview.Controls.Add(this.label3, 0, 0);
             this._tlpPreview.Controls.Add(this.flowLayoutPanel3, 1, 0);
-            this._tlpPreview.Controls.Add(this.chart1, 0, 1);
+            this._tlpPreview.Controls.Add(this.panel1, 0, 1);
             this._tlpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tlpPreview.ForeColor = System.Drawing.Color.Black;
             this._tlpPreview.Location = new System.Drawing.Point(8, 180);
@@ -364,70 +405,6 @@
             this.flowLayoutPanel3.TabIndex = 19;
             this.flowLayoutPanel3.WrapContents = false;
             // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this._tlpPreview.SetColumnSpan(this.chart1, 2);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(8, 41);
-            this.chart1.Margin = new System.Windows.Forms.Padding(8);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(1030, 390);
-            this.chart1.TabIndex = 15;
-            this.chart1.Text = "chart1";
-            // 
-            // ctlButton1
-            // 
-            this.ctlButton1.BackColor = System.Drawing.SystemColors.Control;
-            this.ctlButton1.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewSelect;
-            this.ctlButton1.Location = new System.Drawing.Point(2, 2);
-            this.ctlButton1.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            this.ctlButton1.Name = "ctlButton1";
-            this.ctlButton1.Size = new System.Drawing.Size(29, 29);
-            this.ctlButton1.TabIndex = 2;
-            this.ctlButton1.Text = null;
-            this.toolTip1.SetToolTip(this.ctlButton1, "Select preview peak");
-            this.ctlButton1.UseDefaultSize = true;
-            this.ctlButton1.UseVisualStyleBackColor = false;
-            this.ctlButton1.Click += new System.EventHandler(this._btnSelectPreview_Click);
-            // 
-            // ctlButton2
-            // 
-            this.ctlButton2.BackColor = System.Drawing.SystemColors.Control;
-            this.ctlButton2.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewPrevious;
-            this.ctlButton2.Location = new System.Drawing.Point(39, 2);
-            this.ctlButton2.Margin = new System.Windows.Forms.Padding(0);
-            this.ctlButton2.Name = "ctlButton2";
-            this.ctlButton2.Size = new System.Drawing.Size(29, 29);
-            this.ctlButton2.TabIndex = 2;
-            this.ctlButton2.Text = null;
-            this.toolTip1.SetToolTip(this.ctlButton2, "Previous peak");
-            this.ctlButton2.UseDefaultSize = true;
-            this.ctlButton2.UseVisualStyleBackColor = false;
-            this.ctlButton2.Click += new System.EventHandler(this._btnPreviousPreview_Click);
-            // 
-            // ctlButton3
-            // 
-            this.ctlButton3.BackColor = System.Drawing.SystemColors.Control;
-            this.ctlButton3.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewNext;
-            this.ctlButton3.Location = new System.Drawing.Point(68, 2);
-            this.ctlButton3.Margin = new System.Windows.Forms.Padding(0);
-            this.ctlButton3.Name = "ctlButton3";
-            this.ctlButton3.Size = new System.Drawing.Size(29, 29);
-            this.ctlButton3.TabIndex = 2;
-            this.ctlButton3.Text = null;
-            this.toolTip1.SetToolTip(this.ctlButton3, "Next peak");
-            this.ctlButton3.UseDefaultSize = true;
-            this.ctlButton3.UseVisualStyleBackColor = false;
-            this.ctlButton3.Click += new System.EventHandler(this._btnEditParameters_Click);
-            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -443,6 +420,16 @@
             this.ctlTitleBar1.TabIndex = 13;
             this.ctlTitleBar1.Text = "Select Smoothing Algorithm";
             this.ctlTitleBar1.WarningText = null;
+            // 
+            // panel1
+            // 
+            this._tlpPreview.SetColumnSpan(this.panel1, 2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 33);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1046, 406);
+            this.panel1.TabIndex = 20;
             // 
             // FrmAlgoTrend
             // 
@@ -464,7 +451,6 @@
             this._tlpPreview.ResumeLayout(false);
             this._tlpPreview.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -490,7 +476,6 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label _lblParams;
         private System.Windows.Forms.TextBox _txtParams;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label _lblError;
         private System.Windows.Forms.Button _btnEditParameters;
@@ -500,5 +485,6 @@
         private Controls.CtlButton ctlButton1;
         private Controls.CtlButton ctlButton2;
         private Controls.CtlButton ctlButton3;
+        private System.Windows.Forms.Panel panel1;
     }
 }

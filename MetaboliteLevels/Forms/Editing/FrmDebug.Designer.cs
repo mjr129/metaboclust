@@ -37,7 +37,7 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._statusMain.SuspendLayout();
@@ -190,7 +190,7 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private Controls.CtlTitleBar ctlTitleBar1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private MetaboliteLevels.Controls.CtlSplitter splitContainer1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ColumnHeader columnHeader2;

@@ -1,15 +1,16 @@
 ﻿using System.Windows.Forms;
+using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Forms.Editing
 {
-    public partial class FrmOptions : Form
+    internal partial class FrmOptions : Form
     {
-        public static void Show(Form owner, string title, object obj)
+        internal static void Show(Form owner, Core core)
         {
-            using (FrmOptions frm = new FrmOptions(obj))
+            using (FrmOptions frm = new FrmOptions(core.Options))
             {
-                frm.Text = title;
+                frm.Text = "Visual options - " + core.FileNames.Title;
                 UiControls.ShowWithDim(owner, frm);
             }
         }

@@ -128,7 +128,7 @@
             this._tipSideBar = new System.Windows.Forms.ToolTip(this.components);
             this._txtHelp = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -1687,7 +1687,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private MetaboliteLevels.Controls.CtlButton _btnRecent;
         private System.Windows.Forms.ToolTip _tipSideBar;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private MetaboliteLevels.Controls.CtlSplitter splitContainer1;
         private System.Windows.Forms.TextBox _txtHelp;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TabPage tabPage6;

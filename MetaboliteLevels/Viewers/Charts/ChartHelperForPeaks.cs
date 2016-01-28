@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Forms;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Viewers.Charts
@@ -22,8 +23,16 @@ namespace MetaboliteLevels.Viewers.Charts
             private set;
         }
 
-        public ChartHelperForPeaks(Chart chart, Core core, Button menuButton)
-            : base(chart, core, menuButton)
+        protected override IVisualisable CurrentPlot
+        {
+            get
+            {
+                return SelectedPeak;
+            }
+        }
+
+        public ChartHelperForPeaks(ISelectionHolder selector, Core core, Control targetSite)
+            : base(selector, core, targetSite)
         {
         }
 
@@ -38,7 +47,7 @@ namespace MetaboliteLevels.Viewers.Charts
             var seriesNames = new HashSet<string>();
 
             // Clear plot
-            ClearPlot(sPeak != null && !sPeak.IsPreview, sPeak != null ? sPeak.Peak : null);
+            PrepareNewPlot(sPeak != null && !sPeak.IsPreview, sPeak != null ? sPeak.Peak : null);
 
             // Get selection
             Peak peak = sPeak != null ? sPeak.Peak : null;

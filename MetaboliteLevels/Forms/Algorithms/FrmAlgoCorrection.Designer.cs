@@ -29,12 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAlgoCorrection));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._tlpPreview = new System.Windows.Forms.TableLayoutPanel();
@@ -44,8 +38,6 @@
             this._btnPreviousPreview = new MetaboliteLevels.Controls.CtlButton();
             this._btnNextPreview = new MetaboliteLevels.Controls.CtlButton();
             this._tabPreview = new System.Windows.Forms.TableLayoutPanel();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -80,12 +72,12 @@
             this._lblSepFilter = new System.Windows.Forms.Label();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreview.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this._tabPreview.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this._flpCorrector.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -245,11 +237,11 @@
             this._tabPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._tabPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 2F));
             this._tabPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._tabPreview.Controls.Add(this.chart1, 0, 1);
-            this._tabPreview.Controls.Add(this.chart2, 2, 1);
             this._tabPreview.Controls.Add(this.pictureBox1, 1, 0);
             this._tabPreview.Controls.Add(this.label2, 0, 0);
             this._tabPreview.Controls.Add(this.label4, 2, 0);
+            this._tabPreview.Controls.Add(this.panel1, 0, 1);
+            this._tabPreview.Controls.Add(this.panel2, 2, 1);
             this._tabPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tabPreview.Location = new System.Drawing.Point(0, 33);
             this._tabPreview.Margin = new System.Windows.Forms.Padding(0);
@@ -259,42 +251,6 @@
             this._tabPreview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tabPreview.Size = new System.Drawing.Size(872, 300);
             this._tabPreview.TabIndex = 5;
-            // 
-            // chart1
-            // 
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
-            this.chart1.Location = new System.Drawing.Point(4, 29);
-            this.chart1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 4);
-            this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(427, 267);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
-            // 
-            // chart2
-            // 
-            chartArea4.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea4);
-            this.chart2.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend4.Name = "Legend1";
-            this.chart2.Legends.Add(legend4);
-            this.chart2.Location = new System.Drawing.Point(441, 29);
-            this.chart2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 4);
-            this.chart2.Name = "chart2";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.chart2.Series.Add(series4);
-            this.chart2.Size = new System.Drawing.Size(427, 267);
-            this.chart2.TabIndex = 0;
-            this.chart2.Text = "chart1";
             // 
             // pictureBox1
             // 
@@ -695,6 +651,24 @@
             this.ctlTitleBar1.Text = "Data Correction";
             this.ctlTitleBar1.WarningText = null;
             // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 29);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(435, 271);
+            this.panel1.TabIndex = 2;
+            // 
+            // panel2
+            // 
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(437, 29);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(435, 271);
+            this.panel2.TabIndex = 2;
+            // 
             // FrmAlgoCorrection
             // 
             this.AcceptButton = this._btnOk;
@@ -716,8 +690,6 @@
             this.flowLayoutPanel2.ResumeLayout(false);
             this._tabPreview.ResumeLayout(false);
             this._tabPreview.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this._flpCorrector.ResumeLayout(false);
             this._flpCorrector.PerformLayout();
@@ -740,8 +712,6 @@
         private System.Windows.Forms.Label _lblPreview;
         private System.Windows.Forms.Label _lblAApply;
         private System.Windows.Forms.TableLayoutPanel _tabPreview;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnOk;
@@ -777,5 +747,7 @@
         private System.Windows.Forms.TableLayoutPanel _tlpPreview;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }

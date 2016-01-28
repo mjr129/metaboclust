@@ -168,6 +168,9 @@
     <Compile Include="Algorithms\ValueMatrix.cs" />
     <Compile Include="Algorithms\Vector.cs" />
     <Compile Include="Controls\CtlErrorProvider.cs" />
+    <Compile Include="Controls\CtlSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\CtlTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -190,6 +193,7 @@
     <Compile Include="Forms\Algorithms\FrmEvaluateClusteringOptions.Designer.cs">
       <DependentUpon>FrmEvaluateClusteringOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ISelectionHolder.cs" />
     <Compile Include="Forms\Editing\FrmEditExpGroup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -481,12 +485,6 @@
     <Compile Include="Forms\Tree Explorer\TreeNodeConvertor.cs" />
     <Compile Include="Data\DataInfo\GroupInfo.cs" />
     <Compile Include="Utilities\UiControls.cs" />
-    <Compile Include="Forms\Tree Explorer\FrmTreeView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Tree Explorer\FrmTreeView.Designer.cs">
-      <DependentUpon>FrmTreeView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Tree Explorer\PathwayScore.cs" />
     <Compile Include="Forms\Tree Explorer\TreeNodeExt.cs" />
     <Compile Include="Utilities\WeakReferenceHelper.cs" />
@@ -657,9 +655,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Wizards\FrmPatternWizard.resx">
       <DependentUpon>FrmPatternWizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Tree Explorer\FrmTreeView.resx">
-      <DependentUpon>FrmTreeView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Tree Explorer\FrmViewTypes.resx">
       <DependentUpon>FrmViewTypes.cs</DependentUpon>

@@ -33,6 +33,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._lstFilters = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this._chkClusterIndividually = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
             this._btnEditFilters = new MetaboliteLevels.Controls.CtlButton();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -44,6 +46,8 @@
             this._lblSeedStudent = new System.Windows.Forms.LinkLabel();
             this._radSeedCurrent = new System.Windows.Forms.RadioButton();
             this._lstStat = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this._lstGroups = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ctlStatistics1 = new MetaboliteLevels.Controls.CtlStatistics();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -61,10 +65,7 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
-            this._chkClusterIndividually = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this._lstGroups = new System.Windows.Forms.ComboBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -87,11 +88,11 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
-            this.tabControl1.Location = new System.Drawing.Point(120, 64);
+            this.tabControl1.Location = new System.Drawing.Point(8, 8);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(736, 456);
+            this.tabControl1.Size = new System.Drawing.Size(888, 632);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage4
@@ -100,7 +101,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(728, 423);
+            this.tabPage4.Size = new System.Drawing.Size(880, 599);
             this.tabPage4.TabIndex = 6;
             this.tabPage4.Text = "Experimental Groups";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -123,7 +124,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(722, 417);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(874, 593);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // _lstFilters
@@ -134,7 +135,7 @@
             this._lstFilters.Location = new System.Drawing.Point(24, 61);
             this._lstFilters.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._lstFilters.Name = "_lstFilters";
-            this._lstFilters.Size = new System.Drawing.Size(546, 28);
+            this._lstFilters.Size = new System.Drawing.Size(698, 28);
             this._lstFilters.TabIndex = 1;
             // 
             // label2
@@ -150,10 +151,36 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Specify the experimental groups that the clustering will be based upon";
             // 
+            // _chkClusterIndividually
+            // 
+            this._chkClusterIndividually.AutoSize = true;
+            this._chkClusterIndividually.Location = new System.Drawing.Point(24, 158);
+            this._chkClusterIndividually.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this._chkClusterIndividually.Name = "_chkClusterIndividually";
+            this._chkClusterIndividually.Size = new System.Drawing.Size(156, 24);
+            this._chkClusterIndividually.TabIndex = 3;
+            this._chkClusterIndividually.Text = "Cluster individually";
+            this._chkClusterIndividually.UseVisualStyleBackColor = true;
+            this._chkClusterIndividually.CheckedChanged += new System.EventHandler(this._chkClusterIndividually_CheckedChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label4.Location = new System.Drawing.Point(8, 105);
+            this.label4.Margin = new System.Windows.Forms.Padding(8);
+            this.label4.Name = "label4";
+            this.label4.Padding = new System.Windows.Forms.Padding(8);
+            this.label4.Size = new System.Drawing.Size(710, 37);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Do you want to base the clustering across all of the groups, or cluster each grou" +
+    "p individually?";
+            // 
             // _btnEditFilters
             // 
             this._btnEditFilters.Image = global::MetaboliteLevels.Properties.Resources.MnuAdd;
-            this._btnEditFilters.Location = new System.Drawing.Point(586, 61);
+            this._btnEditFilters.Location = new System.Drawing.Point(738, 61);
             this._btnEditFilters.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditFilters.Name = "_btnEditFilters";
             this.tableLayoutPanel2.SetRowSpan(this._btnEditFilters, 2);
@@ -170,14 +197,15 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage1.Size = new System.Drawing.Size(728, 423);
+            this.tabPage1.Size = new System.Drawing.Size(880, 599);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Seed generation";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
@@ -188,33 +216,35 @@
             this.tableLayoutPanel1.Controls.Add(this._lblSeedStudent, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this._radSeedCurrent, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this._lstStat, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this._lstGroups, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this._lstGroups, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 2, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(720, 413);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(872, 589);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.label1, 3);
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.label1.Location = new System.Drawing.Point(4, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(8);
-            this.label1.Size = new System.Drawing.Size(369, 37);
+            this.label1.Size = new System.Drawing.Size(364, 37);
             this.label1.TabIndex = 0;
             this.label1.Text = "Choose a seed peak to act as the first \"cluster\"";
             // 
@@ -307,16 +337,44 @@
             // 
             // _lstStat
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this._lstStat, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this._lstStat, 3);
             this._lstStat.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstStat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstStat.FormattingEnabled = true;
             this._lstStat.Location = new System.Drawing.Point(19, 48);
             this._lstStat.Margin = new System.Windows.Forms.Padding(19, 11, 11, 11);
             this._lstStat.Name = "_lstStat";
-            this._lstStat.Size = new System.Drawing.Size(690, 28);
+            this._lstStat.Size = new System.Drawing.Size(842, 28);
             this._lstStat.TabIndex = 4;
             this._lstStat.SelectedIndexChanged += new System.EventHandler(this._lstStat_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.label7, 3);
+            this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label7.Location = new System.Drawing.Point(4, 502);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(8);
+            this.label7.Size = new System.Drawing.Size(777, 37);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "If you selected \"cluster individually\" on the previous screen you will also need " +
+    "to select the seed group.";
+            // 
+            // _lstGroups
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this._lstGroups, 3);
+            this._lstGroups.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstGroups.FormattingEnabled = true;
+            this._lstGroups.Location = new System.Drawing.Point(19, 550);
+            this._lstGroups.Margin = new System.Windows.Forms.Padding(19, 11, 11, 11);
+            this._lstGroups.Name = "_lstGroups";
+            this._lstGroups.Size = new System.Drawing.Size(842, 28);
+            this._lstGroups.TabIndex = 4;
+            this._lstGroups.SelectedIndexChanged += new System.EventHandler(this._lstStat_SelectedIndexChanged);
             // 
             // tabPage2
             // 
@@ -325,7 +383,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage2.Size = new System.Drawing.Size(728, 423);
+            this.tabPage2.Size = new System.Drawing.Size(880, 599);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Additional options";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -337,7 +395,7 @@
             this.ctlStatistics1.Location = new System.Drawing.Point(4, 5);
             this.ctlStatistics1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ctlStatistics1.Name = "ctlStatistics1";
-            this.ctlStatistics1.Size = new System.Drawing.Size(720, 413);
+            this.ctlStatistics1.Size = new System.Drawing.Size(872, 589);
             this.ctlStatistics1.TabIndex = 0;
             // 
             // tabPage3
@@ -346,7 +404,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(728, 423);
+            this.tabPage3.Size = new System.Drawing.Size(880, 599);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Stopping conditions";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -369,7 +427,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(722, 417);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(874, 593);
             this.tableLayoutPanel3.TabIndex = 6;
             // 
             // label3
@@ -380,7 +438,7 @@
             this.label3.Location = new System.Drawing.Point(8, 8);
             this.label3.Margin = new System.Windows.Forms.Padding(8);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(308, 21);
+            this.label3.Size = new System.Drawing.Size(303, 21);
             this.label3.TabIndex = 1;
             this.label3.Text = "How many clusters should be generated";
             // 
@@ -432,7 +490,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(728, 423);
+            this.tabPage5.Size = new System.Drawing.Size(880, 599);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Centre handling";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -451,7 +509,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(722, 417);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(874, 593);
             this.tableLayoutPanel4.TabIndex = 5;
             // 
             // label5
@@ -496,7 +554,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 29);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(728, 423);
+            this.tabPage6.Size = new System.Drawing.Size(880, 599);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Generate clusters";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -511,7 +569,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(722, 417);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(874, 593);
             this.tableLayoutPanel5.TabIndex = 2;
             // 
             // label6
@@ -525,66 +583,22 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Click OK to generate the clusters. Any existing clusters will be lost.";
             // 
-            // _chkClusterIndividually
+            // panel1
             // 
-            this._chkClusterIndividually.AutoSize = true;
-            this._chkClusterIndividually.Location = new System.Drawing.Point(24, 179);
-            this._chkClusterIndividually.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
-            this._chkClusterIndividually.Name = "_chkClusterIndividually";
-            this._chkClusterIndividually.Size = new System.Drawing.Size(156, 24);
-            this._chkClusterIndividually.TabIndex = 3;
-            this._chkClusterIndividually.Text = "Cluster individually";
-            this._chkClusterIndividually.UseVisualStyleBackColor = true;
-            this._chkClusterIndividually.CheckedChanged += new System.EventHandler(this._chkClusterIndividually_CheckedChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label4.Location = new System.Drawing.Point(8, 105);
-            this.label4.Margin = new System.Windows.Forms.Padding(8);
-            this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(8);
-            this.label4.Size = new System.Drawing.Size(534, 58);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Do you want to base the clustering across all of the groups, or cluster each grou" +
-    "p individually?";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.label7, 2);
-            this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label7.Location = new System.Drawing.Point(4, 225);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(8);
-            this.label7.Size = new System.Drawing.Size(689, 58);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "If you selected \"cluster individually\" on the previous screen you will also need " +
-    "to select the seed group.";
-            // 
-            // _lstGroups
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this._lstGroups, 2);
-            this._lstGroups.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lstGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstGroups.FormattingEnabled = true;
-            this._lstGroups.Location = new System.Drawing.Point(19, 294);
-            this._lstGroups.Margin = new System.Windows.Forms.Padding(19, 11, 11, 11);
-            this._lstGroups.Name = "_lstGroups";
-            this._lstGroups.Size = new System.Drawing.Size(690, 28);
-            this._lstGroups.TabIndex = 4;
-            this._lstGroups.SelectedIndexChanged += new System.EventHandler(this._lstStat_SelectedIndexChanged);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(195, 87);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.tableLayoutPanel1.SetRowSpan(this.panel1, 4);
+            this.panel1.Size = new System.Drawing.Size(677, 415);
+            this.panel1.TabIndex = 5;
             // 
             // FrmClusterWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(901, 661);
+            this.ClientSize = new System.Drawing.Size(988, 711);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -651,5 +665,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox _lstGroups;
+        private System.Windows.Forms.Panel panel1;
     }
 }

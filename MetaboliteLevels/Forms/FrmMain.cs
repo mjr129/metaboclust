@@ -35,17 +35,17 @@ namespace MetaboliteLevels.Forms
     /// <summary>
     /// Main form.
     /// </summary>
-    public partial class FrmMain : Form, IPreviewProvider
+    internal partial class FrmMain : Form, IPreviewProvider, ISelectionHolder
     {
         // Core - this holds all the data
         //private readonly CoreLink _coreLink = CoreLink.Instance;
         private Core _core;
 
         // Helpers
-        private readonly ChartHelperForPeaks _varChart;
-        private readonly ChartHelperForClusters _patChart;
-        private readonly ChartHelperForPeaks _varChartForPrinting;
-        private readonly ChartHelperForClusters _patChartForPrinting;
+        private readonly ChartHelperForPeaks _chartPeak;
+        private readonly ChartHelperForClusters _chartCluster;
+        private readonly ChartHelperForPeaks _chartPeakForPrinting;
+        private readonly ChartHelperForClusters _chartClusterForPrinting;
 
         // The list views
         private readonly ListViewHelper<Peak> _peakList;
@@ -72,7 +72,7 @@ namespace MetaboliteLevels.Forms
         private readonly bool _ignoreConfirmClose;
 
         private readonly Stopwatch _lastProgressTime = Stopwatch.StartNew();
-        private readonly List<IVisualisable> _viewHistory = new List<IVisualisable>();
+        private readonly List<VisualisableSelection> _viewHistory = new List<VisualisableSelection>();
         private readonly List<ICoreWatcher> _coreWatchers = new List<ICoreWatcher>();
         private bool _autoChangingSelection;
         private string _printTitle;
@@ -80,12 +80,23 @@ namespace MetaboliteLevels.Forms
         private int _waitCounter;
 
         // Selection
-        IVisualisable _selectedObject;
-        IVisualisable _selectedSourceObject;
+        VisualisableSelection _selection;
         private IVisualisable _selectionMenuOpenedFromList;
         private ListViewHelper<Assignment> _assignmentList;
         private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList2;
         private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList;
+
+        public VisualisableSelection Selection
+        {
+            get
+            {
+                return _selection ?? new VisualisableSelection(null, EActivateOrigin.None);
+            }
+            set
+            {
+                CommitSelection(value);
+            }
+        }
 
 
         /// <summary>
@@ -119,18 +130,17 @@ namespace MetaboliteLevels.Forms
             UiControls.PopulateImageList(_imgList);
 
             // Charts
-            _varChart = new ChartHelperForPeaks(_chartPeak, _core, _btnGraphVar);
-            _patChart = new ChartHelperForClusters(_chartPat, _core, _btnGraphPat);
-            _varChartForPrinting = new ChartHelperForPeaks(null, _core, null);
-            _patChartForPrinting = new ChartHelperForClusters(null, _core, null);
+            _chartPeak = new ChartHelperForPeaks(this, _core, splitContainer3.Panel1);
+            _chartCluster = new ChartHelperForClusters(this, _core, splitContainer3.Panel2);
+            _chartPeakForPrinting = new ChartHelperForPeaks(null, _core, null);
+            _chartClusterForPrinting = new ChartHelperForClusters(null, _core, null);
 
-            _patChart.SelectionChanged += patChart_SelectionChanged;
-            _varChart.SelectionChanged += varChart_SelectionChanged;
+            _chartCluster.SelectionChanged += patChart_SelectionChanged;
 
-            _coreWatchers.Add(_varChart);
-            _coreWatchers.Add(_patChart);
-            _coreWatchers.Add(_varChartForPrinting);
-            _coreWatchers.Add(_patChartForPrinting);
+            _coreWatchers.Add(_chartPeak);
+            _coreWatchers.Add(_chartCluster);
+            _coreWatchers.Add(_chartPeakForPrinting);
+            _coreWatchers.Add(_chartClusterForPrinting);
 
             // Primary lists
             _peakList = CreatePrimaryList<Peak>(_lstVariables, z => z.Peaks);
@@ -157,7 +167,7 @@ namespace MetaboliteLevels.Forms
             _pgrSub = new PagerControl(ref _tabSubinfo);
             _pgrSub.BindToButtons(_btnSubInfo, _btnSubStat, _btnSubPeak, _btnSubPat, _btnSubComp, _btnSubAdd, _btnSubPath, _btnSubAss, _btnSubAnnot);
 
-            _subDisplay = new SubListHandler(_core, _lst2Info, _lst2Stats);
+            _subDisplay = new SubListHandler(this, _core, _lst2Info, _lst2Stats);
             _subDisplay.Add(_adductList2, VisualClass.Adduct, _btnSubAdd);
             _subDisplay.Add(_compoundList2, VisualClass.Compound, _btnSubComp);
             _subDisplay.Add(_pathwayList2, VisualClass.Pathway, _btnSubPath);
@@ -228,7 +238,7 @@ namespace MetaboliteLevels.Forms
                         {
                             StylisedCluster p = ((Compound)o).CreateStylisedCluster(_core, o2);
                             p.IsPreview = small;
-                            result = _patChartForPrinting.CreateBitmap(s.Width, s.Height, p);
+                            result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
@@ -236,7 +246,7 @@ namespace MetaboliteLevels.Forms
                         {
                             StylisedCluster p = ((Pathway)o).CreateStylisedCluster(_core, o2);
                             p.IsPreview = small;
-                            result = _patChartForPrinting.CreateBitmap(s.Width, s.Height, p);
+                            result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
@@ -244,7 +254,7 @@ namespace MetaboliteLevels.Forms
                         {
                             StylisedCluster p = new StylisedCluster((Cluster)o);
                             p.IsPreview = small;
-                            result = _patChartForPrinting.CreateBitmap(s.Width, s.Height, p);
+                            result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
@@ -252,7 +262,7 @@ namespace MetaboliteLevels.Forms
                         {
                             StylisedPeak p = new StylisedPeak((Peak)o);
                             p.IsPreview = small;
-                            result = _varChartForPrinting.CreateBitmap(s.Width, s.Height, p);
+                            result = _chartPeakForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
@@ -273,30 +283,30 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Item selected from primary list.
         /// </summary>
-        void primaryList_Activate(object sender, ListViewItemEventArgs e)
+        private void primaryList_Activate(object sender, ListViewItemEventArgs e)
         {
-            Activate(e.Selection, EActivateOrigin.None);
+            CommitSelection(new VisualisableSelection(e.Selection, EActivateOrigin.None));
         }
 
 
         /// <summary>
         /// Item selected from secondary list.
         /// </summary>
-        void secondaryList_Activate(object sender, ListViewItemEventArgs e)
+        private void secondaryList_Activate(object sender, ListViewItemEventArgs e)
         {
-            Activate(e.Selection, _selectedSourceObject ?? _selectedObject, EActivateOrigin.TreeView);
+            CommitSelection(new VisualisableSelection(e.Selection, Selection.A, EActivateOrigin.TreeView));
         }
 
         /// <summary>
         /// Handle changing of "_core".
         /// </summary>
-        void HandleCoreChange()
+        private void HandleCoreChange()
         {
             // Update stuff
             _coreWatchers.ForEach(z => z.ChangeCore(_core));
 
             // Clear selection
-            Activate(null, EActivateOrigin.None);
+            CommitSelection(new VisualisableSelection(null, EActivateOrigin.None));
 
             // Set new options
             UpdateVisualOptions();
@@ -336,128 +346,56 @@ namespace MetaboliteLevels.Forms
         }
 
         /// <summary>
-        /// Handles: varChart.SelectionChanged
-        /// </summary>
-        void varChart_SelectionChanged(object sender, ChartSelectionEventArgs e)
-        {
-            if (e.seriesName != null)
-            {
-                if (e.dataPoint != null)
-                {
-                    _lblVarObservation.Text = e.seriesName + ", " + e.dataPoint.ToString();
-                }
-                else
-                {
-                    _lblVarObservation.Text = e.seriesName;
-                }
-
-                _btnGraphVar2.Image = UiControls.CreateSolidColourImage(true, e.dataPoint.Group);
-                _lblVarObservation.Visible = true;
-                _btnGraphVar2.Visible = true;
-            }
-            else
-            {
-                _lblVarObservation.Visible = false;
-                _btnGraphVar2.Visible = false;
-            }
-        }
-
-        /// <summary>
         /// Handles: patChart.SelectionChanged
         /// </summary>
-        void patChart_SelectionChanged(object sender, ChartSelectionEventArgs e)
+        private void patChart_SelectionChanged(object sender, ChartSelectionEventArgs e)
         {
-            if (e.seriesName != null)
-            {
-                if (e.dataPoint != null)
-                {
-                    _lblPatObs.Text = e.seriesName + ", " + e.dataPoint.ToString();
-                }
-                else
-                {
-                    _lblPatObs.Text = e.seriesName;
-                }
-
-                if (e.variable != null)
-                {
-                    _btnGraphPat2.Image = e.variable.REMOVE_THIS_FUNCTION;
-                }
-                else
-                {
-                    _btnGraphPat2.Image = Resources.ObjPoint;
-                }
-
-                _lblPatObs.Visible = true;
-                _btnGraphPat2.Visible = true;
-            }
-            else
-            {
-                _btnGraphPat2.Visible = false;
-                _lblPatObs.Visible = false;
-            }
-
             if (!_autoChangingSelection)
             {
-                Activate(e.variable, EActivateOrigin.ClusterPlot);
+                CommitSelection(new VisualisableSelection(e.peak, EActivateOrigin.ClusterPlot));
             }
         }
 
-        internal enum EActivateOrigin
-        {
-            None, // lists, replot, core change
-            External,
-            ClusterPlot,
-            TreeView,
-        }
 
         /// <summary>
         /// Selects something.
         /// </summary>
-        internal void Activate(IVisualisable newSelection, EActivateOrigin origin)
-        {
-            Activate(newSelection, null, origin);
-        }
-
-        /// <summary>
-        /// Selects something.
-        /// </summary>
-        internal void Activate(IVisualisable newSelection, IVisualisable overSelection, EActivateOrigin origin)
+        internal void CommitSelection(VisualisableSelection selection)
         {
             try
             {
                 BeginWait("Updating displays");
 
                 // What do we need?
-                bool needsNode = origin != EActivateOrigin.TreeView;
-                bool keepPatPlot = origin == EActivateOrigin.ClusterPlot;
+                bool needsNode = selection.Origin != EActivateOrigin.TreeView;
+                bool keepPatPlot = selection.Origin == EActivateOrigin.ClusterPlot;
 
                 // Add to history
-                AddToHistory(newSelection);
+                AddToHistory(selection);
 
                 // Set the selected object
-                _selectedObject = newSelection;
-                _selectedSourceObject = overSelection;
+                _selection = selection;
 
                 // Update the secondary lists (unless we selected from there)
-                if (origin != EActivateOrigin.TreeView)
+                if (selection.Origin != EActivateOrigin.TreeView)
                 {
-                    UiControls.Assert(_selectedSourceObject == null);
-                    _subDisplay.Activate(newSelection);
+                    UiControls.Assert(selection.B == null);
+                    _subDisplay.Activate(selection.A);
                 }
 
                 // Icons
                 IVisualisable object1;
                 IVisualisable object2;
 
-                if (_selectedSourceObject == null)
+                if (selection.B == null)
                 {
-                    object1 = _selectedObject;
+                    object1 = selection.A;
                     object2 = null;
                 }
                 else
                 {
-                    object1 = _selectedSourceObject;
-                    object2 = _selectedObject;
+                    object1 = selection.B;
+                    object2 = selection.A;
                 }
 
                 if (object1 != null)
@@ -486,9 +424,9 @@ namespace MetaboliteLevels.Forms
                 }
 
                 // Null selection? (clear)
-                if (newSelection == null)
+                if (selection.A == null)
                 {
-                    PlotVariable(null);
+                    PlotPeak(null);
 
                     if (!keepPatPlot)
                     {
@@ -499,25 +437,25 @@ namespace MetaboliteLevels.Forms
                 }
 
                 // For assignments plot the peak (and implicitly the cluster)
-                if (newSelection.VisualClass == VisualClass.Assignment)
+                if (selection.A.VisualClass == VisualClass.Assignment)
                 {
-                    newSelection = ((Assignment)newSelection).Peak;
+                    selection = new VisualisableSelection(((Assignment)selection.A).Peak, selection.B, selection.Origin);
                 }
 
                 // Plot that!
-                if (newSelection.VisualClass == VisualClass.Peak)
+                if (selection.A.VisualClass == VisualClass.Peak)
                 {
-                    Peak v = (Peak)newSelection;
+                    Peak v = (Peak)selection.A;
 
-                    PlotVariable(v);
+                    PlotPeak(v);
 
-                    if (overSelection != null && overSelection.VisualClass == VisualClass.Compound)
+                    if (selection.B != null && selection.B.VisualClass == VisualClass.Compound)
                     {
-                        PlotCluster(((Compound)overSelection).CreateStylisedCluster(_core, v));
+                        PlotCluster(((Compound)selection.B).CreateStylisedCluster(_core, v));
                     }
-                    else if (overSelection != null && overSelection.VisualClass == VisualClass.Pathway)
+                    else if (selection.B != null && selection.B.VisualClass == VisualClass.Pathway)
                     {
-                        PlotCluster(((Pathway)overSelection).CreateStylisedCluster(_core, v));
+                        PlotCluster(((Pathway)selection.A).CreateStylisedCluster(_core, v));
                     }
                     else if (!keepPatPlot)
                     {
@@ -531,58 +469,58 @@ namespace MetaboliteLevels.Forms
                             PlotCluster(null);
                         }
                         _autoChangingSelection = true;
-                        _patChart.SelectSeries(v);
+                        _chartCluster.SelectSeries(v);
                         _autoChangingSelection = false;
                     }
                 }
-                else if (newSelection.VisualClass == VisualClass.Cluster)
+                else if (selection.A.VisualClass == VisualClass.Cluster)
                 {
-                    Cluster p = (Cluster)newSelection;
+                    Cluster p = (Cluster)selection.A;
 
                     // If the cluster has been deleted set a null selection
                     if (!_core.Clusters.Contains(p))
                     {
                         Debug.WriteLine("Warning: Selected cluster no longer available: " + p.DisplayName);
-                        Activate(null, EActivateOrigin.None);
+                        CommitSelection(new VisualisableSelection(null, EActivateOrigin.None));
                         return;
                     }
 
-                    PlotVariable(null);
-                    PlotCluster(p.CreateStylisedCluster(_core, overSelection));
+                    PlotPeak(null);
+                    PlotCluster(p.CreateStylisedCluster(_core, selection.B));
 
-                    if (overSelection is Peak)
+                    if (selection.B is Peak)
                     {
                         _autoChangingSelection = true;
-                        _patChart.SelectSeries((Peak)overSelection);
+                        _chartCluster.SelectSeries((Peak)selection.B);
                         _autoChangingSelection = false;
                     }
                 }
-                else if (newSelection.VisualClass == VisualClass.Adduct)
+                else if (selection.A.VisualClass == VisualClass.Adduct)
                 {
-                    var a = (Adduct)newSelection;
+                    var a = (Adduct)selection.A;
 
-                    PlotVariable(null);
+                    PlotPeak(null);
                     PlotCluster(null);
                 }
-                else if (newSelection.VisualClass == VisualClass.Pathway)
+                else if (selection.A.VisualClass == VisualClass.Pathway)
                 {
-                    var p = (Pathway)newSelection;
-                    var fp = p.CreateStylisedCluster(_core, overSelection);
+                    var p = (Pathway)selection.A;
+                    var fp = p.CreateStylisedCluster(_core, selection.B);
 
-                    PlotVariable(null);
+                    PlotPeak(null);
                     PlotCluster(fp);
                 }
-                else if (newSelection.VisualClass == VisualClass.Compound)
+                else if (selection.A.VisualClass == VisualClass.Compound)
                 {
-                    var c = (Compound)newSelection;
-                    var fp = c.CreateStylisedCluster(_core, overSelection);
+                    var c = (Compound)selection.A;
+                    var fp = c.CreateStylisedCluster(_core, selection.B);
 
-                    PlotVariable(null);
+                    PlotPeak(null);
                     PlotCluster(fp);
                 }
                 else
                 {
-                    throw new InvalidOperationException("Cannot activate object of type \"" + newSelection.GetType().Name + "\" with VisualClass \"" + newSelection.VisualClass + "\".");
+                    throw new InvalidOperationException("Cannot activate object of type \"" + selection.A.GetType().Name + "\" with VisualClass \"" + selection.A.VisualClass + "\".");
                 }
             }
             finally
@@ -594,12 +532,12 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Ads the selection to the selection history
         /// </summary>
-        private void AddToHistory(IVisualisable newSelection)
+        private void AddToHistory(VisualisableSelection selection)
         {
-            if (newSelection != null)
+            if (selection != null)
             {
-                _viewHistory.Remove(newSelection);
-                _viewHistory.Insert(0, newSelection);
+                _viewHistory.Remove(selection);
+                _viewHistory.Insert(0, selection);
 
                 while (_viewHistory.Count > 10)
                 {
@@ -627,19 +565,9 @@ namespace MetaboliteLevels.Forms
                 _clusterList.Selection = p.Cluster;
             }
 
-            if (p == null)
-            {
-                _btnGraphPat.Image = Resources.ObjNone;
-            }
-            else
-            {
-                _btnGraphPat.Image = UiControls.GetImage(p.ActualElement.GetIcon(), true);
-            }
-
-            _patChart.Plot(p);
+            _chartCluster.Plot(p);
 
             _autoChangingSelection = false;
-            UpdateClusterLabels();
             EndWait();
         }
 
@@ -708,71 +636,23 @@ namespace MetaboliteLevels.Forms
         }
 
         /// <summary>
-        /// Plots the specified variable.
+        /// Plots the specified peak.
         /// </summary>
-        private void PlotVariable(Peak peak)
+        private void PlotPeak(Peak peak)
         {
             BeginWait("Plotting peak");
 
-            // Select it in the variables list
+            // Select it in the peaks list
             _autoChangingSelection = true;
-
-            if (peak == null)
-            {
-                _btnGraphVar.Image = Resources.ObjNone;
-            }
-            else
-            {
-                _btnGraphVar.Image = peak.REMOVE_THIS_FUNCTION;
-            }
 
             _peakList.Selection = peak; // make sure it is selected
 
             StylisedPeak sp = new StylisedPeak(peak);
-            _varChart.Plot(sp);
+            _chartPeak.Plot(sp);
 
             _autoChangingSelection = false;
 
-            UpdateVariableLabels();
             EndWait();
-        }
-
-        /// <summary>
-        /// Sets the labels above the cluster plot accordingly.
-        /// </summary>
-        private void UpdateClusterLabels()
-        {
-            Cluster p = _patChart.SelectedCluster;
-
-            if (p == null)
-            {
-                _lblPatComment.Text = "";
-                _lblPatName.Visible = false;
-                return;
-            }
-
-            _lblPatComment.Text = _core.Options.ClusterDisplay.ConvertToString(p, _core);
-            _lblPatName.Text = p.DisplayName;
-            _lblPatName.Visible = true;
-        }
-
-        /// <summary>
-        /// Sets the labels above the variable plot accordingly.
-        /// </summary>
-        private void UpdateVariableLabels()
-        {
-            Peak v = _varChart.SelectedPeak;
-
-            if (v == null)
-            {
-                _lblVarName.Visible = false;
-                _lblVarComment.Text = "";
-                return;
-            }
-
-            _lblVarName.Visible = true;
-            _lblVarName.Text = v.DisplayName;
-            _lblVarComment.Text = _core.Options.VariableDisplay.ConvertToString(v, _core);
         }
 
         /// <summary>
@@ -982,7 +862,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void Replot()
         {
-            Activate(_selectedObject, EActivateOrigin.None);
+            CommitSelection(new VisualisableSelection(Selection.A, Selection.B, EActivateOrigin.None));
         }
 
         /// <summary>
@@ -1128,7 +1008,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void saveclusterImageToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            SaveChart(_patChart);
+            SaveChart(_chartCluster);
         }
 
         /// <summary>
@@ -1136,7 +1016,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void savepeakImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveChart(_varChart);
+            SaveChart(_chartPeak);
         }
 
         /// <summary>
@@ -1202,7 +1082,7 @@ namespace MetaboliteLevels.Forms
                 {
                     StylisedCluster sp = new StylisedCluster(p);
 
-                    _patChartForPrinting.Plot(sp);
+                    _chartClusterForPrinting.Plot(sp);
 
                     Rectangle r = new Rectangle(ofx + x * xi, ofy + TITLE_MARGIN + y * yi, xi, yi - yim);
 
@@ -1216,12 +1096,12 @@ namespace MetaboliteLevels.Forms
                                                     r.Width * (int)(g.DpiX / 100f),
                                                     r.Height * (int)(g.DpiY / 100f));
 
-                        _patChartForPrinting.Chart.Printing.PrintPaint(g, rP);
+                        _chartClusterForPrinting.Chart.Printing.PrintPaint(g, rP);
                         g.PageUnit = GraphicsUnit.Display;
                     }
                     else
                     {
-                        _patChartForPrinting.Chart.Printing.PrintPaint(g, r);
+                        _chartClusterForPrinting.Chart.Printing.PrintPaint(g, r);
                     }
 
                     //int strWid = (int)(g.MeasureString(p.Name, titleFont).Width / 2);
@@ -1314,14 +1194,6 @@ namespace MetaboliteLevels.Forms
         }
 
         /// <summary>
-        /// Menu: Show explorer
-        /// </summary>
-        private void clusterBreakdownToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FrmTreeView.Show(this, _core, null);
-        }
-
-        /// <summary>
         /// Peak list: Keypress --> Set/clear comment flags
         /// </summary>
         private void _lstVariables_KeyPress(object sender, KeyPressEventArgs e)
@@ -1374,7 +1246,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void visualOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmOptions.Show(this, "Visual options - " + _core.FileNames.Title, _core.Options);
+            FrmOptions.Show(this, _core);
             UpdateVisualOptions();
             UpdateAll("Changed options", EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged);
             Replot();
@@ -1408,7 +1280,7 @@ namespace MetaboliteLevels.Forms
 
             if (tag != null) // could be string
             {
-                Activate(tag, EActivateOrigin.TreeView);
+                CommitSelection(new VisualisableSelection(tag, EActivateOrigin.TreeView));
             }
         }
 
@@ -1463,7 +1335,7 @@ namespace MetaboliteLevels.Forms
                 return;
             }
 
-            Activate(_viewHistory[0], EActivateOrigin.None);
+            CommitSelection(new VisualisableSelection(_viewHistory[0].A, _viewHistory[0].B, EActivateOrigin.None));
         }
 
         /// <summary>
@@ -1473,9 +1345,10 @@ namespace MetaboliteLevels.Forms
         {
             _btnBack.DropDownItems.Clear();
 
-            foreach (IVisualisable o in _viewHistory)
+            foreach (VisualisableSelection o in _viewHistory)
             {
-                ToolStripButton historyButton = new ToolStripButton(o.DisplayName, UiControls.GetImage(o.GetIcon(), true));
+                Image image = o.A != null ? UiControls.GetImage(o.A.GetIcon(), true) : Resources.ObjNone;
+                ToolStripButton historyButton = new ToolStripButton(o.ToString(), image);
                 historyButton.Click += historyButton_Click;
                 historyButton.Tag = o;
                 _btnBack.DropDownItems.Add(historyButton);
@@ -1489,7 +1362,7 @@ namespace MetaboliteLevels.Forms
         {
             var control = (ToolStripButton)sender;
             IVisualisable tag = (IVisualisable)control.Tag;
-            Activate(tag, EActivateOrigin.None);
+            CommitSelection(new VisualisableSelection(tag, EActivateOrigin.None));
         }
 
         /// <summary>
@@ -1516,7 +1389,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void _btnCurrentSel_Click(object sender, EventArgs e)
         {
-            _selectionMenuOpenedFromList = _selectedObject;
+            _selectionMenuOpenedFromList = Selection.A;
             _cmsSelectionButton.ShowDropDown(_btnSel);
         }
 
@@ -1657,12 +1530,13 @@ namespace MetaboliteLevels.Forms
                 return null;
             }
 
-            return frm._selectedObject as Peak ?? frm._peakList.Selection ?? frm._varChart.SelectedPeak ?? frm._core.Peaks[0];
+            return frm.Selection.A as Peak ?? frm._peakList.Selection ?? frm._chartPeak.SelectedPeak ?? frm._core.Peaks[0];
         }
 
         /// <summary>
         /// Like SearchForSelectedPeak() but sets the new peak.
         /// </summary>
+        [Obsolete]
         internal static void SearchForAndSetSelectedPeak(Form current, Peak newSelection)
         {
             FrmMain frm = GetFrmMain(current);
@@ -1672,7 +1546,7 @@ namespace MetaboliteLevels.Forms
                 return;
             }
 
-            frm.Activate(newSelection, EActivateOrigin.External);
+            frm.CommitSelection(new VisualisableSelection(newSelection, EActivateOrigin.External));
         }
 
         /// <summary>
@@ -1774,15 +1648,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void openToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            Activate(_selectionMenuOpenedFromList, EActivateOrigin.None);
-        }
-
-        /// <summary>
-        /// Menu: Open selection in data explorer
-        /// </summary>
-        private void openInDataexplorerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FrmTreeView.Show(this, _core, _selectionMenuOpenedFromList);
+            CommitSelection(new VisualisableSelection(_selectionMenuOpenedFromList, EActivateOrigin.None));
         }
 
         /// <summary>
@@ -1826,19 +1692,6 @@ namespace MetaboliteLevels.Forms
         private void clustererOptimiserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmEvaluateClustering.Show(this, _core, null);
-        }
-
-        /// <summary>
-        /// Menu: Cluster optimiser
-        /// </summary>
-        private void toolStripButton10_Click(object sender, EventArgs e)
-        {
-            clustererOptimiserToolStripMenuItem.PerformClick();
-        }
-
-        private void peakidentificationsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

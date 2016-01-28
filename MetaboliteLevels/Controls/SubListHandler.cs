@@ -11,6 +11,7 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Forms;
 
 namespace MetaboliteLevels.Controls
 {
@@ -31,12 +32,12 @@ namespace MetaboliteLevels.Controls
             private readonly Image _okImage;            // populated image for button
             private readonly Image _notImage;           // not populated image for button
 
-            public Mapper(ListViewHelper to, VisualClass type, ToolStripItem controls)
+            public Mapper(ISelectionHolder selector, ListViewHelper to, VisualClass type, ToolStripItem controls)
             {
                 this._listView = to;
                 this._visualClass = type;
                 this._listView.DivertList(ContentsRequest.Empty);
-                this._captionBar = new CaptionBar(to.ListView.Parent);
+                this._captionBar = new CaptionBar(to.ListView.Parent, selector);
                 this._controls = controls;
                 _okImage = controls.Image;
                 _notImage = UiControls.Crossout(_okImage);
@@ -80,19 +81,21 @@ namespace MetaboliteLevels.Controls
         private readonly ListView _lstStats; // special case sublist (statistics)
         private readonly CaptionBar _capInfo; // special case caption (info)
         private readonly CaptionBar _capStats; // special case caption (statistics)
+        private readonly ISelectionHolder _selector;
 
-        public SubListHandler(Core core, ListView _lst2Info, ListView _lst2Stats)
+        public SubListHandler(ISelectionHolder selector, Core core, ListView _lst2Info, ListView _lst2Stats)
         {
             this._core = core;
             this._lstInfo = _lst2Info;
             this._lstStats = _lst2Stats;
-            this._capInfo = new CaptionBar(_lst2Info.Parent);
-            this._capStats = new CaptionBar(_lst2Stats.Parent);
+            this._capInfo = new CaptionBar(_lst2Info.Parent, selector);
+            this._capStats = new CaptionBar(_lst2Stats.Parent, selector);
+            this._selector = selector;
         }
 
         public void Add(ListViewHelper to, VisualClass type, ToolStripItem controls)
         {
-            _mappers.Add(new Mapper(to, type, controls));
+            _mappers.Add(new Mapper(_selector, to, type, controls));
         }
 
         public void Activate(IVisualisable v)

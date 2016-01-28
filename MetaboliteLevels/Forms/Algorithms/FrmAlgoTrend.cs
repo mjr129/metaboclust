@@ -49,7 +49,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _core = core;
             _previewPeak = previewPeak;
 
-            _chart1 = new ChartHelperForPeaks(chart1, core, null);
+            _chart1 = new ChartHelperForPeaks(null, core, panel1);
 
             if (def != null)
             {
@@ -154,7 +154,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     {
                         _lblError.Text = ex.Message;
                         _lblError.Visible = true;
-                        _chart1.ClearPlot(false, null);
+                        _chart1.ClearPlot();
                     }
                 }
             }

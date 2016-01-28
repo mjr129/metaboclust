@@ -81,7 +81,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lvhConfigs = new ListViewHelper<ClusterEvaluationParameterResult>(_lstParams, core, null, null);
             _lvhStatistics = new ListViewHelper<ColumnWrapper>(_lstStatistics, core, null, null);
             _lvhStatistics.Visible = false;
-            _chcClusters = new ChartHelperForClusters(this.chart1, core, button1);
+            _chcClusters = new ChartHelperForClusters(null, core, panel6);
 
             _lvhConfigs.Activate += _lstParams_SelectedIndexChanged;
             _lvhClusters.Activate += _lstClusters_SelectedIndexChanged;
@@ -175,7 +175,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _chartParameters.Clear();
             _tvStatistics.Nodes.Clear();
             _lvhConfigs.Clear();
-            _chcClusters.ClearPlot(true, null);
+            _chcClusters.ClearPlot();
             _labelCluster.Text = "Cluster";
             _lblPlot.Text = "Plot";
 

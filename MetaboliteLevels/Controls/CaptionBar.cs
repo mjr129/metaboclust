@@ -20,12 +20,15 @@ namespace MetaboliteLevels.Controls
     {
         private readonly FlowLayoutPanel _flp;
         private readonly LinkLabel _label;
+        private readonly ISelectionHolder _selector;
 
         /// <summary>
         /// Creates the captionbar at the bottom of the specified control.
         /// </summary>
-        public CaptionBar(Control parent)
+        public CaptionBar(Control parent, ISelectionHolder selector)
         {
+            _selector = selector;
+
             _flp = new FlowLayoutPanel
                    {
                        AutoSize = true,
@@ -53,12 +56,7 @@ namespace MetaboliteLevels.Controls
 
         void _label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            FrmMain owner = _label.FindForm() as FrmMain; // could use an interface here but we only have 1 form
-
-            if (owner != null)
-            {
-                owner.Activate((IVisualisable)e.Link.LinkData, FrmMain.EActivateOrigin.External);
-            }
+            _selector.Selection = new VisualisableSelection((IVisualisable)e.Link.LinkData, EActivateOrigin.External);
         }
 
         public void SetText(string format, params IVisualisable[] p)

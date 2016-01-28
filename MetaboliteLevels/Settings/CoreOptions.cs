@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.DataInfo;
+using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Settings
@@ -204,6 +206,22 @@ namespace MetaboliteLevels.Settings
             public int Width;
             public int DisplayIndex;
             public string DisplayName;
+        }
+
+        internal string GetUserComment(Core core, IVisualisable visualisable)
+        {
+            switch (visualisable.VisualClass)
+            {
+                case VisualClass.Cluster:
+                    return ClusterDisplay.ConvertToString(visualisable, core);
+
+                case VisualClass.Peak:
+                    return VariableDisplay.ConvertToString(visualisable, core);
+
+                default:
+                    return null;
+
+            }
         }
     }
 }

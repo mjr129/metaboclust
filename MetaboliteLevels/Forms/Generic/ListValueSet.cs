@@ -307,7 +307,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Peak Flags",
                 List = core.Options.PeakFlags,
                 Describer = z => z.Comments.FormatIf("\r\nComments: "),
-                ListEditor = f => FrmOptions.Show(f, "Edit Preferences", core.Options)
+                ListEditor = f => FrmOptions.Show(f, core)
             };
         }
 

@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using System;
 using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Forms;
 
 namespace MetaboliteLevels.Viewers.Charts
 {
@@ -31,11 +32,19 @@ namespace MetaboliteLevels.Viewers.Charts
     {
         public Cluster SelectedCluster { get; private set; }
 
+        protected override IVisualisable CurrentPlot
+        {
+            get
+            {
+                return SelectedCluster;
+            }
+        }
+
         /// <summary>
         /// Ctor
         /// </summary>
-        public ChartHelperForClusters(Chart chart, Core core, Button menuButton)
-            : base(chart, core, menuButton)
+        public ChartHelperForClusters(ISelectionHolder selector, Core core, Control targetSite)
+            : base(selector, core, targetSite)
         {
             _enableHighlightSeries = true;
         }
@@ -105,7 +114,7 @@ namespace MetaboliteLevels.Viewers.Charts
         public void Plot(StylisedCluster sp)
         {
             // Reset the chart
-            ClearPlot(sp != null && !sp.IsPreview, (sp != null) ? sp.Cluster : null);
+            PrepareNewPlot(sp != null && !sp.IsPreview, (sp != null) ? sp.Cluster : null);
 
             // Set the selected cluster
             Cluster p = sp != null ? sp.Cluster : null;

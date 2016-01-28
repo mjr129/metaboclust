@@ -30,10 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEvaluateClustering));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this._lstClusters = new System.Windows.Forms.ListView();
@@ -63,7 +60,7 @@
             this._lblPlot = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.panel6 = new System.Windows.Forms.Panel();
             this._tlpHeaderCluster = new System.Windows.Forms.TableLayoutPanel();
             this._labelCluster = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
@@ -100,7 +97,6 @@
             this.panel4.SuspendLayout();
             this._tlpHeaderPlot.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this._tlpHeaderCluster.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -266,11 +262,11 @@
             this._tlpHeaderParams.BackColor = System.Drawing.Color.CornflowerBlue;
             this._tlpHeaderParams.ColumnCount = 3;
             this._tlpHeaderParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpHeaderParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tlpHeaderParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpHeaderParams.Controls.Add(this._btnValuesHelp, 1, 0);
-            this._tlpHeaderParams.Controls.Add(this.label5, 0, 0);
-            this._tlpHeaderParams.Controls.Add(this._btnViewScript, 2, 0);
+            this._tlpHeaderParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tlpHeaderParams.Controls.Add(this._btnValuesHelp, 2, 0);
+            this._tlpHeaderParams.Controls.Add(this.label5, 1, 0);
+            this._tlpHeaderParams.Controls.Add(this._btnViewScript, 0, 0);
             this._tlpHeaderParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._tlpHeaderParams.ForeColor = System.Drawing.Color.White;
             this._tlpHeaderParams.Location = new System.Drawing.Point(0, 0);
@@ -287,7 +283,7 @@
             this._btnValuesHelp.FlatAppearance.BorderSize = 0;
             this._btnValuesHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnValuesHelp.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
-            this._btnValuesHelp.Location = new System.Drawing.Point(272, 0);
+            this._btnValuesHelp.Location = new System.Drawing.Point(302, 0);
             this._btnValuesHelp.Margin = new System.Windows.Forms.Padding(0);
             this._btnValuesHelp.Name = "_btnValuesHelp";
             this._btnValuesHelp.Size = new System.Drawing.Size(30, 30);
@@ -302,7 +298,7 @@
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Top;
             this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(3, 0);
+            this.label5.Location = new System.Drawing.Point(33, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(140, 30);
             this.label5.TabIndex = 2;
@@ -315,7 +311,7 @@
             this._btnViewScript.FlatAppearance.BorderSize = 0;
             this._btnViewScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnViewScript.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
-            this._btnViewScript.Location = new System.Drawing.Point(302, 0);
+            this._btnViewScript.Location = new System.Drawing.Point(0, 0);
             this._btnViewScript.Margin = new System.Windows.Forms.Padding(0);
             this._btnViewScript.Name = "_btnViewScript";
             this._btnViewScript.Size = new System.Drawing.Size(30, 30);
@@ -368,12 +364,11 @@
             this._tlpHeaderStatistics.BackColor = System.Drawing.Color.CornflowerBlue;
             this._tlpHeaderStatistics.ColumnCount = 3;
             this._tlpHeaderStatistics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpHeaderStatistics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tlpHeaderStatistics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpHeaderStatistics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this._tlpHeaderStatistics.Controls.Add(this.button3, 1, 0);
-            this._tlpHeaderStatistics.Controls.Add(this.label3, 0, 0);
-            this._tlpHeaderStatistics.Controls.Add(this.button6, 2, 0);
+            this._tlpHeaderStatistics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tlpHeaderStatistics.Controls.Add(this.button3, 2, 0);
+            this._tlpHeaderStatistics.Controls.Add(this.label3, 1, 0);
+            this._tlpHeaderStatistics.Controls.Add(this.button6, 0, 0);
             this._tlpHeaderStatistics.Dock = System.Windows.Forms.DockStyle.Top;
             this._tlpHeaderStatistics.ForeColor = System.Drawing.Color.White;
             this._tlpHeaderStatistics.Location = new System.Drawing.Point(0, 0);
@@ -390,7 +385,7 @@
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
-            this.button3.Location = new System.Drawing.Point(272, 0);
+            this.button3.Location = new System.Drawing.Point(302, 0);
             this.button3.Margin = new System.Windows.Forms.Padding(0);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(30, 30);
@@ -404,7 +399,7 @@
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Top;
             this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Location = new System.Drawing.Point(33, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(97, 30);
             this.label3.TabIndex = 3;
@@ -416,7 +411,7 @@
             this.button6.FlatAppearance.BorderSize = 0;
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(302, 0);
+            this.button6.Location = new System.Drawing.Point(0, 0);
             this.button6.Margin = new System.Windows.Forms.Padding(0);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(30, 30);
@@ -469,11 +464,11 @@
             this._tlpHeaderPlot.BackColor = System.Drawing.Color.CornflowerBlue;
             this._tlpHeaderPlot.ColumnCount = 3;
             this._tlpHeaderPlot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpHeaderPlot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tlpHeaderPlot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpHeaderPlot.Controls.Add(this.button4, 1, 0);
-            this._tlpHeaderPlot.Controls.Add(this._lblPlot, 0, 0);
-            this._tlpHeaderPlot.Controls.Add(this.button7, 2, 0);
+            this._tlpHeaderPlot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tlpHeaderPlot.Controls.Add(this.button4, 2, 0);
+            this._tlpHeaderPlot.Controls.Add(this._lblPlot, 1, 0);
+            this._tlpHeaderPlot.Controls.Add(this.button7, 0, 0);
             this._tlpHeaderPlot.Dock = System.Windows.Forms.DockStyle.Top;
             this._tlpHeaderPlot.ForeColor = System.Drawing.Color.White;
             this._tlpHeaderPlot.Location = new System.Drawing.Point(0, 0);
@@ -490,7 +485,7 @@
             this.button4.FlatAppearance.BorderSize = 0;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
-            this.button4.Location = new System.Drawing.Point(438, 0);
+            this.button4.Location = new System.Drawing.Point(468, 0);
             this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(30, 30);
@@ -505,7 +500,7 @@
             this._lblPlot.AutoSize = true;
             this._lblPlot.Dock = System.Windows.Forms.DockStyle.Top;
             this._lblPlot.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblPlot.Location = new System.Drawing.Point(3, 0);
+            this._lblPlot.Location = new System.Drawing.Point(33, 0);
             this._lblPlot.Name = "_lblPlot";
             this._lblPlot.Size = new System.Drawing.Size(51, 30);
             this._lblPlot.TabIndex = 2;
@@ -518,7 +513,7 @@
             this.button7.FlatAppearance.BorderSize = 0;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button7.Image = global::MetaboliteLevels.Properties.Resources.ObjLGraph;
-            this.button7.Location = new System.Drawing.Point(468, 0);
+            this.button7.Location = new System.Drawing.Point(0, 0);
             this.button7.Margin = new System.Windows.Forms.Padding(0);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(30, 30);
@@ -528,7 +523,7 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.chart1);
+            this.panel3.Controls.Add(this.panel6);
             this.panel3.Controls.Add(this._tlpHeaderCluster);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(498, 0);
@@ -537,22 +532,14 @@
             this.panel3.Size = new System.Drawing.Size(498, 394);
             this.panel3.TabIndex = 14;
             // 
-            // chart1
+            // panel6
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(0, 30);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(498, 364);
-            this.chart1.TabIndex = 3;
-            this.chart1.Text = "chart1";
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(0, 30);
+            this.panel6.Margin = new System.Windows.Forms.Padding(0);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(498, 364);
+            this.panel6.TabIndex = 18;
             // 
             // _tlpHeaderCluster
             // 
@@ -561,11 +548,11 @@
             this._tlpHeaderCluster.BackColor = System.Drawing.Color.CornflowerBlue;
             this._tlpHeaderCluster.ColumnCount = 3;
             this._tlpHeaderCluster.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpHeaderCluster.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tlpHeaderCluster.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpHeaderCluster.Controls.Add(this._labelCluster, 0, 0);
-            this._tlpHeaderCluster.Controls.Add(this.button5, 1, 0);
-            this._tlpHeaderCluster.Controls.Add(this.button1, 2, 0);
+            this._tlpHeaderCluster.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tlpHeaderCluster.Controls.Add(this._labelCluster, 1, 0);
+            this._tlpHeaderCluster.Controls.Add(this.button5, 2, 0);
+            this._tlpHeaderCluster.Controls.Add(this.button1, 0, 0);
             this._tlpHeaderCluster.Dock = System.Windows.Forms.DockStyle.Top;
             this._tlpHeaderCluster.ForeColor = System.Drawing.Color.White;
             this._tlpHeaderCluster.Location = new System.Drawing.Point(0, 0);
@@ -580,7 +567,7 @@
             this._labelCluster.AutoSize = true;
             this._labelCluster.Dock = System.Windows.Forms.DockStyle.Top;
             this._labelCluster.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labelCluster.Location = new System.Drawing.Point(3, 0);
+            this._labelCluster.Location = new System.Drawing.Point(33, 0);
             this._labelCluster.Name = "_labelCluster";
             this._labelCluster.Size = new System.Drawing.Size(79, 30);
             this._labelCluster.TabIndex = 3;
@@ -593,7 +580,7 @@
             this.button5.FlatAppearance.BorderSize = 0;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
-            this.button5.Location = new System.Drawing.Point(438, 0);
+            this.button5.Location = new System.Drawing.Point(468, 0);
             this.button5.Margin = new System.Windows.Forms.Padding(0);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(30, 30);
@@ -610,7 +597,7 @@
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Image = global::MetaboliteLevels.Properties.Resources.ObjLGraph;
-            this.button1.Location = new System.Drawing.Point(468, 0);
+            this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(30, 30);
@@ -756,7 +743,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(763, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(794, 17);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // toolStripDropDownButton1
@@ -832,7 +819,6 @@
             this._tlpHeaderPlot.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this._tlpHeaderCluster.ResumeLayout(false);
             this._tlpHeaderCluster.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -847,7 +833,7 @@
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private MetaboliteLevels.Controls.CtlSplitter splitContainer1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.ListView _lstParams;
         private System.Windows.Forms.Panel panel2;
@@ -855,7 +841,6 @@
         private System.Windows.Forms.Panel panel4;
         private MCharting.MChart _chartParameters;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.TableLayoutPanel _tlpHeaderParams;
         private System.Windows.Forms.Label label5;
@@ -899,5 +884,6 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem updateResultsDataToolStripMenuItem;
+        private System.Windows.Forms.Panel panel6;
     }
 }
