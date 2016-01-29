@@ -457,11 +457,11 @@
     <Compile Include="Forms\Editing\FrmEditCluster.Designer.cs">
       <DependentUpon>FrmEditCluster.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Wizards\FrmPatternWizard.cs">
+    <Compile Include="Forms\Wizards\FrmClusterWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Wizards\FrmPatternWizard.Designer.cs">
-      <DependentUpon>FrmPatternWizard.cs</DependentUpon>
+    <Compile Include="Forms\Wizards\FrmClusterWizard.Designer.cs">
+      <DependentUpon>FrmClusterWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Tree Explorer\FrmViewTypes.cs">
       <SubType>Form</SubType>
@@ -653,8 +653,8 @@
     <EmbeddedResource Include="Forms\Startup\FrmSetWorkspace.resx">
       <DependentUpon>FrmSetWorkspace.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Wizards\FrmPatternWizard.resx">
-      <DependentUpon>FrmPatternWizard.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Wizards\FrmClusterWizard.resx">
+      <DependentUpon>FrmClusterWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Tree Explorer\FrmViewTypes.resx">
       <DependentUpon>FrmViewTypes.cs</DependentUpon>

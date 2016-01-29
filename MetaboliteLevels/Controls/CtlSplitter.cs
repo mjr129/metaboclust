@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -11,15 +12,37 @@ namespace MetaboliteLevels.Controls
 {
     class CtlSplitter : SplitContainer
     {
+        public CtlSplitter()
+        {
+            //this.SetStyle(ControlStyles.UserPaint, true);
+            //this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
+
+            SplitterWidth = 6;
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never), Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new int SplitterWidth
+        {
+            get
+            {
+                return base.SplitterWidth;
+            }
+            private set
+            {
+                base.SplitterWidth = value;
+            }
+        }
+
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             // NA
         }
 
         protected override void OnPaint(PaintEventArgs e)
-        {        
+        {
             var s = this;
-            int gripLineWidth = 9;
+            int gripLineWidth = 15; //9;
 
             if (this.Orientation == Orientation.Horizontal)
             {

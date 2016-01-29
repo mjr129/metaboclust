@@ -24,6 +24,9 @@ namespace MetaboliteLevels.Controls
         {
             InitializeComponent();
             Dock = DockStyle.Top;
+
+            tableLayoutPanel1.BackColor = UiControls.BackColour;
+            tableLayoutPanel1.ForeColor = UiControls.ForeColour;
         }
 
         [EditorBrowsable(EditorBrowsableState.Always), Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]

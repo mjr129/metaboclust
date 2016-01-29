@@ -891,7 +891,6 @@ namespace MetaboliteLevels.Forms
             this.splitContainer1.Panel2.ForeColor = System.Drawing.Color.Black;
             this.splitContainer1.Size = new System.Drawing.Size(1185, 711);
             this.splitContainer1.SplitterDistance = 442;
-            this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 5;
             // 
             // splitContainer2
@@ -913,7 +912,6 @@ namespace MetaboliteLevels.Forms
             this.splitContainer2.Panel2.Controls.Add(this.panel1);
             this.splitContainer2.Size = new System.Drawing.Size(442, 711);
             this.splitContainer2.SplitterDistance = 352;
-            this.splitContainer2.SplitterWidth = 6;
             this.splitContainer2.TabIndex = 11;
             // 
             // panel3
@@ -1950,7 +1948,6 @@ namespace MetaboliteLevels.Forms
             //                                                                                                                  
             this.splitContainer3.Size = new System.Drawing.Size(737, 608);
             this.splitContainer3.SplitterDistance = 299;
-            this.splitContainer3.SplitterWidth = 6;
             this.splitContainer3.TabIndex = 10;
             // 
             // quickHelpBar1

@@ -48,6 +48,10 @@ namespace MetaboliteLevels.Forms.Startup
         private FrmDataLoadQuery()
         {
             InitializeComponent();
+
+            label13.BackColor = UiControls.BackColour;
+            label13.ForeColor = UiControls.ForeColour;
+
             Text = UiControls.Title;
             UiControls.SetIcon(this);
 

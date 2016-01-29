@@ -319,7 +319,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 ViewTypes = vTypes,
                 ConditionsSideBySide = true,
                 ShowPoints = true,
-                ShowTrend = true,
+                ShowTrend = sel.IsUsingTrend,
                 ShowRanges = false,
                 ViewAlternativeObservations = false
             };

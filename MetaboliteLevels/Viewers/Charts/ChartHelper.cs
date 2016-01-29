@@ -106,7 +106,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // MENU BAR
             this._menuBar = new ToolStrip();
             targetSite.Controls.Add(_menuBar);
-            _menuBar.SendToBack();                
+            _menuBar.SendToBack();
 
             // PLOT BUTTON
             _plotButton = new ToolStripSplitButton("No selection");
@@ -139,6 +139,7 @@ namespace MetaboliteLevels.Viewers.Charts
             _plotButton.DropDownItems.Add("Save image...", null, SaveImage_Click);
 
             _btnNavigateToPlot.Font = new Font(_btnNavigateToPlot.Font, FontStyle.Bold);
+            _btnNavigateToPlot.Enabled = _selector != null;
 
             // SELECTION BUTTON ITEMS
             _selectionButton.DropDownOpening += _selectionButtonMenu_Opening;
@@ -174,6 +175,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 ToolStripItem mnuSelectSelection = _selectionButton.DropDownItems.Add("Navigate to " + visualisable.DisplayName, null, SelectThisSelection_Click);
                 mnuSelectSelection.Font = new Font(mnuSelectSelection.Font, FontStyle.Bold);
                 mnuSelectSelection.Tag = visualisable;
+                mnuSelectSelection.Enabled = _selector != null;
             }
         }
 

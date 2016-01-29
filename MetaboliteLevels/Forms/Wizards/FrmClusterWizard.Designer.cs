@@ -48,6 +48,7 @@
             this._lstStat = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this._lstGroups = new System.Windows.Forms.ComboBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ctlStatistics1 = new MetaboliteLevels.Controls.CtlStatistics();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -65,7 +66,6 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -118,6 +118,7 @@
             this.tableLayoutPanel2.Controls.Add(this._btnEditFilters, 1, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.MinimumSize = new System.Drawing.Size(8, 8);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -221,6 +222,7 @@
             this.tableLayoutPanel1.Controls.Add(this.panel1, 2, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 5);
+            this.tableLayoutPanel1.MinimumSize = new System.Drawing.Size(8, 8);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -354,7 +356,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.label7, 3);
             this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label7.Location = new System.Drawing.Point(4, 502);
+            this.label7.Location = new System.Drawing.Point(4, 509);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(8);
@@ -369,12 +371,22 @@
             this._lstGroups.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstGroups.FormattingEnabled = true;
-            this._lstGroups.Location = new System.Drawing.Point(19, 550);
+            this._lstGroups.Location = new System.Drawing.Point(19, 557);
             this._lstGroups.Margin = new System.Windows.Forms.Padding(19, 11, 11, 11);
             this._lstGroups.Name = "_lstGroups";
             this._lstGroups.Size = new System.Drawing.Size(842, 28);
             this._lstGroups.TabIndex = 4;
             this._lstGroups.SelectedIndexChanged += new System.EventHandler(this._lstStat_SelectedIndexChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(195, 87);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.tableLayoutPanel1.SetRowSpan(this.panel1, 4);
+            this.panel1.Size = new System.Drawing.Size(677, 422);
+            this.panel1.TabIndex = 5;
             // 
             // tabPage2
             // 
@@ -390,7 +402,6 @@
             // 
             // ctlStatistics1
             // 
-            this.ctlStatistics1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ctlStatistics1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ctlStatistics1.Location = new System.Drawing.Point(4, 5);
             this.ctlStatistics1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -582,16 +593,6 @@
             this.label6.Size = new System.Drawing.Size(688, 24);
             this.label6.TabIndex = 0;
             this.label6.Text = "Click OK to generate the clusters. Any existing clusters will be lost.";
-            // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(195, 87);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.tableLayoutPanel1.SetRowSpan(this.panel1, 4);
-            this.panel1.Size = new System.Drawing.Size(677, 415);
-            this.panel1.TabIndex = 5;
             // 
             // FrmClusterWizard
             // 

@@ -51,6 +51,16 @@ namespace MetaboliteLevels.Controls
 
                 foreach (Control c in controls)
                 {
+                    if (c.Width == 0) // fixed errors with controls autosizing to zero if they have no content or they are docked without a parent
+                    {
+                        c.Width = 1;
+                    }
+
+                    if (c.Height == 0)
+                    {
+                        c.Height = 1;
+                    }
+
                     p.Controls.Add(c);
                 }
 

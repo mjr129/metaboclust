@@ -48,6 +48,9 @@ namespace MetaboliteLevels.Utilities
         // Where the application stores its data.
         private static string __startupPath;
 
+        public static readonly Color BackColour = Color.FromKnownColor(KnownColor.ActiveCaption);
+        public static readonly Color ForeColour = Color.FromKnownColor(KnownColor.ActiveCaptionText);
+
         /// <summary>
         /// Initialises this class.
         /// REQUIRED.

@@ -56,6 +56,11 @@ namespace MetaboliteLevels.Controls
 
         void _label_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (_selector == null)
+            {
+                return;
+            }
+
             _selector.Selection = new VisualisableSelection((IVisualisable)e.Link.LinkData, EActivateOrigin.External);
         }
 

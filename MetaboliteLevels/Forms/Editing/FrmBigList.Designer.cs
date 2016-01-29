@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBigList));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.listView1 = new System.Windows.Forms.ListView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
@@ -45,8 +45,8 @@
             this._btnUp = new MetaboliteLevels.Controls.CtlButton();
             this._btnDown = new MetaboliteLevels.Controls.CtlButton();
             this._btnEnableDisable = new MetaboliteLevels.Controls.CtlButton();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this.listView1 = new System.Windows.Forms.ListView();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -70,11 +70,16 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(960, 651);
             this.tableLayoutPanel2.TabIndex = 23;
             // 
-            // imageList1
+            // listView1
             // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.Location = new System.Drawing.Point(8, 8);
+            this.listView1.Margin = new System.Windows.Forms.Padding(8);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(800, 579);
+            this.listView1.TabIndex = 25;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
             // 
             // flowLayoutPanel1
             // 
@@ -133,7 +138,8 @@
             this.flowLayoutPanel2.Controls.Add(this._btnDown);
             this.flowLayoutPanel2.Controls.Add(this._btnEnableDisable);
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(813, 3);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(816, 0);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(144, 400);
             this.flowLayoutPanel2.TabIndex = 3;
@@ -273,6 +279,12 @@
             this._btnEnableDisable.UseVisualStyleBackColor = false;
             this._btnEnableDisable.Click += new System.EventHandler(this._btnEnableDisable_Click);
             // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -288,17 +300,6 @@
             this.ctlTitleBar1.TabIndex = 24;
             this.ctlTitleBar1.Text = "Text goes here";
             this.ctlTitleBar1.WarningText = null;
-            // 
-            // listView1
-            // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Margin = new System.Windows.Forms.Padding(0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(810, 595);
-            this.listView1.TabIndex = 25;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
             // 
             // FrmBigList
             // 
