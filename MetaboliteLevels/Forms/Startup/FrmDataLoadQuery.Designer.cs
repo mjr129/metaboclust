@@ -30,31 +30,21 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDataLoadQuery));
-            this._txtDataSetData = new System.Windows.Forms.TextBox();
-            this._txtTitle = new System.Windows.Forms.TextBox();
-            this._lstLcmsMode = new System.Windows.Forms.ComboBox();
-            this._txtDataSetObs = new System.Windows.Forms.TextBox();
-            this._lblDataSetData = new System.Windows.Forms.Label();
-            this._lblDataSetObs = new System.Windows.Forms.Label();
-            this._lblDataSetVar = new System.Windows.Forms.Label();
-            this._txtDataSetVar = new System.Windows.Forms.TextBox();
-            this._lblLcmsMode = new System.Windows.Forms.Label();
-            this._chkAltVals = new System.Windows.Forms.CheckBox();
-            this._chkCondInfo = new System.Windows.Forms.CheckBox();
-            this._txtAltVals = new System.Windows.Forms.TextBox();
-            this._txtCondInfo = new System.Windows.Forms.TextBox();
-            this._lblConditions = new System.Windows.Forms.Label();
-            this._txtExps = new System.Windows.Forms.TextBox();
-            this._txtControls = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this._cmsRecentWorkspaces = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._mnuDebug = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editPathsAndLibrariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exploreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearRPathrequiresRestartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetdoNotShowAgainMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._tipSideBar = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.label15 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this._lbl32Bit = new System.Windows.Forms.Label();
             this._btnMostRecent = new System.Windows.Forms.Button();
@@ -68,14 +58,27 @@
             this._btnRecent = new MetaboliteLevels.Controls.CtlButton();
             this.button1 = new MetaboliteLevels.Controls.CtlButton();
             this._btnDeleteWorkspace = new MetaboliteLevels.Controls.CtlButton();
+            this._txtTitle = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._btnCondInfo = new MetaboliteLevels.Controls.CtlButton();
+            this._txtCondInfo = new System.Windows.Forms.TextBox();
+            this._lstLcmsMode = new System.Windows.Forms.ComboBox();
+            this._chkCondInfo = new System.Windows.Forms.CheckBox();
+            this._lblLcmsMode = new System.Windows.Forms.Label();
             this._btnDataSetVar = new MetaboliteLevels.Controls.CtlButton();
             this._btnDataSetObs = new MetaboliteLevels.Controls.CtlButton();
             this._btnDataSetData = new MetaboliteLevels.Controls.CtlButton();
+            this._txtDataSetData = new System.Windows.Forms.TextBox();
+            this._txtDataSetObs = new System.Windows.Forms.TextBox();
+            this._lblDataSetData = new System.Windows.Forms.Label();
+            this._lblDataSetObs = new System.Windows.Forms.Label();
+            this._lblDataSetVar = new System.Windows.Forms.Label();
+            this._txtDataSetVar = new System.Windows.Forms.TextBox();
+            this._chkAltVals = new System.Windows.Forms.CheckBox();
+            this._txtAltVals = new System.Windows.Forms.TextBox();
             this._btnAltVals = new MetaboliteLevels.Controls.CtlButton();
             this.label7 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -84,8 +87,12 @@
             this.label14 = new System.Windows.Forms.Label();
             this._tabConditions = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
+            this._lblConditions = new System.Windows.Forms.Label();
             this._btnBrowseContCond = new MetaboliteLevels.Controls.CtlButton();
+            this._txtControls = new System.Windows.Forms.TextBox();
             this._btnBrowseExpCond = new MetaboliteLevels.Controls.CtlButton();
+            this._txtExps = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._chkStatT = new System.Windows.Forms.CheckBox();
@@ -119,25 +126,17 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this._chkAlarm = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
-            this._mnuDebug = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.editPathsAndLibrariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.exploreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearRPathrequiresRestartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetdoNotShowAgainMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.restartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this._tipSideBar = new System.Windows.Forms.ToolTip(this.components);
             this._txtHelp = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
+            this._mnuDebug.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPage5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -156,215 +155,12 @@
             this.tableLayoutPanel9.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this._mnuDebug.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // _txtDataSetData
-            // 
-            this._txtDataSetData.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtDataSetData.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetData.Location = new System.Drawing.Point(58, 195);
-            this._txtDataSetData.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
-            this._txtDataSetData.Name = "_txtDataSetData";
-            this._txtDataSetData.Size = new System.Drawing.Size(641, 29);
-            this._txtDataSetData.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtDataSetData, "*Values");
-            // 
-            // _txtTitle
-            // 
-            this._txtTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtTitle.ForeColor = System.Drawing.Color.Blue;
-            this._txtTitle.Location = new System.Drawing.Point(34, 52);
-            this._txtTitle.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
-            this._txtTitle.Name = "_txtTitle";
-            this._txtTitle.Size = new System.Drawing.Size(692, 29);
-            this._txtTitle.TabIndex = 16;
-            this._tipSideBar.SetToolTip(this._txtTitle, "*Workspace");
-            // 
-            // _lstLcmsMode
-            // 
-            this._lstLcmsMode.BackColor = System.Drawing.SystemColors.Window;
-            this._lstLcmsMode.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lstLcmsMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstLcmsMode.ForeColor = System.Drawing.Color.Blue;
-            this._lstLcmsMode.FormattingEnabled = true;
-            this._lstLcmsMode.Items.AddRange(new object[] {
-            "Negative (-)",
-            "Mixed (+/-)",
-            "Positive (+)",
-            "None"});
-            this._lstLcmsMode.Location = new System.Drawing.Point(58, 131);
-            this._lstLcmsMode.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
-            this._lstLcmsMode.Name = "_lstLcmsMode";
-            this._lstLcmsMode.Size = new System.Drawing.Size(641, 29);
-            this._lstLcmsMode.TabIndex = 15;
-            this._tipSideBar.SetToolTip(this._lstLcmsMode, "*LC-MS Mode");
-            this._lstLcmsMode.SelectedIndexChanged += new System.EventHandler(this._lstLcmsMode_SelectedIndexChanged);
-            // 
-            // _txtDataSetObs
-            // 
-            this._txtDataSetObs.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtDataSetObs.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetObs.Location = new System.Drawing.Point(58, 259);
-            this._txtDataSetObs.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
-            this._txtDataSetObs.Name = "_txtDataSetObs";
-            this._txtDataSetObs.Size = new System.Drawing.Size(641, 29);
-            this._txtDataSetObs.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtDataSetObs, "*Observation info");
-            // 
-            // _lblDataSetData
-            // 
-            this._lblDataSetData.AutoSize = true;
-            this._lblDataSetData.Location = new System.Drawing.Point(34, 167);
-            this._lblDataSetData.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblDataSetData.Name = "_lblDataSetData";
-            this._lblDataSetData.Size = new System.Drawing.Size(105, 21);
-            this._lblDataSetData.TabIndex = 13;
-            this._lblDataSetData.Text = "Intensities file";
-            this._tipSideBar.SetToolTip(this._lblDataSetData, "*Values");
-            // 
-            // _lblDataSetObs
-            // 
-            this._lblDataSetObs.AutoSize = true;
-            this._lblDataSetObs.Location = new System.Drawing.Point(34, 231);
-            this._lblDataSetObs.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblDataSetObs.Name = "_lblDataSetObs";
-            this._lblDataSetObs.Size = new System.Drawing.Size(194, 21);
-            this._lblDataSetObs.TabIndex = 13;
-            this._lblDataSetObs.Text = "Observation descriptor file";
-            this._tipSideBar.SetToolTip(this._lblDataSetObs, "*Observation info");
-            // 
-            // _lblDataSetVar
-            // 
-            this._lblDataSetVar.AutoSize = true;
-            this._lblDataSetVar.Location = new System.Drawing.Point(34, 295);
-            this._lblDataSetVar.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblDataSetVar.Name = "_lblDataSetVar";
-            this._lblDataSetVar.Size = new System.Drawing.Size(142, 21);
-            this._lblDataSetVar.TabIndex = 13;
-            this._lblDataSetVar.Text = "Peak descriptor file";
-            this._tipSideBar.SetToolTip(this._lblDataSetVar, "*Variable info");
-            // 
-            // _txtDataSetVar
-            // 
-            this._txtDataSetVar.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtDataSetVar.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetVar.Location = new System.Drawing.Point(58, 323);
-            this._txtDataSetVar.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
-            this._txtDataSetVar.Name = "_txtDataSetVar";
-            this._txtDataSetVar.Size = new System.Drawing.Size(641, 29);
-            this._txtDataSetVar.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtDataSetVar, "*Variable info");
-            // 
-            // _lblLcmsMode
-            // 
-            this._lblLcmsMode.AutoSize = true;
-            this._lblLcmsMode.Location = new System.Drawing.Point(34, 103);
-            this._lblLcmsMode.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblLcmsMode.Name = "_lblLcmsMode";
-            this._lblLcmsMode.Size = new System.Drawing.Size(92, 21);
-            this._lblLcmsMode.TabIndex = 13;
-            this._lblLcmsMode.Text = "Data source";
-            this._tipSideBar.SetToolTip(this._lblLcmsMode, "*LC-MS Mode");
-            // 
-            // _chkAltVals
-            // 
-            this._chkAltVals.AutoSize = true;
-            this._chkAltVals.Location = new System.Drawing.Point(14, 368);
-            this._chkAltVals.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this._chkAltVals.Name = "_chkAltVals";
-            this._chkAltVals.Size = new System.Drawing.Size(230, 25);
-            this._chkAltVals.TabIndex = 0;
-            this._chkAltVals.Text = "Include alternative intensities";
-            this._tipSideBar.SetToolTip(this._chkAltVals, "*Alternative values");
-            this._chkAltVals.UseVisualStyleBackColor = true;
-            this._chkAltVals.CheckedChanged += new System.EventHandler(this._chkAltVals_CheckedChanged);
-            // 
-            // _chkCondInfo
-            // 
-            this._chkCondInfo.AutoSize = true;
-            this._chkCondInfo.Location = new System.Drawing.Point(14, 452);
-            this._chkCondInfo.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this._chkCondInfo.Name = "_chkCondInfo";
-            this._chkCondInfo.Size = new System.Drawing.Size(201, 25);
-            this._chkCondInfo.TabIndex = 0;
-            this._chkCondInfo.Text = "Provide condition names";
-            this._tipSideBar.SetToolTip(this._chkCondInfo, "*Condition names");
-            this._chkCondInfo.UseVisualStyleBackColor = true;
-            this._chkCondInfo.CheckedChanged += new System.EventHandler(this._chkCondInfo_CheckedChanged);
-            // 
-            // _txtAltVals
-            // 
-            this._txtAltVals.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtAltVals.Enabled = false;
-            this._txtAltVals.ForeColor = System.Drawing.Color.Blue;
-            this._txtAltVals.Location = new System.Drawing.Point(34, 407);
-            this._txtAltVals.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
-            this._txtAltVals.Name = "_txtAltVals";
-            this._txtAltVals.Size = new System.Drawing.Size(665, 29);
-            this._txtAltVals.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtAltVals, "*Alternative values");
-            // 
-            // _txtCondInfo
-            // 
-            this._txtCondInfo.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtCondInfo.Enabled = false;
-            this._txtCondInfo.ForeColor = System.Drawing.Color.Blue;
-            this._txtCondInfo.Location = new System.Drawing.Point(34, 491);
-            this._txtCondInfo.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
-            this._txtCondInfo.Name = "_txtCondInfo";
-            this._txtCondInfo.Size = new System.Drawing.Size(665, 29);
-            this._txtCondInfo.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtCondInfo, "*Condition names");
-            // 
-            // _lblConditions
-            // 
-            this._lblConditions.AutoSize = true;
-            this._lblConditions.Location = new System.Drawing.Point(24, 37);
-            this._lblConditions.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblConditions.Name = "_lblConditions";
-            this._lblConditions.Size = new System.Drawing.Size(218, 21);
-            this._lblConditions.TabIndex = 13;
-            this._lblConditions.Text = "Treatment group(s) of interest";
-            this._tipSideBar.SetToolTip(this._lblConditions, "*Experimental condition");
-            // 
-            // _txtExps
-            // 
-            this._txtExps.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtExps.ForeColor = System.Drawing.Color.Blue;
-            this._txtExps.Location = new System.Drawing.Point(48, 65);
-            this._txtExps.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
-            this._txtExps.Name = "_txtExps";
-            this._txtExps.Size = new System.Drawing.Size(649, 29);
-            this._txtExps.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtExps, "*Experimental condition");
-            // 
-            // _txtControls
-            // 
-            this._txtControls.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtControls.ForeColor = System.Drawing.Color.Blue;
-            this._txtControls.Location = new System.Drawing.Point(48, 129);
-            this._txtControls.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
-            this._txtControls.Name = "_txtControls";
-            this._txtControls.Size = new System.Drawing.Size(649, 29);
-            this._txtControls.TabIndex = 7;
-            this._tipSideBar.SetToolTip(this._txtControls, "*Control condition");
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 101);
-            this.label3.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(125, 21);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Control group(s)";
-            this._tipSideBar.SetToolTip(this.label3, "*Control condition");
             // 
             // _cmsRecentWorkspaces
             // 
@@ -372,6 +168,64 @@
             this._cmsRecentWorkspaces.Name = "contextMenuStrip1";
             this._cmsRecentWorkspaces.Size = new System.Drawing.Size(61, 4);
             this._cmsRecentWorkspaces.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // _mnuDebug
+            // 
+            this._mnuDebug.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editPathsAndLibrariesToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.exploreToolStripMenuItem,
+            this.clearRPathrequiresRestartToolStripMenuItem,
+            this.resetdoNotShowAgainMessagesToolStripMenuItem,
+            this.restartToolStripMenuItem});
+            this._mnuDebug.Name = "_mnuDebug";
+            this._mnuDebug.Size = new System.Drawing.Size(268, 120);
+            // 
+            // editPathsAndLibrariesToolStripMenuItem
+            // 
+            this.editPathsAndLibrariesToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuSessionInfo;
+            this.editPathsAndLibrariesToolStripMenuItem.Name = "editPathsAndLibrariesToolStripMenuItem";
+            this.editPathsAndLibrariesToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.editPathsAndLibrariesToolStripMenuItem.Text = "&Edit paths and libraries...";
+            this.editPathsAndLibrariesToolStripMenuItem.Click += new System.EventHandler(this.editPathsAndLibrariesToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(264, 6);
+            // 
+            // exploreToolStripMenuItem
+            // 
+            this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
+            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.exploreToolStripMenuItem.Text = "&Explore application folder";
+            this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
+            // 
+            // clearRPathrequiresRestartToolStripMenuItem
+            // 
+            this.clearRPathrequiresRestartToolStripMenuItem.Name = "clearRPathrequiresRestartToolStripMenuItem";
+            this.clearRPathrequiresRestartToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.clearRPathrequiresRestartToolStripMenuItem.Text = "&Restore default settings";
+            this.clearRPathrequiresRestartToolStripMenuItem.Click += new System.EventHandler(this.clearRPathrequiresRestartToolStripMenuItem_Click);
+            // 
+            // resetdoNotShowAgainMessagesToolStripMenuItem
+            // 
+            this.resetdoNotShowAgainMessagesToolStripMenuItem.Name = "resetdoNotShowAgainMessagesToolStripMenuItem";
+            this.resetdoNotShowAgainMessagesToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.resetdoNotShowAgainMessagesToolStripMenuItem.Text = "Reset \"do not show again\" messages";
+            this.resetdoNotShowAgainMessagesToolStripMenuItem.Click += new System.EventHandler(this.resetdoNotShowAgainMessagesToolStripMenuItem_Click);
+            // 
+            // restartToolStripMenuItem
+            // 
+            this.restartToolStripMenuItem.Name = "restartToolStripMenuItem";
+            this.restartToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.restartToolStripMenuItem.Text = "&Restart application";
+            this.restartToolStripMenuItem.Click += new System.EventHandler(this.restartToolStripMenuItem_Click);
+            // 
+            // _tipSideBar
+            // 
+            this._tipSideBar.AutomaticDelay = 1;
+            this._tipSideBar.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
             // 
             // tabControl1
             // 
@@ -412,7 +266,7 @@
             this.label15.AutoSize = true;
             this.label15.BackColor = System.Drawing.Color.Lime;
             this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(536, 104);
+            this.label15.Location = new System.Drawing.Point(536, 9);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(106, 21);
             this.label15.TabIndex = 23;
@@ -444,7 +298,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3407, 521);
+            this.pictureBox1.Location = new System.Drawing.Point(3443, 521);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -460,7 +314,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this._lbl32Bit, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this._btnMostRecent, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this._btnNewSession, 0, 0);
@@ -479,24 +333,14 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(748, 682);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.pictureBox2);
-            this.panel1.Location = new System.Drawing.Point(512, 3);
-            this.panel1.MaximumSize = new System.Drawing.Size(233, 253);
-            this.panel1.MinimumSize = new System.Drawing.Size(233, 253);
-            this.panel1.Name = "panel1";
-            this.tableLayoutPanel1.SetRowSpan(this.panel1, 3);
-            this.panel1.Size = new System.Drawing.Size(233, 253);
-            this.panel1.TabIndex = 20;
-            // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::MetaboliteLevels.Properties.Resources.StartLogo;
-            this.pictureBox2.Location = new System.Drawing.Point(-248, 0);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox2.Image = global::MetaboliteLevels.Properties.Resources.StartLogo2;
+            this.pictureBox2.Location = new System.Drawing.Point(538, 0);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(480, 480);
+            this.tableLayoutPanel1.SetRowSpan(this.pictureBox2, 3);
+            this.pictureBox2.Size = new System.Drawing.Size(202, 239);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox2.TabIndex = 3;
             this.pictureBox2.TabStop = false;
@@ -510,7 +354,7 @@
             this._lbl32Bit.BackColor = System.Drawing.Color.Red;
             this._lbl32Bit.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this._lbl32Bit.ForeColor = System.Drawing.Color.White;
-            this._lbl32Bit.Location = new System.Drawing.Point(38, 465);
+            this._lbl32Bit.Location = new System.Drawing.Point(49, 465);
             this._lbl32Bit.Name = "_lbl32Bit";
             this._lbl32Bit.Size = new System.Drawing.Size(432, 65);
             this._lbl32Bit.TabIndex = 20;
@@ -531,7 +375,7 @@
             this._btnMostRecent.MaximumSize = new System.Drawing.Size(658, 672);
             this._btnMostRecent.Name = "_btnMostRecent";
             this._btnMostRecent.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-            this._btnMostRecent.Size = new System.Drawing.Size(458, 74);
+            this._btnMostRecent.Size = new System.Drawing.Size(479, 74);
             this._btnMostRecent.TabIndex = 2;
             this._btnMostRecent.Text = "    Last file";
             this._btnMostRecent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -552,7 +396,7 @@
             this._btnNewSession.MaximumSize = new System.Drawing.Size(658, 672);
             this._btnNewSession.Name = "_btnNewSession";
             this._btnNewSession.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-            this._btnNewSession.Size = new System.Drawing.Size(458, 74);
+            this._btnNewSession.Size = new System.Drawing.Size(479, 74);
             this._btnNewSession.TabIndex = 0;
             this._btnNewSession.Text = "    Create a new session";
             this._btnNewSession.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -573,7 +417,7 @@
             this._btnReturnToSession.MaximumSize = new System.Drawing.Size(658, 672);
             this._btnReturnToSession.Name = "_btnReturnToSession";
             this._btnReturnToSession.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
-            this._btnReturnToSession.Size = new System.Drawing.Size(458, 74);
+            this._btnReturnToSession.Size = new System.Drawing.Size(479, 74);
             this._btnReturnToSession.TabIndex = 1;
             this._btnReturnToSession.Text = "    Return to an existing session";
             this._btnReturnToSession.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -618,7 +462,7 @@
             this.tabPage5.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage5.Size = new System.Drawing.Size(748, 720);
+            this.tabPage5.Size = new System.Drawing.Size(757, 720);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Session name";
             this.tabPage5.ToolTipText = "*";
@@ -646,7 +490,7 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(740, 712);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(749, 712);
             this.tableLayoutPanel6.TabIndex = 0;
             this._tipSideBar.SetToolTip(this.tableLayoutPanel6, "*");
             // 
@@ -706,6 +550,17 @@
             this._btnDeleteWorkspace.UseDefaultSize = true;
             this._btnDeleteWorkspace.UseVisualStyleBackColor = true;
             this._btnDeleteWorkspace.Click += new System.EventHandler(this._btnDeleteWorkspace_Click);
+            // 
+            // _txtTitle
+            // 
+            this._txtTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtTitle.ForeColor = System.Drawing.Color.Blue;
+            this._txtTitle.Location = new System.Drawing.Point(34, 52);
+            this._txtTitle.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
+            this._txtTitle.Name = "_txtTitle";
+            this._txtTitle.Size = new System.Drawing.Size(701, 29);
+            this._txtTitle.TabIndex = 16;
+            this._tipSideBar.SetToolTip(this._txtTitle, "*Workspace");
             // 
             // label2
             // 
@@ -807,6 +662,62 @@
             this._btnCondInfo.UseVisualStyleBackColor = true;
             this._btnCondInfo.Click += new System.EventHandler(this._btnCondInfo_Click);
             // 
+            // _txtCondInfo
+            // 
+            this._txtCondInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtCondInfo.Enabled = false;
+            this._txtCondInfo.ForeColor = System.Drawing.Color.Blue;
+            this._txtCondInfo.Location = new System.Drawing.Point(34, 491);
+            this._txtCondInfo.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
+            this._txtCondInfo.Name = "_txtCondInfo";
+            this._txtCondInfo.Size = new System.Drawing.Size(665, 29);
+            this._txtCondInfo.TabIndex = 1;
+            this._tipSideBar.SetToolTip(this._txtCondInfo, "*Condition names");
+            // 
+            // _lstLcmsMode
+            // 
+            this._lstLcmsMode.BackColor = System.Drawing.SystemColors.Window;
+            this._lstLcmsMode.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstLcmsMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstLcmsMode.ForeColor = System.Drawing.Color.Blue;
+            this._lstLcmsMode.FormattingEnabled = true;
+            this._lstLcmsMode.Items.AddRange(new object[] {
+            "Negative (-)",
+            "Mixed (+/-)",
+            "Positive (+)",
+            "None"});
+            this._lstLcmsMode.Location = new System.Drawing.Point(58, 131);
+            this._lstLcmsMode.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
+            this._lstLcmsMode.Name = "_lstLcmsMode";
+            this._lstLcmsMode.Size = new System.Drawing.Size(641, 29);
+            this._lstLcmsMode.TabIndex = 15;
+            this._tipSideBar.SetToolTip(this._lstLcmsMode, "*LC-MS Mode");
+            this._lstLcmsMode.SelectedIndexChanged += new System.EventHandler(this._lstLcmsMode_SelectedIndexChanged);
+            // 
+            // _chkCondInfo
+            // 
+            this._chkCondInfo.AutoSize = true;
+            this._chkCondInfo.Location = new System.Drawing.Point(14, 452);
+            this._chkCondInfo.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this._chkCondInfo.Name = "_chkCondInfo";
+            this._chkCondInfo.Size = new System.Drawing.Size(201, 25);
+            this._chkCondInfo.TabIndex = 0;
+            this._chkCondInfo.Text = "Provide condition names";
+            this._tipSideBar.SetToolTip(this._chkCondInfo, "*Condition names");
+            this._chkCondInfo.UseVisualStyleBackColor = true;
+            this._chkCondInfo.CheckedChanged += new System.EventHandler(this._chkCondInfo_CheckedChanged);
+            // 
+            // _lblLcmsMode
+            // 
+            this._lblLcmsMode.AutoSize = true;
+            this._lblLcmsMode.Location = new System.Drawing.Point(34, 103);
+            this._lblLcmsMode.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblLcmsMode.Name = "_lblLcmsMode";
+            this._lblLcmsMode.Size = new System.Drawing.Size(92, 21);
+            this._lblLcmsMode.TabIndex = 13;
+            this._lblLcmsMode.Text = "Data source";
+            this._tipSideBar.SetToolTip(this._lblLcmsMode, "*LC-MS Mode");
+            // 
             // _btnDataSetVar
             // 
             this._btnDataSetVar.Image = ((System.Drawing.Image)(resources.GetObject("_btnDataSetVar.Image")));
@@ -844,6 +755,97 @@
             this._tipPopup.SetToolTip(this._btnDataSetData, "Browse for file");
             this._btnDataSetData.UseVisualStyleBackColor = true;
             this._btnDataSetData.Click += new System.EventHandler(this._btnDataSet_Click);
+            // 
+            // _txtDataSetData
+            // 
+            this._txtDataSetData.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtDataSetData.ForeColor = System.Drawing.Color.Blue;
+            this._txtDataSetData.Location = new System.Drawing.Point(58, 195);
+            this._txtDataSetData.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
+            this._txtDataSetData.Name = "_txtDataSetData";
+            this._txtDataSetData.Size = new System.Drawing.Size(641, 29);
+            this._txtDataSetData.TabIndex = 1;
+            this._tipSideBar.SetToolTip(this._txtDataSetData, "*Values");
+            // 
+            // _txtDataSetObs
+            // 
+            this._txtDataSetObs.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtDataSetObs.ForeColor = System.Drawing.Color.Blue;
+            this._txtDataSetObs.Location = new System.Drawing.Point(58, 259);
+            this._txtDataSetObs.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
+            this._txtDataSetObs.Name = "_txtDataSetObs";
+            this._txtDataSetObs.Size = new System.Drawing.Size(641, 29);
+            this._txtDataSetObs.TabIndex = 1;
+            this._tipSideBar.SetToolTip(this._txtDataSetObs, "*Observation info");
+            // 
+            // _lblDataSetData
+            // 
+            this._lblDataSetData.AutoSize = true;
+            this._lblDataSetData.Location = new System.Drawing.Point(34, 167);
+            this._lblDataSetData.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblDataSetData.Name = "_lblDataSetData";
+            this._lblDataSetData.Size = new System.Drawing.Size(105, 21);
+            this._lblDataSetData.TabIndex = 13;
+            this._lblDataSetData.Text = "Intensities file";
+            this._tipSideBar.SetToolTip(this._lblDataSetData, "*Values");
+            // 
+            // _lblDataSetObs
+            // 
+            this._lblDataSetObs.AutoSize = true;
+            this._lblDataSetObs.Location = new System.Drawing.Point(34, 231);
+            this._lblDataSetObs.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblDataSetObs.Name = "_lblDataSetObs";
+            this._lblDataSetObs.Size = new System.Drawing.Size(194, 21);
+            this._lblDataSetObs.TabIndex = 13;
+            this._lblDataSetObs.Text = "Observation descriptor file";
+            this._tipSideBar.SetToolTip(this._lblDataSetObs, "*Observation info");
+            // 
+            // _lblDataSetVar
+            // 
+            this._lblDataSetVar.AutoSize = true;
+            this._lblDataSetVar.Location = new System.Drawing.Point(34, 295);
+            this._lblDataSetVar.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblDataSetVar.Name = "_lblDataSetVar";
+            this._lblDataSetVar.Size = new System.Drawing.Size(142, 21);
+            this._lblDataSetVar.TabIndex = 13;
+            this._lblDataSetVar.Text = "Peak descriptor file";
+            this._tipSideBar.SetToolTip(this._lblDataSetVar, "*Variable info");
+            // 
+            // _txtDataSetVar
+            // 
+            this._txtDataSetVar.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtDataSetVar.ForeColor = System.Drawing.Color.Blue;
+            this._txtDataSetVar.Location = new System.Drawing.Point(58, 323);
+            this._txtDataSetVar.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
+            this._txtDataSetVar.Name = "_txtDataSetVar";
+            this._txtDataSetVar.Size = new System.Drawing.Size(641, 29);
+            this._txtDataSetVar.TabIndex = 1;
+            this._tipSideBar.SetToolTip(this._txtDataSetVar, "*Variable info");
+            // 
+            // _chkAltVals
+            // 
+            this._chkAltVals.AutoSize = true;
+            this._chkAltVals.Location = new System.Drawing.Point(14, 368);
+            this._chkAltVals.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this._chkAltVals.Name = "_chkAltVals";
+            this._chkAltVals.Size = new System.Drawing.Size(230, 25);
+            this._chkAltVals.TabIndex = 0;
+            this._chkAltVals.Text = "Include alternative intensities";
+            this._tipSideBar.SetToolTip(this._chkAltVals, "*Alternative values");
+            this._chkAltVals.UseVisualStyleBackColor = true;
+            this._chkAltVals.CheckedChanged += new System.EventHandler(this._chkAltVals_CheckedChanged);
+            // 
+            // _txtAltVals
+            // 
+            this._txtAltVals.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtAltVals.Enabled = false;
+            this._txtAltVals.ForeColor = System.Drawing.Color.Blue;
+            this._txtAltVals.Location = new System.Drawing.Point(34, 407);
+            this._txtAltVals.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
+            this._txtAltVals.Name = "_txtAltVals";
+            this._txtAltVals.Size = new System.Drawing.Size(665, 29);
+            this._txtAltVals.TabIndex = 1;
+            this._tipSideBar.SetToolTip(this._txtAltVals, "*Alternative values");
             // 
             // _btnAltVals
             // 
@@ -964,6 +966,17 @@
             this.label5.TabIndex = 17;
             this.label5.Text = "Conditions";
             // 
+            // _lblConditions
+            // 
+            this._lblConditions.AutoSize = true;
+            this._lblConditions.Location = new System.Drawing.Point(24, 37);
+            this._lblConditions.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblConditions.Name = "_lblConditions";
+            this._lblConditions.Size = new System.Drawing.Size(218, 21);
+            this._lblConditions.TabIndex = 13;
+            this._lblConditions.Text = "Treatment group(s) of interest";
+            this._tipSideBar.SetToolTip(this._lblConditions, "*Experimental condition");
+            // 
             // _btnBrowseContCond
             // 
             this._btnBrowseContCond.Image = global::MetaboliteLevels.Properties.Resources.MnuEdit;
@@ -975,6 +988,17 @@
             this._tipPopup.SetToolTip(this._btnBrowseContCond, "Select conditions from list");
             this._btnBrowseContCond.UseVisualStyleBackColor = true;
             // 
+            // _txtControls
+            // 
+            this._txtControls.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtControls.ForeColor = System.Drawing.Color.Blue;
+            this._txtControls.Location = new System.Drawing.Point(48, 129);
+            this._txtControls.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
+            this._txtControls.Name = "_txtControls";
+            this._txtControls.Size = new System.Drawing.Size(649, 29);
+            this._txtControls.TabIndex = 7;
+            this._tipSideBar.SetToolTip(this._txtControls, "*Control condition");
+            // 
             // _btnBrowseExpCond
             // 
             this._btnBrowseExpCond.Image = global::MetaboliteLevels.Properties.Resources.MnuEdit;
@@ -985,6 +1009,28 @@
             this._btnBrowseExpCond.TabIndex = 2;
             this._tipPopup.SetToolTip(this._btnBrowseExpCond, "Select conditions from list");
             this._btnBrowseExpCond.UseVisualStyleBackColor = true;
+            // 
+            // _txtExps
+            // 
+            this._txtExps.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtExps.ForeColor = System.Drawing.Color.Blue;
+            this._txtExps.Location = new System.Drawing.Point(48, 65);
+            this._txtExps.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
+            this._txtExps.Name = "_txtExps";
+            this._txtExps.Size = new System.Drawing.Size(649, 29);
+            this._txtExps.TabIndex = 1;
+            this._tipSideBar.SetToolTip(this._txtExps, "*Experimental condition");
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(24, 101);
+            this.label3.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(125, 21);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Control group(s)";
+            this._tipSideBar.SetToolTip(this.label3, "*Control condition");
             // 
             // label4
             // 
@@ -1458,64 +1504,6 @@
             this.label12.Text = "Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSaving " +
     "your session from the main menu will allow it to be loaded quickly in future.";
             // 
-            // _mnuDebug
-            // 
-            this._mnuDebug.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editPathsAndLibrariesToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.exploreToolStripMenuItem,
-            this.clearRPathrequiresRestartToolStripMenuItem,
-            this.resetdoNotShowAgainMessagesToolStripMenuItem,
-            this.restartToolStripMenuItem});
-            this._mnuDebug.Name = "_mnuDebug";
-            this._mnuDebug.Size = new System.Drawing.Size(268, 120);
-            // 
-            // editPathsAndLibrariesToolStripMenuItem
-            // 
-            this.editPathsAndLibrariesToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuSessionInfo;
-            this.editPathsAndLibrariesToolStripMenuItem.Name = "editPathsAndLibrariesToolStripMenuItem";
-            this.editPathsAndLibrariesToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.editPathsAndLibrariesToolStripMenuItem.Text = "&Edit paths and libraries...";
-            this.editPathsAndLibrariesToolStripMenuItem.Click += new System.EventHandler(this.editPathsAndLibrariesToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(264, 6);
-            // 
-            // exploreToolStripMenuItem
-            // 
-            this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.exploreToolStripMenuItem.Text = "&Explore application folder";
-            this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
-            // 
-            // clearRPathrequiresRestartToolStripMenuItem
-            // 
-            this.clearRPathrequiresRestartToolStripMenuItem.Name = "clearRPathrequiresRestartToolStripMenuItem";
-            this.clearRPathrequiresRestartToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.clearRPathrequiresRestartToolStripMenuItem.Text = "&Restore default settings";
-            this.clearRPathrequiresRestartToolStripMenuItem.Click += new System.EventHandler(this.clearRPathrequiresRestartToolStripMenuItem_Click);
-            // 
-            // resetdoNotShowAgainMessagesToolStripMenuItem
-            // 
-            this.resetdoNotShowAgainMessagesToolStripMenuItem.Name = "resetdoNotShowAgainMessagesToolStripMenuItem";
-            this.resetdoNotShowAgainMessagesToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.resetdoNotShowAgainMessagesToolStripMenuItem.Text = "Reset \"do not show again\" messages";
-            this.resetdoNotShowAgainMessagesToolStripMenuItem.Click += new System.EventHandler(this.resetdoNotShowAgainMessagesToolStripMenuItem_Click);
-            // 
-            // restartToolStripMenuItem
-            // 
-            this.restartToolStripMenuItem.Name = "restartToolStripMenuItem";
-            this.restartToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.restartToolStripMenuItem.Text = "&Restart application";
-            this.restartToolStripMenuItem.Click += new System.EventHandler(this.restartToolStripMenuItem_Click);
-            // 
-            // _tipSideBar
-            // 
-            this._tipSideBar.AutomaticDelay = 1;
-            this._tipSideBar.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
-            // 
             // _txtHelp
             // 
             this._txtHelp.BackColor = System.Drawing.SystemColors.Info;
@@ -1542,27 +1530,6 @@
             this.textBox1.TabIndex = 2;
             this._tipSideBar.SetToolTip(this.textBox1, "*");
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(16, 16);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(16);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this._txtHelp);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(988, 726);
-            this.splitContainer1.SplitterDistance = 948;
-            this.splitContainer1.TabIndex = 18;
-            // 
             // _cmsRecentSessions
             // 
             this._cmsRecentSessions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1587,9 +1554,30 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 758F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(1020, 758);
             this.tableLayoutPanel4.TabIndex = 19;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Location = new System.Drawing.Point(16, 16);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(16);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this._txtHelp);
+            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer1.Size = new System.Drawing.Size(988, 726);
+            this.splitContainer1.SplitterDistance = 948;
+            this.splitContainer1.TabIndex = 18;
             // 
             // FrmDataLoadQuery
             // 
@@ -1604,14 +1592,13 @@
             this.Name = "FrmDataLoadQuery";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Load Session";
+            this._mnuDebug.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
@@ -1640,13 +1627,12 @@
             this.tabPage7.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this._mnuDebug.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1755,6 +1741,5 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label _lbl32Bit;
-        private System.Windows.Forms.Panel panel1;
     }
 }

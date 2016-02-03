@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
+using MetaboliteLevels.Viewers.Lists;
 using MSerialisers;
 
 namespace MetaboliteLevels.Data.DataInfo
@@ -12,10 +16,40 @@ namespace MetaboliteLevels.Data.DataInfo
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class ConditionInfo
+    class ConditionInfo : IVisualisable
     {
         public readonly int Time;
-        public readonly GroupInfo Group;           
+        public readonly GroupInfo Group;
+
+        VisualClass IVisualisable.VisualClass
+        {
+            get
+            {
+                return VisualClass.None;
+            }
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                return IVisualisableExtensions.GetDisplayName(DefaultDisplayName, OverrideDisplayName);
+            }
+        }
+
+        public string DefaultDisplayName
+        {
+            get
+            {
+                return Group.ShortName + Time;
+            }
+        }
+
+        public string OverrideDisplayName { get; set; }
+
+        public string Comment { get; set; }
+
+        public bool Enabled { get; set; }
 
         public ConditionInfo(int time, GroupInfo groupInfo)
         {
@@ -25,7 +59,7 @@ namespace MetaboliteLevels.Data.DataInfo
 
         public override string ToString()
         {
-            return Group.ShortName + Time;
+            return DisplayName;
         }
 
         public static int TimeOrder(ConditionInfo x, ConditionInfo y)
@@ -43,6 +77,38 @@ namespace MetaboliteLevels.Data.DataInfo
             }
 
             return a.Time.CompareTo(b.Time);
+        }
+
+        UiControls.ImageListOrder IVisualisable.GetIcon()
+        {
+            return UiControls.ImageListOrder.Point;
+        }
+
+        public IEnumerable<InfoLine> GetInformation(Core core)
+        {
+            return null;
+        }
+
+        public IEnumerable<InfoLine> GetStatistics(Core core)
+        {
+            return null;
+        }
+
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        {
+            List<Column<ConditionInfo>> columns = new List<Column<ConditionInfo>>();
+
+            columns.Add("Name", EColumn.Visible, z => z.DisplayName);
+            columns.Add("Group", EColumn.None, z => z.Group.Name, z => z.Group.Colour);
+            columns.Add("Time", EColumn.None, z => z.Time);
+            columns.Add("Comment", EColumn.None, z => z.Comment);
+
+            return columns;
+        }
+
+        public void RequestContents(ContentsRequest list)
+        {
+            // NA
         }
     }
 }

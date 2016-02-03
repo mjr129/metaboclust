@@ -62,15 +62,7 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, Compound.DisplayName);
             }
-        }
-
-        public Image REMOVE_THIS_FUNCTION
-        {
-            get
-            {
-                return Resources.ObjCompoundId;
-            }
-        }
+        }    
 
         public VisualClass VisualClass
         {
@@ -83,32 +75,17 @@ namespace MetaboliteLevels.Data.Visualisables
         public UiControls.ImageListOrder GetIcon()
         {
             return UiControls.ImageListOrder.Compound;
-        }
+        }          
 
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            yield return new InfoLine("Peak", Peak);
-            yield return new InfoLine("Compound", Compound);
-            yield return new InfoLine("Adduct", Adduct);
-
-            foreach (var line in core._annotationsMeta.ReadAll(Meta))
-            {
-                yield return line;
-            }
-        }
-
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            return Peak.GetStatistics(core);
-        }
-
-        public IEnumerable<Column> GetColumns(Core core)
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             List<Column<Annotation>> columns = new List<Column<Annotation>>();
 
-            columns.Add("Peak", false, z => z.Peak);
-            columns.Add("Compound", false, z => z.Compound);
-            columns.Add("Adduct", false, z => z.Adduct);
+            columns.Add("Name", EColumn.Visible, z => z.DisplayName);
+
+            columns.AddSubObject(core, "Peak", z => z.Peak);
+            columns.AddSubObject(core, "Compound", z => z.Compound);
+            columns.AddSubObject(core, "Adduct", z => z.Adduct);
 
             core._annotationsMeta.ReadAllColumns<Annotation>(z => z.Meta, columns);
 

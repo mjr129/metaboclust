@@ -96,7 +96,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             }
         }
 
-        public VisualClass VisualClass
+        VisualClass IVisualisable.VisualClass
         {
             get
             {
@@ -104,7 +104,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             }
         }
 
-        public UiControls.ImageListOrder GetIcon()
+        UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             if (this.HasResults)
             {
@@ -114,31 +114,21 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             {
                 return UiControls.ImageListOrder.TestEmpty;
             }
-        }
+        }     
 
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            return null;
-        }
-
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            return null;
-        }
-
-        public IEnumerable<Column> GetColumns(Core core)
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             List<Column<ClusterEvaluationPointer>> ptr = new List<Column<ClusterEvaluationPointer>>();
 
-            ptr.Add("Name", true, z => z.DisplayName);
-            ptr.Add("Configuration", false, z => z.ConfigurationDescription);
-            ptr.Add("Parameters", false, z => z.ParameterDescription);
-            ptr.Add("File", false, z => z.FileName);
+            ptr.Add("Name", EColumn.Visible, z => z.DisplayName);
+            ptr.Add("Configuration", EColumn.None, z => z.ConfigurationDescription);
+            ptr.Add("Parameters", EColumn.None, z => z.ParameterDescription);
+            ptr.Add("File", EColumn.None, z => z.FileName);
 
             return ptr;
         }
 
-        public void RequestContents(ContentsRequest list)
+        void IVisualisable.RequestContents(ContentsRequest list)
         {
             // NA
         }

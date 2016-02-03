@@ -48,8 +48,8 @@ namespace MetaboliteLevels.Utilities
         // Where the application stores its data.
         private static string __startupPath;
 
-        public static readonly Color BackColour = Color.FromKnownColor(KnownColor.ActiveCaption);
-        public static readonly Color ForeColour = Color.FromKnownColor(KnownColor.ActiveCaptionText);
+        public static readonly Color BackColour = Color.FromArgb(153, 180, 209); // Color.FromKnownColor(KnownColor.ActiveCaption);
+        public static readonly Color ForeColour = Color.FromArgb(0, 0, 0); // Color.FromKnownColor(KnownColor.ActiveCaptionText);
 
         /// <summary>
         /// Initialises this class.
@@ -59,7 +59,7 @@ namespace MetaboliteLevels.Utilities
         {
             FontHelper.Initialise(font);
             BreakingVersions = new Dictionary<Version, string>();
-            BreakingVersions.Add(new Version(1, 0, 0, 3565), "Refactoring.");
+            BreakingVersions.Add(new Version(1, 0, 0, 4203), "Refactoring.");
             Random = new Random();
         }
 

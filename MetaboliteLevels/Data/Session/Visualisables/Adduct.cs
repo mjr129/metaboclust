@@ -115,41 +115,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public static Adduct CreateEmpty()
         {
             return new Adduct(null, 0, 0);
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public Image REMOVE_THIS_FUNCTION
-        {
-            get { return Resources.ObjLAdduct; }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            yield return new InfoLine("Charge", Charge);
-            yield return new InfoLine("Comment", Comment);
-            yield return new InfoLine("Display name", DisplayName);
-            yield return new InfoLine("Mass", Mz);
-            yield return new InfoLine("Name", DefaultDisplayName);
-            yield return new InfoLine("Class", VisualClass);
-
-            foreach (InfoLine il in core._adductsMeta.ReadAll(this.MetaInfo))
-            {
-                yield return il;
-            }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            return new InfoLine[0];
-        }
+        }        
 
         /// <summary>
         /// Implements IVisualisable. 
@@ -204,12 +170,17 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         public IEnumerable<Column> GetColumns(Session.Core core)
-        {
+        {                                                
             List<Column<Adduct>> result = new List<Column<Adduct>>();
-            result.Add("Name", true, λ => λ.DefaultDisplayName);
-            result.Add("Charge", false, λ => λ.Charge);
-            result.Add("Mass", false, λ => λ.Mz);
-            result.Add("Comment", false, λ => λ.Comment);
+
+            result.Add("Name", EColumn.Visible, λ => λ.DefaultDisplayName);
+            result.Add("Comment", EColumn.None, λ => λ.Comment);
+            result.Add("Charge", EColumn.None, λ => λ.Charge);
+            result.Add("Mass", EColumn.None, λ => λ.Mz);
+            result.Add("Annotations", EColumn.None, λ => λ.Annotations);
+
+            core._annotationsMeta.ReadAllColumns(z => z.MetaInfo, result);
+
             return result;
         }
 

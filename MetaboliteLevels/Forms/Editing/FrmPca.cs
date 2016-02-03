@@ -40,7 +40,16 @@ namespace MetaboliteLevels.Forms.Editing
         private int _component;
 
         private double[,] _scores;
-        private Column _colourBy;
+        private Column _colourByPeak;
+
+        private EPlotSource _plotSource;
+        private double[,] _loadings;
+        private ReadOnlyCollection<Peak> _pcaPeaks;
+        private IEnumerable _pcaObservations;
+        private ConfigurationCorrection _selectedCorrection;
+        private Column _colourByObervation;
+        private Column _colourByCondition;
+        private string _errorMessage;
 
         internal static void Show(Form owner, Core core)
         {
@@ -63,7 +72,11 @@ namespace MetaboliteLevels.Forms.Editing
             _peakFilter = PeakFilter.Empty;
             _obsFilter = ObsFilter.Empty;
 
-            _selectedCorrection = core.Corrections.Last();
+            _selectedCorrection = core.ActiveCorrections.Any() ? core.ActiveCorrections.Last() : null;
+
+            _colourByPeak = new Column<Peak>("Clusters", EColumn.None, null, z => StringHelper.ArrayToString(z.Assignments.Clusters.Unique()));
+            _colourByCondition = new Column<ConditionInfo>("Group", EColumn.None, null, z => z.Group, z => z.Group.Colour);
+            _colourByObervation = new Column<ObservationInfo>("Observation", EColumn.None, null, z => z.Group, z => z.Group.Colour);
 
             UpdateScores();
         }
@@ -77,12 +90,18 @@ namespace MetaboliteLevels.Forms.Editing
             double[,] valueMatrix = null;
 
             _mnuTranspose.Text = _transposeToShowPeaks ? "Peaks" : "Observations";
+            transposeToShowObservationsToolStripMenuItem.Checked = !_transposeToShowPeaks;
+            transposeToShowPeaksToolStripMenuItem.Checked = _transposeToShowPeaks;
+
             _mnuTrend.Text = _trend ? "Trend" : "Full data";
+            usetrendLineToolStripMenuItem.Checked = _trend;
+            useAllobservationsToolStripMenuItem.Checked = !_trend;
+
             _mnuObsFilter.Text = _obsFilter.ToString();
             _mnuPeakFilter.Text = _peakFilter.ToString();
             _mnuCorrections.Text = _selectedCorrection != null ? _selectedCorrection.DisplayName : "Original data";
 
-            int corIndex = _core.Corrections.IndexOf(_selectedCorrection);
+            int corIndex = _core.ActiveCorrections.IndexOf(_selectedCorrection);
 
             IEnumerable conds;
             IEnumerable<int> which;
@@ -104,7 +123,7 @@ namespace MetaboliteLevels.Forms.Editing
                 Peak peak = peaks[peakIndex];
 
                 var src = corIndex == -1 ? peak.OriginalObservations : peak.CorrectionChain[corIndex];
-                          
+
                 if (_trend)
                 {
                     vals = src.Trend.In(which);
@@ -139,25 +158,58 @@ namespace MetaboliteLevels.Forms.Editing
             this._pcaPeaks = peaks;
             this._pcaObservations = conds;
 
-            Arr.Instance.Pca(valueMatrix, out this._scores, out this._loadings);
+            try
+            {
+                Arr.Instance.Pca(valueMatrix, out this._scores, out this._loadings);
+                this._errorMessage = null;
+            }
+            catch (Exception ex)
+            {
+                this._errorMessage = ex.Message;
+                this._scores = null;
+                this._loadings = null;
+            }
 
             UpdatePlot();
         }
 
         private void UpdatePlot()
         {
+            if (_scores == null)
+            {
+                _lblSelection.Text = this._errorMessage;
+                this._chart.Visible = false;
+                return;
+            }
+
+            this._chart.Visible = true;
+            _lblSelection.Text = "";
+
             MChart.Plot plot = new MChart.Plot();
 
             // Get the "rows"
             IEnumerator enSources;
+            Column column;
 
-            if (WhatPlotting == EPlotting.Peaks)
+            switch (WhatPlotting)
             {
-                enSources = this._pcaPeaks.GetEnumerator();
-            }
-            else
-            {
-                enSources = this._pcaObservations.GetEnumerator();
+                case EPlotting.Peaks:
+                    enSources = this._pcaPeaks.GetEnumerator();
+                    column = _colourByPeak;
+                    break;
+
+                case EPlotting.Conditions:
+                    enSources = this._pcaObservations.GetEnumerator();
+                    column = _colourByCondition;
+                    break;
+
+                case EPlotting.Observations:
+                    enSources = this._pcaObservations.GetEnumerator();
+                    column = _colourByObervation;
+                    break;
+
+                default:
+                    throw new SwitchException(WhatPlotting);
             }
 
             // Get the "columns"
@@ -187,15 +239,24 @@ namespace MetaboliteLevels.Forms.Editing
             _btnNextPc.Enabled = _component != plotPoints.GetLength(1) - 1;
 
             _btnScoresOrLoadings.Text = _plotSource == EPlotSource.Loadings ? "Loadings" : "Scores";
+            _btnScores.Checked = _plotSource == EPlotSource.Scores;
+            _btnLoadings.Checked = _plotSource == EPlotSource.Loadings;
+
             _lblPcNumber.Text = "PC" + (_component + 1).ToString() + " / " + plotPoints.GetLength(1);
 
-            if (WhatPlotting == EPlotting.Peaks)
+            switch (WhatPlotting)
             {
-                _btnColour.Text = _colourBy != null ? _colourBy.ToString() : "Cluster";
-            }
-            else
-            {
-                _btnColour.Text = _colourBy2.ToUiString();
+                case EPlotting.Peaks:
+                    _btnColour.Text = _colourByPeak.OverrideDisplayName;
+                    break;
+
+                case EPlotting.Observations:
+                    _btnColour.Text = _colourByObervation.OverrideDisplayName;
+                    break;
+
+                case EPlotting.Conditions:
+                    _btnColour.Text = _colourByCondition.OverrideDisplayName;
+                    break;
             }
 
             // Iterate scores
@@ -203,19 +264,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 enSources.MoveNext();
 
-                MChart.Series series;
-
-                // Create series
-                if (WhatPlotting == EPlotting.Peaks)
-                {
-                    // Points are peaks
-                    series = CreateSeriesKeyForPeak(plot, (Peak)enSources.Current);
-                }
-                else
-                {
-                    // Points are observations
-                    series = CreateSeriesKeyForObservation(plot, enSources.Current);
-                }
+                MChart.Series series = GetOrCreateSeriesForValue(plot, column, (IVisualisable)enSources.Current);
 
                 var coord = new MChart.Coord(plotPoints[r, _component], plotPoints[r, _component + 1]);
                 coord.Tag = enSources.Current;
@@ -223,21 +272,10 @@ namespace MetaboliteLevels.Forms.Editing
                 series.Data.Add(coord);
             }
 
-            if (WhatPlotting == EPlotting.Observations && _colourBy2 == EColourBy.Group)
+            // Assign colours     
+            if (!column.HasColourSupport)
             {
-                foreach (MChart.Series series in plot.Series)
-                {
-                    series.Style = new MChart.SeriesStyle()
-                    {
-                        DrawPoints = new SolidBrush(((GroupInfo)series.Tag).Colour)
-                    };
-                }
-            }
-            else
-            {
-                var colours = PlotCreator.AutoColour(plot.Series);
-
-                foreach (var colour in colours)
+                foreach (var colour in PlotCreator.AutoColour(plot.Series))
                 {
                     colour.Key.Style = new MChart.SeriesStyle()
                     {
@@ -252,44 +290,22 @@ namespace MetaboliteLevels.Forms.Editing
             _chart.Set(plot);
         }
 
-        private static void FormatSeriesForPeak(MChart.Series series)
+        private static MChart.Series GetOrCreateSeriesForValue(MChart.Plot plot, Column column, IVisualisable vis)
         {
-            series.Name = (string)series.Tag;
-        }
-
-        private MChart.Series CreateSeriesKeyForPeak(MChart.Plot plot, Peak peak)
-        {
-            object value;
-
-            if (this._colourBy != null)
-            {
-                value = _colourBy.GetRow(peak);
-            }
-            else
-            {
-                value = StringHelper.ArrayToString(peak.Assignments.Clusters);
-            }
-
-            return GetOrCreateSeriesForValue(plot, value);
-        }
-
-        private EColourBy _colourBy2 = EColourBy.Group;
-        private EPlotSource _plotSource;
-        private double[,] _loadings;
-        private ReadOnlyCollection<Peak> _pcaPeaks;
-        private IEnumerable _pcaObservations;
-        private ConfigurationCorrection _selectedCorrection;
-
-        private static MChart.Series GetOrCreateSeriesForValue(MChart.Plot plot, object value)
-        {
+            object value = column.GetRow(vis);
             MChart.Series series = plot.Series.FirstOrDefault(z => z.Tag.Equals(value));
 
             if (series == null)
             {
                 series = new MChart.Series();
                 series.Style = new MChart.SeriesStyle();
-                series.Name = value.ToString();
+                series.Name = Column.AsString(value, column.DisplayMode);
                 series.Tag = value;
+
+                if (column.HasColourSupport)
+                {
+                    series.Style.DrawPoints = new SolidBrush(column.GetColour(vis));
+                }
 
                 plot.Series.Add(series);
             }
@@ -297,63 +313,10 @@ namespace MetaboliteLevels.Forms.Editing
             return series;
         }
 
-        private MChart.Series CreateSeriesKeyForObservation(MChart.Plot plot, object observation)
-        {
-            object value;
-
-            if (observation is ConditionInfo)
-            {
-                switch (_colourBy2)
-                {
-                    case EColourBy.Group:
-                        value = ((ConditionInfo)observation).Group;
-                        break;
-
-                    case EColourBy.Replicate:
-                        value = 0;
-                        break;
-
-                    case EColourBy.Time:
-                        value = ((ConditionInfo)observation).Time;
-                        break;
-
-                    default:
-                        throw new SwitchException(_colourBy2);
-                }
-
-            }
-            else if (observation is ObservationInfo)
-            {
-                switch (_colourBy2)
-                {
-                    case EColourBy.Group:
-                        value = ((ObservationInfo)observation).Group;
-                        break;
-
-                    case EColourBy.Replicate:
-                        value = ((ObservationInfo)observation).Rep;
-                        break;
-
-                    case EColourBy.Time:
-                        value = ((ObservationInfo)observation).Time;
-                        break;
-
-                    default:
-                        throw new SwitchException(_colourBy2);
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("GetGroup: Unknown type: " + observation);
-            }
-
-            return GetOrCreateSeriesForValue(plot, value);
-        }
-
         private void toolStripDropDownButton3_DropDownOpening(object sender, EventArgs e)
         {
             ClearCmsFilter(_mnuObsFilter);
-            AddFilters(_mnuObsFilter, _core.ObsFilters, true);
+            AddFilters(_mnuObsFilter, _core.AllObsFilters, true);
         }
 
         private void AddFilters(ToolStripDropDownButton button, IEnumerable source, bool isObservationFilter)
@@ -385,7 +348,7 @@ namespace MetaboliteLevels.Forms.Editing
         private void toolStripDropDownButton1_DropDownOpening(object sender, EventArgs e)
         {
             ClearCmsFilter(_mnuPeakFilter);
-            AddFilters(_mnuPeakFilter, _core.PeakFilters, false);
+            AddFilters(_mnuPeakFilter, _core.AllPeakFilters, false);
         }
 
         private void editPeakFilters_Click(object sender, EventArgs e)
@@ -490,17 +453,11 @@ namespace MetaboliteLevels.Forms.Editing
 
         }
 
-        private enum EColourBy
-        {
-            Group,
-            Time,
-            Replicate
-        }
-
         private enum EPlotting
         {
             Peaks,
             Observations,
+            Conditions,
         }
 
         private enum EPlotSource
@@ -519,7 +476,8 @@ namespace MetaboliteLevels.Forms.Editing
                 }
                 else
                 {
-                    return (_plotSource == EPlotSource.Scores) ? EPlotting.Observations : EPlotting.Peaks;
+                    return (_plotSource == EPlotSource.Loadings) ? EPlotting.Peaks
+                        : (_trend) ? EPlotting.Conditions : EPlotting.Observations;
                 }
             }
         }
@@ -601,11 +559,11 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (safeToReplace)
                 {
-                    _core.SetPeakFilters(_core.PeakFiltersComplete.ReplaceSingle(_peakFilter, newFilter).ToArray());
+                    _core.SetPeakFilters(_core.AllPeakFilters.ReplaceSingle(_peakFilter, newFilter).ToArray());
                 }
                 else
                 {
-                    _core.SetPeakFilters(_core.PeakFiltersComplete.ConcatSingle(newFilter).ToArray());
+                    _core.SetPeakFilters(_core.AllPeakFilters.ConcatSingle(newFilter).ToArray());
                 }
 
                 _peakFilter = newFilter;
@@ -649,11 +607,11 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (safeToReplace)
                 {
-                    _core.SetObsFilters(_core.ObsFiltersComplete.ReplaceSingle(_obsFilter, obsFilter).ToArray());
+                    _core.SetObsFilters(_core.AllObsFilters.ReplaceSingle(_obsFilter, obsFilter).ToArray());
                 }
                 else
                 {
-                    _core.SetObsFilters(_core.ObsFiltersComplete.ConcatSingle(obsFilter).ToArray());
+                    _core.SetObsFilters(_core.AllObsFilters.ConcatSingle(obsFilter).ToArray());
                 }
 
                 _obsFilter = obsFilter;
@@ -697,11 +655,11 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (safeToReplace)
                 {
-                    _core.SetObsFilters(_core.ObsFiltersComplete.ReplaceSingle(_obsFilter, obsFilter).ToArray());
+                    _core.SetObsFilters(_core.AllObsFilters.ReplaceSingle(_obsFilter, obsFilter).ToArray());
                 }
                 else
                 {
-                    _core.SetObsFilters(_core.ObsFiltersComplete.ConcatSingle(obsFilter).ToArray());
+                    _core.SetObsFilters(_core.AllObsFilters.ConcatSingle(obsFilter).ToArray());
                 }
 
                 _obsFilter = obsFilter;
@@ -726,7 +684,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _mnuCorrections.DropDownItems.Clear();
 
-            foreach (ConfigurationCorrection correction in _core.Corrections)
+            foreach (ConfigurationCorrection correction in _core.ActiveCorrections)
             {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem(correction.ToString()) { Tag = correction };
                 tsmi.Click += _mnuCorrections_correction_Click;
@@ -739,40 +697,37 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _btnColour.DropDownItems.Clear();
 
-            if (WhatPlotting == EPlotting.Peaks)
+            IEnumerable<Column> columns;
+            Column selected;
+
+            switch (WhatPlotting)
             {
-                IEnumerable<Column> columns = _core.Peaks.First().GetColumns(_core);
+                case EPlotting.Peaks:
+                    columns = ColumnManager.GetColumns(_core, _core.Peaks.First());
+                    selected = _colourByPeak;
+                    break;
 
-                foreach (Column Column in columns)
-                {
-                    ToolStripMenuItem tsmi = new ToolStripMenuItem(Column.Id) { Tag = Column };
-                    tsmi.Click += _btnColour_column_Click;
+                case EPlotting.Observations:
+                    columns = ColumnManager.GetColumns(_core, _core.Observations.First());
+                    selected = _colourByObervation;
+                    break;
 
-                    _btnColour.DropDownItems.Add(tsmi);
-                }
+                case EPlotting.Conditions:
+                    columns = ColumnManager.GetColumns(_core, _core.Conditions.First());
+                    selected = _colourByCondition;
+                    break;
+
+                default:
+                    throw new SwitchException(WhatPlotting);
             }
-            else
+
+            foreach (Column column in columns)
             {
-                IEnumerable<EColourBy> colourBy = Enum.GetValues(typeof(EColourBy)).Cast<EColourBy>();
+                ToolStripMenuItem tsmi = new ToolStripMenuItem(column.Id) { Tag = column };
+                tsmi.Click += _btnColour_column_Click;
+                tsmi.Checked = column == selected;
 
-                foreach (EColourBy en in colourBy)
-                {
-                    ToolStripMenuItem tsmi = new ToolStripMenuItem(en.ToUiString()) { Tag = en };
-                    tsmi.Click += _btnColour_colourBy_Click;
-
-                    _btnColour.DropDownItems.Add(tsmi);
-                }
-            }
-        }
-
-        private void _btnColour_colourBy_Click(object sender, EventArgs e)
-        {
-            EColourBy colourBy = (EColourBy)((ToolStripMenuItem)sender).Tag;
-
-            if (colourBy != _colourBy2)
-            {
-                _colourBy2 = colourBy;
-                UpdatePlot();
+                _btnColour.DropDownItems.Add(tsmi);
             }
         }
 
@@ -780,19 +735,25 @@ namespace MetaboliteLevels.Forms.Editing
         {
             Column selected = (Column)((ToolStripMenuItem)sender).Tag;
 
-            if (selected != null && selected != _colourBy)
+            switch (WhatPlotting)
             {
-                if (selected.Id == Peak.COLNAME_CLUSTERS_UNIQUE)
-                {
-                    _colourBy = null;
-                }
-                else
-                {
-                    _colourBy = selected;
-                }
+                case EPlotting.Peaks:
+                    _colourByPeak = selected;
+                    break;
 
-                UpdatePlot();
+                case EPlotting.Observations:
+                    _colourByObervation = selected;
+                    break;
+
+                case EPlotting.Conditions:
+                    _colourByCondition = selected;
+                    break;
+
+                default:
+                    throw new SwitchException(WhatPlotting);
             }
+
+            UpdatePlot();
         }
     }
 }

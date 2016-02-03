@@ -208,38 +208,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public Image REMOVE_THIS_FUNCTION
         {
             get { return Annotations.Count == 0 ? Resources.ObjLCompoundU : Resources.ObjLCompound; }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            yield return new InfoLine("Comment", Comment);
-            yield return new InfoLine("Display name", DisplayName);
-            yield return new InfoLine("Id", Id);
-            yield return new InfoLine("№ libraries", this.Libraries.Count);
-            yield return new InfoLine("№ libraries", this.Libraries.Count);
-            yield return new InfoLine("Mass", Mass);
-            yield return new InfoLine("Name", DefaultDisplayName);
-            yield return new InfoLine("№ pathways", Pathways.Count);
-            yield return new InfoLine("№ annotations", Annotations.Count);
-            yield return new InfoLine("URL", Url);
-            yield return new InfoLine("Class", VisualClass.ToUiString());
-
-            foreach (InfoLine il in core._compoundsMeta.ReadAll(this.MetaInfo))
-            {
-                yield return il;
-            }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            return new InfoLine[0];
-        }
+        }          
 
         /// <summary>
         /// Implements IVisualisable. 
@@ -320,17 +289,20 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
-        public IEnumerable<Column> GetColumns(Core core)
-        {
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        {                      
             var columns = new List<Column<Compound>>();
 
-            columns.Add("Name", true, λ => λ.DefaultDisplayName);
-            columns.Add("Library", false, λ => λ.Libraries);
-            columns.Add("Mass", false, λ => λ.Mass);
-            columns.Add("Pathways", false, λ => λ.Pathways);
-            columns.Add("Annotations", true, λ => λ.Annotations);
-            columns.Add("ID", false, λ => λ.Id);
-            columns.Add("Comment", false, λ => λ.Comment);
+            columns.Add("Name", EColumn.Visible, λ => λ.DefaultDisplayName);
+            columns.Add("Comment", EColumn.Visible, λ => λ.Comment);
+            columns.Add("Libraries", EColumn.None, λ => λ.Libraries);
+            columns.Add("Mass", EColumn.None, λ => λ.Mass);
+            columns.Add("Pathways", EColumn.None, λ => λ.Pathways);
+            columns.Add("Annotations", EColumn.Visible, λ => λ.Annotations);
+            columns.Add("ID", EColumn.None, λ => λ.Id);
+            columns.Add("Comment", EColumn.None, λ => λ.Comment);
+            columns.Add("Mass", EColumn.None, λ => λ.Mass);
+            columns.Add("URL", EColumn.None, λ => λ.Url);
 
             core._compoundsMeta.ReadAllColumns(z => z.MetaInfo, columns);
 

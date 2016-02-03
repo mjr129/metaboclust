@@ -32,111 +32,217 @@ namespace MetaboliteLevels.Data.Session
     [Serializable]
     class Core
     {
+        //
+        // SESSION DATA
+        //
+
+        /// <summary>
+        /// A unique identifier for the session
+        /// </summary>
         public readonly Guid CoreGuid;
 
-        // Core data
-        [UndeferSerialisation(typeof(Cluster))]
-        private readonly List<Cluster> _clusters;
+        /// <summary>
+        /// The files we used to generate the session
+        /// </summary>
+        public DataFileNames FileNames;
 
+        /// <summary>
+        /// Session customisation, users love customisation
+        /// </summary>
+        public readonly CoreOptions Options;
+
+        //
+        // MAIN DATA
+        //
+
+        /// <summary>
+        /// Main data - the peaks
+        /// </summary>
         [UndeferSerialisation(typeof(Peak))]
         private readonly List<Peak> _peaks;
 
+        /// <summary>
+        /// Main data - the compounds
+        /// </summary>
         [UndeferSerialisation(typeof(Compound))]
         private readonly List<Compound> _compounds;
 
+        /// <summary>
+        /// Main data - pathways
+        /// </summary>
         [UndeferSerialisation(typeof(Pathway))]
         private readonly List<Pathway> _pathways;
 
+        /// <summary>
+        /// Main data - adducts
+        /// </summary>
         [UndeferSerialisation(typeof(Adduct))]
         private readonly List<Adduct> _adducts;
 
-        // Meta headers
-        public readonly MetaInfoHeader _peakMeta;
-        public readonly MetaInfoHeader _compoundsMeta;
-        public readonly MetaInfoHeader _pathwaysMeta;
-        public readonly MetaInfoHeader _adductsMeta;
-        public readonly MetaInfoHeader _annotationsMeta;
-
-        // Filenames
-        public DataFileNames FileNames;
-
-        // User options
-        public readonly CoreOptions Options;
-
+        /// <summary>
+        /// Main data - observations
+        /// </summary>
         [UndeferSerialisation(typeof(ObservationInfo))]
         private readonly List<ObservationInfo> _observations;
 
+        /// <summary>
+        /// Main data - conditions (observations with replicates accounted for)
+        /// </summary>
         [UndeferSerialisation(typeof(ConditionInfo))]
         private readonly List<ConditionInfo> _conditions;
 
+        /// <summary>
+        /// Main data - experimental groups
+        /// </summary>
         [UndeferSerialisation(typeof(GroupInfo))]
         private readonly List<GroupInfo> _groups;
 
+        /// <summary>
+        /// Main data - LC-MS batches
+        /// </summary>
         [UndeferSerialisation(typeof(BatchInfo))]
         private readonly List<BatchInfo> _batches;
 
-        // Smoothers
+        /// <summary>
+        /// Currently visible clusters
+        /// (The complete set of clusters, including disabled ones can be obtained by iterating _clusterers::results)
+        /// </summary>
+        [UndeferSerialisation(typeof(Cluster))]
+        private readonly List<Cluster> _clusters;
+
+        //
+        // META HEADERS
+        // We store the header titles only once (here) rather than with each item, because there
+        // are thousands of items.
+        //
+
+        /// <summary>
+        /// Meta data - for _peaks
+        /// </summary>
+        public readonly MetaInfoHeader _peakMeta;
+
+        /// <summary>
+        /// Meta data - for _compounds
+        /// </summary>
+        public readonly MetaInfoHeader _compoundsMeta;
+
+        /// <summary>
+        /// Meta data - for _pathways
+        /// </summary>
+        public readonly MetaInfoHeader _pathwaysMeta;
+
+        /// <summary>
+        /// Meta data - for _adducts
+        /// </summary>
+        public readonly MetaInfoHeader _adductsMeta;
+
+        /// <summary>
+        /// Meta data - for annotations (_peak::annotation and _compound::annotation)
+        /// </summary>
+        public readonly MetaInfoHeader _annotationsMeta;
+
+        //
+        // WORKFLOW
+        //
+
+        /// <summary>
+        /// The trend generation function
+        /// </summary>
         public ConfigurationTrend AvgSmoother { get; private set; }
+
+        /// <summary>
+        /// A special trend generation function used to produce the "minimum" line on graphs
+        /// </summary>
         public ConfigurationTrend MinSmoother { get; private set; }
+
+        /// <summary>
+        /// A special trend generation function used to produce the "maximum" line on graphs
+        /// </summary>
         public ConfigurationTrend MaxSmoother { get; private set; }
 
-        // Correctors
-        private readonly List<ConfigurationCorrection> _corrections;
-        private readonly List<ConfigurationStatistic> _statistics;
-        private readonly List<ConfigurationClusterer> _clusterers;
+        /// <summary>
+        /// Trend generation functions
+        /// (only one of these will be marked "::Enabled" - that's the same one that this::AvgSmoother is set to)
+        /// </summary>
         private readonly List<ConfigurationTrend> _trends;
+
+        /// <summary>
+        /// Data corrections
+        /// </summary>
+        private readonly List<ConfigurationCorrection> _corrections;
+
+        /// <summary>
+        /// Statistics
+        /// </summary>
+        private readonly List<ConfigurationStatistic> _statistics;
+
+        /// <summary>
+        /// Clusterers
+        /// </summary>
+        private readonly List<ConfigurationClusterer> _clusterers;
+
+        /// <summary>
+        /// Peak filters
+        /// </summary>
         private readonly List<PeakFilter> _peakFilters;
+
+        /// <summary>
+        /// Observation filters
+        /// </summary>
         private readonly List<ObsFilter> _obsFilters;
 
-        // Correctors (including disabled versions)
-        private readonly List<ConfigurationCorrection> _correctionsComplete;
-        private readonly List<ConfigurationStatistic> _statisticsComplete;
-        private readonly List<ConfigurationClusterer> _clusterersComplete;
-        private readonly List<ConfigurationTrend> _trendsComplete;
-        private readonly List<PeakFilter> _peakFiltersComplete;
-        private readonly List<ObsFilter> _obsFiltersComplete;
+        //
+        // SPECIAL DATA
+        //
 
-        // Evaluation results
-        public List<ClusterEvaluationPointer> EvaluationResultFiles = new List<ClusterEvaluationPointer>(); // MAKE READ ONLY
-
-        // Caches (don't need to save - can be regenerated)
+        /// <summary>
+        /// Cached information (not saved, but generated on create/load for speed of access)
+        /// </summary>
         [NonSerialized]
         private CachedData _cache;
 
+        /// <summary>
+        /// Item GUIDs (used for saving references to items without having to save the items themselves)
+        /// </summary>
         private Dictionary<Guid, WeakReference> _guids;
 
-        // Accessor wrappers
-        public ReadOnlyCollection<int> Reps { get { return _cache._reps; } }
-        public ReadOnlyCollection<int> Times { get { return _cache._times; } }
-        public ReadOnlyCollection<GroupInfo> ConditionsOfInterest { get { return _cache._conditionsOfInterest; } }
-        public ReadOnlyCollection<int> Acquisitions { get { return _cache._acquisitions; } }
-        public ReadOnlyCollection<GroupInfo> ControlConditions { get { return _cache._controlConditions; } }
+        /// <summary>
+        /// Cluster optimisation results
+        /// </summary>
+        public readonly List<ClusterEvaluationPointer> EvaluationResultFiles = new List<ClusterEvaluationPointer>();
+
+        //
+        // ACCESSOR WRAPPERS
+        //
+        public IReadOnlyList<int> Reps { get { return _cache._reps; } }
+        public IReadOnlyList<int> Times { get { return _cache._times; } }
+        public IReadOnlyList<GroupInfo> ConditionsOfInterest { get { return _cache._conditionsOfInterest; } }
+        public IReadOnlyList<int> Acquisitions { get { return _cache._acquisitions; } }
+        public IReadOnlyList<GroupInfo> ControlConditions { get { return _cache._controlConditions; } }
         public Range TimeRange { get { return _cache._timeRange; } }
         public Range RepRange { get { return _cache._repRange; } }
 
-        public ReadOnlyCollection<GroupInfo> Groups { get { return _groups.AsReadOnly(); } }
-        public ReadOnlyCollection<BatchInfo> Batches { get { return _batches.AsReadOnly(); } }
-        public ReadOnlyCollection<Cluster> Clusters { get { return _clusters.AsReadOnly(); } }
-        public ReadOnlyCollection<Peak> Peaks { get { return _peaks.AsReadOnly(); } }
-        public ReadOnlyCollection<Compound> Compounds { get { return _compounds.AsReadOnly(); } }
-        public ReadOnlyCollection<Pathway> Pathways { get { return _pathways.AsReadOnly(); } }
-        public ReadOnlyCollection<Adduct> Adducts { get { return _adducts.AsReadOnly(); } }
-        public ReadOnlyCollection<ObservationInfo> Observations { get { return _observations.AsReadOnly(); } }
-        public ReadOnlyCollection<ConditionInfo> Conditions { get { return _conditions.AsReadOnly(); } }
-        public ReadOnlyCollection<PeakFilter> PeakFilters { get { return _peakFilters.AsReadOnly(); } }
-        public ReadOnlyCollection<ObsFilter> ObsFilters { get { return _obsFilters.AsReadOnly(); } }
+        public IReadOnlyList<GroupInfo> Groups { get { return _groups; } }
+        public IReadOnlyList<BatchInfo> Batches { get { return _batches; } }
+        public IReadOnlyList<Cluster> Clusters { get { return _clusters; } }
+        public IReadOnlyList<Peak> Peaks { get { return _peaks; } }
+        public IReadOnlyList<Compound> Compounds { get { return _compounds; } }
+        public IReadOnlyList<Pathway> Pathways { get { return _pathways; } }
+        public IReadOnlyList<Adduct> Adducts { get { return _adducts; } }
+        public IReadOnlyList<ObservationInfo> Observations { get { return _observations; } }
+        public IReadOnlyList<ConditionInfo> Conditions { get { return _conditions; } }
 
-        public ReadOnlyCollection<ConfigurationCorrection> CorrectionsComplete { get { return _correctionsComplete.AsReadOnly(); } }
-        public ReadOnlyCollection<ConfigurationStatistic> StatisticsComplete { get { return _statisticsComplete.AsReadOnly(); } }
-        public ReadOnlyCollection<ConfigurationClusterer> ClusterersComplete { get { return _clusterersComplete.AsReadOnly(); } }
-        public ReadOnlyCollection<ConfigurationTrend> TrendsComplete { get { return _trendsComplete.AsReadOnly(); } }
-        public ReadOnlyCollection<PeakFilter> PeakFiltersComplete { get { return _peakFiltersComplete.AsReadOnly(); } }
-        public ReadOnlyCollection<ObsFilter> ObsFiltersComplete { get { return _obsFilters.AsReadOnly(); } }
+        public IReadOnlyList<ConfigurationCorrection> AllCorrections { get { return _corrections; } }
+        public IReadOnlyList<ConfigurationStatistic> AllStatistics { get { return _statistics; } }
+        public IReadOnlyList<ConfigurationClusterer> AllClusterers { get { return _clusterers; } }
+        public IReadOnlyList<ConfigurationTrend> AllTrends { get { return _trends; } }
+        public IReadOnlyList<PeakFilter> AllPeakFilters { get { return _peakFilters; } }
+        public IReadOnlyList<ObsFilter> AllObsFilters { get { return _obsFilters; } }
 
-        public IEnumerable<ConfigurationCorrection> Corrections { get { return _correctionsComplete.Where(z => z.Enabled); } }
-        public IEnumerable<ConfigurationStatistic> Statistics { get { return _statisticsComplete.Where(z => z.Enabled); } }
-        public IEnumerable<ConfigurationClusterer> Clusterers { get { return _clusterersComplete.Where(z => z.Enabled); } }
-        public IEnumerable<ConfigurationTrend> Trends { get { return _trendsComplete.Where(z => z.Enabled); } }
+        public IEnumerable<ConfigurationCorrection> ActiveCorrections { get { return _corrections.Where(z => z.Enabled); } }
+        public IEnumerable<ConfigurationStatistic> ActiveStatistics { get { return _statistics.Where(z => z.Enabled); } }
+        public IEnumerable<ConfigurationClusterer> ActiveClusterers { get { return _clusterers.Where(z => z.Enabled); } }
+        public IEnumerable<ConfigurationTrend> ActiveTrends { get { return _trends.Where(z => z.Enabled); } }
 
         class CachedData
         {
@@ -184,7 +290,12 @@ namespace MetaboliteLevels.Data.Session
         public static Core Load(string fileName, ProgressReporter progress)
         {
             Core result = XmlSettings.LoadFromFile<Core>(fileName, SerialisationFormat.Infer, progress);
-            result._cache = new CachedData(result);
+
+            if (result != null)
+            {
+                result._cache = new CachedData(result);
+            }
+
             return result;
         }
 
@@ -224,12 +335,6 @@ namespace MetaboliteLevels.Data.Session
             this._trends = new List<ConfigurationTrend> { this.AvgSmoother };
             this._peakFilters = new List<PeakFilter>();
             this._obsFilters = new List<ObsFilter>();
-            this._clusterersComplete = new List<ConfigurationClusterer>();
-            this._statisticsComplete = new List<ConfigurationStatistic>();
-            this._correctionsComplete = new List<ConfigurationCorrection>();
-            this._trendsComplete = new List<ConfigurationTrend> { this.AvgSmoother };
-            this._peakFiltersComplete = new List<PeakFilter>();
-            this._obsFiltersComplete = new List<ObsFilter>();
 
             this._cache = new CachedData(this);
         }
@@ -364,7 +469,7 @@ namespace MetaboliteLevels.Data.Session
 
             if (newList == null)
             {
-                newList = this.CorrectionsComplete;
+                newList = this.AllCorrections;
                 UiControls.Assert(refreshAll, "SetCorrections: Why set to the same without refresh?");
             }
 
@@ -443,8 +548,7 @@ namespace MetaboliteLevels.Data.Session
             }
 
             // Set result
-            this._correctionsComplete.ReplaceAll(newList);
-            this._corrections.ReplaceAll(newList.Where(z => z.Enabled)); // Need to recheck Enabled because it may have changed
+            this._corrections.ReplaceAll(newList);
 
             // Update statistics
             if (updateTrends)
@@ -467,6 +571,24 @@ namespace MetaboliteLevels.Data.Session
             }
 
             reportProgress.Leave();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns the set of cluster statistics
+        /// </summary>                           
+        internal HashSet<string> GetClusterStatistics() // TODO: Not very efficient, this should be cached!
+        {
+            HashSet<string> result = new HashSet<string>();
+
+            foreach (Cluster cluster in Clusters)
+            {
+                foreach (string statistic in cluster.ClusterStatistics.Keys)
+                {
+                    result.Add(statistic);
+                }
+            }
 
             return result;
         }
@@ -538,7 +660,7 @@ namespace MetaboliteLevels.Data.Session
 
             if (newList == null)
             {
-                newList = this._statisticsComplete;
+                newList = this._statistics;
                 UiControls.Assert(refreshAll, "SetStatistics: Expected refresh if unchanged");
             }
 
@@ -588,9 +710,8 @@ namespace MetaboliteLevels.Data.Session
                 }
             }
 
-            // Set result
-            this._statisticsComplete.ReplaceAll(newList);
-            this._statistics.ReplaceAll(actList);
+            // Set result                         
+            this._statistics.ReplaceAll(newList);
 
             // Update clusters
             foreach (var x in Clusters)
@@ -632,7 +753,7 @@ namespace MetaboliteLevels.Data.Session
 
             if (newList == null)
             {
-                newList = _trendsComplete;
+                newList = _trends;
                 UiControls.Assert(refreshAll, "SetTrend: Expected refresh if unchanged");
             }
 
@@ -669,8 +790,7 @@ namespace MetaboliteLevels.Data.Session
 
             // Set lists
             this.AvgSmoother = trend;
-            _trends.ReplaceAll(newListEnabled);
-            _trendsComplete.ReplaceAll(newList);
+            _trends.ReplaceAll(newList);
 
             // Update statistics
             if (updateStatistics)
@@ -730,7 +850,7 @@ namespace MetaboliteLevels.Data.Session
 
             if (newList == null)
             {
-                newList = this._clusterersComplete;
+                newList = this._clusterers;
                 UiControls.Assert(refreshAll, "SetClusterers: Expected refresh if unchanged");
             }
 
@@ -738,7 +858,7 @@ namespace MetaboliteLevels.Data.Session
             var newListEnabled = newList.WhereEnabled().ToList();
 
             // Remove obsolete clusters
-            foreach (ConfigurationClusterer config in this.Clusterers)
+            foreach (ConfigurationClusterer config in this.ActiveClusterers)
             {
                 if (!newListEnabled.Contains(config))
                 {
@@ -749,7 +869,7 @@ namespace MetaboliteLevels.Data.Session
             // Create new clusters
             foreach (ConfigurationClusterer config in newListEnabled.ToList())
             {
-                if (!this.Clusterers.Contains(config))
+                if (!this.ActiveClusterers.Contains(config))
                 {
                     try
                     {
@@ -767,13 +887,12 @@ namespace MetaboliteLevels.Data.Session
                 }
             }
 
-            // Set new ones
-            this._clusterersComplete.ReplaceAll(newList);
-            this._clusterers.ReplaceAll(newListEnabled);
+            // Set new ones                       
+            this._clusterers.ReplaceAll(newList);
 
             // Set the enabled clusters
             this._clusters.Clear();
-                
+
             foreach (Peak peak in Peaks)
             {
                 peak.Assignments.ClearAll();
@@ -799,7 +918,7 @@ namespace MetaboliteLevels.Data.Session
         }
 
         private void _ClearCluster(ConfigurationClusterer config)
-        {             
+        {
             config.Enabled = false;
             config.ClearResults();
             config.ClearError();
@@ -810,7 +929,7 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         public void AddClusterer(ConfigurationClusterer toAdd, ProgressReporter setProgress)
         {
-            List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>(ClusterersComplete);
+            List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>(AllClusterers);
             existing.Add(toAdd);
             this.SetClusterers(existing.ToArray(), false, setProgress);
         }
@@ -821,8 +940,7 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         internal void SetPeakFilters(IEnumerable<PeakFilter> alist)
         {
-            this._peakFiltersComplete.ReplaceAll(alist);
-            this._peakFilters.ReplaceAll(alist.Where(z => z.Enabled));
+            this._peakFilters.ReplaceAll(alist);
         }
 
         /// <summary>
@@ -831,8 +949,7 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         internal void SetObsFilters(IEnumerable<ObsFilter> alist)
         {
-            this._obsFiltersComplete.ReplaceAll(alist);
-            this._obsFilters.ReplaceAll(alist.Where(z => z.Enabled));
+            this._obsFilters.ReplaceAll(alist);
         }
 
         /// <summary>
@@ -840,7 +957,7 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         internal void AddObsFilter(ObsFilter toAdd)
         {
-            List<ObsFilter> existing = new List<ObsFilter>(ObsFiltersComplete);
+            List<ObsFilter> existing = new List<ObsFilter>(AllObsFilters);
             existing.Add(toAdd);
             this.SetObsFilters(existing.ToArray());
         }

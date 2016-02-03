@@ -166,59 +166,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public string DisplayName
         {
             get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
-        }
-
-        /// <summary>
-        /// Inherited from IVisualisable. 
-        /// </summary>
-        public Image REMOVE_THIS_FUNCTION
-        {
-            get
-            {
-                return Annotations.Count == 0 ? Resources.ObjLVariableU : Resources.ObjLVariable;
-            }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            yield return new InfoLine("Alt. Observations", this.AltObservations != null);
-            yield return new InfoLine("№ assignments", Assignments.List.Count);
-            yield return new InfoLine("Comment", Comment);
-            yield return new InfoLine("Flags", StringHelper.ArrayToString(CommentFlags));
-            yield return new InfoLine("№ corrections", this.CorrectionChain.Count);
-            yield return new InfoLine("Display name", this.DisplayName);
-            yield return new InfoLine("Index", Index);
-            yield return new InfoLine("LC-MS mode", this.LcmsMode.ToUiString());
-            yield return new InfoLine("m/z", Mz);
-            yield return new InfoLine("Display name", DisplayName);
-            yield return new InfoLine("Original name", DefaultDisplayName);
-            yield return new InfoLine("Custom name", OverrideDisplayName);
-            yield return new InfoLine("№ Observations (all)", this.Observations.Raw.Length);
-            yield return new InfoLine("№ Observations (trend)", this.Observations.Trend.Length);
-            yield return new InfoLine("№ potential compounds", Annotations.Count);
-            yield return new InfoLine("№ similar peaks", this.SimilarPeaks.Count);
-            yield return new InfoLine("№ statistics", this.Statistics.Count);
-            yield return new InfoLine("Class", this.VisualClass.ToUiString());
-
-            foreach (InfoLine il in core._peakMeta.ReadAll(this.MetaInfo))
-            {
-                yield return il;
-            }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            foreach (var v in Statistics)
-            {
-                yield return new InfoLine(v.Key.ToString(), v.Value);
-            }
-        }
+        }      
 
         /// <summary>
         /// Implements IVisualisable. 
@@ -317,7 +265,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Implements IVisualisable. 
         /// </summary>
-        public VisualClass VisualClass
+        VisualClass IVisualisable.VisualClass
         {
             get { return VisualClass.Peak; }
         }
@@ -335,73 +283,82 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             return double.NaN;
-        }
+        }       
 
-        public IEnumerable<Column> GetColumns(Core core)
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             var columns = new List<Column<Peak>>();
 
-            columns.Add("Name", true, λ => λ.DisplayName);
-            columns.Add("Clusters\\All", false, λ => λ.Assignments.Clusters);
-            columns.Add("Clusters\\All (scores)", true, λ => λ.Assignments.Scores);
+            columns.Add("Name", EColumn.Visible, λ => λ.DisplayName);
+            columns.Add("Comment", EColumn.None, λ => λ.Comment);
+            columns.Add("№ corrections", EColumn.None, λ => λ.CorrectionChain.Count);
+            columns.Add("Index", EColumn.None, λ => λ.Index);
+            columns.Add("LC-MS mode", EColumn.None, λ => λ.LcmsMode);
+            columns.Add("m/z", EColumn.None, λ => λ.Mz);
+            columns.Add("Observations (all)", EColumn.None, λ => λ.Observations.Raw);
+            columns.Add("Observations (trend)", EColumn.None, λ => λ.Observations.Trend);
 
-            columns.Add(COLNAME_CLUSTERS_UNIQUE, true, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
-            columns.Add("Clusters\\Grouped", false, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.ShortName + "=") : "") + z.Cluster.ShortName)));
+            columns.Add("Clusters\\All", EColumn.None, λ => λ.Assignments.Clusters);
+            columns.Add("Clusters\\Combination (for colours)", EColumn.None, z => StringHelper.ArrayToString(z.Assignments.Clusters));
+            columns.Add("Clusters\\All (scores)", EColumn.None, λ => λ.Assignments.Scores);
+
+            columns.Add(COLNAME_CLUSTERS_UNIQUE, EColumn.None, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
+            columns.Add("Clusters\\Grouped", EColumn.None, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.ShortName + "=") : "") + z.Cluster.ShortName)));
 
             foreach (var group in core.Groups)
             {
                 var closure = group;
-                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.Name, false, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
+                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.Name, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
                 columns[columns.Count - 1].Colour = z => closure.Colour;
-                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.Name + " (scores)", false, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray());
+                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.Name + " (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray());
                 columns[columns.Count - 1].Colour = z => closure.Colour;
             }
 
             foreach (var flag in core.Options.PeakFlags)
             {
                 PeakFlag closure = flag;
-                columns.Add("Flags\\" + UiControls.ZEROSPACE + flag, false, λ => λ.CommentFlags.Contains(closure) ? closure.Id : string.Empty);
+                columns.Add("Flags\\" + UiControls.ZEROSPACE + flag, EColumn.None, λ => λ.CommentFlags.Contains(closure) ? closure.Id : string.Empty);
                 columns[columns.Count - 1].Colour = z => closure.Colour;
             }
 
-            columns.Add("Clusters\\Groupless", false, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
-            columns.Add("Clusters\\Groupless (scores)", false, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
+            columns.Add("Clusters\\Groupless", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
+            columns.Add("Clusters\\Groupless (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
 
-            columns.Add("Flags\\All", false, λ => StringHelper.ArrayToString(λ.CommentFlags));
+            columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.CommentFlags));
 
 
-            columns.Add("Comment", false, λ => λ.Comment);
+            columns.Add("Comment", EColumn.None, λ => λ.Comment);
 
-            foreach (var stat in core.Statistics)
+            foreach (var stat in core.ActiveStatistics)
             {
                 ConfigurationStatistic closure = stat;
-                columns.Add("Statistic\\" + stat.ToString(), false, λ => λ.GetStatistic(closure));
+                columns.Add("Statistic\\" + stat.ToString(), EColumn.Statistic, λ => λ.GetStatistic(closure));
                 columns[columns.Count - 1].Colour = z => UiControls.StatisticColour(closure, z.Statistics);
             }
 
-            columns.Add("Compounds", false, λ => λ.Annotations.Select(λλ => λλ.Compound));
-            columns.Add("Adducts", false, λ => λ.Annotations.Select(λλ => λλ.Adduct));
-            columns.Add("Similar peaks", false, λ => λ.SimilarPeaks);
+            columns.Add("Compounds", EColumn.None, λ => λ.Annotations.Select(λλ => λλ.Compound));
+            columns.Add("Adducts", EColumn.None, λ => λ.Annotations.Select(λλ => λλ.Adduct));
+            columns.Add("Similar peaks", EColumn.None, λ => λ.SimilarPeaks);
 
             core._peakMeta.ReadAllColumns(z => z.MetaInfo, columns);
 
             foreach (var ti in core.Groups)
             {
                 int i = ti.Order;
-                columns.Add("Mean\\" + core.GetTypeName(ti.Id), false, λ => λ.Observations.Mean[i]);
-                columns.Add("Std.Dev\\" + core.GetTypeName(ti.Id), false, λ => λ.Observations.StdDev[i]);
+                columns.Add("Mean\\" + core.GetTypeName(ti.Id), EColumn.None, λ => λ.Observations.Mean[i]);
+                columns.Add("Std.Dev\\" + core.GetTypeName(ti.Id), EColumn.None, λ => λ.Observations.StdDev[i]);
             }
 
-            foreach (var fi in core.PeakFilters)
+            foreach (var fi in core.AllPeakFilters)
             {
                 var closure = fi;
-                columns.Add("Filter\\" + fi.ToString(), false, z => fi.Test(z) ? "✔" : "✘");
+                columns.Add("Filter\\" + fi.ToString(), EColumn.None, z => fi.Test(z) ? "✔" : "✘");
             }
 
             return columns;
         }
 
-        public UiControls.ImageListOrder GetIcon()
+        UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return this.Annotations.Count == 0 ? UiControls.ImageListOrder.VariableU : UiControls.ImageListOrder.Variable;
         }

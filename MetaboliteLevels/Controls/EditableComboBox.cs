@@ -14,13 +14,13 @@ namespace MetaboliteLevels.Controls
     {
         public static EditableComboBox<ObsFilter> ForObsFilter(ComboBox box, Button editButton, Core core)
         {
-            return new EditableComboBox<ObsFilter>(box, editButton, core.ObsFilters, null,
+            return new EditableComboBox<ObsFilter>(box, editButton, core.AllObsFilters, null,
                                                    () => FrmBigList.ShowObsFilters(box.FindForm(), core), null, true, "All");
         }
 
         internal static EditableComboBox<PeakFilter> ForPeakFilter(ComboBox box, Button editButton, Core core)
         {
-            return new EditableComboBox<PeakFilter>(box, editButton, core.PeakFilters, null,
+            return new EditableComboBox<PeakFilter>(box, editButton, core.AllPeakFilters, null,
                                                   () => FrmBigList.ShowPeakFilters(box.FindForm(), core), null, true, "All");
         }
     }

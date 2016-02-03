@@ -28,15 +28,15 @@ namespace MetaboliteLevels.Settings
         [DefaultValue(true)]
         public bool ShowCentres { get; set; }
 
-        [DisplayName("Maximum variables")]
-        [Description("To speed up plotting only plot this number of variables at maximum")]
+        [DisplayName("Maximum vectors")]
+        [Description("Speed up plotting only plot this number of vectors at maximum in a cluster plot")]
         [Category("Cluster plot")]
         [DefaultValue(200)]
         public int MaxPlotVariables { get; set; }
 
         [DisplayName("View alternative dataset")]
         [Category("Peak plot")]
-        [Description("Plot the \"alternate data set\" loaded in at program startup.")]
+        [Description("Check to show the \"alternate data set\" loaded in at program startup.")]
         [DefaultValue(false)]
         public bool ViewAlternativeObservations { get; set; }
 
@@ -72,18 +72,6 @@ namespace MetaboliteLevels.Settings
         [DefaultValue(true)]
         public bool ShowTrend { get; set; }
 
-        [DisplayName("Cluster text")]
-        [Category("Cluster plot")]
-        [Description("The text to display above the cluster plot. See \"Peak text\" for details on formatting.")]
-        [DefaultValue("m/z = {mz}, rt = {rt}")]
-        public ParseElementCollection ClusterDisplay { get; set; }
-
-        [DisplayName("Peak text")]
-        [Category("Peak plot")]
-        [Description("The text to display above the peak plot. You can use {braces} to specify special values by ID. See the peak information and statistics panels at the bottom left of the main screen for the available IDs. {$id} = statistic (select the view statistics menu option and view the IDs), {*id} = meta field (see information panel or open your peak information file), {+id} = information determined by this program (see information panel), {!id} = special properties and fields (e.g. Name).")]
-        [DefaultValue("m/z = {mz}, rt = {rt}")]
-        public ParseElementCollection VariableDisplay { get; set; }
-
         [DisplayName("Enable peak flagging")]
         [Category("Peak list")]
         [Description("When set you can toggle peak flags by pressing the corresponding key on your keyboard with the peak list selected. See the \"Peak flags\" field to edit the list of available flags.")]
@@ -99,23 +87,55 @@ namespace MetaboliteLevels.Settings
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public CoreColourSettings Colours { get; set; }
 
-        [DisplayName("Plot title")]
-        [Description("Plot title. You can leave this empty to hide the title and conserve screen space. See \"Peak text\" for details on formatting.")]
-        [Category("All plots")]
-        [DefaultValue("")]
-        public ParseElementCollection PlotTitle { get; set; }
+        [DisplayName("Display")]
+        [Category("Clusters")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public PlotSetup ClusterDisplay { get; set; }
 
-        [DisplayName("Plot sub-title")]
-        [Description("Plot sub-title. You can leave this empty to hide the sub-title and conserve screen space. See \"Peak text\" for details on formatting.")]
-        [Category("All plots")]
-        [DefaultValue("")]
-        public ParseElementCollection PlotSubTitle { get; set; }
+        [DisplayName("Display")]
+        [Category("Peaks")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public PlotSetup PeakDisplay { get; set; }
 
-        [DisplayName("X Axis Label.")]
-        [Description("Label for the X axis, e.g. \"day\" or \"hour\". You can leave this empty to hide the axis title and conserve screen space.")]
-        [Category("All plots")]
-        [DefaultValue("")]
-        public ParseElementCollection AxisLabelX { get; set; }
+        [DisplayName("Display")]
+        [Category("Compounds")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public PlotSetup CompoundDisplay { get; set; }
+
+        [DisplayName("Display")]
+        [Category("Pathways")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public PlotSetup PathwayDisplay { get; set; }
+
+        [Serializable]
+        public class PlotSetup
+        {
+            [DisplayName("Information bar")]
+            [Description("The text to display in the toolbar above the plot. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
+            [DefaultValue("m/z = {m/z}, rt = {meta\rt}")]
+            public ParseElementCollection Information { get; set; }
+
+            [DisplayName("Plot title")]
+            [Description("Plot title. You can leave this empty to hide the title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
+            [DefaultValue("")]
+            public ParseElementCollection Title { get; set; }
+
+            [DisplayName("Plot sub-title")]
+            [Description("Plot sub-title. You can leave this empty to hide the sub-title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
+            [DefaultValue("")]
+            public ParseElementCollection SubTitle { get; set; }
+
+            [DisplayName("X Axis Label.")]
+            [Description("Label for the X axis, e.g. \"day\" or \"hour\". You can leave this empty to hide the axis title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
+            [DefaultValue("")]
+            public ParseElementCollection AxisX { get; set; }
+
+            [DisplayName("Y Axis Label")]
+            [Description("Label for the Y axis, e.g. \"intensity\". You can leave this empty to hide the axis title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
+            [Category("All plots")]
+            [DefaultValue("")]
+            public ParseElementCollection AxisY { get; set; }
+        }
 
         [DisplayName("Clustering results filename")]
         [Description("How to name the cluster evaluation results. Use {SESSION} for the session filename and {RESULTS} for the results folder. The extension of the file will also determine the filetype. Files will be automatically numbered.")]
@@ -123,24 +143,12 @@ namespace MetaboliteLevels.Settings
         [DefaultValue("{RESULTS}{SESSION}.mres")]
         public string ClusteringEvaluationResultsFileName { get; set; }
 
-        [DisplayName("Y Axis Label")]
-        [Description("Label for the Y axis, e.g. \"intensity\". You can leave this empty to hide the axis title and conserve screen space. See \"Peak text\" for details on formatting.")]
-        [Category("All plots")]
-        [DefaultValue("")]
-        public ParseElementCollection AxisLabelY { get; set; }
-
-        private readonly Dictionary<string, ColumnDetails> _columnDisplayStatuses = new Dictionary<string, ColumnDetails>();
-        private readonly Dictionary<string, object> _defaultValues = new Dictionary<string, object>();
-
-        [DisplayName("List display mode")]
-        [Category("Miscellaneous")]
-        [Description("How lists are displayed: Count = Display number of items, Content = Display comma delimited contents, CountAndContent = Display count followed by comma delimited contents, Smart = If one item then display content, if more than one item then display count, if no items display nothing. Note that displaying contents for large lists may yield poor performance.")]
-        [DefaultValue(EListDisplayMode.Smart)]
-        public EListDisplayMode ListDisplayMode { get; set; }
-
         [Browsable(false)]
         [Description("The visible experimental groups.")]
         public List<GroupInfo> ViewTypes { get; set; }
+
+        private readonly Dictionary<string, ColumnDetails> _columnDisplayStatuses = new Dictionary<string, ColumnDetails>();
+        private readonly Dictionary<string, object> _defaultValues = new Dictionary<string, object>();
 
         public CoreOptions()
         {
@@ -151,6 +159,13 @@ namespace MetaboliteLevels.Settings
             PeakFlags.Add(new PeakFlag("INT", '1', "Interesting", Color.Green));
             PeakFlags.Add(new PeakFlag("CHK", '2', "Checked", Color.Gray));
             PeakFlags.Add(new PeakFlag("BOR", '3', "Boring", Color.DarkRed));
+
+            PeakDisplay = new PlotSetup();
+            ClusterDisplay = new PlotSetup();
+            CompoundDisplay = new PlotSetup();
+            PathwayDisplay = new PlotSetup();
+
+            PeakDisplay.Information = new ParseElementCollection("m/z = {m/z}, rt = {meta\rt}");
         }
 
         [OnDeserializing]
@@ -208,19 +223,33 @@ namespace MetaboliteLevels.Settings
             public string DisplayName;
         }
 
-        internal string GetUserComment(Core core, IVisualisable visualisable)
+        internal PlotSetup GetUserText(Core core, IVisualisable visualisable)
         {
+            if (visualisable == null)
+            {
+                return new PlotSetup();
+            }
+
             switch (visualisable.VisualClass)
             {
                 case VisualClass.Cluster:
-                    return ClusterDisplay.ConvertToString(visualisable, core);
+                    return ClusterDisplay;
 
                 case VisualClass.Peak:
-                    return VariableDisplay.ConvertToString(visualisable, core);
+                    return PeakDisplay;
 
+                case VisualClass.Compound:
+                    return CompoundDisplay;
+
+                case VisualClass.Pathway:
+                    return PathwayDisplay;
+
+                case VisualClass.Adduct:
+                case VisualClass.Annotation:
+                case VisualClass.Assignment:
+                case VisualClass.None:
                 default:
-                    return null;
-
+                    return new PlotSetup();
             }
         }
     }

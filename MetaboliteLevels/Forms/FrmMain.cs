@@ -22,8 +22,7 @@ using MetaboliteLevels.Forms.Algorithms;
 using MetaboliteLevels.Forms.Wizards;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Forms.Startup;
-using MetaboliteLevels.Forms.Tree_Explorer;
+using MetaboliteLevels.Forms.Startup;          
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Viewers.Lists;
@@ -1282,21 +1281,7 @@ namespace MetaboliteLevels.Forms
             {
                 CommitSelection(new VisualisableSelection(tag, EActivateOrigin.TreeView));
             }
-        }
-
-        /// <summary>
-        /// Explorer tree: Node expand
-        /// </summary>
-        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
-        {
-            if (_preventExpand)
-            {
-                //e.Cancel = true;
-                //return;
-            }
-
-            TreeNodeConvertor.ExpandNodeIfNeeded(e.Node);
-        }
+        }    
 
         /// <summary>
         /// Explorer tree: Node click
@@ -1619,7 +1604,7 @@ namespace MetaboliteLevels.Forms
             bool changes = false;
 
             repeat:
-            var group = ListValueSet.ForGroups(_core).IncludeMessage("View or modify experimental groups").ShowList(this);
+            var group = ListValueSet.ForGroups(_core).IncludeMessage("View or modify experimental groups").ShowButtons(this);
 
             if (group != null)
             {

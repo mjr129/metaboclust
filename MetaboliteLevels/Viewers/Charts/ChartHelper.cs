@@ -12,6 +12,7 @@ using MetaboliteLevels.Forms;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Properties;
+using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Viewers.Charts
@@ -282,6 +283,8 @@ namespace MetaboliteLevels.Viewers.Charts
             ResetChartAreas();
             ClearSelection();
 
+            CoreOptions.PlotSetup userComments = _core.Options.GetUserText(_core, toPlot);
+
             if (_plotButton != null)
             {
                 if (toPlot != null)
@@ -289,14 +292,15 @@ namespace MetaboliteLevels.Viewers.Charts
                     _plotButton.Text = toPlot.DisplayName;
                     _plotButton.Image = UiControls.GetImage(toPlot.GetIcon(), true);
 
-                    string userComment = _core.Options.GetUserComment(_core, toPlot);
-
-                    if (string.IsNullOrWhiteSpace(userComment))
+                    if (ParseElementCollection.IsNullOrEmpty(userComments.Information))
                     {
-                        userComment = "(Click to configure text)";
+                        _userDetailsButton.Text = "(Click here to configure text)";
+                    }
+                    else
+                    {
+                        _userDetailsButton.Text = userComments.Information.ConvertToString(toPlot, _core);
                     }
 
-                    _userDetailsButton.Text = userComment;
                     _plotButton.Enabled = true;
                     _userDetailsButton.Enabled = true;
                 }
@@ -318,18 +322,18 @@ namespace MetaboliteLevels.Viewers.Charts
 
             if (axes)
             {
-                if (!ParseElementCollection.IsNullOrEmpty(_core.Options.AxisLabelX))
+                if (!ParseElementCollection.IsNullOrEmpty(userComments.AxisX))
                 {
-                    _chart.ChartAreas[0].AxisX.Title = _core.Options.AxisLabelX.ConvertToString(toPlot, _core);
+                    _chart.ChartAreas[0].AxisX.Title = userComments.AxisX.ConvertToString(toPlot, _core);
                 }
                 else
                 {
                     _chart.ChartAreas[0].AxisX.Title = string.Empty;
                 }
 
-                if (!ParseElementCollection.IsNullOrEmpty(_core.Options.AxisLabelY))
+                if (!ParseElementCollection.IsNullOrEmpty(userComments.AxisY))
                 {
-                    _chart.ChartAreas[0].AxisY.Title = _core.Options.AxisLabelY.ConvertToString(toPlot, _core);
+                    _chart.ChartAreas[0].AxisY.Title = userComments.AxisY.ConvertToString(toPlot, _core);
                 }
                 else
                 {
@@ -344,14 +348,14 @@ namespace MetaboliteLevels.Viewers.Charts
 
             _chart.Titles.Clear();
 
-            if (!ParseElementCollection.IsNullOrEmpty(_core.Options.PlotTitle))
+            if (!ParseElementCollection.IsNullOrEmpty(userComments.Title))
             {
-                _chart.Titles.Add(new Title(_core.Options.PlotTitle.ConvertToString(toPlot, _core), Docking.Top, FontHelper.LargeBoldFont, _core.Options.Colours.AxisTitle));
+                _chart.Titles.Add(new Title(userComments.Title.ConvertToString(toPlot, _core), Docking.Top, FontHelper.LargeBoldFont, _core.Options.Colours.AxisTitle));
             }
 
-            if (!ParseElementCollection.IsNullOrEmpty(_core.Options.PlotSubTitle))
+            if (!ParseElementCollection.IsNullOrEmpty(userComments.SubTitle))
             {
-                _chart.Titles.Add(new Title(_core.Options.PlotSubTitle.ConvertToString(toPlot, _core), Docking.Top, FontHelper.ItalicFont, _core.Options.Colours.AxisTitle));
+                _chart.Titles.Add(new Title(userComments.SubTitle.ConvertToString(toPlot, _core), Docking.Top, FontHelper.ItalicFont, _core.Options.Colours.AxisTitle));
             }
         }
 

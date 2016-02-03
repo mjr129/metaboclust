@@ -13,6 +13,7 @@ using MetaboliteLevels.Viewers.Charts;
 using System.Text;
 using System.Linq;
 using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Settings;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
@@ -57,6 +58,7 @@ namespace MetaboliteLevels.Viewers.Lists
         protected List<IVisualisable> _filteredList;
 
         private bool _emptyList;
+        private ToolStripMenuItem _mnuDisplayColumn;
 
         /// <summary>
         /// Constructor
@@ -112,20 +114,17 @@ namespace MetaboliteLevels.Viewers.Lists
             _listView.ColumnWidthChanged += _listView_ColumnWidthChanged;
 
             // Menu: Export visible
-            ToolStripButton tsSave = new ToolStripButton("Export (visible columns)", Resources.MnuSave);
-            tsSave.Click += tsExportVisible_Click;
+            ToolStripButton tsSave = new ToolStripButton("Export (visible columns)", Resources.MnuSave, tsExportVisible_Click);
             tsSave.DisplayStyle = ToolStripItemDisplayStyle.Image;
             _toolStrip.Items.Insert(0, tsSave);
 
             // Menu: Export all
-            ToolStripButton tsSaveAll = new ToolStripButton("Export (include hidden columns)", Resources.MnuSaveAll);
-            tsSaveAll.Click += tsExportAll_Click;
+            ToolStripButton tsSaveAll = new ToolStripButton("Export (include hidden columns)", Resources.MnuSaveAll, tsExportAll_Click);
             tsSaveAll.DisplayStyle = ToolStripItemDisplayStyle.Image;
             _toolStrip.Items.Insert(0, tsSaveAll);
 
             // Menu: Copy to clipboard
-            ToolStripButton tsSave2 = new ToolStripButton("Copy to clipboard", Resources.MnuCopy);
-            tsSave2.Click += tsCopyToClipboard_Click;
+            ToolStripButton tsSave2 = new ToolStripButton("Copy to clipboard", Resources.MnuCopy, tsCopyToClipboard_Click);
             tsSave2.DisplayStyle = ToolStripItemDisplayStyle.Image;
             _toolStrip.Items.Insert(0, tsSave2);
 
@@ -143,24 +142,20 @@ namespace MetaboliteLevels.Viewers.Lists
 
             // Create column menu
             _cmsColumns = new ContextMenuStrip();
-            _mnuSortAscending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort ascending");
-            _mnuSortDescending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort descending");
+            _mnuSortAscending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort ascending", Resources.MnuSortAscending, sortAscending_Click);
+            _mnuSortDescending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort descending", Resources.MnuSortDescending, sortAscending_Click);
             _cmsColumns.Items.Add(new ToolStripSeparator());
-            _mnuFilterColumn = (ToolStripMenuItem)_cmsColumns.Items.Add(@"TEXT GOES HERE (ADD/REMOVE FILTER)");
-            _mnuHideColumn = (ToolStripMenuItem)_cmsColumns.Items.Add("Hide column");
-            _mnuRenameColumn = (ToolStripMenuItem)_cmsColumns.Items.Add("Rename column");
-            _mnuColumnHelp = (ToolStripMenuItem)_cmsColumns.Items.Add("Help on this column...");
-            _mnuSortAscending.Image = Resources.MnuSortAscending;
-            _mnuSortDescending.Image = Resources.MnuSortDescending;
+            _mnuFilterColumn = (ToolStripMenuItem)_cmsColumns.Items.Add(@"=ADD/REMOVE FILTER", null, _filterm_Click);
+            _mnuHideColumn = (ToolStripMenuItem)_cmsColumns.Items.Add("Hide column", null, _hidecol_Click);
+            _mnuRenameColumn = (ToolStripMenuItem)_cmsColumns.Items.Add("Rename column", null, _mnuRenameColumn_Click);
+            _mnuDisplayColumn = (ToolStripMenuItem)_cmsColumns.Items.Add(@"=DISPLAY MODE");
+            _mnuColumnHelp = (ToolStripMenuItem)_cmsColumns.Items.Add("Help on this column...", Resources.MnuHelp, _descm_Click);
 
-            // Handle menu items
-            _mnuColumnHelp.Image = Resources.MnuHelp;
-            _mnuSortAscending.Click += sortAscending_Click;
-            _mnuSortDescending.Click += sortAscending_Click;
-            _mnuFilterColumn.Click += _filterm_Click;
-            _mnuColumnHelp.Click += _descm_Click;
-            _mnuRenameColumn.Click += _mnuRenameColumn_Click;
-            _mnuHideColumn.Click += _hidecol_Click;
+            // Display mode buttons
+            foreach (EListDisplayMode displayMode in EnumHelper.GetEnumValues<EListDisplayMode>())
+            {
+                _mnuDisplayColumn.DropDownItems.Add(displayMode.ToUiString(), null, _mnuDisplayColumnItem_Click).Tag = displayMode;
+            }
 
             // Create columns button
             _btnColumns = new ToolStripDropDownButton("Columns", Resources.MnuColumn);
@@ -177,7 +172,17 @@ namespace MetaboliteLevels.Viewers.Lists
         }
 
         /// <summary>
-        /// Item clicked
+        /// Menu: Column display mode.
+        /// </summary>                
+        private void _mnuDisplayColumnItem_Click(object sender, EventArgs e)
+        {
+            EListDisplayMode tag = (EListDisplayMode)((ToolStripMenuItem)sender).Tag;
+            _clickedColumn.DisplayMode = tag;
+            Rebuild(EListInvalids.ValuesChanged);
+        }
+
+        /// <summary>
+        /// List item clicked
         /// </summary>
         void _listView_ItemActivate(object sender, EventArgs e)
         {
@@ -201,6 +206,9 @@ namespace MetaboliteLevels.Viewers.Lists
             }
         }
 
+        /// <summary>
+        /// Right clicked.
+        /// </summary>    
         void _listView_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -225,7 +233,7 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             foreach (Column col in _availableColumns)
             {
-                _core.Options.OpenColumn(true, _listView.Name, col.Id, ref col.DisplayName, ref col.Visible, ref col.Width, ref col.DisplayIndex);
+                _core.Options.OpenColumn(true, _listView.Name, col.Id, ref col.OverrideDisplayName, ref col.Visible, ref col.Width, ref col.DisplayIndex);
             }
         }
 
@@ -236,7 +244,7 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             foreach (Column col in _availableColumns)
             {
-                _core.Options.OpenColumn(false, _listView.Name, col.Id, ref col.DisplayName, ref col.Visible, ref col.Width, ref col.DisplayIndex);
+                _core.Options.OpenColumn(false, _listView.Name, col.Id, ref col.OverrideDisplayName, ref col.Visible, ref col.Width, ref col.DisplayIndex);
             }
         }
 
@@ -345,6 +353,13 @@ namespace MetaboliteLevels.Viewers.Lists
             _mnuHideColumn.Enabled = !col.DisableMenu;
 
             _mnuColumnHelp.Visible = !string.IsNullOrWhiteSpace(col.Description);
+
+            _mnuDisplayColumn.Text = "List display mode (" + col.DisplayMode.ToUiString() + ")";
+
+            foreach (ToolStripMenuItem displayItem in _mnuDisplayColumn.DropDownItems)
+            {
+                displayItem.Checked = (EListDisplayMode)(displayItem.Tag) == col.DisplayMode;
+            }
 
             _cmsColumns.Show(Cursor.Position);
         }
@@ -499,11 +514,11 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         void _mnuRenameColumn_Click(object sender, EventArgs e)
         {
-            string newName = FrmInput.Show(_listView.FindForm(), "Rename column", _clickedColumn.Id, "Enter a new name for this column", _clickedColumn.DisplayName);
+            string newName = FrmInput.Show(_listView.FindForm(), "Rename column", _clickedColumn.Id, "Enter a new name for this column", _clickedColumn.OverrideDisplayName);
 
             if (newName != null)
             {
-                _clickedColumn.DisplayName = newName;
+                _clickedColumn.OverrideDisplayName = newName;
                 _clickedColumn.Header.Text = _clickedColumn.ToString();
                 SaveColumnUserPreferences();
             }
@@ -549,11 +564,11 @@ namespace MetaboliteLevels.Viewers.Lists
         /// Exports all data
         /// </summary>                     
         public void ExportAll(string fileName)
-        {    
+        {
             using (StreamWriter sw = new StreamWriter(fileName))
             {
                 SaveItems(sw, true);
-            }  
+            }
         }
 
         /// <summary>
@@ -752,94 +767,6 @@ namespace MetaboliteLevels.Viewers.Lists
             }
         }
 
-        protected string AsString(object result)
-        {
-            if (result == null)
-            {
-                return "";
-            }
-
-            if (result is string)
-            {
-                return (string)result;
-            }
-
-            if (result is IEnumerable)
-            {
-                ICollection col = result as ICollection;
-                IEnumerable enu = (IEnumerable)result;
-                int count;
-
-                if (col != null)
-                {
-                    count = col.Count;
-                }
-                else
-                {
-                    count = enu.CountAll();
-                }
-
-                switch (_core.Options.ListDisplayMode)
-                {
-                    case Settings.EListDisplayMode.Smart:
-                        if (count == 1)
-                        {
-                            return AsString(enu.FirstOrDefault2());
-                        }
-                        else if (count == 0)
-                        {
-                            return "";
-                        }
-                        else
-                        {
-                            return "(" + count.ToString() + ")";
-                        }
-
-                    case Settings.EListDisplayMode.Count:
-                        return count.ToString();
-
-                    case Settings.EListDisplayMode.CountAndContent:
-                        return "(" + count.ToString() + ") " + StringHelper.ArrayToString(enu, AsString);
-
-                    case Settings.EListDisplayMode.Content:
-                        return StringHelper.ArrayToString(enu, AsString);
-                }
-            }
-
-            if (result is IVisualisable)
-            {
-                IVisualisable v = (IVisualisable)result;
-
-                return v.DisplayName;
-            }
-
-            if (result is double)
-            {
-                double d = (double)result;
-
-                if (double.IsNaN(d))
-                {
-                    return "";
-                }
-
-                return Maths.SignificantDigits(d);
-            }
-
-            if (result is int)
-            {
-                if ((int)result == 0)
-                {
-                    return "";
-                }
-                else
-                {
-                    return result.ToString();
-                }
-            }
-
-            return result.ToString();
-        }
-
         private void CreateListViewColumnHeaders()
         {
             _listView.Columns.Clear();
@@ -1008,7 +935,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
 
             // Get the icon column
-            var iconColumn = new Column<IVisualisable>("", true, null);
+            var iconColumn = new Column<IVisualisable>("", EColumn.Visible, "This column contains the object icon", null);
             iconColumn.Width = 32;
             iconColumn.DisableMenu = true;
 
@@ -1059,7 +986,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 {
                     ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem();
 
-                    object result = c.GetRow(tag);
+                    string result = c.GetRowAsString(tag);
                     Color color = c.GetColour(tag);
 
                     if (!tag.Enabled)
@@ -1072,7 +999,7 @@ namespace MetaboliteLevels.Viewers.Lists
                         lvsi.Font = FontHelper.RegularFont;
                     }
 
-                    lvsi.Text = AsString(result);
+                    lvsi.Text = result;
                     lvsi.ForeColor = color;
 
                     lvi.SubItems.Add(lvsi);
@@ -1191,11 +1118,11 @@ namespace MetaboliteLevels.Viewers.Lists
 
                         if (v.GetType().IsPrimitive && !(v is char))
                         {
-                            sw.Write(v.ToString());
+                            sw.Write(v);
                         }
                         else
                         {
-                            string txt = AsString(v);
+                            string txt = Column.AsString(v, c.DisplayMode);
 
                             sw.Write("\"");
                             sw.Write(txt);

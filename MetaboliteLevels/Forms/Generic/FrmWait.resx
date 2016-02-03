@@ -117,23 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ctlTitleBar1.HelpText" xml:space="preserve">
-    <value>You're seeing this screen because the application is busy.
-
-If you try and close the window you'll get some options:
-
-CANCEL
-Select to cancel the operation. This may take a few seconds, uncheck if you change your mind.
-
-DEPRIORITISE / PRIORITISE
-Sets the priority of the busy task in Windows. Use DEPRIORITISE if the task is slowing your machine down and you'd like to work on other tasks. Use PRIORITISE to give the task more priority (the system may become unresponsive until the task is complete).
-
-PAUSE
-Use to pause the task if system has slowed down too much and you'd like to work on other things for a while.
-
-LAZY
-Runs the task more slowly. Like DEPRIORITISE this leaves more resources for the rest of the system.</value>
-  </data>
   <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

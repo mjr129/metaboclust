@@ -105,6 +105,15 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
+        /// Returns the constituent values of an enum.
+        /// </summary>
+        internal static T[] GetEnumValues<T>()
+            where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
+        {
+            return (T[])Enum.GetValues(typeof(T));
+        }
+
+        /// <summary>
         /// Returns the names of an enum as a dictionary.
         /// Includes C# names and the UI strings (if present).
         /// </summary>

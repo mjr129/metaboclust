@@ -388,27 +388,6 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Implements IVisualisable. 
         /// </summary>
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            yield return new InfoLine("№ assignments", this.Assignments.Count);
-            yield return new InfoLine("№ centres", this.Centres.Count);
-            yield return new InfoLine("Comments", Comment);
-            yield return new InfoLine("Flags", StringHelper.ArrayToString(CommentFlags));
-            yield return new InfoLine("Display name", DisplayName);
-            yield return new InfoLine("№ exemplars", this.Exemplars.Count);
-            yield return new InfoLine("Method", this.Method?.ToString());
-            yield return new InfoLine("Name", this.DisplayName);
-            yield return new InfoLine("Override name", this.OverrideDisplayName);
-            yield return new InfoLine("№ related clusters", this.Related.Count);
-            yield return new InfoLine("Short name", this.ShortName);
-            yield return new InfoLine("States", this.States.ToUiString());
-            yield return new InfoLine("№ statistics", this.Statistics.Count);
-            yield return new InfoLine("Class", this.VisualClass.ToUiString());
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
         public IEnumerable<InfoLine> GetStatistics(Core core)
         {
             foreach (var kvp in Statistics)
@@ -560,47 +539,62 @@ namespace MetaboliteLevels.Data.Visualisables
 
 
         /// <summary>
-        /// Implements IVisualisable
+        /// IMPLEMENTS IVisualisable
         /// </summary>
-        public IEnumerable<Column> GetColumns(Core core)
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        {
+            return GetColumns(core);
+        }
+
+        /// <summary>
+        /// Static version of GetColumns
+        /// </summary>
+        public static IEnumerable<Column> GetColumns(Core core)
         {
             var result = new List<Column<Cluster>>();
 
-            result.Add("Method Name", false, λ => λ.Method.ToString());
-            result.Add("Method №", false, λ => 1 + core.Clusterers.IndexOf(λ.Method));
-            result.Add("Name", true, λ => λ.DisplayName);
-            result.Add("Assignments\\All", true, λ => λ.Assignments.Peaks.ToArray());
-            result.Add("Assignments\\All (scores)", false, λ => λ.Assignments.Scores.ToArray());
+            result.Add("Method Name", EColumn.None, λ => λ.Method.ToString());
+            result.Add("Method №", EColumn.None, λ => 1 + core.ActiveClusterers.IndexOf(λ.Method));
+            result.Add("Name", EColumn.Visible, λ => λ.DisplayName);
+            result.Add("Comments", EColumn.None, λ => λ.Comment);
+            result.Add("Assignments\\All", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
+            result.Add("Assignments\\All (scores)", EColumn.None, λ => λ.Assignments.Scores.ToArray());
 
             foreach (GroupInfo group in core.Groups)
             {
                 GroupInfo closure = group;
-                result.Add("Assignments\\" + UiControls.ZEROSPACE + group.Name, false, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
+                result.Add("Assignments\\" + UiControls.ZEROSPACE + group.Name, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
                 result[result.Count - 1].Colour = z => closure.Colour;
             }
 
-            result.Add("Exemplars", false, λ => λ.Exemplars);
-            result.Add("State", false, λ => λ.States.ToUiString());
-            result.Add("Comment", false, λ => λ.Comment);
+            result.Add("Exemplars", EColumn.None, λ => λ.Exemplars);
+            result.Add("State", EColumn.None, λ => λ.States.ToUiString());
+            result.Add("Comment", EColumn.None, λ => λ.Comment);
 
             foreach (PeakFlag flag in core.Options.PeakFlags)
             {
                 PeakFlag closure = flag;
-                result.Add("Flag\\" + flag, false, λ => λ.CommentFlags.ContainsKey(closure) ? closure.Id : "");
+                result.Add("Flag\\" + flag, EColumn.None, λ => λ.CommentFlags.ContainsKey(closure) ? closure.Id : "");
                 result[result.Count - 1].Colour = z => closure.Colour;
             }
 
-            foreach (ConfigurationStatistic stat in core.Statistics)
+            result.Add("Flag\\(all)", EColumn.None, λ => λ.CommentFlags.Keys);
+
+            foreach (ConfigurationStatistic stat in core.ActiveStatistics)
             {
                 ConfigurationStatistic closure = stat;
-                result.Add("Average Statistic\\" + closure, false, λ => λ.Statistics.GetOrNan(closure));
+                result.Add("Average Statistic\\" + closure, EColumn.Statistic, λ => λ.Statistics.GetOrNan(closure));
             }
 
-            foreach (string stat in this.ClusterStatistics.Keys) // TODO: No!
+            foreach (string stat in core.GetClusterStatistics()) // TODO: No!
             {
                 string closure = stat;
-                result.Add("Cluster statistic\\" + closure, false, λ => λ.ClusterStatistics.GetOrNan(closure));
+                result.Add("Cluster statistic\\" + closure, EColumn.Statistic, λ => λ.ClusterStatistics.GetOrNan(closure));
             }
+
+            result.Add("№ centres", EColumn.None, λ => λ.Centres.Count);
+            result.Add("Related clusters", EColumn.None, λ => λ.Related);
+            result.Add("Short name", EColumn.None, λ => λ.ShortName);
 
             return result;
         }

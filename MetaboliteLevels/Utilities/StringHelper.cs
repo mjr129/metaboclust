@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Utilities
 {
+    /// <summary>
+    /// Helper functions for strings.
+    /// </summary>
     static class StringHelper
     {
-        private static Dictionary<string, string> _strings = new Dictionary<string, string>();
-
         /// <summary>
         /// (MJR) Converts an string to small caps.
         /// </summary>
@@ -117,9 +119,9 @@ namespace MetaboliteLevels.Utilities
         /// Converts a string to a subscript.
         /// Handles numbers only.
         /// </summary>
-        internal static string ToSubScript(int p)
+        internal static string ToSubScript(int value)
         {
-            string txtt = p.ToString();
+            string txtt = value.ToString();
             byte[] txt = Encoding.ASCII.GetBytes(txtt);
             byte c0 = 0x30;
             string chars = "₀₁₂₃₄₅₆₇₈₉";
@@ -197,44 +199,25 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// Converts a string to circled text (numbers only).
+        /// Converts a string to circled text (numbers in the range 1..20 only ).
         /// </summary>
-        internal static string Circle(int closure)
+        internal static string Circle(int value)
         {
             //string chars = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛";
             string chars = "⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇";
             //string chars = "⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳";
 
-            if (closure < 1 || closure >= chars.Length)
+            if (value < 1 || value >= chars.Length)
             {
-                return "(" + closure + ")";
+                return "(" + value + ")";
             }
 
-            return chars[closure - 1].ToString();
+            return chars[value - 1].ToString();
         }
 
         /// <summary>
-        /// (MJR) Interns the string
-        /// Used to save the memory overhead of many identical strings (at the cost of speed)
-        /// </summary>       
-        public static string Reduce(this string text)
-        {
-            string result = string.IsInterned(text);
-
-            if (result != null)
-            {
-                return result;
-            }
-
-            if (_strings.TryGetValue(text, out result))
-            {
-                return result;
-            }
-
-            _strings.Add(text, text);
-            return text;
-        }
-
+        /// Converts a string to an array of [T], using a specified [conversion] and splitting about [sep]
+        /// </summary>           
         public static T[] StringToArray<T>(string str, Converter<string, T> conversion, string sep = ",")
         {
             string[] elements = str.Split(new[] { sep }, StringSplitOptions.RemoveEmptyEntries);
@@ -250,24 +233,30 @@ namespace MetaboliteLevels.Utilities
             return result;
         }
 
-        internal static string TimeAsString(TimeSpan elapsed)
+        /// <summary>
+        /// Returns a [timeSpan] as a number of minutes or seconds.
+        /// </summary>                                             
+        internal static string TimeAsString(TimeSpan timeSpan)
         {
-            if (elapsed.TotalMinutes > 2)
+            if (timeSpan.TotalMinutes > 2)
             {
-                return (int)elapsed.TotalMinutes + " minutes";
+                return (int)timeSpan.TotalMinutes + " minutes";
             }
-            else if (elapsed.TotalMinutes > 1)
+            else if (timeSpan.TotalMinutes > 1)
             {
-                return (int)elapsed.TotalMinutes + " minute";
+                return (int)timeSpan.TotalMinutes + " minute";
             }
             else
             {
-                return (int)elapsed.TotalSeconds + " seconds";
+                return (int)timeSpan.TotalSeconds + " seconds";
             }
-        }           
+        }
 
+        /// <summary>
+        /// Like string::join this converts an array to a string, but doesn't consider the type.
+        /// </summary>                                           
         public static string ArrayToString(IEnumerable array, string delimiter = ", ")
-        {
+        {               
             if (array == null)
             {
                 return null;
@@ -291,6 +280,12 @@ namespace MetaboliteLevels.Utilities
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Converts an array of integers to a string, including ranges (e.g. 2-5) where possible.
+        /// </summary>
+        /// <param name="list">Values</param>
+        /// <param name="prefix">Prefix for each value</param>
+        /// <returns>String</returns>
         public static string ArrayToStringInt(IEnumerable<int> list, string prefix = "")
         {
             if (list == null)
@@ -354,22 +349,34 @@ namespace MetaboliteLevels.Utilities
             return sb.ToString();
         }
 
-        private static void WriteFromTo(StringBuilder sb, int s, int e, string prefix)
+        /// <summary>
+        /// Used by [ArrayToStringInt], this writes a range (x-y), unless the range is 1 in which
+        /// case it writes two individual items (x, y).
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="rangeStart"></param>
+        /// <param name="rangeEnd"></param>
+        /// <param name="prefix"></param>
+        private static void WriteFromTo(StringBuilder sb, int rangeStart, int rangeEnd, string prefix)
         {
-            if (e == s + 1)
+            if (rangeEnd == rangeStart + 1)
             {
                 sb.Append(", ");
                 sb.Append(prefix);
-                sb.Append(e);
+                sb.Append(rangeEnd);
             }
             else
             {
                 sb.Append("-");
                 sb.Append(prefix);
-                sb.Append(e);
+                sb.Append(rangeEnd);
             }
         }
 
+        /// <summary>
+        /// Undoes a [ArrayToStringInt], converting an string, possibly including ranges, to an
+        /// array of integers.
+        /// </summary>        
         public static List<int> StringToArrayInt(string str, EErrorHandler error)
         {
             List<int> result = new List<int>();
@@ -441,8 +448,10 @@ namespace MetaboliteLevels.Utilities
 
             return result;
         }
-
-
+                                         
+        /// <summary>
+        /// Converts an array to a string
+        /// </summary>                   
         public static string ArrayToString(IEnumerable array, Converter<object, string> conversion, string delimiter = ", ")
         {
             if (array == null)
@@ -465,12 +474,18 @@ namespace MetaboliteLevels.Utilities
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Converts an array to a string
+        /// </summary>                   
         public static string ArrayToString<T>(IEnumerable<WeakReference<T>> array, Converter<T, string> conversion, string delimiter = ", ")
             where T : class
         {
             return ArrayToString(array, z => WeakReferenceHelper.SafeToString(z, conversion), delimiter);
         }
 
+        /// <summary>
+        /// Converts an array to a string
+        /// </summary>                   
         public static string ArrayToString<T>(IEnumerable<T> array, Converter<T, string> conversion, string delimiter = ", ")
         {
             if (array == null)
@@ -494,7 +509,7 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// Splits a string about a symbol
+        /// Splits a string into a field:value pair about a specified symbol
         /// </summary>
         /// <param name="elem">The original string --> the first part</param>
         /// <param name="splitSign">What to split about</param>
@@ -515,6 +530,9 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        /// <summary>
+        /// Splits a string into a field:value pair about a specified symbol
+        /// </summary>
         internal static bool SplitEquals(string elem, out string left, out string right, string splitSign = "=")
         {
             int i = elem.IndexOf(splitSign);
@@ -541,6 +559,11 @@ namespace MetaboliteLevels.Utilities
             return a.ToString() + " / " + b + " (" + (((double)a / b) * 100).ToString("F00") + "%)";
         }
 
+        /// <summary>
+        /// Displays a number of bytes as b, kb or Mb
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
         internal static string DisplayBytes(long bytes)
         {
             if (bytes < 1024)
@@ -558,6 +581,11 @@ namespace MetaboliteLevels.Utilities
         }
     }
 
+    /// <summary>
+    /// A TypeConverter for [ParseElementCollection].
+    /// Used by the "options" PropertyGrid to provide editing for [ParseElementCollection].
+    /// (All this verbosity really does is converts to and from a string).
+    /// </summary>
     class ParseElementCollectionConverter : TypeConverter
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
@@ -622,7 +650,7 @@ namespace MetaboliteLevels.Utilities
                 this.Value = value;
                 this.IsInBrackets = isInBrackets;
             }
-
+                                         
             public override string ToString()
             {
                 if (IsInBrackets)
@@ -691,7 +719,7 @@ namespace MetaboliteLevels.Utilities
             {
                 if (x.IsInBrackets)
                 {
-                    r.Append(propertyTarget.QueryProperty(x.Value, core) ?? "");
+                    r.Append(Column.AsString(propertyTarget.QueryProperty(x.Value, core), EListDisplayMode.Content));
                 }
                 else
                 {

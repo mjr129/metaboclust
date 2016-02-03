@@ -108,31 +108,41 @@ namespace MetaboliteLevels.Controls
             _capInfo.SetText("Information for {0}", v);
             _capStats.SetText("Statistics for {0}", v);
 
-            FillList(_lstInfo, v != null ? v.GetInformation(_core) : null);
-            FillList(_lstStats, v != null ? v.GetStatistics(_core) : null);
+            FillList(_lstInfo, v, false);
+            FillList(_lstStats, v, true);
         }
 
-        private static void FillList(ListView list, IEnumerable<InfoLine> content)
+        private void FillList(ListView list, IVisualisable v, bool statistics)
         {
             list.Items.Clear();
 
-            if (content == null)
+            if (v == null)
             {
                 return;
             }
 
-            foreach (var il in content)
+            foreach (Column column in ColumnManager.GetColumns(_core, v))
             {
-                ListViewItem lvi = new ListViewItem(il.Field);
-
-                if (il.Value is double && double.IsNaN((double)il.Value))
+                if (statistics != (column.Special == EColumn.Statistic))
                 {
-                    il.Value = string.Empty;
+                    continue;
                 }
 
-                lvi.SubItems.Add(il.Value == null ? "" : il.Value.ToString());
-                lvi.ImageIndex = (int)(il.IsMeta ? UiControls.ImageListOrder.InfoU : UiControls.ImageListOrder.Info);
-                lvi.ForeColor = il.IsMeta ? Color.DarkBlue : Color.Black;
+                ListViewItem lvi = new ListViewItem(column.Name);
+                string value = column.GetRowAsString(v);
+                                                      
+                lvi.SubItems.Add(value);
+
+                if (statistics)
+                {
+                    lvi.ImageIndex = (int)UiControls.ImageListOrder.Statistic;
+                }
+                else
+                {
+                    lvi.ImageIndex = (int)(column.Special == EColumn.Meta ? UiControls.ImageListOrder.InfoU : UiControls.ImageListOrder.Info);
+                    lvi.ForeColor = column.Special == EColumn.Meta ? Color.DarkBlue : Color.Black;
+                }
+
                 list.Items.Add(lvi);
             }
         }

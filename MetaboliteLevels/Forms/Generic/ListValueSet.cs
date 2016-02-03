@@ -107,7 +107,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Columns",
                 List = columns.Where(z => !z.IsAlwaysEmpty),
                 Namer = z => z.Id,
-                Describer = z => z.DisplayName,
+                Describer = z => z.OverrideDisplayName,
             };
         }
 
@@ -277,7 +277,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ConfigurationClusterer>()
             {
                 Title = "Clusterers",
-                List = core.Clusterers,
+                List = core.ActiveClusterers,
                 Describer = _GetComment,
                 ListEditor = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Clusters, null)
             };
@@ -291,7 +291,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ConfigurationStatistic>()
             {
                 Title = "Statistics",
-                List = core.Statistics,
+                List = core.ActiveStatistics,
                 Describer = _GetComment,
                 ListEditor = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Statistics, null)
             };
@@ -319,7 +319,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<PeakFilter>()
             {
                 Title = "Peak Filters",
-                List = core.PeakFilters,
+                List = core.AllPeakFilters,
                 Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListEditor = z => FrmBigList.ShowPeakFilters(z, core)
             };
@@ -333,7 +333,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ObsFilter>()
             {
                 Title = "Observation Filters",
-                List = core.ObsFilters,
+                List = core.AllObsFilters,
                 Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListEditor = z => FrmBigList.ShowObsFilters(z, core)
             };

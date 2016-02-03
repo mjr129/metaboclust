@@ -104,27 +104,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 return UiControls.ImageListOrder.TestEmpty;
             }
-        }
-
-        IEnumerable<InfoLine> IVisualisable.GetInformation(Core core)
-        {
-            // NA
-            return null;
-        }
-
-        IEnumerable<InfoLine> IVisualisable.GetStatistics(Core core)
-        {
-            // NA
-            return null;
-        }
+        }     
 
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             List<Column<ConfigurationBase>> columns = new List<Column<ConfigurationBase>>();
 
-            columns.Add("Name", true, z => z.DisplayName);
-            columns.Add("Comments", false, z => z.Comment);
-            columns.Add("Enabled", false, z => z.Enabled);
+            columns.Add("Name", EColumn.Visible, z => z.DisplayName);
+            columns.Add("Comments", EColumn.None, z => z.Comment);
+            columns.Add("Enabled", EColumn.None, z => z.Enabled);
 
             return columns;
         }

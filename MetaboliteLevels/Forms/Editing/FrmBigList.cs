@@ -81,7 +81,7 @@ namespace MetaboliteLevels.Forms.Editing
                     Caption: "Filters",
                     Title: _obs ? "Observation Filters" : "Peak Filters",
                     SubTitle: "Add or remove filters",
-                    List: _obs ? _core.ObsFilters.Cast<IVisualisable>() : _core.PeakFilters.Cast<IVisualisable>()
+                    List: _obs ? _core.AllObsFilters.Cast<IVisualisable>() : _core.AllPeakFilters.Cast<IVisualisable>()
                 );
             }
 
@@ -421,7 +421,7 @@ namespace MetaboliteLevels.Forms.Editing
                             Caption: "Statistics",
                             Title: "Edit Statistics",
                             SubTitle: "Add or remove statistics",
-                            List: _core.StatisticsComplete
+                            List: _core.AllStatistics
                         );
 
                     case EAlgorithmType.Corrections:
@@ -430,7 +430,7 @@ namespace MetaboliteLevels.Forms.Editing
                             Caption: "Corrections",
                             Title: "Edit Data Corrections",
                             SubTitle: "Add, remove or reorder data correction methods",
-                            List: _core.CorrectionsComplete
+                            List: _core.AllCorrections
                         );
 
                     case EAlgorithmType.Clusters:
@@ -439,7 +439,7 @@ namespace MetaboliteLevels.Forms.Editing
                             Caption: "Clustering",
                             Title: "Edit Clustering Methods",
                             SubTitle: "Add, remove or reorder data clustering methods",
-                            List: _core.ClusterersComplete
+                            List: _core.AllClusterers
                         );
 
                     case EAlgorithmType.Trend:
@@ -448,7 +448,7 @@ namespace MetaboliteLevels.Forms.Editing
                             Caption: "Trends",
                             Title: "Edit Trend Generation",
                             SubTitle: "Select trend generation method",
-                            List: _core.TrendsComplete
+                            List: _core.AllTrends
                         );
 
                     default:

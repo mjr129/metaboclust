@@ -176,7 +176,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                                                                    return "?";
                                                                }
 
-                                                               var tmp = core.Statistics.IndexOf(targ);
+                                                               var tmp = core.ActiveStatistics.IndexOf(targ);
 
                                                                return tmp == -1 ? "?" : tmp.ToString();
                                                            },
@@ -194,7 +194,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 }
                 else if (reversable)
                 {
-                    return (core.Clusterers.IndexOf(c).ToString());
+                    return (core.ActiveClusterers.IndexOf(c).ToString());
                 }
                 else
                 {
@@ -360,7 +360,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                         string[] e2 = element.Split(",;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
                         WeakReference<ConfigurationStatistic>[] r = new WeakReference<ConfigurationStatistic>[e2.Length];
-                        ConfigurationStatistic[] opts = core.Statistics.ToArray();
+                        ConfigurationStatistic[] opts = core.ActiveStatistics.ToArray();
 
                         for (int n = 0; n < e2.Length; n++)
                         {
@@ -398,7 +398,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                             return null;
                         }
 
-                        ConfigurationClusterer[] opts = core.Clusterers.ToArray();
+                        ConfigurationClusterer[] opts = core.ActiveClusterers.ToArray();
 
                         if (ival < 0 || ival >= opts.Length)
                         {

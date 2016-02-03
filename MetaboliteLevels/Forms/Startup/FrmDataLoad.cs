@@ -18,6 +18,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.IO;
 using MetaboliteLevels.Controls;
+using System.Threading;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -52,6 +53,9 @@ namespace MetaboliteLevels.Forms.Startup
         private readonly string _sessionFileName; // ... OR session to load
 
         private Core _result; // the result
+
+        private const string ALT_NAMES_KEY = "Alt. Names";
+        private ProgressReporter _prog;
 
         /// <summary>
         /// Constructor
@@ -100,26 +104,29 @@ namespace MetaboliteLevels.Forms.Startup
         {
             UiControls.Assert((fileNames == null) ^ (sessionFileName == null), "Specify filenames to load or session to load.");
 
-            owner.Visible = false;
+            owner.Hide();
 
             using (FrmDataLoad frm = new FrmDataLoad(fileNames, sessionFileName))
             {
-                if (frm.ShowDialog(owner) == DialogResult.OK)
+                if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    owner.Visible = true;
+                    owner.Show();
                     return frm._result;
                 }
 
-                owner.Visible = true;
+                owner.Show();
                 return null;
             }
         }
 
         /// <summary>
-        /// On creating the form start the background worker to load the data.
-        /// </summary>
-        private void FrmProgress_Load(object sender, EventArgs e)
+        /// OVERRIDE
+        /// Start loading on form load.
+        /// </summary>            
+        protected override void OnLoad(EventArgs e)
         {
+            base.OnLoad(e);
+
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -554,9 +561,6 @@ namespace MetaboliteLevels.Forms.Startup
             compoundsOut.ReplaceAll(compounds.Values);
             pathwaysOut.ReplaceAll(pathways.Values);
         }
-
-        private const string ALT_NAMES_KEY = "Alt. Names";
-        private ProgressReporter _prog;
 
         private static Compound AddWithoutConflict(MetaInfoHeader header, CompoundLibrary tag, Dictionary<string, Compound> compounds, string id, string name, decimal mass)
         {
@@ -1067,7 +1071,7 @@ namespace MetaboliteLevels.Forms.Startup
         }
 
         private static void Load_6_CalculateDefaultStatistics(Core core, bool calcT, bool calcP, ProgressReporter prog)
-        {           
+        {
             // Create filters
             List<ObsFilter> allFilters = new List<ObsFilter>();
             Dictionary<GroupInfo, ObsFilter> singleGroupFilters = new Dictionary<GroupInfo, ObsFilter>();
@@ -1270,6 +1274,11 @@ namespace MetaboliteLevels.Forms.Startup
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _prog.SetCancelAsync(true);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

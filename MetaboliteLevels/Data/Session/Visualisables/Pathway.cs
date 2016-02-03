@@ -251,43 +251,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public string DisplayName
         {
             get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
-        }
-
-        /// <summary>
-        /// Inherited from IVisualisable. 
-        /// </summary>
-        public Image REMOVE_THIS_FUNCTION
-        {
-            get { return Properties.Resources.ObjLPathway; }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            yield return new InfoLine("№ compounds", Compounds.Count);
-            yield return new InfoLine("Display name", DisplayName);
-            yield return new InfoLine("Id", Id);
-            yield return new InfoLine("№ libraries", this.Libraries.Count);
-            yield return new InfoLine("Name", DefaultDisplayName);
-            yield return new InfoLine("№ related pathways", this.RelatedPathways.Count);
-            yield return new InfoLine("URL", this.Url);
-            yield return new InfoLine("Class", this.VisualClass.ToUiString());
-
-            foreach (InfoLine il in core._pathwaysMeta.ReadAll(this.MetaInfo))
-            {
-                yield return il;
-            }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            return new InfoLine[0];
-        }
+        }    
 
         /// <summary>
         /// Implements IVisualisable. 
@@ -414,15 +378,18 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
 
-        public IEnumerable<Column> GetColumns(Core core)
-        {
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        {            
             var result = new List<Column<Pathway>>();
 
-            result.Add("ID", false, λ => λ.Id);
-            result.Add("Name", true, λ => λ.DefaultDisplayName);
-            result.Add("Library", false, λ => λ.Libraries);
-            result.Add("Compounds", false, λ => λ.Compounds);
-            result.Add("Comment", false, λ => λ.Comment);
+            result.Add("ID", EColumn.None, λ => λ.Id);
+            result.Add("Name", EColumn.Visible, λ => λ.DefaultDisplayName);
+            result.Add("Library", EColumn.None, λ => λ.Libraries);
+            result.Add("Compounds", EColumn.None, λ => λ.Compounds);
+            result.Add("Comment", EColumn.None, λ => λ.Comment);
+            result.Add("Libraries", EColumn.None, λ => λ.Libraries);
+            result.Add("Related pathways", EColumn.None, λ => λ.RelatedPathways);
+            result.Add("URL", EColumn.None, λ => λ.Url);
 
             core._pathwaysMeta.ReadAllColumns(z => z.MetaInfo, result);
 

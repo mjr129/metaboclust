@@ -44,11 +44,6 @@ namespace MetaboliteLevels.Data.Visualisables
     interface IVisualisable : ITitlable
     {
         /// <summary>
-        /// Icon for this item.
-        /// </summary>
-        // Image REMOVE_THIS_FUNCTION { get; }
-
-        /// <summary>
         /// Icon for this item (as an index - see [UiControls]).
         /// </summary>
         UiControls.ImageListOrder GetIcon();
@@ -59,18 +54,8 @@ namespace MetaboliteLevels.Data.Visualisables
         VisualClass VisualClass { get; }
 
         /// <summary>
-        /// Gets basic information.
-        /// </summary>
-        IEnumerable<InfoLine> GetInformation(Core core);
-
-        /// <summary>
-        /// Gets statistics.
-        /// </summary>
-        IEnumerable<InfoLine> GetStatistics(Core core);
-
-        /// <summary>
+        /// STATIC
         /// Gets columns
-        /// PSEUDO STATIC: Assumed to be the same for all items of this class.
         /// </summary>
         IEnumerable<Column> GetColumns(Core core);
 
@@ -97,11 +82,7 @@ namespace MetaboliteLevels.Data.Visualisables
     static class IVisualisableExtensions
     {
         // Can be used with QueryProperty to force search for specifics.
-        public const string SYMBOL_STAT = "stat:";
-        public const string SYMBOL_INBUILT = "info:";
-        public const string SYMBOL_META = "meta:";
         public const string SYMBOL_PROPERTY = "prop:";
-        //public const string SYMBOL_INTERNAL_META = "*";
 
         /// <summary>
         /// Retrieves a request for contents with the specified parameters.
@@ -140,8 +121,6 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             List<string> result = new List<string>();
             result.AddRange(self.GetType().GetProperties().Select(z => SYMBOL_PROPERTY + z.Name));
-            result.AddRange(self.GetStatistics(core).Select(z => SYMBOL_STAT + z.Field));
-            result.AddRange(self.GetInformation(core).Select(z => (z.IsMeta ? SYMBOL_META : SYMBOL_INBUILT) + z.Field));
             return result;
         }
 
@@ -155,33 +134,14 @@ namespace MetaboliteLevels.Data.Visualisables
                 return null;
             }
 
-            int state = 1 | 2 | 4 | 8;
+            bool isProperty = property.StartsWith(SYMBOL_PROPERTY);
 
-            if (property.StartsWith(SYMBOL_PROPERTY))
+            if (isProperty)
             {
-                state = 1;
                 property = property.Substring(SYMBOL_PROPERTY.Length);
             }
 
-            if (property.StartsWith(SYMBOL_STAT))
-            {
-                state = 2;
-                property = property.Substring(SYMBOL_STAT.Length);
-            }
-
-            if (property.StartsWith(SYMBOL_META))
-            {
-                state = 4;
-                property = property.Substring(SYMBOL_META.Length);
-            }
-
-            if (property.StartsWith(SYMBOL_INBUILT))
-            {
-                state = 8;
-                property = property.Substring(SYMBOL_INBUILT.Length);
-            }
-
-            if ((state & 1) != 0)
+            if (isProperty)
             {
                 PropertyInfo p = self.GetType().GetProperty(property);
 
@@ -198,44 +158,12 @@ namespace MetaboliteLevels.Data.Visualisables
                 }
             }
 
-            if ((state & 2) != 0)
-            {
-                foreach (InfoLine il in self.GetStatistics(core))
-                {
-                    if (il.Field == property)
-                    {
-                        return il.Value;
-                    }
-                }
-            }
+            Column column = ColumnManager.GetColumns(core, self).FirstOrDefault(z => z.Id.ToUpper() == property.ToUpper());
 
-            if ((state & 4) != 0 || ((state & 8) != 0))
+            if (column != null)
             {
-                foreach (InfoLine il in self.GetInformation(core))
-                {
-                    if (il.IsMeta)
-                    {
-                        if ((state & 4) != 0)
-                        {
-                            if (il.Field == property)
-                            {
-                                return il.Value;
-                            }
-                        }
-                    }
-                    else
-                    {
-
-                        if ((state & 8) != 0)
-                        {
-                            if (il.Field == property)
-                            {
-                                return il.Value;
-                            }
-                        }
-                    }
-                }
-            }
+                return column.GetRow(self);
+            }   
 
             return "{Missing: " + property + "}";
         }

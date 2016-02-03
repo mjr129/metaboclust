@@ -141,77 +141,43 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 return IVisualisableExtensions.GetDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
             }
-        }
+        }    
 
-        public Image REMOVE_THIS_FUNCTION
-        {
-            get { return Resources.ObjLAssignment; }
-        }
-
-        public UiControls.ImageListOrder GetIcon()
+        UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.Assignment;
         }
 
-        public VisualClass VisualClass
+        VisualClass IVisualisable.VisualClass
         {
             get { return VisualClass.Assignment; }
-        }
+        }   
 
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            return GetInformation2(core, this.Peak).Concat(GetInformation2(core, this.Cluster));
-        }
-
-        private static IEnumerable<InfoLine> GetInformation2(Core core, IVisualisable vis)
-        {
-            return vis.GetInformation(core).Select(z => new InfoLine(vis.DisplayName + "\\" + z.Field, z.Value));
-        }
-
-        private static IEnumerable<InfoLine> GetStatistics2(Core core, IVisualisable vis)
-        {
-            return vis.GetStatistics(core).Select(z => new InfoLine(vis.DisplayName + "\\" + z.Field, z.Value));
-        }
-
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            return GetStatistics2(core, this.Peak).Concat(GetStatistics2(core, this.Cluster));
-        }
-
-        public IEnumerable<Column> GetColumns(Core core)
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             var cols = new List<Column<Assignment>>();
 
-            cols.Add("Assignment", true, z => z.DisplayName);
-            cols.Add("Group", true, z => z.Vector.Group);
-            cols.Add("Comment", false, z => z.Comment);
-            cols.Add("Vector", false, z => z.Vector.Values);
-
-            foreach (Column<Peak> col in this.Peak.GetColumns(core))
-            {
-                Column<Peak> closure = col;
-                cols.Add("Peak\\" + closure.Id, col.Visible, z => closure.GetRow(z.Peak));
-            }
-
-            foreach (Column<Cluster> col in this.Cluster.GetColumns(core))
-            {
-                Column<Cluster> closure = col;
-                cols.Add("Cluster\\" + closure.Id, col.Visible, z => closure.GetRow(z.Cluster));
-            }
+            cols.Add("Assignment", EColumn.Visible, z => z.DisplayName);
+            cols.Add("Group", EColumn.Visible, z => z.Vector.Group);
+            cols.Add("Comment", EColumn.None, z => z.Comment);
+            cols.Add("Vector", EColumn.None, z => z.Vector.Values);
+                                                             
+            cols.AddSubObject(core, "Cluster", z => z.Cluster);
+            cols.AddSubObject(core, "Peak", z => z.Peak); 
 
             foreach (var kvp in this.AssignmentStatistics.Keys)
             {
                 var closure = kvp;
-                cols.Add("Assignment statistic\\" + closure, false, z => z.AssignmentStatistics.GetOrNan(closure));
+                cols.Add("Assignment statistic\\" + closure, EColumn.Statistic, z => z.AssignmentStatistics.GetOrNan(closure));
             }
 
-            cols.Add("Assignment statistic\\Score", true, z => z.Score);
-            cols.Add("Assignment statistic\\Next nearest cluster", false, z => z.NextNearestCluster);
+            cols.Add("Assignment statistic\\Score", EColumn.Visible, z => z.Score);
+            cols.Add("Assignment statistic\\Next nearest cluster", EColumn.None, z => z.NextNearestCluster);
 
             return cols;
         }
 
-        public void RequestContents(ContentsRequest request)
+        void IVisualisable.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {

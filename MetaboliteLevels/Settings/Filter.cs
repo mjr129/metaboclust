@@ -91,23 +91,7 @@ namespace MetaboliteLevels.Settings
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.Filter;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        IEnumerable<InfoLine> IVisualisable.GetInformation(Core core)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        IEnumerable<InfoLine> IVisualisable.GetStatistics(Core core)
-        {
-            return null;
-        }
+        }    
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
@@ -116,10 +100,10 @@ namespace MetaboliteLevels.Settings
         {
             List<Column<Filter>> result = new List<Column<Filter>>();
 
-            result.Add("Name", true, z => z.DisplayName);
-            result.Add("Enabled", false, z => z.Enabled);
-            result.Add("Comments", false, z => z.Comment);
-            result.Add("Parameters", true, z => z.ParamsAsString());
+            result.Add("Name", EColumn.Visible, z => z.DisplayName);
+            result.Add("Enabled", EColumn.None, z => z.Enabled);
+            result.Add("Comments", EColumn.None, z => z.Comment);
+            result.Add("Parameters", EColumn.None, z => z.ParamsAsString());
 
             return result;
         }
@@ -293,9 +277,9 @@ namespace MetaboliteLevels.Settings
             {
                 List<Column<ConditionBase>> columns = new List<Column<ConditionBase>>();
 
-                columns.Add("Name", true, z => z.DisplayName);
-                columns.Add("Comments", false, z => z.Comment);
-                columns.Add("Enabled", false, z => z.Enabled);
+                columns.Add("Name", EColumn.Visible, z => z.DisplayName);
+                columns.Add("Comments", EColumn.None, z => z.Comment);
+                columns.Add("Enabled", EColumn.None, z => z.Enabled);
 
                 return columns;
             }
@@ -303,19 +287,7 @@ namespace MetaboliteLevels.Settings
             UiControls.ImageListOrder IVisualisable.GetIcon()
             {
                 return UiControls.ImageListOrder.Filter;
-            }
-
-            IEnumerable<InfoLine> IVisualisable.GetInformation(Core core)
-            {
-                // NA
-                return null;
-            }
-
-            IEnumerable<InfoLine> IVisualisable.GetStatistics(Core core)
-            {
-                // NA
-                return null;
-            }
+            }     
 
             public bool Preview(T target)
             {

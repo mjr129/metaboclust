@@ -187,7 +187,7 @@ namespace MetaboliteLevels.Utilities
         public static IEnumerable<int> Indices(this IEnumerable self)
         {
             var e = self.GetEnumerator();
-            int i = 0;
+            int i = -1;
 
             while (e.MoveNext())
             {

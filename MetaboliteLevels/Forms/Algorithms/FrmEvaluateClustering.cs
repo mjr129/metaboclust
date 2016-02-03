@@ -85,12 +85,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _lvhConfigs.Activate += _lstParams_SelectedIndexChanged;
             _lvhClusters.Activate += _lstClusters_SelectedIndexChanged;
-            _lvhStatistics.Activate += _lstStats_SelectedIndexChanged;
-
-            if (core.EvaluationResultFiles == null)
-            {
-                core.EvaluationResultFiles = new List<ClusterEvaluationPointer>();
-            }
+            _lvhStatistics.Activate += _lstStats_SelectedIndexChanged;               
 
             UiControls.CompensateForVisualStyles(this);
         }
@@ -119,49 +114,34 @@ namespace MetaboliteLevels.Forms.Algorithms
                 get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, Column.Id); }
             }
 
-            public Image REMOVE_THIS_FUNCTION
-            {
-                get { return Resources.ObjLStatistics; }
-            }
-
             UiControls.ImageListOrder IVisualisable.GetIcon()
             {
                 return UiControls.ImageListOrder.Statistic;
             }
 
-            public VisualClass VisualClass
+            VisualClass IVisualisable.VisualClass
             {
                 get { return VisualClass.None; }
             }
 
             public string Comment { get; set; }
 
-            public IEnumerable<InfoLine> GetInformation(Core core)
-            {
-                return null;
-            }
-
-            public IEnumerable<InfoLine> GetStatistics(Core core)
-            {
-                return null;
-            }
-
-            public IEnumerable<Column> GetColumns(Core core)
+            IEnumerable<Column> IVisualisable.GetColumns(Core core)
             {
                 List<Column<ColumnWrapper>> cols = new List<Column<ColumnWrapper>>();
 
-                cols.Add("Name", true, z => z.DisplayName);
+                cols.Add("Name", EColumn.Visible, z => z.DisplayName);
 
                 foreach (ClusterEvaluationParameterResult v in Results.Results)
                 {
                     var closure = v;
-                    cols.Add(Results.Configuration.ParameterName + " = " + closure.DisplayName, false, z => z.Column.GetRow(closure));
+                    cols.Add(Results.Configuration.ParameterName + " = " + closure.DisplayName, EColumn.None, z => z.Column.GetRow(closure));
                 }
 
                 return cols;
             }
 
-            public void RequestContents(ContentsRequest list)
+            void IVisualisable.RequestContents(ContentsRequest list)
             {
                 // NA
             }
@@ -196,7 +176,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (def != null)
             {
-                var cols = def.GetColumns(_core);
+                var cols = ColumnManager.GetColumns(_core, def);
 
                 foreach (Column<ClusterEvaluationParameterResult> col in cols)
                 {

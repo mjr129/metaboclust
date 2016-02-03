@@ -98,7 +98,8 @@ namespace MetaboliteLevels.Utilities
             {
                 string header = this._headers[index];
                 int __closure = index;
-                columns.Add(new Column<T>("Meta\\" + header, false, λ => collectionRetriever(λ).Read(__closure)));
+                const string description = "This column represents meta data provided by the user.";
+                columns.Add(new Column<T>("Meta\\" + header, EColumn.Meta, description, λ => collectionRetriever(λ).Read(__closure)));
             }
         }
 

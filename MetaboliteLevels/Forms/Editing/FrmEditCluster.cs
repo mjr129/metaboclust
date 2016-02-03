@@ -54,7 +54,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void ApplyDelete(ProgressReporter reportProgress)
         {
-            _core.SetClusterers(_core.Clusterers.Where(z => z != _cluster.Method), false, reportProgress);
+            _core.SetClusterers(_core.ActiveClusterers.Where(z => z != _cluster.Method), false, reportProgress);
         }
 
         private void button1_Click(object sender, EventArgs e)

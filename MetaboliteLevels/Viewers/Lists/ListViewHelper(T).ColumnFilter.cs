@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MetaboliteLevels.Utilities;
 using System.Text.RegularExpressions;
 using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Settings;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
@@ -70,13 +71,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
             private string AsBString(object v)
             {
-                if (!(v is string) && v is IEnumerable)
-                {
-                    IEnumerable l = (IEnumerable)v;
-                    return StringHelper.ArrayToString(l, "|").ToUpper();
-                }
-
-                return Owner.AsString(v).ToUpper();
+                return Column.AsString(v, EListDisplayMode.Content).ToUpper();
             }
 
             private double ToDouble(object v)

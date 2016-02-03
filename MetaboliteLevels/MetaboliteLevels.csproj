@@ -463,12 +463,6 @@
     <Compile Include="Forms\Wizards\FrmClusterWizard.Designer.cs">
       <DependentUpon>FrmClusterWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Tree Explorer\FrmViewTypes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Tree Explorer\FrmViewTypes.Designer.cs">
-      <DependentUpon>FrmViewTypes.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\NativeMethods.cs" />
     <Compile Include="Data\DataInfo\ObservationInfo.cs" />
     <Compile Include="Utilities\ProgressStream.cs" />
@@ -477,16 +471,12 @@
     <Compile Include="Settings\ECentreMode.cs" />
     <Compile Include="Settings\EDistanceMetric.cs" />
     <Compile Include="Settings\EDistanceMode.cs" />
-    <Compile Include="Settings\EListDisplayMode.cs" />
     <Compile Include="Settings\EStatisticalMethods.cs" />
     <Compile Include="Settings\Filter.cs" />
     <Compile Include="Settings\MainSettings.cs" />
     <Compile Include="Settings\PeakFlag.cs" />
-    <Compile Include="Forms\Tree Explorer\TreeNodeConvertor.cs" />
     <Compile Include="Data\DataInfo\GroupInfo.cs" />
     <Compile Include="Utilities\UiControls.cs" />
-    <Compile Include="Forms\Tree Explorer\PathwayScore.cs" />
-    <Compile Include="Forms\Tree Explorer\TreeNodeExt.cs" />
     <Compile Include="Utilities\WeakReferenceHelper.cs" />
     <Compile Include="Viewers\Charts\ChartHelper.cs" />
     <Compile Include="Viewers\Charts\ChartHelperForPatterns.cs" />
@@ -655,9 +645,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Wizards\FrmClusterWizard.resx">
       <DependentUpon>FrmClusterWizard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Tree Explorer\FrmViewTypes.resx">
-      <DependentUpon>FrmViewTypes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

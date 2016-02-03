@@ -126,7 +126,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
                 // Defined filters
                 if (statistics.HasFlag(EClustererStatistics.IncludePartialVectorsForFilters))
                 {
-                    groupFilters.AddRange(core.ObsFilters);
+                    groupFilters.AddRange(core.AllObsFilters);
                 }
 
                 // Group filters (if not already)

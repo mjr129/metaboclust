@@ -340,7 +340,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
         {
             int np = core.Peaks.Count;
 
-            var stats = core.Statistics.ToArray();
+            var stats = core.ActiveStatistics.ToArray();
             string[] metas = core._peakMeta.Headers;
 
             double[][] mat_raw = new double[np][];

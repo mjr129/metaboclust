@@ -82,33 +82,23 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             get { return Resources.ObjPoint; }
         }
 
-        public UiControls.ImageListOrder GetIcon()
+        UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.Point;
         }
 
-        public VisualClass VisualClass
+        VisualClass IVisualisable.VisualClass
         {
             get { return VisualClass.None; }
         }
 
-        public string Comment { get; set; }
+        public string Comment { get; set; } 
 
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            return null;
-        }
-
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            return null;
-        }
-
-        public IEnumerable<Column> GetColumns(Core core)
+        IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             List<Column<ClusterEvaluationParameterResult>> res = new List<Column<ClusterEvaluationParameterResult>>();
 
-            res.Add("Value", true, z => z.DisplayName);
+            res.Add("Value", EColumn.Visible, z => z.DisplayName);
 
             // 
 
@@ -117,31 +107,28 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
                 int closure = n;
                 int humanIndex = n + 1;
 
-                res.Add("Rep " + humanIndex + "\\Number of clusters", false, z => (z.Repetitions[closure].Clusters) != null ? z.Repetitions[closure].Clusters.Length : 0);
+                res.Add("Rep " + humanIndex + "\\Number of clusters", EColumn.None, z => (z.Repetitions[closure].Clusters) != null ? z.Repetitions[closure].Clusters.Length : 0);
 
                 foreach (var k in this.Repetitions[0].ClustererStatistics.Keys) // shouldn't use "this" or "0"
                 {
                     string closure2 = k;
-                    res.Add("Rep " + humanIndex + "\\" + closure2, false, z => z.Repetitions[closure].ClustererStatistics.GetOrNan(closure2));
+                    res.Add("Rep " + humanIndex + "\\" + closure2, EColumn.None, z => z.Repetitions[closure].ClustererStatistics.GetOrNan(closure2));
                 }
             }
 
 
-            res.Add("Rep AVG\\Number of clusters", false, z => z.Repetitions.Average(zz => (zz.Clusters != null) ? zz.Clusters.Length : 0));
+            res.Add("Rep AVG\\Number of clusters", EColumn.None, z => z.Repetitions.Average(zz => (zz.Clusters != null) ? zz.Clusters.Length : 0));
 
             foreach (var k in this.Repetitions[0].ClustererStatistics.Keys) // shouldn't use "this" or "0"
             {
                 string closure = k;
-                res.Add("Rep AVG\\" + closure, false, z => z.Repetitions.Average(zz => zz.ClustererStatistics.GetOrNan(closure)));
-            }
-
-            //res.Add("Rep AVG\\Number of vectors", false, z => z.Results.Average(zz => zz.VMatrix.NumVectors));
-            //res.Add("Rep AVG\\Length of vector", false, z => z.Results.Average(zz => zz.VMatrix.Vectors[0].Values.Length));
+                res.Add("Rep AVG\\" + closure, EColumn.None, z => z.Repetitions.Average(zz => zz.ClustererStatistics.GetOrNan(closure)));
+            }                                                                                                                        
 
             return res;
         }
 
-        public void RequestContents(ContentsRequest list)
+        void IVisualisable.RequestContents(ContentsRequest list)
         {
             // NA
         }
