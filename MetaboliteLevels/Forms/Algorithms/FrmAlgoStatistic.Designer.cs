@@ -38,11 +38,14 @@
             this._lblAVec = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._tlpPreivew = new System.Windows.Forms.TableLayoutPanel();
+            this._lblPreviewTitle = new System.Windows.Forms.Label();
+            this._flpPreviewButtons = new System.Windows.Forms.FlowLayoutPanel();
+            this._btnSelectPreview = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlButton2 = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlButton3 = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this._lblPreview = new System.Windows.Forms.Label();
             this._lblPreview2 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new System.Windows.Forms.Button();
             this._btnOk = new System.Windows.Forms.Button();
@@ -72,14 +75,11 @@
             this.newStatisticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newMetricToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this._btnSelectPreview = new MetaboliteLevels.Controls.CtlButton();
-            this.ctlButton2 = new MetaboliteLevels.Controls.CtlButton();
-            this.ctlButton3 = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreivew.SuspendLayout();
+            this._flpPreviewButtons.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
-            this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -225,8 +225,8 @@
             this.tableLayoutPanel1.SetColumnSpan(this._tlpPreivew, 3);
             this._tlpPreivew.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
             this._tlpPreivew.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpPreivew.Controls.Add(this.label2, 0, 0);
-            this._tlpPreivew.Controls.Add(this.flowLayoutPanel4, 1, 0);
+            this._tlpPreivew.Controls.Add(this._lblPreviewTitle, 0, 0);
+            this._tlpPreivew.Controls.Add(this._flpPreviewButtons, 1, 0);
             this._tlpPreivew.Controls.Add(this.flowLayoutPanel3, 0, 1);
             this._tlpPreivew.ForeColor = System.Drawing.Color.Black;
             this._tlpPreivew.Location = new System.Drawing.Point(8, 665);
@@ -237,6 +237,82 @@
             this._tlpPreivew.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tlpPreivew.Size = new System.Drawing.Size(227, 70);
             this._tlpPreivew.TabIndex = 13;
+            // 
+            // _lblPreviewTitle
+            // 
+            this._lblPreviewTitle.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._lblPreviewTitle.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPreviewTitle.ForeColor = System.Drawing.Color.Black;
+            this._lblPreviewTitle.Location = new System.Drawing.Point(0, 0);
+            this._lblPreviewTitle.Margin = new System.Windows.Forms.Padding(0);
+            this._lblPreviewTitle.Name = "_lblPreviewTitle";
+            this._lblPreviewTitle.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this._lblPreviewTitle.Size = new System.Drawing.Size(128, 33);
+            this._lblPreviewTitle.TabIndex = 1;
+            this._lblPreviewTitle.Text = "Preview";
+            this._lblPreviewTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _flpPreviewButtons
+            // 
+            this._flpPreviewButtons.AutoSize = true;
+            this._flpPreviewButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._flpPreviewButtons.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._flpPreviewButtons.Controls.Add(this._btnSelectPreview);
+            this._flpPreviewButtons.Controls.Add(this.ctlButton2);
+            this._flpPreviewButtons.Controls.Add(this.ctlButton3);
+            this._flpPreviewButtons.ForeColor = System.Drawing.Color.Black;
+            this._flpPreviewButtons.Location = new System.Drawing.Point(128, 0);
+            this._flpPreviewButtons.Margin = new System.Windows.Forms.Padding(0);
+            this._flpPreviewButtons.Name = "_flpPreviewButtons";
+            this._flpPreviewButtons.Padding = new System.Windows.Forms.Padding(2);
+            this._flpPreviewButtons.Size = new System.Drawing.Size(99, 33);
+            this._flpPreviewButtons.TabIndex = 20;
+            this._flpPreviewButtons.WrapContents = false;
+            // 
+            // _btnSelectPreview
+            // 
+            this._btnSelectPreview.BackColor = System.Drawing.SystemColors.Control;
+            this._btnSelectPreview.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewSelect;
+            this._btnSelectPreview.Location = new System.Drawing.Point(2, 2);
+            this._btnSelectPreview.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            this._btnSelectPreview.Name = "_btnSelectPreview";
+            this._btnSelectPreview.Size = new System.Drawing.Size(29, 29);
+            this._btnSelectPreview.TabIndex = 2;
+            this._btnSelectPreview.Text = null;
+            this.toolTip1.SetToolTip(this._btnSelectPreview, "Select preview peak");
+            this._btnSelectPreview.UseDefaultSize = true;
+            this._btnSelectPreview.UseVisualStyleBackColor = false;
+            this._btnSelectPreview.Click += new System.EventHandler(this._btnSelectPreview_Click);
+            // 
+            // ctlButton2
+            // 
+            this.ctlButton2.BackColor = System.Drawing.SystemColors.Control;
+            this.ctlButton2.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewPrevious;
+            this.ctlButton2.Location = new System.Drawing.Point(39, 2);
+            this.ctlButton2.Margin = new System.Windows.Forms.Padding(0);
+            this.ctlButton2.Name = "ctlButton2";
+            this.ctlButton2.Size = new System.Drawing.Size(29, 29);
+            this.ctlButton2.TabIndex = 2;
+            this.ctlButton2.Text = null;
+            this.toolTip1.SetToolTip(this.ctlButton2, "Previous peak");
+            this.ctlButton2.UseDefaultSize = true;
+            this.ctlButton2.UseVisualStyleBackColor = false;
+            this.ctlButton2.Click += new System.EventHandler(this._btnPreviousPreview_Click);
+            // 
+            // ctlButton3
+            // 
+            this.ctlButton3.BackColor = System.Drawing.SystemColors.Control;
+            this.ctlButton3.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewNext;
+            this.ctlButton3.Location = new System.Drawing.Point(68, 2);
+            this.ctlButton3.Margin = new System.Windows.Forms.Padding(0);
+            this.ctlButton3.Name = "ctlButton3";
+            this.ctlButton3.Size = new System.Drawing.Size(29, 29);
+            this.ctlButton3.TabIndex = 2;
+            this.ctlButton3.Text = null;
+            this.toolTip1.SetToolTip(this.ctlButton3, "Next peak");
+            this.ctlButton3.UseDefaultSize = true;
+            this.ctlButton3.UseVisualStyleBackColor = false;
+            this.ctlButton3.Click += new System.EventHandler(this._btnNextPreview_Click);
             // 
             // flowLayoutPanel3
             // 
@@ -276,37 +352,6 @@
             this._lblPreview2.Size = new System.Drawing.Size(94, 21);
             this._lblPreview2.TabIndex = 18;
             this._lblPreview2.Text = "1.23456789";
-            // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label2.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.label2.Size = new System.Drawing.Size(128, 33);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Preview";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // flowLayoutPanel4
-            // 
-            this.flowLayoutPanel4.AutoSize = true;
-            this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel4.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.flowLayoutPanel4.Controls.Add(this._btnSelectPreview);
-            this.flowLayoutPanel4.Controls.Add(this.ctlButton2);
-            this.flowLayoutPanel4.Controls.Add(this.ctlButton3);
-            this.flowLayoutPanel4.ForeColor = System.Drawing.Color.Black;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(128, 0);
-            this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Padding = new System.Windows.Forms.Padding(2);
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(99, 33);
-            this.flowLayoutPanel4.TabIndex = 20;
-            this.flowLayoutPanel4.WrapContents = false;
             // 
             // flowLayoutPanel1
             // 
@@ -640,51 +685,6 @@
             this.newMetricToolStripMenuItem.Text = "&New metric...";
             this.newMetricToolStripMenuItem.Click += new System.EventHandler(this.newMetricToolStripMenuItem_Click);
             // 
-            // _btnSelectPreview
-            // 
-            this._btnSelectPreview.BackColor = System.Drawing.SystemColors.Control;
-            this._btnSelectPreview.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewSelect;
-            this._btnSelectPreview.Location = new System.Drawing.Point(2, 2);
-            this._btnSelectPreview.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            this._btnSelectPreview.Name = "_btnSelectPreview";
-            this._btnSelectPreview.Size = new System.Drawing.Size(29, 29);
-            this._btnSelectPreview.TabIndex = 2;
-            this._btnSelectPreview.Text = null;
-            this.toolTip1.SetToolTip(this._btnSelectPreview, "Select preview peak");
-            this._btnSelectPreview.UseDefaultSize = true;
-            this._btnSelectPreview.UseVisualStyleBackColor = false;
-            this._btnSelectPreview.Click += new System.EventHandler(this._btnSelectPreview_Click);
-            // 
-            // ctlButton2
-            // 
-            this.ctlButton2.BackColor = System.Drawing.SystemColors.Control;
-            this.ctlButton2.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewPrevious;
-            this.ctlButton2.Location = new System.Drawing.Point(39, 2);
-            this.ctlButton2.Margin = new System.Windows.Forms.Padding(0);
-            this.ctlButton2.Name = "ctlButton2";
-            this.ctlButton2.Size = new System.Drawing.Size(29, 29);
-            this.ctlButton2.TabIndex = 2;
-            this.ctlButton2.Text = null;
-            this.toolTip1.SetToolTip(this.ctlButton2, "Previous peak");
-            this.ctlButton2.UseDefaultSize = true;
-            this.ctlButton2.UseVisualStyleBackColor = false;
-            this.ctlButton2.Click += new System.EventHandler(this._btnPreviousPreview_Click);
-            // 
-            // ctlButton3
-            // 
-            this.ctlButton3.BackColor = System.Drawing.SystemColors.Control;
-            this.ctlButton3.Image = global::MetaboliteLevels.Properties.Resources.MnuPreviewNext;
-            this.ctlButton3.Location = new System.Drawing.Point(68, 2);
-            this.ctlButton3.Margin = new System.Windows.Forms.Padding(0);
-            this.ctlButton3.Name = "ctlButton3";
-            this.ctlButton3.Size = new System.Drawing.Size(29, 29);
-            this.ctlButton3.TabIndex = 2;
-            this.ctlButton3.Text = null;
-            this.toolTip1.SetToolTip(this.ctlButton3, "Next peak");
-            this.ctlButton3.UseDefaultSize = true;
-            this.ctlButton3.UseVisualStyleBackColor = false;
-            this.ctlButton3.Click += new System.EventHandler(this._btnNextPreview_Click);
-            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -719,9 +719,9 @@
             this.tableLayoutPanel1.PerformLayout();
             this._tlpPreivew.ResumeLayout(false);
             this._tlpPreivew.PerformLayout();
+            this._flpPreviewButtons.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
-            this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
@@ -774,8 +774,8 @@
         private System.Windows.Forms.Button _btnOk;
         private System.Windows.Forms.Button _btnEditParameters;
         private System.Windows.Forms.TableLayoutPanel _tlpPreivew;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
+        private System.Windows.Forms.Label _lblPreviewTitle;
+        private System.Windows.Forms.FlowLayoutPanel _flpPreviewButtons;
         private Controls.CtlButton _btnSelectPreview;
         private Controls.CtlButton ctlButton2;
         private Controls.CtlButton ctlButton3;

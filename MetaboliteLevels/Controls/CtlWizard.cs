@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Controls
                 InitializeComponent();
 
                 _lblOrder.BackColor = UiControls.BackColour;
-                _lblOrder.ForeColor = UiControls.ForeColour;
+                _lblOrder.ForeColor = UiControls.ForeColour;      
             }
         }
 

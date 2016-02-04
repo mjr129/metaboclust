@@ -246,9 +246,13 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         public FrmAlgoCorrection()
         {
-            InitializeComponent();
-
+            InitializeComponent();    
             UiControls.SetIcon(this);
+
+            _lblPreviewTitle.BackColor = UiControls.PreviewBackColour;
+            _lblPreviewTitle.ForeColor = UiControls.PreviewForeColour;
+            _flpPreviewButtons.BackColor = UiControls.PreviewBackColour;
+            _flpPreviewButtons.ForeColor = UiControls.PreviewForeColour;
         }
 
         private void _btnSelectPreview_Click(object sender, EventArgs e)
@@ -274,13 +278,13 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (_selectedPeak == null)
             {
-                _lblPreview.Text = "Preview (please select peak)";
+                _lblPreviewTitle.Text = "Preview (please select peak)";
                 _chartOrig.ClearPlot();
                 _chartChanged.ClearPlot();
                 return;
             }
 
-            _lblPreview.Text = "Preview (" + _selectedPeak.DisplayName + ")";
+            _lblPreviewTitle.Text = "Preview (" + _selectedPeak.DisplayName + ")";
 
             var orig = new StylisedPeak(_selectedPeak);
             var changed = new StylisedPeak(_selectedPeak);
@@ -355,8 +359,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             _flpBatchButtons.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             _flpGroupButtons.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
-            flowLayoutPanel2.Controls.Add(_flpBatchButtons);
-            flowLayoutPanel2.Controls.Add(_flpGroupButtons);
+            _flpPreviewButtons.Controls.Add(_flpBatchButtons);
+            _flpPreviewButtons.Controls.Add(_flpGroupButtons);
 
             foreach (var ti in _core.Groups.OrderBy(z => z.Id))
             {

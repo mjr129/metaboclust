@@ -193,6 +193,12 @@
     <Compile Include="Forms\Algorithms\FrmEvaluateClusteringOptions.Designer.cs">
       <DependentUpon>FrmEvaluateClusteringOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Generic\FrmAlarm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmAlarm.Designer.cs">
+      <DependentUpon>FrmAlarm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ISelectionHolder.cs" />
     <Compile Include="Forms\Editing\FrmEditExpGroup.cs">
       <SubType>Form</SubType>
@@ -562,6 +568,9 @@
     <EmbeddedResource Include="Forms\Editing\FrmPca.resx">
       <DependentUpon>FrmPca.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmAlarm.resx">
+      <DependentUpon>FrmAlarm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Startup\FrmClosing.resx">
       <DependentUpon>FrmClosing.cs</DependentUpon>
     </EmbeddedResource>
@@ -672,6 +681,7 @@
     <Content Include="Manual.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\TeaAlarm.png" />
     <None Include="Resources\ObjInfo.png" />
     <None Include="Resources\delete.ico" />
     <None Include="Resources\ErrorPointerIcon.ico" />

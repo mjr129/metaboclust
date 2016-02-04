@@ -32,8 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAlgoCorrection));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._tlpPreview = new System.Windows.Forms.TableLayoutPanel();
-            this._lblPreview = new System.Windows.Forms.Label();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this._lblPreviewTitle = new System.Windows.Forms.Label();
+            this._flpPreviewButtons = new System.Windows.Forms.FlowLayoutPanel();
             this._btnSelectPreview = new MetaboliteLevels.Controls.CtlButton();
             this._btnPreviousPreview = new MetaboliteLevels.Controls.CtlButton();
             this._btnNextPreview = new MetaboliteLevels.Controls.CtlButton();
@@ -41,6 +41,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this._btnEditParameters = new System.Windows.Forms.Button();
             this._btnFilter = new System.Windows.Forms.Button();
             this._lblAVec = new System.Windows.Forms.Label();
@@ -72,11 +74,9 @@
             this._lblSepFilter = new System.Windows.Forms.Label();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreview.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
+            this._flpPreviewButtons.SuspendLayout();
             this._tabPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this._flpCorrector.SuspendLayout();
@@ -140,8 +140,8 @@
             this.tableLayoutPanel1.SetColumnSpan(this._tlpPreview, 5);
             this._tlpPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tlpPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpPreview.Controls.Add(this._lblPreview, 0, 0);
-            this._tlpPreview.Controls.Add(this.flowLayoutPanel2, 1, 0);
+            this._tlpPreview.Controls.Add(this._lblPreviewTitle, 0, 0);
+            this._tlpPreview.Controls.Add(this._flpPreviewButtons, 1, 0);
             this._tlpPreview.Controls.Add(this._tabPreview, 0, 1);
             this._tlpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tlpPreview.Location = new System.Drawing.Point(8, 373);
@@ -153,37 +153,37 @@
             this._tlpPreview.Size = new System.Drawing.Size(872, 333);
             this._tlpPreview.TabIndex = 2;
             // 
-            // _lblPreview
+            // _lblPreviewTitle
             // 
-            this._lblPreview.BackColor = System.Drawing.Color.LightSteelBlue;
-            this._lblPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._lblPreview.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblPreview.ForeColor = System.Drawing.Color.Black;
-            this._lblPreview.Location = new System.Drawing.Point(0, 0);
-            this._lblPreview.Margin = new System.Windows.Forms.Padding(0);
-            this._lblPreview.Name = "_lblPreview";
-            this._lblPreview.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this._lblPreview.Size = new System.Drawing.Size(773, 33);
-            this._lblPreview.TabIndex = 0;
-            this._lblPreview.Text = "Preview";
-            this._lblPreview.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblPreviewTitle.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._lblPreviewTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._lblPreviewTitle.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPreviewTitle.ForeColor = System.Drawing.Color.Black;
+            this._lblPreviewTitle.Location = new System.Drawing.Point(0, 0);
+            this._lblPreviewTitle.Margin = new System.Windows.Forms.Padding(0);
+            this._lblPreviewTitle.Name = "_lblPreviewTitle";
+            this._lblPreviewTitle.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this._lblPreviewTitle.Size = new System.Drawing.Size(773, 33);
+            this._lblPreviewTitle.TabIndex = 0;
+            this._lblPreviewTitle.Text = "Preview";
+            this._lblPreviewTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // flowLayoutPanel2
+            // _flpPreviewButtons
             // 
-            this.flowLayoutPanel2.AutoSize = true;
-            this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel2.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.flowLayoutPanel2.Controls.Add(this._btnSelectPreview);
-            this.flowLayoutPanel2.Controls.Add(this._btnPreviousPreview);
-            this.flowLayoutPanel2.Controls.Add(this._btnNextPreview);
-            this.flowLayoutPanel2.ForeColor = System.Drawing.Color.Black;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(773, 0);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Padding = new System.Windows.Forms.Padding(2);
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(99, 33);
-            this.flowLayoutPanel2.TabIndex = 19;
-            this.flowLayoutPanel2.WrapContents = false;
+            this._flpPreviewButtons.AutoSize = true;
+            this._flpPreviewButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._flpPreviewButtons.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._flpPreviewButtons.Controls.Add(this._btnSelectPreview);
+            this._flpPreviewButtons.Controls.Add(this._btnPreviousPreview);
+            this._flpPreviewButtons.Controls.Add(this._btnNextPreview);
+            this._flpPreviewButtons.ForeColor = System.Drawing.Color.Black;
+            this._flpPreviewButtons.Location = new System.Drawing.Point(773, 0);
+            this._flpPreviewButtons.Margin = new System.Windows.Forms.Padding(0);
+            this._flpPreviewButtons.Name = "_flpPreviewButtons";
+            this._flpPreviewButtons.Padding = new System.Windows.Forms.Padding(2);
+            this._flpPreviewButtons.Size = new System.Drawing.Size(99, 33);
+            this._flpPreviewButtons.TabIndex = 19;
+            this._flpPreviewButtons.WrapContents = false;
             // 
             // _btnSelectPreview
             // 
@@ -287,6 +287,24 @@
             this.label4.Size = new System.Drawing.Size(86, 13);
             this.label4.TabIndex = 0;
             this.label4.Text = "Post-correction";
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 29);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(435, 271);
+            this.panel1.TabIndex = 2;
+            // 
+            // panel2
+            // 
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(437, 29);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(435, 271);
+            this.panel2.TabIndex = 2;
             // 
             // _btnEditParameters
             // 
@@ -651,24 +669,6 @@
             this.ctlTitleBar1.Text = "Data Correction";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 29);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(435, 271);
-            this.panel1.TabIndex = 2;
-            // 
-            // panel2
-            // 
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(437, 29);
-            this.panel2.Margin = new System.Windows.Forms.Padding(0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(435, 271);
-            this.panel2.TabIndex = 2;
-            // 
             // FrmAlgoCorrection
             // 
             this.AcceptButton = this._btnOk;
@@ -687,7 +687,7 @@
             this.tableLayoutPanel1.PerformLayout();
             this._tlpPreview.ResumeLayout(false);
             this._tlpPreview.PerformLayout();
-            this.flowLayoutPanel2.ResumeLayout(false);
+            this._flpPreviewButtons.ResumeLayout(false);
             this._tabPreview.ResumeLayout(false);
             this._tabPreview.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -709,7 +709,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label _lblCorrector2;
-        private System.Windows.Forms.Label _lblPreview;
+        private System.Windows.Forms.Label _lblPreviewTitle;
         private System.Windows.Forms.Label _lblAApply;
         private System.Windows.Forms.TableLayoutPanel _tabPreview;
         private System.Windows.Forms.Label label6;
@@ -735,7 +735,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button _btnNewStatistic;
         private System.Windows.Forms.ComboBox _lstMethod;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.FlowLayoutPanel _flpPreviewButtons;
         private Controls.CtlButton _btnPreviousPreview;
         private Controls.CtlButton _btnNextPreview;
         private System.Windows.Forms.Button _btnFilter;

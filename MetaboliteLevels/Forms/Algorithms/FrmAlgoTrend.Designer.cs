@@ -54,15 +54,15 @@
             this._txtParams = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this._tlpPreview = new System.Windows.Forms.TableLayoutPanel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this._lblPreviewTitle = new System.Windows.Forms.Label();
+            this._flpPreviewButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.contextMenuStrip1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreview.SuspendLayout();
-            this.flowLayoutPanel3.SuspendLayout();
+            this._flpPreviewButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // newMetricToolStripMenuItem
@@ -359,8 +359,8 @@
             this.tableLayoutPanel1.SetColumnSpan(this._tlpPreview, 4);
             this._tlpPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tlpPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._tlpPreview.Controls.Add(this.label3, 0, 0);
-            this._tlpPreview.Controls.Add(this.flowLayoutPanel3, 1, 0);
+            this._tlpPreview.Controls.Add(this._lblPreviewTitle, 0, 0);
+            this._tlpPreview.Controls.Add(this._flpPreviewButtons, 1, 0);
             this._tlpPreview.Controls.Add(this.panel1, 0, 1);
             this._tlpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tlpPreview.ForeColor = System.Drawing.Color.Black;
@@ -373,37 +373,47 @@
             this._tlpPreview.Size = new System.Drawing.Size(1046, 439);
             this._tlpPreview.TabIndex = 15;
             // 
-            // label3
+            // _lblPreviewTitle
             // 
-            this.label3.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Margin = new System.Windows.Forms.Padding(0);
-            this.label3.Name = "label3";
-            this.label3.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.label3.Size = new System.Drawing.Size(947, 33);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Preview";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblPreviewTitle.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._lblPreviewTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._lblPreviewTitle.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPreviewTitle.ForeColor = System.Drawing.Color.Black;
+            this._lblPreviewTitle.Location = new System.Drawing.Point(0, 0);
+            this._lblPreviewTitle.Margin = new System.Windows.Forms.Padding(0);
+            this._lblPreviewTitle.Name = "_lblPreviewTitle";
+            this._lblPreviewTitle.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            this._lblPreviewTitle.Size = new System.Drawing.Size(947, 33);
+            this._lblPreviewTitle.TabIndex = 0;
+            this._lblPreviewTitle.Text = "Preview";
+            this._lblPreviewTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // flowLayoutPanel3
+            // _flpPreviewButtons
             // 
-            this.flowLayoutPanel3.AutoSize = true;
-            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel3.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.flowLayoutPanel3.Controls.Add(this.ctlButton1);
-            this.flowLayoutPanel3.Controls.Add(this.ctlButton2);
-            this.flowLayoutPanel3.Controls.Add(this.ctlButton3);
-            this.flowLayoutPanel3.ForeColor = System.Drawing.Color.Black;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(947, 0);
-            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Padding = new System.Windows.Forms.Padding(2);
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(99, 33);
-            this.flowLayoutPanel3.TabIndex = 19;
-            this.flowLayoutPanel3.WrapContents = false;
+            this._flpPreviewButtons.AutoSize = true;
+            this._flpPreviewButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._flpPreviewButtons.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._flpPreviewButtons.Controls.Add(this.ctlButton1);
+            this._flpPreviewButtons.Controls.Add(this.ctlButton2);
+            this._flpPreviewButtons.Controls.Add(this.ctlButton3);
+            this._flpPreviewButtons.ForeColor = System.Drawing.Color.Black;
+            this._flpPreviewButtons.Location = new System.Drawing.Point(947, 0);
+            this._flpPreviewButtons.Margin = new System.Windows.Forms.Padding(0);
+            this._flpPreviewButtons.Name = "_flpPreviewButtons";
+            this._flpPreviewButtons.Padding = new System.Windows.Forms.Padding(2);
+            this._flpPreviewButtons.Size = new System.Drawing.Size(99, 33);
+            this._flpPreviewButtons.TabIndex = 19;
+            this._flpPreviewButtons.WrapContents = false;
+            // 
+            // panel1
+            // 
+            this._tlpPreview.SetColumnSpan(this.panel1, 2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 33);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1046, 406);
+            this.panel1.TabIndex = 20;
             // 
             // ctlTitleBar1
             // 
@@ -420,16 +430,6 @@
             this.ctlTitleBar1.TabIndex = 13;
             this.ctlTitleBar1.Text = "Select Smoothing Algorithm";
             this.ctlTitleBar1.WarningText = null;
-            // 
-            // panel1
-            // 
-            this._tlpPreview.SetColumnSpan(this.panel1, 2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 33);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1046, 406);
-            this.panel1.TabIndex = 20;
             // 
             // FrmAlgoTrend
             // 
@@ -450,7 +450,7 @@
             this.tableLayoutPanel1.PerformLayout();
             this._tlpPreview.ResumeLayout(false);
             this._tlpPreview.PerformLayout();
-            this.flowLayoutPanel3.ResumeLayout(false);
+            this._flpPreviewButtons.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -480,8 +480,8 @@
         private System.Windows.Forms.Label _lblError;
         private System.Windows.Forms.Button _btnEditParameters;
         private System.Windows.Forms.TableLayoutPanel _tlpPreview;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.Label _lblPreviewTitle;
+        private System.Windows.Forms.FlowLayoutPanel _flpPreviewButtons;
         private Controls.CtlButton ctlButton1;
         private Controls.CtlButton ctlButton2;
         private Controls.CtlButton ctlButton3;

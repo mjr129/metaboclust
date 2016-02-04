@@ -128,12 +128,12 @@
             this._flpSelectAll.AutoScroll = true;
             this._flpSelectAll.AutoSize = true;
             this._flpSelectAll.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._flpSelectAll.BackColor = System.Drawing.Color.CornflowerBlue;
+            this._flpSelectAll.BackColor = System.Drawing.Color.LightSteelBlue;
             this._flpSelectAll.Controls.Add(this._btnSelectNone);
             this._flpSelectAll.Controls.Add(this._btnSelectAll);
             this._flpSelectAll.Dock = System.Windows.Forms.DockStyle.Top;
             this._flpSelectAll.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this._flpSelectAll.ForeColor = System.Drawing.Color.White;
+            this._flpSelectAll.ForeColor = System.Drawing.Color.Black;
             this._flpSelectAll.Location = new System.Drawing.Point(0, 87);
             this._flpSelectAll.Name = "_flpSelectAll";
             this._flpSelectAll.Padding = new System.Windows.Forms.Padding(8);

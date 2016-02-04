@@ -241,7 +241,7 @@ Columns:
 {productname} version {version}.
 Martin Rusilowicz.
 
-Additional icons made by Freepik, Google, Appzgear from www.flaticon.com are licensed by CC BY 3.0.
+Additional icons made by Freepik, Google, Appzgear, Vectorgraphit from www.flaticon.com are licensed by CC BY 3.0.
 
 [k-means++]
 This process starts with a "seed" variable to act as an exemplar. The distance of all other variables to this variable is then calculated. The most distant variable is then used as a second exemplar. The variable most distant from their closest exemplar acts as a third exemplar and so forth. The process is repeated until all variables fall within a certain distance range of the exemplars, or optionally until a certain number of exemplars are generated. These exemplars then act as the centres in a standard k-means clustering.

@@ -13,11 +13,8 @@ namespace MetaboliteLevels.Controls
     class CtlSplitter : SplitContainer
     {
         public CtlSplitter()
-        {
-            //this.SetStyle(ControlStyles.UserPaint, true);
-            //this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            this.SetStyle(ControlStyles.ResizeRedraw, true);
-
+        {                                                                   
+            this.SetStyle(ControlStyles.ResizeRedraw, true);      
             SplitterWidth = 6;
         }
 
@@ -46,7 +43,7 @@ namespace MetaboliteLevels.Controls
 
             if (this.Orientation == Orientation.Horizontal)
             {
-                e.Graphics.FillRectangle(SystemBrushes.ControlDark, s.SplitterRectangle.X, s.SplitterDistance, s.SplitterRectangle.Width, s.SplitterWidth);
+                e.Graphics.FillRectangle(Brushes.SlateGray, s.SplitterRectangle.X, s.SplitterDistance, s.SplitterRectangle.Width, s.SplitterWidth);
                 e.Graphics.DrawLine(Pens.LightSlateGray, s.SplitterRectangle.X, s.SplitterDistance, s.SplitterRectangle.Width, s.SplitterDistance);
                 e.Graphics.DrawLine(Pens.LightSlateGray, s.SplitterRectangle.X, s.SplitterDistance + s.SplitterWidth - 1, s.SplitterRectangle.Width, s.SplitterDistance + s.SplitterWidth - 1);
 
@@ -59,7 +56,7 @@ namespace MetaboliteLevels.Controls
             }
             else
             {
-                e.Graphics.FillRectangle(SystemBrushes.ControlDark, s.SplitterDistance, s.SplitterRectangle.Y, s.SplitterWidth, s.SplitterRectangle.Height);
+                e.Graphics.FillRectangle(Brushes.SlateGray, s.SplitterDistance, s.SplitterRectangle.Y, s.SplitterWidth, s.SplitterRectangle.Height);
                 e.Graphics.DrawLine(Pens.LightSlateGray, s.SplitterDistance, s.SplitterRectangle.Y, s.SplitterDistance, s.SplitterRectangle.Height);
                 e.Graphics.DrawLine(Pens.LightSlateGray, s.SplitterDistance + s.SplitterWidth - 1, s.SplitterRectangle.Y, s.SplitterDistance + s.SplitterWidth - 1, s.SplitterRectangle.Height);
 

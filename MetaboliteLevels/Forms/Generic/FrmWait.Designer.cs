@@ -54,7 +54,7 @@
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(750, 87);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(767, 87);
             this.ctlTitleBar1.SubText = "Doing something";
             this.ctlTitleBar1.TabIndex = 0;
             this.ctlTitleBar1.Text = "Please wait";
@@ -64,11 +64,11 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.progressBar1, 2);
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.progressBar1.Location = new System.Drawing.Point(79, 54);
+            this.progressBar1.Location = new System.Drawing.Point(80, 52);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.progressBar1.MarqueeAnimationSpeed = 200;
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(592, 24);
+            this.progressBar1.Size = new System.Drawing.Size(604, 24);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 0;
             // 
@@ -91,7 +91,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(750, 132);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(767, 128);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // flowLayoutPanel1
@@ -106,9 +106,9 @@
             this.flowLayoutPanel1.Controls.Add(this._chkPrioritise);
             this.flowLayoutPanel1.Controls.Add(this._chkLazy);
             this.flowLayoutPanel1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(111, 6);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(114, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(527, 37);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(536, 37);
             this.flowLayoutPanel1.TabIndex = 4;
             this.flowLayoutPanel1.Visible = false;
             this.flowLayoutPanel1.WrapContents = false;
@@ -117,85 +117,70 @@
             // 
             this._chkStop.Appearance = System.Windows.Forms.Appearance.Button;
             this._chkStop.AutoSize = true;
-            this._chkStop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this._chkStop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this._chkStop.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this._chkStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._chkStop.ForeColor = System.Drawing.Color.Blue;
             this._chkStop.Location = new System.Drawing.Point(3, 3);
             this._chkStop.Name = "_chkStop";
             this._chkStop.Size = new System.Drawing.Size(66, 31);
             this._chkStop.TabIndex = 0;
             this._chkStop.Text = "Cancel";
-            this._chkStop.UseVisualStyleBackColor = false;
+            this._chkStop.UseVisualStyleBackColor = true;
             this._chkStop.CheckedChanged += new System.EventHandler(this._chkStop_CheckedChanged);
             // 
             // _chkSuspend
             // 
             this._chkSuspend.Appearance = System.Windows.Forms.Appearance.Button;
             this._chkSuspend.AutoSize = true;
-            this._chkSuspend.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this._chkSuspend.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this._chkSuspend.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this._chkSuspend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._chkSuspend.ForeColor = System.Drawing.Color.Blue;
             this._chkSuspend.Location = new System.Drawing.Point(75, 3);
             this._chkSuspend.Name = "_chkSuspend";
             this._chkSuspend.Size = new System.Drawing.Size(61, 31);
             this._chkSuspend.TabIndex = 2;
             this._chkSuspend.Text = "Pause";
-            this._chkSuspend.UseVisualStyleBackColor = false;
+            this._chkSuspend.UseVisualStyleBackColor = true;
             this._chkSuspend.CheckedChanged += new System.EventHandler(this._chkSuspend_CheckedChanged);
             // 
             // _chkDeprioritise
             // 
             this._chkDeprioritise.Appearance = System.Windows.Forms.Appearance.Button;
             this._chkDeprioritise.AutoSize = true;
-            this._chkDeprioritise.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this._chkDeprioritise.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this._chkDeprioritise.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this._chkDeprioritise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._chkDeprioritise.ForeColor = System.Drawing.Color.Blue;
             this._chkDeprioritise.Location = new System.Drawing.Point(142, 3);
             this._chkDeprioritise.Name = "_chkDeprioritise";
-            this._chkDeprioritise.Size = new System.Drawing.Size(161, 31);
+            this._chkDeprioritise.Size = new System.Drawing.Size(104, 31);
             this._chkDeprioritise.TabIndex = 1;
-            this._chkDeprioritise.Text = "Priority: Background";
-            this._chkDeprioritise.UseVisualStyleBackColor = false;
+            this._chkDeprioritise.Text = "Low priority";
+            this._chkDeprioritise.UseVisualStyleBackColor = true;
             this._chkDeprioritise.CheckedChanged += new System.EventHandler(this._chkDeprioritise_CheckedChanged);
             // 
             // _chkPrioritise
             // 
             this._chkPrioritise.Appearance = System.Windows.Forms.Appearance.Button;
             this._chkPrioritise.AutoSize = true;
-            this._chkPrioritise.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this._chkPrioritise.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this._chkPrioritise.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this._chkPrioritise.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._chkPrioritise.ForeColor = System.Drawing.Color.Blue;
-            this._chkPrioritise.Location = new System.Drawing.Point(309, 3);
+            this._chkPrioritise.Location = new System.Drawing.Point(252, 3);
             this._chkPrioritise.Name = "_chkPrioritise";
-            this._chkPrioritise.Size = new System.Drawing.Size(111, 31);
+            this._chkPrioritise.Size = new System.Drawing.Size(108, 31);
             this._chkPrioritise.TabIndex = 3;
-            this._chkPrioritise.Text = "Priority: High";
-            this._chkPrioritise.UseVisualStyleBackColor = false;
+            this._chkPrioritise.Text = "High priority";
+            this._chkPrioritise.UseVisualStyleBackColor = true;
             this._chkPrioritise.CheckedChanged += new System.EventHandler(this._chkPrioritise_CheckedChanged);
             // 
             // _chkLazy
             // 
             this._chkLazy.Appearance = System.Windows.Forms.Appearance.Button;
             this._chkLazy.AutoSize = true;
-            this._chkLazy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this._chkLazy.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this._chkLazy.FlatAppearance.CheckedBackColor = System.Drawing.Color.Red;
-            this._chkLazy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._chkLazy.ForeColor = System.Drawing.Color.Blue;
-            this._chkLazy.Location = new System.Drawing.Point(426, 3);
+            this._chkLazy.Location = new System.Drawing.Point(366, 3);
             this._chkLazy.Name = "_chkLazy";
-            this._chkLazy.Size = new System.Drawing.Size(98, 31);
+            this._chkLazy.Size = new System.Drawing.Size(167, 31);
             this._chkLazy.TabIndex = 4;
-            this._chkLazy.Text = "Run slower";
-            this._chkLazy.UseVisualStyleBackColor = false;
+            this._chkLazy.Text = "Insert periodic delays";
+            this._chkLazy.UseVisualStyleBackColor = true;
             this._chkLazy.CheckedChanged += new System.EventHandler(this._chkLazy_CheckedChanged);
             // 
             // label1
@@ -204,7 +189,7 @@
             this.label1.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label1, 2);
             this.label1.ForeColor = System.Drawing.Color.Silver;
-            this.label1.Location = new System.Drawing.Point(668, 111);
+            this.label1.Location = new System.Drawing.Point(685, 107);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 21);
             this.label1.TabIndex = 3;
@@ -216,7 +201,7 @@
             this.label2.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.label2, 2);
             this.label2.ForeColor = System.Drawing.Color.Silver;
-            this.label2.Location = new System.Drawing.Point(3, 111);
+            this.label2.Location = new System.Drawing.Point(3, 107);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 21);
             this.label2.TabIndex = 3;
@@ -235,12 +220,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(750, 219);
+            this.ClientSize = new System.Drawing.Size(767, 215);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FrmWait";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

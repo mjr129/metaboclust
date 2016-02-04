@@ -45,13 +45,13 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this._lbl32Bit = new System.Windows.Forms.Label();
+            this._imgPhotograph = new System.Windows.Forms.PictureBox();
+            this._lbl32BitWarning = new System.Windows.Forms.Label();
             this._btnMostRecent = new System.Windows.Forms.Button();
             this._btnNewSession = new System.Windows.Forms.Button();
             this._btnReturnToSession = new System.Windows.Forms.Button();
             this._btnReconfigure = new System.Windows.Forms.Button();
-            this.label13 = new System.Windows.Forms.Label();
+            this._lblProgramDescription = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
@@ -137,7 +137,7 @@
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._imgPhotograph)).BeginInit();
             this.tabPage5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -252,7 +252,7 @@
             this.tabPage6.Controls.Add(this.linkLabel1);
             this.tabPage6.Controls.Add(this.pictureBox1);
             this.tabPage6.Controls.Add(this.tableLayoutPanel1);
-            this.tabPage6.Controls.Add(this.label13);
+            this.tabPage6.Controls.Add(this._lblProgramDescription);
             this.tabPage6.Location = new System.Drawing.Point(4, 4);
             this.tabPage6.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage6.Name = "tabPage6";
@@ -298,7 +298,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3443, 521);
+            this.pictureBox1.Location = new System.Drawing.Point(3479, 521);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -314,8 +314,8 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this._lbl32Bit, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this._imgPhotograph, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this._lbl32BitWarning, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this._btnMostRecent, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this._btnNewSession, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this._btnReturnToSession, 0, 1);
@@ -333,34 +333,34 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(748, 682);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // pictureBox2
+            // _imgPhotograph
             // 
-            this.pictureBox2.Image = global::MetaboliteLevels.Properties.Resources.StartLogo2;
-            this.pictureBox2.Location = new System.Drawing.Point(538, 0);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
-            this.pictureBox2.Name = "pictureBox2";
-            this.tableLayoutPanel1.SetRowSpan(this.pictureBox2, 3);
-            this.pictureBox2.Size = new System.Drawing.Size(202, 239);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox2.TabIndex = 3;
-            this.pictureBox2.TabStop = false;
-            this._tipPopup.SetToolTip(this.pictureBox2, "A photograph of Medicago truncatula A17 showing the shoot with leaves and seed po" +
+            this._imgPhotograph.Image = global::MetaboliteLevels.Properties.Resources.StartLogo2;
+            this._imgPhotograph.Location = new System.Drawing.Point(538, 0);
+            this._imgPhotograph.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
+            this._imgPhotograph.Name = "_imgPhotograph";
+            this.tableLayoutPanel1.SetRowSpan(this._imgPhotograph, 3);
+            this._imgPhotograph.Size = new System.Drawing.Size(202, 239);
+            this._imgPhotograph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this._imgPhotograph.TabIndex = 3;
+            this._imgPhotograph.TabStop = false;
+            this._tipPopup.SetToolTip(this._imgPhotograph, "A photograph of Medicago truncatula A17 showing the shoot with leaves and seed po" +
         "ds.\r\nNinjatacoshell 2009. Modified.\r\n");
             // 
-            // _lbl32Bit
+            // _lbl32BitWarning
             // 
-            this._lbl32Bit.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this._lbl32Bit.AutoSize = true;
-            this._lbl32Bit.BackColor = System.Drawing.Color.Red;
-            this._lbl32Bit.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._lbl32Bit.ForeColor = System.Drawing.Color.White;
-            this._lbl32Bit.Location = new System.Drawing.Point(49, 465);
-            this._lbl32Bit.Name = "_lbl32Bit";
-            this._lbl32Bit.Size = new System.Drawing.Size(432, 65);
-            this._lbl32Bit.TabIndex = 20;
-            this._lbl32Bit.Text = "Warning: This application is running in 32 bit mode.\r\nFor very large datasets or " +
+            this._lbl32BitWarning.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this._lbl32BitWarning.AutoSize = true;
+            this._lbl32BitWarning.BackColor = System.Drawing.Color.Red;
+            this._lbl32BitWarning.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._lbl32BitWarning.ForeColor = System.Drawing.Color.White;
+            this._lbl32BitWarning.Location = new System.Drawing.Point(49, 465);
+            this._lbl32BitWarning.Name = "_lbl32BitWarning";
+            this._lbl32BitWarning.Size = new System.Drawing.Size(432, 65);
+            this._lbl32BitWarning.TabIndex = 20;
+            this._lbl32BitWarning.Text = "Warning: This application is running in 32 bit mode.\r\nFor very large datasets or " +
     "cluster optimisation 64 bit mode is recommended.";
-            this._lbl32Bit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._lbl32BitWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _btnMostRecent
             // 
@@ -428,32 +428,34 @@
             // _btnReconfigure
             // 
             this._btnReconfigure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnReconfigure.AutoSize = true;
+            this._btnReconfigure.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._btnReconfigure.FlatAppearance.BorderSize = 0;
             this._btnReconfigure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnReconfigure.ForeColor = System.Drawing.Color.Silver;
             this._btnReconfigure.Image = ((System.Drawing.Image)(resources.GetObject("_btnReconfigure.Image")));
-            this._btnReconfigure.Location = new System.Drawing.Point(706, 640);
+            this._btnReconfigure.Location = new System.Drawing.Point(700, 634);
             this._btnReconfigure.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
             this._btnReconfigure.MaximumSize = new System.Drawing.Size(658, 672);
             this._btnReconfigure.Name = "_btnReconfigure";
-            this._btnReconfigure.Size = new System.Drawing.Size(32, 32);
+            this._btnReconfigure.Size = new System.Drawing.Size(38, 38);
             this._btnReconfigure.TabIndex = 2;
             this._tipPopup.SetToolTip(this._btnReconfigure, "Settings menu");
-            this._btnReconfigure.UseVisualStyleBackColor = true;
             this._btnReconfigure.Click += new System.EventHandler(this._btnReconfigure_Click);
             // 
-            // label13
+            // _lblProgramDescription
             // 
-            this.label13.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.label13.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(0, 0);
-            this.label13.Margin = new System.Windows.Forms.Padding(0);
-            this.label13.Name = "label13";
-            this.label13.Padding = new System.Windows.Forms.Padding(41, 0, 0, 0);
-            this.label13.Size = new System.Drawing.Size(748, 38);
-            this.label13.TabIndex = 2;
-            this.label13.Text = "Text Goes Here";
+            this._lblProgramDescription.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._lblProgramDescription.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lblProgramDescription.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblProgramDescription.ForeColor = System.Drawing.Color.Black;
+            this._lblProgramDescription.Location = new System.Drawing.Point(0, 0);
+            this._lblProgramDescription.Margin = new System.Windows.Forms.Padding(0);
+            this._lblProgramDescription.Name = "_lblProgramDescription";
+            this._lblProgramDescription.Padding = new System.Windows.Forms.Padding(41, 0, 0, 0);
+            this._lblProgramDescription.Size = new System.Drawing.Size(748, 38);
+            this._lblProgramDescription.TabIndex = 2;
+            this._lblProgramDescription.Text = "Description goes here";
             // 
             // tabPage5
             // 
@@ -868,10 +870,10 @@
             this.label7.Location = new System.Drawing.Point(14, 17);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(508, 42);
+            this.label7.Size = new System.Drawing.Size(504, 42);
             this.label7.TabIndex = 16;
             this.label7.Text = "Select the data files you want to work with.\r\nInformation about supported file fo" +
-    "rmats can be viewed on the help bar.";
+    "rmats can be found by viewing help.";
             // 
             // label10
             // 
@@ -1454,7 +1456,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 4);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(757, 720);
+            this.tabPage7.Size = new System.Drawing.Size(748, 720);
             this.tabPage7.TabIndex = 7;
             this.tabPage7.Text = "Ready";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1471,23 +1473,22 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(751, 714);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(742, 714);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // _chkAlarm
             // 
             this._chkAlarm.AutoSize = true;
-            this._chkAlarm.Image = ((System.Drawing.Image)(resources.GetObject("_chkAlarm.Image")));
+            this._chkAlarm.Image = global::MetaboliteLevels.Properties.Resources.TeaAlarm;
             this._chkAlarm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._chkAlarm.Location = new System.Drawing.Point(3, 687);
+            this._chkAlarm.Location = new System.Drawing.Point(3, 671);
             this._chkAlarm.Name = "_chkAlarm";
             this._chkAlarm.Padding = new System.Windows.Forms.Padding(4);
-            this._chkAlarm.Size = new System.Drawing.Size(39, 24);
+            this._chkAlarm.Size = new System.Drawing.Size(71, 40);
             this._chkAlarm.TabIndex = 5;
             this._chkAlarm.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this._tipSideBar.SetToolTip(this._chkAlarm, "Set an alarm to sound when the dataset is created. Useful for loading very large " +
-        "datasets for the first time.");
-            this._tipPopup.SetToolTip(this._chkAlarm, "Set an alarm to sound when the dataset is created");
+            this._tipSideBar.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Microsoft Windows only).");
+            this._tipPopup.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Microsoft Windows only).");
             this._chkAlarm.UseVisualStyleBackColor = true;
             // 
             // label12
@@ -1499,7 +1500,7 @@
             this.label12.Margin = new System.Windows.Forms.Padding(48);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(8);
-            this.label12.Size = new System.Drawing.Size(655, 100);
+            this.label12.Size = new System.Drawing.Size(646, 100);
             this.label12.TabIndex = 4;
             this.label12.Text = "Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSaving " +
     "your session from the main menu will allow it to be loaded quickly in future.";
@@ -1599,7 +1600,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._imgPhotograph)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
@@ -1688,7 +1689,7 @@
         private System.Windows.Forms.ContextMenuStrip _cmsRecentSessions;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button _btnMostRecent;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox _imgPhotograph;
         private MetaboliteLevels.Controls.CtlButton _btnBrowseExpCond;
         private MetaboliteLevels.Controls.CtlButton _btnBrowseContCond;
         private System.Windows.Forms.TabPage tabPage4;
@@ -1739,7 +1740,7 @@
         private Controls.CtlButton _btnAddAllCompounds;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label _lbl32Bit;
+        private System.Windows.Forms.Label _lblProgramDescription;
+        private System.Windows.Forms.Label _lbl32BitWarning;
     }
 }

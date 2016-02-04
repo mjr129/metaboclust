@@ -45,6 +45,9 @@ namespace MetaboliteLevels.Forms.Generic
         public FrmRScript()
         {
             InitializeComponent();
+            _mnuStrip.BackColor = UiControls.BackColour;
+            this._mnuFile.ForeColor = UiControls.ForeColour;
+
             UiControls.SetIcon(this);
         }
 
@@ -139,22 +142,22 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 if (_fileName == null)
                 {
-                    this.fileToolStripMenuItem.Text = "&FILE";
+                    this._mnuFile.Text = "&FILE";
                 }
                 else
                 {
-                    this.fileToolStripMenuItem.Text = Path.GetFileNameWithoutExtension(_fileName).ToUpper() + " (unsaved)";
+                    this._mnuFile.Text = Path.GetFileNameWithoutExtension(_fileName).ToUpper() + " (unsaved)";
                 }
             }
             else
             {
                 if (_fileName == null)
                 {
-                    this.fileToolStripMenuItem.Text = "&FILE";
+                    this._mnuFile.Text = "&FILE";
                 }
                 else
                 {
-                    this.fileToolStripMenuItem.Text = Path.GetFileNameWithoutExtension(_fileName).ToUpper();
+                    this._mnuFile.Text = Path.GetFileNameWithoutExtension(_fileName).ToUpper();
                 }
             }
         }

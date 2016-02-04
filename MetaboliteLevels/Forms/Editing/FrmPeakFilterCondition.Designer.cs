@@ -37,7 +37,7 @@
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this._lblPreviewTitle = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this._lblSigPeaks = new System.Windows.Forms.Label();
             this._lblInsigPeaks = new System.Windows.Forms.Label();
@@ -173,7 +173,7 @@
             this.flowLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel5.BackColor = System.Drawing.Color.White;
             this.flowLayoutPanel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flowLayoutPanel5.Controls.Add(this.label1);
+            this.flowLayoutPanel5.Controls.Add(this._lblPreviewTitle);
             this.flowLayoutPanel5.Controls.Add(this.label2);
             this.flowLayoutPanel5.Controls.Add(this._lblSigPeaks);
             this.flowLayoutPanel5.Controls.Add(this._lblInsigPeaks);
@@ -186,21 +186,21 @@
             this.flowLayoutPanel5.TabIndex = 4;
             this.flowLayoutPanel5.WrapContents = false;
             // 
-            // label1
+            // _lblPreviewTitle
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(4);
-            this.label1.Size = new System.Drawing.Size(255, 29);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Results (this rule alone)";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._lblPreviewTitle.AutoSize = true;
+            this._lblPreviewTitle.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._lblPreviewTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lblPreviewTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPreviewTitle.ForeColor = System.Drawing.Color.Black;
+            this._lblPreviewTitle.Location = new System.Drawing.Point(0, 0);
+            this._lblPreviewTitle.Margin = new System.Windows.Forms.Padding(0);
+            this._lblPreviewTitle.Name = "_lblPreviewTitle";
+            this._lblPreviewTitle.Padding = new System.Windows.Forms.Padding(4);
+            this._lblPreviewTitle.Size = new System.Drawing.Size(255, 29);
+            this._lblPreviewTitle.TabIndex = 3;
+            this._lblPreviewTitle.Text = "Results (this rule alone)";
+            this._lblPreviewTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
@@ -582,7 +582,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.RadioButton _radAnd;
         private System.Windows.Forms.RadioButton _radOr;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label _lblPreviewTitle;
         private System.Windows.Forms.ComboBox _lstFlagComparator;
         private System.Windows.Forms.ComboBox _lstClusterComparator;
         private System.Windows.Forms.ComboBox _lstPeakComparator;

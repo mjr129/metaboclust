@@ -300,6 +300,10 @@ namespace MetaboliteLevels.Forms.Generic
         private FrmList()
         {
             InitializeComponent();
+
+            _flpSelectAll.BackColor = UiControls.BackColour;
+            _flpSelectAll.ForeColor = UiControls.ForeColour;
+
             UiControls.SetIcon(this);
         }
 

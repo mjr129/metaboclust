@@ -49,13 +49,13 @@ namespace MetaboliteLevels.Forms.Startup
         {
             InitializeComponent();
 
-            label13.BackColor = UiControls.BackColour;
-            label13.ForeColor = UiControls.ForeColour;
+            _lblProgramDescription.BackColor = UiControls.BackColour;
+            _lblProgramDescription.ForeColor = UiControls.ForeColour;
 
             Text = UiControls.Title;
             UiControls.SetIcon(this);
 
-            _lbl32Bit.Visible = IntPtr.Size != 8;
+            _lbl32BitWarning.Visible = IntPtr.Size != 8;
 
             // Setup wizard
             _wizard = CtlWizard.BindNew(tabControl1.Parent, tabControl1, CtlWizardOptions.ShowCancel | CtlWizardOptions.HandleBasicChanges);
@@ -76,7 +76,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Setup captions
             linkLabel1.Text = UiControls.Title + " " + UiControls.VersionString.ToString();
-            label13.Text = UiControls.Description;
+            _lblProgramDescription.Text = UiControls.Description;
 
             // Populate LC-MS modes
             EnumComboBox.Populate(_lstLcmsMode, ELcmsMode.None, true);
@@ -527,10 +527,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (_chkAlarm.Checked)
             {
-                NativeMethods.Beep(3000, 200);
-                Thread.Sleep(50);
-                NativeMethods.Beep(3000, 200);
-                Thread.Sleep(500);
+                FrmAlarm.Show(this);
             }
 
             DialogResult = DialogResult.OK;

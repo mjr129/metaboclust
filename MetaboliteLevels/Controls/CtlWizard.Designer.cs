@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CtlWizard));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this._lblOrder = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnShowHelp = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
@@ -38,7 +39,6 @@
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._lblOrder = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
@@ -62,6 +62,20 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(756, 395);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // _lblOrder
+            // 
+            this._lblOrder.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._lblOrder.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lblOrder.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblOrder.ForeColor = System.Drawing.Color.Black;
+            this._lblOrder.Location = new System.Drawing.Point(0, 66);
+            this._lblOrder.Margin = new System.Windows.Forms.Padding(0);
+            this._lblOrder.Name = "_lblOrder";
+            this._lblOrder.Size = new System.Drawing.Size(756, 28);
+            this._lblOrder.TabIndex = 3;
+            this._lblOrder.Text = "Order ➜ [Order] ➜ Order";
+            this._lblOrder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // flowLayoutPanel3
             // 
@@ -168,20 +182,6 @@
             this.ctlTitleBar1.TabIndex = 22;
             this.ctlTitleBar1.Text = "Title";
             this.ctlTitleBar1.WarningText = null;
-            // 
-            // _lblOrder
-            // 
-            this._lblOrder.BackColor = System.Drawing.Color.CornflowerBlue;
-            this._lblOrder.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lblOrder.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblOrder.ForeColor = System.Drawing.Color.White;
-            this._lblOrder.Location = new System.Drawing.Point(0, 66);
-            this._lblOrder.Margin = new System.Windows.Forms.Padding(0);
-            this._lblOrder.Name = "_lblOrder";
-            this._lblOrder.Size = new System.Drawing.Size(756, 28);
-            this._lblOrder.TabIndex = 3;
-            this._lblOrder.Text = "Order ➜ [Order] ➜ Order";
-            this._lblOrder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CtlWizard
             // 

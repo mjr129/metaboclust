@@ -119,6 +119,12 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             InitializeComponent();
             UiControls.SetIcon(this);
+
+            _lblPreviewTitle.BackColor = UiControls.PreviewBackColour;
+            _lblPreviewTitle.ForeColor = UiControls.PreviewForeColour;
+            _flpPreviewButtons.BackColor = UiControls.PreviewBackColour;
+            _flpPreviewButtons.ForeColor = UiControls.PreviewForeColour;
+
             RebuildUsing(null);
         }
 

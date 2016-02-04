@@ -502,7 +502,7 @@
         HwpIXwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="tableLayoutPanel9.DrawGrid" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="tabPage2.DrawGrid" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <data name="_btnIdentifications.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -518,15 +518,6 @@
   <metadata name="tabPage7.DrawGrid" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <data name="_chkAlarm.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACpSURBVDhP3ZLrDcIwDIQ9AiMwQkdgBEboJjBCB8ijG3QUVmATuIOr2qaGhL+c9EmWc5fYau2T
-        cs6HlNKNsFa7XSGEM8IPwlrtuvhajHGawzPsVSdZjb0Jr/i+DgxjEfAYZd/LMbvIvhVG6zyzB7xHxRah
-        efLMHvQqtugPLsBByyd8gZ8qK/YWmkNpamBQ3Aw39uD6I73ivrgnuIj9zjUh1OGVO2GtdiGzJ6p9mLIA
-        5rOMAAAAAElFTkSuQmCC
-</value>
-  </data>
   <metadata name="_cmsRecentSessions.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>387, 17</value>
   </metadata>

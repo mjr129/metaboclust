@@ -49,7 +49,9 @@ namespace MetaboliteLevels.Utilities
         private static string __startupPath;
 
         public static readonly Color BackColour = Color.FromArgb(153, 180, 209); // Color.FromKnownColor(KnownColor.ActiveCaption);
-        public static readonly Color ForeColour = Color.FromArgb(0, 0, 0); // Color.FromKnownColor(KnownColor.ActiveCaptionText);
+        public static readonly Color ForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
+        public static readonly Color PreviewBackColour = Color.LightSteelBlue; // Color.FromKnownColor(KnownColor.ActiveCaption);
+        public static readonly Color PreviewForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
 
         /// <summary>
         /// Initialises this class.
