@@ -603,6 +603,16 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ObjBack {
+            get {
+                object obj = ResourceManager.GetObject("ObjBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ObjCluster {
             get {
                 object obj = ResourceManager.GetObject("ObjCluster", resourceCulture);
@@ -1036,6 +1046,26 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap StartLogo2 {
             get {
                 object obj = ResourceManager.GetObject("StartLogo2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TabSel {
+            get {
+                object obj = ResourceManager.GetObject("TabSel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TabUnsel {
+            get {
+                object obj = ResourceManager.GetObject("TabUnsel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

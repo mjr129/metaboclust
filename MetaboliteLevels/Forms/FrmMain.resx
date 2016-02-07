@@ -118,65 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="_mnuMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>651, 17</value>
+    <value>156, 17</value>
   </metadata>
   <metadata name="_imgList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>876, 17</value>
+    <value>381, 17</value>
   </metadata>
   <metadata name="_imgListClusters.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <metadata name="_cmsSelectionButton.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>646, 95</value>
+    <value>859, 17</value>
   </metadata>
   <metadata name="_statusMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>760, 17</value>
+    <value>265, 17</value>
   </metadata>
   <metadata name="_toolTipMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>383, 95</value>
-  </metadata>
-  <metadata name="_cmsCoreButton.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>505, 95</value>
+    <value>737, 17</value>
   </metadata>
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>811, 95</value>
+    <value>17, 56</value>
   </metadata>
   <metadata name="_tsBarBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>303, 56</value>
+    <value>610, 17</value>
   </metadata>
   <metadata name="_tsBarSelection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>170, 56</value>
+    <value>477, 17</value>
   </metadata>
-  <data name="quickHelpBar1.Text" xml:space="preserve">
-    <value>Use the left mouse button to select data points or series on the graphs. Drag the right mouse button to zoom in on an area. Use the middle mouse button to cancel the current selection and restore the zoom.</value>
-  </data>
-  <metadata name="_tsBarSelection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>170, 56</value>
+  <metadata name="toolStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>122, 56</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="_btnSel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAe
-        vAAAHrwB7kRN9wAAACt0RVh0Q3JlYXRpb24gVGltZQBUdWUgMiBTZXAgMjAxNCAxNTo1ODozMyAtMDAw
-        MDrAbVQAAAAHdElNRQffCg0MMi020zVGAAAAjElEQVRIS8WUQQ6DMBADeVr+/6kFIyKZ4ERLYsRIc7G6
-        mfbSLSI+VY5O5ehUjk7leOjgfKt9GEYpZdmLR0B+eFbQfXwFFZCP85aV78Dwm/Oele/ALeAiHaj7G/kO
-        /BuYpRtoI7xn5TuAQDfCW1a+AzUw/CVv6QUekVVBG7BFLv75u7YqR6dydCpHn7Ht7axdiwx7xJQAAAAA
-        SUVORK5CYII=
-</value>
-  </data>
-  <data name="_btnSel2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAe
-        vAAAHrwB7kRN9wAAACt0RVh0Q3JlYXRpb24gVGltZQBUdWUgMiBTZXAgMjAxNCAxNTo1ODozMyAtMDAw
-        MDrAbVQAAAAHdElNRQffCg0MMi020zVGAAAAjElEQVRIS8WUQQ6DMBADeVr+/6kFIyKZ4ERLYsRIc7G6
-        mfbSLSI+VY5O5ehUjk7leOjgfKt9GEYpZdmLR0B+eFbQfXwFFZCP85aV78Dwm/Oele/ALeAiHaj7G/kO
-        /BuYpRtoI7xn5TuAQDfCW1a+AzUw/CVv6QUekVVBG7BFLv75u7YqR6dydCpHn7Ht7axdiwx7xJQAAAAA
-        SUVORK5CYII=
-</value>
-  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>146</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAIAEBAQAAAABAAoAQAAJgAAACAgEAAAAAQA6AIAAE4BAAAoAAAAEAAAACAAAAABAAQAAAAAAIAA

@@ -105,6 +105,8 @@ namespace MetaboliteLevels.Viewers.Lists
 
             _toolStrip = new ToolStrip();
             _toolStrip.Dock = DockStyle.Top;
+            _toolStrip.GripStyle = ToolStripGripStyle.Hidden;
+            _toolStrip.BackColor = Color.FromKnownColor(KnownColor.Control);
             listView.Parent.Controls.Add(_toolStrip);
             _toolStrip.BringToFront();
             listView.BringToFront();

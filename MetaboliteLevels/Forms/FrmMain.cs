@@ -7,7 +7,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;                                
+using System.Windows.Forms;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data;
 using MetaboliteLevels.Properties;
@@ -162,6 +162,7 @@ namespace MetaboliteLevels.Forms
             // Pagers
             _pgrMain = new PagerControl(ref tabControl1);
             _pgrMain.BindToButtons(_btnMain0, _btnMain1, _btnMain2, _btnMain3, _btnMain4, _btnMain5, _btnMainAnnots);
+
 
             _pgrSub = new PagerControl(ref _tabSubinfo);
             _pgrSub.BindToButtons(_btnSubInfo, _btnSubStat, _btnSubPeak, _btnSubPat, _btnSubComp, _btnSubAdd, _btnSubPath, _btnSubAss, _btnSubAnnot);
@@ -399,27 +400,26 @@ namespace MetaboliteLevels.Forms
 
                 if (object1 != null)
                 {
-                    _lblCurrentSel.Text = object1.DisplayName;
-                    _btnSel.Image = UiControls.GetImage(object1.GetIcon(), true);
+                    _btnSelection.Text = object1.DisplayName;
+                    _btnSelection.Image = UiControls.GetImage(object1.GetIcon(), true);
+                    _btnSelection.Visible = true;
                 }
                 else
                 {
-                    _lblCurrentSel.Text = "No selection";
-                    _btnSel.Image = Resources.ObjNone;
+                    _btnSelection.Visible = false;
                 }
-
 
                 if (object2 != null)
                 {
-                    _lblSel2.Text = object2.DisplayName;
-                    _btnSel2.Image = UiControls.GetImage(object2.GetIcon(), true);
-                    _lblSel2.Visible = true;
-                    _btnSel2.Visible = true;
+                    _btnSelectionExterior.Text = object2.DisplayName;
+                    _btnSelectionExterior.Image = UiControls.GetImage(object2.GetIcon(), true);
+                    _btnSelectionExterior.Visible = true;
+                    _lblExterior.Visible = true;
                 }
                 else
                 {
-                    _lblSel2.Visible = false;
-                    _btnSel2.Visible = false;
+                    _btnSelectionExterior.Visible = false;
+                    _lblExterior.Visible = false;
                 }
 
                 // Null selection? (clear)
@@ -521,6 +521,11 @@ namespace MetaboliteLevels.Forms
 
                     PlotPeak(null);
                     PlotCluster(fakeCluster);
+                }
+                else if (selection.A.VisualClass == VisualClass.Annotation)
+                {
+                    PlotPeak(null);
+                    PlotCluster(null);
                 }
                 else
                 {
@@ -679,8 +684,8 @@ namespace MetaboliteLevels.Forms
         private void UpdateVisualOptions()
         {
             // Title
-            _lblTitle.Text = _core.FileNames.GetShortTitle();
-            Text = UiControls.Title + " - " + _lblTitle.Text;
+            _btnSession.Text = _core.FileNames.GetShortTitle();
+            Text = UiControls.Title + " - " + _btnSession.Text;
 
             // Remove existing items
             List<ToolStripMenuItem> toClear = new List<ToolStripMenuItem>();
@@ -1374,23 +1379,6 @@ namespace MetaboliteLevels.Forms
         }
 
         /// <summary>
-        /// Session button --> Show session menu
-        /// </summary>
-        private void _btnSession_Click(object sender, EventArgs e)
-        {
-            _cmsCoreButton.ShowDropDown(_btnSession);
-        }
-
-        /// <summary>
-        /// Selection button --> Show selection menu
-        /// </summary>
-        private void _btnCurrentSel_Click(object sender, EventArgs e)
-        {
-            _selectionMenuOpenedFromList = Selection.A;
-            _cmsSelectionButton.ShowDropDown(_btnSel);
-        }
-
-        /// <summary>
         /// Session menu: Add comments
         /// </summary>
         private void editNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1464,23 +1452,47 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void _cmsSelectionButton_Opening(object sender, CancelEventArgs e)
         {
+            PopulateMenu(_cmsSelectionButton.Items);
+        }
+
+        private void PopulateMenu(ToolStripItemCollection items)
+        {
             var t = _selectionMenuOpenedFromList;
 
-            openToolStripMenuItem.Enabled = t != null;
-
+            items.Clear();
+                             
             if (t != null)
             {
-                openToolStripMenuItem.Text = "&Open " + t.DisplayName;
+                items.Add("&Navigate to " + t.DisplayName, null, openToolStripMenuItem_Click_1);
+                items.Add("&Edit name and comments", null, addCommentsToolStripMenuItem_Click);
             }
             else
             {
-                openToolStripMenuItem.Text = "&Open";
+                items.Add("&Navigate to ...", null, null).Enabled = false;
+                return;
             }
 
-            addCommentsToolStripMenuItem.Enabled = t != null;
-            viewOnlineToolStripMenuItem.Visible = t != null && (t is Compound || t is Pathway);
-            breakUpLargeClusterToolStripMenuItem.Visible = t is Cluster;
-            compareToThisPeakToolStripMenuItem.Visible = t is Peak;
+            if (t is Compound || t is Pathway)
+            {
+                items.Add("&View online", null, viewOnlineToolStripMenuItem_Click);
+            }
+
+            if (t is Cluster)
+            {
+                items.Add("&Break up large cluster...", null, breakUpLargeClusterToolStripMenuItem_Click);
+            }
+
+            if (t is Peak)
+            {
+                items.Add("&Compare to this peak...", null, compareToThisPeakToolStripMenuItem_Click);
+            }
+
+            foreach (ToolStripItem x in items)
+            {
+                x.Font = this.fileToolStripMenuItem.Font;
+            }
+
+            items[0].Font = new Font(items[0].Font, FontStyle.Bold);
         }
 
         /// <summary>
@@ -1689,6 +1701,24 @@ namespace MetaboliteLevels.Forms
         private void clustererOptimiserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmEvaluateClustering.Show(this, _core, null);
+        }
+
+        /// <summary>
+        /// Menu: Selection button
+        /// </summary>            
+        private void _btnSelection_DropDownOpening(object sender, EventArgs e)
+        {
+            _selectionMenuOpenedFromList = Selection.A;
+            PopulateMenu(_btnSelection.DropDownItems);
+        }
+
+        /// <summary>
+        /// Menu: Exterior selection button
+        /// </summary>            
+        private void _btnSelectionExterior_DropDownOpening(object sender, EventArgs e)
+        {
+            _selectionMenuOpenedFromList = Selection.B;
+            PopulateMenu(_btnSelectionExterior.DropDownItems);
         }
     }
 }

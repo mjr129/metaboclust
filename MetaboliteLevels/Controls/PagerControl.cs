@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Controls
@@ -188,7 +189,7 @@ namespace MetaboliteLevels.Controls
             {
                 GotoPage(value);
             }
-        }
+        }  
 
         public bool GotoPage(int p)
         {
@@ -224,7 +225,7 @@ namespace MetaboliteLevels.Controls
 
             if (buttons != null)
             {
-                buttons[Page].Checked = false;
+                buttons[Page].BackgroundImage = Resources.TabUnsel;
             }
         }
 
@@ -237,7 +238,7 @@ namespace MetaboliteLevels.Controls
 
             if (buttons != null)
             {
-                buttons[Page].Checked = true;
+                buttons[Page].BackgroundImage = Resources.TabSel;
             }
 
             if (PageChanged != null)
@@ -255,6 +256,7 @@ namespace MetaboliteLevels.Controls
                 var btn = buttons[n];
                 btn.Tag = n;
                 btn.Click += btn_Click;
+                btn.BackgroundImage = Resources.TabUnsel;
             }
 
             OnPageChanged(EventArgs.Empty);

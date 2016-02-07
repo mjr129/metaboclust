@@ -104,6 +104,8 @@ namespace MetaboliteLevels.Viewers.Charts
             _menuBar.AutoSize = true;
             _menuBar.Padding = new Padding(0, 0, 0, 0);
             _menuBar.Dock = DockStyle.Top;
+            _menuBar.GripStyle = ToolStripGripStyle.Hidden;
+            _menuBar.BackColor = Color.FromKnownColor(KnownColor.Control);
             targetSite.Controls.Add(_menuBar);
             _menuBar.SendToBack();
 

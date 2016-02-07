@@ -72,6 +72,7 @@ namespace MetaboliteLevels.Forms
             this.peakFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.observationFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.clusterParameterOptimiserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autogenerateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,21 +80,11 @@ namespace MetaboliteLevels.Forms
             this._imgList = new System.Windows.Forms.ImageList(this.components);
             this._imgListClusters = new System.Windows.Forms.ImageList(this.components);
             this._cmsSelectionButton = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addCommentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
-            this.viewOnlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openInDataexplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.breakUpLargeClusterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.compareToThisPeakToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._statusMain = new System.Windows.Forms.StatusStrip();
             this._lblChanges = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this._toolTipMain = new System.Windows.Forms.ToolTip(this.components);
-            this._cmsCoreButton = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.editNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -113,28 +104,24 @@ namespace MetaboliteLevels.Forms
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this._tssInsertViews = new System.Windows.Forms.ToolStripSeparator();
+            this._btnSession = new System.Windows.Forms.ToolStripDropDownButton();
+            this.editNameAndCommentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this.splitContainer2 = new MetaboliteLevels.Controls.CtlSplitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this._lstVariables = new System.Windows.Forms.ListView();
-            this.quickHelpBar2 = new MetaboliteLevels.Controls.CtlHelpBar();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this._lstClusters = new System.Windows.Forms.ListView();
-            this.quickHelpBar3 = new MetaboliteLevels.Controls.CtlHelpBar();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this._lstCompounds = new System.Windows.Forms.ListView();
-            this.quickHelpBar4 = new MetaboliteLevels.Controls.CtlHelpBar();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this._lstAdducts = new System.Windows.Forms.ListView();
-            this.quickHelpBar8 = new MetaboliteLevels.Controls.CtlHelpBar();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this._lstPathways = new System.Windows.Forms.ListView();
-            this.quickHelpBar5 = new MetaboliteLevels.Controls.CtlHelpBar();
             this.tabPage15 = new System.Windows.Forms.TabPage();
             this._lstAssignments = new System.Windows.Forms.ListView();
-            this.ctlHelpBar1 = new MetaboliteLevels.Controls.CtlHelpBar();
             this.tabPage16 = new System.Windows.Forms.TabPage();
             this._lstAnnotations = new System.Windows.Forms.ListView();
             this._tsBarBrowser = new System.Windows.Forms.ToolStrip();
@@ -145,10 +132,6 @@ namespace MetaboliteLevels.Forms
             this._btnMain2 = new System.Windows.Forms.ToolStripButton();
             this._btnMain3 = new System.Windows.Forms.ToolStripButton();
             this._btnMain4 = new System.Windows.Forms.ToolStripButton();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this._lblTitle = new System.Windows.Forms.Label();
-            this._btnSession = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this._tabSubinfo = new System.Windows.Forms.TabControl();
@@ -174,10 +157,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Assignments = new System.Windows.Forms.ListView();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this._lstSubAnnots = new System.Windows.Forms.ListView();
-            this.quickHelpBar7 = new MetaboliteLevels.Controls.CtlHelpBar();
             this._tsBarSelection = new System.Windows.Forms.ToolStrip();
-            this._btnBack = new System.Windows.Forms.ToolStripSplitButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._btnSubInfo = new System.Windows.Forms.ToolStripButton();
             this._btnSubStat = new System.Windows.Forms.ToolStripButton();
             this._btnSubPeak = new System.Windows.Forms.ToolStripButton();
@@ -187,19 +167,14 @@ namespace MetaboliteLevels.Forms
             this._btnSubComp = new System.Windows.Forms.ToolStripButton();
             this._btnSubAdd = new System.Windows.Forms.ToolStripButton();
             this._btnSubPath = new System.Windows.Forms.ToolStripButton();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this._btnSel = new System.Windows.Forms.Button();
-            this._lblCurrentSel = new System.Windows.Forms.Label();
-            this._btnSel2 = new System.Windows.Forms.Button();
-            this._lblSel2 = new System.Windows.Forms.Label();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this._btnBack = new System.Windows.Forms.ToolStripSplitButton();
+            this._btnSelection = new System.Windows.Forms.ToolStripDropDownButton();
+            this._lblExterior = new System.Windows.Forms.ToolStripLabel();
+            this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer3 = new MetaboliteLevels.Controls.CtlSplitter();
-            this.quickHelpBar1 = new MetaboliteLevels.Controls.CtlHelpBar();
-            this.clusterParameterOptimiserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._mnuMain.SuspendLayout();
-            this._cmsSelectionButton.SuspendLayout();
             this._statusMain.SuspendLayout();
-            this._cmsCoreButton.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -219,8 +194,6 @@ namespace MetaboliteLevels.Forms
             this.tabPage15.SuspendLayout();
             this.tabPage16.SuspendLayout();
             this._tsBarBrowser.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this._tabSubinfo.SuspendLayout();
@@ -234,8 +207,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this._tsBarSelection.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.SuspendLayout();
             this.SuspendLayout();
@@ -314,7 +286,7 @@ namespace MetaboliteLevels.Forms
             // 
             this.peakidentificationsToolStripMenuItem.Name = "peakidentificationsToolStripMenuItem";
             this.peakidentificationsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-            this.peakidentificationsToolStripMenuItem.Text = "Peak &identifications...";                                                    
+            this.peakidentificationsToolStripMenuItem.Text = "Peak &identifications...";
             // 
             // exportToolStripMenuItem
             // 
@@ -391,7 +363,7 @@ namespace MetaboliteLevels.Forms
             this.refreshToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuRefresh;
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
             this.refreshToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F5)));
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.refreshToolStripMenuItem.Text = "&Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
@@ -400,7 +372,7 @@ namespace MetaboliteLevels.Forms
             this.visualOptionsToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuPreferences;
             this.visualOptionsToolStripMenuItem.Name = "visualOptionsToolStripMenuItem";
             this.visualOptionsToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.visualOptionsToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+            this.visualOptionsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.visualOptionsToolStripMenuItem.Text = "&Preferences...";
             this.visualOptionsToolStripMenuItem.Click += new System.EventHandler(this.visualOptionsToolStripMenuItem_Click);
             // 
@@ -409,21 +381,21 @@ namespace MetaboliteLevels.Forms
             this.experimentalGroupsToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuExperimentalGroups;
             this.experimentalGroupsToolStripMenuItem.Name = "experimentalGroupsToolStripMenuItem";
             this.experimentalGroupsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.experimentalGroupsToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+            this.experimentalGroupsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.experimentalGroupsToolStripMenuItem.Text = "&Experimental groups...";
             this.experimentalGroupsToolStripMenuItem.Click += new System.EventHandler(this.experimentalGroupsToolStripMenuItem_Click);
             // 
             // experimentalOptionsToolStripMenuItem
             // 
             this.experimentalOptionsToolStripMenuItem.Name = "experimentalOptionsToolStripMenuItem";
-            this.experimentalOptionsToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
+            this.experimentalOptionsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.experimentalOptionsToolStripMenuItem.Text = "&Advanced options...";
             this.experimentalOptionsToolStripMenuItem.Click += new System.EventHandler(this.experimentalOptionsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(248, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(228, 6);
             // 
             // clusteringToolStripMenuItem
             // 
@@ -523,6 +495,16 @@ namespace MetaboliteLevels.Forms
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(305, 6);
             // 
+            // clusterParameterOptimiserToolStripMenuItem
+            // 
+            this.clusterParameterOptimiserToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this.clusterParameterOptimiserToolStripMenuItem.Name = "clusterParameterOptimiserToolStripMenuItem";
+            this.clusterParameterOptimiserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F4)));
+            this.clusterParameterOptimiserToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
+            this.clusterParameterOptimiserToolStripMenuItem.Text = "&Cluster parameter optimiser...";
+            this.clusterParameterOptimiserToolStripMenuItem.Click += new System.EventHandler(this.clustererOptimiserToolStripMenuItem_Click);
+            // 
             // autogenerateToolStripMenuItem
             // 
             this.autogenerateToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
@@ -572,72 +554,9 @@ namespace MetaboliteLevels.Forms
             // 
             // _cmsSelectionButton
             // 
-            this._cmsSelectionButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.addCommentsToolStripMenuItem,
-            this.toolStripMenuItem7,
-            this.viewOnlineToolStripMenuItem,
-            this.openInDataexplorerToolStripMenuItem,
-            this.toolStripMenuItem3,
-            this.breakUpLargeClusterToolStripMenuItem,
-            this.compareToThisPeakToolStripMenuItem});
             this._cmsSelectionButton.Name = "_cmsSelectionButton";
-            this._cmsSelectionButton.Size = new System.Drawing.Size(255, 148);
+            this._cmsSelectionButton.Size = new System.Drawing.Size(61, 4);
             this._cmsSelectionButton.Opening += new System.ComponentModel.CancelEventHandler(this._cmsSelectionButton_Opening);
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.openToolStripMenuItem.Text = "&Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
-            // 
-            // addCommentsToolStripMenuItem
-            // 
-            this.addCommentsToolStripMenuItem.Name = "addCommentsToolStripMenuItem";
-            this.addCommentsToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.addCommentsToolStripMenuItem.Text = "&Edit...";
-            this.addCommentsToolStripMenuItem.Click += new System.EventHandler(this.addCommentsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(251, 6);
-            // 
-            // viewOnlineToolStripMenuItem
-            // 
-            this.viewOnlineToolStripMenuItem.Name = "viewOnlineToolStripMenuItem";
-            this.viewOnlineToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.viewOnlineToolStripMenuItem.Text = "&View online...";
-            this.viewOnlineToolStripMenuItem.Click += new System.EventHandler(this.viewOnlineToolStripMenuItem_Click);
-            // 
-            // openInDataexplorerToolStripMenuItem
-            // 
-            this.openInDataexplorerToolStripMenuItem.Name = "openInDataexplorerToolStripMenuItem";
-            this.openInDataexplorerToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.openInDataexplorerToolStripMenuItem.Text = "Open in data &explorer (removed)...";
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(251, 6);
-            // 
-            // breakUpLargeClusterToolStripMenuItem
-            // 
-            this.breakUpLargeClusterToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.TestCluster;
-            this.breakUpLargeClusterToolStripMenuItem.Name = "breakUpLargeClusterToolStripMenuItem";
-            this.breakUpLargeClusterToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.breakUpLargeClusterToolStripMenuItem.Text = "&Break up large cluster...";
-            this.breakUpLargeClusterToolStripMenuItem.Click += new System.EventHandler(this.breakUpLargeClusterToolStripMenuItem_Click);
-            // 
-            // compareToThisPeakToolStripMenuItem
-            // 
-            this.compareToThisPeakToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.TestUnivariate;
-            this.compareToThisPeakToolStripMenuItem.Name = "compareToThisPeakToolStripMenuItem";
-            this.compareToThisPeakToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
-            this.compareToThisPeakToolStripMenuItem.Text = "&Compare to this peak...";
-            this.compareToThisPeakToolStripMenuItem.Click += new System.EventHandler(this.compareToThisPeakToolStripMenuItem_Click);
             // 
             // _statusMain
             // 
@@ -674,23 +593,10 @@ namespace MetaboliteLevels.Forms
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             this.toolStripProgressBar1.Visible = false;
             // 
-            // _cmsCoreButton
-            // 
-            this._cmsCoreButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editNameToolStripMenuItem});
-            this._cmsCoreButton.Name = "_cmsCoreButton";
-            this._cmsCoreButton.Size = new System.Drawing.Size(220, 26);
-            // 
-            // editNameToolStripMenuItem
-            // 
-            this.editNameToolStripMenuItem.Name = "editNameToolStripMenuItem";
-            this.editNameToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.editNameToolStripMenuItem.Text = "&Edit name and comments...";
-            this.editNameToolStripMenuItem.Click += new System.EventHandler(this.editNameToolStripMenuItem_Click);
-            // 
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
@@ -710,7 +616,8 @@ namespace MetaboliteLevels.Forms
             this.toolStripButton9,
             this.toolStripButton10,
             this.toolStripSeparator3,
-            this._tssInsertViews});
+            this._tssInsertViews,
+            this._btnSession});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
@@ -722,6 +629,7 @@ namespace MetaboliteLevels.Forms
             // 
             this.toolStripButton1.Image = global::MetaboliteLevels.Properties.Resources.ObjSave;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(35, 43);
             this.toolStripButton1.Text = "Save";
@@ -871,6 +779,26 @@ namespace MetaboliteLevels.Forms
             this._tssInsertViews.Name = "_tssInsertViews";
             this._tssInsertViews.Size = new System.Drawing.Size(6, 36);
             // 
+            // _btnSession
+            // 
+            this._btnSession.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._btnSession.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editNameAndCommentsToolStripMenuItem});
+            this._btnSession.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSession.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
+            this._btnSession.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSession.Name = "_btnSession";
+            this._btnSession.Size = new System.Drawing.Size(191, 43);
+            this._btnSession.Text = "<Session name>";
+            // 
+            // editNameAndCommentsToolStripMenuItem
+            // 
+            this.editNameAndCommentsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editNameAndCommentsToolStripMenuItem.Name = "editNameAndCommentsToolStripMenuItem";
+            this.editNameAndCommentsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.editNameAndCommentsToolStripMenuItem.Text = "&Edit name and comments...";
+            this.editNameAndCommentsToolStripMenuItem.Click += new System.EventHandler(this.editNameToolStripMenuItem_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -887,7 +815,6 @@ namespace MetaboliteLevels.Forms
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.White;
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer1.Panel2.Controls.Add(this.quickHelpBar1);
             this.splitContainer1.Panel2.ForeColor = System.Drawing.Color.Black;
             this.splitContainer1.Size = new System.Drawing.Size(1185, 711);
             this.splitContainer1.SplitterDistance = 442;
@@ -905,7 +832,6 @@ namespace MetaboliteLevels.Forms
             // 
             this.splitContainer2.Panel1.Controls.Add(this.panel3);
             this.splitContainer2.Panel1.Controls.Add(this._tsBarBrowser);
-            this.splitContainer2.Panel1.Controls.Add(this.panel5);
             // 
             // splitContainer2.Panel2
             // 
@@ -918,10 +844,10 @@ namespace MetaboliteLevels.Forms
             // 
             this.panel3.Controls.Add(this.tabControl1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 86);
+            this.panel3.Location = new System.Drawing.Point(0, 44);
             this.panel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(442, 266);
+            this.panel3.Size = new System.Drawing.Size(442, 308);
             this.panel3.TabIndex = 11;
             // 
             // tabControl1
@@ -939,18 +865,17 @@ namespace MetaboliteLevels.Forms
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(442, 266);
+            this.tabControl1.Size = new System.Drawing.Size(442, 308);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this._lstVariables);
-            this.tabPage1.Controls.Add(this.quickHelpBar2);
             this.tabPage1.Location = new System.Drawing.Point(4, 56);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage1.Size = new System.Drawing.Size(434, 206);
+            this.tabPage1.Size = new System.Drawing.Size(434, 248);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Peaks";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -962,42 +887,25 @@ namespace MetaboliteLevels.Forms
             this._lstVariables.FullRowSelect = true;
             this._lstVariables.GridLines = true;
             this._lstVariables.LargeImageList = this._imgList;
-            this._lstVariables.Location = new System.Drawing.Point(4, 108);
+            this._lstVariables.Location = new System.Drawing.Point(4, 5);
             this._lstVariables.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstVariables.MultiSelect = false;
             this._lstVariables.Name = "_lstVariables";
-            this._lstVariables.Size = new System.Drawing.Size(426, 93);
+            this._lstVariables.Size = new System.Drawing.Size(426, 238);
             this._lstVariables.SmallImageList = this._imgList;
             this._lstVariables.TabIndex = 5;
             this._lstVariables.UseCompatibleStateImageBehavior = false;
             this._lstVariables.View = System.Windows.Forms.View.Details;
             this._lstVariables.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this._lstVariables_KeyPress);
             // 
-            // quickHelpBar2
-            // 
-            this.quickHelpBar2.AutoSize = true;
-            this.quickHelpBar2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.quickHelpBar2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.quickHelpBar2.Location = new System.Drawing.Point(4, 5);
-            this.quickHelpBar2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.quickHelpBar2.MinimumSize = new System.Drawing.Size(192, 103);
-            this.quickHelpBar2.Name = "quickHelpBar2";
-            this.quickHelpBar2.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
-            this.quickHelpBar2.Size = new System.Drawing.Size(426, 103);
-            this.quickHelpBar2.TabIndex = 12;
-            this.quickHelpBar2.Text = "Double-click on peaks to select them and display their information. You can sort " +
-    "the list by clicking the headers.";
-            this.quickHelpBar2.Title = "Peaks";
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this._lstClusters);
-            this.tabPage2.Controls.Add(this.quickHelpBar3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 56);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage2.Size = new System.Drawing.Size(434, 240);
+            this.tabPage2.Size = new System.Drawing.Size(434, 248);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Clusters";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1009,40 +917,24 @@ namespace MetaboliteLevels.Forms
             this._lstClusters.FullRowSelect = true;
             this._lstClusters.GridLines = true;
             this._lstClusters.LargeImageList = this._imgListClusters;
-            this._lstClusters.Location = new System.Drawing.Point(4, 108);
+            this._lstClusters.Location = new System.Drawing.Point(4, 5);
             this._lstClusters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstClusters.MultiSelect = false;
             this._lstClusters.Name = "_lstClusters";
-            this._lstClusters.Size = new System.Drawing.Size(426, 127);
+            this._lstClusters.Size = new System.Drawing.Size(426, 238);
             this._lstClusters.SmallImageList = this._imgList;
             this._lstClusters.TabIndex = 5;
             this._lstClusters.UseCompatibleStateImageBehavior = false;
             this._lstClusters.View = System.Windows.Forms.View.Details;
             // 
-            // quickHelpBar3
-            // 
-            this.quickHelpBar3.AutoSize = true;
-            this.quickHelpBar3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.quickHelpBar3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.quickHelpBar3.Location = new System.Drawing.Point(4, 5);
-            this.quickHelpBar3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.quickHelpBar3.MinimumSize = new System.Drawing.Size(192, 103);
-            this.quickHelpBar3.Name = "quickHelpBar3";
-            this.quickHelpBar3.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
-            this.quickHelpBar3.Size = new System.Drawing.Size(426, 103);
-            this.quickHelpBar3.TabIndex = 13;
-            this.quickHelpBar3.Text = "You can assign peaks to clusters from the clustering menu.";
-            this.quickHelpBar3.Title = "Clusters";
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this._lstCompounds);
-            this.tabPage3.Controls.Add(this.quickHelpBar4);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Location = new System.Drawing.Point(4, 56);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage3.Size = new System.Drawing.Size(434, 240);
+            this.tabPage3.Size = new System.Drawing.Size(434, 248);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Compounds";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1054,41 +946,24 @@ namespace MetaboliteLevels.Forms
             this._lstCompounds.FullRowSelect = true;
             this._lstCompounds.GridLines = true;
             this._lstCompounds.LargeImageList = this._imgList;
-            this._lstCompounds.Location = new System.Drawing.Point(4, 108);
+            this._lstCompounds.Location = new System.Drawing.Point(4, 5);
             this._lstCompounds.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstCompounds.MultiSelect = false;
             this._lstCompounds.Name = "_lstCompounds";
-            this._lstCompounds.Size = new System.Drawing.Size(426, 127);
+            this._lstCompounds.Size = new System.Drawing.Size(426, 238);
             this._lstCompounds.SmallImageList = this._imgList;
             this._lstCompounds.TabIndex = 6;
             this._lstCompounds.UseCompatibleStateImageBehavior = false;
             this._lstCompounds.View = System.Windows.Forms.View.Details;
             // 
-            // quickHelpBar4
-            // 
-            this.quickHelpBar4.AutoSize = true;
-            this.quickHelpBar4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.quickHelpBar4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.quickHelpBar4.Location = new System.Drawing.Point(4, 5);
-            this.quickHelpBar4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.quickHelpBar4.MinimumSize = new System.Drawing.Size(192, 103);
-            this.quickHelpBar4.Name = "quickHelpBar4";
-            this.quickHelpBar4.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
-            this.quickHelpBar4.Size = new System.Drawing.Size(426, 103);
-            this.quickHelpBar4.TabIndex = 14;
-            this.quickHelpBar4.Text = "Selecting (double click) compounds displays the graph of the variables potentiall" +
-    "y representing them.";
-            this.quickHelpBar4.Title = "Compounds";
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this._lstAdducts);
-            this.tabPage4.Controls.Add(this.quickHelpBar8);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage4.Size = new System.Drawing.Size(434, 240);
+            this.tabPage4.Size = new System.Drawing.Size(434, 282);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Adducts";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1100,40 +975,24 @@ namespace MetaboliteLevels.Forms
             this._lstAdducts.FullRowSelect = true;
             this._lstAdducts.GridLines = true;
             this._lstAdducts.LargeImageList = this._imgList;
-            this._lstAdducts.Location = new System.Drawing.Point(4, 108);
+            this._lstAdducts.Location = new System.Drawing.Point(4, 5);
             this._lstAdducts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstAdducts.MultiSelect = false;
             this._lstAdducts.Name = "_lstAdducts";
-            this._lstAdducts.Size = new System.Drawing.Size(426, 127);
+            this._lstAdducts.Size = new System.Drawing.Size(426, 272);
             this._lstAdducts.SmallImageList = this._imgList;
             this._lstAdducts.TabIndex = 6;
             this._lstAdducts.UseCompatibleStateImageBehavior = false;
             this._lstAdducts.View = System.Windows.Forms.View.Details;
             // 
-            // quickHelpBar8
-            // 
-            this.quickHelpBar8.AutoSize = true;
-            this.quickHelpBar8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.quickHelpBar8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.quickHelpBar8.Location = new System.Drawing.Point(4, 5);
-            this.quickHelpBar8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.quickHelpBar8.MinimumSize = new System.Drawing.Size(192, 103);
-            this.quickHelpBar8.Name = "quickHelpBar8";
-            this.quickHelpBar8.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
-            this.quickHelpBar8.Size = new System.Drawing.Size(426, 103);
-            this.quickHelpBar8.TabIndex = 13;
-            this.quickHelpBar8.Text = "Click on adducts to view their information";
-            this.quickHelpBar8.Title = "Adducts";
-            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this._lstPathways);
-            this.tabPage5.Controls.Add(this.quickHelpBar5);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage5.Size = new System.Drawing.Size(434, 240);
+            this.tabPage5.Size = new System.Drawing.Size(434, 282);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Pathways";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1145,41 +1004,24 @@ namespace MetaboliteLevels.Forms
             this._lstPathways.FullRowSelect = true;
             this._lstPathways.GridLines = true;
             this._lstPathways.LargeImageList = this._imgList;
-            this._lstPathways.Location = new System.Drawing.Point(4, 108);
+            this._lstPathways.Location = new System.Drawing.Point(4, 5);
             this._lstPathways.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstPathways.MultiSelect = false;
             this._lstPathways.Name = "_lstPathways";
-            this._lstPathways.Size = new System.Drawing.Size(426, 127);
+            this._lstPathways.Size = new System.Drawing.Size(426, 272);
             this._lstPathways.SmallImageList = this._imgList;
             this._lstPathways.TabIndex = 6;
             this._lstPathways.UseCompatibleStateImageBehavior = false;
             this._lstPathways.View = System.Windows.Forms.View.Details;
             // 
-            // quickHelpBar5
-            // 
-            this.quickHelpBar5.AutoSize = true;
-            this.quickHelpBar5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.quickHelpBar5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.quickHelpBar5.Location = new System.Drawing.Point(4, 5);
-            this.quickHelpBar5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.quickHelpBar5.MinimumSize = new System.Drawing.Size(192, 103);
-            this.quickHelpBar5.Name = "quickHelpBar5";
-            this.quickHelpBar5.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
-            this.quickHelpBar5.Size = new System.Drawing.Size(426, 103);
-            this.quickHelpBar5.TabIndex = 15;
-            this.quickHelpBar5.Text = "Selecting (double click) pathways displays the graph of the variables potentially" +
-    " representing the compounds within them.";
-            this.quickHelpBar5.Title = "Pathways";
-            // 
             // tabPage15
             // 
             this.tabPage15.Controls.Add(this._lstAssignments);
-            this.tabPage15.Controls.Add(this.ctlHelpBar1);
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage15.Size = new System.Drawing.Size(434, 240);
+            this.tabPage15.Size = new System.Drawing.Size(434, 282);
             this.tabPage15.TabIndex = 5;
             this.tabPage15.Text = "Assignments";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -1191,30 +1033,15 @@ namespace MetaboliteLevels.Forms
             this._lstAssignments.FullRowSelect = true;
             this._lstAssignments.GridLines = true;
             this._lstAssignments.LargeImageList = this._imgList;
-            this._lstAssignments.Location = new System.Drawing.Point(4, 108);
+            this._lstAssignments.Location = new System.Drawing.Point(4, 5);
             this._lstAssignments.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstAssignments.MultiSelect = false;
             this._lstAssignments.Name = "_lstAssignments";
-            this._lstAssignments.Size = new System.Drawing.Size(426, 127);
+            this._lstAssignments.Size = new System.Drawing.Size(426, 272);
             this._lstAssignments.SmallImageList = this._imgList;
             this._lstAssignments.TabIndex = 17;
             this._lstAssignments.UseCompatibleStateImageBehavior = false;
             this._lstAssignments.View = System.Windows.Forms.View.Details;
-            // 
-            // ctlHelpBar1
-            // 
-            this.ctlHelpBar1.AutoSize = true;
-            this.ctlHelpBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlHelpBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlHelpBar1.Location = new System.Drawing.Point(4, 5);
-            this.ctlHelpBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ctlHelpBar1.MinimumSize = new System.Drawing.Size(192, 103);
-            this.ctlHelpBar1.Name = "ctlHelpBar1";
-            this.ctlHelpBar1.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
-            this.ctlHelpBar1.Size = new System.Drawing.Size(426, 103);
-            this.ctlHelpBar1.TabIndex = 18;
-            this.ctlHelpBar1.Text = "Shows the assignments of vectors (peaks and groups) to clusters.";
-            this.ctlHelpBar1.Title = "Assignments";
             // 
             // tabPage16
             // 
@@ -1223,7 +1050,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage16.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage16.Size = new System.Drawing.Size(434, 240);
+            this.tabPage16.Size = new System.Drawing.Size(434, 282);
             this.tabPage16.TabIndex = 6;
             this.tabPage16.Text = "Annotations";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -1239,7 +1066,7 @@ namespace MetaboliteLevels.Forms
             this._lstAnnotations.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstAnnotations.MultiSelect = false;
             this._lstAnnotations.Name = "_lstAnnotations";
-            this._lstAnnotations.Size = new System.Drawing.Size(426, 230);
+            this._lstAnnotations.Size = new System.Drawing.Size(426, 272);
             this._lstAnnotations.SmallImageList = this._imgList;
             this._lstAnnotations.TabIndex = 7;
             this._lstAnnotations.UseCompatibleStateImageBehavior = false;
@@ -1259,142 +1086,95 @@ namespace MetaboliteLevels.Forms
             this._btnMain3,
             this._btnMain4});
             this._tsBarBrowser.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this._tsBarBrowser.Location = new System.Drawing.Point(0, 40);
+            this._tsBarBrowser.Location = new System.Drawing.Point(0, 0);
             this._tsBarBrowser.Name = "_tsBarBrowser";
             this._tsBarBrowser.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this._tsBarBrowser.Size = new System.Drawing.Size(442, 46);
+            this._tsBarBrowser.Size = new System.Drawing.Size(442, 44);
             this._tsBarBrowser.TabIndex = 19;
             this._tsBarBrowser.Text = "toolStrip7";
             // 
             // _btnMain0
             // 
+            this._btnMain0.AutoSize = false;
             this._btnMain0.Image = global::MetaboliteLevels.Properties.Resources.ObjLVariableU;
             this._btnMain0.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnMain0.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain0.Name = "_btnMain0";
-            this._btnMain0.Size = new System.Drawing.Size(37, 43);
+            this._btnMain0.Size = new System.Drawing.Size(44, 44);
             this._btnMain0.Text = "Peaks";
             this._btnMain0.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnMain1
             // 
+            this._btnMain1.AutoSize = false;
             this._btnMain1.Image = global::MetaboliteLevels.Properties.Resources.ObjLCluster;
             this._btnMain1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnMain1.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain1.Name = "_btnMain1";
-            this._btnMain1.Size = new System.Drawing.Size(49, 43);
+            this._btnMain1.Size = new System.Drawing.Size(44, 44);
             this._btnMain1.Text = "Clusters";
             this._btnMain1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnMain5
             // 
+            this._btnMain5.AutoSize = false;
             this._btnMain5.Image = global::MetaboliteLevels.Properties.Resources.ObjLAssignment;
             this._btnMain5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnMain5.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain5.Name = "_btnMain5";
-            this._btnMain5.Size = new System.Drawing.Size(42, 43);
+            this._btnMain5.Size = new System.Drawing.Size(44, 44);
             this._btnMain5.Text = "Assigs";
             this._btnMain5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnMainAnnots
             // 
+            this._btnMainAnnots.AutoSize = false;
             this._btnMainAnnots.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompound;
             this._btnMainAnnots.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnMainAnnots.Margin = new System.Windows.Forms.Padding(0);
             this._btnMainAnnots.Name = "_btnMainAnnots";
-            this._btnMainAnnots.Size = new System.Drawing.Size(44, 43);
+            this._btnMainAnnots.Size = new System.Drawing.Size(44, 44);
             this._btnMainAnnots.Text = "Annots";
             this._btnMainAnnots.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnMain2
             // 
+            this._btnMain2.AutoSize = false;
             this._btnMain2.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompoundU;
             this._btnMain2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnMain2.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain2.Name = "_btnMain2";
-            this._btnMain2.Size = new System.Drawing.Size(44, 43);
+            this._btnMain2.Size = new System.Drawing.Size(44, 44);
             this._btnMain2.Text = "Comps";
             this._btnMain2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnMain3
             // 
+            this._btnMain3.AutoSize = false;
             this._btnMain3.Image = global::MetaboliteLevels.Properties.Resources.ObjLAdduct;
             this._btnMain3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnMain3.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain3.Name = "_btnMain3";
-            this._btnMain3.Size = new System.Drawing.Size(49, 43);
+            this._btnMain3.Size = new System.Drawing.Size(44, 44);
             this._btnMain3.Text = "Adducts";
             this._btnMain3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnMain4
             // 
+            this._btnMain4.AutoSize = false;
             this._btnMain4.Image = global::MetaboliteLevels.Properties.Resources.ObjLPathway;
             this._btnMain4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnMain4.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain4.Name = "_btnMain4";
-            this._btnMain4.Size = new System.Drawing.Size(36, 43);
+            this._btnMain4.Size = new System.Drawing.Size(44, 44);
             this._btnMain4.Text = "Paths";
             this._btnMain4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // panel5
-            // 
-            this.panel5.AutoSize = true;
-            this.panel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel5.Controls.Add(this.tableLayoutPanel4);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 0);
-            this.panel5.Margin = new System.Windows.Forms.Padding(0);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(442, 40);
-            this.panel5.TabIndex = 20;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.AutoSize = true;
-            this.tableLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel4.BackColor = System.Drawing.SystemColors.Control;
-            this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this._lblTitle, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this._btnSession, 0, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(442, 40);
-            this.tableLayoutPanel4.TabIndex = 0;
-            // 
-            // _lblTitle
-            // 
-            this._lblTitle.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this._lblTitle.AutoSize = true;
-            this._lblTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblTitle.Location = new System.Drawing.Point(42, 7);
-            this._lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this._lblTitle.Name = "_lblTitle";
-            this._lblTitle.Size = new System.Drawing.Size(75, 25);
-            this._lblTitle.TabIndex = 1;
-            this._lblTitle.Text = "Session";
-            this._lblTitle.Click += new System.EventHandler(this._btnSession_Click);
-            // 
-            // _btnSession
-            // 
-            this._btnSession.AutoSize = true;
-            this._btnSession.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnSession.BackColor = System.Drawing.Color.White;
-            this._btnSession.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnSession.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
-            this._btnSession.Location = new System.Drawing.Point(4, 5);
-            this._btnSession.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this._btnSession.Name = "_btnSession";
-            this._btnSession.Size = new System.Drawing.Size(30, 30);
-            this._btnSession.TabIndex = 2;
-            this._toolTipMain.SetToolTip(this._btnSession, "Show session editing options");
-            this._btnSession.UseVisualStyleBackColor = false;
-            this._btnSession.Click += new System.EventHandler(this._btnSession_Click);
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.quickHelpBar7);
             this.panel1.Controls.Add(this._tsBarSelection);
-            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.toolStrip2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -1406,10 +1186,10 @@ namespace MetaboliteLevels.Forms
             // 
             this.panel4.Controls.Add(this._tabSubinfo);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 189);
+            this.panel4.Location = new System.Drawing.Point(0, 76);
             this.panel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(442, 164);
+            this.panel4.Size = new System.Drawing.Size(442, 277);
             this.panel4.TabIndex = 21;
             // 
             // _tabSubinfo
@@ -1429,7 +1209,7 @@ namespace MetaboliteLevels.Forms
             this._tabSubinfo.Multiline = true;
             this._tabSubinfo.Name = "_tabSubinfo";
             this._tabSubinfo.SelectedIndex = 0;
-            this._tabSubinfo.Size = new System.Drawing.Size(442, 164);
+            this._tabSubinfo.Size = new System.Drawing.Size(442, 277);
             this._tabSubinfo.TabIndex = 20;
             // 
             // tabPage8
@@ -1439,7 +1219,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage8.Size = new System.Drawing.Size(434, 104);
+            this.tabPage8.Size = new System.Drawing.Size(434, 217);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "Information";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1455,7 +1235,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Info.Location = new System.Drawing.Point(4, 5);
             this._lst2Info.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Info.Name = "_lst2Info";
-            this._lst2Info.Size = new System.Drawing.Size(426, 94);
+            this._lst2Info.Size = new System.Drawing.Size(426, 207);
             this._lst2Info.SmallImageList = this._imgList;
             this._lst2Info.TabIndex = 0;
             this._lst2Info.UseCompatibleStateImageBehavior = false;
@@ -1472,11 +1252,11 @@ namespace MetaboliteLevels.Forms
             // tabPage9
             // 
             this.tabPage9.Controls.Add(this._lst2Stats);
-            this.tabPage9.Location = new System.Drawing.Point(4, 40);
+            this.tabPage9.Location = new System.Drawing.Point(4, 56);
             this.tabPage9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage9.Size = new System.Drawing.Size(434, 120);
+            this.tabPage9.Size = new System.Drawing.Size(434, 217);
             this.tabPage9.TabIndex = 2;
             this.tabPage9.Text = "Statistics";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1493,7 +1273,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Stats.Location = new System.Drawing.Point(4, 5);
             this._lst2Stats.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Stats.Name = "_lst2Stats";
-            this._lst2Stats.Size = new System.Drawing.Size(426, 110);
+            this._lst2Stats.Size = new System.Drawing.Size(426, 207);
             this._lst2Stats.SmallImageList = this._imgList;
             this._lst2Stats.TabIndex = 1;
             this._lst2Stats.UseCompatibleStateImageBehavior = false;
@@ -1510,11 +1290,11 @@ namespace MetaboliteLevels.Forms
             // tabPage10
             // 
             this.tabPage10.Controls.Add(this._lst2Peaks);
-            this.tabPage10.Location = new System.Drawing.Point(4, 40);
+            this.tabPage10.Location = new System.Drawing.Point(4, 56);
             this.tabPage10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage10.Name = "tabPage10";
             this.tabPage10.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage10.Size = new System.Drawing.Size(434, 120);
+            this.tabPage10.Size = new System.Drawing.Size(434, 217);
             this.tabPage10.TabIndex = 3;
             this.tabPage10.Text = "Peaks";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -1530,7 +1310,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Peaks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Peaks.MultiSelect = false;
             this._lst2Peaks.Name = "_lst2Peaks";
-            this._lst2Peaks.Size = new System.Drawing.Size(426, 110);
+            this._lst2Peaks.Size = new System.Drawing.Size(426, 207);
             this._lst2Peaks.SmallImageList = this._imgList;
             this._lst2Peaks.TabIndex = 6;
             this._lst2Peaks.UseCompatibleStateImageBehavior = false;
@@ -1539,11 +1319,11 @@ namespace MetaboliteLevels.Forms
             // tabPage11
             // 
             this.tabPage11.Controls.Add(this._lst2Clusters);
-            this.tabPage11.Location = new System.Drawing.Point(4, 40);
+            this.tabPage11.Location = new System.Drawing.Point(4, 56);
             this.tabPage11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage11.Name = "tabPage11";
             this.tabPage11.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage11.Size = new System.Drawing.Size(434, 120);
+            this.tabPage11.Size = new System.Drawing.Size(434, 217);
             this.tabPage11.TabIndex = 4;
             this.tabPage11.Text = "Clusters";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -1559,7 +1339,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Clusters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Clusters.MultiSelect = false;
             this._lst2Clusters.Name = "_lst2Clusters";
-            this._lst2Clusters.Size = new System.Drawing.Size(426, 110);
+            this._lst2Clusters.Size = new System.Drawing.Size(426, 207);
             this._lst2Clusters.SmallImageList = this._imgList;
             this._lst2Clusters.TabIndex = 6;
             this._lst2Clusters.UseCompatibleStateImageBehavior = false;
@@ -1568,11 +1348,11 @@ namespace MetaboliteLevels.Forms
             // tabPage12
             // 
             this.tabPage12.Controls.Add(this._lst2Compounds);
-            this.tabPage12.Location = new System.Drawing.Point(4, 40);
+            this.tabPage12.Location = new System.Drawing.Point(4, 56);
             this.tabPage12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage12.Name = "tabPage12";
             this.tabPage12.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage12.Size = new System.Drawing.Size(434, 120);
+            this.tabPage12.Size = new System.Drawing.Size(434, 217);
             this.tabPage12.TabIndex = 5;
             this.tabPage12.Text = "Compounds";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -1588,7 +1368,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Compounds.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Compounds.MultiSelect = false;
             this._lst2Compounds.Name = "_lst2Compounds";
-            this._lst2Compounds.Size = new System.Drawing.Size(426, 110);
+            this._lst2Compounds.Size = new System.Drawing.Size(426, 207);
             this._lst2Compounds.SmallImageList = this._imgList;
             this._lst2Compounds.TabIndex = 7;
             this._lst2Compounds.UseCompatibleStateImageBehavior = false;
@@ -1597,10 +1377,10 @@ namespace MetaboliteLevels.Forms
             // tabPage13
             // 
             this.tabPage13.Controls.Add(this._lst2Adducts);
-            this.tabPage13.Location = new System.Drawing.Point(4, 40);
+            this.tabPage13.Location = new System.Drawing.Point(4, 56);
             this.tabPage13.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Size = new System.Drawing.Size(434, 120);
+            this.tabPage13.Size = new System.Drawing.Size(434, 217);
             this.tabPage13.TabIndex = 6;
             this.tabPage13.Text = "Adducts";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -1615,7 +1395,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Adducts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Adducts.MultiSelect = false;
             this._lst2Adducts.Name = "_lst2Adducts";
-            this._lst2Adducts.Size = new System.Drawing.Size(434, 120);
+            this._lst2Adducts.Size = new System.Drawing.Size(434, 217);
             this._lst2Adducts.TabIndex = 7;
             this._lst2Adducts.UseCompatibleStateImageBehavior = false;
             this._lst2Adducts.View = System.Windows.Forms.View.Details;
@@ -1626,7 +1406,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage14.Location = new System.Drawing.Point(4, 40);
             this.tabPage14.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage14.Name = "tabPage14";
-            this.tabPage14.Size = new System.Drawing.Size(434, 120);
+            this.tabPage14.Size = new System.Drawing.Size(434, 233);
             this.tabPage14.TabIndex = 7;
             this.tabPage14.Text = "Pathways";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -1642,7 +1422,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Pathways.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Pathways.MultiSelect = false;
             this._lst2Pathways.Name = "_lst2Pathways";
-            this._lst2Pathways.Size = new System.Drawing.Size(434, 120);
+            this._lst2Pathways.Size = new System.Drawing.Size(434, 233);
             this._lst2Pathways.SmallImageList = this._imgList;
             this._lst2Pathways.TabIndex = 7;
             this._lst2Pathways.UseCompatibleStateImageBehavior = false;
@@ -1655,7 +1435,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage6.Size = new System.Drawing.Size(434, 120);
+            this.tabPage6.Size = new System.Drawing.Size(434, 233);
             this.tabPage6.TabIndex = 8;
             this.tabPage6.Text = "Assignments";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1671,7 +1451,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Assignments.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Assignments.MultiSelect = false;
             this._lst2Assignments.Name = "_lst2Assignments";
-            this._lst2Assignments.Size = new System.Drawing.Size(426, 110);
+            this._lst2Assignments.Size = new System.Drawing.Size(426, 223);
             this._lst2Assignments.SmallImageList = this._imgList;
             this._lst2Assignments.TabIndex = 18;
             this._lst2Assignments.UseCompatibleStateImageBehavior = false;
@@ -1684,7 +1464,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage7.Size = new System.Drawing.Size(434, 120);
+            this.tabPage7.Size = new System.Drawing.Size(434, 233);
             this.tabPage7.TabIndex = 9;
             this.tabPage7.Text = "Annotations";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1700,26 +1480,11 @@ namespace MetaboliteLevels.Forms
             this._lstSubAnnots.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstSubAnnots.MultiSelect = false;
             this._lstSubAnnots.Name = "_lstSubAnnots";
-            this._lstSubAnnots.Size = new System.Drawing.Size(426, 110);
+            this._lstSubAnnots.Size = new System.Drawing.Size(426, 223);
             this._lstSubAnnots.SmallImageList = this._imgList;
             this._lstSubAnnots.TabIndex = 8;
             this._lstSubAnnots.UseCompatibleStateImageBehavior = false;
             this._lstSubAnnots.View = System.Windows.Forms.View.Details;
-            // 
-            // quickHelpBar7
-            // 
-            this.quickHelpBar7.AutoSize = true;
-            this.quickHelpBar7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.quickHelpBar7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.quickHelpBar7.Location = new System.Drawing.Point(0, 86);
-            this.quickHelpBar7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.quickHelpBar7.MinimumSize = new System.Drawing.Size(192, 103);
-            this.quickHelpBar7.Name = "quickHelpBar7";
-            this.quickHelpBar7.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
-            this.quickHelpBar7.Size = new System.Drawing.Size(442, 103);
-            this.quickHelpBar7.TabIndex = 22;
-            this.quickHelpBar7.Text = "Browsable information about the current selection is displayed here";
-            this.quickHelpBar7.Title = "Explorer";
             // 
             // _tsBarSelection
             // 
@@ -1727,8 +1492,6 @@ namespace MetaboliteLevels.Forms
             this._tsBarSelection.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._tsBarSelection.ImageScalingSize = new System.Drawing.Size(24, 24);
             this._tsBarSelection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._btnBack,
-            this.toolStripSeparator1,
             this._btnSubInfo,
             this._btnSubStat,
             this._btnSubPeak,
@@ -1739,202 +1502,166 @@ namespace MetaboliteLevels.Forms
             this._btnSubAdd,
             this._btnSubPath});
             this._tsBarSelection.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this._tsBarSelection.Location = new System.Drawing.Point(0, 40);
+            this._tsBarSelection.Location = new System.Drawing.Point(0, 32);
             this._tsBarSelection.Name = "_tsBarSelection";
             this._tsBarSelection.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this._tsBarSelection.Size = new System.Drawing.Size(442, 46);
+            this._tsBarSelection.Size = new System.Drawing.Size(442, 44);
             this._tsBarSelection.TabIndex = 18;
             this._tsBarSelection.Text = "toolStrip4";
             // 
-            // _btnBack
-            // 
-            this._btnBack.Image = global::MetaboliteLevels.Properties.Resources.MnuBack;
-            this._btnBack.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnBack.Name = "_btnBack";
-            this._btnBack.Size = new System.Drawing.Size(45, 43);
-            this._btnBack.Text = "Back";
-            this._btnBack.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnBack.ButtonClick += new System.EventHandler(this._btnBack_ButtonClick);
-            this._btnBack.DropDownOpening += new System.EventHandler(this._btnBack_DropDownOpening);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.AutoSize = false;
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 42);
-            // 
             // _btnSubInfo
             // 
+            this._btnSubInfo.AutoSize = false;
             this._btnSubInfo.Image = global::MetaboliteLevels.Properties.Resources.ObjLInfo;
             this._btnSubInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubInfo.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubInfo.Name = "_btnSubInfo";
-            this._btnSubInfo.Size = new System.Drawing.Size(29, 43);
+            this._btnSubInfo.Size = new System.Drawing.Size(44, 44);
             this._btnSubInfo.Text = "Info";
             this._btnSubInfo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnSubStat
             // 
+            this._btnSubStat.AutoSize = false;
             this._btnSubStat.Image = global::MetaboliteLevels.Properties.Resources.ObjLStatistics;
             this._btnSubStat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubStat.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubStat.Name = "_btnSubStat";
-            this._btnSubStat.Size = new System.Drawing.Size(33, 43);
+            this._btnSubStat.Size = new System.Drawing.Size(44, 44);
             this._btnSubStat.Text = "Stats";
             this._btnSubStat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnSubPeak
             // 
+            this._btnSubPeak.AutoSize = false;
             this._btnSubPeak.Image = global::MetaboliteLevels.Properties.Resources.ObjLVariableU;
             this._btnSubPeak.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubPeak.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPeak.Name = "_btnSubPeak";
-            this._btnSubPeak.Size = new System.Drawing.Size(37, 43);
+            this._btnSubPeak.Size = new System.Drawing.Size(44, 44);
             this._btnSubPeak.Text = "Peaks";
             this._btnSubPeak.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnSubPat
             // 
+            this._btnSubPat.AutoSize = false;
             this._btnSubPat.Image = global::MetaboliteLevels.Properties.Resources.ObjLCluster;
             this._btnSubPat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubPat.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPat.Name = "_btnSubPat";
-            this._btnSubPat.Size = new System.Drawing.Size(49, 43);
+            this._btnSubPat.Size = new System.Drawing.Size(44, 44);
             this._btnSubPat.Text = "Clusters";
             this._btnSubPat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnSubAss
             // 
+            this._btnSubAss.AutoSize = false;
             this._btnSubAss.Image = global::MetaboliteLevels.Properties.Resources.ObjLAssignment;
             this._btnSubAss.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubAss.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAss.Name = "_btnSubAss";
-            this._btnSubAss.Size = new System.Drawing.Size(42, 43);
+            this._btnSubAss.Size = new System.Drawing.Size(44, 44);
             this._btnSubAss.Text = "Assigs";
             this._btnSubAss.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnSubAnnot
             // 
+            this._btnSubAnnot.AutoSize = false;
             this._btnSubAnnot.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompound;
             this._btnSubAnnot.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubAnnot.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAnnot.Name = "_btnSubAnnot";
-            this._btnSubAnnot.Size = new System.Drawing.Size(44, 43);
+            this._btnSubAnnot.Size = new System.Drawing.Size(44, 44);
             this._btnSubAnnot.Text = "Annots";
             this._btnSubAnnot.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnSubComp
             // 
+            this._btnSubComp.AutoSize = false;
             this._btnSubComp.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompoundU;
             this._btnSubComp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubComp.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubComp.Name = "_btnSubComp";
-            this._btnSubComp.Size = new System.Drawing.Size(44, 43);
+            this._btnSubComp.Size = new System.Drawing.Size(44, 44);
             this._btnSubComp.Text = "Comps";
             this._btnSubComp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnSubAdd
             // 
+            this._btnSubAdd.AutoSize = false;
             this._btnSubAdd.Image = global::MetaboliteLevels.Properties.Resources.ObjLAdduct;
             this._btnSubAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubAdd.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAdd.Name = "_btnSubAdd";
-            this._btnSubAdd.Size = new System.Drawing.Size(49, 43);
+            this._btnSubAdd.Size = new System.Drawing.Size(44, 44);
             this._btnSubAdd.Text = "Adducts";
             this._btnSubAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // _btnSubPath
             // 
+            this._btnSubPath.AutoSize = false;
             this._btnSubPath.Image = global::MetaboliteLevels.Properties.Resources.ObjLPathway;
             this._btnSubPath.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSubPath.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPath.Name = "_btnSubPath";
-            this._btnSubPath.Size = new System.Drawing.Size(36, 43);
+            this._btnSubPath.Size = new System.Drawing.Size(44, 44);
             this._btnSubPath.Text = "Paths";
             this._btnSubPath.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
-            // panel2
+            // toolStrip2
             // 
-            this.panel2.AutoSize = true;
-            this.panel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel2.Controls.Add(this.tableLayoutPanel1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(442, 40);
-            this.panel2.TabIndex = 19;
+            this.toolStrip2.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._btnBack,
+            this._btnSelection,
+            this._lblExterior,
+            this._btnSelectionExterior});
+            this.toolStrip2.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(442, 32);
+            this.toolStrip2.TabIndex = 23;
+            this.toolStrip2.Text = "toolStrip2";
             // 
-            // tableLayoutPanel1
+            // _btnBack
             // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this._btnSel, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this._lblCurrentSel, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this._btnSel2, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this._lblSel2, 2, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(442, 40);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this._btnBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._btnBack.Image = global::MetaboliteLevels.Properties.Resources.ObjBack;
+            this._btnBack.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnBack.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
+            this._btnBack.Name = "_btnBack";
+            this._btnBack.Size = new System.Drawing.Size(32, 29);
+            this._btnBack.Text = "Back to previous selection";
+            this._btnBack.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnBack.ButtonClick += new System.EventHandler(this._btnBack_ButtonClick);
+            this._btnBack.DropDownOpening += new System.EventHandler(this._btnBack_DropDownOpening);
             // 
-            // _btnSel
+            // _btnSelection
             // 
-            this._btnSel.AutoSize = true;
-            this._btnSel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnSel.BackColor = System.Drawing.Color.White;
-            this._btnSel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnSel.Image = ((System.Drawing.Image)(resources.GetObject("_btnSel.Image")));
-            this._btnSel.Location = new System.Drawing.Point(4, 5);
-            this._btnSel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this._btnSel.Name = "_btnSel";
-            this._btnSel.Size = new System.Drawing.Size(30, 30);
-            this._btnSel.TabIndex = 3;
-            this._toolTipMain.SetToolTip(this._btnSel, "Show selection editing options");
-            this._btnSel.UseVisualStyleBackColor = false;
-            this._btnSel.Click += new System.EventHandler(this._btnCurrentSel_Click);
+            this._btnSelection.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSelection.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
+            this._btnSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSelection.Name = "_btnSelection";
+            this._btnSelection.Size = new System.Drawing.Size(145, 29);
+            this._btnSelection.Text = "<Selection>";
+            this._btnSelection.DropDownOpening += new System.EventHandler(this._btnSelection_DropDownOpening);
             // 
-            // _lblCurrentSel
+            // _lblExterior
             // 
-            this._lblCurrentSel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this._lblCurrentSel.AutoSize = true;
-            this._lblCurrentSel.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblCurrentSel.Location = new System.Drawing.Point(42, 7);
-            this._lblCurrentSel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this._lblCurrentSel.Name = "_lblCurrentSel";
-            this._lblCurrentSel.Size = new System.Drawing.Size(90, 25);
-            this._lblCurrentSel.TabIndex = 1;
-            this._lblCurrentSel.Text = "Selection";
-            this._lblCurrentSel.Click += new System.EventHandler(this._btnCurrentSel_Click);
+            this._lblExterior.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblExterior.Name = "_lblExterior";
+            this._lblExterior.Size = new System.Drawing.Size(16, 29);
+            this._lblExterior.Text = "\\";
             // 
-            // _btnSel2
+            // _btnSelectionExterior
             // 
-            this._btnSel2.AutoSize = true;
-            this._btnSel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnSel2.BackColor = System.Drawing.Color.White;
-            this._btnSel2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnSel2.Image = ((System.Drawing.Image)(resources.GetObject("_btnSel2.Image")));
-            this._btnSel2.Location = new System.Drawing.Point(408, 5);
-            this._btnSel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this._btnSel2.Name = "_btnSel2";
-            this._btnSel2.Size = new System.Drawing.Size(30, 30);
-            this._btnSel2.TabIndex = 3;
-            this._btnSel2.UseVisualStyleBackColor = false;
-            this._btnSel2.Click += new System.EventHandler(this._btnCurrentSel_Click);
-            // 
-            // _lblSel2
-            // 
-            this._lblSel2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this._lblSel2.AutoSize = true;
-            this._lblSel2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblSel2.Location = new System.Drawing.Point(327, 9);
-            this._lblSel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this._lblSel2.Name = "_lblSel2";
-            this._lblSel2.Size = new System.Drawing.Size(73, 21);
-            this._lblSel2.TabIndex = 1;
-            this._lblSel2.Text = "Selection";
-            this._lblSel2.Click += new System.EventHandler(this._btnCurrentSel_Click);
+            this._btnSelectionExterior.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSelectionExterior.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
+            this._btnSelectionExterior.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSelectionExterior.Name = "_btnSelectionExterior";
+            this._btnSelectionExterior.Size = new System.Drawing.Size(188, 29);
+            this._btnSelectionExterior.Text = "<Exterior selection>";
+            this._btnSelectionExterior.DropDownOpening += new System.EventHandler(this._btnSelectionExterior_DropDownOpening);
             // 
             // splitContainer3
             // 
@@ -1943,37 +1670,9 @@ namespace MetaboliteLevels.Forms
             this.splitContainer3.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel2
-            //                                                                                                                  
-            this.splitContainer3.Size = new System.Drawing.Size(737, 608);
-            this.splitContainer3.SplitterDistance = 299;
+            this.splitContainer3.Size = new System.Drawing.Size(737, 711);
+            this.splitContainer3.SplitterDistance = 349;
             this.splitContainer3.TabIndex = 10;
-            // 
-            // quickHelpBar1
-            // 
-            this.quickHelpBar1.AutoSize = true;
-            this.quickHelpBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.quickHelpBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.quickHelpBar1.Location = new System.Drawing.Point(0, 608);
-            this.quickHelpBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.quickHelpBar1.MinimumSize = new System.Drawing.Size(192, 103);
-            this.quickHelpBar1.Name = "quickHelpBar1";
-            this.quickHelpBar1.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
-            this.quickHelpBar1.Size = new System.Drawing.Size(737, 103);
-            this.quickHelpBar1.TabIndex = 11;
-            this.quickHelpBar1.Text = resources.GetString("quickHelpBar1.Text");
-            this.quickHelpBar1.Title = "Graphs";
-            // 
-            // clusterParameterOptimiserToolStripMenuItem
-            // 
-            this.clusterParameterOptimiserToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
-            this.clusterParameterOptimiserToolStripMenuItem.Name = "clusterParameterOptimiserToolStripMenuItem";
-            this.clusterParameterOptimiserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.F4)));
-            this.clusterParameterOptimiserToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
-            this.clusterParameterOptimiserToolStripMenuItem.Text = "&Cluster parameter optimiser...";
-            this.clusterParameterOptimiserToolStripMenuItem.Click += new System.EventHandler(this.clustererOptimiserToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -1996,15 +1695,12 @@ namespace MetaboliteLevels.Forms
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this._mnuMain.ResumeLayout(false);
             this._mnuMain.PerformLayout();
-            this._cmsSelectionButton.ResumeLayout(false);
             this._statusMain.ResumeLayout(false);
             this._statusMain.PerformLayout();
-            this._cmsCoreButton.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -2015,24 +1711,14 @@ namespace MetaboliteLevels.Forms
             this.panel3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
             this.tabPage5.ResumeLayout(false);
-            this.tabPage5.PerformLayout();
             this.tabPage15.ResumeLayout(false);
-            this.tabPage15.PerformLayout();
             this.tabPage16.ResumeLayout(false);
             this._tsBarBrowser.ResumeLayout(false);
             this._tsBarBrowser.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -2048,10 +1734,8 @@ namespace MetaboliteLevels.Forms
             this.tabPage7.ResumeLayout(false);
             this._tsBarSelection.ResumeLayout(false);
             this._tsBarSelection.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -2096,20 +1780,10 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripMenuItem saveSessionAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
-        private CtlHelpBar quickHelpBar1;
-        private CtlHelpBar quickHelpBar2;
-        private CtlHelpBar quickHelpBar3;
-        private CtlHelpBar quickHelpBar4;
-        private CtlHelpBar quickHelpBar5;
-        private CtlHelpBar quickHelpBar8;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStrip _tsBarSelection;
-        private System.Windows.Forms.ToolStripSplitButton _btnBack;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label _lblCurrentSel;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ToolStrip _tsBarBrowser;
         private System.Windows.Forms.ToolStripButton _btnMain5;
@@ -2142,23 +1816,12 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.TabPage tabPage13;
         private System.Windows.Forms.ListView _lst2Adducts;
         private System.Windows.Forms.ListView _lst2Pathways;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.ListView _lstClusters;
-        private CtlHelpBar quickHelpBar7;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Label _lblTitle;
-        private System.Windows.Forms.Button _btnSession;
-        private System.Windows.Forms.Button _btnSel;
         private System.Windows.Forms.ToolTip _toolTipMain;
         private System.Windows.Forms.ImageList _imgListClusters;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip _cmsCoreButton;
         private System.Windows.Forms.ContextMenuStrip _cmsSelectionButton;
-        private System.Windows.Forms.ToolStripMenuItem editNameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addCommentsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewOnlineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dataInRFormatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem experimentalOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
@@ -2184,12 +1847,6 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton8;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
-        private System.Windows.Forms.ToolStripMenuItem openInDataexplorerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem breakUpLargeClusterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem compareToThisPeakToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem peakFiltersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem observationFiltersToolStripMenuItem;
@@ -2198,14 +1855,11 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton toolStripButton9;
-        private System.Windows.Forms.Button _btnSel2;
-        private System.Windows.Forms.Label _lblSel2;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.ListView _lst2Assignments;
         private System.Windows.Forms.ToolStripButton _btnSubAss;
         private System.Windows.Forms.TabPage tabPage15;
         private System.Windows.Forms.ListView _lstAssignments;
-        private CtlHelpBar ctlHelpBar1;
         private System.Windows.Forms.ToolStripButton _btnMain0;
         private System.Windows.Forms.ToolStripButton _btnMain1;
         private System.Windows.Forms.ToolStripButton toolStripButton10;
@@ -2218,6 +1872,13 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ListView _lstAnnotations;
         private System.Windows.Forms.ToolStripButton _btnMainAnnots;
         private System.Windows.Forms.ToolStripMenuItem clusterParameterOptimiserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editNameAndCommentsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton _btnSession;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripDropDownButton _btnSelection;
+        private System.Windows.Forms.ToolStripDropDownButton _btnSelectionExterior;
+        private System.Windows.Forms.ToolStripSplitButton _btnBack;
+        private System.Windows.Forms.ToolStripLabel _lblExterior;
     }
 }
 

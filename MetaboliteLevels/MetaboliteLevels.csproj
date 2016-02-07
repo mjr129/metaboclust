@@ -681,6 +681,9 @@
     <Content Include="Manual.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\TabUnsel.png" />
+    <None Include="Resources\TabSel.png" />
+    <None Include="Resources\7BFF94D7-CE09-4B45-B86F-D588D4DAA95E.png" />
     <None Include="Resources\ObjLSeries.png" />
     <None Include="Resources\ObjLTime.png" />
     <None Include="Resources\ObjLReplicate.png" />

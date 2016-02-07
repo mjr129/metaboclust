@@ -54,9 +54,9 @@
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(24, 104);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(236, 50);
+            this.label1.Size = new System.Drawing.Size(294, 50);
             this.label1.TabIndex = 2;
-            this.label1.Text = "MetaboClust";
+            this.label1.Text = "(Text goes here)";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
@@ -66,10 +66,11 @@
             this.label2.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(40, 152);
+            this.label2.MaximumSize = new System.Drawing.Size(256, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(258, 50);
+            this.label2.Size = new System.Drawing.Size(141, 25);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Time series exploration\r\n                          and clustering";
+            this.label2.Text = "(Text goes here)";
             // 
             // tableLayoutPanel1
             // 
