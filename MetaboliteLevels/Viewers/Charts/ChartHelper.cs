@@ -20,32 +20,34 @@ namespace MetaboliteLevels.Viewers.Charts
 {
     abstract class ChartHelper : ICoreWatcher
     {
-        protected Core _core;
-        protected MChart _chart;
+        private const int GROUP_SEPARATION = 2;
 
         public event EventHandler<ChartSelectionEventArgs> SelectionChanged;
 
-        Point _mouseDownStart;
-        protected bool _enableHighlightSeries;
+        protected Core _core;
+        protected readonly MChart _chart;                
+        private readonly ISelectionHolder _selector;
+
 
         private readonly CaptionBar _captionBar;
         private readonly ToolStrip _menuBar;
-        private readonly ToolStripSplitButton _plotButton;
-        private readonly ToolStripMenuItem _userDetailsButton;
-        //private readonly ToolStripSplitButton _selectionButton;
-
-        private const int GROUP_SEPARATION = 2;
-        private Label _selectionLabel;
-
-        private Label _menuLabel;
-        private readonly ISelectionHolder _selector;
-        private readonly ToolStripItem _btnNavigateToPlot;
-        private readonly ToolStripMenuItem _selectionButtonRep;
-        private readonly ToolStripMenuItem _selectionButtonTime;
-        private readonly ToolStripMenuItem _selectionButtonIntensity;
-        private readonly ToolStripMenuItem _selectionButtonGroup;
-        private readonly ToolStripMenuItem _selectionButtonPeak;
-        private readonly ToolStripMenuItem _selectionButtonSeries;
+        private readonly ToolStripMenuItem _mnuPlot;
+        private readonly ToolStripMenuItem _mnuCustomText;
+        private readonly ToolStripItem _btnNavigateToSelected;
+        private readonly ToolStripMenuItem _mnuSelectedReplicate;
+        private readonly ToolStripMenuItem _mnuSelectedTime;
+        private readonly ToolStripMenuItem _mnuSelectedIntensity;
+        private readonly ToolStripMenuItem _mnuSelectedGroup;
+        private readonly ToolStripMenuItem _mnuSelectedPeak;
+        private readonly ToolStripMenuItem _mnuSelectedSeries;
+        private readonly ToolStripMenuItem _mnuSelectionDisplay;
+        private readonly ToolStripMenuItem _chkShowPeak;
+        private readonly ToolStripMenuItem _chkShowSeries;
+        private readonly ToolStripMenuItem _chkShowIntensity;
+        private readonly ToolStripMenuItem _chkShowGroup;
+        private readonly ToolStripMenuItem _chkShowReplicate;
+        private readonly ToolStripMenuItem _chkShowTime;
+        private readonly ToolStripMenuItem _chkShowCustom;
 
         public abstract IVisualisable CurrentPlot
         {
@@ -66,10 +68,10 @@ namespace MetaboliteLevels.Viewers.Charts
             this._core = newCore;
         }
 
-        public ChartHelper(ISelectionHolder selector, Core core, Control targetSite)
+        public ChartHelper(ISelectionHolder selector, Core core, Control targetSite, bool describePeaks)
         {
             this._selector = selector;
-            this._core = core;
+            this._core = core;                          
 
             // CHART
             this._chart = new MChart();
@@ -97,49 +99,77 @@ namespace MetaboliteLevels.Viewers.Charts
 
             // MENU BAR
             this._menuBar = new ToolStrip();
-            _menuBar.ImageScalingSize = new Size(24, 24);
+            //_menuBar.Font = FontHelper.RegularFont;
+            //_menuBar.ImageScalingSize = new Size(24, 24);
+            _menuBar.AutoSize = true;
+            _menuBar.Padding = new Padding(0, 0, 0, 0);
+            _menuBar.Dock = DockStyle.Top;
             targetSite.Controls.Add(_menuBar);
             _menuBar.SendToBack();
 
             // PLOT BUTTON
-            _plotButton = new ToolStripSplitButton("No selection");
-            _plotButton.Enabled = false;
-            _plotButton.AutoSize = true;
-            this._menuBar.Items.Add(_plotButton);
+            _mnuPlot = new ToolStripMenuItem("...");
+            _mnuPlot.Visible = false;
+            _mnuPlot.AutoSize = true;
+            this._menuBar.Items.Add(_mnuPlot);
 
             // USER DETAILS BUTTON
-            _userDetailsButton = new ToolStripMenuItem("...");                      
-            _userDetailsButton.DropDownItems.Add("Configure...", null, _userDetailsButton_Clicked);
-            _userDetailsButton.AutoSize = true;
-            this._menuBar.Items.Add(_userDetailsButton);
+            _mnuCustomText = new ToolStripMenuItem(Resources.ObjLInfo);
+            _mnuCustomText.DropDownItems.Add("Configure...", null, _userDetailsButton_Clicked);
+            _mnuCustomText.Visible = false;
+            _mnuCustomText.AutoSize = true;
+            this._menuBar.Items.Add(_mnuCustomText);
 
             // SELECTION BUTTONS
-            _selectionButtonIntensity = CreateSelectionButton(Resources.ObjLIntensity);
-            _selectionButtonRep = CreateSelectionButton(Resources.ObjLReplicate);
-            _selectionButtonTime = CreateSelectionButton(Resources.ObjLTime);
-            _selectionButtonGroup = CreateSelectionButton(Resources.ObjPoint);
-            _selectionButtonPeak = CreateSelectionButton(Resources.ObjLVariableU);
-            _selectionButtonSeries = CreateSelectionButton(Resources.ObjLSeries);
+            _mnuSelectedIntensity = CreateSelectionButton(Resources.ObjLIntensity);
+            _mnuSelectedReplicate = CreateSelectionButton(Resources.ObjLReplicate);
+            _mnuSelectedTime = CreateSelectionButton(Resources.ObjLTime);
+            _mnuSelectedGroup = CreateSelectionButton(Resources.MnuWarning);
+            _mnuSelectedPeak = CreateSelectionButton(Resources.ObjLVariableU);
+            _mnuSelectedSeries = CreateSelectionButton(Resources.MnuWarning);
 
             // PLOT BUTTON ITEMS       
-            _plotButton.DropDownOpening += _menuButtonMenu_Opening;
-            _plotButton.Click += (x, y) => _plotButton.ShowDropDown();
-            _btnNavigateToPlot = _plotButton.DropDownItems.Add("Select this", null, SelectThis_Click);
-            _plotButton.DropDownItems.Add(new ToolStripSeparator());
-            //_plotButton.DropDownItems.Add("Toggle legend", null, ToggleLegend_Click);
-            _plotButton.DropDownItems.Add("Reset scale (MMB)", null, ResetScale_Click);
-            _plotButton.DropDownItems.Add("Clear selection (MMB)", null, ResetSel_Click);
-            _plotButton.DropDownItems.Add("Copy caption text to clipboard", null, ShowCaption_Click);
-            _plotButton.DropDownItems.Add("Display caption text...", null, ShowCaption2_Click);
-            _plotButton.DropDownItems.Add("Copy image to clipboard", null, ShowImage_Click);
-            _plotButton.DropDownItems.Add("Save image...", null, SaveImage_Click);
+            _mnuPlot.DropDownOpening += _menuButtonMenu_Opening;   
+            _btnNavigateToSelected = _mnuPlot.DropDownItems.Add("Select this", null, SelectThis_Click);
+            _mnuPlot.DropDownItems.Add(new ToolStripSeparator());
+            _mnuPlot.DropDownItems.Add("Toggle legend", null, ToggleLegend_Click);
+            _mnuPlot.DropDownItems.Add("Reset scale (MMB)", null, ResetScale_Click);
+            _mnuPlot.DropDownItems.Add("Clear selection (MMB)", null, ResetSel_Click);
+            _mnuPlot.DropDownItems.Add("Copy caption text to clipboard", null, ShowCaption_Click);
+            _mnuPlot.DropDownItems.Add("Display caption text...", null, ShowCaption2_Click);
+            _mnuPlot.DropDownItems.Add("Copy image to clipboard", null, ShowImage_Click);
+            _mnuPlot.DropDownItems.Add("Save image...", null, SaveImage_Click);
+            _mnuSelectionDisplay = (ToolStripMenuItem)_mnuPlot.DropDownItems.Add("Selection display", null, null);
+            _chkShowCustom = AddCheckButton("Custom text", true);
+            _chkShowPeak = AddCheckButton("Peak", describePeaks);
+            _chkShowSeries = AddCheckButton("Series", true);
+            _chkShowGroup = AddCheckButton("Group", describePeaks);
+            _chkShowReplicate = AddCheckButton("Replicate", !describePeaks);
+            _chkShowTime = AddCheckButton("Time", !describePeaks);
+            _chkShowIntensity = AddCheckButton("Intensity", !describePeaks);
 
-            _btnNavigateToPlot.Font = new Font(_btnNavigateToPlot.Font, FontStyle.Bold);
-            _btnNavigateToPlot.Enabled = _selector != null;        
+            _btnNavigateToSelected.Font = new Font(_btnNavigateToSelected.Font, FontStyle.Bold);
+            _btnNavigateToSelected.Enabled = _selector != null;
+        }
+
+        private ToolStripMenuItem AddCheckButton(string v, bool isChecked)
+        {
+            ToolStripMenuItem result = new ToolStripMenuItem(v);
+            _mnuSelectionDisplay.DropDownItems.Add(result);
+            result.Checked = isChecked;
+            result.Visible = true;
+            result.CheckOnClick = true;
+            result.CheckedChanged += Result_CheckedChanged;
+            return result;
+        }
+
+        private void Result_CheckedChanged(object sender, EventArgs e)
+        {
+            PerformSelectionActions();
         }
 
         private ToolStripMenuItem CreateSelectionButton(Image image)
-        {               
+        {
             ToolStripMenuItem result = new ToolStripMenuItem("", image, _selectionButtonMenu_Opening);
             result.Alignment = ToolStripItemAlignment.Right;
             result.Visible = false;
@@ -161,7 +191,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
         private void _menuButtonMenu_Opening(object sender, EventArgs e)
         {
-            _btnNavigateToPlot.Text = "Navigate to " + new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
+            _btnNavigateToSelected.Text = "Navigate to " + new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
         }
 
         private void _selectionButtonMenu_Opening(object senderu, EventArgs e)
@@ -200,11 +230,25 @@ namespace MetaboliteLevels.Viewers.Charts
             _selector.Selection = new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
         }
 
-        // TODO: Put back in
-        //private void ToggleLegend_Click(object sender, EventArgs e)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        private void ToggleLegend_Click(object sender, EventArgs e)
+        {
+            switch (_chart.Style.LegendDisplay)
+            {
+                case MChart.ELegendDisplay.Visible:
+                    _chart.Style.LegendDisplay = MChart.ELegendDisplay.Hidden;
+                    break;
+
+                case MChart.ELegendDisplay.Hidden:
+                    _chart.Style.LegendDisplay = MChart.ELegendDisplay.Selection;
+                    break;
+
+                case MChart.ELegendDisplay.Selection:
+                    _chart.Style.LegendDisplay = MChart.ELegendDisplay.Visible;
+                    break;
+            }
+
+            _chart.Redraw();
+        }
 
         private void ResetScale_Click(object sender, EventArgs e)
         {
@@ -277,35 +321,34 @@ namespace MetaboliteLevels.Viewers.Charts
 
             CoreOptions.PlotSetup userComments = _core.Options.GetUserText(_core, toPlot);
 
-            if (_plotButton != null)
+            if (_mnuPlot != null)
             {
                 if (toPlot != null)
                 {
-                    _plotButton.Text = toPlot.DisplayName;
-                    _plotButton.Image = UiControls.GetImage(toPlot.GetIcon(), true);
+                    _mnuPlot.Text = toPlot.DisplayName;
+                    _mnuPlot.Image = UiControls.GetImage(toPlot.GetIcon(), true);
 
                     if (ParseElementCollection.IsNullOrEmpty(userComments.Information))
                     {
-                        _userDetailsButton.Text = "(Click here to configure text)";
+                        _mnuCustomText.Text = "(Click here to configure text)";
                     }
                     else
                     {
-                        _userDetailsButton.Text = userComments.Information.ConvertToString(toPlot, _core);
+                        _mnuCustomText.Text = userComments.Information.ConvertToString(toPlot, _core);
                     }
 
-                    _plotButton.Enabled = true;
-                    _userDetailsButton.Enabled = true;
+                    _mnuPlot.Visible = true;
+                    _mnuCustomText.Visible = _chkShowCustom.Checked;
                 }
                 else
                 {
-                    _plotButton.Text = "No selection";
-                    _plotButton.Image = Resources.ObjNone;
-                    _plotButton.Enabled = false;
-                    _userDetailsButton.Text = "";
-                    _userDetailsButton.Enabled = false;
+                    _mnuPlot.Text = "No selection";
+                    _mnuPlot.Image = Resources.ObjNone;
+                    _mnuPlot.Visible = false;
+                    _mnuCustomText.Text = "";
+                    _mnuCustomText.Visible = false;
                 }
-            }
-
+            }      
 
             if (axes)
             {
@@ -394,66 +437,81 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // Update text
-            if (_selectionButtonPeak != null)
+            if (_mnuSelectedPeak != null)
             {
-                if (peak != null)
+                if (peak != null && _chkShowPeak.Checked)
                 {
-                    _selectionButtonPeak.Text = peak.DisplayName;
-                    _selectionButtonPeak.Image = UiControls.GetImage(((IVisualisable)peak).GetIcon(), true);
-                    _selectionButtonPeak.Visible = true;
+                    _mnuSelectedPeak.Text = peak.DisplayName;
+                    _mnuSelectedPeak.Image = UiControls.GetImage(((IVisualisable)peak).GetIcon(), true);
+                    _mnuSelectedPeak.Visible = true;
                 }
                 else
                 {
-                    _selectionButtonPeak.Visible = false;
+                    _mnuSelectedPeak.Visible = false;
                 }
 
                 if (dataPoint != null)
                 {
-                    if (dataPoint.Rep.HasValue)
+                    if (dataPoint.Rep.HasValue && _chkShowReplicate.Checked)
                     {
-                        _selectionButtonRep.Text = dataPoint.Rep.Value.ToString();
-                        _selectionButtonRep.Visible = true;
+                        _mnuSelectedReplicate.Text = dataPoint.Rep.Value.ToString();
+                        _mnuSelectedReplicate.Visible = true;
                     }
                     else
                     {
-                        _selectionButtonRep.Visible = false;
+                        _mnuSelectedReplicate.Visible = false;
                     }
 
-                    if (dataPoint.Time.HasValue)
+                    if (dataPoint.Time.HasValue && _chkShowTime.Checked)
                     {
-                        _selectionButtonTime.Text = dataPoint.Time.Value.ToString();
-                        _selectionButtonTime.Visible = true;
+                        _mnuSelectedTime.Text = dataPoint.Time.Value.ToString();
+                        _mnuSelectedTime.Visible = true;
                     }
                     else
                     {
-                        _selectionButtonTime.Visible = false;
+                        _mnuSelectedTime.Visible = false;
                     }
 
 
-                    _selectionButtonIntensity.Text = dataPoint.Intensity.ToString();
-                    _selectionButtonIntensity.Visible = true;
-
-                    if (dataPoint.Group != null)
+                    if (_chkShowIntensity.Checked)
                     {
-                        _selectionButtonGroup.Text = dataPoint.Group.Name;
-                        _selectionButtonGroup.Image = UiControls.CreateSolidColourImage(true, dataPoint.Group);
-                        _selectionButtonGroup.Visible = true;
+                        _mnuSelectedIntensity.Text = dataPoint.Intensity.ToString();
+                        _mnuSelectedIntensity.Visible = true;
                     }
                     else
                     {
-                        _selectionButtonGroup.Visible = false;
+                        _mnuSelectedIntensity.Visible = false;
                     }
 
-                    _selectionButtonSeries.Text = _chart.SelectedItem.Series[0].Name;
-                    _selectionButtonSeries.Visible = true;
+                    if (dataPoint.Group != null && _chkShowGroup.Checked)
+                    {
+                        _mnuSelectedGroup.Text = dataPoint.Group.Name;
+                        _mnuSelectedGroup.Image = UiControls.CreateSolidColourImage(true, dataPoint.Group);
+                        _mnuSelectedGroup.Visible = true;
+                    }
+                    else
+                    {
+                        _mnuSelectedGroup.Visible = false;
+                    }
+
+                    if (_chkShowSeries.Checked)
+                    {
+                        _mnuSelectedSeries.Text = _chart.SelectedItem.Series[0].Name;
+                        _mnuSelectedSeries.Image = _chart.SelectedItem.Series[0].DrawLegendKey(_menuBar.ImageScalingSize.Width, _menuBar.ImageScalingSize.Height);
+                        _mnuSelectedSeries.Visible = true;
+                    }
+                    else
+                    {
+                        _mnuSelectedSeries.Visible = false;
+                    }
                 }
                 else
                 {
-                    _selectionButtonRep.Visible = false;
-                    _selectionButtonTime.Visible = false;
-                    _selectionButtonIntensity.Visible = false;
-                    _selectionButtonSeries.Visible = false;
-                    _selectionButtonGroup.Visible = false;
+                    _mnuSelectedReplicate.Visible = false;
+                    _mnuSelectedTime.Visible = false;
+                    _mnuSelectedIntensity.Visible = false;
+                    _mnuSelectedSeries.Visible = false;
+                    _mnuSelectedGroup.Visible = false;
                 }
             }
 
@@ -471,8 +529,24 @@ namespace MetaboliteLevels.Viewers.Charts
             return _chart.DrawToBitmap(width, height);
         }
 
-        protected void DrawLabels(MChart.Plot plot, bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups)
+        protected Dictionary<GroupInfoBase, MChart.Series> DrawLegend(MChart.Plot plot, IEnumerable<GroupInfoBase> viewTypes)
         {
+            Dictionary<GroupInfoBase, MChart.Series> result = new Dictionary<GroupInfoBase, MChart.Series>();
+            
+            foreach (GroupInfo group in viewTypes)
+            {
+                MChart.Series legendEntry = new MChart.Series();
+                legendEntry.Name = group.Name;
+                legendEntry.Style.DrawBands = new SolidBrush(group.Colour);
+                plot.LegendEntries.Add(legendEntry);
+                result.Add(group, legendEntry);
+            }
+
+            return result;
+        }
+
+        protected void DrawLabels(MChart.Plot plot, bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups)
+        {   
             if (bConditionsSideBySide)
             {
                 foreach (GroupInfoBase ti in orderOfGroups)

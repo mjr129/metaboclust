@@ -46,9 +46,8 @@ namespace MetaboliteLevels.Viewers.Charts
         /// Ctor
         /// </summary>
         public ChartHelperForClusters(ISelectionHolder selector, Core core, Control targetSite)
-            : base(selector, core, targetSite)
+            : base(selector, core, targetSite, true)
         {
-            _enableHighlightSeries = true;
             _chart.SelectionChanging += _chart_SelectionChanging;
         }
 
@@ -126,7 +125,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
             else
             {
-                SetCaption("Plot of {0}.", null);
+                SetCaption("No plot displayed.");
             }
 
             var core = _core;
@@ -154,6 +153,14 @@ namespace MetaboliteLevels.Viewers.Charts
             bool isMultiGroup = groups.Count != 1;
             GroupInfo[] groupOrder = _core.Groups.OrderBy(GroupInfo.GroupOrderBy).ToArray();
 
+            MChart.Series legendEntry = new MChart.Series();
+            legendEntry.Name = "Input vector";
+            legendEntry.Style.DrawLines = new Pen(Color.Black, 2);
+            plot.LegendEntries.Add(legendEntry);
+
+            // --- LEGEND ---
+            var groupLegends = DrawLegend(plot, groupOrder);
+
             // --- PLOT CLUSTER ASSIGNMENTS ---
             // Iterate variables in cluster
             for (int assignmentIndex = 0; assignmentIndex < toPlot.Count; assignmentIndex++)
@@ -177,7 +184,7 @@ namespace MetaboliteLevels.Viewers.Charts
                         // Peak, by condition
                         ConditionInfo cond = vec.Conditions[index];
                         GroupInfo group = cond.Group;
-                        MChart.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster);
+                        MChart.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry);
                         int originalIndex = index;
 
                         int typeOffset = GetTypeOffset(groupOrder, group, isMultiGroup);
@@ -198,7 +205,7 @@ namespace MetaboliteLevels.Viewers.Charts
                         // Peak, by observation
                         ObservationInfo obs = vec.Observations[index];
                         GroupInfo group = obs.Group;
-                        MChart.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster);
+                        MChart.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry);
 
                         int originalIndex = index;
 
@@ -211,20 +218,29 @@ namespace MetaboliteLevels.Viewers.Charts
                         series.Points.Add(cdp);
                     }
                 }
-            } // For group  
+            }
 
             // --- PLOT CLUSTER CENTRES ---
-            if (!stylisedCluster.IsPreview && core.Options.ShowCentres && p.Centres.Count < 100)
+            if (!stylisedCluster.IsPreview && core.Options.ShowCentres && p.Centres.Count != 0 && p.Centres.Count < 100)
             {
+                MChart.Series legendEntry2 = new MChart.Series();
+                legendEntry2.Name = (p.Centres.Count == 1) ? "Cluster centre" : "Cluster centres";
+                legendEntry2.Style.DrawLines = new Pen(colourSettings.ClusterCentre, 2);
+                legendEntry2.Style.DrawLines.DashStyle = DashStyle.Dash;
+                legendEntry2.Style.DrawPoints = new SolidBrush(colourSettings.ClusterCentre);
+                legendEntry2.Style.DrawPointsSize = 8; // MarkerStyle.Diamond;
+                plot.LegendEntries.Add(legendEntry2);
+
                 var templateAssignment = p.Assignments.List.First();
 
                 foreach (double[] centre in p.Centres)
                 {
                     MChart.Series series = new MChart.Series();
+                    series.ApplicableLegends.Add(legendEntry2);
                     plot.Series.Add(series);
                     series.Name = "Cluster centre #" + (++numClusterCentres);
                     series.Style.DrawLines = new Pen(colourSettings.ClusterCentre, 2);
-                    series.Style.DrawLines.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                    series.Style.DrawLines.DashStyle = DashStyle.Dash;
                     series.Style.DrawPoints = new SolidBrush(colourSettings.ClusterCentre);
                     series.Style.DrawPointsSize = 8; // MarkerStyle.Diamond;
 
@@ -261,13 +277,14 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
             }
 
-            // LABELS
+            // --- LABELS ---
             DrawLabels(plot, !isMultiGroup, groupOrder);
 
+            // --- COMPLETE ---
             CompleteNewPlot(plot);
         }
 
-        private MChart.Series GetOrCreateSeries(MChart.Plot plot, Dictionary<GroupInfo, MChart.Series> serieses, GroupInfo group, Vector vector, StylisedCluster sp)
+        private MChart.Series GetOrCreateSeries(MChart.Plot plot, Dictionary<GroupInfo, MChart.Series> serieses, GroupInfo group, Vector vector, StylisedCluster sp, Dictionary<GroupInfoBase, MChart.Series> groupLegends, MChart.Series lineLegend)
         {
             MChart.Series series;
 
@@ -282,6 +299,8 @@ namespace MetaboliteLevels.Viewers.Charts
             // Each peak + condition gets its own series (yes we end up with lots of series)
             series = new MChart.Series();
             series.Name = vector.ToString() + " : " + group.Name;
+            series.ApplicableLegends.Add(groupLegends[group]);
+            series.ApplicableLegends.Add(lineLegend);
             plot.Series.Add(series);
 
             // If the parameters specify a colour for this peak use that, else use the default

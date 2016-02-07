@@ -681,6 +681,7 @@
     <Content Include="Manual.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\ObjLSeries.png" />
     <None Include="Resources\ObjLTime.png" />
     <None Include="Resources\ObjLReplicate.png" />
     <None Include="Resources\ObjLIntensity.png" />

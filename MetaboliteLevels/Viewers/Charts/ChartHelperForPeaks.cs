@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Viewers.Charts
         }
 
         public ChartHelperForPeaks(ISelectionHolder selector, Core core, Control targetSite)
-            : base(selector, core, targetSite)
+            : base(selector, core, targetSite, false)
         {
         }
 
@@ -70,6 +70,9 @@ namespace MetaboliteLevels.Viewers.Charts
             var condOrder = _core.Conditions.ToArray();
             var obsOrder = _core.Observations.ToArray();
 
+            // Group legends
+            var groupLegends = DrawLegend(plot, opts.ViewTypes);
+
             // Get observations
             PeakValueSet observations;
 
@@ -95,21 +98,32 @@ namespace MetaboliteLevels.Viewers.Charts
             // COPY the observations (since we will reorder them)
             var raw = observations.Raw.ToArray();
 
-            // Show acquisition abd batches?
+            // Show acquisition and batches?
             if (opts.ShowAcqisition)
             {
                 // --- RAW DATA (points) ---
+                MChart.Series legendEntry = new MChart.Series();
+                legendEntry.Name = "Observations";
+                legendEntry.Style.DrawPoints = new SolidBrush(Color.Black);
+                plot.LegendEntries.Add(legendEntry);
+
                 ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
-                AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.ByBatch);
+                AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.ByBatch, groupLegends, legendEntry);
 
                 // --- TREND (thick line) ---
                 if (stylisedPeak.ForceTrend != null)
                 {
+                    MChart.Series legendEntry2 = new MChart.Series();
+                    legendEntry2.Name = "Trend";
+                    legendEntry2.Style.DrawLines = new Pen(Color.Black);
+                    legendEntry2.Style.DrawLines.Width = 4;
+                    plot.LegendEntries.Add(legendEntry2);
+
                     raw = stylisedPeak.ForceTrend.ToArray();
                     obsOrder = ((IEnumerable<ObservationInfo>)stylisedPeak.ForceTrendOrder).ToArray();
                     ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
 
-                    AddToPlot(plot, peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold);
+                    AddToPlot(plot, peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2);
                 }
 
                 DrawLabels(plot, true, opts.ViewBatches);
@@ -130,31 +144,47 @@ namespace MetaboliteLevels.Viewers.Charts
             // --- PLOT MEAN & SD (lines across)
             if (opts.ShowVariableMean && !stylisedPeak.IsPreview)
             {
-                AddMeanAndSdLines(plot, opts, observations, peak);
+                AddMeanAndSdLines(plot, opts, observations, peak, groupLegends);
             }
 
             // --- RANGE (shaded area) ---
             if (opts.ShowRanges)
             {
-                AddUpperAndLowerShade(plot, condOrder, opts, seriesNames, peak, min, max);
+                AddUpperAndLowerShade(plot, condOrder, opts, seriesNames, peak, min, max, groupLegends);
             }
 
             // --- RAW DATA (points) ---
             if (opts.ShowPoints && !stylisedPeak.IsPreview)
             {
-                AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.None);
+                MChart.Series legendEntry = new MChart.Series();
+                legendEntry.Name = "Observations";
+                legendEntry.Style.DrawPoints = new SolidBrush(Color.Black);
+                plot.LegendEntries.Add(legendEntry);
+
+                AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.None, groupLegends, legendEntry);
             }
 
             // --- RANGE (lines) ---
             if (opts.ShowRanges && !stylisedPeak.IsPreview)
             {
-                AddToPlot(plot, peak, seriesNames, min, "Min value", condOrder, opts, EPlot.DrawLine);
-                AddToPlot(plot, peak, seriesNames, max, "Max value", condOrder, opts, EPlot.DrawLine);
+                MChart.Series legendEntry = new MChart.Series();
+                legendEntry.Name = "Range min/max";
+                legendEntry.Style.DrawLines = new Pen(Color.Gray);
+                plot.LegendEntries.Add(legendEntry);
+
+                AddToPlot(plot, peak, seriesNames, min, "Min value", condOrder, opts, EPlot.DrawLine, groupLegends, legendEntry);
+                AddToPlot(plot, peak, seriesNames, max, "Max value", condOrder, opts, EPlot.DrawLine, groupLegends, legendEntry);
             }
 
             // --- TREND (thick line) ---
             if (opts.ShowTrend && !stylisedPeak.IsPreview)
             {
+                MChart.Series legendEntry = new MChart.Series();
+                legendEntry.Name = "Trend";
+                legendEntry.Style.DrawLines = new Pen(Color.Black);
+                legendEntry.Style.DrawLines.Width = 4;
+                plot.LegendEntries.Add(legendEntry);
+
                 if (stylisedPeak.ForceTrend != null)
                 {
                     ConditionInfo[] forder = stylisedPeak.ForceTrendOrder.Cast<ConditionInfo>().ToArray();
@@ -162,11 +192,11 @@ namespace MetaboliteLevels.Viewers.Charts
 
                     ArrayHelper.Sort(forder, fdata, ConditionInfo.GroupTimeOrder);
 
-                    AddToPlot(plot, peak, seriesNames, fdata, "Trend data", forder, opts, EPlot.DrawLine | EPlot.DrawBold);
+                    AddToPlot(plot, peak, seriesNames, fdata, "Trend data", forder, opts, EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry);
                 }
                 else
                 {
-                    AddToPlot(plot, peak, seriesNames, avg, "Trend data", condOrder, opts, EPlot.DrawLine | EPlot.DrawBold);
+                    AddToPlot(plot, peak, seriesNames, avg, "Trend data", condOrder, opts, EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry);
                 }
             }
 
@@ -176,8 +206,13 @@ namespace MetaboliteLevels.Viewers.Charts
             CompleteNewPlot(plot);
         }
 
-        private void AddUpperAndLowerShade(MChart.Plot plot, ConditionInfo[] condOrder, StylisedPeakOptions o, Dictionary<string, MChart.Series> seriesNames, Peak peak, double[] min, double[] max)
+        private void AddUpperAndLowerShade(MChart.Plot plot, ConditionInfo[] condOrder, StylisedPeakOptions o, Dictionary<string, MChart.Series> seriesNames, Peak peak, double[] min, double[] max, Dictionary<GroupInfoBase, MChart.Series> groupLegends)
         {
+            MChart.Series legendEntry = new MChart.Series();
+            legendEntry.Name = "Range";
+            legendEntry.Style.DrawBands = new SolidBrush(Color.Gray);
+            plot.LegendEntries.Add(legendEntry);
+
             // Iterate the conditions
             for (int i = 0; i < condOrder.Length; i++)
             {
@@ -197,6 +232,8 @@ namespace MetaboliteLevels.Viewers.Charts
                         c = Color.FromArgb(0x80, c.R, c.G, c.B);
                         series.Tag = peak;
                         series.Style.DrawBands = new SolidBrush(c);
+                        series.ApplicableLegends.Add(groupLegends[cond.Group]);
+                        series.ApplicableLegends.Add(legendEntry);
                         seriesNames.Add(name, series);
                     }
                     else
@@ -238,8 +275,19 @@ namespace MetaboliteLevels.Viewers.Charts
             }
         }
 
-        private void AddMeanAndSdLines(MChart.Plot plot, StylisedPeakOptions o, PeakValueSet observations, Peak peak)
+        private void AddMeanAndSdLines(MChart.Plot plot, StylisedPeakOptions o, PeakValueSet observations, Peak peak, Dictionary<GroupInfoBase, MChart.Series> groupLegends)
         {
+            MChart.Series legendEntry = new MChart.Series();
+            legendEntry.Name = "Std. Dev. Min/Max";
+            legendEntry.Style.DrawLines = new Pen(Color.Gray);
+            legendEntry.Style.DrawLines.DashStyle = DashStyle.Dot;
+            plot.LegendEntries.Add(legendEntry);
+
+            MChart.Series legendEntry2 = new MChart.Series();
+            legendEntry2.Name = "Mean";
+            legendEntry2.Style.DrawLines = new Pen(Color.Black);
+            plot.LegendEntries.Add(legendEntry2);
+
             // Iterate the types
             foreach (GroupInfo group in o.ViewTypes)
             {
@@ -264,6 +312,13 @@ namespace MetaboliteLevels.Viewers.Charts
                 var sMean = plot.Series.Add(@group.Name + ": Mean");
                 var sMin = plot.Series.Add(@group.Name + ": StdDevMin");
                 var sMax = plot.Series.Add(@group.Name + ": StdDevMax");
+
+                sMean.ApplicableLegends.Add(groupLegends[group]);
+                sMin.ApplicableLegends.Add(groupLegends[group]);
+                sMax.ApplicableLegends.Add(groupLegends[group]);
+                sMean.ApplicableLegends.Add(legendEntry2);
+                sMin.ApplicableLegends.Add(legendEntry);
+                sMax.ApplicableLegends.Add(legendEntry);
 
                 sMean.Tag = peak;
                 sMin.Tag = peak;
@@ -325,7 +380,7 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <param name="line">Line or dots/</param>
         /// <param name="bold">Bold line?</param>
         /// <param name="isConditions">Order by conditions or obervations</param>
-        private void AddToPlot(MChart.Plot plot, Peak peak, Dictionary<string, MChart.Series> seriesNames, double[] intensities, string seriesName, IEnumerable xInfo, StylisedPeakOptions o, EPlot draw)
+        private void AddToPlot(MChart.Plot plot, Peak peak, Dictionary<string, MChart.Series> seriesNames, double[] intensities, string seriesName, IEnumerable xInfo, StylisedPeakOptions o, EPlot draw, Dictionary<GroupInfoBase, MChart.Series> groupLegends, MChart.Series legend)
         {
             bool byCondition = xInfo.FirstOrDefault2() is ConditionInfo;
             int i = -1;
@@ -387,6 +442,8 @@ namespace MetaboliteLevels.Viewers.Charts
                 if (!seriesNames.ContainsKey(name))
                 {
                     series = plot.Series.Add(name);
+                    series.ApplicableLegends.Add(groupLegends[seriesUsing]);
+                    series.ApplicableLegends.Add(legend);
                     seriesNames.Add(name, series);
                     series.Tag = peak;
 
