@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms.DataVisualization.Charting;
+using System.Text;                                    
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
@@ -14,6 +13,7 @@ using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Settings;
 using MSerialisers;
+using System.Drawing.Drawing2D;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
@@ -183,7 +183,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     }
                 }
 
-                colourInfo.Add(peak, new LineInfo(peak.DisplayName + ": " + sb.ToString(), Color.Black, ChartDashStyle.Solid));
+                colourInfo.Add(peak, new LineInfo(peak.DisplayName + ": " + sb.ToString(), Color.Black, DashStyle.Solid));
             }
 
             var r = new StylisedCluster(fakeCluster, this, colourInfo);

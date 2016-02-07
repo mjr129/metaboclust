@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
+using MCharting;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
@@ -20,12 +21,7 @@ namespace MetaboliteLevels.Viewers.Charts
     abstract class ChartHelper : ICoreWatcher
     {
         protected Core _core;
-        protected Chart _chart;
-
-        protected List<Series> _selectedSeriesList = new List<Series>();
-        protected Dictionary<Series, Tuple<Color, int>> _selectedSeriesColours = new Dictionary<Series, Tuple<Color, int>>();
-        protected DataPoint _selectedPoint;
-        protected int _selectedPointIndex;
+        protected MChart _chart;
 
         public event EventHandler<ChartSelectionEventArgs> SelectionChanged;
 
@@ -35,8 +31,8 @@ namespace MetaboliteLevels.Viewers.Charts
         private readonly CaptionBar _captionBar;
         private readonly ToolStrip _menuBar;
         private readonly ToolStripSplitButton _plotButton;
-        private readonly ToolStripSplitButton _userDetailsButton;
-        private readonly ToolStripSplitButton _selectionButton;
+        private readonly ToolStripMenuItem _userDetailsButton;
+        //private readonly ToolStripSplitButton _selectionButton;
 
         private const int GROUP_SEPARATION = 2;
         private Label _selectionLabel;
@@ -44,10 +40,14 @@ namespace MetaboliteLevels.Viewers.Charts
         private Label _menuLabel;
         private readonly ISelectionHolder _selector;
         private readonly ToolStripItem _btnNavigateToPlot;
+        private readonly ToolStripMenuItem _selectionButtonRep;
+        private readonly ToolStripMenuItem _selectionButtonTime;
+        private readonly ToolStripMenuItem _selectionButtonIntensity;
+        private readonly ToolStripMenuItem _selectionButtonGroup;
+        private readonly ToolStripMenuItem _selectionButtonPeak;
+        private readonly ToolStripMenuItem _selectionButtonSeries;
 
-
-
-        protected abstract IVisualisable CurrentPlot
+        public abstract IVisualisable CurrentPlot
         {
             get;
         }
@@ -72,26 +72,17 @@ namespace MetaboliteLevels.Viewers.Charts
             this._core = core;
 
             // CHART
-            this._chart = new Chart();
-            this._chart.ChartAreas.Add(new ChartArea());
+            this._chart = new MChart();
+            this._chart.Name = "_CHART_IN_" + (targetSite != null ? targetSite.Name : "NOTHING");
             Color c = core.Options.Colours.MinorGrid;
             Color c2 = core.Options.Colours.MajorGrid;
-            this._chart.ChartAreas[0].AxisX.LineColor = c;
-            this._chart.ChartAreas[0].AxisX.MajorGrid.LineColor = c;
-            this._chart.ChartAreas[0].AxisX.MinorGrid.LineColor = c;
-            this._chart.ChartAreas[0].AxisY.LineColor = c;
-            this._chart.ChartAreas[0].AxisY.MajorGrid.LineColor = c;
-            this._chart.ChartAreas[0].AxisY.MinorGrid.LineColor = c;
-            this._chart.ChartAreas[0].AxisX.MaximumAutoSize = 10;
-            this._chart.ChartAreas[0].AxisY.MaximumAutoSize = 10;
-            this._chart.ChartAreas[0].CursorX.SelectionColor = c2;
-            this._chart.ChartAreas[0].CursorY.SelectionColor = c2;
-            this._chart.ChartAreas[0].CursorX.LineColor = c2;
-            this._chart.ChartAreas[0].CursorY.LineColor = c2;
 
-            this._chart.MouseDown += chart_MouseDown;
-            this._chart.MouseMove += chart_MouseMove;
-            this._chart.MouseUp += chart_MouseUp;
+            this._chart.Style.Animate = false;
+            this._chart.Style.SelectionColour = Color.Blue;
+            this._chart.Style.HighlightColour = Color.Black;
+            this._chart.Style.HighlightMinWidth = 5;
+
+            this._chart.SelectionChanged += _chart_SelectionChanged;
 
             if (targetSite == null)
             {
@@ -106,45 +97,61 @@ namespace MetaboliteLevels.Viewers.Charts
 
             // MENU BAR
             this._menuBar = new ToolStrip();
+            _menuBar.ImageScalingSize = new Size(24, 24);
             targetSite.Controls.Add(_menuBar);
             _menuBar.SendToBack();
 
             // PLOT BUTTON
             _plotButton = new ToolStripSplitButton("No selection");
             _plotButton.Enabled = false;
+            _plotButton.AutoSize = true;
             this._menuBar.Items.Add(_plotButton);
 
             // USER DETAILS BUTTON
-            _userDetailsButton = new ToolStripSplitButton("...");
-            _userDetailsButton.Click += (x, y) => _userDetailsButton.ShowDropDown();
+            _userDetailsButton = new ToolStripMenuItem("...");                      
             _userDetailsButton.DropDownItems.Add("Configure...", null, _userDetailsButton_Clicked);
+            _userDetailsButton.AutoSize = true;
             this._menuBar.Items.Add(_userDetailsButton);
 
-            // SELECTION BUTTON
-            _selectionButton = new ToolStripSplitButton("No selection");
-            _selectionButton.Alignment = ToolStripItemAlignment.Right;
-            _selectionButton.Enabled = false;
-            this._menuBar.Items.Add(_selectionButton);
+            // SELECTION BUTTONS
+            _selectionButtonIntensity = CreateSelectionButton(Resources.ObjLIntensity);
+            _selectionButtonRep = CreateSelectionButton(Resources.ObjLReplicate);
+            _selectionButtonTime = CreateSelectionButton(Resources.ObjLTime);
+            _selectionButtonGroup = CreateSelectionButton(Resources.ObjPoint);
+            _selectionButtonPeak = CreateSelectionButton(Resources.ObjLVariableU);
+            _selectionButtonSeries = CreateSelectionButton(Resources.ObjLSeries);
 
             // PLOT BUTTON ITEMS       
             _plotButton.DropDownOpening += _menuButtonMenu_Opening;
             _plotButton.Click += (x, y) => _plotButton.ShowDropDown();
             _btnNavigateToPlot = _plotButton.DropDownItems.Add("Select this", null, SelectThis_Click);
             _plotButton.DropDownItems.Add(new ToolStripSeparator());
-            _plotButton.DropDownItems.Add("Toggle legend", null, ToggleLegend_Click);
-            _plotButton.DropDownItems.Add("Reset scale\tMMB", null, ResetScale_Click);
-            _plotButton.DropDownItems.Add("Clear selection\tMMB", null, ResetSel_Click);
+            //_plotButton.DropDownItems.Add("Toggle legend", null, ToggleLegend_Click);
+            _plotButton.DropDownItems.Add("Reset scale (MMB)", null, ResetScale_Click);
+            _plotButton.DropDownItems.Add("Clear selection (MMB)", null, ResetSel_Click);
             _plotButton.DropDownItems.Add("Copy caption text to clipboard", null, ShowCaption_Click);
             _plotButton.DropDownItems.Add("Display caption text...", null, ShowCaption2_Click);
             _plotButton.DropDownItems.Add("Copy image to clipboard", null, ShowImage_Click);
             _plotButton.DropDownItems.Add("Save image...", null, SaveImage_Click);
 
             _btnNavigateToPlot.Font = new Font(_btnNavigateToPlot.Font, FontStyle.Bold);
-            _btnNavigateToPlot.Enabled = _selector != null;
+            _btnNavigateToPlot.Enabled = _selector != null;        
+        }
 
-            // SELECTION BUTTON ITEMS
-            _selectionButton.DropDownOpening += _selectionButtonMenu_Opening;
-            _selectionButton.Click += (x, y) => _selectionButton.ShowDropDown();
+        private ToolStripMenuItem CreateSelectionButton(Image image)
+        {               
+            ToolStripMenuItem result = new ToolStripMenuItem("", image, _selectionButtonMenu_Opening);
+            result.Alignment = ToolStripItemAlignment.Right;
+            result.Visible = false;
+            result.AutoSize = true;
+            result.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            this._menuBar.Items.Add(result);
+            return result;
+        }
+
+        private void _chart_SelectionChanged(object sender, EventArgs e)
+        {
+            PerformSelectionActions();
         }
 
         private void _userDetailsButton_Clicked(object sender, EventArgs e)
@@ -157,13 +164,15 @@ namespace MetaboliteLevels.Viewers.Charts
             _btnNavigateToPlot.Text = "Navigate to " + new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
         }
 
-        private void _selectionButtonMenu_Opening(object sender, EventArgs e)
+        private void _selectionButtonMenu_Opening(object senderu, EventArgs e)
         {
-            _selectionButton.DropDownItems.Clear();
+            ToolStripMenuItem sender = (ToolStripMenuItem)senderu;
+
+            sender.DropDownItems.Clear();
 
             HashSet<IVisualisable> items = new HashSet<IVisualisable>();
 
-            foreach (Series series in _selectedSeriesList)
+            foreach (MChart.Series series in _chart.SelectedItem.Series)
             {
                 IVisualisable visualisable = series.Tag as IVisualisable;
 
@@ -173,7 +182,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 items.Add(visualisable);
-                ToolStripItem mnuSelectSelection = _selectionButton.DropDownItems.Add("Navigate to " + visualisable.DisplayName, null, SelectThisSelection_Click);
+                ToolStripItem mnuSelectSelection = sender.DropDownItems.Add("Navigate to " + visualisable.DisplayName, null, SelectThisSelection_Click);
                 mnuSelectSelection.Font = new Font(mnuSelectSelection.Font, FontStyle.Bold);
                 mnuSelectSelection.Tag = visualisable;
                 mnuSelectSelection.Enabled = _selector != null;
@@ -191,22 +200,20 @@ namespace MetaboliteLevels.Viewers.Charts
             _selector.Selection = new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
         }
 
-        private void ToggleLegend_Click(object sender, EventArgs e)
-        {
-            foreach (Series s in _chart.Series)
-            {
-                s.IsVisibleInLegend = !s.IsVisibleInLegend;
-            }
-        }
+        // TODO: Put back in
+        //private void ToggleLegend_Click(object sender, EventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private void ResetScale_Click(object sender, EventArgs e)
         {
-            ResetChartAreas();
+            _chart.RestoreZoom();
         }
 
         private void ResetSel_Click(object sender, EventArgs e)
         {
-            ClearSelection();
+            _chart.SelectedItem = null;
         }
 
         private void ShowCaption_Click(object sender, EventArgs e)
@@ -225,7 +232,7 @@ namespace MetaboliteLevels.Viewers.Charts
         {
             using (System.IO.MemoryStream memStream = new System.IO.MemoryStream())
             {
-                _chart.SaveImage(memStream, ChartImageFormat.Png);
+                _chart.DrawToBitmap().Save(memStream, ImageFormat.Png);
 
                 using (Image img = Image.FromStream(memStream))
                 {
@@ -242,11 +249,11 @@ namespace MetaboliteLevels.Viewers.Charts
 
             if (fn != null)
             {
-                _chart.SaveImage(fn, fn.ToLower().EndsWith("emf") ? ChartImageFormat.Emf : ChartImageFormat.Png);
+                _chart.DrawToBitmap().Save(fn, fn.ToLower().EndsWith("emf") ? ImageFormat.Emf : ImageFormat.Png);
             }
         }
 
-        public Chart Chart
+        public MChart Chart
         {
             get
             {
@@ -254,34 +261,19 @@ namespace MetaboliteLevels.Viewers.Charts
             }
         }
 
-        public void ResetChartAreas()
-        {
-            _chart.ChartAreas[0].AxisX.Minimum = double.NaN;
-            _chart.ChartAreas[0].AxisX.Maximum = double.NaN;
-            _chart.ChartAreas[0].AxisY.Minimum = double.NaN;
-            _chart.ChartAreas[0].AxisY.Maximum = double.NaN;
-            ClearCursor();
-        }
-
-        private void ClearCursor()
-        {
-            _chart.ChartAreas[0].CursorX.SelectionStart = -1;
-            _chart.ChartAreas[0].CursorX.SelectionEnd = -1;
-            _chart.ChartAreas[0].CursorY.SelectionStart = -1;
-            _chart.ChartAreas[0].CursorY.SelectionEnd = -1;
-            _chart.ChartAreas[0].CursorX.Position = 100000;
-            _chart.ChartAreas[0].CursorY.Position = 100000;
-        }
-
         public void ClearPlot()
         {
-            PrepareNewPlot(false, null);
+            _chart.SetPlot(PrepareNewPlot(false, null));
         }
 
-        protected void PrepareNewPlot(bool axes, IVisualisable toPlot)
+        protected void CompleteNewPlot(MChart.Plot plot)
         {
-            ResetChartAreas();
-            ClearSelection();
+            _chart.SetPlot(plot);
+        }
+
+        protected MChart.Plot PrepareNewPlot(bool axes, IVisualisable toPlot)
+        {
+            MChart.Plot plot = new MChart.Plot();
 
             CoreOptions.PlotSetup userComments = _core.Options.GetUserText(_core, toPlot);
 
@@ -314,289 +306,56 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
             }
 
-            _chart.Series.Clear();
-            _chart.ChartAreas[0].AxisX.CustomLabels.Clear();
-
-            _chart.ChartAreas[0].AxisX.Enabled = axes ? AxisEnabled.True : AxisEnabled.False;
-            _chart.ChartAreas[0].AxisY.Enabled = axes ? AxisEnabled.Auto : AxisEnabled.False;
 
             if (axes)
             {
                 if (!ParseElementCollection.IsNullOrEmpty(userComments.AxisX))
                 {
-                    _chart.ChartAreas[0].AxisX.Title = userComments.AxisX.ConvertToString(toPlot, _core);
-                }
-                else
-                {
-                    _chart.ChartAreas[0].AxisX.Title = string.Empty;
+                    plot.XLabel = userComments.AxisX.ConvertToString(toPlot, _core);
                 }
 
                 if (!ParseElementCollection.IsNullOrEmpty(userComments.AxisY))
                 {
-                    _chart.ChartAreas[0].AxisY.Title = userComments.AxisY.ConvertToString(toPlot, _core);
-                }
-                else
-                {
-                    _chart.ChartAreas[0].AxisY.Title = string.Empty;
+                    plot.YLabel = userComments.AxisY.ConvertToString(toPlot, _core);
                 }
             }
-            else
-            {
-                _chart.ChartAreas[0].AxisX.Title = string.Empty;
-                _chart.ChartAreas[0].AxisY.Title = string.Empty;
-            }
-
-            _chart.Titles.Clear();
 
             if (!ParseElementCollection.IsNullOrEmpty(userComments.Title))
             {
-                _chart.Titles.Add(new Title(userComments.Title.ConvertToString(toPlot, _core), Docking.Top, FontHelper.LargeBoldFont, _core.Options.Colours.AxisTitle));
+                plot.Title = userComments.Title.ConvertToString(toPlot, _core);
             }
 
             if (!ParseElementCollection.IsNullOrEmpty(userComments.SubTitle))
             {
-                _chart.Titles.Add(new Title(userComments.SubTitle.ConvertToString(toPlot, _core), Docking.Top, FontHelper.ItalicFont, _core.Options.Colours.AxisTitle));
-            }
-        }
-
-        private void chart_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                SelectClosestDataPoint(e.X, e.Y);
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                _mouseDownStart = e.Location;
-
-                double x = _chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                double y = _chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
-
-                _chart.ChartAreas[0].CursorX.SelectionStart = x;
-                _chart.ChartAreas[0].CursorY.SelectionStart = y;
-                _chart.ChartAreas[0].CursorX.SelectionEnd = x;
-                _chart.ChartAreas[0].CursorY.SelectionEnd = y;
-            }
-            else if (e.Button == MouseButtons.Middle)
-            {
-                ResetChartAreas();
-                ClearSelection();
-            }
-        }
-
-        private void chart_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                try
-                {
-                    double x = _chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                    double y = _chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
-
-                    _chart.ChartAreas[0].CursorX.SelectionEnd = x;
-                    _chart.ChartAreas[0].CursorY.SelectionEnd = y;
-                }
-                catch
-                {
-                    // Ignore
-                }
-            }
-        }
-
-        private void chart_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                double x1;
-                double y1;
-                double x2;
-                double y2;
-
-                try
-                {
-                    x1 = _chart.ChartAreas[0].AxisX.PixelPositionToValue(_mouseDownStart.X);
-                    y1 = _chart.ChartAreas[0].AxisY.PixelPositionToValue(_mouseDownStart.Y);
-                    x2 = _chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-                    y2 = _chart.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
-                }
-                catch
-                {
-                    return;
-                }
-
-                // Ignore small mouse movements
-                if (Math.Abs(_mouseDownStart.X - e.X) < 4 || Math.Abs(_mouseDownStart.Y - e.Y) < 4)
-                {
-                    return;
-                }
-
-                _chart.ChartAreas[0].AxisX.Minimum = Math.Min(x1, x2);
-                _chart.ChartAreas[0].AxisX.Maximum = Math.Max(x1, x2);
-                _chart.ChartAreas[0].AxisY.Minimum = Math.Min(y1, y2);
-                _chart.ChartAreas[0].AxisY.Maximum = Math.Max(y1, y2);
-
-                ClearCursor();
-            }
-        }
-
-        private void SelectClosestDataPoint(int x, int y)
-        {
-            if (_chart.Series.Count == 0)
-            {
-                return;
+                plot.SubTitle = userComments.SubTitle.ConvertToString(toPlot, _core);
             }
 
-            ChartArea chartArea = _chart.ChartAreas[0];
+            plot.Style.AutoTickX = false;
+            plot.Style.GridStyle = new Pen(_core.Options.Colours.MinorGrid);
+            plot.Style.TickStyle = new Pen(_core.Options.Colours.MajorGrid);
 
-            double cd = double.MaxValue;
-            int seriesIndex = -1;
-            int pointIndex = -1;
-            int yIndex = -1;
-
-            for (int s = 0; s < _chart.Series.Count; s++)
-            {
-                for (int p = 0; p < _chart.Series[s].Points.Count; p++)
-                {
-                    var dp = _chart.Series[s].Points[p];
-
-                    var pointX = chartArea.AxisX.ValueToPixelPosition(dp.XValue);
-
-                    for (int yi = 0; yi < dp.YValues.Length; yi++)
-                    {
-                        double yVal = dp.YValues[yi];
-                        var pointY = chartArea.AxisY.ValueToPixelPosition(yVal);
-
-                        double distSquared = Math.Pow(x - pointX, 2) + Math.Pow(y - pointY, 2);
-
-                        if (distSquared < cd)
-                        {
-                            cd = distSquared;
-                            seriesIndex = s;
-                            pointIndex = p;
-                            yIndex = yi;
-                        }
-                    }
-                }
-            }
-
-            if (seriesIndex == -1)
-            {
-                return;
-            }
-
-            Series newSeries = _chart.Series[seriesIndex];
-            DataPoint newPoint = _chart.Series[seriesIndex].Points[pointIndex];
-            int newPointIndex = yIndex;
-
-            SetSelection(newSeries, newPoint, newPointIndex);
-        }
-
-        protected void SetSelection(Series series, DataPoint dataPoint, int dataPointIndex)
-        {
-            SetSelection(new List<Series> { series }, dataPoint, dataPointIndex);
-        }
-
-        protected void ClearSelection()
-        {
-            SetSelection(new List<Series>(), null, -1);
-        }
-
-        protected void SetSelection(List<Series> series, DataPoint dataPoint, int dataPointIndex)
-        {
-            // Restore previous series
-            foreach (Series oldSeries in _selectedSeriesList)
-            {
-                oldSeries.Color = _selectedSeriesColours[oldSeries].Item1;
-                oldSeries.BorderWidth = _selectedSeriesColours[oldSeries].Item2;
-            }
-
-            if (_selectedPoint != null)
-            {
-                _selectedPoint.Label = null;
-            }
-
-            BeforeSelectSeries(series);
-
-            // Save data on new series
-            _selectedSeriesList = new List<Series>(series);
-            _selectedSeriesColours.Clear();
-            _selectedPoint = dataPoint;
-            _selectedPointIndex = dataPointIndex;
-
-            foreach (Series newSeries in _selectedSeriesList)
-            {
-                Tuple<Color, int> colours = new Tuple<Color, int>(newSeries.Color, newSeries.BorderWidth);
-                _selectedSeriesColours.Add(newSeries, colours);
-
-                // Setup new series
-                _chart.Series.Remove(newSeries);
-                _chart.Series.Add(newSeries);
-
-                if (_enableHighlightSeries)
-                {
-                    Color hc = _core.Options.Colours.SelectedSeries;
-                    newSeries.Color = Color.FromArgb(newSeries.Color.A, hc.R, hc.G, hc.B);
-                    newSeries.BorderWidth = 4;
-                }
-                else if (newSeries.ChartType == SeriesChartType.Point || newSeries.ChartType == SeriesChartType.Line)
-                {
-                    newSeries.Color = Color.FromArgb(newSeries.Color.A, 0, 0, 0);
-                }
-                else
-                {
-                    newSeries.Color = Color.FromArgb(newSeries.Color.A, Math.Max(newSeries.Color.R / 2, 0), Math.Max(newSeries.Color.G / 2, 0), Math.Max(newSeries.Color.B / 2, 0));
-                }
-            }
-
-            // Set cursor to point
-            if (_selectedPoint != null)
-            {
-                ChartArea chartArea = _chart.ChartAreas[0];
-
-                double px = chartArea.AxisX.ValueToPixelPosition(_selectedPoint.XValue);
-                double py = chartArea.AxisY.ValueToPixelPosition(_selectedPoint.YValues[_selectedPointIndex]);
-
-                try
-                {
-                    chartArea.CursorX.SelectionStart = chartArea.AxisX.PixelPositionToValue(px - 4);
-                    chartArea.CursorX.SelectionEnd = chartArea.AxisX.PixelPositionToValue(px + 4);
-                    chartArea.CursorY.SelectionStart = chartArea.AxisY.PixelPositionToValue(py - 4);
-                    chartArea.CursorY.SelectionEnd = chartArea.AxisY.PixelPositionToValue(py + 4);
-                }
-                catch
-                {
-                    // Ignore error
-                }
-            }
-
-            // Perform specific actions
-            PerformSelectionActions();
-        }
-
-        protected virtual void BeforeSelectSeries(List<Series> series)
-        {
-            // No action
+            return plot;
         }
 
         private void PerformSelectionActions()
         {
             // Series are tagged with the variables they represent
             // When multiple series are selected they all have the same variable so no worries about using the first one
-            Peak peak = _selectedSeriesList.Count != 0 ? (Peak)_selectedSeriesList[0].Tag : null;
+            Peak peak = _chart.SelectedItem.SelectedSeries != null ? (Peak)_chart.SelectedItem.SelectedSeries.Tag : null;
 
             // Points are tagged with the observation
             IntensityInfo dataPoint;
 
-            if (_selectedPoint != null)
+            if (_chart.SelectedItem.DataPoint != null)
             {
-                if (_selectedPoint.Tag is IntensityInfo)
+                if (_chart.SelectedItem.DataPoint.Tag is IntensityInfo)
                 {
-                    dataPoint = (IntensityInfo)_selectedPoint.Tag;
+                    dataPoint = (IntensityInfo)_chart.SelectedItem.DataPoint.Tag;
                 }
-                else if (_selectedPoint.Tag is IntensityInfo[])
+                else if (_chart.SelectedItem.DataPoint.Tag is IntensityInfo[])
                 {
-                    IntensityInfo[] dataPointArray = (IntensityInfo[])_selectedPoint.Tag;
-                    dataPoint = dataPointArray != null ? dataPointArray[_selectedPointIndex] : default(IntensityInfo);
+                    IntensityInfo[] dataPointArray = (IntensityInfo[])_chart.SelectedItem.DataPoint.Tag;
+                    dataPoint = dataPointArray != null ? dataPointArray[_chart.SelectedItem.DataIndex] : default(IntensityInfo);
                 }
                 else
                 {
@@ -614,10 +373,10 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 string name;
 
-                if (_selectedSeriesList.Count != 0)
+                if (_chart.SelectedItem.Series.Length != 0)
                 {
                     // Select the first series names as all series are usually similar
-                    name = _selectedSeriesList[0].Name;
+                    name = _chart.SelectedItem.Series[0].Name;
 
                     // Trim off everything after the | as this is just used so the chart doesn't complain
                     if (name.Contains("|"))
@@ -635,19 +394,66 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // Update text
-            if (_selectionButton != null)
+            if (_selectionButtonPeak != null)
             {
-                if (dataPoint != null)
+                if (peak != null)
                 {
-                    _selectionButton.Text = _selectedSeriesList[0].Name + " " + dataPoint.ToString();
-                    _selectionButton.Image = UiControls.CreateSolidColourImage(true, dataPoint.Group);
-                    _selectionButton.Enabled = true;
+                    _selectionButtonPeak.Text = peak.DisplayName;
+                    _selectionButtonPeak.Image = UiControls.GetImage(((IVisualisable)peak).GetIcon(), true);
+                    _selectionButtonPeak.Visible = true;
                 }
                 else
                 {
-                    _selectionButton.Text = "No selection";
-                    _selectionButton.Image = Resources.ObjNone;
-                    _selectionButton.Enabled = false;
+                    _selectionButtonPeak.Visible = false;
+                }
+
+                if (dataPoint != null)
+                {
+                    if (dataPoint.Rep.HasValue)
+                    {
+                        _selectionButtonRep.Text = dataPoint.Rep.Value.ToString();
+                        _selectionButtonRep.Visible = true;
+                    }
+                    else
+                    {
+                        _selectionButtonRep.Visible = false;
+                    }
+
+                    if (dataPoint.Time.HasValue)
+                    {
+                        _selectionButtonTime.Text = dataPoint.Time.Value.ToString();
+                        _selectionButtonTime.Visible = true;
+                    }
+                    else
+                    {
+                        _selectionButtonTime.Visible = false;
+                    }
+
+
+                    _selectionButtonIntensity.Text = dataPoint.Intensity.ToString();
+                    _selectionButtonIntensity.Visible = true;
+
+                    if (dataPoint.Group != null)
+                    {
+                        _selectionButtonGroup.Text = dataPoint.Group.Name;
+                        _selectionButtonGroup.Image = UiControls.CreateSolidColourImage(true, dataPoint.Group);
+                        _selectionButtonGroup.Visible = true;
+                    }
+                    else
+                    {
+                        _selectionButtonGroup.Visible = false;
+                    }
+
+                    _selectionButtonSeries.Text = _chart.SelectedItem.Series[0].Name;
+                    _selectionButtonSeries.Visible = true;
+                }
+                else
+                {
+                    _selectionButtonRep.Visible = false;
+                    _selectionButtonTime.Visible = false;
+                    _selectionButtonIntensity.Visible = false;
+                    _selectionButtonSeries.Visible = false;
+                    _selectionButtonGroup.Visible = false;
                 }
             }
 
@@ -662,19 +468,10 @@ namespace MetaboliteLevels.Viewers.Charts
 
         public Bitmap CreateBitmap(int width, int height)
         {
-            Bitmap bmp = new Bitmap(width, height);
-
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                Rectangle rc = new Rectangle(0, 0, bmp.Width, bmp.Height);
-
-                _chart.Printing.PrintPaint(g, rc);
-            }
-
-            return bmp;
+            return _chart.DrawToBitmap(width, height);
         }
 
-        protected void DrawLabels(bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups)
+        protected void DrawLabels(MChart.Plot plot, bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups)
         {
             if (bConditionsSideBySide)
             {
@@ -695,7 +492,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     int maxX = ti.Range.Max;
                     string text = ti.Name;
 
-                    DrawAxisBar(x, minX, maxX, text);
+                    DrawAxisBar(plot, x, minX, maxX, text);
                 }
             }
             else
@@ -705,29 +502,28 @@ namespace MetaboliteLevels.Viewers.Charts
                 int x = 0;
                 string text = StringHelper.ArrayToString(orderOfGroups, z => z.Name, ", ");
 
-                DrawAxisBar(x, minX, maxX, text);
+                DrawAxisBar(plot, x, minX, maxX, text);
             }
         }
 
-        private void DrawAxisBar(int x, int min, int max, string text)
+        private void DrawAxisBar(MChart.Plot plot, int x, int min, int max, string text)
         {
-            CustomLabel cl = new CustomLabel(x + min, x + max, text, 0, LabelMarkStyle.None);
-            cl.GridTicks = GridTickTypes.None;
-            _chart.ChartAreas[0].AxisX.CustomLabels.Add(cl);
+            if (min == max)
+            {
+                plot.XTicks.Add(new MChart.Tick(text, x + min, -3, 1));
+                plot.XTicks.Add(new MChart.Tick(null, x + min, 2, 0));
+                return;
+            }
 
-            cl = new CustomLabel(x + min - 0.5, x + min + 0.5, min.ToString(), 0, LabelMarkStyle.None);
-            cl.GridTicks = GridTickTypes.All;
-            _chart.ChartAreas[0].AxisX.CustomLabels.Add(cl);
+            plot.XTicks.Add(new MChart.Tick(text, x + (min + max) / 2, -3, 0));
 
-            cl = new CustomLabel(x + max - 0.5, x + max + 0.5, max.ToString(), 0, LabelMarkStyle.None);
-            cl.GridTicks = GridTickTypes.All;
-            _chart.ChartAreas[0].AxisX.CustomLabels.Add(cl);
+            plot.XTicks.Add(new MChart.Tick(min.ToString(), x + min, 2, 1));
+
+            plot.XTicks.Add(new MChart.Tick(max.ToString(), x + max, 2, 1));
 
             for (int n = min + 1; n < max; n++)
             {
-                cl = new CustomLabel(x + n - 0.5, x + n + 0.5, "", 0, LabelMarkStyle.None);
-                cl.GridTicks = GridTickTypes.TickMark;
-                _chart.ChartAreas[0].AxisX.CustomLabels.Add(cl);
+                plot.XTicks.Add(new MChart.Tick(null, x + n, 1, 0));
             }
         }
 

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
+using MCharting;
 using MetaboliteLevels.Data;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.General;
@@ -23,7 +25,7 @@ namespace MetaboliteLevels.Viewers.Charts
             private set;
         }
 
-        protected override IVisualisable CurrentPlot
+        public override IVisualisable CurrentPlot
         {
             get
             {
@@ -42,25 +44,27 @@ namespace MetaboliteLevels.Viewers.Charts
             return CreateBitmap(width, height);
         }
 
-        public void Plot(StylisedPeak sPeak)
+        public void Plot(StylisedPeak stylisedPeak)
         {
-            var seriesNames = new HashSet<string>();
+            Debug.WriteLine("PeakPlot: " + stylisedPeak);
+            Dictionary<string, MChart.Series> seriesNames = new Dictionary<string, MChart.Series>();
 
             // Clear plot
-            PrepareNewPlot(sPeak != null && !sPeak.IsPreview, sPeak != null ? sPeak.Peak : null);
+            MChart.Plot plot = PrepareNewPlot(stylisedPeak != null && !stylisedPeak.IsPreview, stylisedPeak != null ? stylisedPeak.Peak : null);
 
             // Get selection
-            Peak peak = sPeak != null ? sPeak.Peak : null;
+            Peak peak = stylisedPeak != null ? stylisedPeak.Peak : null;
             SelectedPeak = peak;
             SetCaption("Plot of {0}.", peak);
 
             if (peak == null)
             {
+                CompleteNewPlot(plot);
                 return;
             }
 
             // Get options
-            var opts = sPeak.OverrideDefaultOptions ?? new StylisedPeakOptions(_core);
+            var opts = stylisedPeak.OverrideDefaultOptions ?? new StylisedPeakOptions(_core);
 
             // Get order data
             var condOrder = _core.Conditions.ToArray();
@@ -69,9 +73,9 @@ namespace MetaboliteLevels.Viewers.Charts
             // Get observations
             PeakValueSet observations;
 
-            if (sPeak.ForceObservations != null)
+            if (stylisedPeak.ForceObservations != null)
             {
-                observations = sPeak.ForceObservations;
+                observations = stylisedPeak.ForceObservations;
             }
             else if (opts.ViewAlternativeObservations)
             {
@@ -84,6 +88,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
             if (observations == null)
             {
+                CompleteNewPlot(plot);
                 return;
             }
 
@@ -95,19 +100,20 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 // --- RAW DATA (points) ---
                 ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
-                AddToPlot(peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.ByBatch);
+                AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.ByBatch);
 
                 // --- TREND (thick line) ---
-                if (sPeak.ForceTrend != null)
+                if (stylisedPeak.ForceTrend != null)
                 {
-                    raw = sPeak.ForceTrend.ToArray();
-                    obsOrder = ((IEnumerable<ObservationInfo>)sPeak.ForceTrendOrder).ToArray();
+                    raw = stylisedPeak.ForceTrend.ToArray();
+                    obsOrder = ((IEnumerable<ObservationInfo>)stylisedPeak.ForceTrendOrder).ToArray();
                     ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
 
-                    AddToPlot(peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold);
+                    AddToPlot(plot, peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold);
                 }
 
-                DrawLabels(true, opts.ViewBatches);
+                DrawLabels(plot, true, opts.ViewBatches);
+                CompleteNewPlot(plot);
                 return;
             }
 
@@ -122,53 +128,55 @@ namespace MetaboliteLevels.Viewers.Charts
             double[] max = amm.Select(z => z.Item3).ToArray();
 
             // --- PLOT MEAN & SD (lines across)
-            if (opts.ShowVariableMean && !sPeak.IsPreview)
+            if (opts.ShowVariableMean && !stylisedPeak.IsPreview)
             {
-                AddMeanAndSdLines(opts, observations, peak);
+                AddMeanAndSdLines(plot, opts, observations, peak);
             }
 
             // --- RANGE (shaded area) ---
             if (opts.ShowRanges)
             {
-                AddUpperAndLowerShade(condOrder, opts, seriesNames, peak, min, max);
+                AddUpperAndLowerShade(plot, condOrder, opts, seriesNames, peak, min, max);
             }
 
             // --- RAW DATA (points) ---
-            if (opts.ShowPoints && !sPeak.IsPreview)
+            if (opts.ShowPoints && !stylisedPeak.IsPreview)
             {
-                AddToPlot(peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.None);
+                AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.None);
             }
 
             // --- RANGE (lines) ---
-            if (opts.ShowRanges && !sPeak.IsPreview)
+            if (opts.ShowRanges && !stylisedPeak.IsPreview)
             {
-                AddToPlot(peak, seriesNames, min, "Min value", condOrder, opts, EPlot.DrawLine);
-                AddToPlot(peak, seriesNames, max, "Max value", condOrder, opts, EPlot.DrawLine);
+                AddToPlot(plot, peak, seriesNames, min, "Min value", condOrder, opts, EPlot.DrawLine);
+                AddToPlot(plot, peak, seriesNames, max, "Max value", condOrder, opts, EPlot.DrawLine);
             }
 
             // --- TREND (thick line) ---
-            if (opts.ShowTrend && !sPeak.IsPreview)
+            if (opts.ShowTrend && !stylisedPeak.IsPreview)
             {
-                if (sPeak.ForceTrend != null)
+                if (stylisedPeak.ForceTrend != null)
                 {
-                    ConditionInfo[] forder = sPeak.ForceTrendOrder.Cast<ConditionInfo>().ToArray();
-                    double[] fdata = sPeak.ForceTrend.ToArray();
+                    ConditionInfo[] forder = stylisedPeak.ForceTrendOrder.Cast<ConditionInfo>().ToArray();
+                    double[] fdata = stylisedPeak.ForceTrend.ToArray();
 
                     ArrayHelper.Sort(forder, fdata, ConditionInfo.GroupTimeOrder);
 
-                    AddToPlot(peak, seriesNames, fdata, "Trend data", forder, opts, EPlot.DrawLine | EPlot.DrawBold);
+                    AddToPlot(plot, peak, seriesNames, fdata, "Trend data", forder, opts, EPlot.DrawLine | EPlot.DrawBold);
                 }
                 else
                 {
-                    AddToPlot(peak, seriesNames, avg, "Trend data", condOrder, opts, EPlot.DrawLine | EPlot.DrawBold);
+                    AddToPlot(plot, peak, seriesNames, avg, "Trend data", condOrder, opts, EPlot.DrawLine | EPlot.DrawBold);
                 }
             }
 
             // --- LABELS ---
-            DrawLabels(opts.ConditionsSideBySide, opts.ViewTypes);
+            DrawLabels(plot, opts.ConditionsSideBySide, opts.ViewTypes);
+
+            CompleteNewPlot(plot);
         }
 
-        private void AddUpperAndLowerShade(ConditionInfo[] condOrder, StylisedPeakOptions o, HashSet<string> seriesNames, Peak peak, double[] min, double[] max)
+        private void AddUpperAndLowerShade(MChart.Plot plot, ConditionInfo[] condOrder, StylisedPeakOptions o, Dictionary<string, MChart.Series> seriesNames, Peak peak, double[] min, double[] max)
         {
             // Iterate the conditions
             for (int i = 0; i < condOrder.Length; i++)
@@ -179,18 +187,21 @@ namespace MetaboliteLevels.Viewers.Charts
                 {
                     // Name the series
                     string name = "Range for " + cond.Group.Name;
+                    MChart.Series series;
 
                     // Create the series (if required)
-                    if (!seriesNames.Contains(name))
+                    if (!seriesNames.ContainsKey(name))
                     {
-                        var series = _chart.Series.Add(name);
+                        series = plot.Series.Add(name);
                         Color c = cond.Group.ColourLight;
                         c = Color.FromArgb(0x80, c.R, c.G, c.B);
                         series.Tag = peak;
-                        series.Color = c;
-                        series.ChartType = SeriesChartType.Range;
-                        series.IsVisibleInLegend = false;
-                        seriesNames.Add(name);
+                        series.Style.DrawBands = new SolidBrush(c);
+                        seriesNames.Add(name, series);
+                    }
+                    else
+                    {
+                        series = seriesNames[name];
                     }
 
                     // Get the X coordinate
@@ -218,16 +229,16 @@ namespace MetaboliteLevels.Viewers.Charts
                     }
 
                     // Create the point
-                    var info1 = new IntensityInfo(cond.Time, null, cond.Group, yMin);
-                    var info2 = new IntensityInfo(cond.Time, null, cond.Group, yMax);
-                    var cdp = new DataPoint(xVal, new[] { yMin, yMax });
+                    IntensityInfo info1 = new IntensityInfo(cond.Time, null, cond.Group, yMin);
+                    IntensityInfo info2 = new IntensityInfo(cond.Time, null, cond.Group, yMax);
+                    MChart.DataPoint cdp = new MChart.DataPoint(xVal, new[] { yMin, yMax });
                     cdp.Tag = new[] { info1, info2 };
-                    _chart.Series[name].Points.Add(cdp);
+                    series.Points.Add(cdp);
                 }
             }
         }
 
-        private void AddMeanAndSdLines(StylisedPeakOptions o, PeakValueSet observations, Peak peak)
+        private void AddMeanAndSdLines(MChart.Plot plot, StylisedPeakOptions o, PeakValueSet observations, Peak peak)
         {
             // Iterate the types
             foreach (GroupInfo group in o.ViewTypes)
@@ -250,29 +261,21 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 // Create the series
-                var sMean = _chart.Series.Add(@group.Name + ": Mean");
-                var sMin = _chart.Series.Add(@group.Name + ": StdDevMin");
-                var sMax = _chart.Series.Add(@group.Name + ": StdDevMax");
+                var sMean = plot.Series.Add(@group.Name + ": Mean");
+                var sMin = plot.Series.Add(@group.Name + ": StdDevMin");
+                var sMax = plot.Series.Add(@group.Name + ": StdDevMax");
 
                 sMean.Tag = peak;
                 sMin.Tag = peak;
                 sMax.Tag = peak;
 
-                sMean.IsVisibleInLegend = false;
-                sMin.IsVisibleInLegend = false;
-                sMax.IsVisibleInLegend = false;
-
                 Color c = @group.ColourLight;
-                sMean.Color = c;
-                sMin.Color = c;
-                sMax.Color = c;
+                sMean.Style.DrawLines = new Pen(c);
+                sMin.Style.DrawLines = new Pen(c);
+                sMax.Style.DrawLines = new Pen(c);
 
-                sMean.ChartType = SeriesChartType.Line;
-                sMin.ChartType = SeriesChartType.Line;
-                sMax.ChartType = SeriesChartType.Line;
-
-                sMin.BorderDashStyle = ChartDashStyle.Dot;
-                sMax.BorderDashStyle = ChartDashStyle.Dot;
+                sMin.Style.DrawLines.DashStyle = DashStyle.Dot;
+                sMax.Style.DrawLines.DashStyle = DashStyle.Dot;
 
                 // Add the points
                 AddDataPoint(sMean, xLeft, yMean, @group);
@@ -289,9 +292,9 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <summary>
         /// Adds a tagged datapoint to a series.
         /// </summary>
-        private static void AddDataPoint(Series series, int x, double y, GroupInfo type)
+        private static void AddDataPoint(MChart.Series series, int x, double y, GroupInfo type)
         {
-            DataPoint dp = new DataPoint(x, y);
+            MChart.DataPoint dp = new MChart.DataPoint(x, y);
             dp.Tag = new IntensityInfo(null, null, type, y);
 
             if (double.IsNaN(y) || double.IsInfinity(y))
@@ -322,7 +325,7 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <param name="line">Line or dots/</param>
         /// <param name="bold">Bold line?</param>
         /// <param name="isConditions">Order by conditions or obervations</param>
-        private void AddToPlot(Peak peak, HashSet<string> seriesNames, double[] intensities, string seriesName, IEnumerable xInfo, StylisedPeakOptions o, EPlot draw)
+        private void AddToPlot(MChart.Plot plot, Peak peak, Dictionary<string, MChart.Series> seriesNames, double[] intensities, string seriesName, IEnumerable xInfo, StylisedPeakOptions o, EPlot draw)
         {
             bool byCondition = xInfo.FirstOrDefault2() is ConditionInfo;
             int i = -1;
@@ -378,26 +381,31 @@ namespace MetaboliteLevels.Viewers.Charts
                 GroupInfoBase seriesUsing = colorByBatch ? (GroupInfoBase)condBatch : (GroupInfoBase)condType;
 
                 string name = seriesName + " for " + seriesUsing.Name;
+                MChart.Series series;
 
                 // Create the series (if required)
-                if (!seriesNames.Contains(name))
+                if (!seriesNames.ContainsKey(name))
                 {
-                    seriesNames.Add(name);
-                    var series = _chart.Series.Add(name);
-                    series.IsVisibleInLegend = false;
+                    series = plot.Series.Add(name);
+                    seriesNames.Add(name, series);
                     series.Tag = peak;
 
-                    series.Color = (draw.HasFlag(EPlot.DrawBold) | draw.HasFlag(EPlot.ByBatch)) ? seriesUsing.Colour : seriesUsing.ColourLight;
+                    Color colour = (draw.HasFlag(EPlot.DrawBold) | draw.HasFlag(EPlot.ByBatch)) ? seriesUsing.Colour : seriesUsing.ColourLight;
 
                     if (draw.HasFlag(EPlot.DrawLine))
                     {
-                        series.ChartType = SeriesChartType.Line;
-                        series.BorderWidth = draw.HasFlag(EPlot.DrawBold) ? 4 : 1;
+                        series.Style.DrawLines = new Pen(colour);
+                        series.Style.DrawLines.Width = draw.HasFlag(EPlot.DrawBold) ? 4 : 1;
                     }
                     else
                     {
-                        series.ChartType = SeriesChartType.Point;
+                        series.Style.DrawPoints = new SolidBrush(colour);
+                        series.Style.DrawPointsSize = 8;
                     }
+                }
+                else
+                {
+                    series = seriesNames[name];
                 }
 
                 // Get the X position
@@ -431,10 +439,10 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 // Create the point
-                var cdp = new DataPoint(xPos, yPos);
+                var cdp = new MChart.DataPoint(xPos, yPos);
                 var tag = new IntensityInfo(condDay, condRep, condType, yPos);
                 cdp.Tag = tag;
-                _chart.Series[name].Points.Add(cdp);
+                series.Points.Add(cdp);
             }
         }
     } // class

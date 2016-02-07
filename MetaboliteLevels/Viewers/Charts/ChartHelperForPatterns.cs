@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using MetaboliteLevels.Data;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
@@ -11,6 +10,9 @@ using MetaboliteLevels.Utilities;
 using System;
 using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Forms;
+using MCharting;
+using System.Drawing.Drawing2D;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Viewers.Charts
 {
@@ -18,9 +20,9 @@ namespace MetaboliteLevels.Viewers.Charts
     {
         public string SeriesName;
         public Color Colour;
-        public ChartDashStyle DashStyle;
+        public DashStyle DashStyle;
 
-        public LineInfo(string seriesName, Color colour, ChartDashStyle dashStyle)
+        public LineInfo(string seriesName, Color colour, DashStyle dashStyle)
         {
             this.SeriesName = seriesName;
             this.Colour = colour;
@@ -30,13 +32,13 @@ namespace MetaboliteLevels.Viewers.Charts
 
     class ChartHelperForClusters : ChartHelper
     {
-        public Cluster SelectedCluster { get; private set; }
+        public StylisedCluster SelectedCluster { get; private set; }
 
-        protected override IVisualisable CurrentPlot
+        public override IVisualisable CurrentPlot
         {
             get
             {
-                return SelectedCluster;
+                return SelectedCluster?.ActualElement;
             }
         }
 
@@ -47,28 +49,36 @@ namespace MetaboliteLevels.Viewers.Charts
             : base(selector, core, targetSite)
         {
             _enableHighlightSeries = true;
+            _chart.SelectionChanging += _chart_SelectionChanging;
         }
 
         /// <summary>
         /// Selects the specified series on the chart
         /// </summary>
-        public void SelectSeries(Peak v)
+        public void SelectSeries(Peak peak)
         {
-            List<Series> theSeries = new List<Series>();
-
-            foreach (Series series in _chart.Series)
+            if (_chart.SelectedItem.SelectedSeries != null && _chart.SelectedItem.SelectedSeries.Tag == peak)
             {
-                if (series.Tag == v)
+                // Already selected
+                return;
+            }
+
+            _chart.SelectedItem = new MChart.Selection(GetSeries(peak).ToArray());
+        }
+
+        private List<MChart.Series> GetSeries(Peak peak)
+        {
+            List<MChart.Series> theSeries = new List<MChart.Series>();
+
+            foreach (MChart.Series series in _chart.CurrentPlot.Series)
+            {
+                if (series.Tag == peak)
                 {
                     theSeries.Add(series);
-                    break;
                 }
             }
 
-            if (theSeries.Count != 0)
-            {
-                SetSelection(theSeries, null, -1);
-            }
+            return theSeries;
         }
 
         /// <summary>
@@ -85,45 +95,34 @@ namespace MetaboliteLevels.Viewers.Charts
             return CreateBitmap(width, height);
         }
 
-        /// <summary>
-        /// Override to select all series with the same variable at once.
-        /// </summary>
-        protected override void BeforeSelectSeries(List<Series> series)
+        private void _chart_SelectionChanging(object sender, SelectingChangingEventArgs e)
         {
-            if (series.Count == 1)
+            if (e.Selection.Series.Length == 1)
             {
-                Peak v = (Peak)series[0].Tag;
-
-                foreach (Series s in _chart.Series)
-                {
-                    if (s.Tag == v)
-                    {
-                        if (!series.Contains(s))
-                        {
-                            series.Add(s);
-                        }
-                    }
-                }
+                Peak peak = (Peak)e.Selection.Series[0].Tag;
+                e.Selection = new MChart.Selection(GetSeries(peak).ToArray(), e.Selection.DataPoint, e.Selection.DataIndex);
             }
         }
 
         /// <summary>
         /// Actual plotting.
         /// </summary>
-        /// <param name="sp"></param>
-        public void Plot(StylisedCluster sp)
+        /// <param name="stylisedCluster"></param>
+        public void Plot(StylisedCluster stylisedCluster)
         {
+            Debug.WriteLine("ClusterPlot: " + stylisedCluster);
+
             // Reset the chart
-            PrepareNewPlot(sp != null && !sp.IsPreview, (sp != null) ? sp.Cluster : null);
+            MChart.Plot plot = PrepareNewPlot(stylisedCluster != null && !stylisedCluster.IsPreview, (stylisedCluster != null) ? stylisedCluster.Cluster : null);
 
             // Set the selected cluster
-            Cluster p = sp != null ? sp.Cluster : null;
-            Dictionary<Peak, LineInfo> colours = sp != null ? sp.Colours : null;
-            SelectedCluster = p;
+            Cluster p = stylisedCluster != null ? stylisedCluster.Cluster : null;
+            Dictionary<Peak, LineInfo> colours = stylisedCluster != null ? stylisedCluster.Colours : null;
+            SelectedCluster = stylisedCluster;
 
-            if (sp != null)
+            if (stylisedCluster != null)
             {
-                SetCaption(sp.CaptionFormat, sp.ActualElement, sp.Source);
+                SetCaption(stylisedCluster.CaptionFormat, stylisedCluster.ActualElement, stylisedCluster.Source);
             }
             else
             {
@@ -136,6 +135,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // If there is nothing to plot then exit
             if (p == null)
             {
+                CompleteNewPlot(plot);
                 return;
             }
 
@@ -161,7 +161,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 Assignment assignment = toPlot[assignmentIndex];
                 Vector vec = assignment.Vector;
                 Peak peak = vec.Peak;
-                Dictionary<GroupInfo, Series> vecSeries = new Dictionary<GroupInfo, Series>();
+                Dictionary<GroupInfo, MChart.Series> vecSeries = new Dictionary<GroupInfo, MChart.Series>();
 
                 double[] vector = vec.Values;
 
@@ -177,14 +177,14 @@ namespace MetaboliteLevels.Viewers.Charts
                         // Peak, by condition
                         ConditionInfo cond = vec.Conditions[index];
                         GroupInfo group = cond.Group;
-                        Series series = GetOrCreateSeries(vecSeries, group, vec, sp);
+                        MChart.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster);
                         int originalIndex = index;
 
                         int typeOffset = GetTypeOffset(groupOrder, group, isMultiGroup);
 
                         int x = typeOffset + cond.Time;
                         double v = vector[originalIndex];
-                        DataPoint cdp = new DataPoint(x, v);
+                        MChart.DataPoint cdp = new MChart.DataPoint(x, v);
                         cdp.Tag = new IntensityInfo(cond.Time, null, cond.Group, v);
                         series.Points.Add(cdp);
                     }
@@ -198,7 +198,7 @@ namespace MetaboliteLevels.Viewers.Charts
                         // Peak, by observation
                         ObservationInfo obs = vec.Observations[index];
                         GroupInfo group = obs.Group;
-                        Series series = GetOrCreateSeries(vecSeries, group, vec, sp);
+                        MChart.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster);
 
                         int originalIndex = index;
 
@@ -206,7 +206,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                         int x = typeOffset + obs.Time;
                         double v = vector[originalIndex];
-                        DataPoint cdp = new DataPoint(x, v);
+                        MChart.DataPoint cdp = new MChart.DataPoint(x, v);
                         cdp.Tag = new IntensityInfo(obs.Time, obs.Rep, obs.Group, v);
                         series.Points.Add(cdp);
                     }
@@ -214,20 +214,19 @@ namespace MetaboliteLevels.Viewers.Charts
             } // For group  
 
             // --- PLOT CLUSTER CENTRES ---
-            if (!sp.IsPreview && core.Options.ShowCentres && p.Centres.Count < 100)
+            if (!stylisedCluster.IsPreview && core.Options.ShowCentres && p.Centres.Count < 100)
             {
                 var templateAssignment = p.Assignments.List.First();
 
                 foreach (double[] centre in p.Centres)
                 {
-                    var series = _chart.Series.Add("Cluster centre #" + (++numClusterCentres));
-                    series.ChartType = SeriesChartType.Line;
-                    series.Color = colourSettings.ClusterCentre;
-                    series.IsVisibleInLegend = false;
-                    series.BorderDashStyle = ChartDashStyle.Dash;
-                    series.MarkerStyle = MarkerStyle.Diamond;
-                    series.MarkerSize = 8;
-                    series.BorderWidth = 2;
+                    MChart.Series series = new MChart.Series();
+                    plot.Series.Add(series);
+                    series.Name = "Cluster centre #" + (++numClusterCentres);
+                    series.Style.DrawLines = new Pen(colourSettings.ClusterCentre, 2);
+                    series.Style.DrawLines.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                    series.Style.DrawPoints = new SolidBrush(colourSettings.ClusterCentre);
+                    series.Style.DrawPointsSize = 8; // MarkerStyle.Diamond;
 
                     if (templateAssignment.Vector.Conditions != null)
                     {
@@ -239,7 +238,7 @@ namespace MetaboliteLevels.Viewers.Charts
                             ConditionInfo cond = templateAssignment.Vector.Conditions[index];
                             double dp = centre[index];
                             int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
-                            DataPoint cdp = new DataPoint(x, dp);
+                            MChart.DataPoint cdp = new MChart.DataPoint(x, dp);
                             cdp.Tag = new IntensityInfo(cond.Time, null, cond.Group, dp);
                             series.Points.Add(cdp);
                         }
@@ -254,7 +253,7 @@ namespace MetaboliteLevels.Viewers.Charts
                             ObservationInfo cond = templateAssignment.Vector.Observations[index];
                             double dp = centre[index];
                             int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
-                            DataPoint cdp = new DataPoint(x, dp);
+                            MChart.DataPoint cdp = new MChart.DataPoint(x, dp);
                             cdp.Tag = new IntensityInfo(cond.Time, cond.Rep, cond.Group, dp);
                             series.Points.Add(cdp);
                         }
@@ -263,12 +262,14 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // LABELS
-            DrawLabels(!isMultiGroup, groupOrder);
+            DrawLabels(plot, !isMultiGroup, groupOrder);
+
+            CompleteNewPlot(plot);
         }
 
-        private Series GetOrCreateSeries(Dictionary<GroupInfo, Series> serieses, GroupInfo group, Vector vector, StylisedCluster sp)
+        private MChart.Series GetOrCreateSeries(MChart.Plot plot, Dictionary<GroupInfo, MChart.Series> serieses, GroupInfo group, Vector vector, StylisedCluster sp)
         {
-            Series series;
+            MChart.Series series;
 
             if (serieses.TryGetValue(group, out series))
             {
@@ -279,23 +280,23 @@ namespace MetaboliteLevels.Viewers.Charts
             Dictionary<Peak, LineInfo> colours = sp != null ? sp.Colours : null;
 
             // Each peak + condition gets its own series (yes we end up with lots of series)
-            series = _chart.Series.Add(vector.ToString() + " | " + group.Name);
+            series = new MChart.Series();
+            series.Name = vector.ToString() + " : " + group.Name;
+            plot.Series.Add(series);
 
             // If the parameters specify a colour for this peak use that, else use the default
             if (colours != null && colours.ContainsKey(peak))
             {
-                series.Color = colours[peak].Colour;
-                series.BorderDashStyle = colours[peak].DashStyle;
-                series.Name = colours[peak].SeriesName + " | " + group.Name;
+                series.Style.DrawLines = new Pen(colours[peak].Colour);
+                series.Style.DrawLines.DashStyle = colours[peak].DashStyle;
+                series.Name = colours[peak].SeriesName + " : " + group.Name;
             }
             else
             {
-                series.Color = group.Colour;
+                series.Style.DrawLines = new Pen(group.Colour);
             }
 
-            series.BorderWidth = sp.Source == peak ? 2 : 1;
-            series.ChartType = SeriesChartType.Line;
-            series.IsVisibleInLegend = false;
+            series.Style.DrawLines.Width = sp.Source == peak ? 2 : 1;
             series.Tag = peak;
 
             if (sp.Highlight != null)
@@ -305,7 +306,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     if (highlight.Peak == vector.Peak
                         && (highlight.Group == null || highlight.Group == group))
                     {
-                        series.Color = Color.Red;
+                        series.Style.DrawLines.Color = Color.Red;
                         break;
                     }
                 }

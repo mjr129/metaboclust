@@ -1148,7 +1148,7 @@ namespace MetaboliteLevels.Forms.Startup
             // Iterate conditions of interest
             foreach (GroupInfo group in core.ConditionsOfInterest)
             {
-                ObsFilter filterGroup = null;
+                ObsFilter filterGroup = singleGroupFilters[group];
 
                 if (calcT)
                 {

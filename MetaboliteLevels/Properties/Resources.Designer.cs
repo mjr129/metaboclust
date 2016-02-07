@@ -773,6 +773,16 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ObjLIntensity {
+            get {
+                object obj = ResourceManager.GetObject("ObjLIntensity", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ObjList {
             get {
                 object obj = ResourceManager.GetObject("ObjList", resourceCulture);
@@ -796,6 +806,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap ObjLPca {
             get {
                 object obj = ResourceManager.GetObject("ObjLPca", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ObjLReplicate {
+            get {
+                object obj = ResourceManager.GetObject("ObjLReplicate", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -843,9 +863,29 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ObjLSeries {
+            get {
+                object obj = ResourceManager.GetObject("ObjLSeries", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ObjLStatistics {
             get {
                 object obj = ResourceManager.GetObject("ObjLStatistics", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ObjLTime {
+            get {
+                object obj = ResourceManager.GetObject("ObjLTime", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

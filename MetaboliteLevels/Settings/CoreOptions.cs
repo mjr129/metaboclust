@@ -24,66 +24,66 @@ namespace MetaboliteLevels.Settings
         public int ObjectSizeLimit { get; set; }
 
         [DisplayName("Show cluster centres")]
-        [Category("Cluster plot")]
+        [Category("Clusters")]
         [DefaultValue(true)]
         public bool ShowCentres { get; set; }
 
         [DisplayName("Maximum vectors")]
         [Description("Speed up plotting only plot this number of vectors at maximum in a cluster plot")]
-        [Category("Cluster plot")]
+        [Category("Clusters")]
         [DefaultValue(200)]
         public int MaxPlotVariables { get; set; }
 
         [DisplayName("View alternative dataset")]
-        [Category("Peak plot")]
+        [Category("Peaks")]
         [Description("Check to show the \"alternate data set\" loaded in at program startup.")]
         [DefaultValue(false)]
         public bool ViewAlternativeObservations { get; set; }
 
         [DisplayName("Explore acquisition")]
-        [Category("Peak plot")]
+        [Category("Peaks")]
         [Description("Plot peaks batch/acquisition-wise rather than group/time-wise.")]
         [DefaultValue(false)]
         public bool ViewAcquisition { get; set; }
 
         [DisplayName("Plot experimental conditions side-by-side")]
-        [Category("All plots")]
+        [Category("All")]
         [DefaultValue(true)]
         public bool ConditionsSideBySide { get; set; }
 
         [DisplayName("Shade min/max area")]
-        [Category("Peak plot")]
+        [Category("Peaks")]
         [DefaultValue(true)]
         public bool ShowVariableRanges { get; set; }
 
         [DisplayName("Show mean and std. dev.")]
-        [Category("Peak plot")]
+        [Category("Peaks")]
         [DefaultValue(true)]
         public bool ShowVariableMean { get; set; }
 
         [DisplayName("Show individual data points")]
-        [Category("Peak plot")]
+        [Category("Peaks")]
         [DefaultValue(true)]
         public bool ShowPoints { get; set; }
 
         [DisplayName("Show trend")]
         [Description("Plot the trend on the graphs.")]
-        [Category("Peak plot")]
+        [Category("Peaks")]
         [DefaultValue(true)]
         public bool ShowTrend { get; set; }
 
         [DisplayName("Enable peak flagging")]
-        [Category("Peak list")]
+        [Category("Peaks")]
         [Description("When set you can toggle peak flags by pressing the corresponding key on your keyboard with the peak list selected. See the \"Peak flags\" field to edit the list of available flags.")]
         [DefaultValue(false)]
         public bool EnablePeakFlagging { get; set; }
 
         [DisplayName("Peak flags")]
-        [Category("Peak list")]
+        [Category("Peaks")]
         public List<PeakFlag> PeakFlags { get; set; }
 
         [DisplayName("Colours")]
-        [Category("All plots")]
+        [Category("All")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public CoreColourSettings Colours { get; set; }
 
@@ -112,7 +112,7 @@ namespace MetaboliteLevels.Settings
         {
             [DisplayName("Information bar")]
             [Description("The text to display in the toolbar above the plot. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
-            [DefaultValue("m/z = {m/z}, rt = {meta\rt}")]
+            [DefaultValue("m/z = {m/z}, rt = {meta\\rt}")]
             public ParseElementCollection Information { get; set; }
 
             [DisplayName("Plot title")]
@@ -135,6 +135,17 @@ namespace MetaboliteLevels.Settings
             [Category("All plots")]
             [DefaultValue("")]
             public ParseElementCollection AxisY { get; set; }
+
+            public override string ToString()
+            {
+                return (ParseElementCollection.IsNullOrEmpty(Information) 
+                    && ParseElementCollection.IsNullOrEmpty(Title) 
+                    && ParseElementCollection.IsNullOrEmpty(SubTitle) 
+                    && ParseElementCollection.IsNullOrEmpty(AxisX) 
+                    && ParseElementCollection.IsNullOrEmpty(AxisY))
+                    ? "(None)"
+                    : "(Custom text)";
+            }
         }
 
         [DisplayName("Clustering results filename")]

@@ -266,10 +266,10 @@ namespace MetaboliteLevels.Forms.Editing
 
                 MChart.Series series = GetOrCreateSeriesForValue(plot, column, (IVisualisable)enSources.Current);
 
-                var coord = new MChart.Coord(plotPoints[r, _component], plotPoints[r, _component + 1]);
+                var coord = new MChart.DataPoint(plotPoints[r, _component], plotPoints[r, _component + 1]);
                 coord.Tag = enSources.Current;
 
-                series.Data.Add(coord);
+                series.Points.Add(coord);
             }
 
             // Assign colours     
@@ -277,17 +277,14 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 foreach (var colour in PlotCreator.AutoColour(plot.Series))
                 {
-                    colour.Key.Style = new MChart.SeriesStyle()
-                    {
-                        DrawPoints = new SolidBrush(colour.Value)
-                    };
+                    colour.Key.Style.DrawPoints = new SolidBrush(colour.Value);
                 }
             }
 
             _chart.Style.Animate = true;
             _chart.Style.SelectionColour = Color.Yellow;
 
-            _chart.Set(plot);
+            _chart.SetPlot(plot);
         }
 
         private static MChart.Series GetOrCreateSeriesForValue(MChart.Plot plot, Column column, IVisualisable vis)
@@ -297,8 +294,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (series == null)
             {
-                series = new MChart.Series();
-                series.Style = new MChart.SeriesStyle();
+                series = new MChart.Series();            
                 series.Name = Column.AsString(value, column.DisplayMode);
                 series.Tag = value;
 
@@ -393,7 +389,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             var sel = _chart.SelectedItem;
 
-            if (sel == null || sel.Coordinate == null)
+            if (sel.SelectedSeries == null || sel.DataPoint == null)
             {
                 _lblSelection.Text = "No selection";
                 _btnMarkAsOutlier.Text = "Mark as outlier";
@@ -401,8 +397,8 @@ namespace MetaboliteLevels.Forms.Editing
             }
             else
             {
-                _lblSelection.Text = sel.Series.Name.ToString() + ": " + sel.Coordinate.Tag + " = (" + sel.X + ", " + sel.Y + ")";
-                _btnMarkAsOutlier.Text = sel.Series.Name.ToString() + ": " + sel.Coordinate.Tag;
+                _lblSelection.Text = sel.SelectedSeries.Name.ToString() + ": " + sel.DataPoint.Tag + " = (" + sel.X + ", " + sel.Y + ")";
+                _btnMarkAsOutlier.Text = sel.SelectedSeries.Name.ToString() + ": " + sel.DataPoint.Tag;
                 _btnMarkAsOutlier.Enabled = true;
             }
         }
@@ -513,7 +509,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnMarkAsOutlier_Click(object sender, EventArgs e)
         {
-            object item = _chart.SelectedItem.Coordinate.Tag;
+            object item = _chart.SelectedItem.DataPoint.Tag;
 
             Peak peak = item as Peak;
 

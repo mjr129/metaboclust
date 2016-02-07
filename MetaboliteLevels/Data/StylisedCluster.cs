@@ -89,7 +89,7 @@ namespace MetaboliteLevels.Data
         /// </summary>
         public StylisedCluster(Cluster cluster)
         {
-            Cluster = cluster;
+            this.Cluster = cluster;
             this.ActualElement = cluster;
         }
 
@@ -101,6 +101,14 @@ namespace MetaboliteLevels.Data
             this.Cluster = cluster;
             this.ActualElement = actualElement;
             this.Colours = colours;
+        }
+
+        /// <summary>
+        /// Debugging
+        /// </summary>           
+        public override string ToString()
+        {
+            return Cluster.ToString() + " - " + ActualElement.ToString();
         }
     }
 }

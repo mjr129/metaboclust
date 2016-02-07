@@ -356,8 +356,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             //plot.Style = new MChart.PlotStyle();
             //plot.Style.ShowZero = false;
 
-            MChart.Series series = new MChart.Series();
-            series.Style = new MChart.SeriesStyle();
+            MChart.Series series = new MChart.Series(); 
             series.Style.DrawPoints = new SolidBrush(Color.Black);
             series.Style.DrawLines = new Pen(Color.Black);
 
@@ -399,12 +398,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                     maxX = value;
                 }
 
-                series.Data.Add(new MChart.Coord(x, y));
+                series.Points.Add(new MChart.DataPoint(x, y));
             }
 
             plot.Series.Add(series);
 
-            _chartParameters.Set(plot);
+            _chartParameters.SetPlot(plot);
 
             string plotName = _selectedResults.Configuration.ParameterName + " against " + col.ToString();
             _lblPlot.Text = "Plot (" + plotName + ")";

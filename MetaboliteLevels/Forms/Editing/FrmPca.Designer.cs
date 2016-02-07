@@ -308,8 +308,7 @@
             this._chart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._chart.Location = new System.Drawing.Point(0, 66);
             this._chart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this._chart.Name = "_chart";
-            this._chart.SelectedItem = null;
+            this._chart.Name = "_chart"; 
             this._chart.Size = new System.Drawing.Size(964, 719);
             this._chart.TabIndex = 0;
             this._chart.SelectionChanged += new System.EventHandler(this._chart_SelectionChanged);

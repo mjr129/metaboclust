@@ -418,4 +418,16 @@
   <data name="TeaAlarm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TeaAlarm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ObjLIntensity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjLIntensity.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ObjLReplicate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjLReplicate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ObjLTime" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjLTime.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ObjLSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjLSeries.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

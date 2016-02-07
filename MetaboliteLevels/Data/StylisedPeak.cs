@@ -54,6 +54,14 @@ namespace MetaboliteLevels.Data
         {
             Peak = peak;
         }
+
+        /// <summary>
+        /// Debugging
+        /// </summary>
+        public override string ToString()
+        {
+            return Peak?.ToString();
+        }
     }
 
     class StylisedPeakOptions

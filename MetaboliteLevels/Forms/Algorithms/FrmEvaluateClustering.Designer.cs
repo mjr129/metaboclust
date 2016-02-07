@@ -452,7 +452,6 @@
             this._chartParameters.Location = new System.Drawing.Point(0, 30);
             this._chartParameters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._chartParameters.Name = "_chartParameters";
-            this._chartParameters.SelectedItem = null;
             this._chartParameters.Size = new System.Drawing.Size(498, 362);
             this._chartParameters.TabIndex = 2;
             // 

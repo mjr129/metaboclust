@@ -7,8 +7,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms;                                
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data;
 using MetaboliteLevels.Properties;
@@ -22,10 +21,11 @@ using MetaboliteLevels.Forms.Algorithms;
 using MetaboliteLevels.Forms.Wizards;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Forms.Startup;          
+using MetaboliteLevels.Forms.Startup;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Viewers.Lists;
+using System.Drawing.Imaging;
 
 namespace MetaboliteLevels.Forms
 {
@@ -444,33 +444,38 @@ namespace MetaboliteLevels.Forms
                 // Plot that!
                 if (selection.A.VisualClass == VisualClass.Peak)
                 {
-                    Peak v = (Peak)selection.A;
+                    Peak peak = (Peak)selection.A;
 
-                    PlotPeak(v);
+                    // Plot the peak
+                    PlotPeak(peak);
 
-                    if (selection.B != null && selection.B.VisualClass == VisualClass.Compound)
+                    IVisualisable secondPlot = selection.B ?? peak.Assignments.Clusters.FirstOrDefault();
+
+                    // Plot the cluster?
+                    if (_chartCluster.CurrentPlot != secondPlot)
                     {
-                        PlotCluster(((Compound)selection.B).CreateStylisedCluster(_core, v));
-                    }
-                    else if (selection.B != null && selection.B.VisualClass == VisualClass.Pathway)
-                    {
-                        PlotCluster(((Pathway)selection.A).CreateStylisedCluster(_core, v));
-                    }
-                    else if (!keepPatPlot)
-                    {
-                        if (v.Assignments.Count != 0)
-                        {
-                            Cluster clusterToPlot = v.Assignments.List[0].Cluster; // Plot the first by default - the user can select the cluster from the cluster submenu
-                            PlotCluster(clusterToPlot.CreateStylisedCluster(_core, v));
-                        }
-                        else
+                        if (secondPlot == null)
                         {
                             PlotCluster(null);
                         }
-                        _autoChangingSelection = true;
-                        _chartCluster.SelectSeries(v);
-                        _autoChangingSelection = false;
+                        else if (secondPlot.VisualClass == VisualClass.Cluster)
+                        {
+                            PlotCluster(((Cluster)secondPlot).CreateStylisedCluster(_core, null));
+                        }
+                        else if (secondPlot.VisualClass == VisualClass.Compound)
+                        {
+                            PlotCluster(((Compound)secondPlot).CreateStylisedCluster(_core, null));
+                        }
+                        else if (secondPlot.VisualClass == VisualClass.Pathway)
+                        {
+                            PlotCluster(((Pathway)secondPlot).CreateStylisedCluster(_core, null));
+                        }
                     }
+
+                    // Make sure the current peak is selected in that cluster
+                    _autoChangingSelection = true;
+                    _chartCluster.SelectSeries(peak);
+                    _autoChangingSelection = false;
                 }
                 else if (selection.A.VisualClass == VisualClass.Cluster)
                 {
@@ -496,26 +501,26 @@ namespace MetaboliteLevels.Forms
                 }
                 else if (selection.A.VisualClass == VisualClass.Adduct)
                 {
-                    var a = (Adduct)selection.A;
+                    Adduct adduct = (Adduct)selection.A;
 
                     PlotPeak(null);
                     PlotCluster(null);
                 }
                 else if (selection.A.VisualClass == VisualClass.Pathway)
                 {
-                    var p = (Pathway)selection.A;
-                    var fp = p.CreateStylisedCluster(_core, selection.B);
+                    Pathway pathway = (Pathway)selection.A;
+                    StylisedCluster fakeCluster = pathway.CreateStylisedCluster(_core, selection.B);
 
                     PlotPeak(null);
-                    PlotCluster(fp);
+                    PlotCluster(fakeCluster);
                 }
                 else if (selection.A.VisualClass == VisualClass.Compound)
                 {
-                    var c = (Compound)selection.A;
-                    var fp = c.CreateStylisedCluster(_core, selection.B);
+                    Compound compound = (Compound)selection.A;
+                    StylisedCluster fakeCluster = compound.CreateStylisedCluster(_core, selection.B);
 
                     PlotPeak(null);
-                    PlotCluster(fp);
+                    PlotCluster(fakeCluster);
                 }
                 else
                 {
@@ -1028,7 +1033,7 @@ namespace MetaboliteLevels.Forms
 
             if (fileName != null)
             {
-                chart.Chart.SaveImage(fileName, fileName.ToUpper().EndsWith(".EMF") ? ChartImageFormat.Emf : ChartImageFormat.Png);
+                chart.Chart.DrawToBitmap().Save(fileName, fileName.ToUpper().EndsWith(".EMF") ? ImageFormat.Emf : ImageFormat.Png);
             }
         }
 
@@ -1095,12 +1100,19 @@ namespace MetaboliteLevels.Forms
                                                     r.Width * (int)(g.DpiX / 100f),
                                                     r.Height * (int)(g.DpiY / 100f));
 
-                        _chartClusterForPrinting.Chart.Printing.PrintPaint(g, rP);
+                        using (Bitmap bmp = _chartClusterForPrinting.Chart.DrawToBitmap(r.Width, r.Height))
+                        {
+                            g.DrawImage(bmp, rP);
+                        }
+
                         g.PageUnit = GraphicsUnit.Display;
                     }
                     else
                     {
-                        _chartClusterForPrinting.Chart.Printing.PrintPaint(g, r);
+                        using (Bitmap bmp = _chartClusterForPrinting.Chart.DrawToBitmap(r.Width, r.Height))
+                        {
+                            g.DrawImage(bmp, r);
+                        }
                     }
 
                     //int strWid = (int)(g.MeasureString(p.Name, titleFont).Width / 2);
@@ -1281,7 +1293,7 @@ namespace MetaboliteLevels.Forms
             {
                 CommitSelection(new VisualisableSelection(tag, EActivateOrigin.TreeView));
             }
-        }    
+        }
 
         /// <summary>
         /// Explorer tree: Node click

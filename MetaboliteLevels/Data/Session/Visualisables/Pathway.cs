@@ -12,6 +12,7 @@ using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Settings;
 using MSerialisers;
+using System.Drawing.Drawing2D;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
@@ -233,7 +234,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 }
 
                 string seriesName = peak.DisplayName + (!peak.Assignments.List.IsEmpty() ? (" (" + StringHelper.ArrayToString(peak.Assignments.Clusters) + ")") : "") + ": " + legend.ToString();
-                var li = new LineInfo(seriesName, col, System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid);
+                var li = new LineInfo(seriesName, col, DashStyle.Solid);
                 colours.Add(peak, li);
             }
 
