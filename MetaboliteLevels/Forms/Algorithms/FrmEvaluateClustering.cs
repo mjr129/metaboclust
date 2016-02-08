@@ -642,7 +642,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                     if (result == null)
                     {
-                        // Do clustering!
+                        // DO CLUSTERING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         proggy.Enter("Clustering");
                         result = copyOfConfig.Cluster(core, 0, proggy);
                         proggy.Leave();

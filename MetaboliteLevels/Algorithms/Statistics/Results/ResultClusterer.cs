@@ -322,7 +322,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
                 double nextNearestClusterId;
 
                 ClustererStatisticsHelper.CalculateSilhouette(stat, realClusters, out silhouetteWidth, out nextNearestCluster);
-                                                       
+
                 if (!double.TryParse(nextNearestCluster.ShortName, out nextNearestClusterId))
                 {
                     nextNearestClusterId = double.NaN;

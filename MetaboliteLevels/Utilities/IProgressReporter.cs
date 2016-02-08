@@ -54,7 +54,7 @@ namespace MetaboliteLevels.Utilities
     /// <summary>
     /// Contains functions for reporting progress and handling cancellation safely.
     /// </summary>
-    internal class ProgressReporter : ISerialiserReceiver
+    internal class ProgressReporter
     {
         private const int MAX_UPDATE_TIME = 250;
         private readonly IProgressReceiver _destination;
@@ -295,18 +295,7 @@ namespace MetaboliteLevels.Utilities
             }
 
             return _allowContinue;
-        }
-
-        /// <summary>
-        /// Implements ISerialiserReceiver.
-        /// </summary>                     
-        void ISerialiserReceiver.NotifyDeserialising(IEnumerable<string> depths, string niceName)
-        {
-            if (_lastUpdate.ElapsedMilliseconds > MAX_UPDATE_TIME)
-            {
-                Continue(StringHelper.ArrayToString(depths.Reverse(), ".") + " (" + niceName + ")");
-            }
-        }
+        }       
 
         /// <summary>
         /// Gets a progress reporter that does nothing, use for short running tasks to avoid
