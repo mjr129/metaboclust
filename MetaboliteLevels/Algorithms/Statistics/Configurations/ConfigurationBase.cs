@@ -104,7 +104,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 return UiControls.ImageListOrder.TestEmpty;
             }
-        }     
+        }
 
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
@@ -113,9 +113,25 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
             columns.Add("Comments", EColumn.None, z => z.Comment);
             columns.Add("Enabled", EColumn.None, z => z.Enabled);
+            columns.Add("Algorithm\\Name", EColumn.None, z => z.AlgoName);
+            columns.Add("Arguments\\Summary", EColumn.None, z => z.ArgsToString);
+            columns.Add("Default name", EColumn.None, z => z.DefaultDisplayName);
+            columns.Add("Description", EColumn.None, z => z.Description);
+            columns.Add("Results\\Error message", EColumn.None, z => z.Error);
+            columns.Add("Results\\Has error", EColumn.None, z => z.HasError);
+            columns.Add("Results\\Has results", EColumn.None, z => z.HasResults);
+            columns.Add("Algorithm\\ID", EColumn.None, z => z.Id);
+            columns.Add("Algorithm\\Is available", EColumn.None, z => z.IsAvailable);
 
-            return columns;
+            List<Column> allResults = new List<Column>();
+
+            allResults.AddRange(columns);
+            allResults.AddRange(GetExtraColumns(core));
+
+            return allResults;
         }
+
+        protected abstract IEnumerable<Column> GetExtraColumns(Core core);
 
         void IVisualisable.RequestContents(ContentsRequest list)
         {
@@ -173,7 +189,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         {
             ClearError();
             Results = results;
-        }
+        }        
 
         /// <summary>
         /// If the statistic is available to perform calculations.

@@ -44,7 +44,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return;
                 }
 
-                var prevParam = (AlgoParameter)_lstParameters.SelectedItem;
+                AlgoParameter prevParam = (AlgoParameter)_lstParameters.SelectedItem;
 
                 _lstParameters.Items.Clear();
 
@@ -63,8 +63,10 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
                 else
                 {
-                    _lstParameters_SelectedIndexChanged(null, EventArgs.Empty);
+                    _something_Changed(null, EventArgs.Empty);
                 }
+
+                _something_Changed(null, null);
             }
         }
 
@@ -113,6 +115,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (SelectedAlgorithm == null)
             {
+                _txtNumberOfValues.Text = "?";
                 _errorProvider1.ShowError(_txtAlgorithm, "Requires algorithm");
                 return null;
             }
@@ -121,6 +124,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (p == -1)
             {
+                _txtNumberOfValues.Text = "?";
                 _errorProvider1.ShowError(_lstParameters, "Requires parameter");
                 return null;
             }
@@ -129,6 +133,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             object[] opts = StringHelper.StringToArray(_txtValues.Text, z => AlgoParameterCollection.TryReadParameter(_core, z, pa.Type), "\r\n");
             int num = (int)_numNumTimes.Value;
+            _txtNumberOfValues.Text = opts.Length.ToString();
 
             if (opts.Length == 0 || (opts.Length == 1 && opts[0] == null))
             {
@@ -179,35 +184,20 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        private void _lstParameters_SelectedIndexChanged(object sender, EventArgs e)
+        private void _something_Changed(object sender, EventArgs e)
         {
             _btnOk.Enabled = GetSelection() != null;
         }
 
         private void _btnSetAlgorithm_Click(object sender, EventArgs e)
         {
-            var newAlgo = FrmAlgoCluster.Show(this, _core, SelectedAlgorithm, this._readonly, null, true);
+            ConfigurationClusterer newAlgo = FrmAlgoCluster.Show(this, _core, SelectedAlgorithm, this._readonly, null, true);
 
             if (newAlgo != null)
             {
                 SelectedAlgorithm = newAlgo;
             }
-        }
-
-        private void _btnStatistics_Click(object sender, EventArgs e)
-        {
-            _btnSetAlgorithm.PerformClick();
-        }
-
-        private void _txtStatistics_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
+        }       
 
         private void _btnAddRange_Click(object sender, EventArgs e)
         {                                  

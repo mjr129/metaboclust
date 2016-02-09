@@ -85,14 +85,14 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _lvhConfigs.Activate += _lstParams_SelectedIndexChanged;
             _lvhClusters.Activate += _lstClusters_SelectedIndexChanged;
-            _lvhStatistics.Activate += _lstStats_SelectedIndexChanged;               
+            _lvhStatistics.Activate += _lstStats_SelectedIndexChanged;
 
             UiControls.CompensateForVisualStyles(this);
         }
 
         class ColumnWrapper : IVisualisable
         {
-            public string OverrideDisplayName { get; set; }   
+            public string OverrideDisplayName { get; set; }
 
             private readonly ClusterEvaluationResults Results;
             public readonly Column<ClusterEvaluationParameterResult> Column;
@@ -354,7 +354,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             //plot.Style = new MChart.PlotStyle();
             //plot.Style.ShowZero = false;
 
-            MChart.Series series = new MChart.Series(); 
+            MChart.Series series = new MChart.Series();
             series.Style.DrawPoints = new SolidBrush(Color.Black);
             series.Style.DrawLines = new Pen(Color.Black);
 
@@ -857,6 +857,23 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// </summary>  
         private void _btnLoad_Click_1(object sender, EventArgs e)
         {
+            ClusterEvaluationPointer res = PickResults();
+
+            if (res == null)
+            {
+                return;
+            }
+
+            ClusterEvaluationResults set = FrmWait.Show(this, "Loading results", null, z => LoadResults(res.FileName, z));
+
+            if (set != null)
+            {
+                SelectResults(res.FileName, set);
+            }
+        }
+
+        private ClusterEvaluationPointer PickResults()
+        {
             if (_core.EvaluationResultFiles.Count == 0)
             {
                 FrmMsgBox.ButtonSet[] buttons =
@@ -870,15 +887,15 @@ namespace MetaboliteLevels.Forms.Algorithms
                 {
                     case DialogResult.Yes:
                         _btnNew.PerformClick();
-                        return;
+                        return null;
 
                     case DialogResult.No:
-                        _btnImport.PerformClick();
-                        return;
+                        importToolStripMenuItem.PerformClick();
+                        return null;
 
                     default:
                     case DialogResult.Cancel:
-                        return;
+                        return null;
                 }
             }
 
@@ -886,21 +903,16 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (res == null)
             {
-                return;
+                return null;
             }
 
             if (!res.HasResults)
             {
                 FrmMsgBox.ShowError(this, "Load Data", "This test has not yet been run!");
-                return;
+                return null;
             }
 
-            ClusterEvaluationResults set = FrmWait.Show(this, "Loading results", null, z => LoadResults(res.FileName, z));
-
-            if (set != null)
-            {
-                SelectResults(res.FileName, set);
-            }
+            return res;
         }
 
         private void _lstSel_SelectedIndexChanged(object sender, EventArgs e)
@@ -912,8 +924,9 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             string option1 = "Export statistics to CSV";
             string option2 = "Convert results data to latest format";
+            string option3 = "Write information file";
 
-            IEnumerable<int> options = ListValueSet.ForString("Batch Options", option1, option2).ShowCheckBox(this);
+            IEnumerable<int> options = ListValueSet.ForString("Batch Options", option1, option2, option3).ShowCheckBox(this);
 
             if (options == null || options.Count() == 0)
             {
@@ -927,19 +940,19 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return;
             }
 
-            string log = FrmWait.Show<string>(this, "Batch Process", null, proggy => BatchProcess(options.Contains(0), options.Contains(1), tests, proggy));
+            string log = FrmWait.Show<string>(this, "Batch Process", null, proggy => BatchProcess(options.Contains(0), options.Contains(1), options.Contains(2), tests, proggy));
 
             FrmInputLarge.ShowFixed(this, this.Text, "Batch Process", "Results of the batch process", log);
         }
 
-        private string BatchProcess(bool exportCsv, bool resave, IEnumerable<ClusterEvaluationPointer> tests, ProgressReporter proggy)
+        private string BatchProcess(bool exportCsv, bool resave, bool saveInformation, IEnumerable<ClusterEvaluationPointer> tests, ProgressReporter proggy)
         {
             StringBuilder sb = new StringBuilder();
 
             foreach (ClusterEvaluationPointer res in tests)
             {
-                sb.AppendLine("CONFIG: " + res.ConfigurationDescription);
-                sb.AppendLine("PARAMS: " + res.ParameterDescription);
+                sb.AppendLine("CONFIG: " + res.Configuration.ParameterConfigAsString);
+                sb.AppendLine("PARAMS: " + res.Configuration.ParameterValuesAsString);
                 sb.AppendLine("NAME: " + res.OverrideDisplayName);
                 sb.AppendLine("FILE: " + res.FileName);
 
@@ -951,16 +964,18 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                 Stopwatch timer = Stopwatch.StartNew();
                 proggy.Enter("Loading results");
-                ClusterEvaluationResults set = LoadResults(res.FileName, proggy);
+                bool load = (exportCsv || resave);
+                ClusterEvaluationResults set = load ? LoadResults(res.FileName, proggy) : null;
                 proggy.Leave();
 
-                if (set == null)
+                if (load && set == null)
                 {
                     sb.AppendLine(" - Load failed.");
                     continue;
                 }
 
                 sb.AppendLine(" - LOAD-TIME: " + timer.Elapsed);
+                sb.AppendLine();
 
                 if (exportCsv)
                 {
@@ -988,6 +1003,26 @@ namespace MetaboliteLevels.Forms.Algorithms
                     {
                         sb.AppendLine(" - Export failed: " + ex.Message);
                     }
+
+                    sb.AppendLine();
+                }
+
+                if (saveInformation)
+                {
+                    proggy.Enter("Exporting information");
+
+                    string infoFileName = Path.Combine(Path.GetDirectoryName(res.FileName), Path.GetFileNameWithoutExtension(res.FileName) + ".txt");
+                    infoFileName = UiControls.GetNewFile(infoFileName, checkOriginal: true);
+
+                    StringBuilder info = new StringBuilder();
+                    info.Append(res.DisplayName);
+                    info.AppendLine(res.Configuration.ParameterConfigAsString);
+                    info.AppendLine(res.Configuration.ParameterValuesAsString);
+
+                    File.WriteAllText(infoFileName, info.ToString());
+
+                    sb.AppendLine(" - INFORMATION: " + infoFileName);
+                    sb.AppendLine();
                 }
 
                 if (resave)
@@ -1008,12 +1043,23 @@ namespace MetaboliteLevels.Forms.Algorithms
                     proggy.Leave();
                     sb.AppendLine(" - SAVE-TIME: " + timer.Elapsed);
                     sb.AppendLine(" - SAVE: " + res.FileName);
+                    sb.AppendLine();
                 }
-
-                sb.AppendLine();
             }
 
             return sb.ToString();
+        }
+
+        private void findInexplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClusterEvaluationPointer res = PickResults();
+
+            if (res == null)
+            {
+                return;
+            }
+
+            UiControls.ExploreTo(this, res.FileName);
         }
     }
 }

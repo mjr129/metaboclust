@@ -11,6 +11,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Algorithms.Statistics.Inputs;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Algorithms.Statistics.Results;
+using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
@@ -41,7 +42,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 return (ArgsTrendAsCorrection)Args;
             }
-        }     
+        }
+
+        protected sealed override IEnumerable<Column> GetExtraColumns(Core core)
+        {
+            List<Column<ConfigurationCorrection>> columns = new List<Column<ConfigurationCorrection>>();
+                                                                                         
+            columns.Add("Arguments\\Parameters", z => z.Args.Parameters); 
+
+            return columns;
+        }
 
         /// <summary>
         /// Like Correct(), but just gets the trend (for plots).

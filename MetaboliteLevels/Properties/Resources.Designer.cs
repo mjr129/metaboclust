@@ -83,6 +83,16 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FolderOpen_16x16_72 {
+            get {
+                object obj = ResourceManager.GetObject("FolderOpen_16x16_72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap IcoHelp {
             get {
                 object obj = ResourceManager.GetObject("IcoHelp", resourceCulture);

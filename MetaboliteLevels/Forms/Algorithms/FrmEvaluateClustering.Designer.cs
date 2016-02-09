@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEvaluateClustering));
+            MCharting.MChart.Selection selection1 = new MCharting.MChart.Selection();
             this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -69,19 +70,21 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this._btnNew = new System.Windows.Forms.ToolStripButton();
             this._btnLoad = new System.Windows.Forms.ToolStripButton();
-            this._btnExport = new System.Windows.Forms.ToolStripButton();
-            this._btnImport = new System.Windows.Forms.ToolStripButton();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.updateResultsDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.paranoidModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this._infoLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.paranoidModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.updateResultsDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findInexplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -106,7 +109,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 73);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 81);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -118,8 +121,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel2);
-            this.splitContainer1.Size = new System.Drawing.Size(996, 794);
-            this.splitContainer1.SplitterDistance = 396;
+            this.splitContainer1.Size = new System.Drawing.Size(996, 786);
+            this.splitContainer1.SplitterDistance = 390;
             this.splitContainer1.TabIndex = 12;
             // 
             // tableLayoutPanel1
@@ -137,7 +140,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(996, 396);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(996, 390);
             this.tableLayoutPanel1.TabIndex = 14;
             // 
             // panel2
@@ -148,7 +151,7 @@
             this.panel2.Location = new System.Drawing.Point(332, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(332, 396);
+            this.panel2.Size = new System.Drawing.Size(332, 390);
             this.panel2.TabIndex = 8;
             // 
             // _lstClusters
@@ -157,7 +160,7 @@
             this._lstClusters.LargeImageList = this.imageList1;
             this._lstClusters.Location = new System.Drawing.Point(0, 30);
             this._lstClusters.Name = "_lstClusters";
-            this._lstClusters.Size = new System.Drawing.Size(332, 366);
+            this._lstClusters.Size = new System.Drawing.Size(332, 360);
             this._lstClusters.SmallImageList = this.imageList1;
             this._lstClusters.TabIndex = 0;
             this._lstClusters.UseCompatibleStateImageBehavior = false;
@@ -239,7 +242,7 @@
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(332, 396);
+            this.panel5.Size = new System.Drawing.Size(332, 390);
             this.panel5.TabIndex = 10;
             // 
             // _lstParams
@@ -248,7 +251,7 @@
             this._lstParams.LargeImageList = this.imageList1;
             this._lstParams.Location = new System.Drawing.Point(0, 30);
             this._lstParams.Name = "_lstParams";
-            this._lstParams.Size = new System.Drawing.Size(332, 366);
+            this._lstParams.Size = new System.Drawing.Size(332, 360);
             this._lstParams.SmallImageList = this.imageList1;
             this._lstParams.TabIndex = 0;
             this._lstParams.UseCompatibleStateImageBehavior = false;
@@ -327,7 +330,7 @@
             this.panel1.Location = new System.Drawing.Point(664, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(332, 396);
+            this.panel1.Size = new System.Drawing.Size(332, 390);
             this.panel1.TabIndex = 11;
             // 
             // _tvStatistics
@@ -339,7 +342,7 @@
             this._tvStatistics.Name = "_tvStatistics";
             this._tvStatistics.SelectedImageIndex = 0;
             this._tvStatistics.ShowPlusMinus = false;
-            this._tvStatistics.Size = new System.Drawing.Size(332, 366);
+            this._tvStatistics.Size = new System.Drawing.Size(332, 360);
             this._tvStatistics.TabIndex = 14;
             this._tvStatistics.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this._tvStatistics_NodeMouseDoubleClick);
             // 
@@ -349,7 +352,7 @@
             this._lstStatistics.LargeImageList = this.imageList1;
             this._lstStatistics.Location = new System.Drawing.Point(0, 30);
             this._lstStatistics.Name = "_lstStatistics";
-            this._lstStatistics.Size = new System.Drawing.Size(332, 366);
+            this._lstStatistics.Size = new System.Drawing.Size(332, 360);
             this._lstStatistics.SmallImageList = this.imageList1;
             this._lstStatistics.TabIndex = 18;
             this._lstStatistics.UseCompatibleStateImageBehavior = false;
@@ -432,7 +435,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(996, 392);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(996, 390);
             this.tableLayoutPanel2.TabIndex = 10;
             // 
             // panel4
@@ -443,7 +446,7 @@
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Margin = new System.Windows.Forms.Padding(0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(498, 392);
+            this.panel4.Size = new System.Drawing.Size(498, 390);
             this.panel4.TabIndex = 9;
             // 
             // _chartParameters
@@ -452,7 +455,8 @@
             this._chartParameters.Location = new System.Drawing.Point(0, 30);
             this._chartParameters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._chartParameters.Name = "_chartParameters";
-            this._chartParameters.Size = new System.Drawing.Size(498, 362);
+            this._chartParameters.SelectedItem = selection1;
+            this._chartParameters.Size = new System.Drawing.Size(498, 360);
             this._chartParameters.TabIndex = 2;
             // 
             // _tlpHeaderPlot
@@ -526,7 +530,7 @@
             this.panel3.Location = new System.Drawing.Point(498, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(498, 392);
+            this.panel3.Size = new System.Drawing.Size(498, 390);
             this.panel3.TabIndex = 14;
             // 
             // panel6
@@ -535,7 +539,7 @@
             this.panel6.Location = new System.Drawing.Point(0, 30);
             this.panel6.Margin = new System.Windows.Forms.Padding(0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(498, 362);
+            this.panel6.Size = new System.Drawing.Size(498, 360);
             this.panel6.TabIndex = 18;
             // 
             // _tlpHeaderCluster
@@ -606,17 +610,17 @@
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStrip1.GripMargin = new System.Windows.Forms.Padding(0);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel2,
             this._btnNew,
             this._btnLoad,
-            this._btnExport,
-            this._btnImport,
-            this.toolStripTextBox1});
+            this.toolStripTextBox1,
+            this.toolStripDropDownButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 8);
-            this.toolStrip1.Size = new System.Drawing.Size(996, 73);
+            this.toolStrip1.Size = new System.Drawing.Size(996, 81);
             this.toolStrip1.TabIndex = 13;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -626,7 +630,7 @@
             this.toolStripLabel2.ForeColor = System.Drawing.Color.Black;
             this.toolStripLabel2.Margin = new System.Windows.Forms.Padding(8);
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(252, 49);
+            this.toolStripLabel2.Size = new System.Drawing.Size(252, 57);
             this.toolStripLabel2.Text = "Evaluate Clustering";
             // 
             // _btnNew
@@ -636,7 +640,7 @@
             this._btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnNew.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
             this._btnNew.Name = "_btnNew";
-            this._btnNew.Size = new System.Drawing.Size(49, 41);
+            this._btnNew.Size = new System.Drawing.Size(49, 49);
             this._btnNew.Text = "Tests";
             this._btnNew.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this._btnNew.Click += new System.EventHandler(this._btnNewTest_Click);
@@ -648,36 +652,10 @@
             this._btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnLoad.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
             this._btnLoad.Name = "_btnLoad";
-            this._btnLoad.Size = new System.Drawing.Size(55, 41);
+            this._btnLoad.Size = new System.Drawing.Size(55, 49);
             this._btnLoad.Text = "Select";
             this._btnLoad.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this._btnLoad.Click += new System.EventHandler(this._btnLoad_Click_1);
-            // 
-            // _btnExport
-            // 
-            this._btnExport.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this._btnExport.ForeColor = System.Drawing.Color.Black;
-            this._btnExport.Image = global::MetaboliteLevels.Properties.Resources.MnuSave;
-            this._btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnExport.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
-            this._btnExport.Name = "_btnExport";
-            this._btnExport.Size = new System.Drawing.Size(58, 41);
-            this._btnExport.Text = "Export";
-            this._btnExport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnExport.Click += new System.EventHandler(this._btnSave_Click);
-            // 
-            // _btnImport
-            // 
-            this._btnImport.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this._btnImport.ForeColor = System.Drawing.Color.Black;
-            this._btnImport.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnImport.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
-            this._btnImport.Name = "_btnImport";
-            this._btnImport.Size = new System.Drawing.Size(61, 41);
-            this._btnImport.Text = "Import";
-            this._btnImport.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnImport.Click += new System.EventHandler(this._btnImport_Click);
             // 
             // toolStripTextBox1
             // 
@@ -688,8 +666,71 @@
             this.toolStripTextBox1.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.ReadOnly = true;
-            this.toolStripTextBox1.Size = new System.Drawing.Size(320, 41);
+            this.toolStripTextBox1.Size = new System.Drawing.Size(320, 49);
             this.toolStripTextBox1.Text = "← Select a test to begin";
+            // 
+            // toolStripDropDownButton2
+            // 
+            this.toolStripDropDownButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importToolStripMenuItem,
+            this.exportToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.updateResultsDataToolStripMenuItem,
+            this.findInexplorerToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.paranoidModeToolStripMenuItem});
+            this.toolStripDropDownButton2.Image = global::MetaboliteLevels.Properties.Resources.ObjSave;
+            this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton2.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
+            this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(60, 49);
+            this.toolStripDropDownButton2.Text = "More";
+            this.toolStripDropDownButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(205, 30);
+            this.importToolStripMenuItem.Text = "&Import...";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this._btnImport_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuSave;
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(205, 30);
+            this.exportToolStripMenuItem.Text = "&Export...";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this._btnSave_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(202, 6);
+            // 
+            // updateResultsDataToolStripMenuItem
+            // 
+            this.updateResultsDataToolStripMenuItem.Name = "updateResultsDataToolStripMenuItem";
+            this.updateResultsDataToolStripMenuItem.Size = new System.Drawing.Size(205, 30);
+            this.updateResultsDataToolStripMenuItem.Text = "Batch process...";
+            this.updateResultsDataToolStripMenuItem.Click += new System.EventHandler(this.updateResultsDataToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(202, 6);
+            // 
+            // paranoidModeToolStripMenuItem
+            // 
+            this.paranoidModeToolStripMenuItem.Checked = true;
+            this.paranoidModeToolStripMenuItem.CheckOnClick = true;
+            this.paranoidModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.paranoidModeToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuSaveAll;
+            this.paranoidModeToolStripMenuItem.Name = "paranoidModeToolStripMenuItem";
+            this.paranoidModeToolStripMenuItem.Size = new System.Drawing.Size(205, 30);
+            this.paranoidModeToolStripMenuItem.Text = "&Paranoid mode";
+            this.paranoidModeToolStripMenuItem.ToolTipText = resources.GetString("paranoidModeToolStripMenuItem.ToolTipText");
             // 
             // toolTip1
             // 
@@ -717,8 +758,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._infoLabel,
-            this.toolStripStatusLabel1,
-            this.toolStripDropDownButton1});
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 867);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(996, 22);
@@ -737,43 +777,16 @@
             // 
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(794, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(823, 17);
             this.toolStripStatusLabel1.Spring = true;
             // 
-            // toolStripDropDownButton1
+            // findInexplorerToolStripMenuItem
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.paranoidModeToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.updateResultsDataToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::MetaboliteLevels.Properties.Resources.MnuSave;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 20);
-            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
-            // 
-            // paranoidModeToolStripMenuItem
-            // 
-            this.paranoidModeToolStripMenuItem.Checked = true;
-            this.paranoidModeToolStripMenuItem.CheckOnClick = true;
-            this.paranoidModeToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.paranoidModeToolStripMenuItem.Name = "paranoidModeToolStripMenuItem";
-            this.paranoidModeToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.paranoidModeToolStripMenuItem.Text = "&Paranoid mode";
-            this.paranoidModeToolStripMenuItem.ToolTipText = resources.GetString("paranoidModeToolStripMenuItem.ToolTipText");
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(216, 6);
-            // 
-            // updateResultsDataToolStripMenuItem
-            // 
-            this.updateResultsDataToolStripMenuItem.Name = "updateResultsDataToolStripMenuItem";
-            this.updateResultsDataToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.updateResultsDataToolStripMenuItem.Text = "Batch process results data...";
-            this.updateResultsDataToolStripMenuItem.Click += new System.EventHandler(this.updateResultsDataToolStripMenuItem_Click);
+            this.findInexplorerToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.FolderOpen_16x16_72;
+            this.findInexplorerToolStripMenuItem.Name = "findInexplorerToolStripMenuItem";
+            this.findInexplorerToolStripMenuItem.Size = new System.Drawing.Size(205, 30);
+            this.findInexplorerToolStripMenuItem.Text = "Find in &explorer...";
+            this.findInexplorerToolStripMenuItem.Click += new System.EventHandler(this.findInexplorerToolStripMenuItem_Click);
             // 
             // FrmEvaluateClustering
             // 
@@ -869,14 +882,16 @@
         private System.Windows.Forms.Button _btnViewScript;
         private System.Windows.Forms.ToolStripButton _btnLoad;
         private System.Windows.Forms.ComboBox _lstSel;
-        private System.Windows.Forms.ToolStripButton _btnExport;
-        private System.Windows.Forms.ToolStripButton _btnImport;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripMenuItem paranoidModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem updateResultsDataToolStripMenuItem;
         private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem paranoidModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateResultsDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem findInexplorerToolStripMenuItem;
     }
 }

@@ -24,18 +24,6 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     class ClusterEvaluationPointer : IVisualisable
     {
         /// <summary>
-        /// Legacy field (copy of source.ConfigurationDescription).
-        /// Not used anymore as we retain the test configuration.
-        /// </summary>
-        public readonly string ConfigurationDescription;
-
-        /// <summary>
-        /// Legacy field (copy of source.ParameterDescription).
-        /// Not used anymore as we retain the test configuration.
-        /// </summary>
-        public readonly string ParameterDescription;
-
-        /// <summary>
         /// For tests run: Where the results (ClusterEvaluationConfigurationResults) are stored
         /// </summary>
         public readonly string FileName;
@@ -68,8 +56,6 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         public ClusterEvaluationPointer(string fileName, ClusterEvaluationPointer source)
         {
             this.FileName = fileName;
-            this.ConfigurationDescription = source.ConfigurationDescription;
-            this.ParameterDescription = source.ParameterDescription;
             this.Configuration = source.Configuration;
             this.Enabled = true; // It must be or we wouldn't have got here!
         }
@@ -82,8 +68,6 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         {
             this.Enabled = true;
             this.Configuration = configuration;
-            this.ParameterDescription = configuration.ParameterConfigAsString;
-            this.ConfigurationDescription = configuration.ClustererConfiguration.Description;
         }
 
         /// <summary>
@@ -114,7 +98,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         public override string ToString()
         {
             return DisplayName;
-        }        
+        }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -123,15 +107,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         {
             get
             {
-                if (this.Configuration == null)
-                {
-                    // Legacy files
-                    return ConfigurationDescription;
-                }
-                else
-                {
-                    return Configuration.ClustererConfiguration.ToString();
-                }
+                return Configuration.ClustererConfiguration.DisplayName;
             }
         }
 
@@ -169,8 +145,9 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             List<Column<ClusterEvaluationPointer>> ptr = new List<Column<ClusterEvaluationPointer>>();
 
             ptr.Add("Name", EColumn.Visible, z => z.DisplayName);
-            ptr.Add("Legacy\\Configuration", EColumn.None, z => z.ConfigurationDescription);
-            ptr.Add("Legacy\\Parameters", EColumn.None, z => z.ParameterDescription);
+            ptr.Add("Comment", EColumn.None, z => z.Comment);
+            ptr.Add("Enabled", EColumn.None, z => z.Enabled);
+            ptr.Add("Default name", EColumn.None, z => z.DefaultDisplayName);
             ptr.Add("File", EColumn.None, z => z.FileName);
             ptr.Add("HasResults", EColumn.None, z => z.HasResults);
             ptr.AddSubObject(core, "Configuration", z => z.Configuration);

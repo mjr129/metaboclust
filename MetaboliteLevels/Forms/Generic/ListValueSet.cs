@@ -121,7 +121,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Test Results",
                 List = core.EvaluationResultFiles,
                 Namer = z => z.DisplayName,
-                Describer = z => z.ConfigurationDescription + "\r\n" + z.ParameterDescription + (z.FileName != null ? ("\r\n" + z.FileName) : ""),
+                Describer = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
                 IconProvider = _GetIcon,
                 ItemEditor = (x, y, z) => FrmEvaluateClusteringOptions.Show(x, core, y, z)
             };

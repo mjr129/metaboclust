@@ -6,6 +6,7 @@ using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Utilities;
+using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
@@ -13,7 +14,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// Configured clustering algorithm (see ConfigurationBase).
     /// </summary>
     [Serializable]
-    class ConfigurationClusterer : ConfigurationBase<ClustererBase, ArgsClusterer, ResultClusterer>
+    sealed class ConfigurationClusterer : ConfigurationBase<ClustererBase, ArgsClusterer, ResultClusterer>
     {
         public ConfigurationClusterer(string name, string comments, string clusterId, ArgsClusterer args)
             : base(name, comments, clusterId, args)
@@ -36,6 +37,21 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
             // Return results
             return results;
+        }
+
+        protected sealed override IEnumerable<Column> GetExtraColumns(Core core)
+        {
+            List<Column<ConfigurationClusterer>> columns = new List<Column<ConfigurationClusterer>>();
+
+            columns.AddSubObject(core, "Arguments\\Distance", z => z.Args.Distance);
+            columns.AddSubObject(core, "Arguments\\Observation filter", z => z.Args.ObsFilter);
+            columns.AddSubObject(core, "Arguments\\Peak pilter", z => z.Args.PeakFilter);
+            columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
+            columns.Add("Arguments\\Source mode", z => z.Args.SourceMode);
+            columns.Add("Arguments\\Split groups", z => z.Args.SplitGroups);
+            columns.Add("Arguments\\Statistics", z => z.Args.Statistics); 
+
+            return columns;
         }
     }
 }

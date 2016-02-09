@@ -61,7 +61,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         public ClusterEvaluationConfiguration(ConfigurationClusterer clustererConfiguration, int parameterIndex, object[] values, int numberOfRepeats)
         {
             // Make sure we have no results here, they will make the save massive and are never used!
-            UiControls.Assert(!ClustererConfiguration.HasResults, "Didn't expect any results in ClusterEvaluationConfiguration::ClustererConfiguration.");
+            UiControls.Assert(!clustererConfiguration.HasResults, "Didn't expect any results in ClusterEvaluationConfiguration::ClustererConfiguration.");
 
             this.ClustererConfiguration = clustererConfiguration;
             this.ParameterIndex = parameterIndex;
@@ -69,7 +69,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             this._guid = Guid.NewGuid();
             this.NumberOfRepeats = numberOfRepeats;
             this.ParameterName = clustererConfiguration.Cached.Parameters[ParameterIndex].Name;
-        }     
+        }
 
         /// <summary>
         /// OVERRIDES Object.
@@ -95,11 +95,13 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             List<Column<ClusterEvaluationConfiguration>> columns = new List<Column<ClusterEvaluationConfiguration>>();
 
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add("Parameters\\Name", EColumn.None, z => z.ParameterName);
-            columns.Add("Parameters\\Summary", EColumn.None, z => z.ParameterConfigAsString);
-            columns.Add("Parameters\\Index", EColumn.None, z => z.ParameterIndex);
-            columns.Add("Parameters\\Values", EColumn.None, z => ParameterValuesAsString);
-            columns.Add("NumberOfRepeats", EColumn.None, z => z.NumberOfRepeats);
+            columns.Add("Test parameter\\Name", EColumn.None, z => z.ParameterName);
+            columns.Add("Test parameter\\Summary", EColumn.None, z => z.ParameterConfigAsString);
+            columns.Add("Test parameter\\Index", EColumn.None, z => z.ParameterIndex);
+            columns.Add("Test parameter\\Test values", EColumn.None, z => z.ParameterValuesAsString);
+            columns.Add("Test parameter\\Number of test values", EColumn.None, z => z.ParameterValues.Length);
+            columns.Add("Test parameter\\Test value list", EColumn.None, z => z.ParameterValues);
+            columns.Add("Number of repeats", EColumn.None, z => z.NumberOfRepeats);
             columns.Add("GUID", EColumn.None, z => z.Guid.ToString());
             columns.AddSubObject(core, "Clusterer", z => z.ClustererConfiguration);
 
@@ -128,11 +130,11 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// The parameter values as a string.
         /// </summary>
-        public string[] ParameterValuesAsString
+        public string ParameterValuesAsString
         {
             get
             {
-                return ParameterValues.Select(AlgoParameterCollection.ParamToString).ToArray();
+                return StringHelper.ArrayToString(ParameterValues, AlgoParameterCollection.ParamToString, ", ");
             }
         }
 
@@ -210,6 +212,6 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             {
                 this.Name = value;
             }
-        }       
+        }
     }
 }

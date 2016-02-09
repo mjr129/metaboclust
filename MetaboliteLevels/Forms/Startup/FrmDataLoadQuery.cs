@@ -778,7 +778,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void exploreToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe", "\"" + UiControls.StartupPath + "\"");
+            UiControls.ExploreTo(this, UiControls.StartupPath);
         }
 
         private void clearRPathrequiresRestartToolStripMenuItem_Click(object sender, EventArgs e)

@@ -262,6 +262,12 @@ namespace MetaboliteLevels.Viewers.Lists
             self.Add(new Column<T>(name, special, null, provider, colour));
         }
 
+        public static void Add<T>(this List<Column<T>> self, string name, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null)
+          where T : class, IVisualisable
+        {
+            self.Add(new Column<T>(name, EColumn.None, null, provider, colour));
+        }
+
         public static void AddSubObject<T, U>(this List<Column<T>> self, Core core, string prefix, Converter<T, U> convertor)
             where T : class, IVisualisable
             where U : class, IVisualisable

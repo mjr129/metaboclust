@@ -30,11 +30,11 @@
         {
             this._lstParameters = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
             this._numNumTimes = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this._txtAlgorithm = new System.Windows.Forms.TextBox();
             this._btnSetAlgorithm = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._txtStatistics = new System.Windows.Forms.TextBox();
             this._btnStatistics = new System.Windows.Forms.Button();
@@ -45,22 +45,24 @@
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this._btnAddRepeats = new MetaboliteLevels.Controls.CtlButton();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this._btnAddRange = new MetaboliteLevels.Controls.CtlButton();
             this._numFrom = new System.Windows.Forms.NumericUpDown();
             this._numTo = new System.Windows.Forms.NumericUpDown();
             this._numStep = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this._txtValues = new System.Windows.Forms.TextBox();
-            this._btnAddRange = new MetaboliteLevels.Controls.CtlButton();
-            this._btnAddRepeats = new MetaboliteLevels.Controls.CtlButton();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this._numCount = new System.Windows.Forms.NumericUpDown();
             this._txtValue = new System.Windows.Forms.TextBox();
             this._btnClear = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this.label11 = new System.Windows.Forms.Label();
+            this._txtNumberOfValues = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._numNumTimes)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
@@ -83,7 +85,7 @@
             this._lstParameters.Name = "_lstParameters";
             this._lstParameters.Size = new System.Drawing.Size(956, 29);
             this._lstParameters.TabIndex = 0;
-            this._lstParameters.SelectedIndexChanged += new System.EventHandler(this._lstParameters_SelectedIndexChanged);
+            this._lstParameters.SelectedIndexChanged += new System.EventHandler(this._something_Changed);
             // 
             // tableLayoutPanel1
             // 
@@ -118,6 +120,16 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1004, 761);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(24, 189);
+            this.label2.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(374, 21);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Which values do you want to use? Enter one per line.";
+            // 
             // _numNumTimes
             // 
             this._numNumTimes.Dock = System.Windows.Forms.DockStyle.Top;
@@ -141,6 +153,7 @@
             0,
             0,
             0});
+            this._numNumTimes.ValueChanged += new System.EventHandler(this._something_Changed);
             // 
             // tableLayoutPanel4
             // 
@@ -181,16 +194,6 @@
             this._btnSetAlgorithm.UseVisualStyleBackColor = true;
             this._btnSetAlgorithm.Click += new System.EventHandler(this._btnSetAlgorithm_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 189);
-            this.label2.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(374, 21);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Which values do you want to use? Enter one per line.";
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.AutoSize = true;
@@ -218,7 +221,6 @@
             this._txtStatistics.ReadOnly = true;
             this._txtStatistics.Size = new System.Drawing.Size(918, 29);
             this._txtStatistics.TabIndex = 7;
-            this._txtStatistics.TextChanged += new System.EventHandler(this._txtStatistics_TextChanged);
             // 
             // _btnStatistics
             // 
@@ -229,7 +231,7 @@
             this._btnStatistics.Size = new System.Drawing.Size(30, 30);
             this._btnStatistics.TabIndex = 8;
             this._btnStatistics.UseVisualStyleBackColor = true;
-            this._btnStatistics.Click += new System.EventHandler(this._btnStatistics_Click);
+            this._btnStatistics.Click += new System.EventHandler(this._btnSetAlgorithm_Click);
             // 
             // label1
             // 
@@ -311,21 +313,6 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "Which algorithm do you want to use?";
             // 
-            // ctlTitleBar1
-            // 
-            this.ctlTitleBar1.AutoSize = true;
-            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
-            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
-            this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(1004, 66);
-            this.ctlTitleBar1.SubText = "";
-            this.ctlTitleBar1.TabIndex = 3;
-            this.ctlTitleBar1.Text = "Explore clustering parameters";
-            this.ctlTitleBar1.WarningText = null;
-            // 
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 4;
@@ -347,6 +334,8 @@
             this.tableLayoutPanel5.Controls.Add(this._numCount, 3, 4);
             this.tableLayoutPanel5.Controls.Add(this._txtValue, 3, 3);
             this.tableLayoutPanel5.Controls.Add(this._btnClear, 1, 5);
+            this.tableLayoutPanel5.Controls.Add(this.label11, 2, 5);
+            this.tableLayoutPanel5.Controls.Add(this._txtNumberOfValues, 3, 5);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 218);
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
@@ -362,26 +351,43 @@
             this.tableLayoutPanel5.Size = new System.Drawing.Size(1004, 322);
             this.tableLayoutPanel5.TabIndex = 6;
             // 
+            // _btnAddRepeats
+            // 
+            this._btnAddRepeats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._btnAddRepeats.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
+            this._btnAddRepeats.Location = new System.Drawing.Point(652, 143);
+            this._btnAddRepeats.Margin = new System.Windows.Forms.Padding(8);
+            this._btnAddRepeats.Name = "_btnAddRepeats";
+            this.tableLayoutPanel5.SetRowSpan(this._btnAddRepeats, 2);
+            this._btnAddRepeats.Size = new System.Drawing.Size(128, 74);
+            this._btnAddRepeats.TabIndex = 7;
+            this._btnAddRepeats.Text = "Repeats";
+            this._btnAddRepeats.UseDefaultSize = true;
+            this._btnAddRepeats.Click += new System.EventHandler(this._btnAddRepeats_Click);
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(800, 8);
+            this.label6.Location = new System.Drawing.Point(796, 8);
             this.label6.Margin = new System.Windows.Forms.Padding(8);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(47, 21);
             this.label6.TabIndex = 3;
             this.label6.Text = "From";
             // 
-            // label7
+            // _btnAddRange
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(800, 53);
-            this.label7.Margin = new System.Windows.Forms.Padding(8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(27, 21);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "To";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+            this._btnAddRange.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._btnAddRange.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
+            this._btnAddRange.Location = new System.Drawing.Point(652, 8);
+            this._btnAddRange.Margin = new System.Windows.Forms.Padding(8);
+            this._btnAddRange.Name = "_btnAddRange";
+            this.tableLayoutPanel5.SetRowSpan(this._btnAddRange, 3);
+            this._btnAddRange.Size = new System.Drawing.Size(128, 119);
+            this._btnAddRange.TabIndex = 1;
+            this._btnAddRange.Text = "Range";
+            this._btnAddRange.UseDefaultSize = true;
+            this._btnAddRange.Click += new System.EventHandler(this._btnAddRange_Click);
             // 
             // _numFrom
             // 
@@ -458,16 +464,25 @@
             0,
             0});
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(796, 53);
+            this.label7.Margin = new System.Windows.Forms.Padding(8);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(27, 21);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "To";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(800, 98);
+            this.label8.Location = new System.Drawing.Point(796, 98);
             this.label8.Margin = new System.Windows.Forms.Padding(8);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(41, 21);
             this.label8.TabIndex = 3;
             this.label8.Text = "Step";
-            this.label8.Click += new System.EventHandler(this.label7_Click);
             // 
             // _txtValues
             // 
@@ -477,41 +492,14 @@
             this._txtValues.Multiline = true;
             this._txtValues.Name = "_txtValues";
             this.tableLayoutPanel5.SetRowSpan(this._txtValues, 7);
-            this._txtValues.Size = new System.Drawing.Size(616, 306);
+            this._txtValues.Size = new System.Drawing.Size(612, 306);
             this._txtValues.TabIndex = 6;
-            // 
-            // _btnAddRange
-            // 
-            this._btnAddRange.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._btnAddRange.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
-            this._btnAddRange.Location = new System.Drawing.Point(656, 8);
-            this._btnAddRange.Margin = new System.Windows.Forms.Padding(8);
-            this._btnAddRange.Name = "_btnAddRange";
-            this.tableLayoutPanel5.SetRowSpan(this._btnAddRange, 3);
-            this._btnAddRange.Size = new System.Drawing.Size(128, 119);
-            this._btnAddRange.TabIndex = 1;
-            this._btnAddRange.Text = "Range";
-            this._btnAddRange.UseDefaultSize = true;
-            this._btnAddRange.Click += new System.EventHandler(this._btnAddRange_Click);
-            // 
-            // _btnAddRepeats
-            // 
-            this._btnAddRepeats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._btnAddRepeats.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
-            this._btnAddRepeats.Location = new System.Drawing.Point(656, 143);
-            this._btnAddRepeats.Margin = new System.Windows.Forms.Padding(8);
-            this._btnAddRepeats.Name = "_btnAddRepeats";
-            this.tableLayoutPanel5.SetRowSpan(this._btnAddRepeats, 2);
-            this._btnAddRepeats.Size = new System.Drawing.Size(128, 74);
-            this._btnAddRepeats.TabIndex = 7;
-            this._btnAddRepeats.Text = "Repeats";
-            this._btnAddRepeats.UseDefaultSize = true;
-            this._btnAddRepeats.Click += new System.EventHandler(this._btnAddRepeats_Click);
+            this._txtValues.TextChanged += new System.EventHandler(this._something_Changed);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(800, 143);
+            this.label9.Location = new System.Drawing.Point(796, 143);
             this.label9.Margin = new System.Windows.Forms.Padding(8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 21);
@@ -521,7 +509,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(800, 188);
+            this.label10.Location = new System.Drawing.Point(796, 188);
             this.label10.Margin = new System.Windows.Forms.Padding(8);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(52, 21);
@@ -568,7 +556,7 @@
             // 
             this._btnClear.Dock = System.Windows.Forms.DockStyle.Fill;
             this._btnClear.Image = global::MetaboliteLevels.Properties.Resources.MnuClear;
-            this._btnClear.Location = new System.Drawing.Point(656, 233);
+            this._btnClear.Location = new System.Drawing.Point(652, 233);
             this._btnClear.Margin = new System.Windows.Forms.Padding(8);
             this._btnClear.Name = "_btnClear";
             this._btnClear.Size = new System.Drawing.Size(128, 40);
@@ -576,6 +564,43 @@
             this._btnClear.Text = "Clear";
             this._btnClear.UseDefaultSize = true;
             this._btnClear.Click += new System.EventHandler(this._btnClear_Click);
+            // 
+            // ctlTitleBar1
+            // 
+            this.ctlTitleBar1.AutoSize = true;
+            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
+            this.ctlTitleBar1.Name = "ctlTitleBar1";
+            this.ctlTitleBar1.Size = new System.Drawing.Size(1004, 66);
+            this.ctlTitleBar1.SubText = "";
+            this.ctlTitleBar1.TabIndex = 3;
+            this.ctlTitleBar1.Text = "Explore clustering parameters";
+            this.ctlTitleBar1.WarningText = null;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(796, 233);
+            this.label11.Margin = new System.Windows.Forms.Padding(8);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(56, 21);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "Values";
+            // 
+            // _txtNumberOfValues
+            // 
+            this._txtNumberOfValues.Location = new System.Drawing.Point(868, 233);
+            this._txtNumberOfValues.Margin = new System.Windows.Forms.Padding(8);
+            this._txtNumberOfValues.MaximumSize = new System.Drawing.Size(128, 0);
+            this._txtNumberOfValues.MinimumSize = new System.Drawing.Size(128, 0);
+            this._txtNumberOfValues.Name = "_txtNumberOfValues";
+            this._txtNumberOfValues.ReadOnly = true;
+            this._txtNumberOfValues.Size = new System.Drawing.Size(128, 29);
+            this._txtNumberOfValues.TabIndex = 8;
+            this._txtNumberOfValues.Text = "?";
             // 
             // FrmEvaluateClusteringOptions
             // 
@@ -645,5 +670,7 @@
         private System.Windows.Forms.NumericUpDown _numCount;
         private System.Windows.Forms.TextBox _txtValue;
         private Controls.CtlButton _btnClear;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox _txtNumberOfValues;
     }
 }

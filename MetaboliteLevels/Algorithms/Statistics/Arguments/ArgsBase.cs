@@ -1,4 +1,5 @@
 ﻿using System;
+using MetaboliteLevels.Data.Visualisables;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {

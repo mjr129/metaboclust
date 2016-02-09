@@ -121,7 +121,7 @@ namespace MetaboliteLevels.Utilities
         private static void Tsl_Click(object sender, EventArgs e)
         {
             ToolStripLabel tsl = (ToolStripLabel)sender;
-            Process.Start("explorer.exe", "/select,\"" + (string)tsl.Tag + "\"");
+            ExploreTo(tsl.GetCurrentParent().FindForm(), (string)tsl.Tag);
         }
 
         /// <summary>
@@ -1136,7 +1136,7 @@ namespace MetaboliteLevels.Utilities
             double pct = (value - min) / (max - min);
 
             return Blend(Color.Green, Color.Red, pct);
-        }       
+        }
 
         /// <summary>
         /// 
@@ -1160,6 +1160,21 @@ namespace MetaboliteLevels.Utilities
                 }
 
                 return __startupPath;
+            }
+        }
+
+        /// <summary>
+        /// Opens the file browser with the specified file in focus.
+        /// </summary>                                              
+        internal static void ExploreTo(Form owner, string fileName)
+        {
+            try
+            {
+                Process.Start("explorer.exe", "/select,\"" + fileName + "\"");
+            }
+            catch (Exception ex)
+            {
+                FrmMsgBox.ShowError(owner, ex);
             }
         }
 
