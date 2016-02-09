@@ -35,12 +35,12 @@ namespace MetaboliteLevels.Data.Visualisables
         public decimal Mz;
 
         /// <summary>
-        /// User comments.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        /// User comments.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string OverrideDisplayName { get; set; }
 
@@ -55,11 +55,6 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly MetaInfoCollection MetaInfo = new MetaInfoCollection();
 
         /// <summary>
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
-
-        /// <summary>
         /// Constructor
         /// </summary>
         public Adduct(string name, int charge, decimal mz)
@@ -68,6 +63,12 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Charge = charge;
             this.Mz = mz;
         }
+
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Is this an empty adduct?
@@ -81,7 +82,7 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Default display name.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string DefaultDisplayName
         {
@@ -99,13 +100,13 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string DisplayName
         {
             get
             {
-                return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName);
             }
         }
 
@@ -115,18 +116,18 @@ namespace MetaboliteLevels.Data.Visualisables
         public static Adduct CreateEmpty()
         {
             return new Adduct(null, 0, 0);
-        }        
+        }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
-        public VisualClass VisualClass
+        VisualClass IVisualisable.VisualClass
         {
             get { return VisualClass.Adduct; }
         }
 
         /// <summary>
-        /// Debugging.
+        /// OVERRIDES Object
         /// </summary>
         public override string ToString()
         {
@@ -134,9 +135,9 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
-        public void RequestContents(ContentsRequest request)
+        void IVisualisable.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -169,7 +170,10 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
-        public IEnumerable<Column> GetColumns(Session.Core core)
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>              
+        IEnumerable<Column> IVisualisable.GetColumns(Session.Core core)
         {                                                
             List<Column<Adduct>> result = new List<Column<Adduct>>();
 
@@ -184,7 +188,10 @@ namespace MetaboliteLevels.Data.Visualisables
             return result;
         }
 
-        public UiControls.ImageListOrder GetIcon()
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>              
+        UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             // IMAGE
             return UiControls.ImageListOrder.Adduct;

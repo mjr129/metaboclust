@@ -30,46 +30,46 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 
         public override string ToString(AlgoBase algorithm)
         {
-            StringBuilder r = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
             if (Parameters != null)
             {
-                r.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm));
+                sb.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm));
             }
 
-            r.Append("; ");
+            sb.Append("; ");
 
             if (SourceMode != EAlgoSourceMode.Full)
             {
-                r.Append(" of ");
-                r.Append(SourceMode.ToUiString());
+                sb.Append(" of ");
+                sb.Append(SourceMode.ToUiString());
             }
 
             if (VectorAConstraint != null)
             {
-                r.Append(" for ");
-                r.Append(VectorAConstraint.ToString());
+                sb.Append(" for ");
+                sb.Append(VectorAConstraint.ToString());
             }
 
             if (VectorBSource != EAlgoInputBSource.None)
             {
-                r.Append(" against ");
+                sb.Append(" against ");
 
                 switch (VectorBSource)
                 {
                     case EAlgoInputBSource.SamePeak:
                         if (VectorBConstraint != null)
                         {
-                            r.Append(VectorBConstraint.ToString());
+                            sb.Append(VectorBConstraint.ToString());
                         }
                         break;
 
                     case EAlgoInputBSource.AltPeak:
-                        r.Append("peak " + VectorBPeak.DisplayName);
+                        sb.Append("peak " + VectorBPeak.DisplayName);
                         break;
 
                     case EAlgoInputBSource.Time:
-                        r.Append(VectorBSource.ToUiString());
+                        sb.Append(VectorBSource.ToUiString());
                         break;
 
                     default:
@@ -77,7 +77,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
                 }
             }
 
-            return r.ToString();
+            return sb.ToString();
         }
     }
 }

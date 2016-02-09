@@ -31,8 +31,7 @@ namespace MetaboliteLevels.Forms.Editing
         /// </summary>
         private abstract class BigListConfig
         {
-            public abstract ConfigInit Initialise();
-            public virtual string GetMissingName(object target) { return target.ToString(); }
+            public abstract ConfigInit Initialise();                                            
             public abstract IVisualisable EditObject(Form owner, IVisualisable target, bool read);
             public abstract void ApplyChanges(ProgressReporter info, List<IVisualisable> alist);
             public virtual bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return true; }
@@ -46,14 +45,12 @@ namespace MetaboliteLevels.Forms.Editing
         /// </summary>
         private abstract class BigListConfig<T> : BigListConfig
             where T : IVisualisable
-        {
-            protected virtual string GetMissingName(T target) { return target.ToString(); }
+        {                                                                                     
             protected abstract T EditObject(Form owner, T target, bool read);
             protected abstract void ApplyChanges(ProgressReporter info, List<T> alist);
             protected virtual bool PrepareForApply(Form form, List<T> arrayList, int numEnabled) { return true; }
             protected virtual EReplaceMode BeforeReplace(Form owner, T remove, T create) { return EReplaceMode.Default; }
-
-            public sealed override string GetMissingName(object target) { return GetMissingName((T)target); }
+                                                                                                               
             public sealed override IVisualisable EditObject(Form owner, IVisualisable target, bool read) { return EditObject(owner, (T)target, read); }
             public sealed override bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return PrepareForApply(form, arrayList.Cast<T>().ToList(), numEnabled); }
             public sealed override void ApplyChanges(ProgressReporter info, List<IVisualisable> alist) { ApplyChanges(info, alist.Cast<T>().ToList()); }
@@ -454,12 +451,7 @@ namespace MetaboliteLevels.Forms.Editing
                     default:
                         throw new SwitchException(_mode);
                 }
-            }
-
-            protected override string GetMissingName(ConfigurationBase v)
-            {
-                return v.AlgoName + " " + v.ArgsToString;
-            }
+            }          
 
             protected override ConfigurationBase EditObject(Form owner, ConfigurationBase o, bool read)
             {

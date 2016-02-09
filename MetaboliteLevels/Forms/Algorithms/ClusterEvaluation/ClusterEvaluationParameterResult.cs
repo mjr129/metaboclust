@@ -21,49 +21,45 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     [Serializable]
     class ClusterEvaluationParameterResult : IVisualisable
     {
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         public string OverrideDisplayName { get; set; }
 
-        public string Comments { get; set; }
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
+        public string Comment { get; set; }
 
         /// <summary>
-        /// Not used (meaningless).
+        /// IMPLEMENTS: IVisualisable
+        /// Not used - meaningless.
         /// </summary>
         bool ITitlable.Enabled { get { return true; } set { } }
 
+        /// <summary>
+        /// Conifguration these results were sourced from
+        /// </summary>
         public ClusterEvaluationConfiguration Owner;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int ValueIndex;
 
-        public List<ResultClusterer> Repetitions;
+        /// <summary>
+        /// Results of each parameter manipulation
+        /// </summary>
+        public List<ResultClusterer> Repetitions;     
 
-        public string DefaultDisplayName
-        {
-            get
-            {
-                return _defaultName;
-            }
-        }
+        /// <summary>
+        /// Name of this result set
+        /// </summary>
+        private readonly string _defaultName;            
 
-        private readonly string _defaultName;
-
-        public override string ToString()
-        {
-            return DisplayName;
-        }
-
-        public object Values
-        {
-            get
-            {
-                if (Owner.ParameterValues == null)
-                {
-                    return "?"; // TODO
-                }
-
-                return Owner.ParameterValues[ValueIndex];
-            }
-        }
-
+        /// <summary>
+        /// CONSTRUCTOR
+        /// </summary>   
         public ClusterEvaluationParameterResult(string name, ClusterEvaluationConfiguration owner, int valueIndex, List<ResultClusterer> results)
         {
             _defaultName = name;
@@ -72,28 +68,52 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             Repetitions = results;
         }
 
+        /// <summary>
+        /// OVERRIDES Object
+        /// </summary>                    
+        public override string ToString()
+        {
+            return DisplayName;
+        }
+
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
+        public string DefaultDisplayName
+        {
+            get
+            {
+                return _defaultName;
+            }
+        }
+
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         public string DisplayName
         {
-            get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
+            get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName); }
         }
 
-        public Image REMOVE_THIS_FUNCTION
-        {
-            get { return Resources.ObjPoint; }
-        }
-
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
-            return UiControls.ImageListOrder.Point;
+            return UiControls.ImageListOrder.TestFull;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         VisualClass IVisualisable.VisualClass
         {
             get { return VisualClass.None; }
         }
 
-        public string Comment { get; set; } 
-
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             List<Column<ClusterEvaluationParameterResult>> res = new List<Column<ClusterEvaluationParameterResult>>();
@@ -128,6 +148,9 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             return res;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         void IVisualisable.RequestContents(ContentsRequest list)
         {
             // NA

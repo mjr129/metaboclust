@@ -57,11 +57,11 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 string colFolder = "*" + _sourceOption2.Owner.VisualClass.ToUiString();
 
-                for (int n = 0; n < _sourceOption2.Headers.Count; n++)
+                for (int n = 0; n < _sourceOption2.ExtraColumns.Count; n++)
                 {
-                    var h = _sourceOption2.Headers[n];
+                    var h = _sourceOption2.ExtraColumns[n];
                     int closure = n;
-                    string description = string.Format(h.Description, _sourceOption2.Owner.GetDisplayName());
+                    string description = string.Format(h.Description, _sourceOption2.Owner.SafeGetDisplayName());
                     var col = new Column<IVisualisable>(colFolder + "\\" + h.Name, EColumn.Visible, description, λ => GetDiversionColumnContent(λ, closure));
                     availableColumns.Add(col);
                 }

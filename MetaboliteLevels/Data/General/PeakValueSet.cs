@@ -60,22 +60,7 @@ namespace MetaboliteLevels.Data.General
             : this(core.Observations, core.Conditions, core.Groups, raw, avgSmoother, core.MinSmoother, core.MaxSmoother)
         {
             // NA
-        }
-
-        /// <summary>
-        /// Recalculates values and returns new result
-        /// </summary>
-        public PeakValueSet(Core core, PeakValueSet raw, double[] newAvg)
-        {
-            Debug.Assert(newAvg.Length == raw.Trend.Length);
-
-            this.Trend = newAvg;
-            this.Max = raw.Trend;
-            this.Mean = raw.Trend;
-            this.Min = raw.Trend;
-            this.Raw = raw.Trend;
-            this.StdDev = raw.Trend;
-        }
+        }   
 
         /// <summary>
         /// Recalculates values and returns new result

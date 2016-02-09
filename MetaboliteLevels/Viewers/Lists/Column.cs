@@ -27,7 +27,8 @@ namespace MetaboliteLevels.Viewers.Lists
         Smart = 0,
         Count = 1,
         Content = 2,
-        [Name("Count and content")] CountAndContent = 3,
+        [Name("Count and content")]
+        CountAndContent = 3,
     }
 
     abstract class Column
@@ -250,12 +251,7 @@ namespace MetaboliteLevels.Viewers.Lists
             where U : class, IVisualisable
         {
             return ((U)(FormatterServices.GetUninitializedObject(typeof(U)))).GetColumns(core);
-        }
-
-        internal static IEnumerable<Column> GetColumns(Core core, Type type)
-        {
-            return ((IVisualisable)(FormatterServices.GetUninitializedObject(type))).GetColumns(core);
-        }
+        }     
     }
 
     static class ColumnExtensions
@@ -274,7 +270,21 @@ namespace MetaboliteLevels.Viewers.Lists
 
             foreach (Column column in ColumnManager.GetColumns<U>(core))
             {
-                self.Add(new Column<T>(prefix + "\\" + column.Id, EColumn.None, column.Description, z => column.GetRow(convertor(z)), z => column.GetColour(convertor(z))));
+                self.Add(new Column<T>(
+                            prefix + "\\" + column.Id,
+                            EColumn.None,
+                            column.Description,
+                            z =>
+                            {
+                                var x = convertor(z);
+                                return x != null ? column.GetRow(x) : null;
+                            },
+                            z =>
+                            {
+                                var x = convertor(z);
+                                return x != null ? column.GetColour(x) : Color.Black;
+                            }
+                    ));
             }
         }
     }

@@ -20,16 +20,7 @@ namespace MetaboliteLevels.DataLoader
             Double,
             Integer,
             String,
-        }
-
-        public Matrix(string title, int rows, int cols)
-        {
-            SetType();
-            Title = title;
-            RowNames = new string[rows];
-            ColNames = new string[cols];
-            Data = new T[rows, cols];
-        }
+        }       
 
         private void SetType()
         {
@@ -289,31 +280,7 @@ namespace MetaboliteLevels.DataLoader
             {
                 throw new FormatException(message);
             }
-        }
-
-        public T[] ExtractRow(int row)
-        {
-            T[] target = new T[NumCols];
-
-            for (int col = 0; col < NumCols; col++)
-            {
-                target[col] = Data[row, col];
-            }
-
-            return target;
-        }
-
-        public T[] ExtractColumn(int col)
-        {
-            T[] target = new T[NumRows];
-
-            for (int row = 0; row < NumRows; row++)
-            {
-                target[row] = Data[row, col];
-            }
-
-            return target;
-        }    
+        }      
 
         internal void WriteMeta(int row, MetaInfoCollection collection, MetaInfoHeader headers)
         {

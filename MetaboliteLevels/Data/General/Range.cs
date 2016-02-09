@@ -75,22 +75,7 @@ namespace MetaboliteLevels.Data.General
         public override string ToString()
         {
             return Min + " → " + Max;
-        }
-
-        internal static bool TryParse(string minText, string maxText, out Range result)
-        {
-            int min;
-            int max;
-
-            if (int.TryParse(minText, out min) && int.TryParse(maxText, out max))
-            {
-                result = new Range(min, max);
-                return true;
-            }
-
-            result = Range.MaxValue;
-            return false;
-        }
+        }        
 
         public IEnumerator<int> GetEnumerator()
         {

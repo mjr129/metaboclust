@@ -15,10 +15,24 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     [Serializable]
     class ClusterEvaluationResults
     {
+        /// <summary>
+        /// GUID of the core used to create these results
+        /// </summary>
         public readonly Guid CoreGuid;
+
+        /// <summary>
+        /// The test configuration
+        /// </summary>
         public readonly ClusterEvaluationConfiguration Configuration;
+
+        /// <summary>
+        /// The list of results
+        /// </summary>
         public readonly List<ClusterEvaluationParameterResult> Results;
 
+        /// <summary>
+        /// CONSTRUCTOR
+        /// </summary> 
         public ClusterEvaluationResults(Core core, ClusterEvaluationConfiguration Configuration, List<ClusterEvaluationParameterResult> Results)
         {
             this.CoreGuid = core.CoreGuid;
@@ -26,6 +40,9 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             this.Results = Results;
         }
 
+        /// <summary>
+        /// OVERRIDES Object
+        /// </summary>         
         public override string ToString()
         {
             return Configuration.ToString();

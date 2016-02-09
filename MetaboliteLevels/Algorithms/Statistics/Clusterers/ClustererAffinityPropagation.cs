@@ -175,12 +175,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 
             for (int pInd = 0; pInd < vm.NumVectors; pInd++)
             {
-                var vec = vm.Vectors[pInd];
+                Vector vec = vm.Vectors[pInd];
                 int exe = exemplars[pInd];
-                var vecx = vm.Vectors[exe];
+                Vector vecx = vm.Vectors[exe];
                 double score = scores[pInd]; // HIGHER is better
 
-                var clu = dict.GetOrCreate(exe, x => new Cluster(vecx.Peak.DisplayName, tag));
+                Cluster clu = dict.GetOrCreate(exe, x => new Cluster(vecx.Peak.DisplayName, tag));
 
                 clu.Assignments.Add(new Assignment(vec, clu, score));
             }

@@ -30,12 +30,7 @@ namespace MetaboliteLevels.Algorithms
             Observations = observations;
             Values = values;
             Index = index;
-        }
-
-        internal bool DiffGroups(Vector vector)
-        {
-            return Conditions != vector.Conditions || Observations != vector.Observations;
-        }
+        }     
 
         public override string ToString()
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;                                    
+using System.Text;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
@@ -75,6 +75,9 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly List<CompoundLibrary> Libraries = new List<CompoundLibrary>();
 
+        /// <summary>
+        /// CONSTRUCTOR
+        /// </summary> 
         public Compound(CompoundLibrary tag, string name, string id, decimal mz)
         {
             if (tag != null)
@@ -87,6 +90,9 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Mass = mz;
         }
 
+        /// <summary>
+        /// Helper function to replace old-style HTML symbols with unicode equivalent.
+        /// </summary>                     
         private static string RemoveHtml(string name)
         {
             name = name.Replace("&alpha;", "α");
@@ -121,10 +127,16 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
+        /// <summary>
+        /// Creates a StylisedCluster for plotting from this cluster.
+        /// </summary>
+        /// <param name="core">Core</param>
+        /// <param name="highlight">What to highlight in the result</param>
+        /// <returns>A StylisedCluster</returns>
         internal StylisedCluster CreateStylisedCluster(Core core, IVisualisable highlight)
         {
             Cluster fakeCluster = new Cluster(this.DefaultDisplayName, null);
-            var colourInfo = new Dictionary<Peak, LineInfo>();
+            Dictionary<Peak, LineInfo> colourInfo = new Dictionary<Peak, LineInfo>();
             string caption = "Plot of peaks potentially representing {0}.";
 
             // Compound --> Peaks in compound
@@ -158,7 +170,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             for (int index = 0; index < vm.NumVectors; index++)
             {
-                var vec = vm.Vectors[index];
+                Vector vec = vm.Vectors[index];
                 Peak peak = vec.Peak;
 
                 fakeCluster.Assignments.Add(new Assignment(vec, fakeCluster, double.NaN));
@@ -186,7 +198,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 colourInfo.Add(peak, new LineInfo(peak.DisplayName + ": " + sb.ToString(), Color.Black, DashStyle.Solid));
             }
 
-            var r = new StylisedCluster(fakeCluster, this, colourInfo);
+            StylisedCluster r = new StylisedCluster(fakeCluster, this, colourInfo);
             r.IsFake = true;
             r.CaptionFormat = caption;
             r.Source = highlight;
@@ -195,31 +207,23 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Inherited from IVisualisable. 
+        /// IMPELEMENTS IVisualisable
         /// </summary>
         public string DisplayName
         {
-            get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
+            get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName); }
         }
 
         /// <summary>
-        /// Inherited from IVisualisable. 
+        /// IMPELEMENTS IVisualisable
         /// </summary>
-        public Image REMOVE_THIS_FUNCTION
-        {
-            get { return Annotations.Count == 0 ? Resources.ObjLCompoundU : Resources.ObjLCompound; }
-        }          
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public VisualClass VisualClass
+        VisualClass IVisualisable.VisualClass
         {
             get { return VisualClass.Compound; }
         }
 
         /// <summary>
-        /// Debugging.
+        /// OVERRIDES Object
         /// </summary>
         public override string ToString()
         {
@@ -227,9 +231,9 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPELEMENTS IVisualisable
         /// </summary>
-        public void RequestContents(ContentsRequest request)
+        void IVisualisable.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -244,11 +248,11 @@ namespace MetaboliteLevels.Data.Visualisables
 
                 case VisualClass.Cluster:
                     request.Text = "Clusters representing potential peaks of {0}";
-                    request.AddHeader("Num. in compound", "Number of peaks in {0} in this cluster");
+                    request.AddExtraColumn("Num. in compound", "Number of peaks in {0} in this cluster");
 
                     Counter<Cluster> counts = new Counter<Cluster>();
 
-                    foreach (var p in Annotations)
+                    foreach (Annotation p in Annotations)
                     {
                         foreach (Cluster pat in p.Peak.Assignments.Clusters)
                         {
@@ -281,17 +285,23 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
+        /// <summary>
+        /// Gets the URL (used to "view online")
+        /// </summary>
         public string Url
         {
-            get
+            get // TODO: FIX THIS! It shouldn't reference MedicCyc!
             {
                 return "http://mediccyc.noble.org/MEDIC/new-image?type=COMPOUND&object=" + Id;
             }
         }
 
+        /// <summary>
+        /// IMPELEMENTS IVisualisable
+        /// </summary>               
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
-        {                      
-            var columns = new List<Column<Compound>>();
+        {
+            List<Column<Compound>> columns = new List<Column<Compound>>();
 
             columns.Add("Name", EColumn.Visible, λ => λ.DefaultDisplayName);
             columns.Add("Comment", EColumn.Visible, λ => λ.Comment);
@@ -309,7 +319,10 @@ namespace MetaboliteLevels.Data.Visualisables
             return columns;
         }
 
-        public UiControls.ImageListOrder GetIcon()
+        /// <summary>
+        /// IMPELEMENTS IVisualisable
+        /// </summary>               
+        UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             // IMAGE
             if (this.Annotations.Count == 0)

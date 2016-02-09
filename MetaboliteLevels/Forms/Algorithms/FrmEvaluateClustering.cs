@@ -92,9 +92,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         class ColumnWrapper : IVisualisable
         {
-            public string OverrideDisplayName { get; set; }
-
-            public string Comments { get; set; }
+            public string OverrideDisplayName { get; set; }   
 
             private readonly ClusterEvaluationResults Results;
             public readonly Column<ClusterEvaluationParameterResult> Column;
@@ -111,7 +109,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             public string DisplayName
             {
-                get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, Column.Id); }
+                get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, Column.Id); }
             }
 
             UiControls.ImageListOrder IVisualisable.GetIcon()
@@ -242,7 +240,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         void EndWait(TableLayoutPanel label)
         {
-            label.BackColor = Color.CornflowerBlue;
+            label.BackColor = BackColor;
             label.Refresh();
         }
 

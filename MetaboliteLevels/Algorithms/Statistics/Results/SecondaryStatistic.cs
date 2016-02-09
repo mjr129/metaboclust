@@ -72,35 +72,7 @@ namespace MetaboliteLevels.Data.General
             }
 
             return result.Average();
-        }
-
-        public static double CalculateAverageScore(IEnumerable<Assignment> assignments)
-        {
-            return assignments.Average(z => z.Score);
-        }
-
-        public static double CalculateAverageScore(Cluster cluster)
-        {
-            return cluster.Assignments.List.Average(z => z.Score);
-        }
-
-        public static double CalculateAverageEuclideanDistance(Cluster cluster)
-        {
-            return CalculateAverageEuclideanDistance(cluster, cluster.Assignments.List);
-        }
-
-        public static double CalculateAverageEuclideanDistance(Cluster cluster, IEnumerable<Assignment> assignments)
-        {
-            var centre = cluster.GetCentre(ECentreMode.Average, ECandidateMode.Assignments);
-            double[] centreVector = centre.Count != 0 ? centre[0] : null;
-
-            if (centreVector != null)
-            {
-                return assignments.Average(z => Maths.Euclidean(centreVector, z.Vector.Values));
-            }
-
-            return double.NaN;
-        }
+        }        
 
         /// <summary>
         /// Calculates the highest number of peaks in this cluster seen in a single pathway.

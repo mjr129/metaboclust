@@ -9,6 +9,9 @@ using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
+    /// <summary>
+    /// Stuff the user can add comments to and change the name of.
+    /// </summary>
     interface ITitlable
     {
         /// <summary>
@@ -44,12 +47,12 @@ namespace MetaboliteLevels.Data.Visualisables
     interface IVisualisable : ITitlable
     {
         /// <summary>
-        /// Icon for this item (as an index - see [UiControls]).
+        /// Icon for this item (as an index).
         /// </summary>
         UiControls.ImageListOrder GetIcon();
 
         /// <summary>
-        /// VisualClass of IVisualisable.
+        /// VisualClass of IVisualisable
         /// </summary>
         VisualClass VisualClass { get; }
 
@@ -81,11 +84,13 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     static class IVisualisableExtensions
     {
-        // Can be used with QueryProperty to force search for specifics.
+        /// <summary>
+        /// Can be used with QueryProperty to search for internal properties.
+        /// </summary>
         public const string SYMBOL_PROPERTY = "prop:";
 
         /// <summary>
-        /// Retrieves a request for contents with the specified parameters.
+        /// (EXTENSION) (MJR) Retrieves a request for contents with the specified parameters.
         /// </summary>
         public static ContentsRequest GetContents(this IVisualisable self, Core core, VisualClass type)
         {
@@ -97,17 +102,17 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Gets the display name.
         /// </summary>    
-        internal static string GetDisplayName(string userTitle, string defaultName)
+        internal static string FormatDisplayName(string userTitle, string defaultName)
         {
             return string.IsNullOrEmpty(userTitle) ? defaultName : userTitle;
         }
 
         /// <summary>
-        /// Gets the display name, or "nothing" if null.
+        /// (EXTENSION) (MJR) Gets the display name, or "nothing" if null.
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string GetDisplayName(this IVisualisable self)
+        public static string SafeGetDisplayName(this IVisualisable self)
         {
             if (self == null)
             {
@@ -117,6 +122,9 @@ namespace MetaboliteLevels.Data.Visualisables
             return self.DisplayName;
         }
 
+        /// <summary>
+        /// (EXTENSION) (MJR) Gets a list of valid values to pass to [QueryProperty::property]
+        /// </summary>                     
         public static List<string> QueryProperties(this IVisualisable self, Core core)
         {
             List<string> result = new List<string>();
@@ -125,7 +133,7 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Gets the property.
+        /// (EXTENSION) (MJR) Gets field called [property] from the [self]'s available columns..
         /// </summary>
         public static object QueryProperty(this IVisualisable self, string property, Core core)
         {
@@ -150,7 +158,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     return p.GetValue(self);
                 }
 
-                var f = self.GetType().GetField(property);
+                FieldInfo f = self.GetType().GetField(property);
 
                 if (f != null)
                 {
@@ -207,8 +215,11 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Response - titles of OPTIONAL EXTRA COLUMNS 
         /// </summary>
-        private readonly List<Header> _headers = new List<Header>();
+        private readonly List<ExtraColumn> _headers = new List<ExtraColumn>();
 
+        /// <summary>
+        /// CONSTRUCTOR
+        /// </summary> 
         public ContentsRequest(Core core, IVisualisable owner, VisualClass type)
         {
             this.Core = core;
@@ -216,21 +227,33 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Type = type;
         }
 
-        public void AddHeader(string header, string description)
+        /// <summary>
+        /// Adds an extra column header - pass the actual values to [Add::extraColumnData].
+        /// </summary>           
+        public void AddExtraColumn(string header, string description)
         {
-            _headers.Add(new Header(header, description));
+            _headers.Add(new ExtraColumn(header, description));
         }
 
-        public void Add(IVisualisable item, params object[] meta)
+        /// <summary>
+        /// Adds an [item], additional columns should be passed in the [extraColumnData].
+        /// </summary>   
+        public void Add(IVisualisable item, params object[] extraColumnData)
         {
-            Contents[item] = meta;
+            Contents[item] = extraColumnData;
         }
 
+        /// <summary>
+        /// Returns the column items.
+        /// </summary>
         public IEnumerable<IVisualisable> Keys
         {
             get { return Contents.Keys; }
         }
 
+        /// <summary>
+        /// Adds a range of items (this can't be done if there are unique columns).
+        /// </summary>                                                             
         public void AddRange(IEnumerable<IVisualisable> items)
         {
             if (items != null)
@@ -242,7 +265,10 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
-        internal IList<Header> Headers
+        /// <summary>
+        /// Gets the list of extra columns.
+        /// </summary>
+        internal IList<ExtraColumn> ExtraColumns
         {
             get
             {
@@ -250,6 +276,9 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
+        /// <summary>
+        /// Adds a range of items, with their counts in the first extra column (there must just be one extra column).
+        /// </summary>                                                  
         internal void AddRangeWithCounts<T>(Counter<T> counts)
             where T : IVisualisable
         {
@@ -259,35 +288,31 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
-        public class Header
+        /// <summary>
+        /// Columns (returned in <see cref="ContentsRequest"/>) in addition to those normally on the items.
+        /// </summary>
+        public class ExtraColumn
         {
+            /// <summary>
+            /// Column name
+            /// </summary>
             public readonly string Name;
+
+            /// <summary>
+            /// Column description
+            /// </summary>
             public readonly string Description;
 
-            public Header(string header, string description)
+            /// <summary>
+            /// CONSTRUCTOR
+            /// </summary> 
+            public ExtraColumn(string header, string description)
             {
                 this.Name = header;
                 this.Description = description;
             }
         }
-    }
-
-    /// <summary>
-    /// Field-value tuple.
-    /// </summary>
-    public class InfoLine
-    {
-        public string Field;
-        public object Value;
-        public bool IsMeta;
-
-        public InfoLine(string p1, object p2, bool isMeta = false)
-        {
-            this.Field = p1;
-            this.Value = p2;
-            this.IsMeta = isMeta;
-        }
-    }
+    }           
 
     /// <summary>
     /// Types of IVisualisable.

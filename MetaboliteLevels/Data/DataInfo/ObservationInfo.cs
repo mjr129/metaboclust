@@ -65,7 +65,7 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             get
             {
-                return IVisualisableExtensions.GetDisplayName(DefaultDisplayName, OverrideDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(DefaultDisplayName, OverrideDisplayName);
             }
         }
 
@@ -93,19 +93,7 @@ namespace MetaboliteLevels.Data.DataInfo
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public bool Enabled { get; set; }
-
-        public static int TimeRepOrder(ObservationInfo a, ObservationInfo b)
-        {
-            int i = a.Time.CompareTo(b.Time);
-
-            if (i != 0)
-            {
-                return i;
-            }
-
-            return a.Rep.CompareTo(b.Rep);
-        }
+        public bool Enabled { get; set; } 
 
         public static int GroupTimeReplicateOrder(ObservationInfo a, ObservationInfo b)
         {

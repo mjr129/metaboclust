@@ -89,7 +89,7 @@ namespace MetaboliteLevels.Controls
                         t.Clear();
 
                         IVisualisable it = (p != null && p.Length > i) ? p[i] : null;
-                        string txt = it.GetDisplayName();
+                        string txt = it.SafeGetDisplayName();
                         _label.Links.Add(r.Length, txt.Length, it);
                         r.Append(txt);
                     }

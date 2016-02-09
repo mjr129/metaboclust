@@ -33,7 +33,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
 
             for (int index = 0; index < vmatrix.NumVectors; index++)
             {
-                var vec = vmatrix.Vectors[index];
+                Vector vec = vmatrix.Vectors[index];
                 Peak peak = vec.Peak;
                 prog.SetProgress(index, vmatrix.NumVectors);
 

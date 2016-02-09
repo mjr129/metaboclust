@@ -265,6 +265,7 @@ namespace MetaboliteLevels.Utilities
 #endif
         }
 
+#if ENABLE_DIMMER
         /// <summary>
         /// Creates the overlay that dims a form.
         /// </summary>  
@@ -287,6 +288,7 @@ namespace MetaboliteLevels.Utilities
 
             return dimmer;
         }
+#endif
 
         /// <summary>
         /// Makes the form read-only by disabling text-boxes, etc.
@@ -1134,19 +1136,7 @@ namespace MetaboliteLevels.Utilities
             double pct = (value - min) / (max - min);
 
             return Blend(Color.Green, Color.Red, pct);
-        }
-
-        internal static Guid[] GenerateGuids(int length)
-        {
-            Guid[] result = new Guid[length];
-
-            for (int n = 0; n < length; n++)
-            {
-                result[n] = Guid.NewGuid();
-            }
-
-            return result;
-        }
+        }       
 
         /// <summary>
         /// 

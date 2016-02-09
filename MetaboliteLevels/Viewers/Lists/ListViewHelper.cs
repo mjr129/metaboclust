@@ -727,12 +727,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
             tsmi2.Checked = !tsmi2.Checked;
             EnablePreviews = tsmi2.Checked;
-        }
-
-        protected void SetFont()
-        {
-            _listView.Font = _enablePreviews ? FontHelper.LargeRegularFont : FontHelper.RegularFont;
-        }
+        }     
 
         protected void ClearPreviewList()
         {
@@ -1023,14 +1018,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 lvsi.ForeColor = lvsi.BackColor;
                 lvsi.BackColor = x;
             }
-        }
-
-        protected static void SetItem(ListViewItem lvi, int col, string text, Color back, Color fore)
-        {
-            lvi.SubItems[col].Text = text;
-            lvi.SubItems[col].ForeColor = back;
-            lvi.SubItems[col].BackColor = fore;
-        }
+        }       
 
         public bool Visible
         {

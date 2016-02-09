@@ -60,7 +60,7 @@ namespace MetaboliteLevels.Settings
         {
             get
             {
-                return IVisualisableExtensions.GetDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
             }
         }
 
@@ -259,7 +259,7 @@ namespace MetaboliteLevels.Settings
             {
                 get
                 {
-                    return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
+                    return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName);
                 }
             }
 

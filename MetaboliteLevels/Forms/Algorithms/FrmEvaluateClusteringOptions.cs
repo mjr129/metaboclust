@@ -174,7 +174,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             UiControls.CompensateForVisualStyles(this);
 
             if (readOnly)
-            {   
+            {
                 UiControls.MakeReadOnly(this);
             }
         }
@@ -182,34 +182,6 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void _lstParameters_SelectedIndexChanged(object sender, EventArgs e)
         {
             _btnOk.Enabled = GetSelection() != null;
-        }
-
-        private void _btnCreateRange_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            string format = FrmInput.Show(this, Text, "Create range", "Enter range of the format min:max:step", "2:100:1");
-
-            if (format != null)
-            {
-                try
-                {
-                    int[] elems = StringHelper.StringToArray(format, int.Parse, ":");
-                    int step = elems.Length >= 2 ? elems[2] : 1;
-
-                    StringBuilder sb = new StringBuilder();
-                    for (int x = elems[0]; x <= elems[1]; x += step)
-                    {
-                        sb.AppendLine(x.ToString());
-                    }
-
-                    _txtValues.Text = sb.ToString();
-                }
-                catch (Exception ex)
-                {
-                    FrmMsgBox.ShowError(this, ex);
-                    _txtValues.Text = string.Empty;
-                }
-            }
-
         }
 
         private void _btnSetAlgorithm_Click(object sender, EventArgs e)
@@ -230,6 +202,40 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void _txtStatistics_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void _btnAddRange_Click(object sender, EventArgs e)
+        {                                  
+            StringBuilder sb = new StringBuilder();
+
+            for (decimal x = _numFrom.Value; x <= _numTo.Value; x += _numStep.Value)
+            {
+                sb.AppendLine(x.ToString());
+            }
+
+            _txtValues.Text = sb.ToString();
+        }
+
+        private void _btnAddRepeats_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int x = 0; x <= _numCount.Value; ++x)
+            {
+                sb.AppendLine(_txtValue.Text);
+            }
+
+            _txtValues.Text = sb.ToString();
+        }
+
+        private void _btnClear_Click(object sender, EventArgs e)
+        {
+            _txtValues.Text = string.Empty;
         }
     }
 }

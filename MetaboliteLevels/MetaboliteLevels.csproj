@@ -244,9 +244,7 @@
     <Compile Include="Forms\Startup\FrmSetWorkspace.Designer.cs">
       <DependentUpon>FrmSetWorkspace.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\DefaultValueBag.cs" />
     <Compile Include="Utilities\ArrayHelper.cs" />
-    <Compile Include="Utilities\BiDictionary.cs" />
     <Compile Include="Utilities\ComparisonComparer.cs" />
     <Compile Include="Utilities\ConstAttribute.cs" />
     <Compile Include="Utilities\Counter.cs" />

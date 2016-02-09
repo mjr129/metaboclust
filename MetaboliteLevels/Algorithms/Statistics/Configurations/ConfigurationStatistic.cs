@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return Cached.Calculate(new InputStatistic(core, a, a, Args));
         }
 
-        internal double Calculate(Core core, Peak a, Peak b)
+        internal double Calculate(Core core, Peak a, Peak b) // TODO: What is this for?!
         {
             return Cached.Calculate(new InputStatistic(core, a, b, Args));
         }

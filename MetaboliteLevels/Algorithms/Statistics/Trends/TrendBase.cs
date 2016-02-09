@@ -48,13 +48,13 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
             foreach (GroupInfo g in groups)
             {
                 // Get indices for this TYPE
-                var xI = inputOrder.Which(z => z.Group == g);
-                var xOutI = outputOrder.Which(z => z.Group == g);
+                IEnumerable<int> xI = inputOrder.Which(z => z.Group == g);
+                IEnumerable<int> xOutI = outputOrder.Which(z => z.Group == g);
 
                 // Get obs/cond/values for this TYPE
-                var x = inputOrder.In(xI).Select(z => z.Time);
-                var xOut = outputOrder.In(xOutI).Select(z => z.Time);
-                var y = raw.In(xI);
+                IEnumerable<int> x = inputOrder.In(xI).Select(z => z.Time);
+                IEnumerable<int> xOut = outputOrder.In(xOutI).Select(z => z.Time);
+                IEnumerable<double> y = raw.In(xI);
 
                 // Smooth this line
                 double[] yOut = Smooth(y, x, xOut, args);
@@ -81,16 +81,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         {
             double[] r = new double[outputOrder.Count];
 
-            foreach (var b in batches)
+            foreach (BatchInfo b in batches)
             {
                 // Get indices for this BATCH
-                var xI = inputOrder.Which(z => z.Batch == b);
-                var xOutI = outputOrder.Which(z => z.Batch == b);
+                IEnumerable<int> xI = inputOrder.Which(z => z.Batch == b);
+                IEnumerable<int> xOutI = outputOrder.Which(z => z.Batch == b);
 
                 // Get obs/cond/values for this BATCH
-                var x = inputOrder.In(xI).Select(z => z.Acquisition);
-                var xOut = outputOrder.In(xOutI).Select(z => z.Acquisition);
-                var y = raw.In(xI);
+                IEnumerable<int> x = inputOrder.In(xI).Select(z => z.Acquisition);
+                IEnumerable<int> xOut = outputOrder.In(xOutI).Select(z => z.Acquisition);
+                IEnumerable<double> y = raw.In(xI);
 
                 // Smooth this line
                 double[] yOut = Smooth(y, x, xOut, args);
@@ -105,6 +105,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         /// <summary>
         /// Smooths data by TGroup with specified x
         /// </summary>
+        // TODO: Is this ever needed?!
         protected double[] GenericSmooth<TIn, TOut, TGroup>(TIn[] inputOrder, TOut[] outputOrder, IEnumerable<TGroup> batches, double[] raw, object[] args, Converter<TIn, TGroup> getGroupIn, Converter<TOut, TGroup> getGroupOut, Converter<TIn, int> getXIn, Converter<TOut, int> getXOut)
         {
             double[] r = new double[outputOrder.Length];
@@ -112,13 +113,13 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
             foreach (TGroup b in batches)
             {
                 // Get indices for this BATCH
-                var xI = inputOrder.Which(z => getGroupIn(z).Equals(b));
-                var xOutI = outputOrder.Which(z => getGroupOut(z).Equals(b));
+                IEnumerable<int> xI = inputOrder.Which(z => getGroupIn(z).Equals(b));
+                IEnumerable<int> xOutI = outputOrder.Which(z => getGroupOut(z).Equals(b));
 
                 // Get obs/cond/values for this BATCH
-                var x = inputOrder.In(xI).Select(z => getXIn(z));
-                var xOut = outputOrder.In(xOutI).Select(z => getXOut(z));
-                var y = raw.In(xI);
+                IEnumerable<int> x = inputOrder.In(xI).Select(z => getXIn(z));
+                IEnumerable<int> xOut = outputOrder.In(xOutI).Select(z => getXOut(z));
+                IEnumerable<double> y = raw.In(xI);
 
                 // Smooth this line
                 double[] yOut = Smooth(y, x, xOut, args);

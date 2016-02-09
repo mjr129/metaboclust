@@ -26,8 +26,8 @@ namespace MetaboliteLevels.Utilities
         public PathwayToolsReader(string fn, ProgressReporter prog)
         {
             _fn = fn;
-            var fs = File.OpenRead(fn);
-            var ps = new ProgressStream(fs, prog);
+            FileStream fs = File.OpenRead(fn);
+            ProgressStream ps = new ProgressStream(fs, prog);
             _sr = new StreamReader(ps);
         }
 

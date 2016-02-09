@@ -32,7 +32,7 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        ///User comments.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string OverrideDisplayName { get; set; }
 
@@ -47,7 +47,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly List<double[]> Exemplars = new List<double[]>();
 
         /// <summary>
-        /// User comments.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string Comment { get; set; }
 
@@ -93,6 +93,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly Dictionary<string, double> ClusterStatistics = new Dictionary<string, double>();
 
         /// <summary>
+        /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
         bool ITitlable.Enabled { get { return true; } set { } }
@@ -113,7 +114,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName);
             }
         }
 
@@ -372,37 +373,16 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
+        /// <summary>
+        /// OVERRIDES Object
+        /// </summary>         
         public override string ToString()
         {
             return DisplayName + " (" + Assignments.Count + " assignments)";
-        }
+        }   
 
         /// <summary>
-        /// Inherited from IVisualisable. 
-        /// </summary>
-        public Image REMOVE_THIS_FUNCTION
-        {
-            get { return Properties.Resources.ObjLCluster; }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
-        /// </summary>
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            foreach (var kvp in Statistics)
-            {
-                yield return new InfoLine(kvp.Key.ToString(), kvp.Value);
-            }
-
-            foreach (var kvp in ClusterStatistics)
-            {
-                yield return new InfoLine(kvp.Key.ToString(), kvp.Value);
-            }
-        }
-
-        /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public VisualClass VisualClass
         {
@@ -410,7 +390,7 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public void RequestContents(ContentsRequest request)
         {
@@ -441,7 +421,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 case VisualClass.Compound:
                     {
                         request.Text = "Potential compounds of peaks assigned to {0}";
-                        request.AddHeader("Peaks", "Peaks potentially representing this compound also in {0}");
+                        request.AddExtraColumn("Peaks", "Peaks potentially representing this compound also in {0}");
                         Dictionary<Compound, List<Peak>> counter = new Dictionary<Compound, List<Peak>>();
 
                         foreach (var peak in Assignments.Peaks)
@@ -462,7 +442,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 case VisualClass.Adduct:
                     {
                         request.Text = "Adducts of potential compounds of peaks assigned to {0}";
-                        request.AddHeader("Compounds", "Compounds potentially representing {0} with this adduct");
+                        request.AddExtraColumn("Compounds", "Compounds potentially representing {0} with this adduct");
                         Dictionary<Adduct, List<Compound>> counter = new Dictionary<Adduct, List<Compound>>();
 
                         foreach (var p in Assignments.Peaks)
@@ -483,8 +463,8 @@ namespace MetaboliteLevels.Data.Visualisables
                 case VisualClass.Pathway:
                     {
                         request.Text = "Pathways of potential compounds of peaks assigned to {0}";
-                        request.AddHeader("Compounds", "Compounds in this pathway with peaks in {0}");
-                        request.AddHeader("Peaks", "Peaks potentially representing compounds in this pathway in {0}");
+                        request.AddExtraColumn("Compounds", "Compounds in this pathway with peaks in {0}");
+                        request.AddExtraColumn("Peaks", "Peaks potentially representing compounds in this pathway in {0}");
                         Dictionary<Pathway, HashSet<Compound>> compounds = new Dictionary<Pathway, HashSet<Compound>>();
                         Dictionary<Pathway, HashSet<Peak>> peaks = new Dictionary<Pathway, HashSet<Peak>>();
 
@@ -520,23 +500,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 default:
                     break;
             }
-        }
-
-        /// <summary>
-        /// Gets the statistic by the name of "x" otherwise NaN.
-        /// </summary>
-        internal double GetStatistic(ConfigurationStatistic x)
-        {
-            double v;
-
-            if (Statistics.TryGetValue(x, out v))
-            {
-                return v;
-            }
-
-            return double.NaN;
-        }
-
+        }    
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -600,7 +564,7 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Implements IVisualisable
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public UiControls.ImageListOrder GetIcon()
         {

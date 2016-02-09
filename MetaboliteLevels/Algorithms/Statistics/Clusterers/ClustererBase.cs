@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Algorithms.Statistics.Results;
+using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
@@ -46,20 +47,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 
             if (isPreview > 0 && isPreview < core.Peaks.Count)
             {
-                var p = core.Peaks.ToList();
+                List<Peak> p = core.Peaks.ToList();
                 p.Shuffle();
 
                 p = p.GetRange(0, Math.Min(isPreview, p.Count)).ToList();
 
                 // Make sure any seed peaks are in the list
-                foreach (object par in tag.Args.Parameters)
+                foreach (Peak peak in tag.Args.Parameters.OfType<WeakReference<Peak>>().Select(par => (par).GetTargetOrThrow()))
                 {
-                    if (par is WeakReference<Peak>)
-                    {
-                        Peak peak = ((WeakReference<Peak>)par).GetTargetOrThrow();
-                        p.Insert(0, peak);
-                        p.RemoveAt(p.Count - 1);
-                    }
+                    p.Insert(0, peak);
+                    p.RemoveAt(p.Count - 1);
                 }
 
                 peaks = p;
@@ -70,9 +67,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             }
 
             // FILTER PEAKS
-            var pfilter = args.PeakFilter ?? Settings.PeakFilter.Empty;
+            PeakFilter pfilter = args.PeakFilter ?? Settings.PeakFilter.Empty;
 
-            var filter = pfilter.Test(peaks);
+            Filter<Peak>.Results filter = pfilter.Test(peaks);
             List<Cluster> insigs = new List<Cluster>();
 
             if (filter.Failed.Count != 0)

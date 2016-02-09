@@ -21,7 +21,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
 
         public override double Calculate(InputStatistic input)
         {
-            var rp = _script;
+            RScript rp = _script;
 
             var a = input.GetData(EAlgoInput.A, rp.IsInputPresent(0), rp.IsInputPresent(1), rp.IsInputPresent(2), rp.IsInputPresent(3), rp.IsInputPresent(4));
 

@@ -74,8 +74,7 @@ namespace MetaboliteLevels.Forms
         private readonly List<VisualisableSelection> _viewHistory = new List<VisualisableSelection>();
         private readonly List<ICoreWatcher> _coreWatchers = new List<ICoreWatcher>();
         private bool _autoChangingSelection;
-        private string _printTitle;
-        private bool _preventExpand;
+        private string _printTitle;   
         private int _waitCounter;
 
         // Selection
@@ -617,15 +616,7 @@ namespace MetaboliteLevels.Forms
             {
                 toolStripProgressBar1.Visible = true;
             }
-        }
-
-        /// <summary>
-        /// Updates the progress bar
-        /// </summary>
-        private void UpdateProgressBar(int value)
-        {
-            UpdateProgressBar(value, 100);
-        }
+        }        
 
         /// <summary>
         /// Updates the progress bar
@@ -1010,23 +1001,7 @@ namespace MetaboliteLevels.Forms
                     bmp.Save(fileName);
                 }
             }
-        }
-
-        /// <summary>
-        /// Cluster plot menu: Save image
-        /// </summary>
-        private void saveclusterImageToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            SaveChart(_chartCluster);
-        }
-
-        /// <summary>
-        /// Peak plot menu: Save image
-        /// </summary>
-        private void savepeakImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveChart(_chartPeak);
-        }
+        }        
 
         /// <summary>
         /// Prompts the user to saves the specified chart to an image file
@@ -1285,39 +1260,7 @@ namespace MetaboliteLevels.Forms
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmInputLarge.ShowFixed(this, UiControls.Title, "Current session information", Path.GetFileName(_core.FileNames.Session), _core.FileNames.GetDetails());
-        }
-
-        /// <summary>
-        /// Explorer tree: Node select
-        /// </summary>
-        private void _tvwDetails_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            IVisualisable tag = e.Node.Tag as IVisualisable;
-
-            if (tag != null) // could be string
-            {
-                CommitSelection(new VisualisableSelection(tag, EActivateOrigin.TreeView));
-            }
-        }
-
-        /// <summary>
-        /// Explorer tree: Node click
-        /// </summary>
-        private void _tvwDetails_MouseDown(object sender, MouseEventArgs e)
-        {
-            _preventExpand = e.Clicks > 1;
-        }
-
-        /// <summary>
-        /// Explorer tree: Node collapse.
-        /// </summary>
-        private void _tvwDetails_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
-        {
-            if (_preventExpand)
-            {
-                e.Cancel = true;
-            }
-        }
+        }           
 
         /// <summary>
         /// Menu: Help | About
@@ -1370,6 +1313,7 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Menu: Reset do not show again
         /// </summary>
+        // TODO: Why is this unused?
         private void resetdoNotShowAgainItemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainSettings.Instance.DoNotShowAgain.Clear();
@@ -1540,23 +1484,7 @@ namespace MetaboliteLevels.Forms
             }
 
             return frm.Selection.A as Peak ?? frm._peakList.Selection ?? frm._chartPeak.SelectedPeak ?? frm._core.Peaks[0];
-        }
-
-        /// <summary>
-        /// Like SearchForSelectedPeak() but sets the new peak.
-        /// </summary>
-        [Obsolete]
-        internal static void SearchForAndSetSelectedPeak(Form current, Peak newSelection)
-        {
-            FrmMain frm = GetFrmMain(current);
-
-            if (frm == null)
-            {
-                return;
-            }
-
-            frm.CommitSelection(new VisualisableSelection(newSelection, EActivateOrigin.External));
-        }
+        }             
 
         /// <summary>
         /// Gets the main form by iterating back from the current form.

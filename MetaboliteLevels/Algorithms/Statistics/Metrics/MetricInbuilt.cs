@@ -25,8 +25,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
 
         public override double Calculate(InputStatistic input)
         {
-            var a = input.GetData(EAlgoInput.A, true, false, false, false, false).Primary;
-            var b = input.GetData(EAlgoInput.B, true, false, false, false, false).Primary;
+            double[] a = input.GetData(EAlgoInput.A, true, false, false, false, false).Primary;
+            double[] b = input.GetData(EAlgoInput.B, true, false, false, false, false).Primary;
 
             return _delegate(a, b);
         }

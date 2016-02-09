@@ -30,7 +30,7 @@ namespace MetaboliteLevels.Settings
         public Color ClusterCentre { get; set; }
 
         [DefaultValue(typeof(Color), "0xFF0000FF")]
-        public Color SelectedSeries { get; set; }
+        public Color SelectedSeries { get; set; } // TODO: This should be used but isn't
 
         [DefaultValue(typeof(Color), "0xFFC0C0C0")]
         public Color MinorGrid { get; set; }
@@ -39,6 +39,6 @@ namespace MetaboliteLevels.Settings
         public Color MajorGrid { get; set; }
 
          [DefaultValue(typeof(Color), "0xFF000000")]
-        public Color AxisTitle { get; set; }
+        public Color AxisTitle { get; set; } // TODO: This should be used but isn't
     }
 }

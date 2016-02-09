@@ -41,16 +41,7 @@ namespace MetaboliteLevels.Settings
         public MainSettings()
         {
             SaveLoad(false);
-        }
-
-        /// <summary>
-        /// Resets the main settings to their defaults.
-        /// </summary>
-        public static void Reset(ProgressReporter prog)
-        {
-            Instance = new MainSettings();
-            Instance.Save();
-        }
+        }                 
 
         private void SaveLoad(bool save)
         {

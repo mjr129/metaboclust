@@ -118,7 +118,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
             for (int i = 0; i < parameters.Length; i++)
             {
-                var param = parameters[i];
+                object param = parameters[i];
 
                 if (sb.Length != 0)
                 {
@@ -169,14 +169,14 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 {
                     return "{" + StringHelper.ArrayToString(p, z =>
                                                            {
-                                                               var targ = z.GetTarget();
+                                                               ConfigurationStatistic targ = z.GetTarget();
 
                                                                if (targ == null)
                                                                {
                                                                    return "?";
                                                                }
 
-                                                               var tmp = core.ActiveStatistics.IndexOf(targ);
+                                                               int tmp = core.ActiveStatistics.IndexOf(targ);
 
                                                                return tmp == -1 ? "?" : tmp.ToString();
                                                            },
@@ -257,7 +257,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
         private static string GetDisplayName(WeakReference<ConfigurationStatistic> a)
         {
-            var b = a.GetTarget();
+            ConfigurationStatistic b = a.GetTarget();
 
             if (b == null)
             {
@@ -413,7 +413,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                     {
                         string peakName = elementId;
 
-                        var peak = core.Peaks.FirstOrDefault(z => z.DisplayName.ToUpper() == peakName);
+                        Peak peak = core.Peaks.FirstOrDefault(z => z.DisplayName.ToUpper() == peakName);
 
                         if (peak != null)
                         {

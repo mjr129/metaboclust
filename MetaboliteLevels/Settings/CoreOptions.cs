@@ -183,12 +183,7 @@ namespace MetaboliteLevels.Settings
         private void OnDeserializing(StreamingContext context)
         {
             UiControls.InvokeConstructor(this);
-        }
-
-        public DefaultValueBag OpenForm(Form form)
-        {
-            return new DefaultValueBag(_defaultValues, form);
-        }
+        }              
 
         /// <summary>
         /// Saves or loads a listview column.

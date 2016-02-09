@@ -34,12 +34,12 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly string Id;
 
         /// <summary>
-        /// User comments.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
-        /// User comments.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string OverrideDisplayName { get; set; }
 
@@ -48,8 +48,14 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly List<CompoundLibrary> Libraries = new List<CompoundLibrary>();
 
+        /// <summary>
+        /// Columns in the original data we didn't use for anything
+        /// </summary>
         public readonly MetaInfoCollection MetaInfo = new MetaInfoCollection();
 
+        /// <summary>
+        /// Related pathways (because the source database says so)
+        /// </summary>
         public readonly List<Pathway> RelatedPathways = new List<Pathway>();
 
         /// <summary>
@@ -58,10 +64,8 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly List<Compound> Compounds = new List<Compound>();
 
         /// <summary>
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
-
+        /// CONSTRUCTOR
+        /// </summary> 
         public Pathway(CompoundLibrary tag, string name, string id)
         {
             if (tag != null)
@@ -74,7 +78,13 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Default display name.
+        /// IMPLEMENTS IVisualisable
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
+
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string DefaultDisplayName
         {
@@ -85,13 +95,19 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Debugging.
+        /// OVERRIDES Object
         /// </summary>
         public override string ToString()
         {
-            return DisplayName + " (" + Compounds.Count + ")";
+            return DefaultDisplayName;
         }
 
+        /// <summary>
+        /// Creates a StylisedCluster for plotting from this pathway.
+        /// </summary>
+        /// <param name="core">Core</param>
+        /// <param name="highlightContents">What to highlight in the plot</param>
+        /// <returns>A StylisedCluster</returns>
         internal StylisedCluster CreateStylisedCluster(Core core, IVisualisable highlightContents)
         {
             var colours = new Dictionary<Peak, LineInfo>();
@@ -247,32 +263,32 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Inherited from IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string DisplayName
         {
-            get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
-        }    
+            get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName); }
+        }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
-        public VisualClass VisualClass
+        VisualClass IVisualisable.VisualClass
         {
             get { return VisualClass.Pathway; }
         }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
-        public void RequestContents(ContentsRequest request)
+        void IVisualisable.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {
                 case VisualClass.Peak:
                     {
                         request.Text = "Potential peaks of compounds in {0}";
-                        request.AddHeader("Compounds", "Compounds potentially representing this peak in {0}.");
+                        request.AddExtraColumn("Compounds", "Compounds potentially representing this peak in {0}.");
 
                         Dictionary<Peak, List<Compound>> dict = new Dictionary<Peak, List<Compound>>();
 
@@ -303,8 +319,8 @@ namespace MetaboliteLevels.Data.Visualisables
                 case VisualClass.Cluster:
                     {
                         request.Text = "Clusters representing potential peaks of compounds in {0}";
-                        request.AddHeader("Peaks", "Number of peaks in this cluster in with compounds in {0}");
-                        request.AddHeader("Compounds", "Number of compounds with peaks in this cluster with peaks also in {0}");
+                        request.AddExtraColumn("Peaks", "Number of peaks in this cluster in with compounds in {0}");
+                        request.AddExtraColumn("Compounds", "Number of compounds with peaks in this cluster with peaks also in {0}");
 
                         foreach (Cluster cluster in request.Core.Clusters)
                         {
@@ -335,7 +351,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 case VisualClass.Compound:
                     {
                         request.Text = "Compounds in {0}";
-                        request.AddHeader("Clusters", "Clusters");  // TODO: This is actually generic to all compounds and not related to this Pathway class
+                        request.AddExtraColumn("Clusters", "Clusters");  // TODO: This is actually generic to all compounds and not related to this Pathway class
 
                         foreach (var c in this.Compounds)
                         {
@@ -370,15 +386,20 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
+        /// <summary>
+        /// URL used for "view online" option
+        /// </summary>
         public string Url
         {
             get
             {
-                return "http://mediccyc.noble.org/MEDIC/new-image?type=PATHWAY&object=" + Id;
+                return "http://mediccyc.noble.org/MEDIC/new-image?type=PATHWAY&object=" + Id; // TODO: No!
             }
-        }
+        }    
 
-
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>              
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {            
             var result = new List<Column<Pathway>>();
@@ -397,7 +418,10 @@ namespace MetaboliteLevels.Data.Visualisables
             return result;
         }
 
-        public UiControls.ImageListOrder GetIcon()
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>              
+        UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.Pathway;
         }

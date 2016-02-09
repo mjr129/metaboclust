@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Containers
 
         public void AddRange(IEnumerable<T> stats)
         {
-            foreach (var stat in stats)
+            foreach (T stat in stats)
             {
                 _collection.Add(stat.Id, stat);
             }

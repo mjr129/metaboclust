@@ -23,12 +23,17 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     [Serializable]
     class ClusterEvaluationPointer : IVisualisable
     {
+        /// <summary>
+        /// Legacy field (copy of source.ConfigurationDescription).
+        /// Not used anymore as we retain the test configuration.
+        /// </summary>
         public readonly string ConfigurationDescription;
+
+        /// <summary>
+        /// Legacy field (copy of source.ParameterDescription).
+        /// Not used anymore as we retain the test configuration.
+        /// </summary>
         public readonly string ParameterDescription;
-
-        public string OverrideDisplayName { get; set; }
-
-        public string Comment { get; set; }
 
         /// <summary>
         /// For tests run: Where the results (ClusterEvaluationConfigurationResults) are stored
@@ -36,36 +41,53 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         public readonly string FileName;
 
         /// <summary>
-        /// For tests not yet run: The configuration
+        /// The configuration (older versions only had this for tests not yet run, but now we keep
+        /// a copy for tests run as well)
         /// </summary>
         public readonly ClusterEvaluationConfiguration Configuration;
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable 
+        /// </summary>
         public bool Enabled { get; set; }
 
         /// <summary>
-        /// Woo, new results!
+        /// IMPLEMENTS IVisualisable 
+        /// </summary>
+        public string OverrideDisplayName { get; set; }
+
+        /// <summary>
+        /// IMPLEMENTS IVisualisable 
+        /// </summary>
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// CONSTRUCTOR
+        /// From newly stored results
         /// </summary>       
         public ClusterEvaluationPointer(string fileName, ClusterEvaluationPointer source)
         {
             this.FileName = fileName;
             this.ConfigurationDescription = source.ConfigurationDescription;
             this.ParameterDescription = source.ParameterDescription;
+            this.Configuration = source.Configuration;
             this.Enabled = true; // It must be or we wouldn't have got here!
         }
 
         /// <summary>
-        /// Woo, new test!
+        /// CONSTRUCTOR
+        /// For a new test or an imported test
         /// </summary>    
         internal ClusterEvaluationPointer(ClusterEvaluationConfiguration configuration)
         {
             this.Enabled = true;
             this.Configuration = configuration;
-            this.ParameterDescription = configuration.ParamsAsString;
-            this.ConfigurationDescription = configuration.ClustererConfiguration.ToString();
+            this.ParameterDescription = configuration.ParameterConfigAsString;
+            this.ConfigurationDescription = configuration.ClustererConfiguration.Description;
         }
 
         /// <summary>
-        /// Do we have results?
+        /// Does this have any results?
         /// </summary>
         public bool HasResults
         {
@@ -75,27 +97,47 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             }
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         public string DisplayName
         {
             get
             {
-                return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName);
             }
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         public override string ToString()
         {
             return DisplayName;
-        }
+        }        
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         public string DefaultDisplayName
         {
             get
             {
-                return ConfigurationDescription;
+                if (this.Configuration == null)
+                {
+                    // Legacy files
+                    return ConfigurationDescription;
+                }
+                else
+                {
+                    return Configuration.ClustererConfiguration.ToString();
+                }
             }
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         VisualClass IVisualisable.VisualClass
         {
             get
@@ -104,6 +146,9 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             }
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             if (this.HasResults)
@@ -114,20 +159,28 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             {
                 return UiControls.ImageListOrder.TestEmpty;
             }
-        }     
+        }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             List<Column<ClusterEvaluationPointer>> ptr = new List<Column<ClusterEvaluationPointer>>();
 
             ptr.Add("Name", EColumn.Visible, z => z.DisplayName);
-            ptr.Add("Configuration", EColumn.None, z => z.ConfigurationDescription);
-            ptr.Add("Parameters", EColumn.None, z => z.ParameterDescription);
+            ptr.Add("Legacy\\Configuration", EColumn.None, z => z.ConfigurationDescription);
+            ptr.Add("Legacy\\Parameters", EColumn.None, z => z.ParameterDescription);
             ptr.Add("File", EColumn.None, z => z.FileName);
+            ptr.Add("HasResults", EColumn.None, z => z.HasResults);
+            ptr.AddSubObject(core, "Configuration", z => z.Configuration);
 
             return ptr;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
         void IVisualisable.RequestContents(ContentsRequest list)
         {
             // NA

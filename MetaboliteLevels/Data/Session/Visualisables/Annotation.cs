@@ -34,11 +34,6 @@ namespace MetaboliteLevels.Data.Visualisables
         public string OverrideDisplayName { get; set; }
 
         /// <summary>
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
-
-        /// <summary>
         /// Constructor
         /// </summary> 
         public Annotation(Peak peak, Compound compound, Adduct adduct)
@@ -47,6 +42,11 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Compound = compound;
             this.Adduct = adduct;
         }
+
+        /// <summary>
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
 
         public string DefaultDisplayName
         {
@@ -60,11 +60,11 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, Compound.DisplayName);
+                return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, Compound.DisplayName);
             }
         }    
 
-        public VisualClass VisualClass
+        VisualClass IVisualisable.VisualClass
         {
             get
             {
@@ -72,7 +72,7 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
-        public UiControls.ImageListOrder GetIcon()
+        UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.Compound;
         }          
@@ -92,7 +92,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return columns;
         }
 
-        public void RequestContents(ContentsRequest list)
+        void IVisualisable.RequestContents(ContentsRequest list)
         {
             switch (list.Type)
             {
@@ -102,17 +102,17 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case VisualClass.Annotation:
-                    Peak.RequestContents(list);
-                    Compound.RequestContents(list);
+                    ((IVisualisable)Peak).RequestContents(list);
+                    ((IVisualisable)Compound).RequestContents(list);
                     list.Text = "Annotations with same peaks/compounds to {0}";
                     break;
 
                 case VisualClass.Assignment:
-                    Peak.RequestContents(list);
+                    ((IVisualisable)Peak).RequestContents(list);
                     break;
 
                 case VisualClass.Cluster:
-                    Peak.RequestContents(list);
+                    ((IVisualisable)Peak).RequestContents(list);
                     break;
 
                 case VisualClass.Compound:
@@ -121,8 +121,8 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case VisualClass.Pathway:
-                    Peak.RequestContents(list);
-                    Compound.RequestContents(list);
+                    ((IVisualisable)Peak).RequestContents(list);
+                    ((IVisualisable)Compound).RequestContents(list);
                     break;
 
                 case VisualClass.Peak:

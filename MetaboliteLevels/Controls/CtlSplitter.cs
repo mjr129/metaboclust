@@ -38,7 +38,7 @@ namespace MetaboliteLevels.Controls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            var s = this;
+            CtlSplitter s = this;
             int gripLineWidth = 15; //9;
 
             if (this.Orientation == Orientation.Horizontal)

@@ -36,17 +36,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         // Clusterers
         private const string STAT_CLUSTERER_BIC = "BIC";
         private const string STAT_NUM_VECTORS = "Number of vectors";
-        private const string STAT_LENGTH_OF_VECTORS = "Length of vectors";
-
-        // Clusters AND Clusterers
-        private const string STAT_ANYGROUP_AVERAGE_SCORE = "Average score";
-        private const string STAT_ANYGROUP_AVERAGE_SW = "Average silhouette width";
-        private const string STAT_ANYGROUP_AVERAGE_EUCLIDEAN = "Euclidean";
-        private const string STAT_ANYGROUP_AVERAGE_DISTANCE = "Distance";
-        private const string STAT_ANYGROUP_FILTER_AVERAGE_SCORE = "Average score";
-        private const string STAT_ANYGROUP_FILTER_AVERAGE_SW = "Average silhouette width";
-        private const string STAT_ANYGROUP_FILTER_AVERAGE_EUCLIDEAN = "Euclidean";
-        private const string STAT_ANYGROUP_FILTER_AVERAGE_DISTANCE = "Distance";
+        private const string STAT_LENGTH_OF_VECTORS = "Length of vectors";    
 
         /// <summary>
         /// Clusters (inc. insignificants)

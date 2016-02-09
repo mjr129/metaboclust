@@ -15,13 +15,13 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        public FrmOptions()
+        private FrmOptions()
         {
             InitializeComponent();
             UiControls.SetIcon(this);
         }
 
-        public FrmOptions(object obj)
+        private FrmOptions(object obj)
             : this()
         {
             this.propertyGrid1.SelectedObject = obj;

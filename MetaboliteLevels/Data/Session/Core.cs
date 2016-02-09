@@ -219,8 +219,7 @@ namespace MetaboliteLevels.Data.Session
         public IReadOnlyList<GroupInfo> ConditionsOfInterest { get { return _cache._conditionsOfInterest; } }
         public IReadOnlyList<int> Acquisitions { get { return _cache._acquisitions; } }
         public IReadOnlyList<GroupInfo> ControlConditions { get { return _cache._controlConditions; } }
-        public Range TimeRange { get { return _cache._timeRange; } }
-        public Range RepRange { get { return _cache._repRange; } }
+        public Range TimeRange { get { return _cache._timeRange; } }    
 
         public IReadOnlyList<GroupInfo> Groups { get { return _groups; } }
         public IReadOnlyList<BatchInfo> Batches { get { return _batches; } }
@@ -337,61 +336,7 @@ namespace MetaboliteLevels.Data.Session
             this._obsFilters = new List<ObsFilter>();
 
             this._cache = new CachedData(this);
-        }
-
-        public string GetTypeName(int typeId)
-        {
-            GroupInfo name;
-
-            if (_cache._groupsById.TryGetValue(typeId, out name))
-            {
-                return name.Name;
-            }
-
-            return "Unknown_" + (char)(65 + typeId);
-        }
-
-        public string GetTypeNameShort(IEnumerable<int> typeIds)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (int i in typeIds)
-            {
-                sb.Append(GetTypeNameShort(i));
-            }
-
-            return sb.ToString();
-        }
-
-        public string GetTypeNameShort(int typeId)
-        {
-            GroupInfo name;
-
-            if (_cache._groupsById.TryGetValue(typeId, out name))
-            {
-                return name.ShortName;
-            }
-
-            return "?" + ((char)(65 + typeId)).ToString();
-        }
-
-        /// <summary>
-        /// Gets the TypeInfo for the type with a type ID of "type".
-        /// (This could be fixed by having the Type field in the same order as "type", but searching over 4 elements
-        /// doesn't really warrant this complexity).
-        /// </summary>
-        internal GroupInfo GetTypeInfo(int type)
-        {
-            foreach (GroupInfo t in this.Groups)
-            {
-                if (t.Id == type)
-                {
-                    return t;
-                }
-            }
-
-            throw new InvalidOperationException("Requested TypeInfo for type ID \"" + type + "\" but no such type ID exists.");
-        }
+        }   
 
         /// <summary>
         /// Rates the current assignments based on SUM( |x - c(x)|)^2 (the k-means function).

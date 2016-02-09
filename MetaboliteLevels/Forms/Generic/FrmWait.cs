@@ -19,8 +19,7 @@ namespace MetaboliteLevels.Forms.Generic
 
         private class Info : IProgressReceiver
         {
-            private FrmWait form;
-            private Stopwatch _stopwatch = Stopwatch.StartNew();
+            private readonly FrmWait form;                                  
 
             public Info(FrmWait frmWait)
             {

@@ -33,7 +33,7 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             get
             {
-                return IVisualisableExtensions.GetDisplayName(DefaultDisplayName, OverrideDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(DefaultDisplayName, OverrideDisplayName);
             }
         }
 
@@ -60,12 +60,7 @@ namespace MetaboliteLevels.Data.DataInfo
         public override string ToString()
         {
             return DisplayName;
-        }
-
-        public static int TimeOrder(ConditionInfo x, ConditionInfo y)
-        {
-            return x.Time.CompareTo(y.Time);
-        }
+        }    
 
         public static int GroupTimeOrder(ConditionInfo a, ConditionInfo b)
         {
@@ -82,17 +77,7 @@ namespace MetaboliteLevels.Data.DataInfo
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.Point;
-        }
-
-        public IEnumerable<InfoLine> GetInformation(Core core)
-        {
-            return null;
-        }
-
-        public IEnumerable<InfoLine> GetStatistics(Core core)
-        {
-            return null;
-        }
+        }       
 
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {

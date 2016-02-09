@@ -32,10 +32,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
 
         public override double Calculate(InputStatistic input)
         {
-            var rp = _script;
+            RScript rp = _script;
 
-            var a = input.GetData(EAlgoInput.A, rp.IsInputPresent(0), rp.IsInputPresent(2), rp.IsInputPresent(4), rp.IsInputPresent(6), rp.IsInputPresent(8));
-            var b = input.GetData(EAlgoInput.B, rp.IsInputPresent(1), rp.IsInputPresent(3), rp.IsInputPresent(5), rp.IsInputPresent(7), rp.IsInputPresent(9));
+            InputStatistic.GetDataInfo a = input.GetData(EAlgoInput.A, rp.IsInputPresent(0), rp.IsInputPresent(2), rp.IsInputPresent(4), rp.IsInputPresent(6), rp.IsInputPresent(8));
+            InputStatistic.GetDataInfo b = input.GetData(EAlgoInput.B, rp.IsInputPresent(1), rp.IsInputPresent(3), rp.IsInputPresent(5), rp.IsInputPresent(7), rp.IsInputPresent(9));
 
             object[] inputs = { a.Primary, b.Primary, a.Intensity, b.Intensity, a.Group, b.Group, a.Time, b.Time, a.Rep, b.Rep };
 

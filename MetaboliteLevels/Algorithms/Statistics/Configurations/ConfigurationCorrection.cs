@@ -33,23 +33,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 return Args is ArgsTrendAsCorrection;
             }
-        }
-
-        public TrendBase CachedT
-        {
-            get
-            {
-                return (TrendBase)Cached;
-            }
-        }
-
-        public CorrectionBase CacheC
-        {
-            get
-            {
-                return (CorrectionBase)Cached;
-            }
-        }
+        }              
 
         public ArgsTrendAsCorrection ArgsT
         {
@@ -57,15 +41,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 return (ArgsTrendAsCorrection)Args;
             }
-        }
-
-        public ArgsCorrection ArgsC
-        {
-            get
-            {
-                return (ArgsCorrection)Args;
-            }
-        }
+        }     
 
         /// <summary>
         /// Like Correct(), but just gets the trend (for plots).

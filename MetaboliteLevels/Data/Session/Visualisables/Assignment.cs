@@ -105,8 +105,8 @@ namespace MetaboliteLevels.Data.Visualisables
 
         internal static void AddHeaders(ContentsRequest request)
         {
-            request.AddHeader("Score", "The score for the assignment of {0} to this cluster.");
-            request.AddHeader("Group", "The group to which the cluster is assigned (only visible for individual group clustering).");
+            request.AddExtraColumn("Score", "The score for the assignment of {0} to this cluster.");
+            request.AddExtraColumn("Group", "The group to which the cluster is assigned (only visible for individual group clustering).");
             //request.AddHeader("Next Nearest Cluster", "The next nearest cluster.");
             //request.AddHeader("Silhouette width", "The silhouette width.");
         }
@@ -139,7 +139,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return IVisualisableExtensions.GetDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
             }
         }    
 
@@ -182,32 +182,32 @@ namespace MetaboliteLevels.Data.Visualisables
             switch (request.Type)
             {
                 case VisualClass.Peak:
-                    this.Cluster.RequestContents(request);
+                    ((IVisualisable)this.Cluster).RequestContents(request);
                     request.Text = "Peaks from the same cluster as {0}";
                     break;
 
                 case VisualClass.Cluster:
-                    this.Peak.RequestContents(request);
+                    ((IVisualisable)this.Peak).RequestContents(request);
                     request.Text = "Clusters for the same peak as {0}";
                     break;
 
                 case VisualClass.Assignment:
-                    this.Peak.RequestContents(request);
+                    ((IVisualisable)this.Peak).RequestContents(request);
                     request.Text = "Assignments for the same peak as {0}";
                     break;
 
                 case VisualClass.Compound:
-                    this.Peak.RequestContents(request);
+                    ((IVisualisable)this.Peak).RequestContents(request);
                     request.Text = "Potential compounds of the peak in {0}";
                     break;
 
                 case VisualClass.Adduct:
-                    this.Peak.RequestContents(request);
+                    ((IVisualisable)this.Peak).RequestContents(request);
                     request.Text = "Adducts of potential compounds of the peak in {0}";
                     break;
 
                 case VisualClass.Pathway:
-                    this.Peak.RequestContents(request);
+                    ((IVisualisable)this.Peak).RequestContents(request);
                     request.Text = "Pathways of potential compounds of the peak in {0}";
                     break;
 

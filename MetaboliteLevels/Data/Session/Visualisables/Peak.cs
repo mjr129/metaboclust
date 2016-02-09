@@ -9,6 +9,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 using System.Drawing;
+using MetaboliteLevels.Data.DataInfo;
 using MSerialisers;
 
 namespace MetaboliteLevels.Data.Visualisables
@@ -37,7 +38,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly string Id;
 
         /// <summary>
-        /// User comments.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string OverrideDisplayName { get; set; }
 
@@ -47,7 +48,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly AssignmentList Assignments = new AssignmentList();
 
         /// <summary>
-        /// User comments.
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string Comment { get; set; }
 
@@ -112,11 +113,6 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly ELcmsMode LcmsMode;
 
         /// <summary>
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         public Peak(int index, string id, PeakValueSet observations, PeakValueSet altObservations, ELcmsMode lcmsmode, decimal mz)
@@ -130,6 +126,12 @@ namespace MetaboliteLevels.Data.Visualisables
             this.LcmsMode = lcmsmode;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// Unused (can't be disabled)
+        /// </summary>
+        bool ITitlable.Enabled { get { return true; } set { } }
+
         /// <summary>     
         /// Default display name.
         /// </summary>
@@ -141,11 +143,19 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
+        /// <summary>
+        /// OVERRIDES Object
+        /// </summary>         
         public override string ToString()
         {
-            return DisplayName + " (" + StringHelper.ArrayToString(Assignments.Clusters) + ")";
+            return DisplayName;
         }
 
+        /// <summary>
+        /// Toggles a comment flag on and off.
+        /// </summary>
+        /// <param name="f">The flag to toggle</param>
+        /// <returns>The new status of the flag</returns>
         public bool ToggleCommentFlag(PeakFlag f)
         {
             if (!CommentFlags.Contains(f))
@@ -161,17 +171,17 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Inherited from IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         public string DisplayName
         {
-            get { return IVisualisableExtensions.GetDisplayName(OverrideDisplayName, DefaultDisplayName); }
-        }      
+            get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName); }
+        }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
-        public void RequestContents(ContentsRequest request)
+        void IVisualisable.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -238,7 +248,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 case VisualClass.Pathway:
                     {
                         request.Text = "Pathways of potential compounds for {0}";
-                        request.AddHeader("Compounds", "Compounds in this pathway potentially represented by {0}.");
+                        request.AddExtraColumn("Compounds", "Compounds in this pathway potentially represented by {0}.");
 
                         Dictionary<Pathway, List<Compound>> counter = new Dictionary<Pathway, List<Compound>>();
 
@@ -263,7 +273,7 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Implements IVisualisable. 
+        /// IMPLEMENTS IVisualisable
         /// </summary>
         VisualClass IVisualisable.VisualClass
         {
@@ -271,7 +281,7 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         /// <summary>
-        /// Gets the statistic by the name of "x" otherwise NaN.
+        /// Gets the statistic by the name of "x", otherwise NaN.
         /// </summary>
         internal double GetStatistic(ConfigurationStatistic x)
         {
@@ -283,8 +293,11 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             return double.NaN;
-        }       
+        }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>              
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             var columns = new List<Column<Peak>>();
@@ -305,7 +318,7 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add(COLNAME_CLUSTERS_UNIQUE, EColumn.None, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
             columns.Add("Clusters\\Grouped", EColumn.None, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.ShortName + "=") : "") + z.Cluster.ShortName)));
 
-            foreach (var group in core.Groups)
+            foreach (GroupInfo group in core.Groups)
             {
                 var closure = group;
                 columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.Name, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
@@ -314,9 +327,9 @@ namespace MetaboliteLevels.Data.Visualisables
                 columns[columns.Count - 1].Colour = z => closure.Colour;
             }
 
-            foreach (var flag in core.Options.PeakFlags)
+            foreach (PeakFlag flag in core.Options.PeakFlags)
             {
-                PeakFlag closure = flag;
+                var closure = flag;
                 columns.Add("Flags\\" + UiControls.ZEROSPACE + flag, EColumn.None, λ => λ.CommentFlags.Contains(closure) ? closure.Id : string.Empty);
                 columns[columns.Count - 1].Colour = z => closure.Colour;
             }
@@ -329,9 +342,9 @@ namespace MetaboliteLevels.Data.Visualisables
 
             columns.Add("Comment", EColumn.None, λ => λ.Comment);
 
-            foreach (var stat in core.ActiveStatistics)
+            foreach (ConfigurationStatistic stat in core.ActiveStatistics)
             {
-                ConfigurationStatistic closure = stat;
+                var closure = stat;
                 columns.Add("Statistic\\" + stat.ToString(), EColumn.Statistic, λ => λ.GetStatistic(closure));
                 columns[columns.Count - 1].Colour = z => UiControls.StatisticColour(closure, z.Statistics);
             }
@@ -342,14 +355,14 @@ namespace MetaboliteLevels.Data.Visualisables
 
             core._peakMeta.ReadAllColumns(z => z.MetaInfo, columns);
 
-            foreach (var ti in core.Groups)
+            foreach (GroupInfo ti in core.Groups)
             {
                 int i = ti.Order;
-                columns.Add("Mean\\" + core.GetTypeName(ti.Id), EColumn.None, λ => λ.Observations.Mean[i]);
-                columns.Add("Std.Dev\\" + core.GetTypeName(ti.Id), EColumn.None, λ => λ.Observations.StdDev[i]);
+                columns.Add("Mean\\" + ti.Name, EColumn.None, λ => λ.Observations.Mean[i]);
+                columns.Add("Std.Dev\\" + ti.Name, EColumn.None, λ => λ.Observations.StdDev[i]);
             }
 
-            foreach (var fi in core.AllPeakFilters)
+            foreach (PeakFilter fi in core.AllPeakFilters)
             {
                 var closure = fi;
                 columns.Add("Filter\\" + fi.ToString(), EColumn.None, z => fi.Test(z) ? "✔" : "✘");
@@ -358,6 +371,9 @@ namespace MetaboliteLevels.Data.Visualisables
             return columns;
         }
 
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>              
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return this.Annotations.Count == 0 ? UiControls.ImageListOrder.VariableU : UiControls.ImageListOrder.Variable;

@@ -76,20 +76,7 @@ namespace MetaboliteLevels.Utilities
         public string[] Headers
         {
             get { return _headers; }
-        }
-
-        internal IEnumerable<InfoLine> ReadAll(MetaInfoCollection collection)
-        {
-            for (int index = 0; index < _headers.Length; index++)
-            {
-                var header = _headers[index];
-
-                foreach (string value in collection.Read(index))
-                {
-                    yield return new InfoLine(header, value, true);
-                }
-            }
-        }
+        }      
 
         internal void ReadAllColumns<T>(Converter<T, MetaInfoCollection> collectionRetriever, List<Column<T>> columns)
             where T : class, IVisualisable

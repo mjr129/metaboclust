@@ -17,8 +17,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         protected sealed override double[] Smooth(IEnumerable<double> y, IEnumerable<int> xIn, IEnumerable<int> xOut, object[] args)
         {
             object arg = InterpretArgs(args);
-            var xTarget = xOut.ToArray();
-            var yIn = y.ToArray();
+            int[] xTarget = xOut.ToArray();
+            double[] yIn = y.ToArray();
             double[] yOut = new double[xTarget.Length];
 
             for (int i = 0; i < xTarget.Length; i++)

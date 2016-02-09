@@ -192,19 +192,19 @@ namespace MetaboliteLevels.Settings
             switch (format)
             {
                 case SerialisationFormat.MSerialiserBinary:
-                    MSerialiser.SerialiseStream(s, data, ETransmission.Binary, new[] { serialiser }, prog);
+                    MSerialiser.SerialiseStream(s, data, ETransmission.Binary, new[] { serialiser }, null);
                     return;
 
                 case SerialisationFormat.MSerialiserText:
-                    MSerialiser.SerialiseStream(s, data, ETransmission.Text, new[] { serialiser }, prog);
+                    MSerialiser.SerialiseStream(s, data, ETransmission.Text, new[] { serialiser }, null);
                     return;
 
                 case SerialisationFormat.MSerialiserCompactBinary:
-                    MSerialiser.SerialiseStream(s, data, ETransmission.CompactBinary, new[] { serialiser }, prog);
+                    MSerialiser.SerialiseStream(s, data, ETransmission.CompactBinary, new[] { serialiser }, null);
                     return;
 
                 case SerialisationFormat.MSerialiserFastBinary:
-                    MSerialiser.SerialiseStream(s, data, ETransmission.FastBinary, new[] { serialiser }, prog);
+                    MSerialiser.SerialiseStream(s, data, ETransmission.FastBinary, new[] { serialiser }, null);
                     return;
 
                 case SerialisationFormat.Xml:
@@ -232,16 +232,16 @@ namespace MetaboliteLevels.Settings
             switch (format)
             {
                 case SerialisationFormat.MSerialiserBinary:
-                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.Binary, new[] { serialiser }, prog);
+                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.Binary, new[] { serialiser }, null);
 
                 case SerialisationFormat.MSerialiserText:
-                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.Text, new[] { serialiser }, prog);
+                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.Text, new[] { serialiser }, null);
 
                 case SerialisationFormat.MSerialiserCompactBinary:
-                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.CompactBinary, new[] { serialiser }, prog);
+                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.CompactBinary, new[] { serialiser }, null);
 
                 case SerialisationFormat.MSerialiserFastBinary:
-                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.FastBinary, new[] { serialiser }, prog);
+                    return MSerialiser.DeserialiseStream<T>(s, ETransmission.FastBinary, new[] { serialiser }, null);
 
                 case SerialisationFormat.Xml:
                     var xs = CreateXmlSerialiser<T>();

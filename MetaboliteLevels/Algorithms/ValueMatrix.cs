@@ -32,15 +32,7 @@ namespace MetaboliteLevels.Algorithms
         {
             this.UsesTrend = useTrend;
             this.Vectors = vectors;
-        }
-
-        /// <summary>
-        /// Peaks in the matrix.
-        /// </summary>
-        public IEnumerable<Peak> Peaks
-        {
-            get { return Vectors.Select(z => z.Peak); }
-        }
+        }   
 
         /// <summary>
         /// Number of vectors.

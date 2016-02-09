@@ -254,12 +254,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _previewPeak = _core.Peaks[index];
 
             Check(null, null);
-        }
-
-        private void _btnNextPreview_Click(object sender, EventArgs e)
-        {
-            PagePreview(1);
-        }
+        }         
 
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {

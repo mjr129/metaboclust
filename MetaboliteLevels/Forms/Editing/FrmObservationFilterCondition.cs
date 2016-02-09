@@ -238,12 +238,7 @@ namespace MetaboliteLevels.Forms.Editing
             Type[] types = { typeof(Filter.ELogicOperator), typeof(bool), typeof(Filter.EElementOperator), typeof(IEnumerable<T>) };
             result = (ObsFilter.Condition)type.GetConstructor(types).Invoke(new object[] { op, negate, en.Value, sel });
             return true;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //
-        }
+        }  
 
         private void _txtComp_TextChanged(object sender, EventArgs e)
         {

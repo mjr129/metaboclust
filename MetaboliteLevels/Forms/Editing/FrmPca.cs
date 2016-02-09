@@ -22,6 +22,7 @@ using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Properties;
 using System.Collections.ObjectModel;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.General;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -119,19 +120,11 @@ namespace MetaboliteLevels.Forms.Editing
 
             for (int peakIndex = 0; peakIndex < peaks.Count; peakIndex++)
             {
-                IEnumerable<double> vals;
                 Peak peak = peaks[peakIndex];
 
-                var src = corIndex == -1 ? peak.OriginalObservations : peak.CorrectionChain[corIndex];
+                PeakValueSet src = corIndex == -1 ? peak.OriginalObservations : peak.CorrectionChain[corIndex];
 
-                if (_trend)
-                {
-                    vals = src.Trend.In(which);
-                }
-                else
-                {
-                    vals = src.Raw.In(which);
-                }
+                IEnumerable<double> vals = _trend ? src.Trend.In(which) : src.Raw.In(which);
 
                 if (valueMatrix == null)
                 {

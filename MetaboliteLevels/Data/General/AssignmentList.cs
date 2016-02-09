@@ -43,59 +43,12 @@ namespace MetaboliteLevels.Data.General
         internal void Add(Assignment item)
         {
             List.Add(item);
-        }
-
-        internal void Clear(IEnumerable<Cluster> involvedIn)
-        {
-            for (int i = 0; i < List.Count; i++)
-            {
-                if (involvedIn.Contains(List[i].Cluster))
-                {
-                    List[i].Discard();
-                    List.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-
-        internal void Clear(IEnumerable<Peak> involvedIn)
-        {
-            for (int i = 0; i < List.Count; i++)
-            {
-                if (involvedIn.Contains(List[i].Peak))
-                {
-                    List[i].Discard();
-                    List.RemoveAt(i);
-                    i--;
-                }
-            }
-        }   
-
-        public IList<Peak> PeaksAsList
-        {
-            get
-            {
-                return new List<Peak>(Peaks); // todo: could be more efficient by wrapping instead
-            }
-        }
+        }    
 
         internal Assignment Get(Cluster k)
         {
             return List.Find(z => z.Cluster == k);
-        }
-
-        internal void Clear(ConfigurationClusterer config)
-        {
-            for (int i = 0; i < List.Count; i++)
-            {
-                if (List[i].Cluster.Method == config)
-                {
-                    List[i].Discard();
-                    List.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
+        }        
 
         internal void ClearAll()
         {

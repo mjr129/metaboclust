@@ -36,12 +36,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 return EChangeLevel.None;
             }
-        }
-
-        public static EChangeLevel ShowNoReason(Form owner)
-        {
-            return Show(owner, EChangeLevel.None);
-        }
+        }     
 
         public static EChangeLevel ShowTrendsChanged(Form owner)
         {

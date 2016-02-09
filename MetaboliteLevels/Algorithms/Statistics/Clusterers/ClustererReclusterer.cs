@@ -63,40 +63,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             matchCluster.States |= Data.Visualisables.Cluster.EStates.Insignificants;
 
             return myClusters;
-        }
-
-        private double[] Reorder(double[] values, ConditionInfo[] origOrder, ConditionInfo[] newOrder)
-        {
-            if (origOrder == null || newOrder == null)
-            {
-                throw new InvalidOperationException("Both clusterers must use the trend.");
-            }
-
-            int n = newOrder.Length;
-
-            if (values.Length != n || origOrder.Length != n)
-            {
-                throw new InvalidOperationException("Input vector size must match existing cluster vector size.");
-            }
-
-            double[] result = new double[n];
-            bool[] check = new bool[n];
-
-            for (int repIndex = 0; repIndex < n; repIndex++)
-            {
-                ConditionInfo rep = newOrder[repIndex];
-
-                int origIndex = origOrder.FirstIndexWhere(z => z.Time == rep.Time);
-
-                UiControls.Assert(!check[origIndex], "Can't use same index twice - make sure constraints on input vectors for both clusters do not overlap.");
-
-                result[repIndex] = values[origIndex];
-
-                check[origIndex] = true;
-            }
-
-            return result;
-        }
+        }      
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using MetaboliteLevels.Controls;
@@ -49,7 +50,7 @@ namespace MetaboliteLevels.Forms.Startup
         {
             StringBuilder breakingChanges = new StringBuilder();
 
-            foreach (var v in UiControls.BreakingVersions)
+            foreach (KeyValuePair<Version, string> v in UiControls.BreakingVersions)
             {
                 if (dfn.AppVersion <= v.Key)
                 {
