@@ -25,6 +25,7 @@ using MetaboliteLevels.Data.General;
 using System.Diagnostics;
 using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Forms.Algorithms;
+using Microsoft.Win32;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -44,14 +45,19 @@ namespace MetaboliteLevels.Utilities
         // A zero-width space.
         // Yes it is really there! Don't delete it.
         public const string ZEROSPACE = "​";
+        private const string STARTUPPATH_LOCAL = "reroute.txt";
+        private const string STARTUPPATH_REGKEY = "Software\\MetaboliteLevels";
+        private const string STARTUPPATH_REGVALUE = "WorkingDirectory";
 
         // Where the application stores its data.
         private static string __startupPath;
+        private static EStartupPath __startupPathMode;
 
         public static readonly Color BackColour = Color.FromArgb(153, 180, 209); // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color ForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
         public static readonly Color PreviewBackColour = Color.LightSteelBlue; // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color PreviewForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
+
 
         /// <summary>
         /// Initialises this class.
@@ -1138,8 +1144,29 @@ namespace MetaboliteLevels.Utilities
             return Blend(Color.Green, Color.Red, pct);
         }
 
+        public enum EStartupPath
+        {
+            None,
+            Local,
+            User,
+            Machine
+        }
+
+        public static EStartupPath StartupPathMode
+        {
+            get
+            {
+                if (__startupPath == null)
+                {
+                    FindStartupPath();
+                }
+
+                return __startupPathMode;
+            }
+        }
+
         /// <summary>
-        /// 
+        ///Gets the application startuppath. 
         /// </summary>
         public static string StartupPath
         {
@@ -1147,19 +1174,47 @@ namespace MetaboliteLevels.Utilities
             {
                 if (__startupPath == null)
                 {
-                    string rerouteFile = Path.Combine(Application.StartupPath, "reroute.txt");
+                    FindStartupPath();
+                }
 
-                    if (File.Exists(rerouteFile))
+                return __startupPath;
+            }
+        }
+
+        /// <summary>
+        /// Sets the startuppath variable.
+        /// </summary>
+        private static void FindStartupPath()
+        {
+            string rerouteFile = Path.Combine(Application.StartupPath, STARTUPPATH_LOCAL);
+
+            if (File.Exists(rerouteFile))
+            {
+                __startupPath = File.ReadAllText(rerouteFile).Trim();
+                __startupPathMode = EStartupPath.Local;
+            }
+            else
+            {
+                __startupPath = Registry.GetValue(Registry.CurrentUser.Name + "\\" + STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE, null) as string;
+
+                if (__startupPath != null)
+                {
+                    __startupPathMode = EStartupPath.User;
+                }
+                else
+                {
+                    __startupPath = Registry.GetValue(Registry.LocalMachine.Name + "\\" + STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE, null) as string;
+
+                    if (__startupPath != null)
                     {
-                        __startupPath = File.ReadAllText(rerouteFile).Trim();
+                        __startupPathMode = EStartupPath.Machine;
                     }
                     else
                     {
                         __startupPath = Application.StartupPath;
+                        __startupPathMode = EStartupPath.None;
                     }
                 }
-
-                return __startupPath;
             }
         }
 
@@ -1179,13 +1234,55 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
+        /// Deletes a registry key, if it exists.
+        /// </summary>                           
+        private static void DeleteRegistryValue(RegistryKey root, string keyName, string valueName)
+        {
+            using (RegistryKey key = root.OpenSubKey(keyName, true))
+            {
+                if (key != null)
+                {
+                    key.DeleteValue(valueName);
+                }
+            }
+        }
+
+        /// <summary>
         /// Sets the startup path (REQUIRES APPLICATION RESTART).
         /// </summary>                                           
-        public static void SetStartupPath(string text)
+        public static void SetStartupPath(string text, EStartupPath mode)
         {
-            string rerouteFile = Path.Combine(Application.StartupPath, "reroute.txt");
+            // Delete existing
+            string rerouteFile = Path.Combine(Application.StartupPath, STARTUPPATH_LOCAL);
+            DeleteRegistryValue(Registry.CurrentUser, STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE);
+            DeleteRegistryValue(Registry.LocalMachine, STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE);
 
-            File.WriteAllText(rerouteFile, text);
+            if (File.Exists(rerouteFile))
+            {
+                File.Delete(rerouteFile);
+            }
+
+            // Write new
+            switch (mode)
+            {
+                case EStartupPath.Local:
+                    File.WriteAllText(rerouteFile, text);
+                    break;
+
+                case EStartupPath.User:
+                    Registry.SetValue(Registry.CurrentUser.Name + "\\" + STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE, text, RegistryValueKind.String);
+                    break;
+
+                case EStartupPath.Machine:
+                    Registry.SetValue(Registry.LocalMachine.Name + "\\" + STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE, text, RegistryValueKind.String);
+                    break;
+
+                case EStartupPath.None:
+                    break;
+
+                default:
+                    throw new SwitchException(mode);
+            }  
         }
     }
 

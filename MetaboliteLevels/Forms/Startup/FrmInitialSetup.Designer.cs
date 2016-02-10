@@ -57,7 +57,12 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label6 = new System.Windows.Forms.Label();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            this.ctlButton4 = new MetaboliteLevels.Controls.CtlButton();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.ctlButton5 = new MetaboliteLevels.Controls.CtlButton();
+            this.label10 = new System.Windows.Forms.Label();
+            this._txtWorkingDirectory = new System.Windows.Forms.TextBox();
+            this._btnSetWorkingDirectory = new MetaboliteLevels.Controls.CtlButton();
             this._cmsR = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.browseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -65,13 +70,13 @@
             this.browseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel5.SuspendLayout();
             this._cmsR.SuspendLayout();
             this._cmsPathwayTools.SuspendLayout();
             this.SuspendLayout();
@@ -81,7 +86,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label1.Location = new System.Drawing.Point(24, 153);
+            this.label1.Location = new System.Drawing.Point(24, 310);
             this.label1.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(664, 32);
@@ -95,24 +100,30 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel4, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this._txtDataSetData, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this._btnDataSetData, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel4, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this._txtDataSetData, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this._btnDataSetData, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.ctlTitleBar1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this._txtPathwayTools, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this._btnPathwayTools, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.ctlButton4, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this._txtPathwayTools, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this._btnPathwayTools, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel5, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label10, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this._txtWorkingDirectory, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this._btnSetWorkingDirectory, 1, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 10;
+            this.tableLayoutPanel1.RowCount = 13;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -123,7 +134,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(968, 645);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(990, 807);
             this.tableLayoutPanel1.TabIndex = 8;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
@@ -133,7 +144,7 @@
             this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel4.Controls.Add(this.label5);
             this.flowLayoutPanel4.Controls.Add(this.ctlButton3);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 438);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 579);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(137, 37);
@@ -162,7 +173,6 @@
             this.ctlButton3.Size = new System.Drawing.Size(21, 21);
             this.ctlButton3.TabIndex = 17;
             this.ctlButton3.Text = "";
-            this.toolTip1.SetToolTip(this.ctlButton3, "Click here to show information below");
             this.ctlButton3.UseVisualStyleBackColor = true;
             this.ctlButton3.Click += new System.EventHandler(this.ctlButton3_Click);
             // 
@@ -172,7 +182,7 @@
             this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel2.Controls.Add(this.label2);
             this.flowLayoutPanel2.Controls.Add(this.ctlButton2);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 249);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 406);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(288, 37);
@@ -200,7 +210,6 @@
             this.ctlButton2.Size = new System.Drawing.Size(21, 21);
             this.ctlButton2.TabIndex = 17;
             this.ctlButton2.Text = "";
-            this.toolTip1.SetToolTip(this.ctlButton2, "Click here to show information below");
             this.ctlButton2.UseVisualStyleBackColor = true;
             this.ctlButton2.Click += new System.EventHandler(this.ctlButton2_Click);
             // 
@@ -210,7 +219,7 @@
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.label3);
             this.flowLayoutPanel1.Controls.Add(this.ctlButton1);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 108);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 265);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(121, 37);
@@ -238,7 +247,6 @@
             this.ctlButton1.Size = new System.Drawing.Size(21, 21);
             this.ctlButton1.TabIndex = 17;
             this.ctlButton1.Text = "";
-            this.toolTip1.SetToolTip(this.ctlButton1, "Click here to show information below");
             this.ctlButton1.UseVisualStyleBackColor = true;
             this.ctlButton1.Click += new System.EventHandler(this.ctlButton1_Click);
             // 
@@ -250,7 +258,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel3, 2);
             this.flowLayoutPanel3.Controls.Add(this._btnOk);
             this.flowLayoutPanel3.Controls.Add(this._btnCancel);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(680, 589);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(702, 751);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(288, 56);
@@ -289,10 +297,10 @@
             this._txtDataSetData.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetData.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtDataSetData.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetData.Location = new System.Drawing.Point(24, 201);
+            this._txtDataSetData.Location = new System.Drawing.Point(24, 358);
             this._txtDataSetData.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._txtDataSetData.Name = "_txtDataSetData";
-            this._txtDataSetData.Size = new System.Drawing.Size(792, 29);
+            this._txtDataSetData.Size = new System.Drawing.Size(814, 29);
             this._txtDataSetData.TabIndex = 8;
             this._txtDataSetData.TextChanged += new System.EventHandler(this._txtDataSetData_TextChanged);
             // 
@@ -300,7 +308,7 @@
             // 
             this._btnDataSetData.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnDataSetData.Image = ((System.Drawing.Image)(resources.GetObject("_btnDataSetData.Image")));
-            this._btnDataSetData.Location = new System.Drawing.Point(832, 201);
+            this._btnDataSetData.Location = new System.Drawing.Point(854, 358);
             this._btnDataSetData.Margin = new System.Windows.Forms.Padding(8);
             this._btnDataSetData.Name = "_btnDataSetData";
             this._btnDataSetData.Size = new System.Drawing.Size(128, 40);
@@ -321,7 +329,7 @@
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(0);
             this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(968, 108);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(990, 108);
             this.ctlTitleBar1.SubText = "Welcome to {ProductName}.\r\nBefore we begin there\'s a couple of details we need.";
             this.ctlTitleBar1.TabIndex = 19;
             this.ctlTitleBar1.Text = "{ProductName}";
@@ -332,10 +340,10 @@
             this._txtPathwayTools.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtPathwayTools.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtPathwayTools.ForeColor = System.Drawing.Color.Blue;
-            this._txtPathwayTools.Location = new System.Drawing.Point(24, 390);
+            this._txtPathwayTools.Location = new System.Drawing.Point(24, 531);
             this._txtPathwayTools.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._txtPathwayTools.Name = "_txtPathwayTools";
-            this._txtPathwayTools.Size = new System.Drawing.Size(792, 29);
+            this._txtPathwayTools.Size = new System.Drawing.Size(814, 29);
             this._txtPathwayTools.TabIndex = 8;
             this._txtPathwayTools.TextChanged += new System.EventHandler(this._txtDataSetData_TextChanged);
             // 
@@ -343,7 +351,7 @@
             // 
             this._btnPathwayTools.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnPathwayTools.Image = ((System.Drawing.Image)(resources.GetObject("_btnPathwayTools.Image")));
-            this._btnPathwayTools.Location = new System.Drawing.Point(832, 390);
+            this._btnPathwayTools.Location = new System.Drawing.Point(854, 531);
             this._btnPathwayTools.Margin = new System.Windows.Forms.Padding(8);
             this._btnPathwayTools.Name = "_btnPathwayTools";
             this._btnPathwayTools.Size = new System.Drawing.Size(128, 40);
@@ -358,10 +366,10 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label4.Location = new System.Drawing.Point(24, 294);
+            this.label4.Location = new System.Drawing.Point(24, 451);
             this.label4.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(790, 80);
+            this.label4.Size = new System.Drawing.Size(810, 64);
             this.label4.TabIndex = 7;
             this.label4.Text = resources.GetString("label4.Text");
             this.label4.Visible = false;
@@ -379,7 +387,7 @@
             this.tableLayoutPanel2.Controls.Add(this.linkLabel1, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label6, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.linkLabel3, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 475);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 616);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
@@ -459,29 +467,82 @@
             this.linkLabel3.Text = "https://www.r-project.org/";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
-            // ctlButton4
+            // flowLayoutPanel5
             // 
-            this.ctlButton4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctlButton4.AutoSize = true;
-            this.ctlButton4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlButton4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.ctlButton4.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.ctlButton4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.ctlButton4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.ctlButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ctlButton4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlButton4.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this.ctlButton4.Location = new System.Drawing.Point(854, 116);
-            this.ctlButton4.Margin = new System.Windows.Forms.Padding(8);
-            this.ctlButton4.Name = "ctlButton4";
-            this.tableLayoutPanel1.SetRowSpan(this.ctlButton4, 2);
-            this.ctlButton4.Size = new System.Drawing.Size(106, 33);
-            this.ctlButton4.TabIndex = 12;
-            this.ctlButton4.Text = "Workspace";
-            this.toolTip1.SetToolTip(this.ctlButton4, "Shows the option to change the application workspace (you are seeing this option " +
-        "because you are in debug mode).");
-            this.ctlButton4.UseVisualStyleBackColor = false;
-            this.ctlButton4.Click += new System.EventHandler(this.ctlButton4_Click);
+            this.flowLayoutPanel5.AutoSize = true;
+            this.flowLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel5.Controls.Add(this.label9);
+            this.flowLayoutPanel5.Controls.Add(this.ctlButton5);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(0, 108);
+            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(188, 37);
+            this.flowLayoutPanel5.TabIndex = 9;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(8, 8);
+            this.label9.Margin = new System.Windows.Forms.Padding(8);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(143, 21);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "Working directory";
+            // 
+            // ctlButton5
+            // 
+            this.ctlButton5.FlatAppearance.BorderSize = 0;
+            this.ctlButton5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ctlButton5.Image = global::MetaboliteLevels.Properties.Resources.MnuDescribe;
+            this.ctlButton5.Location = new System.Drawing.Point(159, 8);
+            this.ctlButton5.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
+            this.ctlButton5.Name = "ctlButton5";
+            this.ctlButton5.Size = new System.Drawing.Size(21, 21);
+            this.ctlButton5.TabIndex = 17;
+            this.ctlButton5.Text = "";
+            this.ctlButton5.UseVisualStyleBackColor = true;
+            this.ctlButton5.Click += new System.EventHandler(this.ctlButton5_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label10.Location = new System.Drawing.Point(24, 153);
+            this.label10.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(811, 48);
+            this.label10.TabIndex = 7;
+            this.label10.Text = resources.GetString("label10.Text");
+            this.label10.Visible = false;
+            // 
+            // _txtWorkingDirectory
+            // 
+            this._txtWorkingDirectory.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._txtWorkingDirectory.ForeColor = System.Drawing.Color.Blue;
+            this._txtWorkingDirectory.Location = new System.Drawing.Point(24, 217);
+            this._txtWorkingDirectory.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this._txtWorkingDirectory.Name = "_txtWorkingDirectory";
+            this._txtWorkingDirectory.ReadOnly = true;
+            this._txtWorkingDirectory.Size = new System.Drawing.Size(814, 29);
+            this._txtWorkingDirectory.TabIndex = 8;
+            this._txtWorkingDirectory.TextChanged += new System.EventHandler(this._txtDataSetData_TextChanged);
+            // 
+            // _btnSetWorkingDirectory
+            // 
+            this._btnSetWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSetWorkingDirectory.Image = ((System.Drawing.Image)(resources.GetObject("_btnSetWorkingDirectory.Image")));
+            this._btnSetWorkingDirectory.Location = new System.Drawing.Point(854, 217);
+            this._btnSetWorkingDirectory.Margin = new System.Windows.Forms.Padding(8);
+            this._btnSetWorkingDirectory.Name = "_btnSetWorkingDirectory";
+            this._btnSetWorkingDirectory.Size = new System.Drawing.Size(128, 40);
+            this._btnSetWorkingDirectory.TabIndex = 9;
+            this._btnSetWorkingDirectory.Text = "Select...";
+            this._btnSetWorkingDirectory.UseDefaultSize = true;
+            this._btnSetWorkingDirectory.UseVisualStyleBackColor = true;
+            this._btnSetWorkingDirectory.Click += new System.EventHandler(this._btnSetWorkingDirectory_Click);
             // 
             // _cmsR
             // 
@@ -531,23 +592,13 @@
             this.defaultToolStripMenuItem.Text = "{Default}";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
             // 
-            // toolTip1
-            // 
-            this.toolTip1.AutoPopDelay = 50000;
-            this.toolTip1.InitialDelay = 1;
-            this.toolTip1.IsBalloon = true;
-            this.toolTip1.ReshowDelay = 100;
-            this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.toolTip1.ToolTipTitle = "Help";
-            this.toolTip1.UseFading = false;
-            // 
             // FrmInitialSetup
             // 
             this.AcceptButton = this._btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._btnCancel;
-            this.ClientSize = new System.Drawing.Size(968, 645);
+            this.ClientSize = new System.Drawing.Size(990, 807);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -565,6 +616,8 @@
             this.flowLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
             this._cmsR.ResumeLayout(false);
             this._cmsPathwayTools.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -605,9 +658,13 @@
         private Controls.CtlButton ctlButton2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton ctlButton1;
-        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private Controls.CtlButton ctlButton3;
-        private Controls.CtlButton ctlButton4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
+        private System.Windows.Forms.Label label9;
+        private Controls.CtlButton ctlButton5;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox _txtWorkingDirectory;
+        private Controls.CtlButton _btnSetWorkingDirectory;
     }
 }
