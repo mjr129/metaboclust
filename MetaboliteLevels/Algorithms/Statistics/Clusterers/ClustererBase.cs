@@ -41,7 +41,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// </summary>
         public abstract bool RequiresDistanceMatrix { get; }
 
-        public ResultClusterer Calculate(Core core, int isPreview, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog, out ValueMatrix vmatrixOut, out DistanceMatrix dmatrixOut)
+        public ResultClusterer ExecuteAlgorithm(Core core, int isPreview, bool doNotCluster, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog, out ValueMatrix vmatrixOut, out DistanceMatrix dmatrixOut)
         {
             IReadOnlyList<Peak> peaks;
 
@@ -70,12 +70,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             PeakFilter pfilter = args.PeakFilter ?? Settings.PeakFilter.Empty;
 
             Filter<Peak>.Results filter = pfilter.Test(peaks);
-            List<Cluster> insigs = new List<Cluster>();
+            Cluster insigs;
 
-            if (filter.Failed.Count != 0)
+            if (filter.Failed.Count == 0)
             {
-                Cluster insig = new Cluster("Insig", tag);
-                insig.States |= Data.Visualisables.Cluster.EStates.Insignificants;
+                insigs = null;
+            }
+            else
+            {
+                insigs = new Cluster("Insig", tag);
+                insigs.States |= Data.Visualisables.Cluster.EStates.Insignificants;
 
                 // We still need the vmatrix for plotting later
                 ValueMatrix insigvMatrix = ValueMatrix.Create(filter.Failed, args.SourceMode == EAlgoSourceMode.Trend, core, args.ObsFilter, false, prog);
@@ -83,10 +87,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 for (int index = 0; index < insigvMatrix.NumVectors; index++)
                 {
                     Vector p = insigvMatrix.Vectors[index];
-                    insig.Assignments.Add(new Assignment(p, insig, double.NaN));
-                }
-
-                insigs.Add(insig);
+                    insigs.Assignments.Add(new Assignment(p, insigs, double.NaN));
+                }                      
             }
 
             // CREATE VMATRIX AND FILTER OBSERVATIONS
@@ -101,6 +103,13 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             prog.Leave();
             IEnumerable<Cluster> clusters;
 
+            if (doNotCluster)
+            {
+                vmatrixOut = vmatrix;
+                dmatrixOut = dmatrix;
+                return null;
+            }
+
             // CLUSTER USING VMATRIX OR DMATRIX
             prog.Enter("Clustering");
             clusters = Cluster(vmatrix, dmatrix, args, tag, prog);
@@ -108,7 +117,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 
             vmatrixOut = vmatrix;
             dmatrixOut = dmatrix;
-            return new ResultClusterer(insigs.Concat(clusters));
+
+            List<Cluster> result = new List<Cluster>();
+            result.Add(insigs);
+            result.AddRange(clusters);
+            return new ResultClusterer(result);
         }
 
         /// <summary>

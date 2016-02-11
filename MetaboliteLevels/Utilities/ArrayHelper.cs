@@ -615,13 +615,13 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// (MJR) Add with a lock
+        /// (MJR) Add or replace with a lock
         /// </summary>           
-        public static void ThreadSafeAdd<T, U>(this Dictionary<T, U> self, T key, U value)
+        public static void ThreadSafeIndex<T, U>(this Dictionary<T, U> self, T key, U value)
         {
             lock (self)
             {
-                self.Add(key, value);
+                self[key] = value;
             }
         }
 

@@ -842,14 +842,9 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return;
             }
 
-            ClusterEvaluationResults set = FrmWait.Show(this, "Loading results", null, z => LoadResults(fn, z));
-            ClusterEvaluationPointer fakePointer = new ClusterEvaluationPointer(set.Configuration);
+            _core.EvaluationResultFiles.Add(new ClusterEvaluationPointer(fn));
 
-            if (set != null)
-            {
-                _core.EvaluationResultFiles.Add(new ClusterEvaluationPointer(fn, fakePointer));
-                SelectResults(fn, set);
-            }
+            FrmMsgBox.ShowInfo(this, "Import Results", "The file(s) have been imported into the current session. The complete details for these will not be available until the results are loaded.", "92906743-FBB5-4645-8DFA-0B75D5CBE75A");
         }
 
         /// <summary>
@@ -865,6 +860,15 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             ClusterEvaluationResults set = FrmWait.Show(this, "Loading results", null, z => LoadResults(res.FileName, z));
+
+            if (res.Configuration == null)
+            {
+                // The results didn't have known config, they do now!
+                _core.EvaluationResultFiles.Remove(res);
+                _core.EvaluationResultFiles.Add(new ClusterEvaluationPointer(res.FileName, set.Configuration));
+
+                FrmMsgBox.ShowInfo(this, "Imported results", "The details on this result set have been imported into the current session. You will have to save the session to view these details in future.", "5E0F2D8D-F4CD-4D92-8E18-62B67743EAC1");
+            }
 
             if (set != null)
             {
@@ -920,15 +924,29 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lstParams_SelectedIndexChanged(sender, e);
         }
 
+        [Flags]
+        enum EUpdateResults
+        {
+            None = 0,
+
+            [Name("Resave")]
+            Resave = 1,
+
+            [Name("Export CSV")]
+            Csv = 2,
+
+            [Name("Export text")]
+            Information = 4,
+
+            [Name("Recalculate statistics")]
+            Statistics = 8,
+        }
+
         private void updateResultsDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string option1 = "Export statistics to CSV";
-            string option2 = "Convert results data to latest format";
-            string option3 = "Write information file";
+            EUpdateResults options = EnumHelper.SumEnum(ListValueSet.ForFlagsEnum<EUpdateResults>("Batch Options").ShowCheckBox(this));
 
-            IEnumerable<int> options = ListValueSet.ForString("Batch Options", option1, option2, option3).ShowCheckBox(this);
-
-            if (options == null || options.Count() == 0)
+            if (options == EUpdateResults.None)
             {
                 return;
             }
@@ -940,12 +958,23 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return;
             }
 
-            string log = FrmWait.Show<string>(this, "Batch Process", null, proggy => BatchProcess(options.Contains(0), options.Contains(1), options.Contains(2), tests, proggy));
+            EClustererStatistics stats;
+
+            if (options.Has(EUpdateResults.Statistics))
+            {
+                stats = EnumHelper.SumEnum(ListValueSet.ForFlagsEnum<EClustererStatistics>("Statistics").ShowCheckBox(this));
+            }
+            else
+            {
+                stats = EClustererStatistics.None;
+            }
+
+            string log = FrmWait.Show<string>(this, "Batch Process", null, proggy => BatchProcess(options, tests, stats, proggy));
 
             FrmInputLarge.ShowFixed(this, this.Text, "Batch Process", "Results of the batch process", log);
         }
 
-        private string BatchProcess(bool exportCsv, bool resave, bool saveInformation, IEnumerable<ClusterEvaluationPointer> tests, ProgressReporter proggy)
+        private string BatchProcess(EUpdateResults options, IEnumerable<ClusterEvaluationPointer> tests, EClustererStatistics stats, ProgressReporter proggy)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -964,7 +993,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                 Stopwatch timer = Stopwatch.StartNew();
                 proggy.Enter("Loading results");
-                bool load = (exportCsv || resave);
+                bool load = options.Has(EUpdateResults.Csv | EUpdateResults.Statistics | EUpdateResults.Resave);
                 ClusterEvaluationResults set = load ? LoadResults(res.FileName, proggy) : null;
                 proggy.Leave();
 
@@ -977,7 +1006,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 sb.AppendLine(" - LOAD-TIME: " + timer.Elapsed);
                 sb.AppendLine();
 
-                if (exportCsv)
+                if (options.Has(EUpdateResults.Csv))
                 {
                     timer.Restart();
                     proggy.Enter("Selecting results");
@@ -1007,7 +1036,15 @@ namespace MetaboliteLevels.Forms.Algorithms
                     sb.AppendLine();
                 }
 
-                if (saveInformation)
+                if (options.Has(EUpdateResults.Statistics))
+                {
+                    foreach (ClusterEvaluationParameterResult rep in set.Results)
+                    {
+                        rep.RecalculateStatistics(stats);
+                    }
+                }
+
+                if (options.Has(EUpdateResults.Information))
                 {
                     proggy.Enter("Exporting information");
 
@@ -1025,7 +1062,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     sb.AppendLine();
                 }
 
-                if (resave)
+                if (options.Has(EUpdateResults.Resave))
                 {
                     string bakFileName = Path.Combine(Path.GetDirectoryName(res.FileName), Path.GetFileNameWithoutExtension(res.FileName) + ".old");
                     bakFileName = UiControls.GetNewFile(bakFileName, checkOriginal: true);

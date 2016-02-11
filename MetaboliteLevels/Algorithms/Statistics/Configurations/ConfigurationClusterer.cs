@@ -30,7 +30,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             // Get results
             ValueMatrix vmatrix;
             DistanceMatrix dmatrix;
-            ResultClusterer results = this.Cached.Calculate(core, isPreview, this.Args, this, prog, out vmatrix, out dmatrix);
+            ResultClusterer results = this.Cached.ExecuteAlgorithm(core, isPreview, this.Args, this, prog, out vmatrix, out dmatrix);
 
             // Finalize statistics
             results.FinalizeResults(core, this.Args.Distance, vmatrix, dmatrix, this.Args.Statistics, prog);

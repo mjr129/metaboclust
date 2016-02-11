@@ -25,7 +25,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         private const string STAT_ASSIGNMENT_NEXT_NEAREST_CLUSTER = "Next nearest cluster";
         private const string STAT_ASSIGNMENT_SCORE = "Score";
         private const string STAT_ASSIGNMENT_EUCLIDEAN_FROM_AVG = "Euclidean distance";
+        private const string STAT_ASSIGNMENT_EUCLIDEAN_FROM_AVG_SQUARED = "Euclidean distance squared";
         private const string STAT_ASSIGNMENT_DISTANCE_FROM_AVG = " distance";
+        private const string STAT_ASSIGNMENT_DISTANCE_FROM_AVG_SQUARED = " distance squared";
 
         // Clusters
         private const string STAT_CLUSTER_AVERAGE_HIGHEST_NUM_COMPOUNDS = "Max compounds in pathway";
@@ -36,7 +38,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         // Clusterers
         private const string STAT_CLUSTERER_BIC = "BIC";
         private const string STAT_NUM_VECTORS = "Number of vectors";
-        private const string STAT_LENGTH_OF_VECTORS = "Length of vectors";    
+        private const string STAT_LENGTH_OF_VECTORS = "Length of vectors";
 
         /// <summary>
         /// Clusters (inc. insignificants)
@@ -79,29 +81,44 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         }
 
         /// <summary>
-        /// Action completed - calcula
+        /// Action completed - calculate statisstics
         /// </summary>
         internal void FinalizeResults(Core core, ConfigurationMetric metric, ValueMatrix vmatrix, DistanceMatrix dmatrix, EClustererStatistics statistics, ProgressReporter prog)
         {
             UiControls.Assert(Assignments.IsEmpty(), "FinalizeResults on ClusterResults already called.");
 
-            ClustererStatistics.Add(STAT_NUM_VECTORS, vmatrix.NumVectors);
-            ClustererStatistics.Add(STAT_LENGTH_OF_VECTORS, vmatrix[0].Length);
-
-            // Get the non-insig clusters
-            var realClusters = RealClusters.ToArray();
-
             // Get ALL the assignments
-            foreach (Cluster cluster in realClusters)
+            foreach (Cluster cluster in RealClusters)
             {
                 Assignments.AddRange(cluster.Assignments.List);
             }
+
+            RecalculateStatistics(core, metric, vmatrix, dmatrix, statistics, prog);
+        }
+
+        /// <summary>
+        /// Recalculates the statistics.
+        /// </summary>
+        /// <param name="core">Core</param>
+        /// <param name="metric">Metric for statistics</param>
+        /// <param name="statistics">What to calculate</param>
+        /// <param name="prog">Report progress to</param>
+        /// <param name="vmatrix">Value matrix</param>
+        /// <param name="dmatrix">Distance matrix (optional - if not present will be calculated if necessary)</param>
+        internal void RecalculateStatistics(Core core, ConfigurationMetric metric, ValueMatrix vmatrix, DistanceMatrix dmatrix, EClustererStatistics statistics, ProgressReporter prog)
+        {
+            // Add basics
+            ClustererStatistics[STAT_NUM_VECTORS] = vmatrix.NumVectors;
+            ClustererStatistics[STAT_LENGTH_OF_VECTORS] = vmatrix[0].Length;
 
             // Don't calculate metrics?
             if (statistics == EClustererStatistics.None)
             {
                 return;
             }
+
+            // Get the non-insig clusters
+            Cluster[] realClusters = RealClusters.ToArray();
 
             // If we don't have a DMatrix we should calculate the sil. width manually
             // The DMatrix might be too big to pass to R so its better just to avoid it.
@@ -239,7 +256,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
 
             if (statistics.HasFlag(EClustererStatistics.BayesianInformationCriterion))
             {
-                this.ClustererStatistics.Add(STAT_CLUSTERER_BIC, ClustererStatisticsHelper.CalculateBic(realClusters, Assignments));
+                this.ClustererStatistics[STAT_CLUSTERER_BIC] = ClustererStatisticsHelper.CalculateBic(realClusters, Assignments);
             }
         }
 
@@ -254,16 +271,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             cluster.CalculateAveragedStatistics();
             cluster.CalculateCommentFlags();
 
-            var clusterStatistics = cluster.ClusterStatistics;
-            var assignments = cluster.Assignments.List;
+            Dictionary<string, double> clusterStatistics = cluster.ClusterStatistics;
+            List<Assignment> assignments = cluster.Assignments.List;
 
             int hcomp, numcomp, hpeak, numpath;
             ClustererStatisticsHelper.CalculateHighestCompounds(cluster, out hcomp, out numcomp);
             ClustererStatisticsHelper.CalculateHighestPeaks(cluster, out hpeak, out numpath);
-            clusterStatistics.Add(STAT_CLUSTER_AVERAGE_HIGHEST_NUM_COMPOUNDS, hcomp);
-            clusterStatistics.Add(STAT_CLUSTER_AVERAGE_NUM_COMPOUNDS, numcomp);
-            clusterStatistics.Add(STAT_CLUSTER_AVERAGE_HIGHEST_NUM_PEAKS, hpeak);
-            clusterStatistics.Add(STAT_CLUSTER_AVERAGE_NUM_PATHWAYS, numpath);
+            clusterStatistics[STAT_CLUSTER_AVERAGE_HIGHEST_NUM_COMPOUNDS] = hcomp;
+            clusterStatistics[STAT_CLUSTER_AVERAGE_NUM_COMPOUNDS] = numcomp;
+            clusterStatistics[STAT_CLUSTER_AVERAGE_HIGHEST_NUM_PEAKS] = hpeak;
+            clusterStatistics[STAT_CLUSTER_AVERAGE_NUM_PATHWAYS] = numpath;
 
             //////////////////////////
             // GROUP STATS (cluster)
@@ -291,7 +308,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
                 // Euclidean
                 if (statistics.HasFlag(EClustererStatistics.EuclideanFromAverage))
                 {
-                    stat.Assignment.AssignmentStatistics.ThreadSafeAdd(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_EUCLIDEAN_FROM_AVG), Maths.Euclidean(stat.AssignmentVector.Values, stat.ClusterVector));
+                    double ed = Maths.Euclidean(stat.AssignmentVector.Values, stat.ClusterVector);
+                    stat.Assignment.AssignmentStatistics.ThreadSafeIndex(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_EUCLIDEAN_FROM_AVG), ed);
+                    stat.Assignment.AssignmentStatistics.ThreadSafeIndex(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_EUCLIDEAN_FROM_AVG_SQUARED), ed * ed);
                 }
 
                 // Custom (if applicable)
@@ -299,7 +318,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
                     && statistics.HasFlag(EClustererStatistics.DistanceFromAverage)
                     && !(metric.Id == Algo.ID_METRIC_EUCLIDEAN && statistics.HasFlag(EClustererStatistics.EuclideanFromAverage)))
                 {
-                    stat.Assignment.AssignmentStatistics.ThreadSafeAdd(CreatePartialKey(stat.ObsFilter, metric.ToString() + STAT_ASSIGNMENT_DISTANCE_FROM_AVG), metric.Calculate(stat.AssignmentVector.Values, stat.ClusterVector));
+                    string key1 = metric.ToString() + STAT_ASSIGNMENT_DISTANCE_FROM_AVG;
+                    string key2 = metric.ToString() + STAT_ASSIGNMENT_DISTANCE_FROM_AVG_SQUARED;
+                    double dd = metric.Calculate(stat.AssignmentVector.Values, stat.ClusterVector);
+
+                    stat.Assignment.AssignmentStatistics.ThreadSafeIndex(CreatePartialKey(stat.ObsFilter, key1), dd);
+                    stat.Assignment.AssignmentStatistics.ThreadSafeIndex(CreatePartialKey(stat.ObsFilter, key2), dd * dd);
                 }
             }
 
@@ -319,15 +343,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
                 }
 
                 // Silhouette
-                stat.Assignment.AssignmentStatistics.ThreadSafeAdd(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_SILHOUETTE_WIDTH), silhouetteWidth);
-                stat.Assignment.AssignmentStatistics.ThreadSafeAdd(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_NEXT_NEAREST_CLUSTER), nextNearestClusterId);
+                stat.Assignment.AssignmentStatistics.ThreadSafeIndex(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_SILHOUETTE_WIDTH), silhouetteWidth);
+                stat.Assignment.AssignmentStatistics.ThreadSafeIndex(CreatePartialKey(stat.ObsFilter, STAT_ASSIGNMENT_NEXT_NEAREST_CLUSTER), nextNearestClusterId);
             }
 
             // STATS: Score
             if (stat.ObsFilter == null)
             {
                 // Score
-                stat.Assignment.AssignmentStatistics.ThreadSafeAdd(STAT_ASSIGNMENT_SCORE, stat.Assignment.Score);
+                stat.Assignment.AssignmentStatistics.ThreadSafeIndex(STAT_ASSIGNMENT_SCORE, stat.Assignment.Score);
 
                 // Next nearest cluster
                 stat.Assignment.NextNearestCluster = nextNearestCluster; // Only one ForStat per Assignment has ObsFilter == null so thread safe not required
@@ -460,7 +484,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
 
                 foreach (var kvp in sums)
                 {
-                    stats.Add(CreateAveragedKey(kvp.Key, g), kvp.Value / totals.Counts[kvp.Key]);
+                    string statKey = CreateAveragedKey(kvp.Key, g);
+
+                    stats[statKey] = kvp.Value / totals.Counts[kvp.Key];
                 }
             }
         }

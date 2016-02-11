@@ -39,7 +39,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Describer = z => EnumHelper.ToDescription((Enum)(object)z),
                 Comparator = _EnumComparator<T>,
             };
-        }
+        }       
 
         /// <summary>
         /// Strings

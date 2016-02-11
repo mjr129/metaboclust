@@ -10,6 +10,12 @@ namespace MetaboliteLevels.Utilities
 {
     static class EnumHelper
     {
+        public static bool Has<T>(this T self, T flag)
+             where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
+        {
+            return (Convert.ToInt32(self) & Convert.ToUInt32(flag)) != 0;
+        }
+
         /// <summary>
         /// (MJR) Converts an enum to a string accounting for Name attributes.
         /// </summary>
@@ -75,6 +81,11 @@ namespace MetaboliteLevels.Utilities
         internal static T SumEnum<T>(IEnumerable<T> enumerable)
             where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
         {
+            if (enumerable == null)
+            {
+                return (T)Enum.ToObject(typeof(T), 0);
+            }
+
             int flags = 0;
 
             foreach (T t in enumerable)

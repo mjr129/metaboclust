@@ -51,18 +51,28 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
         /// <summary>
         /// CONSTRUCTOR
-        /// From newly stored results
+        /// From newly stored results and imported files
         /// </summary>       
-        public ClusterEvaluationPointer(string fileName, ClusterEvaluationPointer source)
+        public ClusterEvaluationPointer(string fileName, ClusterEvaluationConfiguration configuration)
         {
-            this.FileName = fileName;
-            this.Configuration = source.Configuration;
             this.Enabled = true; // It must be or we wouldn't have got here!
+            this.FileName = fileName;
+            this.Configuration = configuration;
         }
 
         /// <summary>
         /// CONSTRUCTOR
-        /// For a new test or an imported test
+        /// From imported files with unknown data
+        /// </summary>       
+        public ClusterEvaluationPointer(string fileName)
+        {
+            this.Enabled = true;
+            this.FileName = fileName;    
+        }
+
+        /// <summary>
+        /// CONSTRUCTOR
+        /// For a new test without results
         /// </summary>    
         internal ClusterEvaluationPointer(ClusterEvaluationConfiguration configuration)
         {

@@ -76,6 +76,7 @@
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.updateResultsDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findInexplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.paranoidModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -84,7 +85,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this._infoLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.findInexplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -716,6 +716,14 @@
             this.updateResultsDataToolStripMenuItem.Text = "Batch process...";
             this.updateResultsDataToolStripMenuItem.Click += new System.EventHandler(this.updateResultsDataToolStripMenuItem_Click);
             // 
+            // findInexplorerToolStripMenuItem
+            // 
+            this.findInexplorerToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.FolderOpen_16x16_72;
+            this.findInexplorerToolStripMenuItem.Name = "findInexplorerToolStripMenuItem";
+            this.findInexplorerToolStripMenuItem.Size = new System.Drawing.Size(205, 30);
+            this.findInexplorerToolStripMenuItem.Text = "Find in &explorer...";
+            this.findInexplorerToolStripMenuItem.Click += new System.EventHandler(this.findInexplorerToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
@@ -779,14 +787,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(823, 17);
             this.toolStripStatusLabel1.Spring = true;
-            // 
-            // findInexplorerToolStripMenuItem
-            // 
-            this.findInexplorerToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.FolderOpen_16x16_72;
-            this.findInexplorerToolStripMenuItem.Name = "findInexplorerToolStripMenuItem";
-            this.findInexplorerToolStripMenuItem.Size = new System.Drawing.Size(205, 30);
-            this.findInexplorerToolStripMenuItem.Text = "Find in &explorer...";
-            this.findInexplorerToolStripMenuItem.Click += new System.EventHandler(this.findInexplorerToolStripMenuItem_Click);
             // 
             // FrmEvaluateClustering
             // 

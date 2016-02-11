@@ -51,6 +51,6 @@ namespace MetaboliteLevels.Settings
 
         [Name("Selected distance")]
         [Description("Calculate distance from cluster average (selected distance metric)")]
-        DistanceFromAverage = 1 << 7,
+        DistanceFromAverage = 1 << 7,           
     }
 }

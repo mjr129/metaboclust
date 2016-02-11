@@ -10,6 +10,7 @@ using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Properties;
+using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 
@@ -129,7 +130,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
                 res.Add("Rep " + humanIndex + "\\Number of clusters", EColumn.None, z => (z.Repetitions[closure].Clusters) != null ? z.Repetitions[closure].Clusters.Length : 0);
 
-                foreach (var k in this.Repetitions[0].ClustererStatistics.Keys) // shouldn't use "this" or "0"
+                foreach (string k in this.Repetitions[0].ClustererStatistics.Keys) // shouldn't use "this" or "0"
                 {
                     string closure2 = k;
                     res.Add("Rep " + humanIndex + "\\" + closure2, EColumn.None, z => z.Repetitions[closure].ClustererStatistics.GetOrNan(closure2));
@@ -139,7 +140,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
             res.Add("Rep AVG\\Number of clusters", EColumn.None, z => z.Repetitions.Average(zz => (zz.Clusters != null) ? zz.Clusters.Length : 0));
 
-            foreach (var k in this.Repetitions[0].ClustererStatistics.Keys) // shouldn't use "this" or "0"
+            foreach (string k in this.Repetitions[0].ClustererStatistics.Keys) // shouldn't use "this" or "0"
             {
                 string closure = k;
                 res.Add("Rep AVG\\" + closure, EColumn.None, z => z.Repetitions.Average(zz => zz.ClustererStatistics.GetOrNan(closure)));
@@ -154,6 +155,17 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         void IVisualisable.RequestContents(ContentsRequest list)
         {
             // NA
+        }
+
+        /// <summary>
+        /// Recalculates the statistcal set.
+        /// </summary>                      
+        internal void RecalculateStatistics(EClustererStatistics stats)
+        {
+            foreach (ResultClusterer result in Repetitions)
+            {
+                result.RecalculateStatistics(stats);
+            }
         }
     }
 }
