@@ -732,7 +732,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return null;
             }
 
-            return new ClusterEvaluationPointer(fileName, originalPointer);
+            return new ClusterEvaluationPointer(fileName, originalPointer.Configuration);
         }
 
         /// <summary>
@@ -1040,7 +1040,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 {
                     foreach (ClusterEvaluationParameterResult rep in set.Results)
                     {
-                        rep.RecalculateStatistics(stats);
+                        rep.RecalculateStatistics(_core, stats, proggy);
                     }
                 }
 

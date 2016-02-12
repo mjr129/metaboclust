@@ -15,12 +15,12 @@ namespace MetaboliteLevels.Data
     /// <summary>
     /// A peak with extra information for plotting graphs.
     /// </summary>
-    class StylisedPeak
+    internal sealed class StylisedPeak
     {
         /// <summary>
         /// Peak to plot.
         /// </summary>
-        public Peak Peak;
+        public readonly Peak Peak;
 
         /// <summary>
         /// Plot in preview mode (suitable for small display)
@@ -48,7 +48,7 @@ namespace MetaboliteLevels.Data
         public StylisedPeakOptions OverrideDefaultOptions;
 
         /// <summary>
-        /// Ctor.
+        /// CONSTRUCTOR
         /// </summary>
         public StylisedPeak(Peak peak)
         {
@@ -56,7 +56,7 @@ namespace MetaboliteLevels.Data
         }
 
         /// <summary>
-        /// Debugging
+        /// OVERRIDES Object
         /// </summary>
         public override string ToString()
         {
@@ -64,7 +64,10 @@ namespace MetaboliteLevels.Data
         }
     }
 
-    class StylisedPeakOptions
+    /// <summary>
+    /// Options for plotting a peak.
+    /// </summary>
+    internal sealed class StylisedPeakOptions
     {
         public bool ViewAlternativeObservations;            // See CoreVisualOptions
         public IEnumerable<GroupInfo> ViewTypes;            // See CoreVisualOptions
@@ -78,7 +81,7 @@ namespace MetaboliteLevels.Data
 
         public StylisedPeakOptions(Core core)
         {
-            var visualOptions = core.Options;
+            CoreOptions visualOptions = core.Options;
 
             ViewAlternativeObservations = visualOptions.ViewAlternativeObservations;
             ShowRanges = visualOptions.ShowVariableRanges;

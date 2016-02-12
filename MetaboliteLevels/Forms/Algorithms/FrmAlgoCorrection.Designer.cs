@@ -74,6 +74,8 @@
             this._lblSepFilter = new System.Windows.Forms.Label();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this._btnBatchInfo = new MetaboliteLevels.Controls.CtlButton();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreview.SuspendLayout();
             this._flpPreviewButtons.SuspendLayout();
@@ -83,6 +85,7 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this._flpCorrector2.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -376,18 +379,19 @@
             this._flpCorrector.AutoSize = true;
             this._flpCorrector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._flpCorrector.Controls.Add(this._radType);
-            this._flpCorrector.Controls.Add(this._radBatch);
+            this._flpCorrector.Controls.Add(this.flowLayoutPanel2);
             this._flpCorrector.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this._flpCorrector.Location = new System.Drawing.Point(92, 172);
             this._flpCorrector.Margin = new System.Windows.Forms.Padding(0);
             this._flpCorrector.Name = "_flpCorrector";
-            this._flpCorrector.Size = new System.Drawing.Size(88, 82);
+            this._flpCorrector.Size = new System.Drawing.Size(111, 82);
             this._flpCorrector.TabIndex = 4;
             this._flpCorrector.WrapContents = false;
             // 
             // _radType
             // 
             this._radType.AutoSize = true;
+            this._flpCorrector.SetFlowBreak(this._radType, true);
             this._radType.Location = new System.Drawing.Point(8, 8);
             this._radType.Margin = new System.Windows.Forms.Padding(8);
             this._radType.Name = "_radType";
@@ -401,7 +405,7 @@
             // _radBatch
             // 
             this._radBatch.AutoSize = true;
-            this._radBatch.Location = new System.Drawing.Point(8, 49);
+            this._radBatch.Location = new System.Drawing.Point(8, 8);
             this._radBatch.Margin = new System.Windows.Forms.Padding(8);
             this._radBatch.Name = "_radBatch";
             this._radBatch.Size = new System.Drawing.Size(66, 25);
@@ -669,6 +673,33 @@
             this.ctlTitleBar1.Text = "Data Correction";
             this.ctlTitleBar1.WarningText = null;
             // 
+            // _btnBatchInfo
+            // 
+            this._btnBatchInfo.FlatAppearance.BorderSize = 0;
+            this._btnBatchInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnBatchInfo.Image = global::MetaboliteLevels.Properties.Resources.MnuDescribe;
+            this._btnBatchInfo.Location = new System.Drawing.Point(82, 8);
+            this._btnBatchInfo.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
+            this._btnBatchInfo.Name = "_btnBatchInfo";
+            this._btnBatchInfo.Size = new System.Drawing.Size(21, 21);
+            this._btnBatchInfo.TabIndex = 18;
+            this._btnBatchInfo.Text = "";
+            this._btnBatchInfo.UseVisualStyleBackColor = true;
+            this._btnBatchInfo.Click += new System.EventHandler(this._btnBatchInfo_Click);
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.AutoSize = true;
+            this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel2.Controls.Add(this._radBatch);
+            this.flowLayoutPanel2.Controls.Add(this._btnBatchInfo);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 41);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(111, 41);
+            this.flowLayoutPanel2.TabIndex = 19;
+            this.flowLayoutPanel2.WrapContents = false;
+            // 
             // FrmAlgoCorrection
             // 
             this.AcceptButton = this._btnOk;
@@ -698,6 +729,8 @@
             this.tableLayoutPanel2.PerformLayout();
             this._flpCorrector2.ResumeLayout(false);
             this._flpCorrector2.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -749,5 +782,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private Controls.CtlButton _btnBatchInfo;
     }
 }

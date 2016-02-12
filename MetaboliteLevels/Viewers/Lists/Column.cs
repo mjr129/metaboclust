@@ -153,9 +153,9 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
             }
 
-            if (result is IVisualisable)
+            if (result is ITitlable)
             {
-                IVisualisable v = (IVisualisable)result;
+                ITitlable v = (ITitlable)result;
 
                 return v.DisplayName;
             }

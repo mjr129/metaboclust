@@ -30,7 +30,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             // Get results
             ValueMatrix vmatrix;
             DistanceMatrix dmatrix;
-            ResultClusterer results = this.Cached.ExecuteAlgorithm(core, isPreview, this.Args, this, prog, out vmatrix, out dmatrix);
+            ResultClusterer results = this.Cached.ExecuteAlgorithm(core, isPreview, false, this.Args, this, prog, out vmatrix, out dmatrix);
 
             // Finalize statistics
             results.FinalizeResults(core, this.Args.Distance, vmatrix, dmatrix, this.Args.Statistics, prog);
@@ -49,7 +49,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
             columns.Add("Arguments\\Source mode", z => z.Args.SourceMode);
             columns.Add("Arguments\\Split groups", z => z.Args.SplitGroups);
-            columns.Add("Arguments\\Statistics", z => z.Args.Statistics); 
+            columns.Add("Arguments\\Statistics", z => z.Args.Statistics);
 
             return columns;
         }

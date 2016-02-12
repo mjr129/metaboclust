@@ -845,14 +845,17 @@ namespace MetaboliteLevels.Data.Session
 
             foreach (ConfigurationClusterer config in _clusterers)
             {
-                this._clusters.AddRange(config.Results.Clusters);
-
-                // ...to Peaks
-                foreach (Cluster cluster in config.Results.Clusters)
+                if (config.HasResults)
                 {
-                    foreach (var a in cluster.Assignments.List)
+                    this._clusters.AddRange(config.Results.Clusters);
+
+                    // ...to Peaks
+                    foreach (Cluster cluster in config.Results.Clusters)
                     {
-                        a.Peak.Assignments.Add(a);
+                        foreach (var a in cluster.Assignments.List)
+                        {
+                            a.Peak.Assignments.Add(a);
+                        }
                     }
                 }
             }

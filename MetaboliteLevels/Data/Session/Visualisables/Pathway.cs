@@ -117,11 +117,12 @@ namespace MetaboliteLevels.Data.Visualisables
             // Cluster: Pathways for cluster -> Peaks (PEAKS IN CLUSTER)
             // Compound: Pathway for compound -> Peaks (PEAKS IN COMPOUND)
             // Pathway: NA
-
-            StylisedCluster.HighlightElement[] toHighlight = null;
             const string caption1 = "Plot of peaks potentially representing compounds implicated in {0}.";
-            string caption2 = " Sets of peaks that may represent the same compound or set of compounds are shown in the same colour. Other peaks are shown in black.";
-            string caption3 = "";
+            string caption2 = " Colours represent peaks that share the same cluster(s).";
+            string caption3;
+
+            // Find out the peaks that we are supposed to highlight
+            StylisedCluster.HighlightElement[] toHighlight = null;
 
             if (highlightContents != null)
             {
@@ -144,10 +145,21 @@ namespace MetaboliteLevels.Data.Visualisables
                         toHighlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)highlightContents, null) };
                         caption3 = " {1} is shown in red.";
                         break;
+
+                    default:
+                        caption3 = "";
+                        break;
                 }
             }
+            else
+            {
+                caption3 = "";
+            }
 
-            // Make a list of the variables and the compounds in this cluster they might represent
+
+            bool highlightByCompound = false;
+
+            // Make a list of the peaks in this pathway
             Dictionary<Peak, List<Compound>> peaks = new Dictionary<Peak, List<Compound>>();
 
             foreach (Compound compound in this.Compounds)
@@ -168,10 +180,11 @@ namespace MetaboliteLevels.Data.Visualisables
                 }
             }
 
-            // Assign each combination of compounds a unique colour
-            Cluster fakeCluster = new Cluster(this.DefaultDisplayName, null);
-            List<List<Compound>> uniqueCombinations = new List<List<Compound>>();
-            Color[] colors = { Color.Blue, Color.Green, Color.Olive, Color.DarkRed, Color.DarkMagenta, Color.DarkCyan, Color.LightGreen, Color.LightBlue, Color.Magenta, Color.Cyan, Color.YellowGreen };
+            // Depending on the mode assign either each combination of compounds OR clusters a unique colour
+            Cluster fakeCluster = new Cluster(this.DisplayName, null);
+            List<List<Compound>> uniqueCompoundCombinations = new List<List<Compound>>();
+            List<List<Cluster>> uniqueClusterCombinations = new List<List<Cluster>>();
+
             int cindex = -1;
 
             ValueMatrix vm = ValueMatrix.Create(peaks.Keys.ToArray(), true, core, ObsFilter.Empty, false, ProgressReporter.GetEmpty());
@@ -181,14 +194,56 @@ namespace MetaboliteLevels.Data.Visualisables
                 var vec = vm.Vectors[vIndex];
                 Peak peak = vec.Peak;
                 List<Compound> compounds = peaks[peak];
+                Color col;
 
                 // Find or create peak in list
-                int uniqueIndex = Maths.FindMatch(uniqueCombinations, compounds);
-
-                if (uniqueIndex == -1)
+                if (highlightByCompound)
                 {
-                    uniqueIndex = uniqueCombinations.Count;
-                    uniqueCombinations.Add(compounds); // add list of peaks for this peak
+                    int uniqueIndex = Maths.FindMatch(uniqueCompoundCombinations, compounds);
+
+                    if (uniqueIndex == -1)
+                    {
+                        uniqueIndex = uniqueCompoundCombinations.Count;
+                        uniqueCompoundCombinations.Add(compounds); // add list of peaks for this peak
+                    }
+
+                    if (uniqueCompoundCombinations[uniqueIndex].Count == 1)
+                    {
+                        col = Color.Black;
+                    }      
+                    else
+                    {
+                        cindex++;
+
+                        if (cindex == UiControls.BrightColours.Length)
+                        {
+                            // If there are too many don't bother
+                            col = Color.Black;
+                            caption2 = "";
+
+                            foreach (var lii in colours)
+                            {
+                                lii.Value.Colour = Color.Black;
+                            }
+                        }
+                        else
+                        {
+                            col = UiControls.BrightColours[cindex % UiControls.BrightColours.Length];
+                        }
+                    }
+                }
+                else
+                {
+                    var l = vec.Peak.Assignments.Clusters.ToList();
+                    int uniqueIndex = Maths.FindMatch(uniqueClusterCombinations, l);
+
+                    if (uniqueIndex == -1)
+                    {
+                        uniqueIndex = uniqueClusterCombinations.Count;
+                        uniqueClusterCombinations.Add(l); // add list of peaks for this peak
+                    }
+
+                    col = UiControls.BrightColours[uniqueIndex % UiControls.BrightColours.Length];
                 }
 
                 StringBuilder legend = new StringBuilder();
@@ -216,38 +271,8 @@ namespace MetaboliteLevels.Data.Visualisables
                     legend.Append(" OR " + xCount + " others not in this pathway");
                 }
 
-                fakeCluster.Assignments.Add(new Assignment(vec, fakeCluster, double.NaN));
-
-                Color col;
-
-                if (uniqueCombinations[uniqueIndex].Count == 1)
-                {
-                    col = Color.Black;
-                }
-                else if (cindex == colors.Length)
-                {
-                    col = Color.Black;
-                }
-                else
-                {
-                    cindex++;
-
-                    if (cindex == colors.Length)
-                    {
-                        // If there are too many don't bother
-                        col = Color.Black;
-                        caption2 = "";
-
-                        foreach (var lii in colours)
-                        {
-                            lii.Value.Colour = Color.Black;
-                        }
-                    }
-                    else
-                    {
-                        col = colors[cindex % colors.Length];
-                    }
-                }
+                fakeCluster.Assignments.Add(new Assignment(vec, fakeCluster, double.NaN));        
+               
 
                 string seriesName = peak.DisplayName + (!peak.Assignments.List.IsEmpty() ? (" (" + StringHelper.ArrayToString(peak.Assignments.Clusters) + ")") : "") + ": " + legend.ToString();
                 var li = new LineInfo(seriesName, col, DashStyle.Solid);
@@ -395,13 +420,13 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 return "http://mediccyc.noble.org/MEDIC/new-image?type=PATHWAY&object=" + Id; // TODO: No!
             }
-        }    
+        }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
-        {            
+        {
             var result = new List<Column<Pathway>>();
 
             result.Add("ID", EColumn.None, λ => λ.Id);

@@ -72,6 +72,12 @@ namespace MetaboliteLevels.Settings
 
         public static void SaveToFile<T>(string fn, T data, SerialisationFormat format, ObjectSerialiser serialiser, ProgressReporter prog)
         {
+            // Because we move files we can write over readonly files, so prevent this here
+            if (File.Exists(fn) && new FileInfo(fn).IsReadOnly)
+            {
+                throw new InvalidOperationException($"Will not overwrite file because it is marked as readonly. Filename = '{fn}'.");
+            }
+
             // Can't cancel halfway through writing a file
             prog.DisableThrowOnCancel();
 

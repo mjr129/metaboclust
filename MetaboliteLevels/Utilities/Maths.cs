@@ -346,7 +346,7 @@ namespace MetaboliteLevels.Utilities
         /// Elements may be in any order (doesn't handle repeats).
         /// </summary>
         internal static int FindMatch<T>(List<List<T>> toSearch, List<T> toFind)
-        {
+        {        
             for (int i = 0; i < toSearch.Count; i++)
             {
                 List<T> toCompare = toSearch[i];

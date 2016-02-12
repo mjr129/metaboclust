@@ -298,7 +298,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3479, 521);
+            this.pictureBox1.Location = new System.Drawing.Point(3488, 521);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -1456,7 +1456,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 4);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(748, 720);
+            this.tabPage7.Size = new System.Drawing.Size(757, 720);
             this.tabPage7.TabIndex = 7;
             this.tabPage7.Text = "Ready";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1473,7 +1473,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(742, 714);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(751, 714);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // _chkAlarm
@@ -1500,7 +1500,7 @@
             this.label12.Margin = new System.Windows.Forms.Padding(48);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(8);
-            this.label12.Size = new System.Drawing.Size(646, 100);
+            this.label12.Size = new System.Drawing.Size(655, 100);
             this.label12.TabIndex = 4;
             this.label12.Text = "Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSaving " +
     "your session from the main menu will allow it to be loaded quickly in future.";

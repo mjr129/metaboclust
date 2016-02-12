@@ -250,10 +250,10 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Shows the big list (FrmBigList).
         /// </summary>         
-        public List<T> ShowBigList<T2>(ListValueSet<T2> self, Form owner, Core core)
-            where T2 : IVisualisable
+        public List<T> ShowBigList<T2>(Form owner, Core core)
+            where T2 : T, IVisualisable
         {
-            return (List<T>)(object)FrmBigList.ShowGeneric<T2>(owner, core, self, false);
+            return (List<T>)(object)FrmBigList.ShowGeneric<T2>(owner, core, (ListValueSet<T2>)(object)this, false);
         }
 
         /// <summary>

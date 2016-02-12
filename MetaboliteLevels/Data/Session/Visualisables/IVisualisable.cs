@@ -38,7 +38,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// Is this object enabled?
         /// </summary>
         bool Enabled { get; set; }
-    }
+    }  
 
     /// <summary>
     /// Stuff that can appear in lists.
@@ -57,15 +57,15 @@ namespace MetaboliteLevels.Data.Visualisables
         VisualClass VisualClass { get; }
 
         /// <summary>
+        /// Gets related items.
+        /// </summary>
+        void RequestContents(ContentsRequest list);
+
+        /// <summary>
         /// STATIC
         /// Gets columns
         /// </summary>
         IEnumerable<Column> GetColumns(Core core);
-
-        /// <summary>
-        /// Gets related items.
-        /// </summary>
-        void RequestContents(ContentsRequest list);
     }
 
     /// <summary>
@@ -102,9 +102,9 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Gets the display name.
         /// </summary>    
-        internal static string FormatDisplayName(string userTitle, string defaultName)
+        internal static string FormatDisplayName(IVisualisable visualisable)
         {
-            return string.IsNullOrEmpty(userTitle) ? defaultName : userTitle;
+            return string.IsNullOrEmpty(visualisable.OverrideDisplayName) ? visualisable.DefaultDisplayName : visualisable.OverrideDisplayName;
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace MetaboliteLevels.Data.Visualisables
             if (column != null)
             {
                 return column.GetRow(self);
-            }   
+            }
 
             return "{Missing: " + property + "}";
         }
@@ -312,7 +312,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 this.Description = description;
             }
         }
-    }           
+    }
 
     /// <summary>
     /// Types of IVisualisable.

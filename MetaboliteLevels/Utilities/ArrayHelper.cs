@@ -27,6 +27,14 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
+        /// (MJR) Returns the unique elements.
+        /// </summary>
+        public static HashSet<TResult> Unique<T, TResult>(this IEnumerable<T> self, Func<T, TResult> selector)
+        {
+            return new HashSet<TResult>(self.Select(selector));
+        }
+
+        /// <summary>
         /// (MJR) Like Linq.Concat for single elements
         /// </summary>
         public static IEnumerable<T> ConcatSingle<T>(this IEnumerable<T> self, T toAdd)

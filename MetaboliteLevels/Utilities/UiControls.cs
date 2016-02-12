@@ -58,6 +58,23 @@ namespace MetaboliteLevels.Utilities
         public static readonly Color PreviewBackColour = Color.LightSteelBlue; // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color PreviewForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
 
+        public static readonly Color[] BrightColours =
+            {
+                Color.FromArgb(0,255,0),
+                Color.FromArgb(255,0,0),
+                Color.FromArgb(192,128,0),
+                Color.FromArgb(255,0,192),
+                Color.FromArgb(128,0,255),
+                Color.FromArgb(0,128,255),
+                Color.FromArgb(128,128,255),
+                Color.FromArgb(255,128,128),
+                Color.FromArgb(128,192,128),
+                Color.FromArgb(128,128,128),
+                Color.FromArgb(128,0,128),
+                Color.FromArgb(128,128,0),
+                Color.FromArgb(0,128,128),
+                Color.FromArgb(0,0,255),
+            };  
 
         /// <summary>
         /// Initialises this class.
@@ -1282,7 +1299,7 @@ namespace MetaboliteLevels.Utilities
 
                 default:
                     throw new SwitchException(mode);
-            }  
+            }
         }
     }
 

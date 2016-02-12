@@ -246,7 +246,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         public FrmAlgoCorrection()
         {
-            InitializeComponent();    
+            InitializeComponent();
             UiControls.SetIcon(this);
 
             _lblPreviewTitle.BackColor = UiControls.PreviewBackColour;
@@ -504,6 +504,11 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             AlgoBase trend = (AlgoBase)_lstMethod.SelectedItem;
             FrmEditParameters.Show(trend, _txtParameters, _core, _readOnly);
+        }
+
+        private void _btnBatchInfo_Click(object sender, EventArgs e)
+        {
+            ListValueSet.ForBatches(_core).ShowBigList<BatchInfo>(this, _core);
         }
     }
 }

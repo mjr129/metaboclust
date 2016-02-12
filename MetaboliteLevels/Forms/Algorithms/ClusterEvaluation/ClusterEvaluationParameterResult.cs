@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Algorithms.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Algorithms.Statistics.Results;
@@ -51,12 +52,12 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// Results of each parameter manipulation
         /// </summary>
-        public List<ResultClusterer> Repetitions;     
+        public List<ResultClusterer> Repetitions;
 
         /// <summary>
         /// Name of this result set
         /// </summary>
-        private readonly string _defaultName;            
+        private readonly string _defaultName;
 
         /// <summary>
         /// CONSTRUCTOR
@@ -144,7 +145,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             {
                 string closure = k;
                 res.Add("Rep AVG\\" + closure, EColumn.None, z => z.Repetitions.Average(zz => zz.ClustererStatistics.GetOrNan(closure)));
-            }                                                                                                                        
+            }
 
             return res;
         }
@@ -160,11 +161,14 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// Recalculates the statistcal set.
         /// </summary>                      
-        internal void RecalculateStatistics(EClustererStatistics stats)
+        internal void RecalculateStatistics(Core core, EClustererStatistics stats, ProgressReporter prog)
         {
             foreach (ResultClusterer result in Repetitions)
             {
-                result.RecalculateStatistics(stats);
+                ValueMatrix vmatrix;
+                DistanceMatrix dmatrix;
+                Owner.ClustererConfiguration.Cached.ExecuteAlgorithm(core, -1, true, Owner.ClustererConfiguration.Args, null, prog, out vmatrix, out dmatrix);
+                result.RecalculateStatistics(core, Owner.ClustererConfiguration.Args.Distance, vmatrix, dmatrix, stats, prog);
             }
         }
     }

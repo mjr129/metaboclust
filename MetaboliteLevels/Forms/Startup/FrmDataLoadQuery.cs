@@ -115,7 +115,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                 tsmi.Click += tsmi_Click;
 
-                _cmsRecentWorkspaces.Items.Add(tsmi); 
+                _cmsRecentWorkspaces.Items.Add(tsmi);
                 UiControls.AddMenuCaption(_cmsRecentWorkspaces, entry.Session);
             }
 
@@ -123,6 +123,7 @@ namespace MetaboliteLevels.Forms.Startup
             _cmsRecentWorkspaces.Items.Add(_mnuBrowseWorkspaceSep);
             _mnuBrowseWorkspace = new ToolStripMenuItem("Browse...");
             _mnuBrowseWorkspace.Click += _mnuBrowseWorkspace_Click;
+            _mnuBrowseWorkspace.Font = new Font(_mnuBrowseWorkspace.Font, FontStyle.Bold);
             _cmsRecentWorkspaces.Items.Add(_mnuBrowseWorkspace);
 
             _btnDeleteWorkspace.Visible = recentWorkspaces.Count != 0;
@@ -131,6 +132,7 @@ namespace MetaboliteLevels.Forms.Startup
             tsmi = new ToolStripMenuItem
             {
                 Text = "Browse...",
+                Font = FontHelper.BoldFont,
                 Tag = null,
                 Image = Resources.MnuOpen
             };
@@ -183,7 +185,7 @@ namespace MetaboliteLevels.Forms.Startup
                     }
                 }
             }
-        }              
+        }
 
         protected override void OnSizeChanged(EventArgs e)
         {
@@ -787,7 +789,7 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 UiControls.RestartProgram();
             }
-        }               
+        }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {

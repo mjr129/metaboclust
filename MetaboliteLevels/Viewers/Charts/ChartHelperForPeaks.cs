@@ -38,9 +38,9 @@ namespace MetaboliteLevels.Viewers.Charts
         {
         }
 
-        public Bitmap CreateBitmap(int width, int height, StylisedPeak variable)
+        public Bitmap CreateBitmap(int width, int height, StylisedPeak peak)
         {
-            Plot(variable);
+            Plot(peak);
             return CreateBitmap(width, height);
         }
 
@@ -48,12 +48,12 @@ namespace MetaboliteLevels.Viewers.Charts
         {
             Debug.WriteLine("PeakPlot: " + stylisedPeak);
             Dictionary<string, MChart.Series> seriesNames = new Dictionary<string, MChart.Series>();
+            Peak peak = stylisedPeak?.Peak;
 
             // Clear plot
-            MChart.Plot plot = PrepareNewPlot(stylisedPeak != null && !stylisedPeak.IsPreview, stylisedPeak != null ? stylisedPeak.Peak : null);
+            MChart.Plot plot = PrepareNewPlot(stylisedPeak != null && !stylisedPeak.IsPreview, peak);
 
-            // Get selection
-            Peak peak = stylisedPeak != null ? stylisedPeak.Peak : null;
+            // Get selection   
             SelectedPeak = peak;
             SetCaption("Plot of {0}.", peak);
 
@@ -64,14 +64,15 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // Get options
-            var opts = stylisedPeak.OverrideDefaultOptions ?? new StylisedPeakOptions(_core);
+            StylisedPeakOptions opts = stylisedPeak.OverrideDefaultOptions ?? new StylisedPeakOptions(_core);
 
             // Get order data
-            var condOrder = _core.Conditions.ToArray();
-            var obsOrder = _core.Observations.ToArray();
+            ConditionInfo[] condOrder = _core.Conditions.ToArray();
+            ObservationInfo[] obsOrder = _core.Observations.ToArray();
 
             // Group legends
-            var groupLegends = DrawLegend(plot, opts.ViewTypes);
+            IEnumerable<GroupInfoBase> order = opts.ShowAcqisition ? (IEnumerable<GroupInfoBase>)opts.ViewBatches : (IEnumerable<GroupInfoBase>)opts.ViewTypes;
+            Dictionary<GroupInfoBase, MChart.Series> groupLegends = DrawLegend(plot, order);
 
             // Get observations
             PeakValueSet observations;
@@ -96,7 +97,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // COPY the observations (since we will reorder them)
-            var raw = observations.Raw.ToArray();
+            double[] raw = observations.Raw.ToArray();
 
             // Show acquisition and batches?
             if (opts.ShowAcqisition)
@@ -126,13 +127,13 @@ namespace MetaboliteLevels.Viewers.Charts
                     AddToPlot(plot, peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2);
                 }
 
-                DrawLabels(plot, true, opts.ViewBatches);
+                DrawLabels(plot, opts.ConditionsSideBySide, order);
                 CompleteNewPlot(plot);
                 return;
             }
 
             // Sort data
-            var amm = ArrayHelper.Zip(observations.Trend, observations.Min, observations.Max).ToArray(); // TODO: this is awful sorting
+            Tuple<double, double, double>[] amm = ArrayHelper.Zip(observations.Trend, observations.Min, observations.Max).ToArray(); // TODO: this is awful sorting
 
             ArrayHelper.Sort(condOrder, amm, ConditionInfo.GroupTimeOrder);
             ArrayHelper.Sort(obsOrder, raw, ObservationInfo.GroupTimeOrder);
@@ -201,7 +202,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // --- LABELS ---
-            DrawLabels(plot, opts.ConditionsSideBySide, opts.ViewTypes);
+            DrawLabels(plot, opts.ConditionsSideBySide, order);
 
             CompleteNewPlot(plot);
         }
@@ -309,9 +310,9 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 // Create the series
-                var sMean = plot.Series.Add(@group.Name + ": Mean");
-                var sMin = plot.Series.Add(@group.Name + ": StdDevMin");
-                var sMax = plot.Series.Add(@group.Name + ": StdDevMax");
+                MChart.Series sMean = plot.Series.Add(@group.Name + ": Mean");
+                MChart.Series sMin = plot.Series.Add(@group.Name + ": StdDevMin");
+                MChart.Series sMax = plot.Series.Add(@group.Name + ": StdDevMax");
 
                 sMean.ApplicableLegends.Add(groupLegends[group]);
                 sMin.ApplicableLegends.Add(groupLegends[group]);
@@ -399,7 +400,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                 if (byCondition)
                 {
-                    var cond = (ConditionInfo)ord;
+                    ConditionInfo cond = (ConditionInfo)ord;
                     condType = cond.Group;
                     condDay = cond.Time;
                     condRep = null;
@@ -408,7 +409,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
                 else
                 {
-                    var obs = (ObservationInfo)ord;
+                    ObservationInfo obs = (ObservationInfo)ord;
                     condType = obs.Group;
                     condDay = obs.Time;
                     condRep = obs.Rep;
@@ -432,7 +433,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     }
                 }
 
-                bool colorByBatch = draw.HasFlag(EPlot.ByBatch) && draw.HasFlag(EPlot.DrawLine);
+                bool colorByBatch = draw.HasFlag(EPlot.ByBatch);
                 GroupInfoBase seriesUsing = colorByBatch ? (GroupInfoBase)condBatch : (GroupInfoBase)condType;
 
                 string name = seriesName + " for " + seriesUsing.Name;
@@ -496,8 +497,8 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 // Create the point
-                var cdp = new MChart.DataPoint(xPos, yPos);
-                var tag = new IntensityInfo(condDay, condRep, condType, yPos);
+                MChart.DataPoint cdp = new MChart.DataPoint(xPos, yPos);
+                IntensityInfo tag = new IntensityInfo(condDay, condRep, condType, yPos);
                 cdp.Tag = tag;
                 series.Points.Add(cdp);
             }

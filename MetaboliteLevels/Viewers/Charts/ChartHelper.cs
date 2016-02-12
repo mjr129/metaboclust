@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Viewers.Charts
         public event EventHandler<ChartSelectionEventArgs> SelectionChanged;
 
         protected Core _core;
-        protected readonly MChart _chart;                
+        protected readonly MChart _chart;
         private readonly ISelectionHolder _selector;
 
 
@@ -71,7 +71,7 @@ namespace MetaboliteLevels.Viewers.Charts
         public ChartHelper(ISelectionHolder selector, Core core, Control targetSite, bool describePeaks)
         {
             this._selector = selector;
-            this._core = core;                          
+            this._core = core;
 
             // CHART
             this._chart = new MChart();
@@ -131,7 +131,7 @@ namespace MetaboliteLevels.Viewers.Charts
             _mnuSelectedSeries = CreateSelectionButton(Resources.MnuWarning);
 
             // PLOT BUTTON ITEMS       
-            _mnuPlot.DropDownOpening += _menuButtonMenu_Opening;   
+            _mnuPlot.DropDownOpening += _menuButtonMenu_Opening;
             _btnNavigateToSelected = _mnuPlot.DropDownItems.Add("Select this", null, SelectThis_Click);
             _mnuPlot.DropDownItems.Add(new ToolStripSeparator());
             _mnuPlot.DropDownItems.Add("Toggle legend", null, ToggleLegend_Click);
@@ -350,7 +350,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     _mnuCustomText.Text = "";
                     _mnuCustomText.Visible = false;
                 }
-            }      
+            }
 
             if (axes)
             {
@@ -496,7 +496,7 @@ namespace MetaboliteLevels.Viewers.Charts
                         _mnuSelectedGroup.Visible = false;
                     }
 
-                    if (_chkShowSeries.Checked)
+                    if (_chkShowSeries.Checked && _chart.SelectedItem.Series.Length != 0)
                     {
                         _mnuSelectedSeries.Text = _chart.SelectedItem.Series[0].Name;
                         _mnuSelectedSeries.Image = _chart.SelectedItem.Series[0].DrawLegendKey(_menuBar.ImageScalingSize.Width, _menuBar.ImageScalingSize.Height);
@@ -534,8 +534,8 @@ namespace MetaboliteLevels.Viewers.Charts
         protected Dictionary<GroupInfoBase, MChart.Series> DrawLegend(MChart.Plot plot, IEnumerable<GroupInfoBase> viewTypes)
         {
             Dictionary<GroupInfoBase, MChart.Series> result = new Dictionary<GroupInfoBase, MChart.Series>();
-            
-            foreach (GroupInfo group in viewTypes)
+
+            foreach (GroupInfoBase group in viewTypes)
             {
                 MChart.Series legendEntry = new MChart.Series();
                 legendEntry.Name = group.Name;
@@ -548,7 +548,7 @@ namespace MetaboliteLevels.Viewers.Charts
         }
 
         protected void DrawLabels(MChart.Plot plot, bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups)
-        {   
+        {
             if (bConditionsSideBySide)
             {
                 foreach (GroupInfoBase ti in orderOfGroups)

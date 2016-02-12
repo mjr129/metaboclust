@@ -88,7 +88,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 {
                     Vector p = insigvMatrix.Vectors[index];
                     insigs.Assignments.Add(new Assignment(p, insigs, double.NaN));
-                }                      
+                }
             }
 
             // CREATE VMATRIX AND FILTER OBSERVATIONS
@@ -119,7 +119,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             dmatrixOut = dmatrix;
 
             List<Cluster> result = new List<Cluster>();
-            result.Add(insigs);
+
+            if (insigs != null)
+            {
+                result.Add(insigs);
+            }
+
             result.AddRange(clusters);
             return new ResultClusterer(result);
         }
