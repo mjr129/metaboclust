@@ -61,7 +61,7 @@ namespace MetaboliteLevels.Controls
                 return;
             }
 
-            _selector.Selection = new VisualisableSelection((IVisualisable)e.Link.LinkData, EActivateOrigin.External);
+            _selector.Selection = new VisualisableSelection((IVisualisable)e.Link.LinkData);
         }
 
         public void SetText(string format, params IVisualisable[] p)

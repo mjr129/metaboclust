@@ -115,31 +115,41 @@ namespace MetaboliteLevels.Viewers.Lists
             _listView.ColumnReordered += _listView_ColumnReordered;
             _listView.ColumnWidthChanged += _listView_ColumnWidthChanged;
 
+            // Create columns button
+            _btnColumns = new ToolStripDropDownButton("Columns", Resources.MnuColumn);
+            _btnColumns.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            _btnColumns.DropDownOpening += columnSelectMenu_DropDownOpening;
+            _toolStrip.Items.Add(_btnColumns);
+
+            // Menu: Export
+            ToolStripDropDownButton tsSaveMain = new ToolStripDropDownButton("Export", Resources.MnuSaveList);
+            tsSaveMain.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            _toolStrip.Items.Add(tsSaveMain);
+
             // Menu: Export visible
-            ToolStripButton tsSave = new ToolStripButton("Export (visible columns)", Resources.MnuSave, tsExportVisible_Click);
-            tsSave.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            _toolStrip.Items.Insert(0, tsSave);
+            ToolStripMenuItem tsSave = new ToolStripMenuItem("Visible columns to file...", Resources.MnuSave, tsExportVisible_Click);
+            tsSaveMain.DropDownItems.Add(tsSave);
 
             // Menu: Export all
-            ToolStripButton tsSaveAll = new ToolStripButton("Export (include hidden columns)", Resources.MnuSaveAll, tsExportAll_Click);
-            tsSaveAll.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            _toolStrip.Items.Insert(0, tsSaveAll);
+            ToolStripMenuItem tsSaveAll = new ToolStripMenuItem("All columns to file...", Resources.MnuSaveAll, tsExportAll_Click);
+            tsSaveMain.DropDownItems.Add(tsSaveAll);
 
             // Menu: Copy to clipboard
-            ToolStripButton tsSave2 = new ToolStripButton("Copy to clipboard", Resources.MnuCopy, tsCopyToClipboard_Click);
-            tsSave2.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            _toolStrip.Items.Insert(0, tsSave2);
+            ToolStripMenuItem tsSave2 = new ToolStripMenuItem("Visible columns to clipboard", Resources.MnuCopy, tsCopyToClipboard_Click);
+            tsSaveMain.DropDownItems.Add(tsSave2);
 
             // Thumbnails
             if (previewProvider != null)
             {
-                ToolStripButton tsExpand = new ToolStripButton("Expand", Resources.MnuEnlarge);
-                tsExpand.Click += tsExpand_Click;
-                _toolStrip.Items.Insert(0, tsExpand);
+                ToolStripDropDownButton tsView = new ToolStripDropDownButton("View", Resources.MnuViewMode);
+                tsView.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                _toolStrip.Items.Add(tsView);
 
-                ToolStripButton tsThumbNails = new ToolStripButton("Thumbnails", Resources.MnuPreview);
-                tsThumbNails.Click += tsThumbNails_Click;
-                _toolStrip.Items.Insert(0, tsThumbNails);
+                ToolStripMenuItem tsExpand = new ToolStripMenuItem("Popout", Resources.MnuEnlarge, tsExpand_Click);
+                tsView.DropDownItems.Add(tsExpand);
+
+                ToolStripMenuItem tsThumbNails = new ToolStripMenuItem("Thumbnails", Resources.MnuPreview, tsThumbNails_Click);
+                tsView.DropDownItems.Add(tsThumbNails);
             }
 
             // Create column menu
@@ -158,12 +168,6 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 _mnuDisplayColumn.DropDownItems.Add(displayMode.ToUiString(), null, _mnuDisplayColumnItem_Click).Tag = displayMode;
             }
-
-            // Create columns button
-            _btnColumns = new ToolStripDropDownButton("Columns", Resources.MnuColumn);
-            _btnColumns.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            _btnColumns.DropDownOpening += columnSelectMenu_DropDownOpening;
-            _toolStrip.Items.Insert(0, _btnColumns);
 
             // Create filter label
             _lblFilter = _toolStrip.Items.Add("FILTER");
@@ -727,7 +731,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
             tsmi2.Checked = !tsmi2.Checked;
             EnablePreviews = tsmi2.Checked;
-        }     
+        }
 
         protected void ClearPreviewList()
         {
@@ -1018,7 +1022,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 lvsi.ForeColor = lvsi.BackColor;
                 lvsi.BackColor = x;
             }
-        }       
+        }
 
         public bool Visible
         {

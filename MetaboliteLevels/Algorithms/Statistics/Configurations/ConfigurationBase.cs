@@ -60,7 +60,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this);
             }
         }
 

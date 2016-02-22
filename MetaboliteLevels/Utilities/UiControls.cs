@@ -74,7 +74,7 @@ namespace MetaboliteLevels.Utilities
                 Color.FromArgb(128,128,0),
                 Color.FromArgb(0,128,128),
                 Color.FromArgb(0,0,255),
-            };  
+            };
 
         /// <summary>
         /// Initialises this class.
@@ -592,13 +592,13 @@ namespace MetaboliteLevels.Utilities
             [Name("All result types|Result files=mres|MS-NRBF results=mres-mbin|Serialised results / text=mres-txt|Serialised results / fast binary=mres-fbin|Serialised results / compact binary=mres-cbin")]
             EvaluationResults,
 
-            [Name("Comma separated value files=csv|Text files=.txt")]
+            [Name("Comma separated value files=csv|Text files=txt")]
             Csv,
 
             [Name("R scripts=r|Text files=txt")]
             RScript,
 
-            [Name("Supported image files|Portable network graphics=.png|Enhanced meta files=emf")]
+            [Name("Supported image files|Portable network graphics=png|Enhanced meta files=emf")]
             PngOrEmf,
 
             [Name("R data files=rdata")]
@@ -995,7 +995,7 @@ namespace MetaboliteLevels.Utilities
                 color2 = Color.FromArgb(32, color1.R, color1.G, color1.B);
             }
 
-            return CreateSolidColourImage(ti.ShortName, color2, color1);
+            return CreateSolidColourImage(ti.DisplayShortName, color2, color1);
         }
 
         /// <summary>
@@ -1299,6 +1299,15 @@ namespace MetaboliteLevels.Utilities
 
                 default:
                     throw new SwitchException(mode);
+            }
+        }
+
+        public static void DrawWatermark(Bitmap bmp, Core core, string watermark)
+        {
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                string txt = core.CoreGuid.ToString() + "\r\n" + core.FileNames.Title + "\r\n" + watermark;
+                g.DrawString(txt.ToUpper(), FontHelper.TinyRegularFont, Brushes.Silver, 0, 0);
             }
         }
     }

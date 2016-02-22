@@ -74,7 +74,7 @@ namespace MetaboliteLevels.Forms
         private readonly List<VisualisableSelection> _viewHistory = new List<VisualisableSelection>();
         private readonly List<ICoreWatcher> _coreWatchers = new List<ICoreWatcher>();
         private bool _autoChangingSelection;
-        private string _printTitle;   
+        private string _printTitle;
         private int _waitCounter;
 
         // Selection
@@ -88,7 +88,7 @@ namespace MetaboliteLevels.Forms
         {
             get
             {
-                return _selection ?? new VisualisableSelection(null, EActivateOrigin.None);
+                return _selection ?? new VisualisableSelection(null);
             }
             set
             {
@@ -133,7 +133,7 @@ namespace MetaboliteLevels.Forms
             _chartPeakForPrinting = new ChartHelperForPeaks(null, _core, null);
             _chartClusterForPrinting = new ChartHelperForClusters(null, _core, null);
 
-            _chartCluster.SelectionChanged += patChart_SelectionChanged;
+            _chartCluster.SelectionChanged += _chartCluster_SelectionChanged;
 
             _coreWatchers.Add(_chartPeak);
             _coreWatchers.Add(_chartCluster);
@@ -284,7 +284,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void primaryList_Activate(object sender, ListViewItemEventArgs e)
         {
-            CommitSelection(new VisualisableSelection(e.Selection, EActivateOrigin.None));
+            CommitSelection(new VisualisableSelection(e.Selection));
         }
 
 
@@ -293,7 +293,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void secondaryList_Activate(object sender, ListViewItemEventArgs e)
         {
-            CommitSelection(new VisualisableSelection(e.Selection, Selection.A, EActivateOrigin.TreeView));
+            CommitSelection(new VisualisableSelection(Selection.Primary, e.Selection));
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace MetaboliteLevels.Forms
             _coreWatchers.ForEach(z => z.ChangeCore(_core));
 
             // Clear selection
-            CommitSelection(new VisualisableSelection(null, EActivateOrigin.None));
+            CommitSelection(new VisualisableSelection(null));
 
             // Set new options
             UpdateVisualOptions();
@@ -347,11 +347,11 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Handles: patChart.SelectionChanged
         /// </summary>
-        private void patChart_SelectionChanged(object sender, ChartSelectionEventArgs e)
+        private void _chartCluster_SelectionChanged(object sender, ChartSelectionEventArgs e)
         {
             if (!_autoChangingSelection)
             {
-                CommitSelection(new VisualisableSelection(e.peak, EActivateOrigin.ClusterPlot));
+                CommitSelection(new VisualisableSelection(this._chartCluster.SelectedCluster.ActualElement, e.peak));
             }
         }
 
@@ -365,42 +365,20 @@ namespace MetaboliteLevels.Forms
             {
                 BeginWait("Updating displays");
 
-                // What do we need?
-                bool needsNode = selection.Origin != EActivateOrigin.TreeView;
-                bool keepPatPlot = selection.Origin == EActivateOrigin.ClusterPlot;
-
                 // Add to history
                 AddToHistory(selection);
 
                 // Set the selected object
                 _selection = selection;
 
-                // Update the secondary lists (unless we selected from there)
-                if (selection.Origin != EActivateOrigin.TreeView)
-                {
-                    UiControls.Assert(selection.B == null);
-                    _subDisplay.Activate(selection.A);
-                }
+                // Update the lists
+                _subDisplay.Activate(selection.Primary);
 
                 // Icons
-                IVisualisable object1;
-                IVisualisable object2;
-
-                if (selection.B == null)
+                if (selection.Primary != null)
                 {
-                    object1 = selection.A;
-                    object2 = null;
-                }
-                else
-                {
-                    object1 = selection.B;
-                    object2 = selection.A;
-                }
-
-                if (object1 != null)
-                {
-                    _btnSelection.Text = object1.DisplayName;
-                    _btnSelection.Image = UiControls.GetImage(object1.GetIcon(), true);
+                    _btnSelection.Text = selection.Primary.DisplayName;
+                    _btnSelection.Image = UiControls.GetImage(selection.Primary.GetIcon(), true);
                     _btnSelection.Visible = true;
                 }
                 else
@@ -408,10 +386,10 @@ namespace MetaboliteLevels.Forms
                     _btnSelection.Visible = false;
                 }
 
-                if (object2 != null)
+                if (selection.Secondary != null)
                 {
-                    _btnSelectionExterior.Text = object2.DisplayName;
-                    _btnSelectionExterior.Image = UiControls.GetImage(object2.GetIcon(), true);
+                    _btnSelectionExterior.Text = selection.Secondary.DisplayName;
+                    _btnSelectionExterior.Image = UiControls.GetImage(selection.Secondary.GetIcon(), true);
                     _btnSelectionExterior.Visible = true;
                     _lblExterior.Visible = true;
                 }
@@ -421,114 +399,62 @@ namespace MetaboliteLevels.Forms
                     _lblExterior.Visible = false;
                 }
 
-                // Null selection? (clear)
-                if (selection.A == null)
+                // Null selection?
+                if (selection.Primary == null)
                 {
                     PlotPeak(null);
-
-                    if (!keepPatPlot)
-                    {
-                        PlotCluster(null);
-                    }
-
+                    PlotCluster(null);
                     return;
                 }
 
                 // For assignments plot the peak (and implicitly the cluster)
-                if (selection.A.VisualClass == VisualClass.Assignment)
+                if (selection.Primary.VisualClass == VisualClass.Assignment)
                 {
-                    selection = new VisualisableSelection(((Assignment)selection.A).Peak, selection.B, selection.Origin);
+                    selection = new VisualisableSelection(((Assignment)selection.Primary).Peak, selection.Secondary);
                 }
 
+                // Get the selection
+                Peak peak = selection.Primary as Peak ?? selection.Secondary as Peak;
+                IVisualisable cluster = ((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.Assignments.Clusters.FirstOrDefault();
+                StylisedCluster sCluster;
+
                 // Plot that!
-                if (selection.A.VisualClass == VisualClass.Peak)
+                if (cluster == null)
                 {
-                    Peak peak = (Peak)selection.A;
-
-                    // Plot the peak
-                    PlotPeak(peak);
-
-                    IVisualisable secondPlot = selection.B ?? peak.Assignments.Clusters.FirstOrDefault();
-
-                    // Plot the cluster?
-                    if (_chartCluster.CurrentPlot != secondPlot)
+                    sCluster = null;
+                }
+                else
+                {
+                    switch (cluster.VisualClass)
                     {
-                        if (secondPlot == null)
-                        {
-                            PlotCluster(null);
-                        }
-                        else if (secondPlot.VisualClass == VisualClass.Cluster)
-                        {
-                            PlotCluster(((Cluster)secondPlot).CreateStylisedCluster(_core, null));
-                        }
-                        else if (secondPlot.VisualClass == VisualClass.Compound)
-                        {
-                            PlotCluster(((Compound)secondPlot).CreateStylisedCluster(_core, null));
-                        }
-                        else if (secondPlot.VisualClass == VisualClass.Pathway)
-                        {
-                            PlotCluster(((Pathway)secondPlot).CreateStylisedCluster(_core, null));
-                        }
-                    }
+                        case VisualClass.Cluster:
+                            sCluster = ((Cluster)cluster).CreateStylisedCluster(_core, selection.Secondary);
+                            break;
 
+                        case VisualClass.Compound:
+                            sCluster = ((Compound)cluster).CreateStylisedCluster(_core, selection.Secondary);
+                            break;
+
+                        case VisualClass.Pathway:
+                            sCluster = ((Pathway)cluster).CreateStylisedCluster(_core, selection.Secondary);
+                            break;
+
+                        default:
+                            sCluster = null;
+                            break;
+                    }
+                }
+
+                // Plot stuffs
+                PlotPeak(peak);
+                PlotCluster(sCluster);
+
+                if (sCluster != null)
+                {
                     // Make sure the current peak is selected in that cluster
                     _autoChangingSelection = true;
                     _chartCluster.SelectSeries(peak);
                     _autoChangingSelection = false;
-                }
-                else if (selection.A.VisualClass == VisualClass.Cluster)
-                {
-                    Cluster p = (Cluster)selection.A;
-
-                    // If the cluster has been deleted set a null selection
-                    if (!_core.Clusters.Contains(p))
-                    {
-                        Debug.WriteLine("Warning: Selected cluster no longer available: " + p.DisplayName);
-                        CommitSelection(new VisualisableSelection(null, EActivateOrigin.None));
-                        return;
-                    }
-
-                    PlotPeak(null);
-                    PlotCluster(p.CreateStylisedCluster(_core, selection.B));
-
-                    if (selection.B is Peak)
-                    {
-                        _autoChangingSelection = true;
-                        _chartCluster.SelectSeries((Peak)selection.B);
-                        _autoChangingSelection = false;
-                    }
-                }
-                else if (selection.A.VisualClass == VisualClass.Adduct)
-                {
-                    Adduct adduct = (Adduct)selection.A;
-
-                    PlotPeak(null);
-                    PlotCluster(null);
-                }
-                else if (selection.A.VisualClass == VisualClass.Pathway)
-                {
-                    Pathway pathway = (Pathway)selection.A;
-                    StylisedCluster fakeCluster = pathway.CreateStylisedCluster(_core, selection.B);
-
-                    PlotPeak(null);
-                    PlotCluster(fakeCluster);
-                }
-                else if (selection.A.VisualClass == VisualClass.Compound)
-                {
-                    Compound compound = (Compound)selection.A;
-                    StylisedCluster fakeCluster = compound.CreateStylisedCluster(_core, selection.B);
-
-                    PlotPeak(null);
-                    PlotCluster(fakeCluster);
-                }
-                else if (selection.A.VisualClass == VisualClass.Annotation)
-                {
-                    PlotPeak(null);
-                    PlotCluster(null);
-                }
-                else
-                {
-                    throw new InvalidOperationException("Cannot activate object of type \"" + selection.A.GetType().Name + "\" with VisualClass \"" + selection.A.VisualClass + "\".");
                 }
             }
             finally
@@ -616,7 +542,7 @@ namespace MetaboliteLevels.Forms
             {
                 toolStripProgressBar1.Visible = true;
             }
-        }        
+        }
 
         /// <summary>
         /// Updates the progress bar
@@ -724,17 +650,17 @@ namespace MetaboliteLevels.Forms
             // Add new items
             int index2 = toolStrip1.Items.IndexOf(_tssInsertViews);
 
-            foreach (GroupInfo ti in _core.Groups.OrderBy(z => z.Id))
+            foreach (GroupInfo ti in _core.Groups.Enabled2().OrderBy(z => z.Id))
             {
                 bool e = _core.Options.ViewTypes.Contains(ti);
 
-                var tsmi = new ToolStripMenuItem("Display " + ti.Name)
+                var tsmi = new ToolStripMenuItem("Display " + ti.DisplayName)
                 {
                     Tag = ti,
                     Image = UiControls.CreateSolidColourImage(e, ti)
                 };
 
-                var tsmi2 = new ToolStripButton(ti.Name)
+                var tsmi2 = new ToolStripButton(ti.DisplayName)
                 {
                     Tag = ti,
                     Image = UiControls.CreateSolidColourImage(e, ti),
@@ -862,7 +788,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void Replot()
         {
-            CommitSelection(new VisualisableSelection(Selection.A, Selection.B, EActivateOrigin.None));
+            CommitSelection(new VisualisableSelection(Selection.Primary, Selection.Secondary));
         }
 
         /// <summary>
@@ -1001,7 +927,7 @@ namespace MetaboliteLevels.Forms
                     bmp.Save(fileName);
                 }
             }
-        }        
+        }
 
         /// <summary>
         /// Prompts the user to saves the specified chart to an image file
@@ -1260,7 +1186,7 @@ namespace MetaboliteLevels.Forms
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FrmInputLarge.ShowFixed(this, UiControls.Title, "Current session information", Path.GetFileName(_core.FileNames.Session), _core.FileNames.GetDetails());
-        }           
+        }
 
         /// <summary>
         /// Menu: Help | About
@@ -1280,7 +1206,7 @@ namespace MetaboliteLevels.Forms
                 return;
             }
 
-            CommitSelection(new VisualisableSelection(_viewHistory[0].A, _viewHistory[0].B, EActivateOrigin.None));
+            CommitSelection(new VisualisableSelection(_viewHistory[0].Primary, _viewHistory[0].Secondary));
         }
 
         /// <summary>
@@ -1292,7 +1218,7 @@ namespace MetaboliteLevels.Forms
 
             foreach (VisualisableSelection o in _viewHistory)
             {
-                Image image = o.A != null ? UiControls.GetImage(o.A.GetIcon(), true) : Resources.ObjNone;
+                Image image = o.Primary != null ? UiControls.GetImage(o.Primary.GetIcon(), true) : Resources.ObjNone;
                 ToolStripButton historyButton = new ToolStripButton(o.ToString(), image);
                 historyButton.Click += historyButton_Click;
                 historyButton.Tag = o;
@@ -1307,7 +1233,7 @@ namespace MetaboliteLevels.Forms
         {
             var control = (ToolStripButton)sender;
             IVisualisable tag = (IVisualisable)control.Tag;
-            CommitSelection(new VisualisableSelection(tag, EActivateOrigin.None));
+            CommitSelection(new VisualisableSelection(tag));
         }
 
         /// <summary>
@@ -1345,7 +1271,7 @@ namespace MetaboliteLevels.Forms
             {
                 case VisualClass.Cluster:
                     Cluster p = (Cluster)_selectionMenuOpenedFromList;
-                    FrmEditCluster.Show(this, _core, p);
+                    FrmInput2.Show(this, p, false);
                     _clusterList.Update(p);
                     break;
 
@@ -1404,7 +1330,7 @@ namespace MetaboliteLevels.Forms
             var t = _selectionMenuOpenedFromList;
 
             items.Clear();
-                             
+
             if (t != null)
             {
                 items.Add("&Navigate to " + t.DisplayName, null, openToolStripMenuItem_Click_1);
@@ -1483,8 +1409,8 @@ namespace MetaboliteLevels.Forms
                 return null;
             }
 
-            return frm.Selection.A as Peak ?? frm._peakList.Selection ?? frm._chartPeak.SelectedPeak ?? frm._core.Peaks[0];
-        }             
+            return frm.Selection.Primary as Peak ?? frm._peakList.Selection ?? frm._chartPeak.SelectedPeak ?? frm._core.Peaks[0];
+        }
 
         /// <summary>
         /// Gets the main form by iterating back from the current form.
@@ -1509,10 +1435,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void edittrendToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Trend, null))
-            {
-                UpdateAll("Trends changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
-            }
+            ShowEditor(EDataManager.Trends);
         }
 
         /// <summary>
@@ -1520,10 +1443,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void createclustersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Clusters, null))
-            {
-                UpdateAll("Clusters changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
-            }
+            ShowEditor(EDataManager.Clusterers);
         }
 
         /// <summary>
@@ -1531,10 +1451,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void editCorrectionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Corrections, null))
-            {
-                UpdateAll("Statistics changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
-            }
+            ShowEditor(EDataManager.Corrections);
         }
 
         /// <summary>
@@ -1542,10 +1459,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void editStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Statistics, null))
-            {
-                UpdateAll("Statistics changed", EListInvalids.SourceChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
-            }
+            ShowEditor(EDataManager.Statistics);
         }
 
         /// <summary>
@@ -1553,23 +1467,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void experimentalGroupsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool changes = false;
-
-            repeat:
-            var group = ListValueSet.ForGroups(_core).IncludeMessage("View or modify experimental groups").ShowButtons(this);
-
-            if (group != null)
-            {
-                FrmEditExpGroup.Show(this, group);
-                UpdateVisualOptions();
-                changes = true;
-                goto repeat;
-            }
-
-            if (changes)
-            {
-                UpdateAll("Experimental groups changed", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.None);
-            }
+            ShowEditor(EDataManager.Groups);
         }
 
         /// <summary>
@@ -1585,7 +1483,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void openToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            CommitSelection(new VisualisableSelection(_selectionMenuOpenedFromList, EActivateOrigin.None));
+            CommitSelection(new VisualisableSelection(_selectionMenuOpenedFromList));
         }
 
         /// <summary>
@@ -1612,7 +1510,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void peakFiltersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmBigList.ShowPeakFilters(this, _core);
+            ShowEditor(EDataManager.PeakFilters);
         }
 
         /// <summary>
@@ -1620,7 +1518,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void observationFiltersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmBigList.ShowObsFilters(this, _core);
+            ShowEditor(EDataManager.ObservationFilters);
         }
 
         /// <summary>
@@ -1636,7 +1534,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>            
         private void _btnSelection_DropDownOpening(object sender, EventArgs e)
         {
-            _selectionMenuOpenedFromList = Selection.A;
+            _selectionMenuOpenedFromList = Selection.Primary;
             PopulateMenu(_btnSelection.DropDownItems);
         }
 
@@ -1645,8 +1543,163 @@ namespace MetaboliteLevels.Forms
         /// </summary>            
         private void _btnSelectionExterior_DropDownOpening(object sender, EventArgs e)
         {
-            _selectionMenuOpenedFromList = Selection.B;
+            _selectionMenuOpenedFromList = Selection.Secondary;
             PopulateMenu(_btnSelectionExterior.DropDownItems);
+        }
+
+        enum EDataManager
+        {
+            Cancel,
+
+            [Name("Peaks")]
+            Peaks,
+
+            [Name("Clusters")]
+            Clusters,
+
+            [Name("Acquisition indices")]
+            Acquisitions, // read-only
+
+            [Name("Batches")]
+            Batches,
+
+            [Name("Experimental conditions")]
+            Conditions,
+
+            [Name("Clusterers")]
+            Clusterers,
+
+            [Name("Timepoints")]
+            Times, // read-only
+
+            [Name("Clustering evaluations")]
+            Evaluations,
+
+            [Name("Statistics")]
+            Statistics,
+
+            [Name("Replicate indices")]
+            Replicates, // read-only
+
+            [Name("Peak flags")]
+            PeakFlags, // read-only
+
+            [Name("Peak filters")]
+            PeakFilters,
+
+            [Name("Observation filters")]
+            ObservationFilters,
+
+            [Name("Experimental observations")]
+            Observations,
+
+            [Name("Experimental groups")]
+            Groups,
+
+            [Name("Trends")]
+            Trends,
+
+            [Name("Corrections")]
+            Corrections,
+        }
+
+        private void manageDataToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            ShowEditor(ListValueSet.ForDiscreteEnum<EDataManager>("Manage Data", EDataManager.Cancel).ShowButtons(this));
+        }
+
+        private void ShowEditor(EDataManager which)
+        {
+            switch (which)
+            {
+                case EDataManager.Acquisitions:
+                    ListValueSet.ForAcquisitions(_core).ShowList(this);
+                    break;
+
+                case EDataManager.Batches:
+                    ListValueSet.ForBatches(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    break;
+
+                case EDataManager.Clusterers:
+                    if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Clusters, null))
+                    {
+                        UpdateAll("Clusters changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
+                    }
+                    break;
+
+                case EDataManager.Clusters:
+                    ListValueSet.ForClusters(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    break;
+
+                case EDataManager.Conditions:
+                    ListValueSet.ForConditions(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    break;
+
+                case EDataManager.Groups:
+                    if (ListValueSet.ForGroups(_core, false).ShowBigList(this, _core, EViewMode.Write) != null)
+                    {
+                        UpdateVisualOptions();
+                        UpdateAll("Experimental groups changed", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.None);
+                    }
+                    break;
+
+                case EDataManager.Observations:
+                    ListValueSet.ForObservations(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    break;
+
+                case EDataManager.ObservationFilters:
+                    FrmBigList.ShowObsFilters(this, _core);
+                    break;
+
+                case EDataManager.PeakFilters:
+                    FrmBigList.ShowPeakFilters(this, _core);
+                    break;
+
+                case EDataManager.PeakFlags:
+                    ListValueSet.ForPeakFlags(_core).ShowList(this);
+                    break;
+
+                case EDataManager.Peaks:
+                    ListValueSet.ForPeaks(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    break;
+
+                case EDataManager.Replicates:
+                    ListValueSet.ForReplicates(_core).ShowList(this);
+                    break;
+
+                case EDataManager.Statistics:
+                    if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Statistics, null))
+                    {
+                        UpdateAll("Statistics changed", EListInvalids.SourceChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
+                    }
+                    break;
+
+                case EDataManager.Evaluations:
+                    ListValueSet.ForTests(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    break;
+
+                case EDataManager.Times:
+                    ListValueSet.ForTimes(_core).ShowList(this);
+                    break;
+
+                case EDataManager.Trends:
+                    if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Trend, null))
+                    {
+                        UpdateAll("Trends changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
+                    }
+                    break;
+
+                case EDataManager.Corrections:
+                    if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Corrections, null))
+                    {
+                        UpdateAll("Statistics changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
+                    }
+                    break;
+
+                case EDataManager.Cancel:
+                default:
+                    break;
+            }
         }
     }
 }

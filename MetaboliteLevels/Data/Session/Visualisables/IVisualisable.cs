@@ -38,7 +38,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// Is this object enabled?
         /// </summary>
         bool Enabled { get; set; }
-    }  
+    }
 
     /// <summary>
     /// Stuff that can appear in lists.
@@ -120,6 +120,24 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             return self.DisplayName;
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) Gets the enabled elements of an IVisualisable enumerable.
+        /// </summary>                                               
+        public static IEnumerable<T> Enabled2<T>(this IEnumerable<T> self)
+            where T : IVisualisable
+        {
+            return self.Where(z => z.Enabled);
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) Gets the enabled elements of an IVisualisable enumerable.
+        /// </summary>     
+        public static IEnumerable<T> Enabled2<T>(this IEnumerable<T> self, bool onlyEnabled)
+            where T : IVisualisable
+        {
+            return onlyEnabled ? Enabled2(self) : self;
         }
 
         /// <summary>

@@ -204,7 +204,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Lists
             _lstMethod.Items.AddRange(Algo.Instance.Trends.ToArray());
             _lstMethod.Items.AddRange(Algo.Instance.Corrections.ToArray());
-            _lstTypes.Items.AddRange(NamedItem.GetRange(_core.Groups, z => z.Name).ToArray());
+            _lstTypes.Items.AddRange(NamedItem.GetRange(_core.Groups.Enabled2(), z => z.DisplayName).ToArray());
 
             // Buttons
             GenerateTypeButtons();
@@ -257,7 +257,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSelectPreview_Click(object sender, EventArgs e)
         {
-            var sel = ListValueSet.ForPeaks(_core).Select(_selectedPeak).ShowList(this);
+            var sel = ListValueSet.ForPeaks(_core, true).Select(_selectedPeak).ShowList(this);
 
             if (sel != null)
             {
@@ -382,7 +382,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             btn.Click += btn_Click;
             btn.Margin = new Padding(0, 0, 0, 0);
             btn.Visible = true;
-            toolTip1.SetToolTip(btn, "View " + ti.Name);
+            toolTip1.SetToolTip(btn, "View " + ti.DisplayName);
             return btn;
         }
 
@@ -508,7 +508,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnBatchInfo_Click(object sender, EventArgs e)
         {
-            ListValueSet.ForBatches(_core).ShowBigList<BatchInfo>(this, _core);
+            ListValueSet.ForBatches(_core, true).ShowBigList<BatchInfo>(this, _core, EViewMode.ReadAndComment);
         }
     }
 }

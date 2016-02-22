@@ -50,7 +50,7 @@ namespace MetaboliteLevels.Forms.Wizards
             _chart = new ChartHelperForPeaks(null, core, panel1);
 
             _ecbFilter = EditableComboBox.ForObsFilter(_lstFilters, _btnEditFilters, core);
-            _lstGroups.Items.AddRange(NamedItem.GetRange(core.Groups, z => z.Name).ToArray());
+            _lstGroups.Items.AddRange(NamedItem.GetRange(core.Groups, z => z.DisplayName).ToArray());
             _lstGroups.SelectedIndex = 0;
 
             ctlStatistics1.Bind(core);
@@ -60,7 +60,7 @@ namespace MetaboliteLevels.Forms.Wizards
             _radSeedCurrent.Enabled = current != null;
             _lblSeedCurrent.Enabled = current != null;
 
-            _lstStat.Items.AddRange(NamedItem.GetRange(core.ActiveStatistics, GetStatName).ToArray());
+            _lstStat.Items.AddRange(NamedItem.GetRange(core.AllStatistics.Enabled2(), GetStatName).ToArray());
 
             wizard = CtlWizard.BindNew(this, tabControl1, CtlWizardOptions.DEFAULT | CtlWizardOptions.DialogResultCancel | CtlWizardOptions.HandleBasicChanges);
             wizard.OkClicked += wizard_OkClicked;

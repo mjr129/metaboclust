@@ -109,7 +109,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             public string DisplayName
             {
-                get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, Column.Id); }
+                get { return IVisualisableExtensions.FormatDisplayName(this); }
             }
 
             UiControls.ImageListOrder IVisualisable.GetIcon()
@@ -903,7 +903,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
             }
 
-            ClusterEvaluationPointer res = ListValueSet.ForTests(_core).ShowButtons(this);
+            ClusterEvaluationPointer res = ListValueSet.ForTests(_core, true).ShowButtons(this);
 
             if (res == null)
             {
@@ -951,7 +951,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return;
             }
 
-            IEnumerable<ClusterEvaluationPointer> tests = ListValueSet.ForTests(_core).ShowCheckBox(this);
+            IEnumerable<ClusterEvaluationPointer> tests = ListValueSet.ForTests(_core, true).ShowCheckBox(this);
 
             if (tests == null)
             {

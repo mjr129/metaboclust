@@ -106,7 +106,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this);
             }
         }
 

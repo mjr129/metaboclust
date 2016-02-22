@@ -114,7 +114,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this);
             }
         }
 
@@ -518,7 +518,7 @@ namespace MetaboliteLevels.Data.Visualisables
             var result = new List<Column<Cluster>>();
 
             result.Add("Method Name", EColumn.None, λ => λ.Method.ToString());
-            result.Add("Method №", EColumn.None, λ => 1 + core.ActiveClusterers.IndexOf(λ.Method));
+            result.Add("Method №", EColumn.None, λ => 1 + core.AllClusterers.Enabled2().IndexOf(λ.Method));
             result.Add("Name", EColumn.Visible, λ => λ.DisplayName);
             result.Add("Comments", EColumn.None, λ => λ.Comment);
             result.Add("Assignments\\All", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
@@ -527,7 +527,7 @@ namespace MetaboliteLevels.Data.Visualisables
             foreach (GroupInfo group in core.Groups)
             {
                 GroupInfo closure = group;
-                result.Add("Assignments\\" + UiControls.ZEROSPACE + group.Name, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
+                result.Add("Assignments\\" + UiControls.ZEROSPACE + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
                 result[result.Count - 1].Colour = z => closure.Colour;
             }
 
@@ -544,7 +544,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             result.Add("Flag\\(all)", EColumn.None, λ => λ.CommentFlags.Keys);
 
-            foreach (ConfigurationStatistic stat in core.ActiveStatistics)
+            foreach (ConfigurationStatistic stat in core.AllStatistics.Enabled2())
             {
                 ConfigurationStatistic closure = stat;
                 result.Add("Average Statistic\\" + closure, EColumn.Statistic, λ => λ.Statistics.GetOrNan(closure));

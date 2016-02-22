@@ -473,6 +473,16 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MnuSaveList {
+            get {
+                object obj = ResourceManager.GetObject("MnuSaveList", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MnuSessionInfo {
             get {
                 object obj = ResourceManager.GetObject("MnuSessionInfo", resourceCulture);
@@ -516,6 +526,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap MnuUp {
             get {
                 object obj = ResourceManager.GetObject("MnuUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuViewMode {
+            get {
+                object obj = ResourceManager.GetObject("MnuViewMode", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

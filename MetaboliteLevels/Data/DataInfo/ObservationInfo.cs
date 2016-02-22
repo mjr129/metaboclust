@@ -65,7 +65,7 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(DefaultDisplayName, OverrideDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this);
             }
         }
 
@@ -155,11 +155,11 @@ namespace MetaboliteLevels.Data.DataInfo
             List<Column<ObservationInfo>> columns = new List<Column<ObservationInfo>>();
 
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add("Group", EColumn.None, z => z.Group.Name, z => z.Group.Colour);
+            columns.Add("Group", EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
             columns.Add("Replicate", EColumn.None, z => z.Rep);
             columns.Add("Time", EColumn.None, z => z.Time);
             columns.Add("Acquisition", EColumn.None, z => z.Acquisition);
-            columns.Add("Batch", EColumn.None, z => z.Batch.Name, z => z.Batch.Colour);
+            columns.Add("Batch", EColumn.None, z => z.Batch.DisplayName, z => z.Batch.Colour);
             columns.Add("Comment", EColumn.None, z => z.Comment);
 
             return columns;

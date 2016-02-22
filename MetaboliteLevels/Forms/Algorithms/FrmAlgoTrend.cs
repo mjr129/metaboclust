@@ -223,7 +223,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSelectPreview_Click(object sender, EventArgs e)
         {
-            var newSel = ListValueSet.ForPeaks(_core).Select(_previewPeak).ShowList(this);
+            var newSel = ListValueSet.ForPeaks(_core, true).Select(_previewPeak).ShowList(this);
 
             if (newSel != null)
             {
@@ -254,7 +254,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _previewPeak = _core.Peaks[index];
 
             Check(null, null);
-        }         
+        }
 
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {

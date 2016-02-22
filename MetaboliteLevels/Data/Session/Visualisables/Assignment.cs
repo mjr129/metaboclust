@@ -130,7 +130,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 }
                 else
                 {
-                    return this.Cluster.DisplayName + "···" + this.Peak.DisplayName + "···" + this.Vector.Group.ShortName;
+                    return this.Cluster.DisplayName + "···" + this.Peak.DisplayName + "···" + this.Vector.Group.DisplayShortName;
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this);
             }
         }    
 

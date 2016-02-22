@@ -28,6 +28,13 @@ namespace MetaboliteLevels.Forms.Generic
         string UntypedDescription(object x);
     }
 
+    public enum EViewMode
+    {
+        Write,
+        ReadAndComment,
+        Read,
+    }
+
     /// <summary>
     /// Represents a list of something with extra details for UI purposes.
     /// </summary>
@@ -250,10 +257,10 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Shows the big list (FrmBigList).
         /// </summary>         
-        public List<T> ShowBigList<T2>(Form owner, Core core)
+        public List<T> ShowBigListInternal<T2>(Form owner, Core core, EViewMode mode)
             where T2 : T, IVisualisable
         {
-            return (List<T>)(object)FrmBigList.ShowGeneric<T2>(owner, core, (ListValueSet<T2>)(object)this, false);
+            return (List<T>)(object)FrmBigList.ShowGeneric<T2>(owner, core, (ListValueSet<T2>)(object)this, mode);
         }
 
         /// <summary>
@@ -338,6 +345,15 @@ namespace MetaboliteLevels.Forms.Generic
         {
             SubTitle = subTitle;
             return this;
+        }
+    }
+
+    internal static class ListValueSetExtensions
+    {
+        public static List<T2> ShowBigList<T2>(this ListValueSet<T2> self, Form owner, Core core, EViewMode mode)
+           where T2 : IVisualisable
+        {
+            return self.ShowBigListInternal<T2>(owner, core, mode);
         }
     }
 }

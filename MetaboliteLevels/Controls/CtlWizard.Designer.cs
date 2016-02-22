@@ -32,12 +32,12 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._lblOrder = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this._btnShowHelp = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnBack = new MetaboliteLevels.Controls.CtlButton();
             this._btnNext = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -67,7 +67,6 @@
             // 
             this._lblOrder.BackColor = System.Drawing.Color.LightSteelBlue;
             this._lblOrder.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lblOrder.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lblOrder.ForeColor = System.Drawing.Color.Black;
             this._lblOrder.Location = new System.Drawing.Point(0, 66);
             this._lblOrder.Margin = new System.Windows.Forms.Padding(0);
@@ -93,6 +92,15 @@
             this.flowLayoutPanel3.Size = new System.Drawing.Size(680, 56);
             this.flowLayoutPanel3.TabIndex = 18;
             this.flowLayoutPanel3.WrapContents = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 94);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(756, 245);
+            this.panel1.TabIndex = 21;
             // 
             // _btnShowHelp
             // 
@@ -157,15 +165,6 @@
             this._btnOk.UseDefaultSize = true;
             this._btnOk.UseVisualStyleBackColor = true;
             this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 94);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(756, 245);
-            this.panel1.TabIndex = 21;
             // 
             // ctlTitleBar1
             // 

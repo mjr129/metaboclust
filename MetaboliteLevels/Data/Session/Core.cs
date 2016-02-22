@@ -236,12 +236,7 @@ namespace MetaboliteLevels.Data.Session
         public IReadOnlyList<ConfigurationClusterer> AllClusterers { get { return _clusterers; } }
         public IReadOnlyList<ConfigurationTrend> AllTrends { get { return _trends; } }
         public IReadOnlyList<PeakFilter> AllPeakFilters { get { return _peakFilters; } }
-        public IReadOnlyList<ObsFilter> AllObsFilters { get { return _obsFilters; } }
-
-        public IEnumerable<ConfigurationCorrection> ActiveCorrections { get { return _corrections.Where(z => z.Enabled); } }
-        public IEnumerable<ConfigurationStatistic> ActiveStatistics { get { return _statistics.Where(z => z.Enabled); } }
-        public IEnumerable<ConfigurationClusterer> ActiveClusterers { get { return _clusterers.Where(z => z.Enabled); } }
-        public IEnumerable<ConfigurationTrend> ActiveTrends { get { return _trends.Where(z => z.Enabled); } }
+        public IReadOnlyList<ObsFilter> AllObsFilters { get { return _obsFilters; } }                       
 
         class CachedData
         {
@@ -803,7 +798,7 @@ namespace MetaboliteLevels.Data.Session
             var newListEnabled = newList.WhereEnabled().ToList();
 
             // Remove obsolete clusters
-            foreach (ConfigurationClusterer config in this.ActiveClusterers)
+            foreach (ConfigurationClusterer config in this.AllClusterers.Enabled2())
             {
                 if (!newListEnabled.Contains(config))
                 {
@@ -814,7 +809,7 @@ namespace MetaboliteLevels.Data.Session
             // Create new clusters
             foreach (ConfigurationClusterer config in newListEnabled.ToList())
             {
-                if (!this.ActiveClusterers.Contains(config))
+                if (!this.AllClusterers.Enabled2().Contains(config))
                 {
                     try
                     {

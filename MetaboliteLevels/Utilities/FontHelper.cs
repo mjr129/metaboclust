@@ -22,6 +22,8 @@ namespace MetaboliteLevels.Utilities
 
         public static Font SmallRegularFont;
 
+        public static Font TinyRegularFont;
+
         internal static void Initialise(Font font)
         {
             RegularFont = new Font("Segoe UI", 12, FontStyle.Regular);
@@ -33,6 +35,8 @@ namespace MetaboliteLevels.Utilities
             LargeBoldFont = new Font("Segoe UI", 14, FontStyle.Bold);
 
             SmallRegularFont = new Font("Segoe UI", 8, FontStyle.Regular);
+
+            TinyRegularFont = new Font("Small Fonts", 5, FontStyle.Regular);
         }
     }
 }

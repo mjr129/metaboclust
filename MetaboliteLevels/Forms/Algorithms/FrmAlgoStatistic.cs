@@ -268,7 +268,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 UiControls.MakeReadOnly(this, _tlpPreivew);
 
-                _btnComment.Enabled = true;   
+                _btnComment.Enabled = true;
 
                 ctlTitleBar1.Text = "View Statistic";
             }
@@ -426,7 +426,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSelectDiffPeak_Click(object sender, EventArgs e)
         {
-            var newPeak = ListValueSet.ForPeaks(_core).Select(NamedItem<Peak>.Extract(_lstDiffPeak.SelectedItem)).ShowList(this);
+            var newPeak = ListValueSet.ForPeaks(_core, true).Select(NamedItem<Peak>.Extract(_lstDiffPeak.SelectedItem)).ShowList(this);
 
             if (newPeak != null)
             {
@@ -436,7 +436,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSelectPreview_Click(object sender, EventArgs e)
         {
-            var newPreview = ListValueSet.ForPeaks(_core).Select(_previewPeak).ShowList(this); 
+            var newPreview = ListValueSet.ForPeaks(_core, true).Select(_previewPeak).ShowList(this);
 
             if (newPreview != null)
             {

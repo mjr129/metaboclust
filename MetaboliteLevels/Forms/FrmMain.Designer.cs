@@ -173,6 +173,7 @@ namespace MetaboliteLevels.Forms
             this._lblExterior = new System.Windows.Forms.ToolStripLabel();
             this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer3 = new MetaboliteLevels.Controls.CtlSplitter();
+            this.manageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._mnuMain.SuspendLayout();
             this._statusMain.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -353,6 +354,7 @@ namespace MetaboliteLevels.Forms
             this.visualOptionsToolStripMenuItem,
             this.experimentalGroupsToolStripMenuItem,
             this.experimentalOptionsToolStripMenuItem,
+            this.manageDataToolStripMenuItem,
             this.toolStripMenuItem6});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
@@ -414,7 +416,7 @@ namespace MetaboliteLevels.Forms
             this.autogenerateToolStripMenuItem});
             this.clusteringToolStripMenuItem.Name = "clusteringToolStripMenuItem";
             this.clusteringToolStripMenuItem.Size = new System.Drawing.Size(70, 19);
-            this.clusteringToolStripMenuItem.Text = "&Workflow";
+            this.clusteringToolStripMenuItem.Text = "&Workflow";                                                         
             // 
             // pCAToolStripMenuItem
             // 
@@ -901,11 +903,11 @@ namespace MetaboliteLevels.Forms
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this._lstClusters);
-            this.tabPage2.Location = new System.Drawing.Point(4, 56);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage2.Size = new System.Drawing.Size(434, 248);
+            this.tabPage2.Size = new System.Drawing.Size(434, 282);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Clusters";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -921,7 +923,7 @@ namespace MetaboliteLevels.Forms
             this._lstClusters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstClusters.MultiSelect = false;
             this._lstClusters.Name = "_lstClusters";
-            this._lstClusters.Size = new System.Drawing.Size(426, 238);
+            this._lstClusters.Size = new System.Drawing.Size(426, 272);
             this._lstClusters.SmallImageList = this._imgList;
             this._lstClusters.TabIndex = 5;
             this._lstClusters.UseCompatibleStateImageBehavior = false;
@@ -930,11 +932,11 @@ namespace MetaboliteLevels.Forms
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this._lstCompounds);
-            this.tabPage3.Location = new System.Drawing.Point(4, 56);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage3.Size = new System.Drawing.Size(434, 248);
+            this.tabPage3.Size = new System.Drawing.Size(434, 282);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Compounds";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -950,7 +952,7 @@ namespace MetaboliteLevels.Forms
             this._lstCompounds.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstCompounds.MultiSelect = false;
             this._lstCompounds.Name = "_lstCompounds";
-            this._lstCompounds.Size = new System.Drawing.Size(426, 238);
+            this._lstCompounds.Size = new System.Drawing.Size(426, 272);
             this._lstCompounds.SmallImageList = this._imgList;
             this._lstCompounds.TabIndex = 6;
             this._lstCompounds.UseCompatibleStateImageBehavior = false;
@@ -1252,11 +1254,11 @@ namespace MetaboliteLevels.Forms
             // tabPage9
             // 
             this.tabPage9.Controls.Add(this._lst2Stats);
-            this.tabPage9.Location = new System.Drawing.Point(4, 56);
+            this.tabPage9.Location = new System.Drawing.Point(4, 40);
             this.tabPage9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage9.Size = new System.Drawing.Size(434, 217);
+            this.tabPage9.Size = new System.Drawing.Size(434, 233);
             this.tabPage9.TabIndex = 2;
             this.tabPage9.Text = "Statistics";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1273,7 +1275,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Stats.Location = new System.Drawing.Point(4, 5);
             this._lst2Stats.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Stats.Name = "_lst2Stats";
-            this._lst2Stats.Size = new System.Drawing.Size(426, 207);
+            this._lst2Stats.Size = new System.Drawing.Size(426, 223);
             this._lst2Stats.SmallImageList = this._imgList;
             this._lst2Stats.TabIndex = 1;
             this._lst2Stats.UseCompatibleStateImageBehavior = false;
@@ -1290,11 +1292,11 @@ namespace MetaboliteLevels.Forms
             // tabPage10
             // 
             this.tabPage10.Controls.Add(this._lst2Peaks);
-            this.tabPage10.Location = new System.Drawing.Point(4, 56);
+            this.tabPage10.Location = new System.Drawing.Point(4, 40);
             this.tabPage10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage10.Name = "tabPage10";
             this.tabPage10.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage10.Size = new System.Drawing.Size(434, 217);
+            this.tabPage10.Size = new System.Drawing.Size(434, 233);
             this.tabPage10.TabIndex = 3;
             this.tabPage10.Text = "Peaks";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -1310,7 +1312,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Peaks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Peaks.MultiSelect = false;
             this._lst2Peaks.Name = "_lst2Peaks";
-            this._lst2Peaks.Size = new System.Drawing.Size(426, 207);
+            this._lst2Peaks.Size = new System.Drawing.Size(426, 223);
             this._lst2Peaks.SmallImageList = this._imgList;
             this._lst2Peaks.TabIndex = 6;
             this._lst2Peaks.UseCompatibleStateImageBehavior = false;
@@ -1319,11 +1321,11 @@ namespace MetaboliteLevels.Forms
             // tabPage11
             // 
             this.tabPage11.Controls.Add(this._lst2Clusters);
-            this.tabPage11.Location = new System.Drawing.Point(4, 56);
+            this.tabPage11.Location = new System.Drawing.Point(4, 40);
             this.tabPage11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage11.Name = "tabPage11";
             this.tabPage11.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage11.Size = new System.Drawing.Size(434, 217);
+            this.tabPage11.Size = new System.Drawing.Size(434, 233);
             this.tabPage11.TabIndex = 4;
             this.tabPage11.Text = "Clusters";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -1339,7 +1341,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Clusters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Clusters.MultiSelect = false;
             this._lst2Clusters.Name = "_lst2Clusters";
-            this._lst2Clusters.Size = new System.Drawing.Size(426, 207);
+            this._lst2Clusters.Size = new System.Drawing.Size(426, 223);
             this._lst2Clusters.SmallImageList = this._imgList;
             this._lst2Clusters.TabIndex = 6;
             this._lst2Clusters.UseCompatibleStateImageBehavior = false;
@@ -1348,11 +1350,11 @@ namespace MetaboliteLevels.Forms
             // tabPage12
             // 
             this.tabPage12.Controls.Add(this._lst2Compounds);
-            this.tabPage12.Location = new System.Drawing.Point(4, 56);
+            this.tabPage12.Location = new System.Drawing.Point(4, 40);
             this.tabPage12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage12.Name = "tabPage12";
             this.tabPage12.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage12.Size = new System.Drawing.Size(434, 217);
+            this.tabPage12.Size = new System.Drawing.Size(434, 233);
             this.tabPage12.TabIndex = 5;
             this.tabPage12.Text = "Compounds";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -1368,7 +1370,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Compounds.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Compounds.MultiSelect = false;
             this._lst2Compounds.Name = "_lst2Compounds";
-            this._lst2Compounds.Size = new System.Drawing.Size(426, 207);
+            this._lst2Compounds.Size = new System.Drawing.Size(426, 223);
             this._lst2Compounds.SmallImageList = this._imgList;
             this._lst2Compounds.TabIndex = 7;
             this._lst2Compounds.UseCompatibleStateImageBehavior = false;
@@ -1377,10 +1379,10 @@ namespace MetaboliteLevels.Forms
             // tabPage13
             // 
             this.tabPage13.Controls.Add(this._lst2Adducts);
-            this.tabPage13.Location = new System.Drawing.Point(4, 56);
+            this.tabPage13.Location = new System.Drawing.Point(4, 40);
             this.tabPage13.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Size = new System.Drawing.Size(434, 217);
+            this.tabPage13.Size = new System.Drawing.Size(434, 233);
             this.tabPage13.TabIndex = 6;
             this.tabPage13.Text = "Adducts";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -1395,7 +1397,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Adducts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Adducts.MultiSelect = false;
             this._lst2Adducts.Name = "_lst2Adducts";
-            this._lst2Adducts.Size = new System.Drawing.Size(434, 217);
+            this._lst2Adducts.Size = new System.Drawing.Size(434, 233);
             this._lst2Adducts.TabIndex = 7;
             this._lst2Adducts.UseCompatibleStateImageBehavior = false;
             this._lst2Adducts.View = System.Windows.Forms.View.Details;
@@ -1674,6 +1676,13 @@ namespace MetaboliteLevels.Forms
             this.splitContainer3.SplitterDistance = 349;
             this.splitContainer3.TabIndex = 10;
             // 
+            // manageDataToolStripMenuItem
+            // 
+            this.manageDataToolStripMenuItem.Name = "manageDataToolStripMenuItem";
+            this.manageDataToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.manageDataToolStripMenuItem.Text = "&Manage data...";
+            this.manageDataToolStripMenuItem.Click += new System.EventHandler(this.manageDataToolStripMenuItem_Click_1);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -1879,6 +1888,7 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripDropDownButton _btnSelectionExterior;
         private System.Windows.Forms.ToolStripSplitButton _btnBack;
         private System.Windows.Forms.ToolStripLabel _lblExterior;
+        private System.Windows.Forms.ToolStripMenuItem manageDataToolStripMenuItem;
     }
 }
 

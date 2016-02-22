@@ -17,34 +17,95 @@ namespace MetaboliteLevels.Utilities
     /// </summary>
     static class StringHelper
     {
+        // UTF alphabets                          0         1         2         3         4         5         6         7         8         
+        //                                        0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
+        public static string UtNormal = @" !""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+        public static string UtBold = @" !""#$%&'()*+,-./𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗:;<=>?@𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙[\]^_`𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳{|}~";
+        public static string UtFraktur = @" !""#$%&'()*+,-./0123456789:;<=>?@𝕬𝕭𝕮𝕯𝕰𝕱𝕲𝕳𝕴𝕵𝕶𝕷𝕸𝕹𝕺𝕻𝕼𝕽𝕾𝕿𝖀𝖁𝖂𝖃𝖄𝖅[\]^_`𝖆𝖇𝖈𝖉𝖊𝖋𝖌𝖍𝖎𝖏𝖐𝖑𝖒𝖓𝖔𝖕𝖖𝖗𝖘𝖙𝖚𝖛𝖜𝖝𝖞𝖟{|}~";
+        public static string UtBoldItalic = @" !""#$%&'()*+,-./0123456789:;<=>?@𝑨𝑩𝑪𝑫𝑬𝑭𝑮𝑯𝑰𝑱𝑲𝑳𝑴𝑵𝑶𝑷𝑸𝑹𝑺𝑻𝑼𝑽𝑾𝑿𝒀𝒁[\]^_`𝒂𝒃𝒄𝒅𝒆𝒇𝒈𝒉𝒊𝒋𝒌𝒍𝒎𝒏𝒐𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝒘𝒙𝒚𝒛{|}~";
+        public static string UtFrakturItalic = @" !""#$%&'()*+,-./0123456789:;<=>?@𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩[\]^_`𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃{|}~";
+        public static string UtDouble = @" !""#$%&'()*+,-./𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡:;<=>?@𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ[\]^_`𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫{|}~";
+        public static string UtMono = @" !""#$%&'()*+,-./𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿:;<=>?@𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉[\]^_`𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣{|}~";
+        public static string UtSans = @" !""#$%&'()*+,-./𝟢𝟣𝟤𝟥𝟦𝟧𝟨𝟩𝟪𝟫:;<=>?@𝖠𝖡𝖢𝖣𝖤𝖥𝖦𝖧𝖨𝖩𝖪𝖫𝖬𝖭𝖮𝖯𝖰𝖱𝖲𝖳𝖴𝖵𝖶𝖷𝖸𝖹[\]^_`𝖺𝖻𝖼𝖽𝖾𝖿𝗀𝗁𝗂𝗃𝗄𝗅𝗆𝗇𝗈𝗉𝗊𝗋𝗌𝗍𝗎𝗏𝗐𝗑𝗒𝗓{|}~";
+        public static string UtSansBold = @" !""#$%&'()*+,-./𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵:;<=>?@𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭[\]^_`𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇{|}~";
+        public static string UtSansBoldItalic = @" !""#$%&'()*+,-./0123456789:;<=>?@𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅𝙆𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕[\]^_`𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯{|}~";
+        public static string UtCircled = @" !""#$%&'()*+,-./0⑴⑵⑶⑷⑸⑹⑺⑻⑼:;<=>?@⒜⒝⒞⒟⒠⒡⒢⒣⒤⒥⒦⒧⒨⒩⒪⒫⒬⒭⒮⒯⒰⒱⒲⒳⒴⒵[\]^_`⒜⒝⒞⒟⒠⒡⒢⒣⒤⒥⒦⒧⒨⒩⒪⒫⒬⒭⒮⒯⒰⒱⒲⒳⒴⒵{|}~";
+        public static string UtSmallCaps = @" !""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩqʀꜱᴛᴜᴠᴡxyᴢ{|}~";
+        public static string UtSuper = @" !""#$%&'()*+,-./⁰¹²³⁴⁵⁶⁷⁸⁹:;<=>?@ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ[\]^_`ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ{|}~";
+        public static string UtSubscript = @" !""#$%&'()*+,-./₀₁₂₃₄₅₆₇₈₉:;<=>?@ₐBCDₑFGₕᵢⱼₖₗₘₙₒₚQᵣₛₜᵤᵥWₓYZ[\]^_`ₐbcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz{|}~";
+
         /// <summary>
-        /// (MJR) Converts an string to small caps.
+        /// (EXTENSION) (MJR) UTF text conversion
         /// </summary>
-        public static string ToSmallCaps(this string x)
+        public static string ToUtf(this string x, string style)
         {
-            //string caps = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘʀꜱᴛᴜᴠᴡʏᴢ";
-            string caps = "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ";
-            char[] result = new char[x.Length];
+            StringInfo si = new StringInfo(style);
+            StringBuilder sb = new StringBuilder();
 
             for (int n = 0; n < x.Length; n++)
             {
-                char c = x[n];
+                char oc = x[n];
 
-                if (c >= 'a' && c <= 'z')
+                if (oc >= 0x20 && oc < 0x7E)
                 {
-                    result[n] = caps[c - 'a'];
-                }
-                else if (c >= 'A' && c <= 'Z')
-                {
-                    result[n] = caps[c - 'A'];
+                    string nc = si.SubstringByTextElements(oc - 0x20, 1);
+                    sb.Append(nc);
                 }
                 else
                 {
-                    result[n] = c;
+                    sb.Append(oc);
                 }
             }
 
-            return new string(result);
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) UTF text conversion
+        /// </summary>
+        public static string ToBold(this string x)
+        {
+            return ToUtf(x, UtBold);
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) UTF text conversion
+        /// </summary>
+        public static string ToSans(this string x)
+        {
+            return ToUtf(x, UtSans);
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) UTF text conversion
+        /// </summary>
+        public static string ToSansBold(this string x)
+        {
+            return ToUtf(x, UtSansBold);
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) UTF text conversion
+        /// </summary>
+        public static string ToSmallCaps(this string x)
+        {
+            return ToUtf(x, UtSmallCaps);
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) UTF text conversion
+        /// </summary>
+        internal static string ToSubScript(int value)
+        {
+            return value.ToString().ToUtf(UtSubscript);
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) UTF text conversion
+        /// </summary>
+        internal static string Circle(int value)
+        {
+            return value.ToString().ToUtf(UtCircled);
         }
 
         /// <summary>
@@ -116,41 +177,6 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// Converts a string to a subscript.
-        /// Handles numbers only.
-        /// </summary>
-        internal static string ToSubScript(int value)
-        {
-            string txtt = value.ToString();
-            byte[] txt = Encoding.ASCII.GetBytes(txtt);
-            byte c0 = 0x30;
-            string chars = "₀₁₂₃₄₅₆₇₈₉";
-            StringBuilder sb = new StringBuilder(txtt.Length);
-
-            foreach (byte c in txt)
-            {
-                char cn;
-
-                if (c == 0x2D)
-                {
-                    cn = '₋';
-                }
-                else if (c == 0x2e)
-                {
-                    cn = '.';
-                }
-                else
-                {
-                    cn = chars[c - c0];
-                }
-
-                sb.Append(cn);
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
         /// (MJR) Splits a string about "," accounting for nested sequences using "{" and "}".
         /// </summary>
         internal static List<string> SplitGroups(this string text)
@@ -199,23 +225,6 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// Converts a string to circled text (numbers in the range 1..20 only ).
-        /// </summary>
-        internal static string Circle(int value)
-        {
-            //string chars = "⒈⒉⒊⒋⒌⒍⒎⒏⒐⒑⒒⒓⒔⒕⒖⒗⒘⒙⒚⒛";
-            string chars = "⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂⒃⒄⒅⒆⒇";
-            //string chars = "⓪①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳";
-
-            if (value < 1 || value >= chars.Length)
-            {
-                return "(" + value + ")";
-            }
-
-            return chars[value - 1].ToString();
-        }
-
-        /// <summary>
         /// Converts a string to an array of [T], using a specified [conversion] and splitting about [sep]
         /// </summary>           
         public static T[] StringToArray<T>(string str, Converter<string, T> conversion, string sep = ",")
@@ -256,7 +265,7 @@ namespace MetaboliteLevels.Utilities
         /// Like string::join this converts an array to a string, but doesn't consider the type.
         /// </summary>                                           
         public static string ArrayToString(IEnumerable array, string delimiter = ", ")
-        {               
+        {
             if (array == null)
             {
                 return null;
@@ -448,7 +457,7 @@ namespace MetaboliteLevels.Utilities
 
             return result;
         }
-                                         
+
         /// <summary>
         /// Converts an array to a string
         /// </summary>                   
@@ -650,7 +659,7 @@ namespace MetaboliteLevels.Utilities
                 this.Value = value;
                 this.IsInBrackets = isInBrackets;
             }
-                                         
+
             public override string ToString()
             {
                 if (IsInBrackets)

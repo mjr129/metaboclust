@@ -211,7 +211,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public string DisplayName
         {
-            get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName); }
+            get { return IVisualisableExtensions.FormatDisplayName(this); }
         }
 
         /// <summary>

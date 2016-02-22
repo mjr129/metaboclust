@@ -222,7 +222,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 if (o.ViewTypes.Contains(cond.Group))
                 {
                     // Name the series
-                    string name = "Range for " + cond.Group.Name;
+                    string name = "Range for " + cond.Group.DisplayName;
                     MChart.Series series;
 
                     // Create the series (if required)
@@ -310,9 +310,9 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 // Create the series
-                MChart.Series sMean = plot.Series.Add(@group.Name + ": Mean");
-                MChart.Series sMin = plot.Series.Add(@group.Name + ": StdDevMin");
-                MChart.Series sMax = plot.Series.Add(@group.Name + ": StdDevMax");
+                MChart.Series sMean = plot.Series.Add(@group.DisplayName + ": Mean");
+                MChart.Series sMin = plot.Series.Add(@group.DisplayName + ": StdDevMin");
+                MChart.Series sMax = plot.Series.Add(@group.DisplayName + ": StdDevMax");
 
                 sMean.ApplicableLegends.Add(groupLegends[group]);
                 sMin.ApplicableLegends.Add(groupLegends[group]);
@@ -436,7 +436,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 bool colorByBatch = draw.HasFlag(EPlot.ByBatch);
                 GroupInfoBase seriesUsing = colorByBatch ? (GroupInfoBase)condBatch : (GroupInfoBase)condType;
 
-                string name = seriesName + " for " + seriesUsing.Name;
+                string name = seriesName + " for " + seriesUsing.DisplayName;
                 MChart.Series series;
 
                 // Create the series (if required)

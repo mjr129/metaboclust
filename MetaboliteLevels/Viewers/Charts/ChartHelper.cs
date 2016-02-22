@@ -18,7 +18,7 @@ using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Viewers.Charts
 {
-    abstract class ChartHelper : ICoreWatcher
+    class ChartHelper : ICoreWatcher
     {
         private const int GROUP_SEPARATION = 2;
 
@@ -31,27 +31,27 @@ namespace MetaboliteLevels.Viewers.Charts
 
         private readonly CaptionBar _captionBar;
         private readonly ToolStrip _menuBar;
-        private readonly ToolStripMenuItem _mnuPlot;
-        private readonly ToolStripMenuItem _mnuCustomText;
+        private readonly ToolStripDropDownButton _mnuPlot;
+        private readonly ToolStripDropDownButton _mnuCustomText;
         private readonly ToolStripItem _btnNavigateToSelected;
-        private readonly ToolStripMenuItem _mnuSelectedReplicate;
-        private readonly ToolStripMenuItem _mnuSelectedTime;
-        private readonly ToolStripMenuItem _mnuSelectedIntensity;
-        private readonly ToolStripMenuItem _mnuSelectedGroup;
-        private readonly ToolStripMenuItem _mnuSelectedPeak;
-        private readonly ToolStripMenuItem _mnuSelectedSeries;
+        private readonly ToolStripButton _mnuSelectedReplicate;
+        private readonly ToolStripButton _mnuSelectedTime;
+        private readonly ToolStripButton _mnuSelectedIntensity;
+        private readonly ToolStripButton _mnuSelectedGroup;
+        private readonly ToolStripButton _mnuSelectedPeak;
+        private readonly ToolStripButton _mnuSelectedSeries;
         private readonly ToolStripMenuItem _mnuSelectionDisplay;
-        private readonly ToolStripMenuItem _chkShowPeak;
-        private readonly ToolStripMenuItem _chkShowSeries;
-        private readonly ToolStripMenuItem _chkShowIntensity;
-        private readonly ToolStripMenuItem _chkShowGroup;
-        private readonly ToolStripMenuItem _chkShowReplicate;
-        private readonly ToolStripMenuItem _chkShowTime;
-        private readonly ToolStripMenuItem _chkShowCustom;
+        private readonly ToolStripButton _chkShowPeak;
+        private readonly ToolStripButton _chkShowSeries;
+        private readonly ToolStripButton _chkShowIntensity;
+        private readonly ToolStripButton _chkShowGroup;
+        private readonly ToolStripButton _chkShowReplicate;
+        private readonly ToolStripButton _chkShowTime;
+        private readonly ToolStripButton _chkShowCustom;
 
-        public abstract IVisualisable CurrentPlot
+        public virtual IVisualisable CurrentPlot
         {
-            get;
+            get { return null; }
         }
 
         protected void SetCaption(string format, params IVisualisable[] p)
@@ -110,13 +110,13 @@ namespace MetaboliteLevels.Viewers.Charts
             _menuBar.SendToBack();
 
             // PLOT BUTTON
-            _mnuPlot = new ToolStripMenuItem("...");
+            _mnuPlot = new ToolStripDropDownButton("...");
             _mnuPlot.Visible = false;
             _mnuPlot.AutoSize = true;
             this._menuBar.Items.Add(_mnuPlot);
 
             // USER DETAILS BUTTON
-            _mnuCustomText = new ToolStripMenuItem(Resources.ObjLInfo);
+            _mnuCustomText = new ToolStripDropDownButton(Resources.ObjLInfo);
             _mnuCustomText.DropDownItems.Add("Configure...", null, _userDetailsButton_Clicked);
             _mnuCustomText.Visible = false;
             _mnuCustomText.AutoSize = true;
@@ -134,6 +134,7 @@ namespace MetaboliteLevels.Viewers.Charts
             _mnuPlot.DropDownOpening += _menuButtonMenu_Opening;
             _btnNavigateToSelected = _mnuPlot.DropDownItems.Add("Select this", null, SelectThis_Click);
             _mnuPlot.DropDownItems.Add(new ToolStripSeparator());
+            _mnuPlot.DropDownItems.Add("Popout", Resources.MnuEnlarge, Popout_Click);
             _mnuPlot.DropDownItems.Add("Toggle legend", null, ToggleLegend_Click);
             _mnuPlot.DropDownItems.Add("Reset scale (MMB)", null, ResetScale_Click);
             _mnuPlot.DropDownItems.Add("Clear selection (MMB)", null, ResetSel_Click);
@@ -154,9 +155,14 @@ namespace MetaboliteLevels.Viewers.Charts
             _btnNavigateToSelected.Enabled = _selector != null;
         }
 
-        private ToolStripMenuItem AddCheckButton(string v, bool isChecked)
+        private void Popout_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem result = new ToolStripMenuItem(v);
+            FrmPopoutPlot.Show(this.Chart.FindForm(), _selector, _core, this);
+        }
+
+        private ToolStripButton AddCheckButton(string v, bool isChecked)
+        {
+            ToolStripButton result = new ToolStripButton(v);
             _mnuSelectionDisplay.DropDownItems.Add(result);
             result.Checked = isChecked;
             result.Visible = true;
@@ -170,9 +176,9 @@ namespace MetaboliteLevels.Viewers.Charts
             PerformSelectionActions();
         }
 
-        private ToolStripMenuItem CreateSelectionButton(Image image)
+        private ToolStripButton CreateSelectionButton(Image image)
         {
-            ToolStripMenuItem result = new ToolStripMenuItem("", image, _selectionButtonMenu_Opening);
+            ToolStripButton result = new ToolStripButton("", image, _selectionButtonMenu_Opening);
             result.Alignment = ToolStripItemAlignment.Right;
             result.Visible = false;
             result.AutoSize = true;
@@ -193,7 +199,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
         private void _menuButtonMenu_Opening(object sender, EventArgs e)
         {
-            _btnNavigateToSelected.Text = "Navigate to " + new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
+            _btnNavigateToSelected.Text = "Navigate to " + new VisualisableSelection(CurrentPlot);
         }
 
         private void _selectionButtonMenu_Opening(object senderu, EventArgs e)
@@ -224,12 +230,12 @@ namespace MetaboliteLevels.Viewers.Charts
         private void SelectThisSelection_Click(object sender, EventArgs e)
         {
             ToolStripItem tsender = (ToolStripItem)sender;
-            _selector.Selection = new VisualisableSelection((IVisualisable)tsender.Tag, null, EActivateOrigin.External);
+            _selector.Selection = new VisualisableSelection((IVisualisable)tsender.Tag, null);
         }
 
         private void SelectThis_Click(object sender, EventArgs e)
         {
-            _selector.Selection = new VisualisableSelection(CurrentPlot, EActivateOrigin.External);
+            _selector.Selection = new VisualisableSelection(CurrentPlot);
         }
 
         private void ToggleLegend_Click(object sender, EventArgs e)
@@ -278,7 +284,11 @@ namespace MetaboliteLevels.Viewers.Charts
         {
             using (System.IO.MemoryStream memStream = new System.IO.MemoryStream())
             {
-                _chart.DrawToBitmap().Save(memStream, ImageFormat.Png);
+                using (Bitmap bitmap = _chart.DrawToBitmap())
+                {
+                    UiControls.DrawWatermark(bitmap, _core, CurrentPlot.DisplayName);
+                    bitmap.Save(memStream, ImageFormat.Png);
+                }
 
                 using (Image img = Image.FromStream(memStream))
                 {
@@ -295,7 +305,12 @@ namespace MetaboliteLevels.Viewers.Charts
 
             if (fn != null)
             {
-                _chart.DrawToBitmap().Save(fn, fn.ToLower().EndsWith("emf") ? ImageFormat.Emf : ImageFormat.Png);
+                using (Bitmap bitmap = _chart.DrawToBitmap())
+                {
+                    UiControls.DrawWatermark(bitmap, _core, CurrentPlot.DisplayName);
+
+                    bitmap.Save(fn, fn.ToLower().EndsWith("emf") ? ImageFormat.Emf : ImageFormat.Png);
+                }
             }
         }
 
@@ -487,7 +502,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                     if (dataPoint.Group != null && _chkShowGroup.Checked)
                     {
-                        _mnuSelectedGroup.Text = dataPoint.Group.Name;
+                        _mnuSelectedGroup.Text = dataPoint.Group.DisplayName;
                         _mnuSelectedGroup.Image = UiControls.CreateSolidColourImage(true, dataPoint.Group);
                         _mnuSelectedGroup.Visible = true;
                     }
@@ -538,7 +553,7 @@ namespace MetaboliteLevels.Viewers.Charts
             foreach (GroupInfoBase group in viewTypes)
             {
                 MChart.Series legendEntry = new MChart.Series();
-                legendEntry.Name = group.Name;
+                legendEntry.Name = group.DisplayName;
                 legendEntry.Style.DrawBands = new SolidBrush(group.Colour);
                 plot.LegendEntries.Add(legendEntry);
                 result.Add(group, legendEntry);
@@ -566,7 +581,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                     int minX = ti.Range.Min;
                     int maxX = ti.Range.Max;
-                    string text = ti.Name;
+                    string text = ti.DisplayName;
 
                     DrawAxisBar(plot, x, minX, maxX, text);
                 }
@@ -576,7 +591,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 int minX = _core.TimeRange.Min;
                 int maxX = _core.TimeRange.Max;
                 int x = 0;
-                string text = StringHelper.ArrayToString(orderOfGroups, z => z.Name, ", ");
+                string text = StringHelper.ArrayToString(orderOfGroups, z => z.DisplayName, ", ");
 
                 DrawAxisBar(plot, x, minX, maxX, text);
             }

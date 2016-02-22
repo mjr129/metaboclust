@@ -298,7 +298,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
             // Each peak + condition gets its own series (yes we end up with lots of series)
             series = new MChart.Series();
-            series.Name = vector.ToString() + " : " + group.Name;
+            series.Name = vector.ToString() + " : " + group.DisplayName;
             series.ApplicableLegends.Add(groupLegends[group]);
             series.ApplicableLegends.Add(lineLegend);
             plot.Series.Add(series);
@@ -308,7 +308,7 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 series.Style.DrawLines = new Pen(colours[peak].Colour);
                 series.Style.DrawLines.DashStyle = colours[peak].DashStyle;
-                series.Name = colours[peak].SeriesName + " : " + group.Name;
+                series.Name = colours[peak].SeriesName + " : " + group.DisplayName;
             }
             else
             {

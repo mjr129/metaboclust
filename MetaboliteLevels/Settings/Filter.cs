@@ -60,7 +60,7 @@ namespace MetaboliteLevels.Settings
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(this.OverrideDisplayName, this.DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this);
             }
         }
 
@@ -259,7 +259,7 @@ namespace MetaboliteLevels.Settings
             {
                 get
                 {
-                    return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName);
+                    return IVisualisableExtensions.FormatDisplayName(this);
                 }
             }
 
@@ -542,7 +542,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Gʀᴏᴜᴘ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities, z => z.ShortName) + "}";
+                return "Gʀᴏᴜᴘ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities, z => z.DisplayShortName) + "}";
             }
         }
 

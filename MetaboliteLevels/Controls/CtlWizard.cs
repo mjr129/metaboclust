@@ -127,20 +127,17 @@ namespace MetaboliteLevels.Controls
             {
                 if (sb.Length != 0)
                 {
-                    sb.Append(" ➜ ");
+                    sb.Append(" → ");
                 }
 
-                if (i == Pager.Page)
+                if (i != Pager.Page)
                 {
-                    sb.Append("[");
+                    sb.Append(Pager.PageTitles[i].ToSans());
                 }
-
-                sb.Append(Pager.PageTitles[i]);
-
-                if (i == Pager.Page)
+                else
                 {
-                    sb.Append("]");
-                }
+                    sb.Append(Pager.PageTitles[i].ToSansBold());
+                }  
             }
 
             _lblOrder.Text = sb.ToString();

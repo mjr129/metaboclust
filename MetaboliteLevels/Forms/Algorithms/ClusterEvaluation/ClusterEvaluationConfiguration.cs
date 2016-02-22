@@ -183,7 +183,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(Name, DefaultDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this);
             }
         }
 

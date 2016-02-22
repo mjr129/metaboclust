@@ -14,46 +14,35 @@ namespace MetaboliteLevels.Forms
 
     internal class VisualisableSelection
     {
-        public readonly IVisualisable A;
-        public readonly IVisualisable B;
-        public readonly EActivateOrigin Origin;
+        public readonly IVisualisable Primary;
+        public readonly IVisualisable Secondary;  
 
-        public VisualisableSelection(IVisualisable a, IVisualisable b, EActivateOrigin origin)
+        public VisualisableSelection(IVisualisable primary, IVisualisable secondary)
         {
-            A = a;
-            B = b;
-            Origin = origin;
+            Primary = primary;
+            Secondary = secondary;   
         }
 
-        public VisualisableSelection(IVisualisable a, EActivateOrigin origin)
+        public VisualisableSelection(IVisualisable primary)
         {
-            A = a;
-            B = null;
-            Origin = origin;
+            Primary = primary;
+            Secondary = null;    
         }
 
         public override string ToString()
         {
-            if (A == null)
+            if (Primary == null)
             {
                 return "No selection";
             }
-            else if (B == null)
+            else if (Secondary == null)
             {
-                return A.DisplayName;
+                return Primary.DisplayName;
             }
             else
             {
-                return A.DisplayName + " (in " + B.DisplayName + ")";
+                return Primary.DisplayName + "::" + Secondary.DisplayName;
             }
         }
-    }
-
-    internal enum EActivateOrigin
-    {
-        None, // lists, replot, core change
-        External,
-        ClusterPlot,
-        TreeView,
-    }
+    }                            
 }

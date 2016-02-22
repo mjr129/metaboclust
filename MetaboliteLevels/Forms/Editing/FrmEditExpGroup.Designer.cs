@@ -30,13 +30,13 @@
         {
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this._txtTitle = new System.Windows.Forms.TextBox();
+            this._txtTitle = new Controls.CtlTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this._txtAbvTitle = new System.Windows.Forms.TextBox();
+            this._txtAbvTitle = new Controls.CtlTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this._txtComments = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -300,13 +300,13 @@
 
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TextBox _txtTitle;
+        private Controls.CtlTextBox _txtTitle;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnOk;
         private Controls.CtlButton _btnCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox _txtAbvTitle;
+        private Controls.CtlTextBox _txtAbvTitle;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox _txtComments;
         private System.Windows.Forms.Label label4;

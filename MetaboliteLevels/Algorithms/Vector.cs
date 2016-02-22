@@ -40,7 +40,7 @@ namespace MetaboliteLevels.Algorithms
             }
             else
             {
-                return Peak.DisplayName + "∩" + Group.Name;
+                return Peak.DisplayName + "∩" + Group.DisplayName;
             }
         }
     }

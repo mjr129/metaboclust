@@ -423,7 +423,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             }
             else
             {
-                return "Average of " + g.Name + " assignments\\" + key;
+                return "Average of " + g.DisplayName + " assignments\\" + key;
             }
         }
 

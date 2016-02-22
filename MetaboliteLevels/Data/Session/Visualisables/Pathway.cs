@@ -210,7 +210,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     if (uniqueCompoundCombinations[uniqueIndex].Count == 1)
                     {
                         col = Color.Black;
-                    }      
+                    }
                     else
                     {
                         cindex++;
@@ -271,8 +271,8 @@ namespace MetaboliteLevels.Data.Visualisables
                     legend.Append(" OR " + xCount + " others not in this pathway");
                 }
 
-                fakeCluster.Assignments.Add(new Assignment(vec, fakeCluster, double.NaN));        
-               
+                fakeCluster.Assignments.Add(new Assignment(vec, fakeCluster, double.NaN));
+
 
                 string seriesName = peak.DisplayName + (!peak.Assignments.List.IsEmpty() ? (" (" + StringHelper.ArrayToString(peak.Assignments.Clusters) + ")") : "") + ": " + legend.ToString();
                 var li = new LineInfo(seriesName, col, DashStyle.Solid);
@@ -292,7 +292,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public string DisplayName
         {
-            get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName); }
+            get { return IVisualisableExtensions.FormatDisplayName(this); }
         }
 
         /// <summary>
@@ -433,10 +433,11 @@ namespace MetaboliteLevels.Data.Visualisables
             result.Add("Name", EColumn.Visible, λ => λ.DefaultDisplayName);
             result.Add("Library", EColumn.None, λ => λ.Libraries);
             result.Add("Compounds", EColumn.None, λ => λ.Compounds);
+            result.Add("Compounds with peaks", EColumn.None, λ => λ.Compounds.Where(z => z.Annotations.Count != 0));
             result.Add("Comment", EColumn.None, λ => λ.Comment);
             result.Add("Libraries", EColumn.None, λ => λ.Libraries);
             result.Add("Related pathways", EColumn.None, λ => λ.RelatedPathways);
-            result.Add("URL", EColumn.None, λ => λ.Url);
+            result.Add("URL", EColumn.None, λ => λ.Url);        
 
             core._pathwaysMeta.ReadAllColumns(z => z.MetaInfo, result);
 

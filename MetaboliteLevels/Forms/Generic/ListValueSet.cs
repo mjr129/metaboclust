@@ -39,7 +39,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Describer = z => EnumHelper.ToDescription((Enum)(object)z),
                 Comparator = _EnumComparator<T>,
             };
-        }       
+        }
 
         /// <summary>
         /// Strings
@@ -63,9 +63,9 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<T>()
             {
                 Title = title,
-                List = Enum.GetValues(typeof(T)).Cast<T>(),
+                List = Enum.GetValues(typeof(T)).Cast<T>().Except(new T[] { cancelValue }),
                 Namer = z => EnumHelper.ToUiString((Enum)(object)z),
-                Describer = z => z.ToString(),
+                Describer = z => EnumHelper.ToDescription((Enum)(object)z),
                 Comparator = _EnumComparator<T>,
                 CancelValue = cancelValue,
             };
@@ -74,26 +74,26 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Creates a ConditionBox.
         /// </summary>
-        public static ListValueSet<ObservationInfo> ForObservations(Core core)
+        public static ListValueSet<ObservationInfo> ForObservations(Core core, bool onlyEnabled)
         {
             return new ListValueSet<ObservationInfo>()
             {
                 Title = "Observations",
-                List = core.Observations,
-                Describer = z => "Group = " + z.Group.Name + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition
+                List = core.Observations.Enabled2(onlyEnabled),
+                Describer = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition
             };
         }
 
         /// <summary>
         /// Creates a ConditionBox.
         /// </summary>
-        public static ListValueSet<ConditionInfo> ForConditions(Core core)
+        public static ListValueSet<ConditionInfo> ForConditions(Core core, bool onlyEnabled)
         {
             return new ListValueSet<ConditionInfo>()
             {
                 Title = "Conditions",
-                List = core.Conditions,
-                Describer = z => "Group = " + z.Group.Name + ", Time = " + z.Time
+                List = core.Conditions.Enabled2(onlyEnabled),
+                Describer = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time
             };
         }
 
@@ -114,12 +114,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Tests
         /// </summary>             
-        public static ListValueSet<ClusterEvaluationPointer> ForTests(Core core)
+        public static ListValueSet<ClusterEvaluationPointer> ForTests(Core core, bool onlyEnabled)
         {
             return new ListValueSet<ClusterEvaluationPointer>()
             {
                 Title = "Test Results",
-                List = core.EvaluationResultFiles,
+                List = core.EvaluationResultFiles.Enabled2(onlyEnabled),
                 Namer = z => z.DisplayName,
                 Describer = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
                 IconProvider = _GetIcon,
@@ -159,14 +159,14 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Batches.
         /// </summary>
-        public static ListValueSet<BatchInfo> ForBatches(Core core)
+        public static ListValueSet<BatchInfo> ForBatches(Core core, bool onlyEnabled)
         {
             return new ListValueSet<BatchInfo>()
             {
                 Title = "Batches",
-                List = core.Batches,
+                List = core.Batches.Enabled2(onlyEnabled),
                 Namer = z => z.Id.ToString(),
-                Describer = z => z.ShortName + ": " + z.Name + z.Comment.FormatIf("\r\nComment: ")
+                Describer = z => z.DisplayShortName + ": " + z.DisplayName + z.Comment.FormatIf("\r\nComment: ")
             };
         }
 
@@ -228,12 +228,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Clusters
         /// </summary>
-        internal static ListValueSet<Cluster> ForClusters(Core core)
+        internal static ListValueSet<Cluster> ForClusters(Core core, bool onlyEnabled)
         {
             return new ListValueSet<Cluster>()
             {
                 Title = "Clusters",
-                List = core.Clusters,
+                List = core.Clusters.Enabled2(onlyEnabled),
                 Namer = z => z.DisplayName,
                 Describer = _GetComment
             };
@@ -242,12 +242,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Peaks
         /// </summary>
-        internal static ListValueSet<Peak> ForPeaks(Core core)
+        internal static ListValueSet<Peak> ForPeaks(Core core, bool onlyEnabled)
         {
             return new ListValueSet<Peak>()
             {
                 Title = "Peaks",
-                List = core.Peaks,
+                List = core.Peaks.Enabled2(onlyEnabled),
                 Namer = z => z.DisplayName,
                 Describer = _GetComment
             };
@@ -272,12 +272,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Clusterers
         /// </summary>
-        internal static ListValueSet<ConfigurationClusterer> ForClusterers(Core core)
+        internal static ListValueSet<ConfigurationClusterer> ForClusterers(Core core, bool onlyEnabled)
         {
             return new ListValueSet<ConfigurationClusterer>()
             {
                 Title = "Clusterers",
-                List = core.ActiveClusterers,
+                List = core.AllClusterers.Enabled2(onlyEnabled),
                 Describer = _GetComment,
                 ListEditor = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Clusters, null)
             };
@@ -286,12 +286,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Statistics
         /// </summary>
-        internal static ListValueSet<ConfigurationStatistic> ForStatistics(Core core)
+        internal static ListValueSet<ConfigurationStatistic> ForStatistics(Core core, bool onlyEnabled)
         {
             return new ListValueSet<ConfigurationStatistic>()
             {
                 Title = "Statistics",
-                List = core.ActiveStatistics,
+                List = core.AllStatistics.Enabled2(onlyEnabled),
                 Describer = _GetComment,
                 ListEditor = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Statistics, null)
             };
@@ -314,12 +314,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Peak filters
         /// </summary>
-        internal static ListValueSet<PeakFilter> ForPeakFilter(Core core)
+        internal static ListValueSet<PeakFilter> ForPeakFilter(Core core, bool onlyEnabled)
         {
             return new ListValueSet<PeakFilter>()
             {
                 Title = "Peak Filters",
-                List = core.AllPeakFilters,
+                List = core.AllPeakFilters.Enabled2(onlyEnabled),
                 Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListEditor = z => FrmBigList.ShowPeakFilters(z, core)
             };
@@ -328,12 +328,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Observation filters
         /// </summary>
-        internal static ListValueSet<ObsFilter> ForObsFilter(Core core)
+        internal static ListValueSet<ObsFilter> ForObsFilter(Core core, bool onlyEnabled)
         {
             return new ListValueSet<ObsFilter>()
             {
                 Title = "Observation Filters",
-                List = core.AllObsFilters,
+                List = core.AllObsFilters.Enabled2(onlyEnabled),
                 Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListEditor = z => FrmBigList.ShowObsFilters(z, core)
             };
@@ -342,15 +342,16 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Experimental groups
         /// </summary>
-        internal static ListValueSet<GroupInfo> ForGroups(Core core)
+        internal static ListValueSet<GroupInfo> ForGroups(Core core, bool onlyEnabled)
         {
             return new ListValueSet<GroupInfo>()
             {
                 Title = "Experimental Groups",
-                List = core.Groups.OrderBy(z => z.Id),
-                Namer = z => z.Name,
-                Describer = z => z.ShortName + ": " + z.Name,
-                Comparator = _TypeNameComparator
+                List = core.Groups.Enabled2(onlyEnabled).OrderBy(z => z.Id),
+                Namer = z => z.DisplayName,
+                Describer = z => z.DisplayShortName + ": " + z.DisplayName,
+                Comparator = _TypeNameComparator,
+                ItemEditor = (o, d, r) => { return FrmEditExpGroup.Show(o, d, r) ? d : null; }
             };
         }
 
@@ -396,7 +397,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             name = name.ToUpper();
 
-            return group.Name.ToUpper() == name || group.ShortName.ToUpper() == name || group.Id.ToString() == name;
+            return group.DisplayName.ToUpper() == name || group.DisplayShortName.ToUpper() == name || group.Id.ToString() == name;
         }
     }
 }

@@ -45,39 +45,39 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 Peak peak = vp.Peak;
                 prog.SetProgress(vmatIndex, vmatrix.NumVectors);
 
-                List<Assignment> pats = new List<Assignment>(peak.Assignments.List
+                List<Assignment> assignments = new List<Assignment>(peak.Assignments.List
                                                          .Where(z => config.Results.Clusters.Contains(z.Cluster))
                                                          .OrderBy(z => z.Vector.Group.Id));
                 //.Select(z => new RefAss(z.Vector.Group, z.Cluster)));
 
-                int index = FindMatch(uniqueCombinations, pats);
+                int index = FindMatch(uniqueCombinations, assignments);
                 Cluster pat;
 
                 if (index == -1)
                 {
-                    uniqueCombinations.Add(pats);
+                    uniqueCombinations.Add(assignments);
 
-                    string name = StringHelper.ArrayToString(pats, z => z.Vector.Group.ShortName + "." + z.Cluster.ShortName, " / ");
+                    string name = StringHelper.ArrayToString<Assignment>(assignments, z => z.Vector.Group.DisplayShortName + "." + z.Cluster.ShortName, " / ");
 
                     pat = new Cluster(name, tag);
 
                     // Centre (merge centres)
-                    IEnumerable<double[]> centres = pats.Select(z => z.Cluster.Centres.First());
+                    IEnumerable<double[]> centres = assignments.Select(z => z.Cluster.Centres.First());
                     pat.Centres.Add(centres.SelectMany(z => z).ToArray());
 
                     // Vector (merge vectors)
-                    if (pats[0].Vector.Conditions != null)
+                    if (assignments[0].Vector.Conditions != null)
                     {
-                        conditions.Add(pats.Select(z => z.Vector.Conditions).SelectMany(z => z).ToArray());
+                        conditions.Add(assignments.Select(z => z.Vector.Conditions).SelectMany(z => z).ToArray());
                     }
                     else
                     {
                         conditions.Add(null);
                     }
 
-                    if (pats[0].Vector.Observations != null)
+                    if (assignments[0].Vector.Observations != null)
                     {
-                        observations.Add(pats.Select(z => z.Vector.Observations).SelectMany(z => z).ToArray());
+                        observations.Add(assignments.Select(z => z.Vector.Observations).SelectMany(z => z).ToArray());
                     }
                     else
                     {
@@ -85,7 +85,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                     }
 
                     // Relations (all clusters)
-                    pat.Related.AddRange(pats.Select(z => z.Cluster).Unique());
+                    pat.Related.AddRange(assignments.Select(z => z.Cluster).Unique());
 
                     foreach (Cluster pat2 in pat.Related)
                     {
@@ -102,9 +102,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 
                 pat = newClusters[index];
 
-                double[] values = pats.Select(z => z.Vector.Values).SelectMany(z => z).ToArray();
+                double[] values = assignments.Select(z => z.Vector.Values).SelectMany(z => z).ToArray();
                 Vector v = new Vector(peak, null, conditions[index], observations[index], values, vmatIndex);
-                pat.Assignments.Add(new Assignment(v, pat, pats.Count));
+                pat.Assignments.Add(new Assignment(v, pat, assignments.Count));
             }
 
             prog.Leave();

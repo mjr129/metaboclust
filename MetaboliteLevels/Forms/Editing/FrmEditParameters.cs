@@ -130,7 +130,7 @@ namespace MetaboliteLevels.Forms.Editing
                 case EAlgoParameterType.WeakRefConfigurationClusterer:
                     {
                         ConfigurationClusterer def = ((WeakReference<ConfigurationClusterer>)value).GetTarget();
-                        var sel = ListValueSet.ForClusterers(_core).Select(def).ShowList(this);
+                        var sel = ListValueSet.ForClusterers(_core, true).Select(def).ShowList(this);
 
                         if (sel == null)
                         {
@@ -142,12 +142,12 @@ namespace MetaboliteLevels.Forms.Editing
                     break;
 
                 case EAlgoParameterType.Group:
-                    value = ListValueSet.ForGroups(_core).Select((GroupInfo)value).ShowList(this);
+                    value = ListValueSet.ForGroups(_core, true).Select((GroupInfo)value).ShowList(this);
                     break;
 
                 case EAlgoParameterType.WeakRefPeak:
                     {
-                        var sel = ListValueSet.ForPeaks(_core).Select(((WeakReference<Peak>)value).GetTarget()).ShowList(this);
+                        var sel = ListValueSet.ForPeaks(_core, true).Select(((WeakReference<Peak>)value).GetTarget()).ShowList(this);
 
                         if (sel == null)
                         {
@@ -162,7 +162,7 @@ namespace MetaboliteLevels.Forms.Editing
                     {
                         var tvalue = (WeakReference<ConfigurationStatistic>[])value;
                         IEnumerable<ConfigurationStatistic> def = tvalue.Select(z => z.GetTarget()).Where(z => z != null);
-                        IEnumerable<ConfigurationStatistic> sel = ListValueSet.ForStatistics(_core).Select(def).ShowCheckList(this);
+                        IEnumerable<ConfigurationStatistic> sel = ListValueSet.ForStatistics(_core, true).Select(def).ShowCheckList(this);
 
                         if (sel == null)
                         {

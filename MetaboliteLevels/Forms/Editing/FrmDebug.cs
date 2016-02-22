@@ -44,12 +44,12 @@ namespace MetaboliteLevels.Forms.Editing
 
         private Peak PickVariable()
         {
-            return ListValueSet.ForPeaks(_core).ShowList(this);
+            return ListValueSet.ForPeaks(_core, true).ShowList(this);
         }
 
         private Cluster PickCluster()
         {
-            return ListValueSet.ForClusters(_core).ShowList(this);
+            return ListValueSet.ForClusters(_core, true).ShowList(this);
         }
 
         private void EndWait()
@@ -280,7 +280,7 @@ namespace MetaboliteLevels.Forms.Editing
                 for (int i = 0; i < _core.Observations.Count; i++)
                 {
                     ObservationInfo obs = _core.Observations[i];
-                    sb.AppendLine(obs.Time + obs.Group.ShortName + obs.Rep + " = " + v.Observations.Raw[i]);
+                    sb.AppendLine(obs.Time + obs.Group.DisplayShortName + obs.Rep + " = " + v.Observations.Raw[i]);
                 }
 
                 FrmInputLarge.ShowFixed(this, "View full variable", v.DisplayName, "Full variable information", sb.ToString());
@@ -300,7 +300,7 @@ namespace MetaboliteLevels.Forms.Editing
                 for (int i = 0; i < _core.Conditions.Count; i++)
                 {
                     ConditionInfo cond = _core.Conditions[i];
-                    sb.AppendLine(cond.Time + cond.Group.ShortName + " = " + v.Observations.Trend[i]);
+                    sb.AppendLine(cond.Time + cond.Group.DisplayShortName + " = " + v.Observations.Trend[i]);
                 }
 
                 FrmInputLarge.ShowFixed(this, "View variable averages", v.DisplayName, "Variable averages", sb.ToString());
@@ -418,7 +418,7 @@ namespace MetaboliteLevels.Forms.Editing
             PeakFlag type1;
             PeakFlag type2;
 
-            ConfigurationStatistic stat = ListValueSet.ForStatistics(_core).ShowList(this);
+            ConfigurationStatistic stat = ListValueSet.ForStatistics(_core, true).ShowList(this);
 
             if (stat == null)
             {

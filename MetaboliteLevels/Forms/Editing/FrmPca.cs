@@ -73,7 +73,7 @@ namespace MetaboliteLevels.Forms.Editing
             _peakFilter = PeakFilter.Empty;
             _obsFilter = ObsFilter.Empty;
 
-            _selectedCorrection = core.ActiveCorrections.Any() ? core.ActiveCorrections.Last() : null;
+            _selectedCorrection = core.AllCorrections.Enabled2().Any() ? core.AllCorrections.Enabled2().Last() : null;
 
             _colourByPeak = new Column<Peak>("Clusters", EColumn.None, null, z => StringHelper.ArrayToString(z.Assignments.Clusters.Unique()));
             _colourByCondition = new Column<ConditionInfo>("Group", EColumn.None, null, z => z.Group, z => z.Group.Colour);
@@ -102,7 +102,7 @@ namespace MetaboliteLevels.Forms.Editing
             _mnuPeakFilter.Text = _peakFilter.ToString();
             _mnuCorrections.Text = _selectedCorrection != null ? _selectedCorrection.DisplayName : "Original data";
 
-            int corIndex = _core.ActiveCorrections.IndexOf(_selectedCorrection);
+            int corIndex = _core.AllCorrections.Enabled2().IndexOf(_selectedCorrection);
 
             IEnumerable conds;
             IEnumerable<int> which;
@@ -673,7 +673,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _mnuCorrections.DropDownItems.Clear();
 
-            foreach (ConfigurationCorrection correction in _core.ActiveCorrections)
+            foreach (ConfigurationCorrection correction in _core.AllCorrections.Enabled2())
             {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem(correction.ToString()) { Tag = correction };
                 tsmi.Click += _mnuCorrections_correction_Click;

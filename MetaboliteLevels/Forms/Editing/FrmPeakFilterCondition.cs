@@ -68,7 +68,7 @@ namespace MetaboliteLevels.Forms.Editing
         }
 
         /// <summary>
-        /// Ctor.
+        /// CONSTRUCTOR
         /// </summary>
         private FrmPeakFilterCondition(Form owner, Core core, PeakFilter.Condition defaults, bool readOnly)
             : this()
@@ -79,16 +79,16 @@ namespace MetaboliteLevels.Forms.Editing
             ctlTitleBar1.Text = readOnly ? "View Condition" : "Edit Condition";
 
             // Setup boxes
-            _cbPeaks = ListValueSet.ForPeaks(core).CreateConditionBox(_txtIsInSet, _btnIsInSet);
+            _cbPeaks = ListValueSet.ForPeaks(core, true).CreateConditionBox(_txtIsInSet, _btnIsInSet);
             _cbFlags = ListValueSet.ForPeakFlags(core).CreateConditionBox(_txtIsFlaggedWith, _btnIsFlaggedWith);
-            _cbClusters = ListValueSet.ForClusters(core).CreateConditionBox(_txtIsInCluster, _btnIsInCluster);
+            _cbClusters = ListValueSet.ForClusters(core, true).CreateConditionBox(_txtIsInCluster, _btnIsInCluster);
 
             _lsoFlags = EnumComboBox.Create(this._lstFlagComparator, Filter.ESetOperator.AnyXinY);
             _lsoPats = EnumComboBox.Create(this._lstClusterComparator, Filter.ESetOperator.AnyXinY);
             _lsoPeaks = EnumComboBox.Create(this._lstPeakComparator, Filter.EElementOperator.Is);
             _lsoFilter = EnumComboBox.Create(this._lstFilterOp, Filter.EElementOperator.Is);
             _lsoStats = EnumComboBox.Create(this._lstStatisticComparator, Filter.EStatOperator.LessThan);
-            _lstIsStatistic.Items.AddRange(core.ActiveStatistics.ToArray());
+            _lstIsStatistic.Items.AddRange(core.AllStatistics.Enabled2().ToArray());
 
             _ecbFilter = EditableComboBox.ForPeakFilter(_lstFilter, null, core);
 

@@ -17,11 +17,11 @@ namespace MetaboliteLevels.Forms.Editing
         private readonly GroupInfo _group;
         private Color _colour;
 
-        internal static void Show(Form owner, GroupInfo group)
+        internal static bool Show(Form owner, GroupInfo group, bool readOnly)
         {
-            using (FrmEditExpGroup frm = new FrmEditExpGroup(group))
+            using (FrmEditExpGroup frm = new FrmEditExpGroup(group, readOnly))
             {
-                UiControls.ShowWithDim(owner, frm);
+                return UiControls.ShowWithDim(owner, frm) == DialogResult.OK;
             }
         }
 
@@ -31,22 +31,33 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.SetIcon(this);
         }
 
-        private FrmEditExpGroup(GroupInfo group)
+        private FrmEditExpGroup(GroupInfo group, bool readOnly)
             : this()
         {
             this._group = group;
 
-            ctlTitleBar1.Text = "Edit Group";
-            ctlTitleBar1.SubText = "Enter the new details for the experimental group";
-
-            this._txtTitle.Text = group.Name;
-            this._txtAbvTitle.Text = group.ShortName;
+            this._txtTitle.Text = group.OverrideDisplayName;
+            this._txtTitle.Watermark = group.DefaultDisplayName;
+            this._txtAbvTitle.Text = group.OverrideShortName;
+            this._txtAbvTitle.Watermark = group.DefaultShortName;
             this._txtComments.Text = group.Comment;
             this._txtId.Text = group.Id.ToString();
             this._txtTimeRange.Text = group.Range.ToString();
             _colour = group.Colour;
 
             UpdateButtonImage();
+
+            if (readOnly)
+            {
+                ctlTitleBar1.Text = "View group";
+                ctlTitleBar1.SubText = "View the details for the experimental group";
+                UiControls.MakeReadOnly(this);
+            }
+            else
+            {
+                ctlTitleBar1.Text = "Edit Group";
+                ctlTitleBar1.SubText = "Enter the new details for the experimental group";
+            }
 
             UiControls.CompensateForVisualStyles(this);
         }
@@ -77,8 +88,8 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _group.Name = this._txtTitle.Text;
-            _group.ShortName = this._txtAbvTitle.Text;
+            _group.OverrideDisplayName = this._txtTitle.Text;
+            _group.OverrideShortName = this._txtAbvTitle.Text;
             _group.Comment = this._txtComments.Text;
             _group.SetColour(_colour);
             DialogResult = System.Windows.Forms.DialogResult.OK;

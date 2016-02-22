@@ -1153,13 +1153,13 @@ namespace MetaboliteLevels.Forms.Startup
                 if (calcT)
                 {
                     // Create t-test
-                    allTTests.Add(CreateTTestStatistic(group.Name, filterGroup, filterControl));
+                    allTTests.Add(CreateTTestStatistic(group.DisplayName, filterGroup, filterControl));
                 }
 
                 if (calcP)
                 {
                     // Create Pearson
-                    allPearson.Add(CreatePearsonStatistic(group.Name, filterGroup));
+                    allPearson.Add(CreatePearsonStatistic(group.DisplayName, filterGroup));
                 }
             }
 

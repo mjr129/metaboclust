@@ -31,7 +31,7 @@ namespace MetaboliteLevels.Forms.Editing
         /// </summary>
         private abstract class BigListConfig
         {
-            public abstract ConfigInit Initialise();                                            
+            public abstract ConfigInit Initialise();
             public abstract IVisualisable EditObject(Form owner, IVisualisable target, bool read);
             public abstract void ApplyChanges(ProgressReporter info, List<IVisualisable> alist);
             public virtual bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return true; }
@@ -45,12 +45,12 @@ namespace MetaboliteLevels.Forms.Editing
         /// </summary>
         private abstract class BigListConfig<T> : BigListConfig
             where T : IVisualisable
-        {                                                                                     
+        {
             protected abstract T EditObject(Form owner, T target, bool read);
             protected abstract void ApplyChanges(ProgressReporter info, List<T> alist);
             protected virtual bool PrepareForApply(Form form, List<T> arrayList, int numEnabled) { return true; }
             protected virtual EReplaceMode BeforeReplace(Form owner, T remove, T create) { return EReplaceMode.Default; }
-                                                                                                               
+
             public sealed override IVisualisable EditObject(Form owner, IVisualisable target, bool read) { return EditObject(owner, (T)target, read); }
             public sealed override bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return PrepareForApply(form, arrayList.Cast<T>().ToList(), numEnabled); }
             public sealed override void ApplyChanges(ProgressReporter info, List<IVisualisable> alist) { ApplyChanges(info, alist.Cast<T>().ToList()); }
@@ -86,11 +86,11 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 if (_obs)
                 {
-                    return FrmBigList.ShowObsFilter(owner, _core, (ObsFilter)target, read);
+                    return FrmBigList.ShowObsFilter(owner, _core, (ObsFilter)target, read ? EViewMode.Read : EViewMode.Write);
                 }
                 else
                 {
-                    return FrmBigList.ShowPeakFilter(owner, _core, (PeakFilter)target, read);
+                    return FrmBigList.ShowPeakFilter(owner, _core, (PeakFilter)target, read ? EViewMode.Read : EViewMode.Write);
                 }
             }
 
@@ -451,7 +451,7 @@ namespace MetaboliteLevels.Forms.Editing
                     default:
                         throw new SwitchException(_mode);
                 }
-            }          
+            }
 
             protected override ConfigurationBase EditObject(Form owner, ConfigurationBase o, bool read)
             {
@@ -544,7 +544,7 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.PopulateImageList(imageList1);
         }
 
-        private FrmBigList(Core core, BigListConfig config, bool readOnly)
+        private FrmBigList(Core core, BigListConfig config, EViewMode mode)
             : this()
         {
             _listViewHelper = new ListViewHelper<IVisualisable>(listView1, core, null, null);
@@ -561,18 +561,29 @@ namespace MetaboliteLevels.Forms.Editing
             _list = new List<IVisualisable>(init.List);
             _listViewHelper.DivertList(_list);
 
-            if (readOnly)
+            switch (mode)
             {
-                _btnEdit.Visible = false;
-                _btnRename.Visible = false;
-                _btnEnableDisable.Visible = false;
-                _btnUp.Visible = false;
-                _btnDown.Visible = false;
-                _btnAdd.Visible = false;
-                _btnDuplicate.Visible = false;
-                _btnOk.Visible = false;
-                _btnRemove.Visible = false;
-                _btnCancel.Text = "Close";
+                case EViewMode.Read:
+                    _btnEdit.Visible = false;
+                    _btnRename.Visible = false;
+                    _btnEnableDisable.Visible = false;
+                    _btnUp.Visible = false;
+                    _btnDown.Visible = false;
+                    _btnAdd.Visible = false;
+                    _btnDuplicate.Visible = false;
+                    _btnOk.Visible = false;
+                    _btnRemove.Visible = false;
+                    _btnCancel.Text = "Close";
+                    break;
+
+                case EViewMode.ReadAndComment:
+                    _btnEdit.Visible = false;
+                    _btnUp.Visible = false;
+                    _btnDown.Visible = false;
+                    _btnAdd.Visible = false;
+                    _btnDuplicate.Visible = false;
+                    _btnRemove.Visible = false;
+                    break;
             }
 
             UiControls.CompensateForVisualStyles(this);
@@ -581,33 +592,33 @@ namespace MetaboliteLevels.Forms.Editing
         internal static bool ShowAlgorithms(Form owner, Core core, EAlgorithmType algoType, IVisualisable autoApply)
         {
             var config = new BigListConfigForAlgorithms(core, algoType, autoApply);
-            return Show(owner, core, config, false);
+            return Show(owner, core, config, EViewMode.Write);
         }
 
         internal static bool ShowPeakFilters(Form owner, Core core)
         {
             var config = new BigListConfigForPeakFilters(core, false);
-            return Show(owner, core, config, false);
+            return Show(owner, core, config, EViewMode.Write);
         }
 
         internal static bool ShowObsFilters(Form owner, Core core)
         {
             var config = new BigListConfigForPeakFilters(core, true);
-            return Show(owner, core, config, false);
+            return Show(owner, core, config, EViewMode.Write);
         }
 
         internal static bool ShowTests(Form owner, Core core)
         {
             var config = new BigListConfigForTests(core);
-            return Show(owner, core, config, false);
+            return Show(owner, core, config, EViewMode.Write);
         }
 
-        internal static List<T> ShowGeneric<T>(Form owner, Core core, ListValueSet<T> list, bool readOnly)
+        internal static List<T> ShowGeneric<T>(Form owner, Core core, ListValueSet<T> list, EViewMode mode)
             where T : IVisualisable
         {
             var config = new BigListConfigForListValueSet<T>(list);
 
-            if (Show(owner, core, config, readOnly))
+            if (Show(owner, core, config, mode))
             {
                 return (List<T>)config.Result;
             }
@@ -615,7 +626,7 @@ namespace MetaboliteLevels.Forms.Editing
             return null;
         }
 
-        internal static ObsFilter ShowObsFilter(Form owner, Core core, ObsFilter filter, bool readOnly)
+        internal static ObsFilter ShowObsFilter(Form owner, Core core, ObsFilter filter, EViewMode mode)
         {
             if (filter == null)
             {
@@ -624,7 +635,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             var config = new BigListConfigForFilter(core, filter, true);
 
-            if (Show(owner, core, config, readOnly))
+            if (Show(owner, core, config, mode))
             {
                 return (ObsFilter)config.Result;
             }
@@ -632,7 +643,7 @@ namespace MetaboliteLevels.Forms.Editing
             return null;
         }
 
-        internal static PeakFilter ShowPeakFilter(Form owner, Core core, PeakFilter filter, bool readOnly)
+        internal static PeakFilter ShowPeakFilter(Form owner, Core core, PeakFilter filter, EViewMode mode)
         {
             if (filter == null)
             {
@@ -641,7 +652,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             var config = new BigListConfigForFilter(core, filter, false);
 
-            if (Show(owner, core, config, readOnly))
+            if (Show(owner, core, config, mode))
             {
                 return (PeakFilter)config.Result;
             }
@@ -649,9 +660,9 @@ namespace MetaboliteLevels.Forms.Editing
             return null;
         }
 
-        private static bool Show(Form owner, Core core, BigListConfig config, bool readOnly)
+        private static bool Show(Form owner, Core core, BigListConfig config, EViewMode mode)
         {
-            using (var frm = new FrmBigList(core, config, readOnly))
+            using (var frm = new FrmBigList(core, config, mode))
             {
                 if (owner is FrmBigList)
                 {
@@ -701,7 +712,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (o != null)
             {
-                Replace(null, o);              
+                Replace(null, o);
             }
         }
 
@@ -711,11 +722,13 @@ namespace MetaboliteLevels.Forms.Editing
 
             string name = stat.OverrideDisplayName;
             string comment = stat.Comment;
+            bool enabled = stat.Enabled;
 
-            if (FrmInput2.Show(this, stat.DefaultDisplayName, "Rename", stat.ToString(), ref name, ref comment, false))
+            if (FrmInput2.Show(this, stat.DefaultDisplayName, "Rename", stat.ToString(), stat.DefaultDisplayName, ref name, ref comment, ref enabled, false))
             {
                 stat.OverrideDisplayName = name;
                 stat.Comment = comment;
+                stat.Enabled = enabled;
 
                 origStatus.Required = true;
 
@@ -784,7 +797,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (modified == original)
                 {
-                    // If they are the same object then only name/comments can have changed
+                    // If they are the same object then only values have changed
                     _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
                     _listViewHelper.Selection = modified;
                     return;
@@ -827,7 +840,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            Replace(p, null);                 
+            Replace(p, null);
         }
 
         private void listView1_ItemActivate(object sender, ListViewItemEventArgs e)

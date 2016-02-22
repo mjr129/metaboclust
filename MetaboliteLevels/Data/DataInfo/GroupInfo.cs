@@ -29,7 +29,7 @@ namespace MetaboliteLevels.Data.DataInfo
 
         public string DisplayName => IVisualisableExtensions.FormatDisplayName(this);
 
-        public string ShortName => string.IsNullOrEmpty(OverrideShortName) ? DefaultShortName : OverrideShortName;
+        public string DisplayShortName => string.IsNullOrEmpty(OverrideShortName) ? DefaultShortName : OverrideShortName;
 
         public string DefaultShortName => this.Id.ToString();
 
@@ -77,11 +77,13 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("ID", z => z.Id);
             columns.Add("Range", EColumn.Visible, z => z.Range);
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add("Short name", z => z.ShortName);
+            columns.Add("Short name", z => z.DisplayShortName);
             columns.Add("Default name", z => z.DefaultDisplayName);
             columns.Add("Default short name", z => z.DefaultShortName);
-            columns.Add("Colour", z => z.Colour, z => z.Colour);
-            columns.Add("Light colour", z => z.ColourLight, z => z.ColourLight);
+            columns.Add("User provided name", z => z.OverrideDisplayName);
+            columns.Add("User provided short name", z => z.OverrideShortName);
+            columns.Add("Colour", z => UiControls.ColourToName(z.Colour), z => z.Colour);
+            columns.Add("Light colour", z => UiControls.ColourToName(z.ColourLight), z => z.ColourLight);
             columns.Add("Comment", z => z.Comment);
 
             return columns;

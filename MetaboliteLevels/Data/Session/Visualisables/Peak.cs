@@ -173,10 +173,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string DisplayName
-        {
-            get { return IVisualisableExtensions.FormatDisplayName(OverrideDisplayName, DefaultDisplayName); }
-        }
+        public string DisplayName => IVisualisableExtensions.FormatDisplayName(this);
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -316,14 +313,14 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Clusters\\All (scores)", EColumn.None, λ => λ.Assignments.Scores);
 
             columns.Add(COLNAME_CLUSTERS_UNIQUE, EColumn.None, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
-            columns.Add("Clusters\\Grouped", EColumn.None, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.ShortName + "=") : "") + z.Cluster.ShortName)));
+            columns.Add("Clusters\\Grouped", EColumn.None, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
 
             foreach (GroupInfo group in core.Groups)
             {
                 var closure = group;
-                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.Name, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
+                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
                 columns[columns.Count - 1].Colour = z => closure.Colour;
-                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.Name + " (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray());
+                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.DisplayName + " (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray());
                 columns[columns.Count - 1].Colour = z => closure.Colour;
             }
 
@@ -342,7 +339,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             columns.Add("Comment", EColumn.None, λ => λ.Comment);
 
-            foreach (ConfigurationStatistic stat in core.ActiveStatistics)
+            foreach (ConfigurationStatistic stat in core.AllStatistics.Enabled2())
             {
                 var closure = stat;
                 columns.Add("Statistic\\" + stat.ToString(), EColumn.Statistic, λ => λ.GetStatistic(closure));
@@ -358,8 +355,8 @@ namespace MetaboliteLevels.Data.Visualisables
             foreach (GroupInfo ti in core.Groups)
             {
                 int i = ti.Order;
-                columns.Add("Mean\\" + ti.Name, EColumn.None, λ => λ.Observations.Mean[i]);
-                columns.Add("Std.Dev\\" + ti.Name, EColumn.None, λ => λ.Observations.StdDev[i]);
+                columns.Add("Mean\\" + ti.DisplayName, EColumn.None, λ => λ.Observations.Mean[i]);
+                columns.Add("Std.Dev\\" + ti.DisplayName, EColumn.None, λ => λ.Observations.StdDev[i]);
             }
 
             foreach (PeakFilter fi in core.AllPeakFilters)

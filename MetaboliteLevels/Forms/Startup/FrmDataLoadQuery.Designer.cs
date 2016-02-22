@@ -39,6 +39,10 @@
             this.resetdoNotShowAgainMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._tipSideBar = new System.Windows.Forms.ToolTip(this.components);
+            this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.label15 = new System.Windows.Forms.Label();
@@ -128,11 +132,12 @@
             this.label12 = new System.Windows.Forms.Label();
             this._txtHelp = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this._mnuDebug.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -155,11 +160,6 @@
             this.tableLayoutPanel9.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // _cmsRecentWorkspaces
@@ -227,6 +227,55 @@
             this._tipSideBar.AutomaticDelay = 1;
             this._tipSideBar.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
             // 
+            // _cmsRecentSessions
+            // 
+            this._cmsRecentSessions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._cmsRecentSessions.Name = "contextMenuStrip2";
+            this._cmsRecentSessions.Size = new System.Drawing.Size(61, 4);
+            // 
+            // _tipPopup
+            // 
+            this._tipPopup.AutomaticDelay = 200;
+            this._tipPopup.AutoPopDelay = 5000;
+            this._tipPopup.InitialDelay = 200;
+            this._tipPopup.ReshowDelay = 40;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.splitContainer1, 0, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 758F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1020, 758);
+            this.tableLayoutPanel4.TabIndex = 19;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Location = new System.Drawing.Point(16, 16);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(16);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this._txtHelp);
+            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer1.Size = new System.Drawing.Size(988, 726);
+            this.splitContainer1.SplitterDistance = 948;
+            this.splitContainer1.TabIndex = 18;
+            // 
             // tabControl1
             // 
             this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Right;
@@ -286,7 +335,7 @@
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
             this.linkLabel1.Size = new System.Drawing.Size(116, 24);
-            this.linkLabel1.TabIndex = 21;
+            this.linkLabel1.TabIndex = 4;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Text goes here.";
             this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -298,7 +347,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3488, 521);
+            this.pictureBox1.Location = new System.Drawing.Point(3497, 521);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -364,9 +413,11 @@
             // 
             // _btnMostRecent
             // 
+            this._btnMostRecent.BackColor = System.Drawing.Color.LightSteelBlue;
             this._btnMostRecent.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnMostRecent.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._btnMostRecent.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
             this._btnMostRecent.FlatAppearance.BorderSize = 8;
+            this._btnMostRecent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnMostRecent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMostRecent.Image = ((System.Drawing.Image)(resources.GetObject("_btnMostRecent.Image")));
             this._btnMostRecent.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -376,18 +427,20 @@
             this._btnMostRecent.Name = "_btnMostRecent";
             this._btnMostRecent.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
             this._btnMostRecent.Size = new System.Drawing.Size(479, 74);
-            this._btnMostRecent.TabIndex = 2;
+            this._btnMostRecent.TabIndex = 3;
             this._btnMostRecent.Text = "    Last file";
             this._btnMostRecent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnMostRecent.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this._btnMostRecent.UseVisualStyleBackColor = true;
+            this._btnMostRecent.UseVisualStyleBackColor = false;
             this._btnMostRecent.Click += new System.EventHandler(this._btnMostRecent_Click);
             // 
             // _btnNewSession
             // 
+            this._btnNewSession.BackColor = System.Drawing.Color.LightSteelBlue;
             this._btnNewSession.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnNewSession.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._btnNewSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
             this._btnNewSession.FlatAppearance.BorderSize = 8;
+            this._btnNewSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnNewSession.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnNewSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnNewSession.Image")));
             this._btnNewSession.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -397,18 +450,20 @@
             this._btnNewSession.Name = "_btnNewSession";
             this._btnNewSession.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
             this._btnNewSession.Size = new System.Drawing.Size(479, 74);
-            this._btnNewSession.TabIndex = 0;
+            this._btnNewSession.TabIndex = 1;
             this._btnNewSession.Text = "    Create a new session";
             this._btnNewSession.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnNewSession.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this._btnNewSession.UseVisualStyleBackColor = true;
+            this._btnNewSession.UseVisualStyleBackColor = false;
             this._btnNewSession.Click += new System.EventHandler(this.button1_Click);
             // 
             // _btnReturnToSession
             // 
+            this._btnReturnToSession.BackColor = System.Drawing.Color.LightSteelBlue;
             this._btnReturnToSession.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnReturnToSession.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this._btnReturnToSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
             this._btnReturnToSession.FlatAppearance.BorderSize = 8;
+            this._btnReturnToSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnReturnToSession.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnReturnToSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnReturnToSession.Image")));
             this._btnReturnToSession.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -418,11 +473,11 @@
             this._btnReturnToSession.Name = "_btnReturnToSession";
             this._btnReturnToSession.Padding = new System.Windows.Forms.Padding(16, 0, 0, 0);
             this._btnReturnToSession.Size = new System.Drawing.Size(479, 74);
-            this._btnReturnToSession.TabIndex = 1;
+            this._btnReturnToSession.TabIndex = 2;
             this._btnReturnToSession.Text = "    Return to an existing session";
             this._btnReturnToSession.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnReturnToSession.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this._btnReturnToSession.UseVisualStyleBackColor = true;
+            this._btnReturnToSession.UseVisualStyleBackColor = false;
             this._btnReturnToSession.Click += new System.EventHandler(this.button2_Click);
             // 
             // _btnReconfigure
@@ -439,7 +494,7 @@
             this._btnReconfigure.MaximumSize = new System.Drawing.Size(658, 672);
             this._btnReconfigure.Name = "_btnReconfigure";
             this._btnReconfigure.Size = new System.Drawing.Size(38, 38);
-            this._btnReconfigure.TabIndex = 2;
+            this._btnReconfigure.TabIndex = 0;
             this._tipPopup.SetToolTip(this._btnReconfigure, "Settings menu");
             this._btnReconfigure.Click += new System.EventHandler(this._btnReconfigure_Click);
             // 
@@ -447,7 +502,7 @@
             // 
             this._lblProgramDescription.BackColor = System.Drawing.Color.LightSteelBlue;
             this._lblProgramDescription.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lblProgramDescription.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblProgramDescription.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lblProgramDescription.ForeColor = System.Drawing.Color.Black;
             this._lblProgramDescription.Location = new System.Drawing.Point(0, 0);
             this._lblProgramDescription.Margin = new System.Windows.Forms.Padding(0);
@@ -1209,8 +1264,8 @@
             this._lstAdducts.Name = "_lstAdducts";
             this._lstAdducts.Size = new System.Drawing.Size(344, 301);
             this._lstAdducts.TabIndex = 7;
-            this._tipPopup.SetToolTip(this._lstAdducts, "Selected libraries");
             this._tipSideBar.SetToolTip(this._lstAdducts, "*Adducts");
+            this._tipPopup.SetToolTip(this._lstAdducts, "Selected libraries");
             // 
             // _lstAvailableAdducts
             // 
@@ -1225,8 +1280,8 @@
             this._lstAvailableAdducts.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this._lstAvailableAdducts.Size = new System.Drawing.Size(345, 301);
             this._lstAvailableAdducts.TabIndex = 5;
-            this._tipPopup.SetToolTip(this._lstAvailableAdducts, "Available libraries");
             this._tipSideBar.SetToolTip(this._lstAvailableAdducts, "*Adducts");
+            this._tipPopup.SetToolTip(this._lstAvailableAdducts, "Available libraries");
             // 
             // _lstCompounds
             // 
@@ -1487,8 +1542,8 @@
             this._chkAlarm.Size = new System.Drawing.Size(71, 40);
             this._chkAlarm.TabIndex = 5;
             this._chkAlarm.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this._tipSideBar.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Microsoft Windows only).");
             this._tipPopup.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Microsoft Windows only).");
+            this._tipSideBar.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Microsoft Windows only).");
             this._chkAlarm.UseVisualStyleBackColor = true;
             // 
             // label12
@@ -1531,55 +1586,6 @@
             this.textBox1.TabIndex = 2;
             this._tipSideBar.SetToolTip(this.textBox1, "*");
             // 
-            // _cmsRecentSessions
-            // 
-            this._cmsRecentSessions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._cmsRecentSessions.Name = "contextMenuStrip2";
-            this._cmsRecentSessions.Size = new System.Drawing.Size(61, 4);
-            // 
-            // _tipPopup
-            // 
-            this._tipPopup.AutomaticDelay = 200;
-            this._tipPopup.AutoPopDelay = 5000;
-            this._tipPopup.InitialDelay = 200;
-            this._tipPopup.ReshowDelay = 40;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.tableLayoutPanel4.ColumnCount = 1;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this.splitContainer1, 0, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 758F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1020, 758);
-            this.tableLayoutPanel4.TabIndex = 19;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(16, 16);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(16);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this._txtHelp);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(988, 726);
-            this.splitContainer1.SplitterDistance = 948;
-            this.splitContainer1.TabIndex = 18;
-            // 
             // FrmDataLoadQuery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -1594,6 +1600,12 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Load Session";
             this._mnuDebug.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
@@ -1628,12 +1640,6 @@
             this.tabPage7.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

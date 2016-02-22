@@ -33,7 +33,7 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(DefaultDisplayName, OverrideDisplayName);
+                return IVisualisableExtensions.FormatDisplayName(this);
             }
         }
 
@@ -41,7 +41,7 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             get
             {
-                return Group.ShortName + Time;
+                return Group.DisplayName + Time;
             }
         }
 
@@ -84,7 +84,7 @@ namespace MetaboliteLevels.Data.DataInfo
             List<Column<ConditionInfo>> columns = new List<Column<ConditionInfo>>();
 
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add("Group", EColumn.None, z => z.Group.Name, z => z.Group.Colour);
+            columns.Add("Group", EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
             columns.Add("Time", EColumn.None, z => z.Time);
             columns.Add("Comment", EColumn.None, z => z.Comment);
 

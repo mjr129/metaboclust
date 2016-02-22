@@ -83,10 +83,10 @@ namespace MetaboliteLevels.Forms.Editing
 
             // Setup boxes
             _cbAq = ListValueSet.ForAcquisitions(core).CreateConditionBox(_txtAq, _btnAq);
-            _cbBatch = ListValueSet.ForBatches(core).CreateConditionBox(_txtBatch, _btnBatch);
-            _cbCond = ListValueSet.ForConditions(core).CreateConditionBox(_txtCond, _btnCond);
-            _cbGroup = ListValueSet.ForGroups(core).CreateConditionBox(_txtGroup, _btnGroup);
-            _cbObs = ListValueSet.ForObservations(core).CreateConditionBox(_txtObs, _btnObs);
+            _cbBatch = ListValueSet.ForBatches(core, true).CreateConditionBox(_txtBatch, _btnBatch);
+            _cbCond = ListValueSet.ForConditions(core, true).CreateConditionBox(_txtCond, _btnCond);
+            _cbGroup = ListValueSet.ForGroups(core, true).CreateConditionBox(_txtGroup, _btnGroup);
+            _cbObs = ListValueSet.ForObservations(core, true).CreateConditionBox(_txtObs, _btnObs);
             _cbRep = ListValueSet.ForReplicates(core).CreateConditionBox(_txtRep, _btnRep);
             _cbTime = ListValueSet.ForTimes(core).CreateConditionBox(_txtTime, _btnTime);
 
