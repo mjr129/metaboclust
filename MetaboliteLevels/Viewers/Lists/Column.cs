@@ -57,11 +57,11 @@ namespace MetaboliteLevels.Viewers.Lists
             this.Description = description;
         }
 
-        public string Name
+        public string DisplayName
         {
             get
             {
-                return OverrideDisplayName ?? Id;
+                return string.IsNullOrEmpty(OverrideDisplayName) ? Id : OverrideDisplayName;
             }
         }
 
@@ -240,18 +240,18 @@ namespace MetaboliteLevels.Viewers.Lists
         }
     }
 
-    static class ColumnManager
-    {
-        internal static IEnumerable<Column> GetColumns(Core core, IVisualisable visualisable)
+    internal static class ColumnManager
+    {        
+        public static IEnumerable<Column> GetColumns(Core core, IVisualisable visualisable)
         {
             return visualisable.GetColumns(core);
         }
 
-        internal static IEnumerable<Column> GetColumns<U>(Core core)
-            where U : class, IVisualisable
+        public static IEnumerable<Column> GetColumns<T>(Core core)
+            where T : class, IVisualisable
         {
-            return ((U)(FormatterServices.GetUninitializedObject(typeof(U)))).GetColumns(core);
-        }     
+            return ((T)(FormatterServices.GetUninitializedObject(typeof(T)))).GetColumns(core);
+        }
     }
 
     static class ColumnExtensions

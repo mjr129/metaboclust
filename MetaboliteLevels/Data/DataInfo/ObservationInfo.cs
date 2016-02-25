@@ -19,6 +19,7 @@ namespace MetaboliteLevels.Data.DataInfo
     [DeferSerialisation]
     class ObservationInfo : IVisualisable
     {
+        public const string ID_COLNAME_GROUP = "Group";
         public readonly ConditionInfo _conditions;
         public readonly int Rep;
         public readonly BatchInfo Batch;
@@ -155,7 +156,7 @@ namespace MetaboliteLevels.Data.DataInfo
             List<Column<ObservationInfo>> columns = new List<Column<ObservationInfo>>();
 
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add("Group", EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
+            columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
             columns.Add("Replicate", EColumn.None, z => z.Rep);
             columns.Add("Time", EColumn.None, z => z.Time);
             columns.Add("Acquisition", EColumn.None, z => z.Acquisition);

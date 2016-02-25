@@ -29,11 +29,11 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<Settings.ObsFilter> _ecbFilter1;
         private EditableComboBox<Settings.ObsFilter> _ecbFilter2;
 
-        internal static ConfigurationStatistic Show(Form owner, ConfigurationStatistic def, Core core, bool readOnly, Peak comparison)
+        internal static ConfigurationStatistic Show(Form owner, ConfigurationStatistic def, Core core, bool readOnly)
         {
             if (ShowCannotEditError(owner, def)) return null;
 
-            using (FrmAlgoStatistic frm = new FrmAlgoStatistic(core, def, FrmMain.SearchForSelectedPeak(owner), readOnly, comparison))
+            using (FrmAlgoStatistic frm = new FrmAlgoStatistic(core, def, FrmMain.SearchForSelectedPeak(owner), readOnly))
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
@@ -212,7 +212,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _tlpPreivew.Visible = v;
         }
 
-        private FrmAlgoStatistic(Core core, ConfigurationStatistic defaultSelection, Peak defaultPeak, bool readOnly, Peak comparison)
+        private FrmAlgoStatistic(Core core, ConfigurationStatistic defaultSelection, Peak defaultPeak, bool readOnly)
             : this()
         {
             this._core = core;
@@ -225,17 +225,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lstDiffPeak.Items.AddRange(NamedItem.GetRange(_core.Peaks, z => z.DisplayName).ToArray());
             _lstDiffPeak.SelectedItem = defaultPeak;
 
-            RebuildUsing(null);
-
-            if (comparison != null)
-            {
-                _radBDiffPeak.Checked = true;
-                _lstDiffPeak.SelectedItem = comparison;
-                _radBDiffPeak.Enabled = false;
-                _radSamePeak.Enabled = false;
-                _radBCorTime.Enabled = false;
-                _radBDiffPeak.Enabled = false;
-            }
+            RebuildUsing(null);  
 
             if (defaultSelection != null)
             {
@@ -275,12 +265,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             else if (defaultSelection != null)
             {
                 ctlTitleBar1.Text = "Edit Statistic";
-            }
-            else if (comparison != null)
-            {
-                ctlTitleBar1.Text = "New Comparison Statistic";
-                ctlTitleBar1.SubText = "Select the algorithm for the comparison against " + comparison.DisplayName;
-            }
+            } 
             else
             {
                 ctlTitleBar1.Text = "New Statistic";

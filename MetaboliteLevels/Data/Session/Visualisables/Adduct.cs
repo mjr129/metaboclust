@@ -142,7 +142,7 @@ namespace MetaboliteLevels.Data.Visualisables
             switch (request.Type)
             {
                 case VisualClass.Peak:
-                    request.Text = "Peak using the adduct {0}.";
+                    request.Text = "Peak using {0}.";
                     request.AddRange(Annotations.Select(z => z.Peak));
                     break;
 
@@ -150,7 +150,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case VisualClass.Compound:
-                    request.Text = "Compounds using the adduct {0}.";
+                    request.Text = "Compounds using {0}.";
                     request.AddRange(Annotations.Select(z => z.Compound));
                     break;
 
@@ -161,7 +161,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case VisualClass.Annotation:
-                    request.Text = "Annotations using the adduct {0}.";
+                    request.Text = "Annotations using {0}.";
                     request.AddRange(Annotations);
                     break;
 

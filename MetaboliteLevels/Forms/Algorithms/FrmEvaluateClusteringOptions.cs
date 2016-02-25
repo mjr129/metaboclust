@@ -191,7 +191,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSetAlgorithm_Click(object sender, EventArgs e)
         {
-            ConfigurationClusterer newAlgo = FrmAlgoCluster.Show(this, _core, SelectedAlgorithm, this._readonly, null, true);
+            ConfigurationClusterer newAlgo = FrmAlgoCluster.Show(this, _core, SelectedAlgorithm, this._readonly, true);
 
             if (newAlgo != null)
             {

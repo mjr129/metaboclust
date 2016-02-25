@@ -60,7 +60,7 @@ namespace MetaboliteLevels.Forms.Wizards
             _radSeedCurrent.Enabled = current != null;
             _lblSeedCurrent.Enabled = current != null;
 
-            _lstStat.Items.AddRange(NamedItem.GetRange(core.AllStatistics.Enabled2(), GetStatName).ToArray());
+            _lstStat.Items.AddRange(NamedItem.GetRange(core.AllStatistics.WhereEnabled(), GetStatName).ToArray());
 
             wizard = CtlWizard.BindNew(this, tabControl1, CtlWizardOptions.DEFAULT | CtlWizardOptions.DialogResultCancel | CtlWizardOptions.HandleBasicChanges);
             wizard.OkClicked += wizard_OkClicked;

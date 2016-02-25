@@ -131,19 +131,19 @@ namespace MetaboliteLevels.Data.Visualisables
                     case VisualClass.Compound:
                         Compound highlightCompound = (Compound)highlightContents;
                         toHighlight = highlightCompound.Annotations.Select(z => new StylisedCluster.HighlightElement(z, null)).ToArray();
-                        caption3 = " Peaks potentially representing {1} are shown in red.";
+                        caption3 = " Peaks potentially representing {1} are {HIGHLIGHTED}.";
                         break;
 
                     case VisualClass.Cluster:
                         Cluster highlightCluster = (Cluster)highlightContents;
                         toHighlight = highlightCluster.Assignments.Vectors.Select(StylisedCluster.HighlightElement.FromVector).ToArray();
-                        caption3 = " Peaks potentially representing compounds in {1} are shown in red.";
+                        caption3 = " Peaks potentially representing compounds in {1} are {HIGHLIGHTED}.";
 
                         break;
 
                     case VisualClass.Peak:
                         toHighlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)highlightContents, null) };
-                        caption3 = " {1} is shown in red.";
+                        caption3 = " {1} is {HIGHLIGHTED}.";
                         break;
 
                     default:
@@ -283,7 +283,7 @@ namespace MetaboliteLevels.Data.Visualisables
             r.IsFake = true;
             r.Highlight = toHighlight;
             r.CaptionFormat = (caption1 + caption2 + caption3);
-            r.Source = highlightContents;
+            r.WhatIsHighlighted = highlightContents;
             return r;
         }
 

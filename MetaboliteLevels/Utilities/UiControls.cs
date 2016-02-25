@@ -414,6 +414,9 @@ namespace MetaboliteLevels.Utilities
                 case ImageListOrder.Statistic: return bold ? Resources.ObjLStatistics : Resources.ObjStatistics;
                 case ImageListOrder.Point: return bold ? Resources.ObjPoint : Resources.ObjPoint; // No large
                 case ImageListOrder.File: return bold ? Resources.MnuFile : Resources.MnuFile;
+                case ImageListOrder.ListSortUp: return bold ? Resources.ListSortUp : Resources.ListSortUp;
+                case ImageListOrder.ListSortDown: return bold ? Resources.ListSortDown : Resources.ListSortDown;
+                case ImageListOrder.ListFilter: return bold ? Resources.ListFilter : Resources.ListFilter;
                 default: throw new SwitchException(v);
             }
         }
@@ -423,28 +426,29 @@ namespace MetaboliteLevels.Utilities
         /// </summary>
         public enum ImageListOrder : int
         {
-            MIN = 0,
-            Adduct = 0,
-            Compound = 1,
-            CompoundU = 2,
-            Info = 3,
-            InfoU = 4,
-            List = 5,
-            Pathway = 6,
-            Cluster = 7,
-            ClusterU = 8,
-            Variable = 9,
-            VariableU = 10,
-            Line = 11,
-            Assignment = 12,
-            Warning = 13,
-            TestFull = 14,
-            TestEmpty = 15,
-            Filter = 16,
-            Statistic = 17,
-            Point = 18,
-            File = 19,
-            MAX = File,
+            Adduct,
+            Compound,
+            CompoundU,
+            Info,
+            InfoU,
+            List,
+            Pathway,
+            Cluster,
+            ClusterU,
+            Variable,
+            VariableU,
+            Line,
+            Assignment,
+            Warning,
+            TestFull,
+            TestEmpty,
+            Filter,
+            Statistic,
+            Point,
+            File,
+            ListSortUp,
+            ListSortDown,
+            ListFilter,
         }
 
         /// <summary>
@@ -452,7 +456,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>                                            
         internal static void PopulateImageList(ImageList il)
         {
-            for (ImageListOrder n = ImageListOrder.MIN; n < ImageListOrder.MAX; n++)
+            foreach (ImageListOrder n in Enum.GetValues(typeof(ImageListOrder)).Cast<ImageListOrder>().OrderBy(z => z))
             {
                 il.Images.Add(n.ToString(), GetImage(n, false));
             }

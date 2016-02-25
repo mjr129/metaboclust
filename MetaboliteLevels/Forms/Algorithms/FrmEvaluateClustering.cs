@@ -681,7 +681,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             if (_selectedResults != null)
             {
-                FrmAlgoCluster.Show(this, _core, _selectedResults.Configuration.ClustererConfiguration, true, null, true);
+                FrmAlgoCluster.Show(this, _core, _selectedResults.Configuration.ClustererConfiguration, true, true);
             }
         }
 

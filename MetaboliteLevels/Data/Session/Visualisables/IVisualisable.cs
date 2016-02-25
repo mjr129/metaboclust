@@ -82,7 +82,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// <summary>
     /// Methods for IVisualisable.
     /// </summary>
-    static class IVisualisableExtensions
+    internal static class IVisualisableExtensions
     {
         /// <summary>
         /// Can be used with QueryProperty to search for internal properties.
@@ -102,7 +102,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Gets the display name.
         /// </summary>    
-        internal static string FormatDisplayName(IVisualisable visualisable)
+        public static string FormatDisplayName(IVisualisable visualisable)
         {
             return string.IsNullOrEmpty(visualisable.OverrideDisplayName) ? visualisable.DefaultDisplayName : visualisable.OverrideDisplayName;
         }
@@ -125,7 +125,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// (EXTENSION) (MJR) Gets the enabled elements of an IVisualisable enumerable.
         /// </summary>                                               
-        public static IEnumerable<T> Enabled2<T>(this IEnumerable<T> self)
+        public static IEnumerable<T> WhereEnabled<T>(this IEnumerable<T> self)
             where T : IVisualisable
         {
             return self.Where(z => z.Enabled);
@@ -134,10 +134,10 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// (EXTENSION) (MJR) Gets the enabled elements of an IVisualisable enumerable.
         /// </summary>     
-        public static IEnumerable<T> Enabled2<T>(this IEnumerable<T> self, bool onlyEnabled)
+        public static IEnumerable<T> WhereEnabled<T>(this IEnumerable<T> self, bool onlyEnabled)
             where T : IVisualisable
         {
-            return onlyEnabled ? Enabled2(self) : self;
+            return onlyEnabled ? WhereEnabled(self) : self;
         }
 
         /// <summary>
@@ -192,6 +192,15 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             return "{Missing: " + property + "}";
+        }
+
+        public static bool SupportsDisable(IVisualisable v)
+        {
+            bool originalState = v.Enabled;
+            v.Enabled = !originalState;
+            bool canEnable = v.Enabled != originalState;
+            v.Enabled = originalState;
+            return canEnable;
         }
     }
 
@@ -286,7 +295,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Gets the list of extra columns.
         /// </summary>
-        internal IList<ExtraColumn> ExtraColumns
+        public IList<ExtraColumn> ExtraColumns
         {
             get
             {
@@ -297,7 +306,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Adds a range of items, with their counts in the first extra column (there must just be one extra column).
         /// </summary>                                                  
-        internal void AddRangeWithCounts<T>(Counter<T> counts)
+        public void AddRangeWithCounts<T>(Counter<T> counts)
             where T : IVisualisable
         {
             foreach (var kvp in counts.Counts)

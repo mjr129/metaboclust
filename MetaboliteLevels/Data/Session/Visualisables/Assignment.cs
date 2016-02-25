@@ -13,6 +13,7 @@ using MetaboliteLevels.Viewers.Lists;
 using System.IO;
 using MetaboliteLevels.Data.DataInfo;
 using MSerialisers;
+using MetaboliteLevels.Viewers.Charts;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
@@ -141,7 +142,7 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 return IVisualisableExtensions.FormatDisplayName(this);
             }
-        }    
+        }
 
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
@@ -151,7 +152,7 @@ namespace MetaboliteLevels.Data.Visualisables
         VisualClass IVisualisable.VisualClass
         {
             get { return VisualClass.Assignment; }
-        }   
+        }
 
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
@@ -161,9 +162,9 @@ namespace MetaboliteLevels.Data.Visualisables
             cols.Add("Group", EColumn.Visible, z => z.Vector.Group);
             cols.Add("Comment", EColumn.None, z => z.Comment);
             cols.Add("Vector", EColumn.None, z => z.Vector.Values);
-                                                             
+
             cols.AddSubObject(core, "Cluster", z => z.Cluster);
-            cols.AddSubObject(core, "Peak", z => z.Peak); 
+            cols.AddSubObject(core, "Peak", z => z.Peak);
 
             foreach (var kvp in this.AssignmentStatistics.Keys)
             {
@@ -182,41 +183,35 @@ namespace MetaboliteLevels.Data.Visualisables
             switch (request.Type)
             {
                 case VisualClass.Peak:
-                    ((IVisualisable)this.Cluster).RequestContents(request);
-                    request.Text = "Peaks from the same cluster as {0}";
+                    request.Add(this.Peak);
+                    request.Text = "Peak for {0}";
                     break;
 
                 case VisualClass.Cluster:
-                    ((IVisualisable)this.Peak).RequestContents(request);
-                    request.Text = "Clusters for the same peak as {0}";
+                    request.Add(this.Cluster);
+                    request.Text = "Clusters for {0}";
                     break;
 
-                case VisualClass.Assignment:
-                    ((IVisualisable)this.Peak).RequestContents(request);
-                    request.Text = "Assignments for the same peak as {0}";
-                    break;
-
-                case VisualClass.Compound:
-                    ((IVisualisable)this.Peak).RequestContents(request);
-                    request.Text = "Potential compounds of the peak in {0}";
-                    break;
-
-                case VisualClass.Adduct:
-                    ((IVisualisable)this.Peak).RequestContents(request);
-                    request.Text = "Adducts of potential compounds of the peak in {0}";
-                    break;
-
-                case VisualClass.Pathway:
-                    ((IVisualisable)this.Peak).RequestContents(request);
-                    request.Text = "Pathways of potential compounds of the peak in {0}";
-                    break;
-
-                case VisualClass.Annotation:
-                    break;
-
+                case VisualClass.Assignment:   
+                case VisualClass.Compound:    
+                case VisualClass.Adduct:   
+                case VisualClass.Pathway:   
+                case VisualClass.Annotation:        
                 default:
                     break;
             }
+        }
+
+        internal StylisedCluster CreateStylisedCluster(Core core, IVisualisable toHighlight)
+        {        
+            Cluster fakeCluster = new Cluster(DisplayName, null);
+            fakeCluster.Assignments.Add(this);
+
+            StylisedCluster c = new StylisedCluster(fakeCluster, this, null);
+            c.IsFake = true;
+            c.CaptionFormat = "Plot of {0}.";
+
+            return c;
         }
     }
 }

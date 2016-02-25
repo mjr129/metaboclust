@@ -128,7 +128,7 @@ namespace MetaboliteLevels.Controls
                     continue;
                 }
 
-                ListViewItem lvi = new ListViewItem(column.Name);
+                ListViewItem lvi = new ListViewItem(column.DisplayName);
                 string value = column.GetRowAsString(v);
                                                       
                 lvi.SubItems.Add(value);

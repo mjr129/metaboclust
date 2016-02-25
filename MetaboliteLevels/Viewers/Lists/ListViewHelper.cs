@@ -52,13 +52,14 @@ namespace MetaboliteLevels.Viewers.Lists
         private bool _isCreatingColumns;
         private Column _clickedColumn;
 
-        private IComparer<IVisualisable> _sortOrder;
+        private SortByColumn _sortOrder;
         private ColumnFilter _filter;
 
         protected List<IVisualisable> _filteredList;
 
         private bool _emptyList;
         private ToolStripMenuItem _mnuDisplayColumn;
+        private readonly ToolStripMenuItem _tsThumbNails;
 
         /// <summary>
         /// Constructor
@@ -74,7 +75,6 @@ namespace MetaboliteLevels.Viewers.Lists
 
             _imgListNormal = listView.SmallImageList;
             _imgListPreviews = new ImageList();
-            _imgListPreviews.ImageSize = new Size(64, 64);
 
             // Setup listview
             listView.VirtualMode = true;
@@ -148,14 +148,14 @@ namespace MetaboliteLevels.Viewers.Lists
                 ToolStripMenuItem tsExpand = new ToolStripMenuItem("Popout", Resources.MnuEnlarge, tsExpand_Click);
                 tsView.DropDownItems.Add(tsExpand);
 
-                ToolStripMenuItem tsThumbNails = new ToolStripMenuItem("Thumbnails", Resources.MnuPreview, tsThumbNails_Click);
-                tsView.DropDownItems.Add(tsThumbNails);
+                _tsThumbNails = new ToolStripMenuItem("Thumbnails", Resources.MnuPreview, tsThumbNails_Click);
+                tsView.DropDownItems.Add(_tsThumbNails);
             }
 
             // Create column menu
             _cmsColumns = new ContextMenuStrip();
-            _mnuSortAscending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort ascending", Resources.MnuSortAscending, sortAscending_Click);
-            _mnuSortDescending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort descending", Resources.MnuSortDescending, sortAscending_Click);
+            _mnuSortAscending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort ascending", Resources.MnuSortAscending, sortAscendingDescending_Click);
+            _mnuSortDescending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort descending", Resources.MnuSortDescending, sortAscendingDescending_Click);
             _cmsColumns.Items.Add(new ToolStripSeparator());
             _mnuFilterColumn = (ToolStripMenuItem)_cmsColumns.Items.Add(@"=ADD/REMOVE FILTER", null, _filterm_Click);
             _mnuHideColumn = (ToolStripMenuItem)_cmsColumns.Items.Add("Hide column", null, _hidecol_Click);
@@ -344,12 +344,11 @@ namespace MetaboliteLevels.Viewers.Lists
             // Dispose previous
             Column col = GetColumnDefinition(e.Column);
             _clickedColumn = col;
-            SortByColumn sbc = _sortOrder as SortByColumn;
 
-            _mnuSortAscending.Checked = sbc != null && sbc.col == col && sbc.ascending;
+            _mnuSortAscending.Checked = _sortOrder != null && _sortOrder.col == col && _sortOrder.ascending;
             _mnuSortAscending.Enabled = !col.DisableMenu;
 
-            _mnuSortDescending.Checked = sbc != null && sbc.col == col && !sbc.ascending;
+            _mnuSortDescending.Checked = _sortOrder != null && _sortOrder.col == col && !_sortOrder.ascending;
             _mnuSortDescending.Enabled = !col.DisableMenu;
 
             _mnuFilterColumn.Text = _filter != null ? "Remove filter" : "Create filter...";
@@ -508,9 +507,18 @@ namespace MetaboliteLevels.Viewers.Lists
         /// <summary>
         /// Sort ascending clicked.
         /// </summary>
-        void sortAscending_Click(object sender, EventArgs e)
+        void sortAscendingDescending_Click(object sender, EventArgs e)
         {
-            _sortOrder = new SortByColumn(_clickedColumn, sender == _mnuSortAscending);
+            bool ascending = sender == _mnuSortAscending;
+
+            if (_sortOrder != null && _sortOrder.col == _clickedColumn && _sortOrder.ascending == ascending)
+            {
+                _sortOrder = null;
+            }
+            else
+            {
+                _sortOrder = new SortByColumn(_clickedColumn, ascending);
+            }
 
             Rebuild(EListInvalids.Sorted);
         }
@@ -651,7 +659,7 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             IVisualisable highlight = GetOwner();
 
-            int selected = FrmClusterSheet.Show(_listView.FindForm(), this.SourceList, this._previewProvider, highlight);
+            int selected = FrmClusterSheet.Show(_listView.FindForm(), new Size(_core.Options.PopoutThumbnailSize, _core.Options.PopoutThumbnailSize), this.SourceList, this._previewProvider, highlight);
 
             if (selected != -1)
             {
@@ -727,10 +735,8 @@ namespace MetaboliteLevels.Viewers.Lists
 
         void tsThumbNails_Click(object sender, EventArgs e)
         {
-            ToolStripButton tsmi2 = (ToolStripButton)sender;
-
-            tsmi2.Checked = !tsmi2.Checked;
-            EnablePreviews = tsmi2.Checked;
+            EnablePreviews = !_enablePreviews;
+            _tsThumbNails.Checked = EnablePreviews;
         }
 
         protected void ClearPreviewList()
@@ -738,6 +744,7 @@ namespace MetaboliteLevels.Viewers.Lists
             if (_enablePreviews)
             {
                 _imgListPreviews.Images.Clear();
+                _imgListPreviews.ImageSize = new Size(_core.Options.ThumbnailSize, _core.Options.ThumbnailSize);
                 _imgListPreviewIndexes.Clear();
             }
         }
@@ -788,6 +795,22 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 Column c = (Column)h.Tag;
                 h.Width = c.Width;
+
+                if (_sortOrder != null && _sortOrder.col == c)
+                {
+                    if (_sortOrder.ascending)
+                    {
+                        h.ImageIndex = (int)UiControls.ImageListOrder.ListSortUp;
+                    }
+                    else
+                    {
+                        h.ImageIndex = (int)UiControls.ImageListOrder.ListSortDown;
+                    }
+                }
+                else if (_filter != null && _filter.column == c)
+                {
+                    h.ImageIndex = (int)UiControls.ImageListOrder.ListFilter;
+                }
             }
 
             _isCreatingColumns = false;
@@ -830,13 +853,16 @@ namespace MetaboliteLevels.Viewers.Lists
             }
         }
 
+        /// <summary>
+        /// Gets the columns associated with the items in this list.
+        /// </summary>                                              
         private IEnumerable<Column> GetVisualisablesColumns()
         {
-            IVisualisable t = GetSourceContent().FirstOrDefault();
+            IVisualisable firstElement = GetSourceContent().FirstOrDefault();
 
-            if (t != null)
+            if (firstElement != null)
             {
-                return t.GetColumns(_core);
+                return firstElement.GetColumns(_core);
             }
 
             return null;

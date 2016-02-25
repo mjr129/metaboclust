@@ -143,7 +143,7 @@ namespace MetaboliteLevels.Viewers.Charts
             double[] max = amm.Select(z => z.Item3).ToArray();
 
             // --- PLOT MEAN & SD (lines across)
-            if (opts.ShowVariableMean && !stylisedPeak.IsPreview)
+            if (opts.ShowVariableMean)
             {
                 AddMeanAndSdLines(plot, opts, observations, peak, groupLegends);
             }
@@ -166,7 +166,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // --- RANGE (lines) ---
-            if (opts.ShowRanges && !stylisedPeak.IsPreview)
+            if (opts.ShowRanges)
             {
                 MChart.Series legendEntry = new MChart.Series();
                 legendEntry.Name = "Range min/max";
@@ -178,7 +178,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // --- TREND (thick line) ---
-            if (opts.ShowTrend && !stylisedPeak.IsPreview)
+            if (opts.ShowTrend)
             {
                 MChart.Series legendEntry = new MChart.Series();
                 legendEntry.Name = "Trend";

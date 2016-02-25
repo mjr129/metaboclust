@@ -34,12 +34,12 @@ namespace MetaboliteLevels.Viewers.Charts
         private readonly ToolStripDropDownButton _mnuPlot;
         private readonly ToolStripDropDownButton _mnuCustomText;
         private readonly ToolStripItem _btnNavigateToSelected;
-        private readonly ToolStripButton _mnuSelectedReplicate;
-        private readonly ToolStripButton _mnuSelectedTime;
-        private readonly ToolStripButton _mnuSelectedIntensity;
-        private readonly ToolStripButton _mnuSelectedGroup;
-        private readonly ToolStripButton _mnuSelectedPeak;
-        private readonly ToolStripButton _mnuSelectedSeries;
+        private readonly ToolStripDropDownButton _mnuSelectedReplicate;
+        private readonly ToolStripDropDownButton _mnuSelectedTime;
+        private readonly ToolStripDropDownButton _mnuSelectedIntensity;
+        private readonly ToolStripDropDownButton _mnuSelectedGroup;
+        private readonly ToolStripDropDownButton _mnuSelectedPeak;
+        private readonly ToolStripDropDownButton _mnuSelectedSeries;
         private readonly ToolStripMenuItem _mnuSelectionDisplay;
         private readonly ToolStripButton _chkShowPeak;
         private readonly ToolStripButton _chkShowSeries;
@@ -54,11 +54,13 @@ namespace MetaboliteLevels.Viewers.Charts
             get { return null; }
         }
 
-        protected void SetCaption(string format, params IVisualisable[] p)
+        protected void SetCaption(string format, params IVisualisable[] namableItems)
         {
             if (_captionBar != null)
             {
-                _captionBar.SetText(format, p);
+                format = format.Replace("{HIGHLIGHTED}", "highlighted in " + UiControls.ColourToName(_core.Options.Colours.NotableHighlight).ToLower());
+
+                _captionBar.SetText(format, namableItems);
             }
         }
 
@@ -113,11 +115,13 @@ namespace MetaboliteLevels.Viewers.Charts
             _mnuPlot = new ToolStripDropDownButton("...");
             _mnuPlot.Visible = false;
             _mnuPlot.AutoSize = true;
+            _mnuPlot.ShowDropDownArrow = false;
             this._menuBar.Items.Add(_mnuPlot);
 
             // USER DETAILS BUTTON
             _mnuCustomText = new ToolStripDropDownButton(Resources.ObjLInfo);
             _mnuCustomText.DropDownItems.Add("Configure...", null, _userDetailsButton_Clicked);
+            _mnuCustomText.ShowDropDownArrow = false;
             _mnuCustomText.Visible = false;
             _mnuCustomText.AutoSize = true;
             this._menuBar.Items.Add(_mnuCustomText);
@@ -176,13 +180,15 @@ namespace MetaboliteLevels.Viewers.Charts
             PerformSelectionActions();
         }
 
-        private ToolStripButton CreateSelectionButton(Image image)
+        private ToolStripDropDownButton CreateSelectionButton(Image image)
         {
-            ToolStripButton result = new ToolStripButton("", image, _selectionButtonMenu_Opening);
+            ToolStripDropDownButton result = new ToolStripDropDownButton("", image);
+            result.DropDownOpening += _selectionButtonMenu_Opening;
             result.Alignment = ToolStripItemAlignment.Right;
             result.Visible = false;
             result.AutoSize = true;
             result.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+            result.ShowDropDownArrow = false;
             this._menuBar.Items.Add(result);
             return result;
         }
@@ -194,7 +200,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
         private void _userDetailsButton_Clicked(object sender, EventArgs e)
         {
-            FrmOptions.Show(_chart.FindForm(), _core);
+            FrmOptions2.Show(_chart.FindForm(), _core);
         }
 
         private void _menuButtonMenu_Opening(object sender, EventArgs e)
@@ -204,7 +210,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
         private void _selectionButtonMenu_Opening(object senderu, EventArgs e)
         {
-            ToolStripMenuItem sender = (ToolStripMenuItem)senderu;
+            ToolStripDropDownButton sender = (ToolStripDropDownButton)senderu;
 
             sender.DropDownItems.Clear();
 
@@ -332,6 +338,12 @@ namespace MetaboliteLevels.Viewers.Charts
             _chart.SetPlot(plot);
         }
 
+        /// <summary>
+        /// Creates the MChart.Plot object
+        /// </summary>
+        /// <param name="axes">Include axis text (i.e. not a preview)</param>
+        /// <param name="toPlot">What will be plotted</param>
+        /// <returns>New MChart.Plot object</returns>
         protected MChart.Plot PrepareNewPlot(bool axes, IVisualisable toPlot)
         {
             MChart.Plot plot = new MChart.Plot();
@@ -369,6 +381,8 @@ namespace MetaboliteLevels.Viewers.Charts
 
             if (axes)
             {
+                plot.Style.BackColour = _core.Options.Colours.PlotBackground;
+
                 if (!ParseElementCollection.IsNullOrEmpty(userComments.AxisX))
                 {
                     plot.XLabel = userComments.AxisX.ConvertToString(toPlot, _core);
@@ -378,21 +392,31 @@ namespace MetaboliteLevels.Viewers.Charts
                 {
                     plot.YLabel = userComments.AxisY.ConvertToString(toPlot, _core);
                 }
-            }
 
-            if (!ParseElementCollection.IsNullOrEmpty(userComments.Title))
+                if (!ParseElementCollection.IsNullOrEmpty(userComments.Title))
+                {
+                    plot.Title = userComments.Title.ConvertToString(toPlot, _core);
+                }
+
+                if (!ParseElementCollection.IsNullOrEmpty(userComments.SubTitle))
+                {
+                    plot.SubTitle = userComments.SubTitle.ConvertToString(toPlot, _core);
+                }
+
+                plot.Style.AutoTickX = false;
+                plot.Style.GridStyle = new Pen(_core.Options.Colours.MinorGrid);
+                plot.Style.TickStyle = new Pen(_core.Options.Colours.MajorGrid);
+                plot.Style.AxisText = new SolidBrush(_core.Options.Colours.AxisTitle);
+            }
+            else
             {
-                plot.Title = userComments.Title.ConvertToString(toPlot, _core);
+                plot.Style.BackColour = _core.Options.Colours.PreviewBackground;
+                plot.Style.AutoTickX = false;
+                plot.Style.AutoTickY = false;
+                plot.Style.GridStyle = null;
+                plot.Style.TickStyle = null;
+                plot.Style.AxisStyle = null;
             }
-
-            if (!ParseElementCollection.IsNullOrEmpty(userComments.SubTitle))
-            {
-                plot.SubTitle = userComments.SubTitle.ConvertToString(toPlot, _core);
-            }
-
-            plot.Style.AutoTickX = false;
-            plot.Style.GridStyle = new Pen(_core.Options.Colours.MinorGrid);
-            plot.Style.TickStyle = new Pen(_core.Options.Colours.MajorGrid);
 
             return plot;
         }

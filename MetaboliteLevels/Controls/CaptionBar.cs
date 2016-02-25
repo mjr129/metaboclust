@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Controls
 {
@@ -30,20 +31,20 @@ namespace MetaboliteLevels.Controls
             _selector = selector;
 
             _flp = new FlowLayoutPanel
-                   {
-                       AutoSize = true,
-                       AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                       Dock = DockStyle.Bottom,
-                       Visible = true
-                   };
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Dock = DockStyle.Bottom,
+                Visible = true
+            };
 
             _label = new LinkLabel
-                     {
-                         AutoSize = true,
-                         Text = "",
-                         Visible = true,
-                         LinkColor = Color.DarkGray
-                     };
+            {
+                AutoSize = true,
+                Text = "",
+                Visible = true,
+                LinkColor = Color.DarkGray
+            };
 
             _label.LinkClicked += _label_LinkClicked;
             _label.LinkBehavior = LinkBehavior.NeverUnderline;
@@ -64,7 +65,7 @@ namespace MetaboliteLevels.Controls
             _selector.Selection = new VisualisableSelection((IVisualisable)e.Link.LinkData);
         }
 
-        public void SetText(string format, params IVisualisable[] p)
+        public void SetText(string format, params IVisualisable[] nameableItems)
         {
             _label.LinkColor = Color.CornflowerBlue;
 
@@ -88,10 +89,21 @@ namespace MetaboliteLevels.Controls
                         int i = int.Parse(t.ToString());
                         t.Clear();
 
-                        IVisualisable it = (p != null && p.Length > i) ? p[i] : null;
-                        string txt = it.SafeGetDisplayName();
-                        _label.Links.Add(r.Length, txt.Length, it);
-                        r.Append(txt);
+                        IVisualisable it = (nameableItems != null && nameableItems.Length > i) ? nameableItems[i] : null;
+
+                        if (it != null)
+                        {
+                            string txt = it.DisplayName;
+
+                            r.Append(it.VisualClass.ToUiString().ToLower().ToSmallCaps() + " ");
+
+                            _label.Links.Add(r.Length, txt.Length, it);
+                            r.Append(txt);
+                        }
+                        else
+                        {
+                            r.Append("nothing".ToSmallCaps());
+                        }
                     }
                     else if (inb)
                     {

@@ -23,8 +23,8 @@ namespace MetaboliteLevels.Data.Visualisables
     [Serializable]
     [DeferSerialisation]
     class Peak : IVisualisable
-    {
-        public const string COLNAME_CLUSTERS_UNIQUE = "Clusters\\Unique";
+    {                                                  
+        public const string ID_COLUMN_CLUSTERCOMBINATION = "Clusters\\Combination (for colours)";
 
         /// <summary>
         /// UNIQUE
@@ -309,10 +309,10 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Observations (trend)", EColumn.None, λ => λ.Observations.Trend);
 
             columns.Add("Clusters\\All", EColumn.None, λ => λ.Assignments.Clusters);
-            columns.Add("Clusters\\Combination (for colours)", EColumn.None, z => StringHelper.ArrayToString(z.Assignments.Clusters));
+            columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.None, z => StringHelper.ArrayToString(z.Assignments.Clusters));
             columns.Add("Clusters\\All (scores)", EColumn.None, λ => λ.Assignments.Scores);
 
-            columns.Add(COLNAME_CLUSTERS_UNIQUE, EColumn.None, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
+            columns.Add("Clusters\\Unique", EColumn.None, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
             columns.Add("Clusters\\Grouped", EColumn.None, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
 
             foreach (GroupInfo group in core.Groups)
@@ -339,7 +339,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             columns.Add("Comment", EColumn.None, λ => λ.Comment);
 
-            foreach (ConfigurationStatistic stat in core.AllStatistics.Enabled2())
+            foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
             {
                 var closure = stat;
                 columns.Add("Statistic\\" + stat.ToString(), EColumn.Statistic, λ => λ.GetStatistic(closure));

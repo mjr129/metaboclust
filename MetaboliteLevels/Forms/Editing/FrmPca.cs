@@ -73,11 +73,11 @@ namespace MetaboliteLevels.Forms.Editing
             _peakFilter = PeakFilter.Empty;
             _obsFilter = ObsFilter.Empty;
 
-            _selectedCorrection = core.AllCorrections.Enabled2().Any() ? core.AllCorrections.Enabled2().Last() : null;
+            this._selectedCorrection = IVisualisableExtensions.WhereEnabled(core.AllCorrections).Any() ? IVisualisableExtensions.WhereEnabled(core.AllCorrections).Last() : null;
 
-            _colourByPeak = new Column<Peak>("Clusters", EColumn.None, null, z => StringHelper.ArrayToString(z.Assignments.Clusters.Unique()));
-            _colourByCondition = new Column<ConditionInfo>("Group", EColumn.None, null, z => z.Group, z => z.Group.Colour);
-            _colourByObervation = new Column<ObservationInfo>("Observation", EColumn.None, null, z => z.Group, z => z.Group.Colour);
+            _colourByPeak = ColumnManager.GetColumns<Peak>(_core).First(z => z.Id == Peak.ID_COLUMN_CLUSTERCOMBINATION);
+            _colourByCondition = ColumnManager.GetColumns<ConditionInfo>(_core).First(z => z.Id == ConditionInfo.ID_COLNAME_GROUP);
+            _colourByObervation = ColumnManager.GetColumns<ObservationInfo>(_core).First(z => z.Id == ObservationInfo.ID_COLNAME_GROUP);
 
             UpdateScores();
         }
@@ -102,7 +102,7 @@ namespace MetaboliteLevels.Forms.Editing
             _mnuPeakFilter.Text = _peakFilter.ToString();
             _mnuCorrections.Text = _selectedCorrection != null ? _selectedCorrection.DisplayName : "Original data";
 
-            int corIndex = _core.AllCorrections.Enabled2().IndexOf(_selectedCorrection);
+            int corIndex = IVisualisableExtensions.WhereEnabled(this._core.AllCorrections).IndexOf(this._selectedCorrection);
 
             IEnumerable conds;
             IEnumerable<int> which;
@@ -240,15 +240,15 @@ namespace MetaboliteLevels.Forms.Editing
             switch (WhatPlotting)
             {
                 case EPlotting.Peaks:
-                    _btnColour.Text = _colourByPeak.OverrideDisplayName;
+                    _btnColour.Text = _colourByPeak.DisplayName;
                     break;
 
                 case EPlotting.Observations:
-                    _btnColour.Text = _colourByObervation.OverrideDisplayName;
+                    _btnColour.Text = _colourByObervation.DisplayName;
                     break;
 
                 case EPlotting.Conditions:
-                    _btnColour.Text = _colourByCondition.OverrideDisplayName;
+                    _btnColour.Text = _colourByCondition.DisplayName;
                     break;
             }
 
@@ -283,11 +283,11 @@ namespace MetaboliteLevels.Forms.Editing
         private static MChart.Series GetOrCreateSeriesForValue(MChart.Plot plot, Column column, IVisualisable vis)
         {
             object value = column.GetRow(vis);
-            MChart.Series series = plot.Series.FirstOrDefault(z => z.Tag.Equals(value));
+            MChart.Series series = plot.Series.FirstOrDefault(z => (z.Tag == null && value == null) || (z.Tag != null && z.Tag.Equals(value)));
 
             if (series == null)
             {
-                series = new MChart.Series();            
+                series = new MChart.Series();
                 series.Name = Column.AsString(value, column.DisplayMode);
                 series.Tag = value;
 
@@ -430,16 +430,6 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _trend = false;
             UpdateScores();
-        }
-
-        private void _mnuObsFilter_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void _btnColour_Click(object sender, EventArgs e)
-        {
-
         }
 
         private enum EPlotting
@@ -673,12 +663,17 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _mnuCorrections.DropDownItems.Clear();
 
-            foreach (ConfigurationCorrection correction in _core.AllCorrections.Enabled2())
-            {
-                ToolStripMenuItem tsmi = new ToolStripMenuItem(correction.ToString()) { Tag = correction };
-                tsmi.Click += _mnuCorrections_correction_Click;
+            ToolStripMenuItem tsmi = new ToolStripMenuItem("Original data") { Tag = null };
+            tsmi.Click += this._mnuCorrections_correction_Click;
 
-                _mnuCorrections.DropDownItems.Add(tsmi);
+            this._mnuCorrections.DropDownItems.Add(tsmi);
+
+            foreach (ConfigurationCorrection correction in this._core.AllCorrections.WhereEnabled())
+            {
+                tsmi = new ToolStripMenuItem(correction.ToString()) { Tag = correction };
+                tsmi.Click += this._mnuCorrections_correction_Click;
+
+                this._mnuCorrections.DropDownItems.Add(tsmi);
             }
         }
 
@@ -692,17 +687,17 @@ namespace MetaboliteLevels.Forms.Editing
             switch (WhatPlotting)
             {
                 case EPlotting.Peaks:
-                    columns = ColumnManager.GetColumns(_core, _core.Peaks.First());
+                    columns = ColumnManager.GetColumns<Peak>(_core);
                     selected = _colourByPeak;
                     break;
 
                 case EPlotting.Observations:
-                    columns = ColumnManager.GetColumns(_core, _core.Observations.First());
+                    columns = ColumnManager.GetColumns<ObservationInfo>(_core);
                     selected = _colourByObervation;
                     break;
 
                 case EPlotting.Conditions:
-                    columns = ColumnManager.GetColumns(_core, _core.Conditions.First());
+                    columns = ColumnManager.GetColumns<ConditionInfo>(_core);
                     selected = _colourByCondition;
                     break;
 

@@ -201,7 +201,7 @@ namespace MetaboliteLevels.Data.Visualisables
             StylisedCluster r = new StylisedCluster(fakeCluster, this, colourInfo);
             r.IsFake = true;
             r.CaptionFormat = caption;
-            r.Source = highlight;
+            r.WhatIsHighlighted = highlight;
             r.Highlight = toHighlight;
             return r;
         }

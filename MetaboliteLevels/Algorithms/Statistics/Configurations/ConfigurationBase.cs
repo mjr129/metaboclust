@@ -139,15 +139,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         }
     }
 
-    internal static class ConfigurationBaseExtensions
-    {
-        public static IEnumerable<T> WhereEnabled<T>(this IEnumerable<T> self)
-            where T : ConfigurationBase
-        {
-            return self.Where(z => z.Enabled);
-        }
-    }
-
     /// <summary>
     /// Represents a ready-to-go algorithm, containing an algorithm and its arguments.
     /// 
@@ -189,7 +180,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         {
             ClearError();
             Results = results;
-        }        
+        }
 
         /// <summary>
         /// If the statistic is available to perform calculations.
@@ -212,7 +203,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 TStat r = TryGetCached();
 
-                if (r == null)
+                if (r == null && Id != null)
                 {
                     throw new InvalidOperationException(string.Format(
                                  "Attempt to use a non-existent algorithm (ID = \"{0}\"). The algorithm may not have been installed on this computer, or it may have been renamed. Install this algorithm and try again or remove the algorithm from your calculations.",
@@ -228,6 +219,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// </summary>
         private TStat TryGetCached()
         {
+            if (Id == null)
+            {
+                return null;
+            }
+
             if (_hasGotCache)
             {
                 TStat fromCache;

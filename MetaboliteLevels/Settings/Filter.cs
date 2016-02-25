@@ -611,8 +611,7 @@ namespace MetaboliteLevels.Settings
             {
                 return CompareElement(Operator, ci.Acquisition, Possibilities);
             }
-
-            // ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘʀꜱᴛᴜᴠᴡʏᴢ
+                                         
             public override string ToString()
             {
                 // Oʀᴅᴇʀ
@@ -832,8 +831,7 @@ namespace MetaboliteLevels.Settings
             {
                 return Filter.Test(p) == FilterOp;
             }
-
-            // ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘʀꜱᴛᴜᴠᴡʏᴢ
+                                       
             public override string ToString()
             {
                 return "Fɪʟᴛᴇʀ {" + Filter.ToString() + "} = " + FilterOp;
@@ -884,7 +882,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Pᴀᴛᴛᴇʀɴ " + ClustersOp.ToUiString() + " {" + StringHelper.ArrayToString(Clusters, z => z.DisplayName) + "}";
+                return "Cʟᴜsᴛᴇʀ " + ClustersOp.ToUiString() + " {" + StringHelper.ArrayToString(Clusters, z => z.DisplayName) + "}";
             }
         }
 

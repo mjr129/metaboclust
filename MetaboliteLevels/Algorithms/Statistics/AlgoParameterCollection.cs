@@ -176,7 +176,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                                                                    return "?";
                                                                }
 
-                                                               int tmp = core.AllStatistics.Enabled2().IndexOf(targ);
+                                                               int tmp = IVisualisableExtensions.WhereEnabled(core.AllStatistics).IndexOf(targ);
 
                                                                return tmp == -1 ? "?" : tmp.ToString();
                                                            },
@@ -194,7 +194,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 }
                 else if (reversable)
                 {
-                    return (core.AllClusterers.Enabled2().IndexOf(c).ToString());
+                    return (IVisualisableExtensions.WhereEnabled(core.AllClusterers).IndexOf(c).ToString());
                 }
                 else
                 {
@@ -360,7 +360,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                         string[] e2 = element.Split(",;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
                         WeakReference<ConfigurationStatistic>[] r = new WeakReference<ConfigurationStatistic>[e2.Length];
-                        ConfigurationStatistic[] opts = core.AllStatistics.Enabled2().ToArray();
+                        ConfigurationStatistic[] opts = IVisualisableExtensions.WhereEnabled(core.AllStatistics).ToArray();
 
                         for (int n = 0; n < e2.Length; n++)
                         {
@@ -398,7 +398,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                             return null;
                         }
 
-                        ConfigurationClusterer[] opts = core.AllClusterers.Enabled2().ToArray();
+                        ConfigurationClusterer[] opts = IVisualisableExtensions.WhereEnabled(core.AllClusterers).ToArray();
 
                         if (ival < 0 || ival >= opts.Length)
                         {

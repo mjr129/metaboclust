@@ -798,18 +798,18 @@ namespace MetaboliteLevels.Data.Session
             var newListEnabled = newList.WhereEnabled().ToList();
 
             // Remove obsolete clusters
-            foreach (ConfigurationClusterer config in this.AllClusterers.Enabled2())
+            foreach (ConfigurationClusterer config in IVisualisableExtensions.WhereEnabled(this.AllClusterers))
             {
                 if (!newListEnabled.Contains(config))
                 {
-                    _ClearCluster(config);
+                    this._ClearCluster(config);
                 }
             }
 
             // Create new clusters
             foreach (ConfigurationClusterer config in newListEnabled.ToList())
             {
-                if (!this.AllClusterers.Enabled2().Contains(config))
+                if (!IVisualisableExtensions.WhereEnabled(this.AllClusterers).Contains(config))
                 {
                     try
                     {
@@ -819,7 +819,7 @@ namespace MetaboliteLevels.Data.Session
                     catch (Exception ex)
                     {
                         result = false;
-                        _ClearCluster(config);
+                        this._ClearCluster(config);
                         config.SetError(ex);
                         newListEnabled.Remove(config);
                         continue;
@@ -903,6 +903,16 @@ namespace MetaboliteLevels.Data.Session
             List<ObsFilter> existing = new List<ObsFilter>(AllObsFilters);
             existing.Add(toAdd);
             this.SetObsFilters(existing.ToArray());
+        }
+
+        /// <summary>
+        /// Adds and a single new peak filter.
+        /// </summary>
+        internal void AddPeakFilter(PeakFilter toAdd)
+        {
+            List<PeakFilter> existing = new List<PeakFilter>(AllPeakFilters);
+            existing.Add(toAdd);
+            this.SetPeakFilters(existing.ToArray());
         }
 
         /// <summary>

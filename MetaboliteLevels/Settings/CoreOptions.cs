@@ -158,6 +158,14 @@ namespace MetaboliteLevels.Settings
         [Description("The visible experimental groups.")]
         public List<GroupInfo> ViewTypes { get; set; }
 
+        [Description("Size of thumbnails on lists")]
+        [DefaultValue(96)]
+        public int ThumbnailSize { get; set; }
+
+        [Description("Size of thumbnails on popout lists")]
+        [DefaultValue(128)]
+        public int PopoutThumbnailSize { get; set; }
+
         private readonly Dictionary<string, ColumnDetails> _columnDisplayStatuses = new Dictionary<string, ColumnDetails>();
         private readonly Dictionary<string, object> _defaultValues = new Dictionary<string, object>();
 

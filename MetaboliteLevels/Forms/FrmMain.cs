@@ -26,6 +26,8 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Viewers.Lists;
 using System.Drawing.Imaging;
+using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
 
 namespace MetaboliteLevels.Forms
 {
@@ -140,6 +142,9 @@ namespace MetaboliteLevels.Forms
             _coreWatchers.Add(_chartPeakForPrinting);
             _coreWatchers.Add(_chartClusterForPrinting);
 
+            _chartPeakForPrinting.Chart.Style.Margin = Padding.Empty;
+            _chartClusterForPrinting.Chart.Style.Margin = Padding.Empty;
+
             // Primary lists
             _peakList = CreatePrimaryList<Peak>(_lstVariables, z => z.Peaks);
             _clusterList = CreatePrimaryList<Cluster>(_lstClusters, z => z.Clusters);
@@ -218,7 +223,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         Image IPreviewProvider.ProvidePreview(Size s, IVisualisable o, IVisualisable o2)
         {
-            bool small = s.Width < 96;
+            bool small = true;
 
             BeginWait("Creating preview for " + o.DisplayName);
             Bitmap result;
@@ -251,7 +256,7 @@ namespace MetaboliteLevels.Forms
 
                     case VisualClass.Cluster:
                         {
-                            StylisedCluster p = new StylisedCluster((Cluster)o);
+                            StylisedCluster p = ((Cluster)o).CreateStylisedCluster(_core, o2);
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -262,6 +267,14 @@ namespace MetaboliteLevels.Forms
                             StylisedPeak p = new StylisedPeak((Peak)o);
                             p.IsPreview = small;
                             result = _chartPeakForPrinting.CreateBitmap(s.Width, s.Height, p);
+                        }
+                        break;
+
+                    case VisualClass.Assignment:
+                        {
+                            StylisedCluster p = ((Assignment)o).CreateStylisedCluster(_core, o2);
+                            p.IsPreview = small;
+                            result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
@@ -308,6 +321,7 @@ namespace MetaboliteLevels.Forms
             CommitSelection(new VisualisableSelection(null));
 
             // Set new options
+            _txtGuid.Text = _core.CoreGuid.ToString();
             UpdateVisualOptions();
 
             // Refresh lists
@@ -391,12 +405,12 @@ namespace MetaboliteLevels.Forms
                     _btnSelectionExterior.Text = selection.Secondary.DisplayName;
                     _btnSelectionExterior.Image = UiControls.GetImage(selection.Secondary.GetIcon(), true);
                     _btnSelectionExterior.Visible = true;
-                    _lblExterior.Visible = true;
+                    _btnExterior.Visible = true;
                 }
                 else
                 {
                     _btnSelectionExterior.Visible = false;
-                    _lblExterior.Visible = false;
+                    _btnExterior.Visible = false;
                 }
 
                 // Null selection?
@@ -408,10 +422,10 @@ namespace MetaboliteLevels.Forms
                 }
 
                 // For assignments plot the peak (and implicitly the cluster)
-                if (selection.Primary.VisualClass == VisualClass.Assignment)
-                {
-                    selection = new VisualisableSelection(((Assignment)selection.Primary).Peak, selection.Secondary);
-                }
+                //if (selection.Primary.VisualClass == VisualClass.Assignment)
+                //{
+                //    selection = new VisualisableSelection(((Assignment)selection.Primary).Peak, selection.Secondary);
+                //}
 
                 // Get the selection
                 Peak peak = selection.Primary as Peak ?? selection.Secondary as Peak;
@@ -427,6 +441,10 @@ namespace MetaboliteLevels.Forms
                 {
                     switch (cluster.VisualClass)
                     {
+                        case VisualClass.Assignment:
+                            sCluster = ((Assignment)cluster).CreateStylisedCluster(_core, selection.Secondary);
+                            break;
+
                         case VisualClass.Cluster:
                             sCluster = ((Cluster)cluster).CreateStylisedCluster(_core, selection.Secondary);
                             break;
@@ -650,7 +668,7 @@ namespace MetaboliteLevels.Forms
             // Add new items
             int index2 = toolStrip1.Items.IndexOf(_tssInsertViews);
 
-            foreach (GroupInfo ti in _core.Groups.Enabled2().OrderBy(z => z.Id))
+            foreach (GroupInfo ti in _core.Groups.WhereEnabled().OrderBy(z => z.Id))
             {
                 bool e = _core.Options.ViewTypes.Contains(ti);
 
@@ -1163,7 +1181,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void visualOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmOptions.Show(this, _core);
+            FrmOptions2.Show(this, _core);
             UpdateVisualOptions();
             UpdateAll("Changed options", EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged);
             Replot();
@@ -1232,8 +1250,8 @@ namespace MetaboliteLevels.Forms
         void historyButton_Click(object sender, EventArgs e)
         {
             var control = (ToolStripButton)sender;
-            IVisualisable tag = (IVisualisable)control.Tag;
-            CommitSelection(new VisualisableSelection(tag));
+            VisualisableSelection tag = (VisualisableSelection)control.Tag;
+            CommitSelection(tag);
         }
 
         /// <summary>
@@ -1267,28 +1285,11 @@ namespace MetaboliteLevels.Forms
                 return;
             }
 
-            switch (_selectionMenuOpenedFromList.VisualClass)
-            {
-                case VisualClass.Cluster:
-                    Cluster p = (Cluster)_selectionMenuOpenedFromList;
-                    FrmInput2.Show(this, p, false);
-                    _clusterList.Update(p);
-                    break;
+            FrmInput2.Show(this, _selectionMenuOpenedFromList, false);
 
-                default:
-                    var s = _selectionMenuOpenedFromList;
-                    string newComment = FrmInput.Show(this, Text, s.DisplayName, "Enter a comment for the " + s.VisualClass.ToUiString().ToLower(), s.Comment);
-
-                    if (newComment != null)
-                    {
-                        s.Comment = newComment;
-
-                        // TODO: Lazy - what's actually changed?
-                        // Probably doesn't matter these are all fast refreshes
-                        UpdateAll("Comment changed", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged);
-                    }
-                    break;
-            }
+            // TODO: Lazy - what's actually changed?
+            // Probably doesn't matter these are all fast refreshes
+            UpdateAll("Comment changed", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged);
         }
 
         /// <summary>
@@ -1491,7 +1492,36 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void breakUpLargeClusterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Clusters, _selectionMenuOpenedFromList))
+            Cluster clu = (Cluster)_selectionMenuOpenedFromList;
+            PeakFilter filter = null;
+
+            foreach (PeakFilter pf in _core.AllPeakFilters)
+            {
+                if (pf.Conditions.Count == 1)
+                {
+                    PeakFilter.ConditionCluster x = pf.Conditions[0] as PeakFilter.ConditionCluster;
+
+                    if (x != null)
+                    {
+                        if (x.Clusters.Count == 1 && x.Clusters[0].GetTarget() == clu && x.ClustersOp == Filter.ESetOperator.AnyXinY && x.CombiningOperator == Filter.ELogicOperator.And && x.Negate == false)
+                        {
+                            filter = pf;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (filter == null)
+            {
+                PeakFilter.Condition condition = new PeakFilter.ConditionCluster(Filter.ELogicOperator.And, false, Filter.ESetOperator.AnyXinY, new[] { clu });
+                filter = new PeakFilter(null, null, new[] { condition });
+                _core.AddPeakFilter(filter);
+            }
+
+            ConfigurationClusterer template = new ConfigurationClusterer(null, null, null, new ArgsClusterer(filter, null, EAlgoSourceMode.None, null, false, EClustererStatistics.None, null));
+
+            if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Clusters, template))
             {
                 UpdateAll("Clusters changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
             }
@@ -1502,7 +1532,8 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void compareToThisPeakToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Statistics, _selectionMenuOpenedFromList);
+            ConfigurationStatistic template = new ConfigurationStatistic(null, null, null, new ArgsStatistic(EAlgoSourceMode.None, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null));
+            FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Statistics, template);
         }
 
         /// <summary>
@@ -1700,6 +1731,16 @@ namespace MetaboliteLevels.Forms
                 default:
                     break;
             }
+        }
+
+        private void sessionInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            aboutToolStripMenuItem.PerformClick();
+        }
+
+        private void _btnExterior_Click(object sender, EventArgs e)
+        {
+            CommitSelection(new VisualisableSelection(_selection.Secondary, _selection.Primary));
         }
     }
 }

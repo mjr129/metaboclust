@@ -111,6 +111,36 @@ namespace MetaboliteLevels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListFilter {
+            get {
+                object obj = ResourceManager.GetObject("ListFilter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListSortDown {
+            get {
+                object obj = ResourceManager.GetObject("ListSortDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListSortUp {
+            get {
+                object obj = ResourceManager.GetObject("ListSortUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon MainIcon {
@@ -1046,6 +1076,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap PreviousPageHS {
             get {
                 object obj = ResourceManager.GetObject("PreviousPageHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Seperator {
+            get {
+                object obj = ResourceManager.GetObject("Seperator", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

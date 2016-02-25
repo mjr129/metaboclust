@@ -48,11 +48,11 @@ namespace MetaboliteLevels.Viewers.Lists
         /// <summary>
         /// Order of items
         /// </summary>
-        Sorted = _SourceChanged,
+        Sorted = _SourceChanged | _ColumnVisibilitiesChanged,
 
         /// <summary>
         /// Filter on items
         /// </summary>
-        Filter = _SourceChanged,
+        Filter = _SourceChanged | _ColumnVisibilitiesChanged,
     }
 }

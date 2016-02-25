@@ -70,19 +70,22 @@ namespace MetaboliteLevels.Data
         public bool IsPreview;
 
         /// <summary>
-        /// If any of the peak within should be highlighted in red
+        /// These elements are highlighted in red by the plotter
         /// </summary>
         public IEnumerable<HighlightElement> Highlight;
 
         /// <summary>
         /// Caption
+        /// {0} = Replaced with ActualElement
+        /// {1} = Replaced with Source
+        /// {HIGHLIGHTED} = Replaced with "highlighted in red".
         /// </summary>
         public string CaptionFormat;
 
         /// <summary>
         /// Source (for caption)
         /// </summary>
-        public IVisualisable Source;
+        public IVisualisable WhatIsHighlighted;
 
         /// <summary>
         /// Ctor.

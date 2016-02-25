@@ -196,6 +196,12 @@
     <Compile Include="Forms\Algorithms\FrmEvaluateClusteringOptions.Designer.cs">
       <DependentUpon>FrmEvaluateClusteringOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Editing\FrmOptions2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmOptions2.Designer.cs">
+      <DependentUpon>FrmOptions2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Generic\FrmAlarm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -486,7 +492,7 @@
     <Compile Include="Utilities\UiControls.cs" />
     <Compile Include="Utilities\WeakReferenceHelper.cs" />
     <Compile Include="Viewers\Charts\ChartHelper.cs" />
-    <Compile Include="Viewers\Charts\ChartHelperForPatterns.cs" />
+    <Compile Include="Viewers\Charts\ChartHelperForClusters.cs" />
     <Compile Include="Viewers\Charts\ChartHelperForPeaks.cs" />
     <Compile Include="Settings\CoreOptions.cs" />
     <Compile Include="Data\Session\Visualisables\Compound.cs" />
@@ -565,6 +571,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmObservationFilterCondition.resx">
       <DependentUpon>FrmObservationFilterCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmOptions2.resx">
+      <DependentUpon>FrmOptions2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmPca.resx">
       <DependentUpon>FrmPca.cs</DependentUpon>
@@ -682,6 +691,11 @@
     <Content Include="Manual.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\filter_16xLG.png" />
+    <None Include="Resources\Filter2HS.png" />
+    <None Include="Resources\112_UpArrowShort_Grey_16x16_72.png" />
+    <None Include="Resources\112_DownArrowShort_Grey_16x16_72.png" />
+    <None Include="Resources\Seperator.png" />
     <None Include="Resources\Icons_7951.png" />
     <None Include="Resources\SaveSelection_5630.png" />
     <None Include="Resources\FolderOpen_16x16_72.png" />

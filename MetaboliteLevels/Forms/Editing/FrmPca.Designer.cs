@@ -207,7 +207,6 @@
             this._mnuObsFilter.Text = "Text goes here";
             this._mnuObsFilter.ToolTipText = "Select observation filter";
             this._mnuObsFilter.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton3_DropDownOpening);
-            this._mnuObsFilter.Click += new System.EventHandler(this._mnuObsFilter_Click);
             // 
             // _mnuPeakFilter
             // 
@@ -350,7 +349,6 @@
             this._btnColour.Text = "Text goes here";
             this._btnColour.ToolTipText = "Select peak filter";
             this._btnColour.DropDownOpening += new System.EventHandler(this._btnColour_DropDownOpening);
-            this._btnColour.Click += new System.EventHandler(this._btnColour_Click);
             // 
             // _lblPcNumber
             // 

@@ -158,17 +158,24 @@ namespace MetaboliteLevels.Data.Visualisables
                     case VisualClass.Compound:
                         Compound highlightCompound = (Compound)toHighlight;
                         highlight = highlightCompound.Annotations.Select(StylisedCluster.HighlightElement.FromAnnotation).ToArray();
-                        caption += " Peaks potentially representing {1} are shown in red.";
+                        caption += " Peaks potentially representing {1} are {HIGHLIGHTED}.";
                         break;
 
                     case VisualClass.Pathway:
                         highlight = toHighlight.GetContents(core, VisualClass.Peak).Keys.Cast<Peak>().Select(StylisedCluster.HighlightElement.FromPeak).ToArray();
-                        caption += " Peaks potentially representing compounds in {1} are shown in red.";
+                        caption += " Peaks potentially representing compounds in {1} are {HIGHLIGHTED}.";
                         break;
 
                     case VisualClass.Peak:
-                        highlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)toHighlight, null) };
-                        caption = " {1} is shown in red.";
+                        Peak peak = (Peak)toHighlight;
+                        highlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement(peak, null) };
+                        caption += " {1} is {HIGHLIGHTED}.";
+                        break;
+
+                    case VisualClass.Assignment:
+                        Assignment assignment = (Assignment)toHighlight;
+                        highlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement(assignment.Vector.Peak, assignment.Vector.Group) };
+                        caption += " {1} is {HIGHLIGHTED}.";
                         break;
                 }
             }
@@ -176,7 +183,7 @@ namespace MetaboliteLevels.Data.Visualisables
             StylisedCluster r = new StylisedCluster(this);
             r.Highlight = highlight;
             r.CaptionFormat = caption;
-            r.Source = toHighlight;
+            r.WhatIsHighlighted = toHighlight;
             return r;
         }
 
@@ -379,7 +386,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public override string ToString()
         {
             return DisplayName + " (" + Assignments.Count + " assignments)";
-        }   
+        }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -488,7 +495,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case VisualClass.Annotation:
-                    request.Text = "Annotations for peaks in cluster {0}";
+                    request.Text = "Annotations for peaks in {0}";
 
                     foreach (Peak peak in Assignments.Peaks)
                     {
@@ -500,7 +507,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 default:
                     break;
             }
-        }    
+        }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -518,7 +525,7 @@ namespace MetaboliteLevels.Data.Visualisables
             var result = new List<Column<Cluster>>();
 
             result.Add("Method Name", EColumn.None, λ => λ.Method.ToString());
-            result.Add("Method №", EColumn.None, λ => 1 + core.AllClusterers.Enabled2().IndexOf(λ.Method));
+            result.Add("Method №", EColumn.None, λ => 1 + core.AllClusterers.WhereEnabled().IndexOf(λ.Method));
             result.Add("Name", EColumn.Visible, λ => λ.DisplayName);
             result.Add("Comments", EColumn.None, λ => λ.Comment);
             result.Add("Assignments\\All", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
@@ -544,7 +551,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             result.Add("Flag\\(all)", EColumn.None, λ => λ.CommentFlags.Keys);
 
-            foreach (ConfigurationStatistic stat in core.AllStatistics.Enabled2())
+            foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
             {
                 ConfigurationStatistic closure = stat;
                 result.Add("Average Statistic\\" + closure, EColumn.Statistic, λ => λ.Statistics.GetOrNan(closure));

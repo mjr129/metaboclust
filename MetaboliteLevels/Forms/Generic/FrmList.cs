@@ -245,6 +245,7 @@ namespace MetaboliteLevels.Forms.Generic
                 control.DialogResult = DialogResult.OK;
                 control.ForeColor = System.Drawing.Color.Blue;
                 control.Click += cb_Click;
+                control.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             }
 
             void cb_Click(object sender, EventArgs e)

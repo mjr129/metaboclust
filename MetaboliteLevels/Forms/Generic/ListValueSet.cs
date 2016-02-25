@@ -79,7 +79,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ObservationInfo>()
             {
                 Title = "Observations",
-                List = core.Observations.Enabled2(onlyEnabled),
+                List = core.Observations.WhereEnabled(onlyEnabled),
                 Describer = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition
             };
         }
@@ -92,7 +92,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ConditionInfo>()
             {
                 Title = "Conditions",
-                List = core.Conditions.Enabled2(onlyEnabled),
+                List = core.Conditions.WhereEnabled(onlyEnabled),
                 Describer = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time
             };
         }
@@ -119,7 +119,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ClusterEvaluationPointer>()
             {
                 Title = "Test Results",
-                List = core.EvaluationResultFiles.Enabled2(onlyEnabled),
+                List = core.EvaluationResultFiles.WhereEnabled(onlyEnabled),
                 Namer = z => z.DisplayName,
                 Describer = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
                 IconProvider = _GetIcon,
@@ -164,7 +164,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<BatchInfo>()
             {
                 Title = "Batches",
-                List = core.Batches.Enabled2(onlyEnabled),
+                List = core.Batches.WhereEnabled(onlyEnabled),
                 Namer = z => z.Id.ToString(),
                 Describer = z => z.DisplayShortName + ": " + z.DisplayName + z.Comment.FormatIf("\r\nComment: ")
             };
@@ -233,7 +233,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<Cluster>()
             {
                 Title = "Clusters",
-                List = core.Clusters.Enabled2(onlyEnabled),
+                List = core.Clusters.WhereEnabled(onlyEnabled),
                 Namer = z => z.DisplayName,
                 Describer = _GetComment
             };
@@ -247,7 +247,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<Peak>()
             {
                 Title = "Peaks",
-                List = core.Peaks.Enabled2(onlyEnabled),
+                List = core.Peaks.WhereEnabled(onlyEnabled),
                 Namer = z => z.DisplayName,
                 Describer = _GetComment
             };
@@ -277,7 +277,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ConfigurationClusterer>()
             {
                 Title = "Clusterers",
-                List = core.AllClusterers.Enabled2(onlyEnabled),
+                List = core.AllClusterers.WhereEnabled(onlyEnabled),
                 Describer = _GetComment,
                 ListEditor = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Clusters, null)
             };
@@ -291,7 +291,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ConfigurationStatistic>()
             {
                 Title = "Statistics",
-                List = core.AllStatistics.Enabled2(onlyEnabled),
+                List = core.AllStatistics.WhereEnabled(onlyEnabled),
                 Describer = _GetComment,
                 ListEditor = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Statistics, null)
             };
@@ -319,7 +319,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<PeakFilter>()
             {
                 Title = "Peak Filters",
-                List = core.AllPeakFilters.Enabled2(onlyEnabled),
+                List = core.AllPeakFilters.WhereEnabled(onlyEnabled),
                 Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListEditor = z => FrmBigList.ShowPeakFilters(z, core)
             };
@@ -333,7 +333,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<ObsFilter>()
             {
                 Title = "Observation Filters",
-                List = core.AllObsFilters.Enabled2(onlyEnabled),
+                List = core.AllObsFilters.WhereEnabled(onlyEnabled),
                 Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListEditor = z => FrmBigList.ShowObsFilters(z, core)
             };
@@ -347,7 +347,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new ListValueSet<GroupInfo>()
             {
                 Title = "Experimental Groups",
-                List = core.Groups.Enabled2(onlyEnabled).OrderBy(z => z.Id),
+                List = core.Groups.WhereEnabled(onlyEnabled).OrderBy(z => z.Id),
                 Namer = z => z.DisplayName,
                 Describer = z => z.DisplayShortName + ": " + z.DisplayName,
                 Comparator = _TypeNameComparator,

@@ -30,14 +30,16 @@
         {
             this._txtInput = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new Controls.CtlTextBox();
+            this.textBox1 = new MetaboliteLevels.Controls.CtlTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new System.Windows.Forms.Button();
             this._btnCancel = new System.Windows.Forms.Button();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -51,7 +53,7 @@
             this._txtInput.Multiline = true;
             this._txtInput.Name = "_txtInput";
             this._txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._txtInput.Size = new System.Drawing.Size(869, 313);
+            this._txtInput.Size = new System.Drawing.Size(869, 239);
             this._txtInput.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -62,19 +64,22 @@
             this.tableLayoutPanel2.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this.checkBox1, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 7);
+            this.tableLayoutPanel2.Controls.Add(this.checkBox1, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label4, 0, 6);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 87);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 6;
+            this.tableLayoutPanel2.RowCount = 8;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.Size = new System.Drawing.Size(901, 553);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
@@ -88,6 +93,7 @@
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox1.Size = new System.Drawing.Size(869, 29);
             this.textBox1.TabIndex = 0;
+            this.textBox1.Watermark = null;
             // 
             // label1
             // 
@@ -108,6 +114,7 @@
             this.label2.Size = new System.Drawing.Size(86, 21);
             this.label2.TabIndex = 1;
             this.label2.Text = "Comments";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -157,6 +164,18 @@
             this._btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this._btnCancel.UseVisualStyleBackColor = true;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(24, 427);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(180, 25);
+            this.checkBox1.TabIndex = 2;
+            this.checkBox1.Text = "Show this item in lists";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -173,16 +192,28 @@
             this.ctlTitleBar1.Text = "ctlTitleBar1";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // checkBox1
+            // label3
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(24, 464);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(79, 25);
-            this.checkBox1.TabIndex = 2;
-            this.checkBox1.Text = "Hidden";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(24, 390);
+            this.label3.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(69, 21);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Visibility";
+            this.label3.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Enabled = false;
+            this.label4.Location = new System.Drawing.Point(24, 468);
+            this.label4.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(235, 21);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "This item is always visible in lists";
+            this.label4.Click += new System.EventHandler(this.label2_Click);
             // 
             // FrmInput2
             // 
@@ -217,5 +248,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

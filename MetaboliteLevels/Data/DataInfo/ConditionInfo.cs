@@ -18,6 +18,7 @@ namespace MetaboliteLevels.Data.DataInfo
     [DeferSerialisation]
     class ConditionInfo : IVisualisable
     {
+        public const string ID_COLNAME_GROUP = "Group";
         public readonly int Time;
         public readonly GroupInfo Group;
 
@@ -84,7 +85,7 @@ namespace MetaboliteLevels.Data.DataInfo
             List<Column<ConditionInfo>> columns = new List<Column<ConditionInfo>>();
 
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add("Group", EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
+            columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
             columns.Add("Time", EColumn.None, z => z.Time);
             columns.Add("Comment", EColumn.None, z => z.Comment);
 

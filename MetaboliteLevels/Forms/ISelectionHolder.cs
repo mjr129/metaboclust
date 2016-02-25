@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Forms
 {
@@ -15,20 +16,21 @@ namespace MetaboliteLevels.Forms
     internal class VisualisableSelection
     {
         public readonly IVisualisable Primary;
-        public readonly IVisualisable Secondary;  
+        public readonly IVisualisable Secondary;
 
         public VisualisableSelection(IVisualisable primary, IVisualisable secondary)
         {
             Primary = primary;
-            Secondary = secondary;   
+            Secondary = secondary;
         }
 
         public VisualisableSelection(IVisualisable primary)
         {
             Primary = primary;
-            Secondary = null;    
+            Secondary = null;
         }
 
+        // OVERRIDE object
         public override string ToString()
         {
             if (Primary == null)
@@ -37,12 +39,31 @@ namespace MetaboliteLevels.Forms
             }
             else if (Secondary == null)
             {
-                return Primary.DisplayName;
+                return Primary.VisualClass.ToUiString().ToSmallCaps() + " " + Primary.DisplayName;
             }
             else
             {
-                return Primary.DisplayName + "::" + Secondary.DisplayName;
+                return Primary.VisualClass.ToUiString().ToSmallCaps() + " " + Primary.DisplayName + " :: " + Secondary.VisualClass.ToUiString().ToSmallCaps() + " " + Secondary.DisplayName;
             }
         }
-    }                            
+
+        // OVERRIDE object
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            VisualisableSelection vs = (VisualisableSelection)obj;
+
+            return Primary == vs.Primary && Secondary == vs.Secondary;
+        }
+
+        // OVERRIDE object
+        public override int GetHashCode()
+        {
+            return Primary.GetHashCode() % Secondary.GetHashCode();
+        }
+    }
 }

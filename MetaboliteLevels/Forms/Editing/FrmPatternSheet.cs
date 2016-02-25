@@ -26,10 +26,10 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.SetIcon(this);
         }
 
-        private FrmClusterSheet(List<IVisualisable> items, IPreviewProvider previewProvider, IVisualisable highlight)
+        private FrmClusterSheet(Size size, List<IVisualisable> items, IPreviewProvider previewProvider, IVisualisable highlight)
             : this()
         {
-            this._imageSize = new Size(128, 128);
+            this._imageSize = size;
             this._items = items;
             this._previewProvider = previewProvider;
             this._highlight = highlight;
@@ -59,9 +59,9 @@ namespace MetaboliteLevels.Forms.Editing
             return index;
         }
 
-        internal static int Show(Form owner, IEnumerable items, IPreviewProvider previewProvider, IVisualisable highlight)
+        internal static int Show(Form owner, Size size, IEnumerable items, IPreviewProvider previewProvider, IVisualisable highlight)
         {
-            FrmClusterSheet frm = new FrmClusterSheet(new List<IVisualisable>(items.Cast<IVisualisable>()), previewProvider, highlight);
+            FrmClusterSheet frm = new FrmClusterSheet(size, new List<IVisualisable>(items.Cast<IVisualisable>()), previewProvider, highlight);
             frm.StartPosition = FormStartPosition.Manual;
             frm.Location = owner.Location;
             frm.Size = new Size(owner.Width, owner.Height);

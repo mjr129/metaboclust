@@ -36,7 +36,7 @@ namespace MetaboliteLevels.Forms.Editing
             public abstract void ApplyChanges(ProgressReporter info, List<IVisualisable> alist);
             public virtual bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return true; }
             public virtual void AfterApply(Form form) { }
-            public virtual bool AddAtInitialise() { return false; }
+            public virtual IVisualisable GetAutoCreateTemplate() { return null; }
             public virtual EReplaceMode BeforeReplace(Form owner, IVisualisable remove, IVisualisable create) { return EReplaceMode.Default; }
         }
 
@@ -246,20 +246,20 @@ namespace MetaboliteLevels.Forms.Editing
         {
             private readonly Core _core;
             private readonly EAlgorithmType _mode;
-            private IVisualisable _autoApply;
+            private ConfigurationBase _autoCreateTemplate;
             private FrmEditUpdate.EChangeLevel _toUpdate;
             private bool _success;
 
-            public BigListConfigForAlgorithms(Core core, EAlgorithmType mode, IVisualisable autoApply)
+            public BigListConfigForAlgorithms(Core core, EAlgorithmType mode, ConfigurationBase autoCreateTemplate)
             {
                 _core = core;
                 _mode = mode;
-                _autoApply = autoApply;
+                _autoCreateTemplate = autoCreateTemplate;
             }
 
-            public override bool AddAtInitialise()
+            public override IVisualisable GetAutoCreateTemplate()
             {
-                return _autoApply != null;
+                return _autoCreateTemplate;
             }
 
             protected override EReplaceMode BeforeReplace(Form owner, ConfigurationBase remove, ConfigurationBase create)
@@ -476,19 +476,19 @@ namespace MetaboliteLevels.Forms.Editing
                     }
                 }
 
-                IVisualisable vis = _autoApply;
-                _autoApply = null;
+                IVisualisable vis = _autoCreateTemplate;
+                _autoCreateTemplate = null;
 
                 switch (_mode)
                 {
                     case EAlgorithmType.Statistics:
-                        return FrmAlgoStatistic.Show(owner, (ConfigurationStatistic)o, _core, read, (Peak)vis);
+                        return FrmAlgoStatistic.Show(owner, (ConfigurationStatistic)o, _core, read);
 
                     case EAlgorithmType.Corrections:
                         return FrmAlgoCorrection.Show(owner, _core, (ConfigurationCorrection)o, read);
 
                     case EAlgorithmType.Clusters:
-                        return FrmAlgoCluster.Show(owner, _core, (ConfigurationClusterer)o, read, (Cluster)vis, false);
+                        return FrmAlgoCluster.Show(owner, _core, (ConfigurationClusterer)o, read, false);
 
                     case EAlgorithmType.Trend:
                         return FrmAlgoTrend.Show(owner, _core, (ConfigurationTrend)o, read);
@@ -589,9 +589,9 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.CompensateForVisualStyles(this);
         }
 
-        internal static bool ShowAlgorithms(Form owner, Core core, EAlgorithmType algoType, IVisualisable autoApply)
+        internal static bool ShowAlgorithms(Form owner, Core core, EAlgorithmType algoType, ConfigurationBase autoCreateTemplate)
         {
-            var config = new BigListConfigForAlgorithms(core, algoType, autoApply);
+            var config = new BigListConfigForAlgorithms(core, algoType, autoCreateTemplate);
             return Show(owner, core, config, EViewMode.Write);
         }
 
@@ -699,9 +699,16 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 _activated = true;
 
-                if (_config.AddAtInitialise())
+                IVisualisable autoAdd = _config.GetAutoCreateTemplate();
+
+                if (autoAdd != null)
                 {
-                    _btnAdd.PerformClick();
+                    IVisualisable o = _config.EditObject(this, autoAdd, false);
+
+                    if (o != null)
+                    {
+                        Replace(null, o);
+                    }
                 }
             }
         }
@@ -716,19 +723,19 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private void Rename(IVisualisable stat)
+        private void Rename(IVisualisable item)
         {
-            OriginalStatus origStatus = Get(stat);
+            OriginalStatus origStatus = Get(item);
 
-            string name = stat.OverrideDisplayName;
-            string comment = stat.Comment;
-            bool enabled = stat.Enabled;
+            string name = item.OverrideDisplayName;
+            string comment = item.Comment;
+            bool enabled = item.Enabled;
 
-            if (FrmInput2.Show(this, stat.DefaultDisplayName, "Rename", stat.ToString(), stat.DefaultDisplayName, ref name, ref comment, ref enabled, false))
+            if (FrmInput2.Show(this, item.DefaultDisplayName, "Rename", item.ToString(), item.DefaultDisplayName, ref name, ref comment, ref enabled, false, IVisualisableExtensions.SupportsDisable(item)))
             {
-                stat.OverrideDisplayName = name;
-                stat.Comment = comment;
-                stat.Enabled = enabled;
+                item.OverrideDisplayName = name;
+                item.Comment = comment;
+                item.Enabled = enabled;
 
                 origStatus.Required = true;
 

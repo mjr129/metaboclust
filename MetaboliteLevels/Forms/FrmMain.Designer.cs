@@ -60,6 +60,7 @@ namespace MetaboliteLevels.Forms
             this.visualOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.clusteringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pCAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,6 +85,8 @@ namespace MetaboliteLevels.Forms
             this._lblChanges = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this._txtGuid = new System.Windows.Forms.ToolStripStatusLabel();
             this._toolTipMain = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -106,6 +109,7 @@ namespace MetaboliteLevels.Forms
             this._tssInsertViews = new System.Windows.Forms.ToolStripSeparator();
             this._btnSession = new System.Windows.Forms.ToolStripDropDownButton();
             this.editNameAndCommentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sessionInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this.splitContainer2 = new MetaboliteLevels.Controls.CtlSplitter();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -170,11 +174,12 @@ namespace MetaboliteLevels.Forms
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this._btnBack = new System.Windows.Forms.ToolStripSplitButton();
             this._btnSelection = new System.Windows.Forms.ToolStripDropDownButton();
-            this._lblExterior = new System.Windows.Forms.ToolStripLabel();
+            this._btnExterior = new System.Windows.Forms.ToolStripButton();
             this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer3 = new MetaboliteLevels.Controls.CtlSplitter();
-            this.manageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pLACEHOLDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._mnuMain.SuspendLayout();
+            this._cmsSelectionButton.SuspendLayout();
             this._statusMain.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -394,6 +399,13 @@ namespace MetaboliteLevels.Forms
             this.experimentalOptionsToolStripMenuItem.Text = "&Advanced options...";
             this.experimentalOptionsToolStripMenuItem.Click += new System.EventHandler(this.experimentalOptionsToolStripMenuItem_Click);
             // 
+            // manageDataToolStripMenuItem
+            // 
+            this.manageDataToolStripMenuItem.Name = "manageDataToolStripMenuItem";
+            this.manageDataToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.manageDataToolStripMenuItem.Text = "&Manage data...";
+            this.manageDataToolStripMenuItem.Click += new System.EventHandler(this.manageDataToolStripMenuItem_Click_1);
+            // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
@@ -416,7 +428,7 @@ namespace MetaboliteLevels.Forms
             this.autogenerateToolStripMenuItem});
             this.clusteringToolStripMenuItem.Name = "clusteringToolStripMenuItem";
             this.clusteringToolStripMenuItem.Size = new System.Drawing.Size(70, 19);
-            this.clusteringToolStripMenuItem.Text = "&Workflow";                                                         
+            this.clusteringToolStripMenuItem.Text = "&Workflow";
             // 
             // pCAToolStripMenuItem
             // 
@@ -556,8 +568,10 @@ namespace MetaboliteLevels.Forms
             // 
             // _cmsSelectionButton
             // 
+            this._cmsSelectionButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pLACEHOLDERToolStripMenuItem});
             this._cmsSelectionButton.Name = "_cmsSelectionButton";
-            this._cmsSelectionButton.Size = new System.Drawing.Size(61, 4);
+            this._cmsSelectionButton.Size = new System.Drawing.Size(155, 48);
             this._cmsSelectionButton.Opening += new System.ComponentModel.CancelEventHandler(this._cmsSelectionButton_Opening);
             // 
             // _statusMain
@@ -566,7 +580,9 @@ namespace MetaboliteLevels.Forms
             this._statusMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._lblChanges,
             this.toolStripStatusLabel2,
-            this.toolStripProgressBar1});
+            this.toolStripProgressBar1,
+            this.toolStripStatusLabel3,
+            this._txtGuid});
             this._statusMain.Location = new System.Drawing.Point(0, 782);
             this._statusMain.Name = "_statusMain";
             this._statusMain.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
@@ -594,6 +610,20 @@ namespace MetaboliteLevels.Forms
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             this.toolStripProgressBar1.Visible = false;
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(899, 17);
+            this.toolStripStatusLabel3.Spring = true;
+            // 
+            // _txtGuid
+            // 
+            this._txtGuid.Enabled = false;
+            this._txtGuid.Font = new System.Drawing.Font("Arial Narrow", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._txtGuid.Name = "_txtGuid";
+            this._txtGuid.Size = new System.Drawing.Size(154, 17);
+            this._txtGuid.Text = "{CF99C23A-DC53-4E93-BAC8-93FC5D30FE01}";
             // 
             // toolStrip1
             // 
@@ -693,7 +723,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel2
             // 
             this.toolStripLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel2.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
+            this.toolStripLabel2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel2.Image")));
             this.toolStripLabel2.Name = "toolStripLabel2";
             this.toolStripLabel2.Size = new System.Drawing.Size(24, 43);
             // 
@@ -710,7 +740,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel3
             // 
             this.toolStripLabel3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel3.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
+            this.toolStripLabel3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel3.Image")));
             this.toolStripLabel3.Name = "toolStripLabel3";
             this.toolStripLabel3.Size = new System.Drawing.Size(24, 43);
             // 
@@ -727,7 +757,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel1
             // 
             this.toolStripLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel1.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
+            this.toolStripLabel1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel1.Image")));
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(24, 43);
             // 
@@ -785,21 +815,31 @@ namespace MetaboliteLevels.Forms
             // 
             this._btnSession.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this._btnSession.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editNameAndCommentsToolStripMenuItem});
+            this.editNameAndCommentsToolStripMenuItem,
+            this.sessionInformationToolStripMenuItem});
             this._btnSession.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSession.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
             this._btnSession.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSession.Name = "_btnSession";
-            this._btnSession.Size = new System.Drawing.Size(191, 43);
+            this._btnSession.ShowDropDownArrow = false;
+            this._btnSession.Size = new System.Drawing.Size(182, 43);
             this._btnSession.Text = "<Session name>";
             // 
             // editNameAndCommentsToolStripMenuItem
             // 
-            this.editNameAndCommentsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editNameAndCommentsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editNameAndCommentsToolStripMenuItem.Name = "editNameAndCommentsToolStripMenuItem";
-            this.editNameAndCommentsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.editNameAndCommentsToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.editNameAndCommentsToolStripMenuItem.Text = "&Edit name and comments...";
             this.editNameAndCommentsToolStripMenuItem.Click += new System.EventHandler(this.editNameToolStripMenuItem_Click);
+            // 
+            // sessionInformationToolStripMenuItem
+            // 
+            this.sessionInformationToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sessionInformationToolStripMenuItem.Name = "sessionInformationToolStripMenuItem";
+            this.sessionInformationToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
+            this.sessionInformationToolStripMenuItem.Text = "&Session information...";
+            this.sessionInformationToolStripMenuItem.Click += new System.EventHandler(this.sessionInformationToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -819,7 +859,7 @@ namespace MetaboliteLevels.Forms
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer1.Panel2.ForeColor = System.Drawing.Color.Black;
             this.splitContainer1.Size = new System.Drawing.Size(1185, 711);
-            this.splitContainer1.SplitterDistance = 442;
+            this.splitContainer1.SplitterDistance = 457;
             this.splitContainer1.TabIndex = 5;
             // 
             // splitContainer2
@@ -838,7 +878,7 @@ namespace MetaboliteLevels.Forms
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.panel1);
-            this.splitContainer2.Size = new System.Drawing.Size(442, 711);
+            this.splitContainer2.Size = new System.Drawing.Size(457, 711);
             this.splitContainer2.SplitterDistance = 352;
             this.splitContainer2.TabIndex = 11;
             // 
@@ -849,7 +889,7 @@ namespace MetaboliteLevels.Forms
             this.panel3.Location = new System.Drawing.Point(0, 44);
             this.panel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(442, 308);
+            this.panel3.Size = new System.Drawing.Size(457, 308);
             this.panel3.TabIndex = 11;
             // 
             // tabControl1
@@ -867,7 +907,7 @@ namespace MetaboliteLevels.Forms
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(442, 308);
+            this.tabControl1.Size = new System.Drawing.Size(457, 308);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
@@ -877,7 +917,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage1.Size = new System.Drawing.Size(434, 248);
+            this.tabPage1.Size = new System.Drawing.Size(449, 248);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Peaks";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -893,7 +933,7 @@ namespace MetaboliteLevels.Forms
             this._lstVariables.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstVariables.MultiSelect = false;
             this._lstVariables.Name = "_lstVariables";
-            this._lstVariables.Size = new System.Drawing.Size(426, 238);
+            this._lstVariables.Size = new System.Drawing.Size(441, 238);
             this._lstVariables.SmallImageList = this._imgList;
             this._lstVariables.TabIndex = 5;
             this._lstVariables.UseCompatibleStateImageBehavior = false;
@@ -907,7 +947,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage2.Size = new System.Drawing.Size(434, 282);
+            this.tabPage2.Size = new System.Drawing.Size(449, 282);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Clusters";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -923,7 +963,7 @@ namespace MetaboliteLevels.Forms
             this._lstClusters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstClusters.MultiSelect = false;
             this._lstClusters.Name = "_lstClusters";
-            this._lstClusters.Size = new System.Drawing.Size(426, 272);
+            this._lstClusters.Size = new System.Drawing.Size(441, 272);
             this._lstClusters.SmallImageList = this._imgList;
             this._lstClusters.TabIndex = 5;
             this._lstClusters.UseCompatibleStateImageBehavior = false;
@@ -936,7 +976,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage3.Size = new System.Drawing.Size(434, 282);
+            this.tabPage3.Size = new System.Drawing.Size(449, 282);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Compounds";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -952,7 +992,7 @@ namespace MetaboliteLevels.Forms
             this._lstCompounds.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstCompounds.MultiSelect = false;
             this._lstCompounds.Name = "_lstCompounds";
-            this._lstCompounds.Size = new System.Drawing.Size(426, 272);
+            this._lstCompounds.Size = new System.Drawing.Size(441, 272);
             this._lstCompounds.SmallImageList = this._imgList;
             this._lstCompounds.TabIndex = 6;
             this._lstCompounds.UseCompatibleStateImageBehavior = false;
@@ -965,7 +1005,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage4.Size = new System.Drawing.Size(434, 282);
+            this.tabPage4.Size = new System.Drawing.Size(449, 282);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Adducts";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -981,7 +1021,7 @@ namespace MetaboliteLevels.Forms
             this._lstAdducts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstAdducts.MultiSelect = false;
             this._lstAdducts.Name = "_lstAdducts";
-            this._lstAdducts.Size = new System.Drawing.Size(426, 272);
+            this._lstAdducts.Size = new System.Drawing.Size(441, 272);
             this._lstAdducts.SmallImageList = this._imgList;
             this._lstAdducts.TabIndex = 6;
             this._lstAdducts.UseCompatibleStateImageBehavior = false;
@@ -994,7 +1034,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage5.Size = new System.Drawing.Size(434, 282);
+            this.tabPage5.Size = new System.Drawing.Size(449, 282);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Pathways";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1010,7 +1050,7 @@ namespace MetaboliteLevels.Forms
             this._lstPathways.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstPathways.MultiSelect = false;
             this._lstPathways.Name = "_lstPathways";
-            this._lstPathways.Size = new System.Drawing.Size(426, 272);
+            this._lstPathways.Size = new System.Drawing.Size(441, 272);
             this._lstPathways.SmallImageList = this._imgList;
             this._lstPathways.TabIndex = 6;
             this._lstPathways.UseCompatibleStateImageBehavior = false;
@@ -1023,7 +1063,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage15.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage15.Size = new System.Drawing.Size(434, 282);
+            this.tabPage15.Size = new System.Drawing.Size(449, 282);
             this.tabPage15.TabIndex = 5;
             this.tabPage15.Text = "Assignments";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -1039,7 +1079,7 @@ namespace MetaboliteLevels.Forms
             this._lstAssignments.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstAssignments.MultiSelect = false;
             this._lstAssignments.Name = "_lstAssignments";
-            this._lstAssignments.Size = new System.Drawing.Size(426, 272);
+            this._lstAssignments.Size = new System.Drawing.Size(441, 272);
             this._lstAssignments.SmallImageList = this._imgList;
             this._lstAssignments.TabIndex = 17;
             this._lstAssignments.UseCompatibleStateImageBehavior = false;
@@ -1052,7 +1092,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage16.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage16.Size = new System.Drawing.Size(434, 282);
+            this.tabPage16.Size = new System.Drawing.Size(449, 282);
             this.tabPage16.TabIndex = 6;
             this.tabPage16.Text = "Annotations";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -1068,7 +1108,7 @@ namespace MetaboliteLevels.Forms
             this._lstAnnotations.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstAnnotations.MultiSelect = false;
             this._lstAnnotations.Name = "_lstAnnotations";
-            this._lstAnnotations.Size = new System.Drawing.Size(426, 272);
+            this._lstAnnotations.Size = new System.Drawing.Size(441, 272);
             this._lstAnnotations.SmallImageList = this._imgList;
             this._lstAnnotations.TabIndex = 7;
             this._lstAnnotations.UseCompatibleStateImageBehavior = false;
@@ -1091,7 +1131,7 @@ namespace MetaboliteLevels.Forms
             this._tsBarBrowser.Location = new System.Drawing.Point(0, 0);
             this._tsBarBrowser.Name = "_tsBarBrowser";
             this._tsBarBrowser.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this._tsBarBrowser.Size = new System.Drawing.Size(442, 44);
+            this._tsBarBrowser.Size = new System.Drawing.Size(457, 44);
             this._tsBarBrowser.TabIndex = 19;
             this._tsBarBrowser.Text = "toolStrip7";
             // 
@@ -1105,6 +1145,8 @@ namespace MetaboliteLevels.Forms
             this._btnMain0.Size = new System.Drawing.Size(44, 44);
             this._btnMain0.Text = "Peaks";
             this._btnMain0.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnMain0.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
+    "type of data you wish to view.";
             // 
             // _btnMain1
             // 
@@ -1116,6 +1158,8 @@ namespace MetaboliteLevels.Forms
             this._btnMain1.Size = new System.Drawing.Size(44, 44);
             this._btnMain1.Text = "Clusters";
             this._btnMain1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnMain1.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
+    "type of data you wish to view.";
             // 
             // _btnMain5
             // 
@@ -1127,6 +1171,8 @@ namespace MetaboliteLevels.Forms
             this._btnMain5.Size = new System.Drawing.Size(44, 44);
             this._btnMain5.Text = "Assigs";
             this._btnMain5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnMain5.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
+    "type of data you wish to view.";
             // 
             // _btnMainAnnots
             // 
@@ -1138,6 +1184,8 @@ namespace MetaboliteLevels.Forms
             this._btnMainAnnots.Size = new System.Drawing.Size(44, 44);
             this._btnMainAnnots.Text = "Annots";
             this._btnMainAnnots.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnMainAnnots.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
+    "type of data you wish to view.";
             // 
             // _btnMain2
             // 
@@ -1149,6 +1197,8 @@ namespace MetaboliteLevels.Forms
             this._btnMain2.Size = new System.Drawing.Size(44, 44);
             this._btnMain2.Text = "Comps";
             this._btnMain2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnMain2.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
+    "type of data you wish to view.";
             // 
             // _btnMain3
             // 
@@ -1160,6 +1210,8 @@ namespace MetaboliteLevels.Forms
             this._btnMain3.Size = new System.Drawing.Size(44, 44);
             this._btnMain3.Text = "Adducts";
             this._btnMain3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnMain3.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
+    "type of data you wish to view.";
             // 
             // _btnMain4
             // 
@@ -1171,6 +1223,8 @@ namespace MetaboliteLevels.Forms
             this._btnMain4.Size = new System.Drawing.Size(44, 44);
             this._btnMain4.Text = "Paths";
             this._btnMain4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnMain4.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
+    "type of data you wish to view.";
             // 
             // panel1
             // 
@@ -1181,7 +1235,7 @@ namespace MetaboliteLevels.Forms
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(442, 353);
+            this.panel1.Size = new System.Drawing.Size(457, 353);
             this.panel1.TabIndex = 7;
             // 
             // panel4
@@ -1191,7 +1245,7 @@ namespace MetaboliteLevels.Forms
             this.panel4.Location = new System.Drawing.Point(0, 76);
             this.panel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(442, 277);
+            this.panel4.Size = new System.Drawing.Size(457, 277);
             this.panel4.TabIndex = 21;
             // 
             // _tabSubinfo
@@ -1211,7 +1265,7 @@ namespace MetaboliteLevels.Forms
             this._tabSubinfo.Multiline = true;
             this._tabSubinfo.Name = "_tabSubinfo";
             this._tabSubinfo.SelectedIndex = 0;
-            this._tabSubinfo.Size = new System.Drawing.Size(442, 277);
+            this._tabSubinfo.Size = new System.Drawing.Size(457, 277);
             this._tabSubinfo.TabIndex = 20;
             // 
             // tabPage8
@@ -1221,7 +1275,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage8.Size = new System.Drawing.Size(434, 217);
+            this.tabPage8.Size = new System.Drawing.Size(449, 217);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "Information";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1237,7 +1291,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Info.Location = new System.Drawing.Point(4, 5);
             this._lst2Info.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Info.Name = "_lst2Info";
-            this._lst2Info.Size = new System.Drawing.Size(426, 207);
+            this._lst2Info.Size = new System.Drawing.Size(441, 207);
             this._lst2Info.SmallImageList = this._imgList;
             this._lst2Info.TabIndex = 0;
             this._lst2Info.UseCompatibleStateImageBehavior = false;
@@ -1258,7 +1312,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage9.Size = new System.Drawing.Size(434, 233);
+            this.tabPage9.Size = new System.Drawing.Size(449, 233);
             this.tabPage9.TabIndex = 2;
             this.tabPage9.Text = "Statistics";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1275,7 +1329,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Stats.Location = new System.Drawing.Point(4, 5);
             this._lst2Stats.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Stats.Name = "_lst2Stats";
-            this._lst2Stats.Size = new System.Drawing.Size(426, 223);
+            this._lst2Stats.Size = new System.Drawing.Size(441, 223);
             this._lst2Stats.SmallImageList = this._imgList;
             this._lst2Stats.TabIndex = 1;
             this._lst2Stats.UseCompatibleStateImageBehavior = false;
@@ -1296,7 +1350,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage10.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage10.Name = "tabPage10";
             this.tabPage10.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage10.Size = new System.Drawing.Size(434, 233);
+            this.tabPage10.Size = new System.Drawing.Size(449, 233);
             this.tabPage10.TabIndex = 3;
             this.tabPage10.Text = "Peaks";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -1312,7 +1366,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Peaks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Peaks.MultiSelect = false;
             this._lst2Peaks.Name = "_lst2Peaks";
-            this._lst2Peaks.Size = new System.Drawing.Size(426, 223);
+            this._lst2Peaks.Size = new System.Drawing.Size(441, 223);
             this._lst2Peaks.SmallImageList = this._imgList;
             this._lst2Peaks.TabIndex = 6;
             this._lst2Peaks.UseCompatibleStateImageBehavior = false;
@@ -1325,7 +1379,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage11.Name = "tabPage11";
             this.tabPage11.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage11.Size = new System.Drawing.Size(434, 233);
+            this.tabPage11.Size = new System.Drawing.Size(449, 233);
             this.tabPage11.TabIndex = 4;
             this.tabPage11.Text = "Clusters";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -1341,7 +1395,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Clusters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Clusters.MultiSelect = false;
             this._lst2Clusters.Name = "_lst2Clusters";
-            this._lst2Clusters.Size = new System.Drawing.Size(426, 223);
+            this._lst2Clusters.Size = new System.Drawing.Size(441, 223);
             this._lst2Clusters.SmallImageList = this._imgList;
             this._lst2Clusters.TabIndex = 6;
             this._lst2Clusters.UseCompatibleStateImageBehavior = false;
@@ -1354,7 +1408,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage12.Name = "tabPage12";
             this.tabPage12.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage12.Size = new System.Drawing.Size(434, 233);
+            this.tabPage12.Size = new System.Drawing.Size(449, 233);
             this.tabPage12.TabIndex = 5;
             this.tabPage12.Text = "Compounds";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -1370,7 +1424,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Compounds.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Compounds.MultiSelect = false;
             this._lst2Compounds.Name = "_lst2Compounds";
-            this._lst2Compounds.Size = new System.Drawing.Size(426, 223);
+            this._lst2Compounds.Size = new System.Drawing.Size(441, 223);
             this._lst2Compounds.SmallImageList = this._imgList;
             this._lst2Compounds.TabIndex = 7;
             this._lst2Compounds.UseCompatibleStateImageBehavior = false;
@@ -1382,7 +1436,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage13.Location = new System.Drawing.Point(4, 40);
             this.tabPage13.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage13.Name = "tabPage13";
-            this.tabPage13.Size = new System.Drawing.Size(434, 233);
+            this.tabPage13.Size = new System.Drawing.Size(449, 233);
             this.tabPage13.TabIndex = 6;
             this.tabPage13.Text = "Adducts";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -1397,7 +1451,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Adducts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Adducts.MultiSelect = false;
             this._lst2Adducts.Name = "_lst2Adducts";
-            this._lst2Adducts.Size = new System.Drawing.Size(434, 233);
+            this._lst2Adducts.Size = new System.Drawing.Size(449, 233);
             this._lst2Adducts.TabIndex = 7;
             this._lst2Adducts.UseCompatibleStateImageBehavior = false;
             this._lst2Adducts.View = System.Windows.Forms.View.Details;
@@ -1408,7 +1462,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage14.Location = new System.Drawing.Point(4, 40);
             this.tabPage14.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage14.Name = "tabPage14";
-            this.tabPage14.Size = new System.Drawing.Size(434, 233);
+            this.tabPage14.Size = new System.Drawing.Size(449, 233);
             this.tabPage14.TabIndex = 7;
             this.tabPage14.Text = "Pathways";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -1424,7 +1478,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Pathways.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Pathways.MultiSelect = false;
             this._lst2Pathways.Name = "_lst2Pathways";
-            this._lst2Pathways.Size = new System.Drawing.Size(434, 233);
+            this._lst2Pathways.Size = new System.Drawing.Size(449, 233);
             this._lst2Pathways.SmallImageList = this._imgList;
             this._lst2Pathways.TabIndex = 7;
             this._lst2Pathways.UseCompatibleStateImageBehavior = false;
@@ -1437,7 +1491,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage6.Size = new System.Drawing.Size(434, 233);
+            this.tabPage6.Size = new System.Drawing.Size(449, 233);
             this.tabPage6.TabIndex = 8;
             this.tabPage6.Text = "Assignments";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1453,7 +1507,7 @@ namespace MetaboliteLevels.Forms
             this._lst2Assignments.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lst2Assignments.MultiSelect = false;
             this._lst2Assignments.Name = "_lst2Assignments";
-            this._lst2Assignments.Size = new System.Drawing.Size(426, 223);
+            this._lst2Assignments.Size = new System.Drawing.Size(441, 223);
             this._lst2Assignments.SmallImageList = this._imgList;
             this._lst2Assignments.TabIndex = 18;
             this._lst2Assignments.UseCompatibleStateImageBehavior = false;
@@ -1466,7 +1520,7 @@ namespace MetaboliteLevels.Forms
             this.tabPage7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabPage7.Size = new System.Drawing.Size(434, 233);
+            this.tabPage7.Size = new System.Drawing.Size(449, 233);
             this.tabPage7.TabIndex = 9;
             this.tabPage7.Text = "Annotations";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1482,7 +1536,7 @@ namespace MetaboliteLevels.Forms
             this._lstSubAnnots.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstSubAnnots.MultiSelect = false;
             this._lstSubAnnots.Name = "_lstSubAnnots";
-            this._lstSubAnnots.Size = new System.Drawing.Size(426, 223);
+            this._lstSubAnnots.Size = new System.Drawing.Size(441, 223);
             this._lstSubAnnots.SmallImageList = this._imgList;
             this._lstSubAnnots.TabIndex = 8;
             this._lstSubAnnots.UseCompatibleStateImageBehavior = false;
@@ -1507,7 +1561,7 @@ namespace MetaboliteLevels.Forms
             this._tsBarSelection.Location = new System.Drawing.Point(0, 32);
             this._tsBarSelection.Name = "_tsBarSelection";
             this._tsBarSelection.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this._tsBarSelection.Size = new System.Drawing.Size(442, 44);
+            this._tsBarSelection.Size = new System.Drawing.Size(457, 44);
             this._tsBarSelection.TabIndex = 18;
             this._tsBarSelection.Text = "toolStrip4";
             // 
@@ -1617,11 +1671,11 @@ namespace MetaboliteLevels.Forms
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnBack,
             this._btnSelection,
-            this._lblExterior,
+            this._btnExterior,
             this._btnSelectionExterior});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(442, 32);
+            this.toolStrip2.Size = new System.Drawing.Size(457, 32);
             this.toolStrip2.TabIndex = 23;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -1635,6 +1689,7 @@ namespace MetaboliteLevels.Forms
             this._btnBack.Size = new System.Drawing.Size(32, 29);
             this._btnBack.Text = "Back to previous selection";
             this._btnBack.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnBack.ToolTipText = "Click here to view and go back to previous selections.";
             this._btnBack.ButtonClick += new System.EventHandler(this._btnBack_ButtonClick);
             this._btnBack.DropDownOpening += new System.EventHandler(this._btnBack_DropDownOpening);
             // 
@@ -1644,25 +1699,36 @@ namespace MetaboliteLevels.Forms
             this._btnSelection.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
             this._btnSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSelection.Name = "_btnSelection";
-            this._btnSelection.Size = new System.Drawing.Size(145, 29);
+            this._btnSelection.ShowDropDownArrow = false;
+            this._btnSelection.Size = new System.Drawing.Size(136, 29);
             this._btnSelection.Text = "<Selection>";
+            this._btnSelection.ToolTipText = "The currently selected item is described here.";
             this._btnSelection.DropDownOpening += new System.EventHandler(this._btnSelection_DropDownOpening);
             // 
-            // _lblExterior
+            // _btnExterior
             // 
-            this._lblExterior.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblExterior.Name = "_lblExterior";
-            this._lblExterior.Size = new System.Drawing.Size(16, 29);
-            this._lblExterior.Text = "\\";
+            this._btnExterior.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._btnExterior.Image = ((System.Drawing.Image)(resources.GetObject("_btnExterior.Image")));
+            this._btnExterior.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnExterior.Name = "_btnExterior";
+            this._btnExterior.Size = new System.Drawing.Size(23, 29);
+            this._btnExterior.Text = "toolStripButton11";
+            this._btnExterior.ToolTipText = "If you have selected one item \"inside\" another you can click here to swap the sel" +
+    "ection and display the items relationship from the second items perspective.\r\n";
+            this._btnExterior.Click += new System.EventHandler(this._btnExterior_Click);
             // 
             // _btnSelectionExterior
             // 
-            this._btnSelectionExterior.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSelectionExterior.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSelectionExterior.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
             this._btnSelectionExterior.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSelectionExterior.Name = "_btnSelectionExterior";
-            this._btnSelectionExterior.Size = new System.Drawing.Size(188, 29);
+            this._btnSelectionExterior.ShowDropDownArrow = false;
+            this._btnSelectionExterior.Size = new System.Drawing.Size(206, 29);
             this._btnSelectionExterior.Text = "<Exterior selection>";
+            this._btnSelectionExterior.ToolTipText = "If you have selected one item \"inside\" another, that item is displayed here.\r\nThi" +
+    "s item will be described using the perspective of the first item.\r\nClick the swa" +
+    "p button to reverse the perspective.";
             this._btnSelectionExterior.DropDownOpening += new System.EventHandler(this._btnSelectionExterior_DropDownOpening);
             // 
             // splitContainer3
@@ -1672,16 +1738,15 @@ namespace MetaboliteLevels.Forms
             this.splitContainer3.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.splitContainer3.Size = new System.Drawing.Size(737, 711);
+            this.splitContainer3.Size = new System.Drawing.Size(722, 711);
             this.splitContainer3.SplitterDistance = 349;
             this.splitContainer3.TabIndex = 10;
             // 
-            // manageDataToolStripMenuItem
+            // pLACEHOLDERToolStripMenuItem
             // 
-            this.manageDataToolStripMenuItem.Name = "manageDataToolStripMenuItem";
-            this.manageDataToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
-            this.manageDataToolStripMenuItem.Text = "&Manage data...";
-            this.manageDataToolStripMenuItem.Click += new System.EventHandler(this.manageDataToolStripMenuItem_Click_1);
+            this.pLACEHOLDERToolStripMenuItem.Name = "pLACEHOLDERToolStripMenuItem";
+            this.pLACEHOLDERToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.pLACEHOLDERToolStripMenuItem.Text = "PLACEHOLDER";
             // 
             // FrmMain
             // 
@@ -1704,6 +1769,7 @@ namespace MetaboliteLevels.Forms
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this._mnuMain.ResumeLayout(false);
             this._mnuMain.PerformLayout();
+            this._cmsSelectionButton.ResumeLayout(false);
             this._statusMain.ResumeLayout(false);
             this._statusMain.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -1887,8 +1953,12 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripDropDownButton _btnSelection;
         private System.Windows.Forms.ToolStripDropDownButton _btnSelectionExterior;
         private System.Windows.Forms.ToolStripSplitButton _btnBack;
-        private System.Windows.Forms.ToolStripLabel _lblExterior;
         private System.Windows.Forms.ToolStripMenuItem manageDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sessionInformationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton _btnExterior;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel _txtGuid;
+        private System.Windows.Forms.ToolStripMenuItem pLACEHOLDERToolStripMenuItem;
     }
 }
 

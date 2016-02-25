@@ -204,7 +204,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Lists
             _lstMethod.Items.AddRange(Algo.Instance.Trends.ToArray());
             _lstMethod.Items.AddRange(Algo.Instance.Corrections.ToArray());
-            _lstTypes.Items.AddRange(NamedItem.GetRange(_core.Groups.Enabled2(), z => z.DisplayName).ToArray());
+            _lstTypes.Items.AddRange(NamedItem.GetRange(_core.Groups.WhereEnabled(), z => z.DisplayName).ToArray());
 
             // Buttons
             GenerateTypeButtons();

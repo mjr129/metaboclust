@@ -32,9 +32,9 @@ namespace MetaboliteLevels.Forms.Algorithms
         private ConditionBox<EClustererStatistics> _cbStatistics;
         private readonly bool _readOnly;
 
-        internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, Cluster toBreakUp, bool hideOptimise)
+        internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
         {
-            using (FrmAlgoCluster frm = new FrmAlgoCluster(core, def, readOnly, toBreakUp, hideOptimise))
+            using (FrmAlgoCluster frm = new FrmAlgoCluster(core, def, readOnly, hideOptimise))
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
@@ -55,19 +55,14 @@ namespace MetaboliteLevels.Forms.Algorithms
             RebuildDistanceUsing(null);
         }
 
-        private FrmAlgoCluster(Core core, ConfigurationClusterer def, bool readOnly, Cluster toBreakUp, bool hideOptimise)
+        private FrmAlgoCluster(Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
             : this()
         {
             _core = core;
             _ecbPeakFilter = EditableComboBox.ForPeakFilter(_lstPeakFilter, _btnPeakFilter, core);
             _ecbObsFilter = EditableComboBox.ForObsFilter(_lstObsFilter, _btnObsFilter, core);
             _cbStatistics = ListValueSet.ForFlagsEnum<EClustererStatistics>("Cluster Statistics").CreateConditionBox(_txtStatistics, _btnSetStatistics);
-            _readOnly = readOnly;
-
-            if (toBreakUp != null)
-            {
-                FrmMsgBox.ShowError(this, "Breaking up clusters is not yet supported.");
-            }
+            _readOnly = readOnly;        
 
             if (def != null)
             {
@@ -90,7 +85,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _lstMeasure.SelectedItem = def.Args.Distance != null ? def.Args.Distance.Cached : null;
 
                 // Distance params
-                _txtMeasureParams.Text = StringHelper.ArrayToString(def.Args.Distance.Args.Parameters);
+                _txtMeasureParams.Text = StringHelper.ArrayToString(def.Args.Distance?.Args.Parameters);
 
                 // Suppress distance
                 _cbStatistics.SelectedItems = EnumHelper.SplitEnum<EClustererStatistics>(def.Args.Statistics);
@@ -117,12 +112,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             else if (def != null)
             {
                 ctlTitleBar1.Text = "Edit Clustering Algorithm";
-            }
-            else if (toBreakUp != null)
-            {
-                ctlTitleBar1.Text = "New Clustering Algorithm";
-                ctlTitleBar1.SubText = "Specify the algorithm used to break up " + toBreakUp.DisplayName;
-            }
+            }    
             else
             {
                 ctlTitleBar1.Text = "New Clustering Algorithm";

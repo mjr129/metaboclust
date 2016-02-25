@@ -8,9 +8,18 @@ namespace MetaboliteLevels.Forms.Editing
     {
         internal static void Show(Form owner, Core core)
         {
-            using (FrmOptions frm = new FrmOptions(core.Options))
+            using (FrmOptions2 frm = new FrmOptions2(core.Options))
             {
                 frm.Text = "Visual options - " + core.FileNames.Title;
+                UiControls.ShowWithDim(owner, frm);
+            }
+        }
+
+        internal static void Show(Form owner, string title, object target)
+        {
+            using (FrmOptions frm = new FrmOptions(target))
+            {
+                frm.Text = title;
                 UiControls.ShowWithDim(owner, frm);
             }
         }
