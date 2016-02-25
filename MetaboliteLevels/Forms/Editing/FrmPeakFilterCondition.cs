@@ -90,7 +90,7 @@ namespace MetaboliteLevels.Forms.Editing
             _lsoStats = EnumComboBox.Create(this._lstStatisticComparator, Filter.EStatOperator.LessThan);
             this._lstIsStatistic.Items.AddRange(IVisualisableExtensions.WhereEnabled(core.AllStatistics).ToArray());
 
-            _ecbFilter = EditableComboBox.ForPeakFilter(_lstFilter, null, core);
+            _ecbFilter = ListValueSet.ForPeakFilter(core, true).CreateComboBox(_lstFilter, null, core);
 
             _isInitialised = true;
 

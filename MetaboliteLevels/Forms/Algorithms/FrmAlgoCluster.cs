@@ -59,10 +59,10 @@ namespace MetaboliteLevels.Forms.Algorithms
             : this()
         {
             _core = core;
-            _ecbPeakFilter = EditableComboBox.ForPeakFilter(_lstPeakFilter, _btnPeakFilter, core);
-            _ecbObsFilter = EditableComboBox.ForObsFilter(_lstObsFilter, _btnObsFilter, core);
+            _ecbPeakFilter = ListValueSet.ForPeakFilter(core, true).CreateComboBox(_lstPeakFilter, _btnPeakFilter, core);
+            _ecbObsFilter = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstObsFilter, _btnObsFilter, core);
             _cbStatistics = ListValueSet.ForFlagsEnum<EClustererStatistics>("Cluster Statistics").CreateConditionBox(_txtStatistics, _btnSetStatistics);
-            _readOnly = readOnly;        
+            _readOnly = readOnly;
 
             if (def != null)
             {
@@ -106,13 +106,13 @@ namespace MetaboliteLevels.Forms.Algorithms
                 UiControls.MakeReadOnly(this);
 
                 _btnParameterOptimiser.Visible = false;
-                _btnComment.Enabled = true;   
+                _btnComment.Enabled = true;
                 ctlTitleBar1.Text = "View Clustering Algorithm";
             }
             else if (def != null)
             {
                 ctlTitleBar1.Text = "Edit Clustering Algorithm";
-            }    
+            }
             else
             {
                 ctlTitleBar1.Text = "New Clustering Algorithm";

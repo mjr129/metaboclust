@@ -199,7 +199,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _chartChanged = new ChartHelperForPeaks(null, _core, panel2);
 
             // Choicelists
-            _ecbFilter = EditableComboBox.ForObsFilter(_lstFilter, _btnFilter, core);
+            _ecbFilter = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstFilter, _btnFilter, core);
 
             // Lists
             _lstMethod.Items.AddRange(Algo.Instance.Trends.ToArray());

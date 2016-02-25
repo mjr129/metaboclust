@@ -49,7 +49,7 @@ namespace MetaboliteLevels.Forms.Wizards
 
             _chart = new ChartHelperForPeaks(null, core, panel1);
 
-            _ecbFilter = EditableComboBox.ForObsFilter(_lstFilters, _btnEditFilters, core);
+            _ecbFilter = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstFilters, _btnEditFilters, core);
             _lstGroups.Items.AddRange(NamedItem.GetRange(core.Groups, z => z.DisplayName).ToArray());
             _lstGroups.SelectedIndex = 0;
 

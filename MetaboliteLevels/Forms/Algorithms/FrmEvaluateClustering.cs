@@ -475,7 +475,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// </summary>              
         private void _btnNewTest_Click(object sender, EventArgs e)
         {
-            if (!FrmBigList.ShowTests(this, _core))
+            if (ListValueSet.ForTests(_core, false).ShowBigList(this, _core, EViewMode.Write)==null)
             {
                 return;
             }

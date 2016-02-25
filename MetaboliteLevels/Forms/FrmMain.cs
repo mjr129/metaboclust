@@ -1679,11 +1679,11 @@ namespace MetaboliteLevels.Forms
                     break;
 
                 case EDataManager.ObservationFilters:
-                    FrmBigList.ShowObsFilters(this, _core);
+                    ListValueSet.ForObsFilter(_core, false).ShowBigList(this, _core, EViewMode.Write);
                     break;
 
                 case EDataManager.PeakFilters:
-                    FrmBigList.ShowPeakFilters(this, _core);
+                    ListValueSet.ForPeakFilter(_core, false).ShowBigList(this, _core, EViewMode.Write);
                     break;
 
                 case EDataManager.PeakFlags:

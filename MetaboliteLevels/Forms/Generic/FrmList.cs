@@ -43,8 +43,8 @@ namespace MetaboliteLevels.Forms.Generic
             this.Text = opts.Title;
             this.ctlTitleBar1.Text = opts.Title;
             this.ctlTitleBar1.SubText = opts.SubTitle;
-            this._btnEdit.Visible = opts.ListEditor != null;
-            this._editAction = opts.ListEditor;
+            this._btnEdit.Visible = opts.ListEditorObsolete != null;
+            this._editAction = opts.ListEditorObsolete;
 
             this._handler = handler;
             this._numFields = opts.UntypedList.CountAll();

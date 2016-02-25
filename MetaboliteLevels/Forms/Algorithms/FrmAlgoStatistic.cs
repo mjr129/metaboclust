@@ -219,8 +219,8 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _previewPeak = defaultPeak;
 
-            _ecbFilter1 = EditableComboBox.ForObsFilter(_lstFilter1, _btnFilter1, core);
-            _ecbFilter2 = EditableComboBox.ForObsFilter(_lstFilter2, _btnFilter2, core);
+            _ecbFilter1 = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstFilter1, _btnFilter1, core);
+            _ecbFilter2 = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstFilter2, _btnFilter2, core);
 
             _lstDiffPeak.Items.AddRange(NamedItem.GetRange(_core.Peaks, z => z.DisplayName).ToArray());
             _lstDiffPeak.SelectedItem = defaultPeak;

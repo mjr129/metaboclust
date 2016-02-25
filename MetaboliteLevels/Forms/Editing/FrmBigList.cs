@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Forms.Editing
             public abstract ConfigInit Initialise();
             public abstract IVisualisable EditObject(Form owner, IVisualisable target, bool read);
             public abstract void ApplyChanges(ProgressReporter info, List<IVisualisable> alist);
-            public virtual bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return true; }
+            public virtual bool PrepareForApply(Form form, List<IVisualisable> arrayList) { return true; }
             public virtual void AfterApply(Form form) { }
             public virtual IVisualisable GetAutoCreateTemplate() { return null; }
             public virtual EReplaceMode BeforeReplace(Form owner, IVisualisable remove, IVisualisable create) { return EReplaceMode.Default; }
@@ -48,64 +48,14 @@ namespace MetaboliteLevels.Forms.Editing
         {
             protected abstract T EditObject(Form owner, T target, bool read);
             protected abstract void ApplyChanges(ProgressReporter info, List<T> alist);
-            protected virtual bool PrepareForApply(Form form, List<T> arrayList, int numEnabled) { return true; }
+            protected virtual bool PrepareForApply(Form form, List<T> arrayList) { return true; }
             protected virtual EReplaceMode BeforeReplace(Form owner, T remove, T create) { return EReplaceMode.Default; }
 
             public sealed override IVisualisable EditObject(Form owner, IVisualisable target, bool read) { return EditObject(owner, (T)target, read); }
-            public sealed override bool PrepareForApply(Form form, List<IVisualisable> arrayList, int numEnabled) { return PrepareForApply(form, arrayList.Cast<T>().ToList(), numEnabled); }
+            public sealed override bool PrepareForApply(Form form, List<IVisualisable> arrayList) { return PrepareForApply(form, arrayList.Cast<T>().ToList()); }
             public sealed override void ApplyChanges(ProgressReporter info, List<IVisualisable> alist) { ApplyChanges(info, alist.Cast<T>().ToList()); }
             public sealed override EReplaceMode BeforeReplace(Form owner, IVisualisable remove, IVisualisable create) { return BeforeReplace(owner, (T)remove, (T)create); }
-        }
-
-        /// <summary>
-        /// For peak filters.
-        /// </summary>
-        private sealed class BigListConfigForPeakFilters : BigListConfig<Filter>
-        {
-            private readonly Core _core;
-            private readonly bool _obs;
-
-            public BigListConfigForPeakFilters(Core core, bool obs)
-            {
-                _obs = obs;
-                _core = core;
-            }
-
-            public override ConfigInit Initialise()
-            {
-                return new ConfigInit
-                (
-                    Caption: "Filters",
-                    Title: _obs ? "Observation Filters" : "Peak Filters",
-                    SubTitle: "Add or remove filters",
-                    List: _obs ? _core.AllObsFilters.Cast<IVisualisable>() : _core.AllPeakFilters.Cast<IVisualisable>()
-                );
-            }
-
-            protected override Filter EditObject(Form owner, Filter target, bool read)
-            {
-                if (_obs)
-                {
-                    return FrmBigList.ShowObsFilter(owner, _core, (ObsFilter)target, read ? EViewMode.Read : EViewMode.Write);
-                }
-                else
-                {
-                    return FrmBigList.ShowPeakFilter(owner, _core, (PeakFilter)target, read ? EViewMode.Read : EViewMode.Write);
-                }
-            }
-
-            protected override void ApplyChanges(ProgressReporter info, List<Filter> alist)
-            {
-                if (_obs)
-                {
-                    _core.SetObsFilters(alist.Cast<ObsFilter>());
-                }
-                else
-                {
-                    _core.SetPeakFilters(alist.Cast<PeakFilter>());
-                }
-            }
-        }
+        }                  
 
         private sealed class BigListConfigForListValueSet<T> : BigListConfig<T>
             where T : IVisualisable
@@ -138,93 +88,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 return _values.ItemEditor(owner, target, read);
             }
-        }
-
-        private sealed class BigListConfigForTests : BigListConfig<ClusterEvaluationPointer>
-        {
-            private Core core;
-
-            public BigListConfigForTests(Core core)
-            {
-                this.core = core;
-            }
-
-            public override ConfigInit Initialise()
-            {
-                return new ConfigInit("Tests",
-                    core.EvaluationResultFiles,
-                    "Tests",
-                    "Create or modify tests");
-            }
-
-            protected override void ApplyChanges(ProgressReporter info, List<ClusterEvaluationPointer> alist)
-            {
-                core.EvaluationResultFiles.ReplaceAll(alist);
-            }
-
-            protected override ClusterEvaluationPointer EditObject(Form owner, ClusterEvaluationPointer target, bool read)
-            {
-                return FrmEvaluateClusteringOptions.Show(owner, core, target, read);
-            }
-        }
-
-        /// <summary>
-        /// For peak filters.
-        /// </summary>
-        private sealed class BigListConfigForFilter : BigListConfig
-        {
-            private readonly Filter _filter;
-            private readonly Core _core;
-            private readonly bool _obs;
-            public Filter Result;
-
-            public BigListConfigForFilter(Core core, Filter filter, bool obs)
-            {
-                Debug.Assert(core != null);
-                Debug.Assert(filter != null);
-
-                _core = core;
-                _filter = filter;
-                _obs = obs;
-            }
-
-            public override IVisualisable EditObject(Form owner, IVisualisable target, bool readOnly)
-            {
-                if (_obs)
-                {
-                    return FrmObservationFilterCondition.Show(owner, _core, (ObsFilter.Condition)target, readOnly);
-                }
-                else
-                {
-                    return FrmPeakFilterCondition.Show(owner, _core, (PeakFilter.Condition)target, readOnly);
-                }
-            }
-
-            public override void ApplyChanges(ProgressReporter info, List<IVisualisable> alist)
-            {
-                if (_obs)
-                {
-                    Result = new ObsFilter(_filter.OverrideDisplayName, _filter.Comment, alist.Cast<ObsFilter.Condition>());
-                }
-                else
-                {
-                    Result = new PeakFilter(_filter.OverrideDisplayName, _filter.Comment, alist.Cast<PeakFilter.Condition>());
-                }
-            }
-
-            public override ConfigInit Initialise()
-            {
-                return new ConfigInit
-                (
-                    Caption: "Filter Conditions",
-                    Title: "Filter Conditions",
-                    SubTitle: null,
-                    List: _obs
-                            ? (IEnumerable<IVisualisable>)((ObsFilter)_filter).Conditions
-                            : (IEnumerable<IVisualisable>)((PeakFilter)_filter).Conditions
-                );
-            }
-        }
+        }      
 
         public enum EAlgorithmType
         {
@@ -240,7 +104,7 @@ namespace MetaboliteLevels.Forms.Editing
             CreateNew,
             Cancel,
             Default = Replace,
-        }
+        }                                                                   
 
         private sealed class BigListConfigForAlgorithms : BigListConfig<ConfigurationBase>
         {
@@ -326,7 +190,7 @@ namespace MetaboliteLevels.Forms.Editing
                 }
             }
 
-            protected override bool PrepareForApply(Form form, List<ConfigurationBase> list, int numEnabled) // TODO: Remove "numEnabled", it doesn't work anymore
+            protected override bool PrepareForApply(Form form, List<ConfigurationBase> list)
             {
                 switch (_mode)
                 {
@@ -593,71 +457,14 @@ namespace MetaboliteLevels.Forms.Editing
         {
             var config = new BigListConfigForAlgorithms(core, algoType, autoCreateTemplate);
             return Show(owner, core, config, EViewMode.Write);
-        }
+        }   
 
-        internal static bool ShowPeakFilters(Form owner, Core core)
-        {
-            var config = new BigListConfigForPeakFilters(core, false);
-            return Show(owner, core, config, EViewMode.Write);
-        }
-
-        internal static bool ShowObsFilters(Form owner, Core core)
-        {
-            var config = new BigListConfigForPeakFilters(core, true);
-            return Show(owner, core, config, EViewMode.Write);
-        }
-
-        internal static bool ShowTests(Form owner, Core core)
-        {
-            var config = new BigListConfigForTests(core);
-            return Show(owner, core, config, EViewMode.Write);
-        }
-
-        internal static List<T> ShowGeneric<T>(Form owner, Core core, ListValueSet<T> list, EViewMode mode)
+        internal static bool ShowGeneric<T>(Form owner, Core core, ListValueSet<T> list, EViewMode mode)
             where T : IVisualisable
         {
             var config = new BigListConfigForListValueSet<T>(list);
 
-            if (Show(owner, core, config, mode))
-            {
-                return (List<T>)config.Result;
-            }
-
-            return null;
-        }
-
-        internal static ObsFilter ShowObsFilter(Form owner, Core core, ObsFilter filter, EViewMode mode)
-        {
-            if (filter == null)
-            {
-                filter = new ObsFilter(null, null, null);
-            }
-
-            var config = new BigListConfigForFilter(core, filter, true);
-
-            if (Show(owner, core, config, mode))
-            {
-                return (ObsFilter)config.Result;
-            }
-
-            return null;
-        }
-
-        internal static PeakFilter ShowPeakFilter(Form owner, Core core, PeakFilter filter, EViewMode mode)
-        {
-            if (filter == null)
-            {
-                filter = new PeakFilter(null, null, null);
-            }
-
-            var config = new BigListConfigForFilter(core, filter, false);
-
-            if (Show(owner, core, config, mode))
-            {
-                return (PeakFilter)config.Result;
-            }
-
-            return null;
+            return Show(owner, core, config, mode);
         }
 
         private static bool Show(Form owner, Core core, BigListConfig config, EViewMode mode)
@@ -909,10 +716,9 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnOk_Click(object sender, EventArgs e)
         {
-            _keepChanges = true;
-            int numEnabled = _list.Cast<IVisualisable>().Count(z => Get(z).OriginalEnabled);
+            _keepChanges = true;                                                            
 
-            if (!_config.PrepareForApply(this, _list, numEnabled))
+            if (!_config.PrepareForApply(this, _list))
             {
                 return;
             }

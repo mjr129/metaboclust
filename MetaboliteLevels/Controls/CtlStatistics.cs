@@ -17,6 +17,7 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Utilities;
+using MetaboliteLevels.Forms.Generic;
 
 namespace MetaboliteLevels.Controls
 {
@@ -51,7 +52,7 @@ namespace MetaboliteLevels.Controls
 
             _core = core;
 
-            _ecbFilter = EditableComboBox.ForPeakFilter(_lstFilter, _btnFilter, core);
+            _ecbFilter = ListValueSet.ForPeakFilter(core, true).CreateComboBox(_lstFilter, _btnFilter, core);
 
             this.comboBox1.Items.AddRange(Algo.Instance.Metrics.ToArray());
             this.comboBox1.SelectedItem = Algo.Instance.Metrics.Get(Algo.ID_METRIC_EUCLIDEAN);

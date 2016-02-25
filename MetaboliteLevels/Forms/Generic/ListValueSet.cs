@@ -123,7 +123,8 @@ namespace MetaboliteLevels.Forms.Generic
                 Namer = z => z.DisplayName,
                 Describer = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
                 IconProvider = _GetIcon,
-                ItemEditor = (x, y, z) => FrmEvaluateClusteringOptions.Show(x, core, y, z)
+                ItemEditor = (x, y, z) => FrmEvaluateClusteringOptions.Show(x, core, y, z),
+                ListApplier = z => core.EvaluationResultFiles.ReplaceAll(z)
             };
         }
 
@@ -279,7 +280,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Clusterers",
                 List = core.AllClusterers.WhereEnabled(onlyEnabled),
                 Describer = _GetComment,
-                ListEditor = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Clusters, null)
+                ListEditorObsolete = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Clusters, null)
             };
         }
 
@@ -293,7 +294,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Statistics",
                 List = core.AllStatistics.WhereEnabled(onlyEnabled),
                 Describer = _GetComment,
-                ListEditor = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Statistics, null)
+                ListEditorObsolete = f => FrmBigList.ShowAlgorithms(f, core, FrmBigList.EAlgorithmType.Statistics, null)
             };
         }
 
@@ -307,7 +308,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Peak Flags",
                 List = core.Options.PeakFlags,
                 Describer = z => z.Comments.FormatIf("\r\nComments: "),
-                ListEditor = f => FrmOptions.Show(f, core)
+                ListEditorObsolete = f => FrmOptions.Show(f, core)
             };
         }
 
@@ -321,7 +322,44 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Peak Filters",
                 List = core.AllPeakFilters.WhereEnabled(onlyEnabled),
                 Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
-                ListEditor = z => FrmBigList.ShowPeakFilters(z, core)
+                ListApplier = z => core.SetPeakFilters(z),
+                ItemEditor = (o, d, r) =>
+                {
+                    var nnew = ListValueSet.ForPeakFilterConditions(core, d, false).ShowBigList(o, core, r ? EViewMode.ReadAndComment : EViewMode.Write);
+
+                    if (nnew == null)
+                    {
+                        return null;
+                    }
+
+                    return new PeakFilter(d?.OverrideDisplayName, d?.Comment, nnew);
+                },
+            };
+        }
+
+        /// <summary>
+        /// Observation filter conditions
+        /// </summary>
+        internal static ListValueSet<ObsFilter.Condition> ForObsFilterConditions(Core core, ObsFilter of, bool onlyEnabled)
+        {
+            return new ListValueSet<ObsFilter.Condition>()
+            {
+                Title = "Observation filter conditions",
+                List = of.Conditions.Cast<ObsFilter.Condition>().WhereEnabled(onlyEnabled),
+                ItemEditor = (o, d, r) => FrmObservationFilterCondition.Show(o, core, d, r)
+            };
+        }
+
+        /// <summary>
+        /// Peak filter conditions
+        /// </summary>
+        internal static ListValueSet<PeakFilter.Condition> ForPeakFilterConditions(Core core, PeakFilter of, bool onlyEnabled)
+        {
+            return new ListValueSet<PeakFilter.Condition>()
+            {
+                Title = "Peak filter conditions",
+                List = of.Conditions.Cast<PeakFilter.Condition>().WhereEnabled(onlyEnabled),
+                ItemEditor = (o, d, r) => FrmPeakFilterCondition.Show(o, core, d, r)
             };
         }
 
@@ -335,7 +373,18 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Observation Filters",
                 List = core.AllObsFilters.WhereEnabled(onlyEnabled),
                 Describer = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
-                ListEditor = z => FrmBigList.ShowObsFilters(z, core)
+                ItemEditor = (o, d, r) =>
+                {
+                    var nnew = ListValueSet.ForObsFilterConditions(core, d, false).ShowBigList(o, core, r ? EViewMode.ReadAndComment : EViewMode.Write);
+
+                    if (nnew == null)
+                    {
+                        return null;
+                    }
+
+                    return new ObsFilter(d?.OverrideDisplayName, d?.Comment, nnew);
+                },
+                ListApplier = z => core.SetObsFilters(z)
             };
         }
 

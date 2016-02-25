@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Settings;
 
 namespace MetaboliteLevels.Forms.Generic
 {
@@ -21,7 +22,7 @@ namespace MetaboliteLevels.Forms.Generic
         string Title { get; }
         string SubTitle { get; }
         IEnumerable UntypedList { get; }
-        Action<Form> ListEditor { get; }
+        Action<Form> ListEditorObsolete { get; }
         IEnumerable<bool> SelectedStates { get; }
 
         string UntypedName(object x);
@@ -77,7 +78,9 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// How to modify the list (OPTIONAL)
         /// </summary>
-        public Action<Form> ListEditor { get; set; }
+        public Action<Form> ListEditorObsolete { get; set; }
+
+        public Action<IEnumerable<T>> ListApplier { get; set; }
 
         /// <summary>
         /// How to edit items in the list (OPTIONAL)
@@ -123,7 +126,7 @@ namespace MetaboliteLevels.Forms.Generic
             List = copyFrom.List;
             Namer = copyFrom.Namer;
             Describer = copyFrom.Describer;
-            ListEditor = copyFrom.ListEditor;
+            ListEditorObsolete = copyFrom.ListEditorObsolete;
             _selectedStates = copyFrom._selectedStates;
             IntegerBehaviour = copyFrom.IntegerBehaviour;
             CancelValue = copyFrom.CancelValue;
@@ -301,6 +304,11 @@ namespace MetaboliteLevels.Forms.Generic
         public ConditionBox<T> CreateConditionBox(TextBox textBox, Button button)
         {
             return new ConditionBox<T>(this, textBox, button);
+        }
+
+        internal EditableComboBox<T> CreateComboBox(ComboBox l, Button b, Core c)
+        {
+            return new EditableComboBox<T>(l, b, this.List, null, () => { this.ListEditorObsolete(null); return true; }, this.Namer, true, "None");
         }
 
         /// <summary>

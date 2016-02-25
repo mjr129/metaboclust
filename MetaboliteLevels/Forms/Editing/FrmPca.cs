@@ -342,12 +342,12 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void editPeakFilters_Click(object sender, EventArgs e)
         {
-            FrmBigList.ShowPeakFilters(this, _core);
+            ListValueSet.ForPeakFilter(_core, false).ShowBigList(this, _core, EViewMode.Write);
         }
 
         private void editObsFilters_Click(object sender, EventArgs e)
         {
-            FrmBigList.ShowObsFilters(this, _core);
+            ListValueSet.ForObsFilter(_core, false).ShowBigList(this, _core, EViewMode.Write);
         }
 
         void setFilter_Click(object sender, EventArgs e)
