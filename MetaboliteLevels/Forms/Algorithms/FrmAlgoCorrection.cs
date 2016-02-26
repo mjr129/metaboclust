@@ -38,11 +38,13 @@ namespace MetaboliteLevels.Forms.Algorithms
         private FlowLayoutPanel _flpBatchButtons;
         private FlowLayoutPanel _flpGroupButtons;
         private EditableComboBox<ObsFilter> _ecbFilter;
+        private EditableComboBox<AlgoBase> _ecbMethod;
+        private EditableComboBox<GroupInfo> _ecbTypes;
 
         private ConfigurationCorrection GetSelection()
         {
             // Algo
-            AlgoBase algo = (AlgoBase)_lstMethod.SelectedItem;
+            AlgoBase algo = _ecbMethod.SelectedItem;
 
             // Params
             object[] parameters;
@@ -104,7 +106,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 else if (_radType.Checked)
                 {
                     mode = ECorrectionMode.Control;
-                    controlGroup = NamedItem<GroupInfo>.Extract(_lstTypes.SelectedItem);
+                    controlGroup = _ecbTypes.SelectedItem;
                     filter = null;
                 }
                 else
@@ -128,7 +130,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         void CheckAndChange()
         {
-            AlgoBase trend = (AlgoBase)_lstMethod.SelectedItem;
+            AlgoBase trend = (AlgoBase)_ecbMethod.SelectedItem;
 
             bool paramsVisible = trend != null && trend.Parameters.HasCustomisableParams;
 
@@ -144,7 +146,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _lblCorrector.Visible = correctorVisible;
             _flpCorrector.Visible = correctorVisible;
-            _lstTypes.Visible = correctorVisible && _radType.Checked;
+            _ecbTypes.Visible = correctorVisible && _radType.Checked;
 
             bool filterVisible = correctorVisible && _radBatch.Checked;
 
@@ -152,7 +154,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lblAVec.Visible = filterVisible;
             _ecbFilter.Visible = filterVisible;
 
-            bool operatorVisible = correctorVisible && ((_radType.Checked && _lstTypes.SelectedItem != null) || _radBatch.Checked);
+            bool operatorVisible = correctorVisible && ((_radType.Checked && _ecbTypes.HasSelection) || _radBatch.Checked);
 
             _lblCorrector2.Visible = operatorVisible;
             _flpCorrector2.Visible = operatorVisible;
@@ -199,12 +201,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             _chartChanged = new ChartHelperForPeaks(null, _core, panel2);
 
             // Choicelists
-            _ecbFilter = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstFilter, _btnFilter, core);
-
-            // Lists
-            _lstMethod.Items.AddRange(Algo.Instance.Trends.ToArray());
-            _lstMethod.Items.AddRange(Algo.Instance.Corrections.ToArray());
-            _lstTypes.Items.AddRange(NamedItem.GetRange(_core.Groups.WhereEnabled(), z => z.DisplayName).ToArray());
+            _ecbFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter, _btnFilter,  ENullItemName.All);
+            _ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
+            _ecbTypes = DataSet.ForGroups(_core).CreateComboBox(_lstTypes, _btnEditTypes, ENullItemName.NoNullItem);
 
             // Buttons
             GenerateTypeButtons();
@@ -214,7 +213,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 _txtName.Text = def.OverrideDisplayName;
                 _txtParameters.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
-                _lstMethod.SelectedItem = def.Cached;
+                _ecbMethod.SelectedItem = def.Cached;
                 _comments = def.Comment;
 
                 if (def.IsUsingTrend)
@@ -224,7 +223,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     _radType.Checked = args.Mode == ECorrectionMode.Control;
                     _radDivide.Checked = args.Method == ECorrectionMethod.Divide;
                     _radSubtract.Checked = args.Method == ECorrectionMethod.Subtract;
-                    _lstTypes.SelectedItem = args.ControlGroup;
+                    _ecbTypes.SelectedItem = args.ControlGroup;
                     _ecbFilter.SelectedItem = args.Constraint;
                 }
                 else
@@ -257,7 +256,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSelectPreview_Click(object sender, EventArgs e)
         {
-            var sel = ListValueSet.ForPeaks(_core, true).Select(_selectedPeak).ShowList(this);
+            var sel = DataSet.ForPeaks(_core).ShowList(this, _selectedPeak, false);
 
             if (sel != null)
             {
@@ -502,13 +501,13 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
-            AlgoBase trend = (AlgoBase)_lstMethod.SelectedItem;
+            AlgoBase trend = (AlgoBase)_ecbMethod.SelectedItem;
             FrmEditParameters.Show(trend, _txtParameters, _core, _readOnly);
         }
 
         private void _btnBatchInfo_Click(object sender, EventArgs e)
         {
-            ListValueSet.ForBatches(_core, true).ShowBigList<BatchInfo>(this, _core, EViewMode.ReadAndComment);
+            DataSet.ForBatches(_core).ShowListEditor(this);
         }
     }
 }

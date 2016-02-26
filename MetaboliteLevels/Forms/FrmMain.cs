@@ -1521,7 +1521,7 @@ namespace MetaboliteLevels.Forms
 
             ConfigurationClusterer template = new ConfigurationClusterer(null, null, null, new ArgsClusterer(filter, null, EAlgoSourceMode.None, null, false, EClustererStatistics.None, null));
 
-            if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Clusters, template))
+            if (DataSet.ForClusterers(_core).ShowListEditor(this, false, template) != null)
             {
                 UpdateAll("Clusters changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
             }
@@ -1533,7 +1533,8 @@ namespace MetaboliteLevels.Forms
         private void compareToThisPeakToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ConfigurationStatistic template = new ConfigurationStatistic(null, null, null, new ArgsStatistic(EAlgoSourceMode.None, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null));
-            FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Statistics, template);
+
+            DataSet.ForStatistics(_core).ShowListEditor(this, false, template);
         }
 
         /// <summary>
@@ -1582,92 +1583,119 @@ namespace MetaboliteLevels.Forms
         {
             Cancel,
 
-            [Name("Peaks")]
+            [Name("Data: Peaks")]
             Peaks,
 
-            [Name("Clusters")]
+            [Name("Data: Clusters")]
             Clusters,
 
-            [Name("Acquisition indices")]
-            Acquisitions, // read-only
+            [Name("Data: Acquisition indices")]
+            Acquisitions,
 
-            [Name("Batches")]
+            [Name("Data: Batches")]
             Batches,
 
-            [Name("Experimental conditions")]
+            [Name("Data: Experimental conditions")]
             Conditions,
 
-            [Name("Clusterers")]
-            Clusterers,
+            [Name("Data: Timepoints")]
+            Times,
 
-            [Name("Timepoints")]
-            Times, // read-only
+            [Name("Data: Replicate indices")]
+            Replicates,
 
-            [Name("Clustering evaluations")]
-            Evaluations,
+            [Name("Data: Peak flags")]
+            PeakFlags,            
 
-            [Name("Statistics")]
-            Statistics,
-
-            [Name("Replicate indices")]
-            Replicates, // read-only
-
-            [Name("Peak flags")]
-            PeakFlags, // read-only
-
-            [Name("Peak filters")]
-            PeakFilters,
-
-            [Name("Observation filters")]
-            ObservationFilters,
-
-            [Name("Experimental observations")]
+            [Name("Data: Experimental observations")]
             Observations,
 
-            [Name("Experimental groups")]
+            [Name("Data: Experimental groups")]
             Groups,
 
-            [Name("Trends")]
+            [Name("Workflow: Peak filters")]
+            PeakFilters,
+
+            [Name("Workflow: Observation filters")]
+            ObservationFilters,
+
+            [Name("Workflow: Corrections")]
+            Corrections,
+
+            [Name("Workflow: Trends")]
             Trends,
 
-            [Name("Corrections")]
-            Corrections,
+            [Name("Workflow: Statistics")]
+            Statistics,
+
+            [Name("Workflow: Clusterers")]
+            Clusterers,
+
+            [Name("Workflow: Clustering evaluations")]
+            Evaluations,
+
+            [Name("Algorithms: Trends and corrections")]
+            TrendAndCorrectionAlgorithms,
+
+            [Name("Algorithms: Trends")]
+            TrendAlgorithms,
+
+            [Name("Algorithms: Statistics")]
+            StatisticsAlgorithms,
+
+            [Name("Algorithms: Metrics")]
+            MetricAlgorithms,
+
+            [Name("Algorithms: Clustering")]
+            ClusteringAlgorithms,
+
+            [Name("Everything (selection only)")]
+            Everything,
         }
 
         private void manageDataToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            ShowEditor(ListValueSet.ForDiscreteEnum<EDataManager>("Manage Data", EDataManager.Cancel).ShowButtons(this));
+            ShowEditor(DataSet.ForDiscreteEnum<EDataManager>("Manage Data", EDataManager.Cancel).ShowList(this, EDataManager.Cancel));
         }
 
         private void ShowEditor(EDataManager which)
         {
             switch (which)
             {
+                case EDataManager.Everything:
+                    var selection = DataSet.ForEverything(_core).ShowList(this, null);
+
+                    if (selection != null)
+                    {
+                        CommitSelection(new VisualisableSelection(selection as IVisualisable));
+                    }
+                    break;
+
                 case EDataManager.Acquisitions:
-                    ListValueSet.ForAcquisitions(_core).ShowList(this);
+                    DataSet.ForAcquisitions(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Batches:
-                    ListValueSet.ForBatches(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    DataSet.ForBatches(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Clusterers:
-                    if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Clusters, null))
+                    if (DataSet.ForClusterers(_core).ShowListEditor(this))
                     {
                         UpdateAll("Clusters changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
                     }
                     break;
 
                 case EDataManager.Clusters:
-                    ListValueSet.ForClusters(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    DataSet.ForClusters(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Conditions:
-                    ListValueSet.ForConditions(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    DataSet.ForConditions(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Groups:
-                    if (ListValueSet.ForGroups(_core, false).ShowBigList(this, _core, EViewMode.Write) != null)
+                    if (DataSet.ForGroups(_core).ShowListEditor(this))
                     {
                         UpdateVisualOptions();
                         UpdateAll("Experimental groups changed", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.None);
@@ -1675,56 +1703,76 @@ namespace MetaboliteLevels.Forms
                     break;
 
                 case EDataManager.Observations:
-                    ListValueSet.ForObservations(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    DataSet.ForObservations(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.ObservationFilters:
-                    ListValueSet.ForObsFilter(_core, false).ShowBigList(this, _core, EViewMode.Write);
+                    DataSet.ForObsFilter(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.PeakFilters:
-                    ListValueSet.ForPeakFilter(_core, false).ShowBigList(this, _core, EViewMode.Write);
+                    DataSet.ForPeakFilter(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.PeakFlags:
-                    ListValueSet.ForPeakFlags(_core).ShowList(this);
+                    DataSet.ForPeakFlags(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Peaks:
-                    ListValueSet.ForPeaks(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    DataSet.ForPeaks(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Replicates:
-                    ListValueSet.ForReplicates(_core).ShowList(this);
+                    DataSet.ForReplicates(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Statistics:
-                    if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Statistics, null))
+                    if (DataSet.ForStatistics(_core).ShowListEditor(this))
                     {
                         UpdateAll("Statistics changed", EListInvalids.SourceChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
                     }
                     break;
 
                 case EDataManager.Evaluations:
-                    ListValueSet.ForTests(_core, false).ShowBigList(this, _core, EViewMode.ReadAndComment);
+                    DataSet.ForTests(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Times:
-                    ListValueSet.ForTimes(_core).ShowList(this);
+                    DataSet.ForTimes(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Trends:
-                    if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Trend, null))
+                    if (DataSet.ForTrends(_core).ShowListEditor(this))
                     {
                         UpdateAll("Trends changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
                     }
                     break;
 
                 case EDataManager.Corrections:
-                    if (FrmBigList.ShowAlgorithms(this, _core, FrmBigList.EAlgorithmType.Corrections, null))
+                    if (DataSet.ForCorrections(_core).ShowListEditor(this))
                     {
                         UpdateAll("Statistics changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
                     }
+                    break;
+
+                case EDataManager.ClusteringAlgorithms:
+                    DataSet.ForClustererAlgorithms(_core).ShowListEditor(this);
+                    break;
+
+                case EDataManager.MetricAlgorithms:
+                    DataSet.ForMetricAlgorithms(_core).ShowListEditor(this);
+                    break;
+
+                case EDataManager.StatisticsAlgorithms:
+                    DataSet.ForStatisticsAlgorithms(_core).ShowListEditor(this);
+                    break;
+
+                case EDataManager.TrendAlgorithms:
+                    DataSet.ForTrendAlgorithms(_core).ShowListEditor(this);
+                    break;
+
+                case EDataManager.TrendAndCorrectionAlgorithms:
+                    DataSet.ForTrendAndCorrectionAlgorithms(_core).ShowListEditor(this);
                     break;
 
                 case EDataManager.Cancel:

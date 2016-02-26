@@ -37,11 +37,13 @@
             this._mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this._titleBar = new MetaboliteLevels.Controls.CtlTitleBar();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this._mnuStrip.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -51,7 +53,7 @@
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
             this.flowLayoutPanel1.Controls.Add(this.btnCancel);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(659, 500);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(659, 478);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(288, 56);
@@ -97,9 +99,8 @@
             this.textBox1.Margin = new System.Windows.Forms.Padding(8);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(931, 484);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.Size = new System.Drawing.Size(931, 462);
+            this.textBox1.TabIndex = 2;                                                     
             // 
             // tableLayoutPanel2
             // 
@@ -114,7 +115,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(947, 556);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(947, 534);
             this.tableLayoutPanel2.TabIndex = 6;
             // 
             // _mnuStrip
@@ -132,8 +133,7 @@
             // 
             this._mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem});
+            this.saveToolStripMenuItem});
             this._mnuFile.ForeColor = System.Drawing.Color.Black;
             this._mnuFile.Name = "_mnuFile";
             this._mnuFile.Size = new System.Drawing.Size(37, 20);
@@ -143,42 +143,49 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.openToolStripMenuItem.Text = "&Open...";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.openToolStripMenuItem.Text = "&Import text...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.saveToolStripMenuItem.Text = "&Export text...";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // saveAsToolStripMenuItem
+            // _titleBar
             // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.saveAsToolStripMenuItem.Text = "&Save as...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this._titleBar.AutoSize = true;
+            this._titleBar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._titleBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this._titleBar.HelpText = "";
+            this._titleBar.Location = new System.Drawing.Point(0, 0);
+            this._titleBar.Margin = new System.Windows.Forms.Padding(9, 13, 9, 13);
+            this._titleBar.MinimumSize = new System.Drawing.Size(384, 0);
+            this._titleBar.Name = "_titleBar";
+            this._titleBar.Size = new System.Drawing.Size(947, 87);
+            this._titleBar.SubText = "Based on R script";
+            this._titleBar.TabIndex = 4;
+            this._titleBar.Text = "Clustering";
+            this._titleBar.WarningText = null;
             // 
-            // ctlTitleBar1
+            // statusStrip1
             // 
-            this.ctlTitleBar1.AutoSize = true;
-            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = "";
-            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
-            this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(9, 13, 9, 13);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
-            this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(947, 87);
-            this.ctlTitleBar1.SubText = "Based on R script";
-            this.ctlTitleBar1.TabIndex = 4;
-            this.ctlTitleBar1.Text = "Clustering";
-            this.ctlTitleBar1.WarningText = null;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 645);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(947, 22);
+            this.statusStrip1.TabIndex = 8;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // FrmRScript
             // 
@@ -187,7 +194,8 @@
             this.ClientSize = new System.Drawing.Size(947, 667);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this._mnuStrip);
-            this.Controls.Add(this.ctlTitleBar1);
+            this.Controls.Add(this._titleBar);
+            this.Controls.Add(this.statusStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this._mnuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -199,6 +207,8 @@
             this.tableLayoutPanel2.PerformLayout();
             this._mnuStrip.ResumeLayout(false);
             this._mnuStrip.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,11 +221,12 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private Controls.CtlTitleBar ctlTitleBar1;
+        private Controls.CtlTitleBar _titleBar;
         private System.Windows.Forms.MenuStrip _mnuStrip;
         private System.Windows.Forms.ToolStripMenuItem _mnuFile;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

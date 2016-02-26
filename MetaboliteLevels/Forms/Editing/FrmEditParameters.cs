@@ -28,7 +28,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         internal static void Show(AlgoBase algo, TextBox paramBox, Core core, bool readOnly)
         {
-            string newText = FrmEditParameters.Show(paramBox.FindForm(), core, algo.Parameters, paramBox.Text, readOnly);
+            string newText = Show(paramBox.FindForm(), core, algo.Parameters, paramBox.Text, readOnly);
 
             if (newText != null)
             {
@@ -130,7 +130,7 @@ namespace MetaboliteLevels.Forms.Editing
                 case EAlgoParameterType.WeakRefConfigurationClusterer:
                     {
                         ConfigurationClusterer def = ((WeakReference<ConfigurationClusterer>)value).GetTarget();
-                        var sel = ListValueSet.ForClusterers(_core, true).Select(def).ShowList(this);
+                        var sel = Generic.DataSet.ForClusterers(_core).ShowList(this, def, false);
 
                         if (sel == null)
                         {
@@ -142,12 +142,12 @@ namespace MetaboliteLevels.Forms.Editing
                     break;
 
                 case EAlgoParameterType.Group:
-                    value = ListValueSet.ForGroups(_core, true).Select((GroupInfo)value).ShowList(this);
+                    value = Generic.DataSet.ForGroups(_core).ShowList(this, (GroupInfo)value, false);
                     break;
 
                 case EAlgoParameterType.WeakRefPeak:
                     {
-                        var sel = ListValueSet.ForPeaks(_core, true).Select(((WeakReference<Peak>)value).GetTarget()).ShowList(this);
+                        var sel = Generic.DataSet.ForPeaks(_core).ShowList(this, ((WeakReference<Peak>)value).GetTarget(), false);
 
                         if (sel == null)
                         {
@@ -162,7 +162,7 @@ namespace MetaboliteLevels.Forms.Editing
                     {
                         var tvalue = (WeakReference<ConfigurationStatistic>[])value;
                         IEnumerable<ConfigurationStatistic> def = tvalue.Select(z => z.GetTarget()).Where(z => z != null);
-                        IEnumerable<ConfigurationStatistic> sel = ListValueSet.ForStatistics(_core, true).Select(def).ShowCheckList(this);
+                        IEnumerable<ConfigurationStatistic> sel = Generic.DataSet.ForStatistics(this._core).ShowCheckList(this, def, false);
 
                         if (sel == null)
                         {

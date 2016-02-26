@@ -19,11 +19,8 @@ namespace MetaboliteLevels.Data.DataInfo
         public readonly int Id;             // ID (as in data file)
         public readonly int Order;          // This program's internal index (Core.Groups[this.Order] / Core.Batches[this.Order])
         public readonly Range Range;        // Range covered (days / acquisition-order)
-        //public string Name;                 // Name
-        //public string ShortName;            // Abbreviated name
         public Color ColourLight;           // Display colour (light)
         public Color Colour;                // Display colour
-        //public string Comment;              // User comments        
 
         VisualClass IVisualisable.VisualClass => VisualClass.None;
 

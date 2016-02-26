@@ -80,12 +80,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Alternative variable data
         /// </summary>
-        public PeakValueSet AltObservations;
-
-        /// <summary>
-        /// Values used to compare variables [index ≘ Core.ValueCondition]
-        /// </summary>
-        // public double[] Values;
+        public PeakValueSet AltObservations;      
 
         /// <summary>
         /// M/Z

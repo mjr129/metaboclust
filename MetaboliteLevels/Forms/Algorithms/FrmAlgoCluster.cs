@@ -29,8 +29,11 @@ namespace MetaboliteLevels.Forms.Algorithms
         private string _comment;
         private EditableComboBox<PeakFilter> _ecbPeakFilter;
         private EditableComboBox<ObsFilter> _ecbObsFilter;
+        private EditableComboBox<ClustererBase> _ecbMethod;
+        private EditableComboBox<MetricBase> _ecbMeasure;
         private ConditionBox<EClustererStatistics> _cbStatistics;
         private readonly bool _readOnly;
+
 
         internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
         {
@@ -49,19 +52,18 @@ namespace MetaboliteLevels.Forms.Algorithms
         private FrmAlgoCluster()
         {
             InitializeComponent();
-            UiControls.SetIcon(this);
-
-            RebuildUsing(null);
-            RebuildDistanceUsing(null);
+            UiControls.SetIcon(this);    
         }
 
         private FrmAlgoCluster(Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
             : this()
         {
             _core = core;
-            _ecbPeakFilter = ListValueSet.ForPeakFilter(core, true).CreateComboBox(_lstPeakFilter, _btnPeakFilter, core);
-            _ecbObsFilter = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstObsFilter, _btnObsFilter, core);
-            _cbStatistics = ListValueSet.ForFlagsEnum<EClustererStatistics>("Cluster Statistics").CreateConditionBox(_txtStatistics, _btnSetStatistics);
+            _ecbPeakFilter = DataSet.ForPeakFilter(core).CreateComboBox(_lstPeakFilter, _btnPeakFilter,  ENullItemName.All);
+            _ecbObsFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstObsFilter, _btnObsFilter,  ENullItemName.All);
+            _ecbMethod = DataSet.ForClustererAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.None);
+            _ecbMeasure = DataSet.ForMetricAlgorithms(core).CreateComboBox(_lstMeasure, _btnNewDistance, ENullItemName.None);
+            _cbStatistics = DataSet.ForFlagsEnum<EClustererStatistics>("Cluster Statistics").CreateConditionBox(_txtStatistics, _btnSetStatistics);
             _readOnly = readOnly;
 
             if (def != null)
@@ -73,7 +75,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _comment = def.Comment;
 
                 // Method
-                _lstMethod.SelectedItem = def.Cached;
+                _ecbMethod.SelectedItem = def.Cached;
 
                 // Params
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
@@ -82,7 +84,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _ecbPeakFilter.SelectedItem = def.Args.PeakFilter;
 
                 // Distance
-                _lstMeasure.SelectedItem = def.Args.Distance != null ? def.Args.Distance.Cached : null;
+                _ecbMeasure.SelectedItem = def.Args.Distance != null ? def.Args.Distance.Cached : null;
 
                 // Distance params
                 _txtMeasureParams.Text = StringHelper.ArrayToString(def.Args.Distance?.Args.Parameters);
@@ -131,7 +133,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ConfigurationClusterer GetSelection()
         {
-            ClustererBase sel = (ClustererBase)this._lstMethod.SelectedItem;
+            ClustererBase sel = (ClustererBase)this._ecbMethod.SelectedItem;
             EAlgoSourceMode src;
             PeakFilter peakFilter;
             ObsFilter obsFilter;
@@ -142,7 +144,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Selection
             if (sel == null)
             {
-                errorProvider1.SetError(_lstMethod, "Select a method");
+                errorProvider1.SetError(_ecbMethod._box, "Select a method");
                 return null;
             }
 
@@ -188,11 +190,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Distance metric
             MetricBase dMet;
 
-            dMet = (MetricBase)_lstMeasure.SelectedItem;
+            dMet = (MetricBase)_ecbMeasure.SelectedItem;
 
             if (dMet == null)
             {
-                errorProvider1.SetError(_lstMeasure, "Specify a distance measure");
+                errorProvider1.SetError(_ecbMeasure._box, "Specify a distance measure");
                 return null;
             }
 
@@ -255,8 +257,8 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void CheckAndChange(object sender, EventArgs e)
         {
-            ClustererBase stat = (ClustererBase)_lstMethod.SelectedItem;
-            MetricBase met = _lstMeasure.SelectedItem as MetricBase;
+            ClustererBase stat = (ClustererBase)_ecbMethod.SelectedItem;
+            MetricBase met = _ecbMeasure.SelectedItem as MetricBase;
             object[] tmp;
 
             // Stat selected?
@@ -281,8 +283,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Distance
             bool distanceVisible = performanceVisible;
             _lblMeasure2.Enabled = distanceVisible;
-            _lstMeasure.Enabled = distanceVisible;
-            _btnNewDistance.Enabled = distanceVisible;
+            _ecbMeasure.Enabled = distanceVisible;
             linkLabel1.Visible = distanceVisible && !stat.SupportsDistanceMetrics;
 
             // Distance params
@@ -319,40 +320,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 _btnOk.Enabled = false;
             }
-        }
-
-        private void _btnNewStatistic_Click(object sender, EventArgs e)
-        {
-            string fn = FrmRScript.Show(this, Text, "New Clustering Algorithm", ClustererScript.INPUTS, UiControls.EInitialFolder.FOLDER_CLUSTERERS, @"RScript Editor", FrmRScript.SaveMode.ReturnFileName | FrmRScript.SaveMode.SaveToFolderMandatory);
-
-            if (fn != null)
-            {
-                Algo.Instance.Rebuild();
-                RebuildUsing(Algo.GetId(UiControls.EInitialFolder.FOLDER_CLUSTERERS, fn));
-            }
-        }
-
-        private void RebuildDistanceUsing(string selectedId)
-        {
-            _lstMeasure.Items.Clear();
-            _lstMeasure.Items.AddRange(Algo.Instance.Metrics.ToArray());
-
-            if (selectedId != null)
-            {
-                _lstMeasure.SelectedItem = Algo.Instance.All.Get(selectedId);
-            }
-        }
-
-        private void RebuildUsing(string selectedId)
-        {
-            _lstMethod.Items.Clear();
-            _lstMethod.Items.AddRange(Algo.Instance.Clusterers.ToArray());
-
-            if (selectedId != null)
-            {
-                _lstMethod.SelectedItem = Algo.Instance.All.Get(selectedId);
-            }
-        }
+        }   
 
         private void _btnTrendHelp_Click(object sender, EventArgs e)
         {
@@ -361,26 +329,15 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
-            ClustererBase stat = (ClustererBase)_lstMethod.SelectedItem;
+            ClustererBase stat = (ClustererBase)_ecbMethod.SelectedItem;
             FrmEditParameters.Show(stat, _txtParams, _core, _readOnly);
         }
 
         private void _btnEditDistanceParameters_Click(object sender, EventArgs e)
         {
-            var dMet = (MetricBase)_lstMeasure.SelectedItem;
+            var dMet = (MetricBase)_ecbMeasure.SelectedItem;
             FrmEditParameters.Show(dMet, _txtParams, _core, _readOnly);
-        }
-
-        private void _btnNewDistance_Click(object sender, EventArgs e)
-        {
-            string fn = FrmRScript.Show(this, Text, "New Metric", MetricScript.INPUTS, UiControls.EInitialFolder.FOLDER_METRICS, @"RScript Editor", FrmRScript.SaveMode.ReturnFileName | FrmRScript.SaveMode.SaveToFolderMandatory);
-
-            if (fn != null)
-            {
-                Algo.Instance.Rebuild();
-                RebuildDistanceUsing(Algo.GetId(UiControls.EInitialFolder.FOLDER_METRICS, fn));
-            }
-        }
+        }   
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

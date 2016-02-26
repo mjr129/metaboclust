@@ -26,8 +26,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private string _comments;
         private Peak _previewPeak;
-        private EditableComboBox<Settings.ObsFilter> _ecbFilter1;
-        private EditableComboBox<Settings.ObsFilter> _ecbFilter2;
+        private EditableComboBox<ObsFilter> _ecbFilter1;
+        private EditableComboBox<ObsFilter> _ecbFilter2;
+        private EditableComboBox<StatisticBase> _ecbMeasure;
 
         internal static ConfigurationStatistic Show(Form owner, ConfigurationStatistic def, Core core, bool readOnly)
         {
@@ -59,7 +60,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ConfigurationStatistic GetSelection()
         {
-            StatisticBase sel = NamedItem<StatisticBase>.Extract(this._lstMethod.SelectedItem);
+            StatisticBase sel = this._ecbMeasure.SelectedItem;
             EAlgoSourceMode src;
             EAlgoInputBSource bsrc;
             ObsFilter filter1;
@@ -219,20 +220,19 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _previewPeak = defaultPeak;
 
-            _ecbFilter1 = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstFilter1, _btnFilter1, core);
-            _ecbFilter2 = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstFilter2, _btnFilter2, core);
+            _ecbFilter1 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter1, _btnFilter1,  ENullItemName.All);
+            _ecbFilter2 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter2, _btnFilter2,  ENullItemName.All);
+            _ecbMeasure = DataSet.ForStatisticsAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
 
             _lstDiffPeak.Items.AddRange(NamedItem.GetRange(_core.Peaks, z => z.DisplayName).ToArray());
-            _lstDiffPeak.SelectedItem = defaultPeak;
-
-            RebuildUsing(null);  
+            _lstDiffPeak.SelectedItem = defaultPeak;  
 
             if (defaultSelection != null)
             {
                 _txtName.Text = defaultSelection.OverrideDisplayName;
                 ctlTitleBar1.SubText = defaultSelection.AlgoName;
                 _comments = defaultSelection.Comment;
-                _lstMethod.SelectedItem = defaultSelection.Cached;
+                _ecbMeasure.SelectedItem = defaultSelection.Cached;
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
 
                 _radObs.Checked = defaultSelection.Args.SourceMode == EAlgoSourceMode.Full;
@@ -272,45 +272,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             UiControls.CompensateForVisualStyles(this);
-        }
-
-        private void _btnNewStatistic_Click(object sender, EventArgs e)
-        {
-            contextMenuStrip1.Show(_btnNewStatistic, 0, _btnNewStatistic.Height);
-        }
-
-        private void newStatisticToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string fn = FrmRScript.Show(this, Text, "New Statistic", StatisticScript.INPUTS, UiControls.EInitialFolder.FOLDER_STATISTICS, @"RScript Editor", FrmRScript.SaveMode.ReturnFileName | FrmRScript.SaveMode.SaveToFolderMandatory);
-
-            if (fn != null)
-            {
-                Algo.Instance.Rebuild();
-                RebuildUsing(Algo.GetId(UiControls.EInitialFolder.FOLDER_STATISTICS, fn));
-            }
-        }
-
-        private void newMetricToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string fn = FrmRScript.Show(this, Text, "New Metric", MetricScript.INPUTS, UiControls.EInitialFolder.FOLDER_METRICS, @"RScript Editor", FrmRScript.SaveMode.ReturnFileName | FrmRScript.SaveMode.SaveToFolderMandatory);
-
-            if (fn != null)
-            {
-                Algo.Instance.Rebuild();
-                RebuildUsing(Algo.GetId(UiControls.EInitialFolder.FOLDER_METRICS, fn));
-            }
-        }
-
-        private void RebuildUsing(string selectedId)
-        {
-            _lstMethod.Items.Clear();
-            _lstMethod.Items.AddRange(NamedItem.GetRange(Algo.Instance.Statistics, GetStatName).ToArray());
-
-            if (selectedId != null)
-            {
-                _lstMethod.SelectedItem = Algo.Instance.All.Get(selectedId);
-            }
-        }
+        }       
 
         private string GetStatName(StatisticBase input)
         {
@@ -358,7 +320,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void CheckAndChange(object sender, EventArgs e)
         {
-            StatisticBase stat = NamedItem<StatisticBase>.Extract(_lstMethod.SelectedItem);
+            StatisticBase stat = _ecbMeasure.SelectedItem;
             bool m = stat != null;
 
             bool p = m && stat.Parameters.HasCustomisableParams;
@@ -375,7 +337,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lblApply.Visible = s;
             _radObs.Visible = s;
             _radTrend.Visible = s;
-            _btnTrendHelp.Visible = s;
+            _btnTrend.Visible = s;
+            _btnObs.Visible = s;
 
             bool a = s && (_radObs.Checked || _radTrend.Checked);
 
@@ -411,7 +374,8 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSelectDiffPeak_Click(object sender, EventArgs e)
         {
-            var newPeak = ListValueSet.ForPeaks(_core, true).Select(NamedItem<Peak>.Extract(_lstDiffPeak.SelectedItem)).ShowList(this);
+            var def = NamedItem<Peak>.Extract(_lstDiffPeak.SelectedItem);
+            var newPeak = DataSet.ForPeaks(_core).ShowList(this, def);
 
             if (newPeak != null)
             {
@@ -421,7 +385,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSelectPreview_Click(object sender, EventArgs e)
         {
-            var newPreview = ListValueSet.ForPeaks(_core, true).Select(_previewPeak).ShowList(this);
+            var newPreview = DataSet.ForPeaks(_core).ShowList(this, _previewPeak);
 
             if (newPreview != null)
             {
@@ -492,8 +456,18 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
-            StatisticBase stat = NamedItem<StatisticBase>.Extract(_lstMethod.SelectedItem);
+            StatisticBase stat = _ecbMeasure.SelectedItem;
             FrmEditParameters.Show(stat, _txtParams, _core, _readOnly);
+        }
+
+        private void _btnObs_Click(object sender, EventArgs e)
+        {
+            DataSet.ForObservations(_core).ShowListEditor(this);
+        }
+
+        private void _btnTrend_Click(object sender, EventArgs e)
+        {
+            DataSet.ForTrends(_core).ShowListEditor(this);
         }
     }
 }

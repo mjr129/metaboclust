@@ -94,8 +94,7 @@
             this._btnNewStatistic.Size = new System.Drawing.Size(28, 28);
             this._btnNewStatistic.TabIndex = 16;
             this.toolTip1.SetToolTip(this._btnNewStatistic, "New");
-            this._btnNewStatistic.UseVisualStyleBackColor = true;
-            this._btnNewStatistic.Click += new System.EventHandler(this._btnNewStatistic_Click);
+            this._btnNewStatistic.UseVisualStyleBackColor = true;                               
             // 
             // _btnComment
             // 

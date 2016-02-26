@@ -12,10 +12,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
         public const string INPUTS = "input=x,intensity=-,group=-,time=-,rep=-";
         public readonly RScript _script;                
 
-        public StatisticScript(string script, string id, string name)
+        public StatisticScript(string script, string id, string name, string fileName)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS);
+            this._script = new RScript(script, INPUTS, fileName);
             // this._script.CheckInputMask("10000");
         }
 
@@ -36,5 +36,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
         }
 
         public override bool SupportsInputFilters { get { return true; } }
+
+        public override RScript Script => _script;
     }
 }

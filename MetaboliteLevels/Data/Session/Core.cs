@@ -400,7 +400,7 @@ namespace MetaboliteLevels.Data.Session
         /// Cluster stats : updated
         /// Clustering    : not changed - must be manually reperformed
         /// </summary>
-        internal bool SetCorrections(IReadOnlyList<ConfigurationCorrection> newList, bool refreshAll, bool updateStatistics, bool updateTrends, bool updateClusters, ProgressReporter reportProgress)
+        internal bool SetCorrections(IEnumerable<ConfigurationCorrection> newList, bool refreshAll, bool updateStatistics, bool updateTrends, bool updateClusters, ProgressReporter reportProgress)
         {
             bool result = true;
 
@@ -591,7 +591,7 @@ namespace MetaboliteLevels.Data.Session
         /// Cluster stats : updated
         /// Clustering    : don't use statistics (ignored)
         /// </summary>
-        internal bool SetStatistics(IReadOnlyList<ConfigurationStatistic> newList, bool refreshAll, ProgressReporter reportProgress)
+        internal bool SetStatistics(IEnumerable<ConfigurationStatistic> newList, bool refreshAll, ProgressReporter reportProgress)
         {
             bool result = true;
 

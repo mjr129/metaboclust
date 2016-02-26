@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Controls
     /// </summary>
     internal class ConditionBox<T>
     {
-        private readonly ListValueSet<T> _args;
+        private readonly DataSet<T> _args;
         private readonly bool _integerBehaviour;
         private readonly Color _defaultColour;
 
@@ -35,10 +35,12 @@ namespace MetaboliteLevels.Controls
         private HashSet<T> _selected = new HashSet<T>();
         private HashSet<T> _lastValidSelection;
 
+        bool _allowNewEntries;
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ConditionBox(ListValueSet<T> args, TextBox textBox, Button button)
+        public ConditionBox(DataSet<T> args, TextBox textBox, Button button, bool allowNewEntries)
         {
             this._args = args;
             this._integerBehaviour = args.IntegerBehaviour && typeof(T) == typeof(int);
@@ -46,6 +48,7 @@ namespace MetaboliteLevels.Controls
             this._button = button;
 
             _defaultColour = textBox.BackColor;
+            _allowNewEntries = allowNewEntries;
 
             textBox.Validating += _textBox_Validating;
             button.Click += button_Click;
@@ -57,28 +60,17 @@ namespace MetaboliteLevels.Controls
         void button_Click(object sender, EventArgs e)
         {
             // Get available options
-            ListValueSet<T> sel = new ListValueSet<T>(_args);
-
-            if (_lastValidSelection != null)
-            {
-                // Include selected options even if they aren't in the source list
-                sel.List = _args.List.Union(_lastValidSelection);
-                sel.SelectedStates = _args.List.Select(_lastValidSelection.Contains);
-            }
-            else
-            {
-                sel.SelectedStates = null;
-            }
-
+            DataSet<T> sel = _args.Clone();
+                                       
             IEnumerable<T> newSelected;
 
-            if (_args.List.Count() < 10)
+            if (_args.TypedGetList(true).Count() < 10)
             {
-                newSelected = sel.ShowCheckBox(_textBox.FindForm());
+                newSelected = sel.ShowCheckBox(_textBox.FindForm(), _lastValidSelection, _allowNewEntries);
             }
             else
             {
-                newSelected = sel.ShowCheckList(_textBox.FindForm());
+                newSelected = sel.ShowCheckList(_textBox.FindForm(), _lastValidSelection, _allowNewEntries);
             }
 
             if (newSelected != null)
@@ -179,7 +171,7 @@ namespace MetaboliteLevels.Controls
 
                 HashSet<T> sel = new HashSet<T>(_lastValidSelection);
 
-                foreach (var choice in _args.List)
+                foreach (var choice in _args.TypedGetList(true))
                 {
                     if (sel.Contains(choice))
                     {
@@ -212,15 +204,8 @@ namespace MetaboliteLevels.Controls
         /// Returns the text for the specified choice.
         /// </summary>
         private string GetText(T choice)
-        {
-            if (_args.Namer == null)
-            {
-                return choice.ToString();
-            }
-            else
-            {
-                return _args.Namer(choice);
-            }
+        {                        
+            return _args.ItemNameProvider(choice);
         }
 
         /// <summary>
@@ -247,7 +232,7 @@ namespace MetaboliteLevels.Controls
         /// </summary>
         private bool DoUpdateList()
         {
-            var choices = _args.List;
+            var choices = _args.TypedGetList(true);
 
             if (_integerBehaviour)
             {
@@ -281,6 +266,12 @@ namespace MetaboliteLevels.Controls
                             return false;
                         }
 
+                        if (!_allowNewEntries && !choices.Contains(choice))
+                        {
+                            _selected = null;
+                            return false;
+                        }
+
                         result.Add(choice);
                     }
                 }
@@ -298,19 +289,19 @@ namespace MetaboliteLevels.Controls
         {
             name = name.ToUpper().Trim();
 
-            if (_args.Retriever != null)
+            if (_args.NewItemRetriever != null)
             {
-                if (_args.Retriever(name, out result))
+                if (_args.NewItemRetriever(name, out result))
                 {
                     return true;
                 }
             }
 
-            if (_args.Comparator != null)
+            if (_args.StringComparator != null)
             {
                 foreach (var i in choices)
                 {
-                    if (_args.Comparator(name, i))
+                    if (_args.StringComparator(name, i))
                     {
                         result = i;
                         return true;
@@ -320,7 +311,7 @@ namespace MetaboliteLevels.Controls
 
             foreach (var choice in choices)
             {
-                if (_args.Namer != null && _args.Namer(choice).ToUpper() == name)
+                if (_args.ItemNameProvider != null && _args.ItemNameProvider(choice).ToUpper() == name)
                 {
                     result = choice;
                     return true;

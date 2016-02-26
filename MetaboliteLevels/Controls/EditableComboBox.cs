@@ -7,32 +7,25 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Controls
-{             
+{
     class EditableComboBox<T>
     {
         public readonly ComboBox _box;
         private Button _button;
-        private Func<T> _action;
-        private Converter<T, string> _namer;
-        private IEnumerable<T> _source;
-        private Func<bool> _action2;
-        private bool _allowNewItems;
-        private string _includeNull;
+        private DataSet<T> _config;          
+        private ENullItemName _includeNull;
         private NamedItem<T> _none;
 
-        public EditableComboBox(ComboBox box, Button editButton, IEnumerable<T> source, Func<T> editAction, Func<bool> editAction2, Converter<T, string> namer, bool allowNewItems, string includeNull)
+        public EditableComboBox(ComboBox box, Button editButton, DataSet<T> items, ENullItemName includeNull)
         {
             _box = box;
-            _button = editButton;
-            _action = editAction;
-            _action2 = editAction2;
-            Converter<T, string> f = z => z.ToString();
-            _namer = namer ?? f;
-            _source = source;
-            _allowNewItems = allowNewItems;
+            _button = editButton;             
             _includeNull = includeNull;
+            _config = items;
 
             if (_button != null)
             {
@@ -46,39 +39,23 @@ namespace MetaboliteLevels.Controls
         {
             _box.Items.Clear();
 
-            if (_includeNull != null)
+            if (_includeNull != ENullItemName.NoNullItem)
             {
-                _none = new NamedItem<T>(default(T), _includeNull);
+                _none = new NamedItem<T>(default(T), _includeNull.ToUiString());
                 _box.Items.Add(_none);
             }
 
-            _box.Items.AddRange(NamedItem.GetRange(_source, _namer).ToArray());
+            _box.Items.AddRange(NamedItem.GetRange<T>(_config.TypedGetList(true), _config.ItemNameProvider).ToArray());
         }
 
         void _button_Click(object sender, EventArgs e)
         {
-            if (_action != null)
-            {
-                T result = _action();
+            T orig = SelectedItem;
 
-                if (result != null)
-                {
-                    UpdateItems();
-                    SelectedItem = result;
-                }
-            }
-            else if (_action2 != null)
+            if (_config.ShowListEditor(_box.FindForm()))
             {
-                if (_action2())
-                {
-                    T selection = SelectedItem;
-                    UpdateItems();
-
-                    if ((selection == null && (_includeNull != null)) || _box.Items.Contains(selection))
-                    {
-                        SelectedItem = selection;
-                    }
-                }
+                UpdateItems();
+                SelectedItem = orig;
             }
         }
 
@@ -117,7 +94,7 @@ namespace MetaboliteLevels.Controls
             {
                 if (value == null)
                 {
-                    if ((_includeNull != null))
+                    if ((_includeNull != ENullItemName.NoNullItem))
                     {
                         _box.SelectedItem = _none;
                         return;
@@ -127,12 +104,7 @@ namespace MetaboliteLevels.Controls
                         ClearSelection();
                         return;
                     }
-                }
-
-                if (_allowNewItems && value != null && !_box.Items.Contains(value))
-                {
-                    _box.Items.Insert(0, new NamedItem<T>(value, _namer));
-                }
+                }         
 
                 _box.SelectedItem = value;
             }
@@ -163,5 +135,12 @@ namespace MetaboliteLevels.Controls
                 _button.Visible = value;
             }
         }
+    }
+
+    public enum ENullItemName
+    {
+        NoNullItem,
+        All,
+        None,
     }
 }

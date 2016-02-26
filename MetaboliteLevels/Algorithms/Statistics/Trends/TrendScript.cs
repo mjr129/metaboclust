@@ -12,10 +12,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         public const string INPUTS = "time=t1,value=x,result.time=t2";
         public readonly RScript _script;
 
-        public TrendScript(string script, string id, string name)
+        public TrendScript(string script, string id, string name, string fileName)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS);
+            this._script = new RScript(script, INPUTS, fileName);
         }
 
         protected override double[] Smooth(IEnumerable<double> vIn, IEnumerable<int> o, IEnumerable<int> c, object[] args)
@@ -29,5 +29,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         {
             return _script.RequiredParameters;
         }
+
+        public override RScript Script => _script;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -475,7 +474,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// </summary>              
         private void _btnNewTest_Click(object sender, EventArgs e)
         {
-            if (ListValueSet.ForTests(_core, false).ShowBigList(this, _core, EViewMode.Write)==null)
+            if (!Generic.DataSet.ForTests(this._core).ShowListEditor(this))
             {
                 return;
             }
@@ -903,7 +902,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
             }
 
-            ClusterEvaluationPointer res = ListValueSet.ForTests(_core, true).ShowButtons(this);
+            ClusterEvaluationPointer res = DataSet.ForTests(this._core).ShowButtons(this, null);
 
             if (res == null)
             {
@@ -944,14 +943,14 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void updateResultsDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EUpdateResults options = EnumHelper.SumEnum(ListValueSet.ForFlagsEnum<EUpdateResults>("Batch Options").ShowCheckBox(this));
+            EUpdateResults options = EnumHelper.SumEnum(Generic.DataSet.ForFlagsEnum<EUpdateResults>("Batch Options").ShowCheckBox(this, null));
 
             if (options == EUpdateResults.None)
             {
                 return;
             }
 
-            IEnumerable<ClusterEvaluationPointer> tests = ListValueSet.ForTests(_core, true).ShowCheckBox(this);
+            IEnumerable<ClusterEvaluationPointer> tests = Generic.DataSet.ForTests(this._core).ShowCheckBox(this, null);
 
             if (tests == null)
             {
@@ -962,7 +961,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (options.Has(EUpdateResults.Statistics))
             {
-                stats = EnumHelper.SumEnum(ListValueSet.ForFlagsEnum<EClustererStatistics>("Statistics").ShowCheckBox(this));
+                stats = EnumHelper.SumEnum(Generic.DataSet.ForFlagsEnum<EClustererStatistics>("Statistics").ShowCheckBox(this, null));
             }
             else
             {

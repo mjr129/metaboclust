@@ -211,7 +211,14 @@ namespace MetaboliteLevels.Viewers.Lists
 
         public override object GetRow(IVisualisable line)
         {
-            return Provider((T)line);
+            T x = line as T;
+
+            if (x == null)
+            {
+                return null;
+            }
+
+            return Provider(x);
         }
 
         public override bool IsAlwaysEmpty
@@ -221,9 +228,11 @@ namespace MetaboliteLevels.Viewers.Lists
 
         internal override Color GetColour(IVisualisable line)
         {
-            if (Colour != null)
+            T x = line as T;
+
+            if (x != null && Colour != null)
             {
-                return Colour((T)line);
+                return Colour(x);
             }
             else
             {
@@ -241,7 +250,7 @@ namespace MetaboliteLevels.Viewers.Lists
     }
 
     internal static class ColumnManager
-    {        
+    {
         public static IEnumerable<Column> GetColumns(Core core, IVisualisable visualisable)
         {
             return visualisable.GetColumns(core);

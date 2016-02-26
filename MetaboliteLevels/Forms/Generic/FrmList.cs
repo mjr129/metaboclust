@@ -20,41 +20,42 @@ namespace MetaboliteLevels.Forms.Generic
     internal partial class FrmList : Form
     {
         private IFormList _handler;
-        private IListValueSet opts;
+        private IDataSet opts;
         private int _numFields;
         private bool _multiSelect;
+        private bool _allowNewEntries;
 
-        private static IEnumerable<T> Show<T>(Form owner, IFormList handler, ListValueSet<T> opts, bool multiSelect)
+        private static IEnumerable<T> Show<T>(Form owner, IFormList handler, DataSet<T> opts, bool multiSelect, IEnumerable<T> defaultSelection, bool allowNewEntries)
         {
-            using (FrmList frm = new FrmList(handler, opts, multiSelect))
+            using (FrmList frm = new FrmList(handler, opts, multiSelect, defaultSelection, allowNewEntries))
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
-                    return opts.List.Cast<T>().Corresponding(frm.GetStates());
+                    return opts.TypedGetList(true).Corresponding(frm.GetStates());
                 }
 
                 return null;
             }
         }
 
-        private FrmList(IFormList handler, IListValueSet opts, bool multiSelect)
+        private FrmList(IFormList handler, IDataSet opts, bool multiSelect, IEnumerable defaultSelection, bool _allowNewEntries)
             : this()
         {
             this.Text = opts.Title;
             this.ctlTitleBar1.Text = opts.Title;
             this.ctlTitleBar1.SubText = opts.SubTitle;
-            this._btnEdit.Visible = opts.ListEditorObsolete != null;
-            this._editAction = opts.ListEditorObsolete;
+            this._btnEdit.Visible = opts.ListSupportsChanges;
 
             this._handler = handler;
-            this._numFields = opts.UntypedList.CountAll();
+            this._numFields = opts.UntypedGetList(true).CountAll();
             this.opts = opts;
             this._multiSelect = multiSelect;
+            this._allowNewEntries = _allowNewEntries;
             _flpSelectAll.Visible = multiSelect;
 
             this._handler.Initialise(this);
 
-            RefreshList();
+            RefreshList(defaultSelection);
         }
 
         interface IFormList
@@ -267,18 +268,40 @@ namespace MetaboliteLevels.Forms.Generic
             }
         }
 
-        private void RefreshList()
+        private void RefreshList(IEnumerable selectedItems)
         {
             _handler.ClearItems();
 
-            foreach (object name in opts.UntypedList)
+            int n = 0;
+            IEnumerable<object> source = opts.UntypedGetList(true).Cast<object>();
+            IEnumerable<object> selected = selectedItems != null ? selectedItems.Cast<object>() : new object[0];
+
+            foreach (object item in source)
             {
-                _handler.AddItem(opts.UntypedName(name), opts.UntypedDescription(name));
+                _handler.AddItem(opts.UntypedName(item), opts.UntypedDescription(item));
+
+                _handler.SetState(n, selected.Contains(item));
+
+                n++;
             }
 
-            foreach (var n in opts.SelectedStates.IndicesAndObject())
+            foreach (object item in selected)
             {
-                _handler.SetState(n.Key, n.Value);
+                if (!source.Contains(item))
+                {
+                    if (_allowNewEntries)
+                    {
+                        _handler.AddItem(opts.UntypedName(item), opts.UntypedDescription(item));
+
+                        _handler.SetState(n, true);
+
+                        n++;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Item present in selection but not in list.");
+                    }
+                }
             }
 
             UiControls.CompensateForVisualStyles(this);
@@ -308,13 +331,11 @@ namespace MetaboliteLevels.Forms.Generic
             UiControls.SetIcon(this);
         }
 
-        public Action<Form> _editAction { get; set; }
-
         private void _btnEdit_Click(object sender, EventArgs e)
         {
-            _editAction(this);
+            opts.ShowListEditor(this);
 
-            RefreshList();
+            RefreshList(null);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -331,32 +352,44 @@ namespace MetaboliteLevels.Forms.Generic
             DialogResult = DialogResult.OK;
         }
 
-        internal static T ShowList<T>(Form owner, ListValueSet<T> listValueSet)
+        internal static T ShowList<T>(Form owner, DataSet<T> listValueSet, T defaultSelection, bool allowNewEntries)
         {
-            return Show<T>(owner, new FormListListBox(), listValueSet, false).FirstOrDefault(listValueSet.CancelValue);
+            return Show<T>(owner, new FormListListBox(), listValueSet, false, AsArray(defaultSelection, listValueSet), allowNewEntries).FirstOrDefault(listValueSet.CancelValue);
         }
 
-        public static T ShowRadio<T>(Form owner, ListValueSet<T> listValueSet)
+        private static IEnumerable<T> AsArray<T>(T defaultSelection, DataSet<T> listValueSet)
         {
-            Debug.Assert(listValueSet.List.Count() < 50, "When list count is large you might be better using a different view method.");
-            return Show<T>(owner, new FormListRadioButtonArray(), listValueSet, false).FirstOrDefault(listValueSet.CancelValue);
+            if (defaultSelection == null || defaultSelection.Equals(listValueSet.CancelValue))
+            {
+                return new T[0];
+            }
+            else
+            {
+                return new T[] { defaultSelection };
+            }
         }
 
-        public static T ShowButtons<T>(Form owner, ListValueSet<T> listValueSet)
+        public static T ShowRadio<T>(Form owner, DataSet<T> listValueSet, T defaultSelection, bool allowNewEntries)
         {
-            Debug.Assert(listValueSet.List.Count() < 50, "When list count is large you might be better using a different view method.");
-            return Show<T>(owner, new FormListButtonArray(), listValueSet, false).FirstOrDefault(listValueSet.CancelValue);
+            Debug.Assert(listValueSet.TypedGetList(true).Count() < 50, "When list count is large you might be better using a different view method.");
+            return Show<T>(owner, new FormListRadioButtonArray(), listValueSet, false, AsArray(defaultSelection, listValueSet), allowNewEntries).FirstOrDefault(listValueSet.CancelValue);
         }
 
-        public static IEnumerable<T> ShowCheckList<T>(Form owner, ListValueSet<T> listValueSet)
+        public static T ShowButtons<T>(Form owner, DataSet<T> listValueSet, T defaultSelection, bool allowNewEntries)
         {
-            return Show<T>(owner, new FormListCheckList(), listValueSet, true);
+            Debug.Assert(listValueSet.TypedGetList(true).Count() < 50, "When list count is large you might be better using a different view method.");
+            return Show<T>(owner, new FormListButtonArray(), listValueSet, false, AsArray(defaultSelection, listValueSet), allowNewEntries).FirstOrDefault(listValueSet.CancelValue);
         }
 
-        public static IEnumerable<T> ShowCheckBox<T>(Form owner, ListValueSet<T> listValueSet)
+        public static IEnumerable<T> ShowCheckList<T>(Form owner, DataSet<T> listValueSet, IEnumerable<T> defaultSelection, bool allowNewEntries)
         {
-            Debug.Assert(listValueSet.List.Count() < 50, "When list count is large you might be better using a different view method.");
-            return Show<T>(owner, new FormListCheckBoxArray(), listValueSet, true);
+            return Show<T>(owner, new FormListCheckList(), listValueSet, true, defaultSelection, allowNewEntries);
+        }
+
+        public static IEnumerable<T> ShowCheckBox<T>(Form owner, DataSet<T> listValueSet, IEnumerable<T> defaultSelection, bool allowNewEntries)
+        {
+            Debug.Assert(listValueSet.TypedGetList(true).Count() < 50, "When list count is large you might be better using a different view method.");
+            return Show<T>(owner, new FormListCheckBoxArray(), listValueSet, true, defaultSelection, allowNewEntries);
         }
 
         private void _btnSelectAll_Click(object sender, EventArgs e)

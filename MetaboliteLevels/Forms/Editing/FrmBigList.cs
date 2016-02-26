@@ -24,361 +24,8 @@ namespace MetaboliteLevels.Forms.Editing
     /// <summary>
     ///     Displays the list of statistics available for viewing.
     /// </summary>
-    public partial class FrmBigList : Form
+    internal partial class FrmBigList : Form
     {
-        /// <summary>
-        /// Basic list editor.
-        /// </summary>
-        private abstract class BigListConfig
-        {
-            public abstract ConfigInit Initialise();
-            public abstract IVisualisable EditObject(Form owner, IVisualisable target, bool read);
-            public abstract void ApplyChanges(ProgressReporter info, List<IVisualisable> alist);
-            public virtual bool PrepareForApply(Form form, List<IVisualisable> arrayList) { return true; }
-            public virtual void AfterApply(Form form) { }
-            public virtual IVisualisable GetAutoCreateTemplate() { return null; }
-            public virtual EReplaceMode BeforeReplace(Form owner, IVisualisable remove, IVisualisable create) { return EReplaceMode.Default; }
-        }
-
-        /// <summary>
-        /// Strongly types BigListConfig.
-        /// </summary>
-        private abstract class BigListConfig<T> : BigListConfig
-            where T : IVisualisable
-        {
-            protected abstract T EditObject(Form owner, T target, bool read);
-            protected abstract void ApplyChanges(ProgressReporter info, List<T> alist);
-            protected virtual bool PrepareForApply(Form form, List<T> arrayList) { return true; }
-            protected virtual EReplaceMode BeforeReplace(Form owner, T remove, T create) { return EReplaceMode.Default; }
-
-            public sealed override IVisualisable EditObject(Form owner, IVisualisable target, bool read) { return EditObject(owner, (T)target, read); }
-            public sealed override bool PrepareForApply(Form form, List<IVisualisable> arrayList) { return PrepareForApply(form, arrayList.Cast<T>().ToList()); }
-            public sealed override void ApplyChanges(ProgressReporter info, List<IVisualisable> alist) { ApplyChanges(info, alist.Cast<T>().ToList()); }
-            public sealed override EReplaceMode BeforeReplace(Form owner, IVisualisable remove, IVisualisable create) { return BeforeReplace(owner, (T)remove, (T)create); }
-        }                  
-
-        private sealed class BigListConfigForListValueSet<T> : BigListConfig<T>
-            where T : IVisualisable
-        {
-            private readonly ListValueSet<T> _values;
-            public List<T> Result;
-
-            public BigListConfigForListValueSet(ListValueSet<T> values)
-            {
-                _values = values;
-            }
-
-            public override ConfigInit Initialise()
-            {
-                return new ConfigInit
-                (
-                    Caption: _values.Title,
-                    List: _values.List.Cast<IVisualisable>().ToList(),
-                    SubTitle: _values.SubTitle,
-                    Title: _values.Title
-                );
-            }
-
-            protected override void ApplyChanges(ProgressReporter info, List<T> alist)
-            {
-                Result = alist;
-            }
-
-            protected override T EditObject(Form owner, T target, bool read)
-            {
-                return _values.ItemEditor(owner, target, read);
-            }
-        }      
-
-        public enum EAlgorithmType
-        {
-            Trend,
-            Clusters,
-            Statistics,
-            Corrections
-        }
-
-        private enum EReplaceMode
-        {
-            Replace,
-            CreateNew,
-            Cancel,
-            Default = Replace,
-        }                                                                   
-
-        private sealed class BigListConfigForAlgorithms : BigListConfig<ConfigurationBase>
-        {
-            private readonly Core _core;
-            private readonly EAlgorithmType _mode;
-            private ConfigurationBase _autoCreateTemplate;
-            private FrmEditUpdate.EChangeLevel _toUpdate;
-            private bool _success;
-
-            public BigListConfigForAlgorithms(Core core, EAlgorithmType mode, ConfigurationBase autoCreateTemplate)
-            {
-                _core = core;
-                _mode = mode;
-                _autoCreateTemplate = autoCreateTemplate;
-            }
-
-            public override IVisualisable GetAutoCreateTemplate()
-            {
-                return _autoCreateTemplate;
-            }
-
-            protected override EReplaceMode BeforeReplace(Form owner, ConfigurationBase remove, ConfigurationBase create)
-            {
-                if (remove != null && remove.HasResults)
-                {
-                    if (create != null)
-                    {
-                        string text1 = "The configuration to be modified has results associated with it";
-                        string text2 = "Changing this configuration will result in the loss of the associated results. If needed the original configuration can be retained (the new configuration will still be created).";
-
-                        FrmMsgBox.ButtonSet[] btns = {  new FrmMsgBox.ButtonSet( "Replace", Resources.MnuAccept, DialogResult.No),
-                                                        new FrmMsgBox.ButtonSet( "Retain", Resources.MnuCopy, DialogResult.Yes),
-                                                        new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel)};
-
-                        switch (FrmMsgBox.Show(owner, owner.Text, text1, text2, Resources.MsgHelp, btns, "FrmBigList.EditConfig", DialogResult.No))
-                        {
-                            case DialogResult.No:
-                                return EReplaceMode.Replace;
-
-                            case DialogResult.Yes:
-                                return EReplaceMode.CreateNew;
-
-                            case DialogResult.Cancel:
-                                return EReplaceMode.Cancel;
-
-                            default:
-                                throw new SwitchException();
-                        }
-                    }
-                }
-
-                return base.BeforeReplace(owner, remove, create);
-            }
-
-            public override void AfterApply(Form form)
-            {
-                if (!_success)
-                {
-                    FrmMsgBox.ShowError(form, "An error occured whilst processing your request. Please check your configurations to see what went wrong.");
-                    return;
-                }
-
-                switch (_mode)
-                {
-                    case EAlgorithmType.Corrections:
-                        FrmMsgBox.ShowCompleted(form, "Data Corrections", FrmEditUpdate.GetUpdateMessage(_toUpdate));
-                        break;
-
-                    case EAlgorithmType.Statistics:
-                        FrmMsgBox.ShowCompleted(form, "Staticics", FrmEditUpdate.GetUpdateMessage(FrmEditUpdate.EChangeLevel.Statistic));
-                        break;
-
-                    case EAlgorithmType.Clusters:
-                        FrmMsgBox.ShowCompleted(form, "Clustering", FrmEditUpdate.GetUpdateMessage(FrmEditUpdate.EChangeLevel.Cluster));
-                        break;
-
-                    case EAlgorithmType.Trend:
-                        FrmMsgBox.ShowCompleted(form, "Trends", FrmEditUpdate.GetUpdateMessage(_toUpdate));
-                        break;
-
-                    default:
-                        throw new SwitchException(_mode);
-                }
-            }
-
-            protected override bool PrepareForApply(Form form, List<ConfigurationBase> list)
-            {
-                switch (_mode)
-                {
-                    case EAlgorithmType.Corrections:
-                        _toUpdate = FrmEditUpdate.ShowCorrectionsChanged(form);
-                        break;
-
-                    case EAlgorithmType.Statistics:
-                        _toUpdate = FrmEditUpdate.EChangeLevel.Statistic;
-                        break;
-
-                    case EAlgorithmType.Clusters:
-                        _toUpdate = FrmEditUpdate.EChangeLevel.Cluster;
-                        break;
-
-                    case EAlgorithmType.Trend:
-                        {
-                            int numEnabledX = list.Count(z => z.Enabled);
-
-                            if (numEnabledX == 0)
-                            {
-                                FrmMsgBox.ShowError(form, "A trendline must be defined.");
-                                return false;
-                            }
-                            else if (numEnabledX > 1)
-                            {
-                                FrmMsgBox.ShowError(form, "Only one trend can be activated at once.");
-                                return false;
-                            }
-
-                            _toUpdate = FrmEditUpdate.ShowTrendsChanged(form);
-                        }
-                        break;
-
-                    default:
-                        throw new SwitchException(_mode);
-                }
-
-                return true;
-            }
-
-            protected override void ApplyChanges(ProgressReporter info, List<ConfigurationBase> list)
-            {
-                switch (_mode)
-                {
-                    case EAlgorithmType.Corrections:
-                        {
-                            bool updateStats = _toUpdate.HasFlag(FrmEditUpdate.EChangeLevel.Statistic);
-                            bool updateTrends = _toUpdate.HasFlag(FrmEditUpdate.EChangeLevel.Trend);
-                            bool updateClusters = _toUpdate.HasFlag(FrmEditUpdate.EChangeLevel.Cluster);
-
-                            _success = _core.SetCorrections(list.Cast<ConfigurationCorrection>().ToArray(), false, updateStats, updateTrends, updateClusters,
-                                                               info);
-                        }
-                        break;
-
-                    case EAlgorithmType.Statistics:
-                        {
-                            _success = _core.SetStatistics(list.Cast<ConfigurationStatistic>().ToArray(), false, info);
-                        }
-                        break;
-
-                    case EAlgorithmType.Clusters:
-                        {
-                            _success = _core.SetClusterers(list.Cast<ConfigurationClusterer>().ToArray(), false, info);
-                        }
-                        break;
-
-                    case EAlgorithmType.Trend:
-                        {
-                            bool updateStats = _toUpdate.HasFlag(FrmEditUpdate.EChangeLevel.Statistic);
-                            bool updateClusters = _toUpdate.HasFlag(FrmEditUpdate.EChangeLevel.Cluster);
-                            _success = _core.SetTrends(list.Cast<ConfigurationTrend>().ToArray(), false, updateStats, updateClusters, info);
-                        }
-                        break;
-
-                    default:
-                        throw new SwitchException(_mode);
-                }
-            }
-
-            public override ConfigInit Initialise()
-            {
-                switch (_mode)
-                {
-                    case EAlgorithmType.Statistics:
-                        return new ConfigInit
-                        (
-                            Caption: "Statistics",
-                            Title: "Edit Statistics",
-                            SubTitle: "Add or remove statistics",
-                            List: _core.AllStatistics
-                        );
-
-                    case EAlgorithmType.Corrections:
-                        return new ConfigInit
-                        (
-                            Caption: "Corrections",
-                            Title: "Edit Data Corrections",
-                            SubTitle: "Add, remove or reorder data correction methods",
-                            List: _core.AllCorrections
-                        );
-
-                    case EAlgorithmType.Clusters:
-                        return new ConfigInit
-                        (
-                            Caption: "Clustering",
-                            Title: "Edit Clustering Methods",
-                            SubTitle: "Add, remove or reorder data clustering methods",
-                            List: _core.AllClusterers
-                        );
-
-                    case EAlgorithmType.Trend:
-                        return new ConfigInit
-                        (
-                            Caption: "Trends",
-                            Title: "Edit Trend Generation",
-                            SubTitle: "Select trend generation method",
-                            List: _core.AllTrends
-                        );
-
-                    default:
-                        throw new SwitchException(_mode);
-                }
-            }
-
-            protected override ConfigurationBase EditObject(Form owner, ConfigurationBase o, bool read)
-            {
-                if (o != null && o.HasError)
-                {
-                    FrmMsgBox.ButtonSet[] btns = {
-                                                     new   FrmMsgBox.ButtonSet("Continue", Resources.MnuAccept, DialogResult.Yes),
-                                                     new   FrmMsgBox.ButtonSet("Clear error", Resources.MnuDelete, DialogResult.No),
-                                                     new   FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)};
-
-                    switch (FrmMsgBox.Show(owner, "Error report", "Last time this configuration was run it reported an error", o.Error, Resources.MsgWarning, btns))
-                    {
-                        case DialogResult.Yes:
-                            break;
-
-                        case DialogResult.No:
-                            o.ClearError();
-                            break;
-
-                        case DialogResult.Cancel:
-                            return null;
-                    }
-                }
-
-                IVisualisable vis = _autoCreateTemplate;
-                _autoCreateTemplate = null;
-
-                switch (_mode)
-                {
-                    case EAlgorithmType.Statistics:
-                        return FrmAlgoStatistic.Show(owner, (ConfigurationStatistic)o, _core, read);
-
-                    case EAlgorithmType.Corrections:
-                        return FrmAlgoCorrection.Show(owner, _core, (ConfigurationCorrection)o, read);
-
-                    case EAlgorithmType.Clusters:
-                        return FrmAlgoCluster.Show(owner, _core, (ConfigurationClusterer)o, read, false);
-
-                    case EAlgorithmType.Trend:
-                        return FrmAlgoTrend.Show(owner, _core, (ConfigurationTrend)o, read);
-
-                    default:
-                        throw new SwitchException(_mode);
-                }
-            }
-        }
-
-        private sealed class ConfigInit
-        {
-            public readonly IEnumerable<IVisualisable> List;
-            public readonly string Caption;
-            public readonly string SubTitle;
-            public readonly string Title;
-
-            public ConfigInit(string Caption, IEnumerable<IVisualisable> List, string Title, string SubTitle)
-            {
-                this.Caption = Caption;
-                this.List = List;
-                this.Title = Title;
-                this.SubTitle = SubTitle;
-            }
-        }
-
         private sealed class OriginalStatus
         {
             public bool Required;
@@ -394,8 +41,9 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private readonly BigListConfig _config;
-        private readonly List<IVisualisable> _list;
+        private object _automaticAddTemplate;
+        private readonly IDataSet _config;
+        private List<IVisualisable> _list;
         private readonly Dictionary<IVisualisable, OriginalStatus> _originalStatuses = new Dictionary<IVisualisable, OriginalStatus>();
         private bool _activated;
         private readonly ListViewHelper<IVisualisable> _listViewHelper;
@@ -408,8 +56,61 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.PopulateImageList(imageList1);
         }
 
-        private FrmBigList(Core core, BigListConfig config, EViewMode mode)
-            : this()
+        class Wrapper : IVisualisable
+        {
+            private IDataSet _set;
+            private object _x;
+
+            public Wrapper(IDataSet set, object x)
+            {
+                _set = set;
+                _x = x;
+            }
+
+            public string Comment
+            {
+                get { return null; }
+                set {/*NA*/}
+            }
+
+            public string DefaultDisplayName => _set.UntypedName(_x);
+
+            public string DisplayName => DefaultDisplayName;
+
+            public bool Enabled
+            {
+                get { return true; }
+                set {/*NA*/}
+            }
+
+            public string OverrideDisplayName
+            {
+                get { return null; }
+                set {/*NA*/}
+            }
+
+            public VisualClass VisualClass => VisualClass.None;
+
+            public IEnumerable<Column> GetColumns(Core core)
+            {
+                List<Column<Wrapper>> columns = new List<Column<Wrapper>>();
+
+                columns.Add("Name", EColumn.Visible, z => z._set.UntypedName(z._x));
+                columns.Add("Description", EColumn.Visible, z => z._set.UntypedDescription(z._x));
+
+                return columns;
+            }
+
+            public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Info;
+
+            public void RequestContents(ContentsRequest list)
+            {
+                // NA
+            }
+        }
+
+        private FrmBigList(Core core, IDataSet config, bool readOnly, object automaticAddTemplate)
+                : this()
         {
             _listViewHelper = new ListViewHelper<IVisualisable>(listView1, core, null, null);
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
@@ -417,66 +118,87 @@ namespace MetaboliteLevels.Forms.Editing
 
             _config = config;
 
-            ConfigInit init = _config.Initialise();
+            _automaticAddTemplate = automaticAddTemplate;
 
-            Text = init.Caption;
-            ctlTitleBar1.Text = init.Title;
-            ctlTitleBar1.SubText = init.SubTitle;
-            _list = new List<IVisualisable>(init.List);
-            _listViewHelper.DivertList(_list);
+            Text = "List Editor";
+            ctlTitleBar1.Text = config.Title;
+            ctlTitleBar1.SubText = config.SubTitle;
 
-            switch (mode)
+            UpdateListFromSource();
+
+            if (config.ListChangesOnEdit)
             {
-                case EViewMode.Read:
-                    _btnEdit.Visible = false;
-                    _btnRename.Visible = false;
-                    _btnEnableDisable.Visible = false;
-                    _btnUp.Visible = false;
-                    _btnDown.Visible = false;
-                    _btnAdd.Visible = false;
-                    _btnDuplicate.Visible = false;
-                    _btnOk.Visible = false;
-                    _btnRemove.Visible = false;
-                    _btnCancel.Text = "Close";
-                    break;
+                _btnCancel.Visible = false;
+            }
 
-                case EViewMode.ReadAndComment:
-                    _btnEdit.Visible = false;
-                    _btnUp.Visible = false;
-                    _btnDown.Visible = false;
-                    _btnAdd.Visible = false;
-                    _btnDuplicate.Visible = false;
-                    _btnRemove.Visible = false;
-                    break;
+            if (!config.HasItemEditor)
+            {
+                _btnAdd.Visible = false;
+                _btnEdit.Visible = false;
+                _btnView.Visible = false;
+                _btnDuplicate.Visible = false;
+            }
+
+            if (!config.ListSupportsReorder)
+            {
+                _btnUp.Visible = false;
+                _btnDown.Visible = false;
+            }
+
+            if (!config.ListSupportsChanges && !config.ListChangesOnEdit)
+            {
+                _btnAdd.Visible = false;
+                _btnDuplicate.Visible = false;
+                _btnRemove.Visible = false;
+                _btnOk.Visible = false;
+                _btnCancel.Text = "Close";
+            }
+
+            if (readOnly) // || !hasEditor
+            {
+                _btnAdd.Visible = false;
+                _btnEdit.Visible = false;
+                _btnDuplicate.Visible = false;
+                _btnRemove.Visible = false;
+                _btnEnableDisable.Visible = false;
+                _btnUp.Visible = false;
+                _btnDown.Visible = false;
+                _btnOk.Visible = false;
+                _btnCancel.Text = "Close";
             }
 
             UiControls.CompensateForVisualStyles(this);
         }
 
-        internal static bool ShowAlgorithms(Form owner, Core core, EAlgorithmType algoType, ConfigurationBase autoCreateTemplate)
+        private void UpdateListFromSource()
         {
-            var config = new BigListConfigForAlgorithms(core, algoType, autoCreateTemplate);
-            return Show(owner, core, config, EViewMode.Write);
-        }   
+            try
+            {
+                _list = new List<IVisualisable>(_config.UntypedGetList(false).Cast<IVisualisable>());
+            }
+            catch
+            {
+                _list = new List<IVisualisable>(_config.UntypedGetList(false).Cast<object>().Select(z => new Wrapper(_config, z)));
+            }
 
-        internal static bool ShowGeneric<T>(Form owner, Core core, ListValueSet<T> list, EViewMode mode)
-            where T : IVisualisable
-        {
-            var config = new BigListConfigForListValueSet<T>(list);
-
-            return Show(owner, core, config, mode);
+            _listViewHelper.DivertList(_list);
         }
 
-        private static bool Show(Form owner, Core core, BigListConfig config, EViewMode mode)
+        public static IEnumerable Show(Form owner, Core core, IDataSet config, bool readOnly, object automaticAddTemplate)
         {
-            using (var frm = new FrmBigList(core, config, mode))
+            using (var frm = new FrmBigList(core, config, readOnly, automaticAddTemplate))
             {
                 if (owner is FrmBigList)
                 {
                     frm.Size = new Size(Math.Max(128, owner.Width - 32), Math.Max(128, owner.Height - 32));
                 }
 
-                return (UiControls.ShowWithDim(owner, frm) == DialogResult.OK);
+                if (UiControls.ShowWithDim(owner, frm) != DialogResult.OK)
+                {
+                    return null;
+                }
+
+                return frm._list;
             }
         }
 
@@ -506,11 +228,9 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 _activated = true;
 
-                IVisualisable autoAdd = _config.GetAutoCreateTemplate();
-
-                if (autoAdd != null)
+                if (_automaticAddTemplate != null)
                 {
-                    IVisualisable o = _config.EditObject(this, autoAdd, false);
+                    IVisualisable o = (IVisualisable)_config.UntypedEdit(this, _automaticAddTemplate, false, true);
 
                     if (o != null)
                     {
@@ -522,7 +242,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnAdd_Click(object sender, EventArgs e)
         {
-            IVisualisable o = _config.EditObject(this, null, false);
+            IVisualisable o = (IVisualisable)_config.UntypedEdit(this, null, false, true);
 
             if (o != null)
             {
@@ -536,13 +256,11 @@ namespace MetaboliteLevels.Forms.Editing
 
             string name = item.OverrideDisplayName;
             string comment = item.Comment;
-            bool enabled = item.Enabled;
 
-            if (FrmInput2.Show(this, item.DefaultDisplayName, "Rename", item.ToString(), item.DefaultDisplayName, ref name, ref comment, ref enabled, false, IVisualisableExtensions.SupportsDisable(item)))
+            if (FrmInput2.Show(this, item.DefaultDisplayName, "Rename", item.ToString(), item.DefaultDisplayName, ref name, ref comment, false, item))
             {
                 item.OverrideDisplayName = name;
                 item.Comment = comment;
-                item.Enabled = enabled;
 
                 origStatus.Required = true;
 
@@ -562,17 +280,26 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void Replace(IVisualisable remove, IVisualisable create)
         {
-            if (remove != null)
-            {
-                _list.Remove(remove);
-            }
+            _config.UntypedBeforeReplace(this, remove, create);
 
-            if (create != null)
+            if (!_config.ListChangesOnEdit)
             {
-                _list.Add(create);
-            }
+                if (remove != null)
+                {
+                    _list.Remove(remove);
+                }
 
-            _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
+                if (create != null)
+                {
+                    _list.Add(create);
+                }
+
+                _listViewHelper.Rebuild(EListInvalids.ContentsChanged);
+            }
+            else
+            {
+                UpdateListFromSource();
+            }
 
             if (create != null)
             {
@@ -586,7 +313,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (o != null)
             {
-                _config.EditObject(this, o, true);
+                _config.UntypedEdit(this, o, true, true);
             }
         }
 
@@ -605,43 +332,18 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            while (true)
+            IVisualisable modified = (IVisualisable)_config.UntypedEdit(this, toEdit, false, false);
+
+            if (modified == original)
             {
-                IVisualisable modified = _config.EditObject(this, toEdit, false);
-
-                if (modified == original)
-                {
-                    // If they are the same object then only values have changed
-                    _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
-                    _listViewHelper.Selection = modified;
-                    return;
-                }
-                else if (modified != null)
-                {
-                    EReplaceMode replaceMode = _config.BeforeReplace(this, original, modified);
-
-                    switch (replaceMode)
-                    {
-                        case EReplaceMode.CreateNew:
-                            Replace(null, modified);
-                            return;
-
-                        case EReplaceMode.Replace:
-                            Replace(original, modified);
-                            return;
-
-                        case EReplaceMode.Cancel:
-                            toEdit = modified;
-                            break;
-
-                        default:
-                            throw new SwitchException(replaceMode);
-                    }
-                }
-                else
-                {
-                    return;
-                }
+                // If they are the same object then only values have changed
+                _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
+                _listViewHelper.Selection = modified;
+                return;
+            }
+            else if (modified != null)
+            {
+                Replace(original, modified);
             }
         }
 
@@ -716,16 +418,17 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnOk_Click(object sender, EventArgs e)
         {
-            _keepChanges = true;                                                            
+            _keepChanges = true;
+            object status;
 
-            if (!_config.PrepareForApply(this, _list))
+            if (!_config.UntypedPrepareForApply(this, _list, out status))
             {
                 return;
             }
 
-            FrmWait.Show(this, "Applying changes", null, _config.ApplyChanges, _list);
+            FrmWait.Show(this, "Applying changes", null, z => _config.UntypedApplyChanges(_list, z, status));
 
-            _config.AfterApply(this);
+            _config.UntypedAfterApply(this, _list, status);
 
             DialogResult = DialogResult.OK;
         }
@@ -752,19 +455,18 @@ namespace MetaboliteLevels.Forms.Editing
         {
             IVisualisable p = GetSelected();
 
-            bool e = p != null;
-            bool f = e;
+            bool itemSelected = p != null;
 
-            _btnRemove.Enabled = e;
-            _btnView.Enabled = e;
-            _btnEdit.Enabled = e;
-            _btnRename.Enabled = e;
-            _btnUp.Enabled = e;
-            _btnDown.Enabled = e;
-            _btnDuplicate.Enabled = e;
-            _btnEnableDisable.Enabled = f;
+            _btnRemove.Enabled = itemSelected;
+            _btnView.Enabled = itemSelected;
+            _btnEdit.Enabled = itemSelected;
+            _btnRename.Enabled = itemSelected && IVisualisableExtensions.SupportsRename(p);
+            _btnUp.Enabled = itemSelected;
+            _btnDown.Enabled = itemSelected;
+            _btnDuplicate.Enabled = itemSelected;
+            _btnEnableDisable.Enabled = itemSelected && IVisualisableExtensions.SupportsDisable(p);
 
-            if (f && Get(p).OriginalEnabled)
+            if (itemSelected && Get(p).OriginalEnabled)
             {
                 _btnEnableDisable.Text = "Disable";
                 _btnEnableDisable.Image = Resources.MnuDisable;
@@ -785,7 +487,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            IVisualisable o = _config.EditObject(this, p, false);
+            IVisualisable o = (IVisualisable)_config.UntypedEdit(this, p, false, true);
 
             if (o != null)
             {

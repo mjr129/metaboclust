@@ -202,6 +202,26 @@ namespace MetaboliteLevels.Data.Visualisables
             v.Enabled = originalState;
             return canEnable;
         }
+
+        const string TEST_VALUE = "{EF304B9C-738D-4E2A-88D5-BFA1A72766EC}";
+
+        public static bool SupportsRename(IVisualisable v)
+        {
+            string originalState = v.OverrideDisplayName;
+            v.OverrideDisplayName = TEST_VALUE;
+            bool canEnable = v.OverrideDisplayName == TEST_VALUE;
+            v.OverrideDisplayName = originalState;
+            return canEnable;
+        }
+
+        public static bool SupportsComment(IVisualisable v)
+        {
+            string originalState = v.Comment;
+            v.Comment = TEST_VALUE;
+            bool canEnable = v.Comment == TEST_VALUE;
+            v.Comment = originalState;
+            return canEnable;
+        }
     }
 
     /// <summary>

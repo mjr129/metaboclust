@@ -15,6 +15,7 @@ using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Data;
+using MetaboliteLevels.Algorithms.Statistics.Metrics;
 
 namespace MetaboliteLevels.Forms.Wizards
 {
@@ -25,7 +26,9 @@ namespace MetaboliteLevels.Forms.Wizards
         Peak _lowestPeak;
         Peak _highestPeak;
         Peak current;
-        private EditableComboBox<Settings.ObsFilter> _ecbFilter;
+        private EditableComboBox<ObsFilter> _ecbFilter;
+        private EditableComboBox<MetricBase> _ecbDistance;
+        private EditableComboBox<PeakFilter> _ecbPeakFilter;
         private readonly ChartHelperForPeaks _chart;
 
         internal static bool Show(Form owner, Core core)
@@ -49,11 +52,13 @@ namespace MetaboliteLevels.Forms.Wizards
 
             _chart = new ChartHelperForPeaks(null, core, panel1);
 
-            _ecbFilter = ListValueSet.ForObsFilter(core, true).CreateComboBox(_lstFilters, _btnEditFilters, core);
+            _ecbFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstFilters, _btnEditFilters, ENullItemName.All);
             _lstGroups.Items.AddRange(NamedItem.GetRange(core.Groups, z => z.DisplayName).ToArray());
             _lstGroups.SelectedIndex = 0;
 
-            ctlStatistics1.Bind(core);
+            _ecbPeakFilter = DataSet.ForPeakFilter(core).CreateComboBox(_lstPeakFilter, _btnPeakFilter, ENullItemName.All);
+            _ecbDistance = DataSet.ForMetricAlgorithms(core).CreateComboBox(_lstDistanceMeasure, _btnDistanceMeasure, ENullItemName.NoNullItem);
+            _lstDistanceMeasure.SelectedIndexChanged += _lstDistanceMeasure_SelectedIndexChanged;
 
             this.current = current;
             _lblSeedCurrent.Text = current != null ? current.DisplayName : "None";
@@ -71,6 +76,12 @@ namespace MetaboliteLevels.Forms.Wizards
             UpdateStatBox();
 
             UiControls.CompensateForVisualStyles(this);
+        }
+
+        private void _lstDistanceMeasure_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _txtDistanceParams.Visible = _ecbDistance.HasSelection && _ecbDistance.SelectedItem.Parameters.Count != 0;
+            label10.Visible = _txtDistanceParams.Visible;
         }
 
         private string GetStatName(ConfigurationStatistic input)
@@ -103,17 +114,17 @@ namespace MetaboliteLevels.Forms.Wizards
         }
 
         private void _lblSeedStudent_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {                                                 
+        {
             _radSeedLowest.Checked = true;
         }
 
         private void _lblSeedPearson_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {                                                 
+        {
             _radSeedHighest.Checked = true;
         }
 
         private void _lblSeedCurrent_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {   
+        {
             _radSeedCurrent.Checked = true;
         }
 
@@ -121,6 +132,7 @@ namespace MetaboliteLevels.Forms.Wizards
         {
             double tmpd;
             int tmpi;
+            object[] tmpo;
 
             switch (p)
             {
@@ -133,7 +145,9 @@ namespace MetaboliteLevels.Forms.Wizards
                         && _lstGroups.SelectedItem != null;
 
                 case 2:
-                    return ctlStatistics1.IsValid();
+                    return _ecbPeakFilter.HasSelection &&
+                        _ecbDistance.HasSelection
+                        && _ecbDistance.SelectedItem.Parameters.TryStringToParams(_core, _txtDistanceParams.Text, out tmpo);
 
                 case 3:
                     return (_radStopN.Checked && int.TryParse(_txtStopN.Text, out tmpi))
@@ -157,9 +171,7 @@ namespace MetaboliteLevels.Forms.Wizards
             {
                 FrmMsgBox.ShowError(this, "Not all options have been selected.");
                 return;
-            }
-
-            var statistics = ctlStatistics1.Retrieve();
+            }                                          
 
             int param1_numClusters = _radStopN.Checked ? int.Parse(_txtStopN.Text) : int.MinValue;
             double param2_distanceLimit = _radStopD.Checked ? double.Parse(_txtStopD.Text) : double.MinValue;
@@ -227,8 +239,12 @@ namespace MetaboliteLevels.Forms.Wizards
                 trueFilter = _ecbFilter.SelectedItem;
             }
 
-            ArgsClusterer args = new ArgsClusterer(statistics.PeakFilter,
-                                                    statistics.DistanceMetric,
+            ArgsClusterer args = new ArgsClusterer(_ecbPeakFilter.SelectedItem,
+                                                   new ConfigurationMetric(
+                                                        null,
+                                                        null,
+                                                        _ecbDistance.SelectedItem.Id,
+                                                        new ArgsMetric(_ecbDistance.SelectedItem.Parameters.StringToParams(_core, _txtDistanceParams.Text))),
                                                     EAlgoSourceMode.Trend,
                                                     trueFilter,
                                                     _chkClusterIndividually.Checked,

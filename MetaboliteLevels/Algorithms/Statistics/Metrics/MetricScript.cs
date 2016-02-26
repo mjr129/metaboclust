@@ -14,10 +14,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
         public const string INPUTS = "value.a=a,value.b=b,intensity.a=-,intensity.b=-,group.a=-,group.b=-,time.a=-,time.b=-,rep.a=-,rep.b=-";
         private readonly bool _supportsQuickCalculate;
 
-        public MetricScript(string script, string id, string name)
+        public MetricScript(string script, string id, string name, string fileName)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS);
+            this._script = new RScript(script, INPUTS, fileName);
 
             _supportsQuickCalculate = _script.CheckInputMask("1100000000");   
         }
@@ -29,6 +29,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
             object[] inputs = { a, b };
             return Arr.Instance.RunScriptDouble(_script, inputs, args);
         }
+
+        public override RScript Script => _script;
 
         public override double Calculate(InputStatistic input)
         {

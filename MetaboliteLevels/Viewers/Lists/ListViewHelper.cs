@@ -393,7 +393,7 @@ namespace MetaboliteLevels.Viewers.Lists
             // If many columns then show a listbox instead
             if (_availableColumns.Count >= 50)
             {
-                IEnumerable<Column> selected = ListValueSet.ForColumns(_availableColumns).Select(z => z.Visible).ShowCheckList(this.ListView.FindForm());
+                IEnumerable<Column> selected = DataSet.ForColumns(_availableColumns).ShowCheckList(this.ListView.FindForm(), _availableColumns.Where(z => !z.IsAlwaysEmpty && z.Visible));
 
                 if (selected != null)
                 {

@@ -44,12 +44,12 @@ namespace MetaboliteLevels.Forms.Editing
 
         private Peak PickVariable()
         {
-            return ListValueSet.ForPeaks(_core, true).ShowList(this);
+            return DataSet.ForPeaks(_core).ShowList(this, null);
         }
 
         private Cluster PickCluster()
         {
-            return ListValueSet.ForClusters(_core, true).ShowList(this);
+            return DataSet.ForClusters(_core).ShowList(this, null);
         }
 
         private void EndWait()
@@ -85,7 +85,7 @@ namespace MetaboliteLevels.Forms.Editing
         /// <summary>
         /// Updates the progress bar
         /// </summary>
-        void IProgressReceiver.ReportProgressDetails(ProgressReporter.ProgInfo info )
+        void IProgressReceiver.ReportProgressDetails(ProgressReporter.ProgInfo info)
         {
             toolStripStatusLabel2.Text = info.Text;
 
@@ -106,7 +106,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 _lastProgressFlash.Restart();
                 _statusMain.BackColor = _statusMain.BackColor == Color.Red ? Color.Orange : Color.Red;
-            }               
+            }
         }
 
         private FrmDebug()
@@ -374,16 +374,16 @@ namespace MetaboliteLevels.Forms.Editing
         [InList]
         void view_fields()
         {
-            IVisualisable vis = ListValueSet.ForEverything(_core).ShowList(this);
+            object vis = DataSet.ForEverything(_core).ShowList(this, null);
 
-            if (vis != null)
+            if (vis is IVisualisable)
             {
-                IEnumerable<string> selected = new ListValueSet<string>()
+                IEnumerable<string> selected = new DataSet<string>()
                 {
-                    Title = vis.DisplayName,
+                    Title = vis.ToString(),
                     SubTitle = "List of properties",
-                    List = vis.QueryProperties(_core)
-                }.ShowCheckList(this);
+                    List = ((IVisualisable)vis).QueryProperties(_core)
+                }.ShowCheckList(this, null);
 
                 if (selected != null && !selected.IsEmpty())
                 {
@@ -418,7 +418,7 @@ namespace MetaboliteLevels.Forms.Editing
             PeakFlag type1;
             PeakFlag type2;
 
-            ConfigurationStatistic stat = ListValueSet.ForStatistics(_core, true).ShowList(this);
+            ConfigurationStatistic stat = DataSet.ForStatistics(_core).ShowList(this, null);
 
             if (stat == null)
             {
@@ -429,14 +429,14 @@ namespace MetaboliteLevels.Forms.Editing
             string sign = FrmInput.Show(this, "Classifier settings", "Find classifier", "Enter the cutoff, or 0 for for automatic", "0");
             double manCutoff;
 
-            type1 = ListValueSet.ForPeakFlags(_core).IncludeMessage("Specify the comment flag signifying the first type").ShowList(this);
+            type1 = DataSet.ForPeakFlags(_core).IncludeMessage("Specify the comment flag signifying the first type").ShowList(this, null);
 
             if (type1 == null)
             {
                 return;
             }
 
-            type2 = ListValueSet.ForPeakFlags(_core).IncludeMessage("Specify the comment flag signifying the second type").ShowList(this);
+            type2 = DataSet.ForPeakFlags(_core).IncludeMessage("Specify the comment flag signifying the second type").ShowList(this, null);
 
             if (type2 == null)
             {

@@ -82,13 +82,13 @@ namespace MetaboliteLevels.Forms.Editing
             ctlTitleBar1.Text = readOnly ? "View Condition" : "Edit Condition";
 
             // Setup boxes
-            _cbAq = ListValueSet.ForAcquisitions(core).CreateConditionBox(_txtAq, _btnAq);
-            _cbBatch = ListValueSet.ForBatches(core, true).CreateConditionBox(_txtBatch, _btnBatch);
-            _cbCond = ListValueSet.ForConditions(core, true).CreateConditionBox(_txtCond, _btnCond);
-            _cbGroup = ListValueSet.ForGroups(core, true).CreateConditionBox(_txtGroup, _btnGroup);
-            _cbObs = ListValueSet.ForObservations(core, true).CreateConditionBox(_txtObs, _btnObs);
-            _cbRep = ListValueSet.ForReplicates(core).CreateConditionBox(_txtRep, _btnRep);
-            _cbTime = ListValueSet.ForTimes(core).CreateConditionBox(_txtTime, _btnTime);
+            this._cbAq = Generic.DataSet.ForAcquisitions(core).CreateConditionBox(this._txtAq, this._btnAq);
+            this._cbBatch = Generic.DataSet.ForBatches(core).CreateConditionBox(this._txtBatch, this._btnBatch);
+            this._cbCond = Generic.DataSet.ForConditions(core).CreateConditionBox(this._txtCond, this._btnCond);
+            this._cbGroup = Generic.DataSet.ForGroups(core).CreateConditionBox(this._txtGroup, this._btnGroup);
+            this._cbObs = Generic.DataSet.ForObservations(core).CreateConditionBox(this._txtObs, this._btnObs);
+            this._cbRep = Generic.DataSet.ForReplicates(core).CreateConditionBox(this._txtRep, this._btnRep);
+            this._cbTime = Generic.DataSet.ForTimes(core).CreateConditionBox(this._txtTime, this._btnTime);
 
             _lsoAq = EnumComboBox.Create(this._lstAq, Filter.EElementOperator.Is);
             _lsoBatch = EnumComboBox.Create(this._lstBatch, Filter.EElementOperator.Is);

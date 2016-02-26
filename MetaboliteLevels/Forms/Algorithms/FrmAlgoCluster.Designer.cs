@@ -134,8 +134,7 @@
             this._btnNewStatistic.Name = "_btnNewStatistic";
             this._btnNewStatistic.Size = new System.Drawing.Size(28, 28);
             this._btnNewStatistic.TabIndex = 16;
-            this._btnNewStatistic.UseVisualStyleBackColor = true;
-            this._btnNewStatistic.Click += new System.EventHandler(this._btnNewStatistic_Click);
+            this._btnNewStatistic.UseVisualStyleBackColor = true;                                  
             // 
             // _btnComment
             // 
@@ -545,8 +544,7 @@
             this._btnNewDistance.Name = "_btnNewDistance";
             this._btnNewDistance.Size = new System.Drawing.Size(28, 28);
             this._btnNewDistance.TabIndex = 16;
-            this._btnNewDistance.UseVisualStyleBackColor = true;
-            this._btnNewDistance.Click += new System.EventHandler(this._btnNewDistance_Click);
+            this._btnNewDistance.UseVisualStyleBackColor = true;                                  
             // 
             // _btnEditDistanceParameters
             // 

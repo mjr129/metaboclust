@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBigList));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.listView1 = new System.Windows.Forms.ListView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
@@ -47,11 +48,10 @@
             this._btnEnableDisable = new MetaboliteLevels.Controls.CtlButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -71,6 +71,16 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(960, 651);
             this.tableLayoutPanel2.TabIndex = 23;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.listView1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(8, 8);
+            this.panel1.Margin = new System.Windows.Forms.Padding(8);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(800, 579);
+            this.panel1.TabIndex = 25;
             // 
             // listView1
             // 
@@ -140,10 +150,10 @@
             this.flowLayoutPanel2.Controls.Add(this._btnDown);
             this.flowLayoutPanel2.Controls.Add(this._btnEnableDisable);
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(816, 0);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(824, 8);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(8);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(144, 400);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(128, 384);
             this.flowLayoutPanel2.TabIndex = 3;
             this.flowLayoutPanel2.WrapContents = false;
             // 
@@ -151,8 +161,8 @@
             // 
             this._btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("_btnAdd.Image")));
-            this._btnAdd.Location = new System.Drawing.Point(8, 8);
-            this._btnAdd.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnAdd.Location = new System.Drawing.Point(0, 0);
+            this._btnAdd.Margin = new System.Windows.Forms.Padding(0);
             this._btnAdd.Name = "_btnAdd";
             this._btnAdd.Size = new System.Drawing.Size(128, 40);
             this._btnAdd.TabIndex = 1;
@@ -165,8 +175,8 @@
             // 
             this._btnDuplicate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("_btnDuplicate.Image")));
-            this._btnDuplicate.Location = new System.Drawing.Point(8, 48);
-            this._btnDuplicate.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this._btnDuplicate.Location = new System.Drawing.Point(0, 40);
+            this._btnDuplicate.Margin = new System.Windows.Forms.Padding(0);
             this._btnDuplicate.Name = "_btnDuplicate";
             this._btnDuplicate.Size = new System.Drawing.Size(128, 40);
             this._btnDuplicate.TabIndex = 6;
@@ -180,8 +190,8 @@
             this._btnRemove.Enabled = false;
             this._btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnRemove.Image = ((System.Drawing.Image)(resources.GetObject("_btnRemove.Image")));
-            this._btnRemove.Location = new System.Drawing.Point(8, 88);
-            this._btnRemove.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this._btnRemove.Location = new System.Drawing.Point(0, 80);
+            this._btnRemove.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this._btnRemove.Name = "_btnRemove";
             this._btnRemove.Size = new System.Drawing.Size(128, 40);
             this._btnRemove.TabIndex = 1;
@@ -195,8 +205,8 @@
             this._btnView.Enabled = false;
             this._btnView.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnView.Image = ((System.Drawing.Image)(resources.GetObject("_btnView.Image")));
-            this._btnView.Location = new System.Drawing.Point(8, 136);
-            this._btnView.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnView.Location = new System.Drawing.Point(0, 128);
+            this._btnView.Margin = new System.Windows.Forms.Padding(0);
             this._btnView.Name = "_btnView";
             this._btnView.Size = new System.Drawing.Size(128, 40);
             this._btnView.TabIndex = 1;
@@ -211,8 +221,8 @@
             this._btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnEdit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnEdit.Image = ((System.Drawing.Image)(resources.GetObject("_btnEdit.Image")));
-            this._btnEdit.Location = new System.Drawing.Point(8, 176);
-            this._btnEdit.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this._btnEdit.Location = new System.Drawing.Point(0, 168);
+            this._btnEdit.Margin = new System.Windows.Forms.Padding(0);
             this._btnEdit.Name = "_btnEdit";
             this._btnEdit.Size = new System.Drawing.Size(128, 40);
             this._btnEdit.TabIndex = 1;
@@ -226,8 +236,8 @@
             this._btnRename.Enabled = false;
             this._btnRename.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnRename.Image = ((System.Drawing.Image)(resources.GetObject("_btnRename.Image")));
-            this._btnRename.Location = new System.Drawing.Point(8, 216);
-            this._btnRename.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this._btnRename.Location = new System.Drawing.Point(0, 208);
+            this._btnRename.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this._btnRename.Name = "_btnRename";
             this._btnRename.Size = new System.Drawing.Size(128, 40);
             this._btnRename.TabIndex = 2;
@@ -241,8 +251,8 @@
             this._btnUp.Enabled = false;
             this._btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnUp.Image = ((System.Drawing.Image)(resources.GetObject("_btnUp.Image")));
-            this._btnUp.Location = new System.Drawing.Point(8, 264);
-            this._btnUp.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnUp.Location = new System.Drawing.Point(0, 256);
+            this._btnUp.Margin = new System.Windows.Forms.Padding(0);
             this._btnUp.Name = "_btnUp";
             this._btnUp.Size = new System.Drawing.Size(128, 40);
             this._btnUp.TabIndex = 3;
@@ -256,8 +266,8 @@
             this._btnDown.Enabled = false;
             this._btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnDown.Image = ((System.Drawing.Image)(resources.GetObject("_btnDown.Image")));
-            this._btnDown.Location = new System.Drawing.Point(8, 304);
-            this._btnDown.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
+            this._btnDown.Location = new System.Drawing.Point(0, 296);
+            this._btnDown.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this._btnDown.Name = "_btnDown";
             this._btnDown.Size = new System.Drawing.Size(128, 40);
             this._btnDown.TabIndex = 4;
@@ -271,8 +281,8 @@
             this._btnEnableDisable.Enabled = false;
             this._btnEnableDisable.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnEnableDisable.Image = ((System.Drawing.Image)(resources.GetObject("_btnEnableDisable.Image")));
-            this._btnEnableDisable.Location = new System.Drawing.Point(8, 352);
-            this._btnEnableDisable.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
+            this._btnEnableDisable.Location = new System.Drawing.Point(0, 344);
+            this._btnEnableDisable.Margin = new System.Windows.Forms.Padding(0);
             this._btnEnableDisable.Name = "_btnEnableDisable";
             this._btnEnableDisable.Size = new System.Drawing.Size(128, 40);
             this._btnEnableDisable.TabIndex = 5;
@@ -303,16 +313,6 @@
             this.ctlTitleBar1.Text = "Text goes here";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.listView1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(8, 8);
-            this.panel1.Margin = new System.Windows.Forms.Padding(8);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 579);
-            this.panel1.TabIndex = 25;
-            // 
             // FrmBigList
             // 
             this.AcceptButton = this._btnOk;
@@ -329,9 +329,9 @@
             this.Text = "Title goes here";
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

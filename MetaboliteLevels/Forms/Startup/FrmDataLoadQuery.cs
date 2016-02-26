@@ -854,13 +854,13 @@ namespace MetaboliteLevels.Forms.Startup
 
         private ConditionBox<int> CreateExpConditionBox(TextBox textBox, Button button)
         {
-            return new ListValueSet<int>()
+            return new DataSet<int>()
             {
                 Title = "Experimental Conditions",
                 List = new TypeCacheIdsWrapper(this),
-                Namer = ConditionBox_Namer,
-                Describer = ConditionBox_Describer,
-                Retriever = ConditionBox_Retriever,
+                ItemNameProvider = ConditionBox_Namer,
+                ItemDescriptionProvider = ConditionBox_Describer,
+                NewItemRetriever = ConditionBox_Retriever,
             }.CreateConditionBox(textBox, button);
         }
 

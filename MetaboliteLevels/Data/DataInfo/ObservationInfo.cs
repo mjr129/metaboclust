@@ -31,6 +31,7 @@ namespace MetaboliteLevels.Data.DataInfo
             this.Rep = rep;
             this.Batch = batch;
             this.Acquisition = acquisition;
+            this.Enabled = true;
         }
 
         public override string ToString()
@@ -94,7 +95,7 @@ namespace MetaboliteLevels.Data.DataInfo
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public bool Enabled { get; set; } 
+        public bool Enabled { get; set; }
 
         public static int GroupTimeReplicateOrder(ObservationInfo a, ObservationInfo b)
         {
@@ -149,7 +150,7 @@ namespace MetaboliteLevels.Data.DataInfo
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.Point;
-        }     
+        }
 
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
@@ -162,6 +163,7 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("Acquisition", EColumn.None, z => z.Acquisition);
             columns.Add("Batch", EColumn.None, z => z.Batch.DisplayName, z => z.Batch.Colour);
             columns.Add("Comment", EColumn.None, z => z.Comment);
+            columns.Add("Enabled", EColumn.None, z => z.Enabled);
 
             return columns;
         }

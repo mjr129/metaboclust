@@ -143,7 +143,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             if (c is TextBox)
             {
-                ((TextBox)c).Text = (string)value;
+                ((TextBox)c).Text = value.ToString();
             }
             else if (c is CheckBox)
             {

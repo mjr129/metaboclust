@@ -13,6 +13,7 @@ using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Controls;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {
@@ -24,6 +25,8 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private Peak _previewPeak;
         private string _comments;
+
+        EditableComboBox<TrendBase> _ecbMethod;
 
         internal static ConfigurationTrend Show(Form owner, Core core, ConfigurationTrend def, bool readOnly)
         {
@@ -49,12 +52,14 @@ namespace MetaboliteLevels.Forms.Algorithms
             _core = core;
             _previewPeak = previewPeak;
 
+            _ecbMethod = DataSet.ForTrendAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
+
             _chart1 = new ChartHelperForPeaks(null, core, panel1);
 
             if (def != null)
             {
                 this._txtName.Text = def.OverrideDisplayName;
-                this._lstMethod.SelectedItem = def.Cached;
+                this._ecbMethod.SelectedItem = def.Cached;
                 this._comments = def.Comment;
                 this._txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
             }
@@ -86,7 +91,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ConfigurationTrend GetSelection()
         {
-            TrendBase sel = (TrendBase)this._lstMethod.SelectedItem;
+            TrendBase sel = (TrendBase)this._ecbMethod.SelectedItem;
             string title;
             object[] args;
 
@@ -123,9 +128,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lblPreviewTitle.BackColor = UiControls.PreviewBackColour;
             _lblPreviewTitle.ForeColor = UiControls.PreviewForeColour;
             _flpPreviewButtons.BackColor = UiControls.PreviewBackColour;
-            _flpPreviewButtons.ForeColor = UiControls.PreviewForeColour;
-
-            RebuildUsing(null);
+            _flpPreviewButtons.ForeColor = UiControls.PreviewForeColour; 
         }
 
         private void Check(object sender, EventArgs e)
@@ -171,7 +174,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void CheckAndChange(object sender, EventArgs e)
         {
-            var sm = (TrendBase)_lstMethod.SelectedItem;
+            var sm = (TrendBase)_ecbMethod.SelectedItem;
             bool s = sm != null && sm.Parameters.HasCustomisableParams;
 
             _lblParams.Visible = s;
@@ -197,33 +200,11 @@ namespace MetaboliteLevels.Forms.Algorithms
                     _comments = newComments;
                 }
             }
-        }
-
-        private void _btnNewStatistic_Click(object sender, EventArgs e)
-        {
-            string fn = FrmRScript.Show(this, Text, "New Trend Function", TrendScript.INPUTS, UiControls.EInitialFolder.FOLDER_TRENDS, @"RScript Editor", FrmRScript.SaveMode.ReturnFileName | FrmRScript.SaveMode.SaveToFolderMandatory);
-
-            if (fn != null)
-            {
-                Algo.Instance.Rebuild();
-                RebuildUsing(Algo.GetId(UiControls.EInitialFolder.FOLDER_TRENDS, fn));
-            }
-        }
-
-        private void RebuildUsing(string selectedId)
-        {
-            _lstMethod.Items.Clear();
-            _lstMethod.Items.AddRange(Algo.Instance.Trends.ToArray());
-
-            if (selectedId != null)
-            {
-                _lstMethod.SelectedItem = Algo.Instance.Trends.Get(selectedId);
-            }
-        }
+        }   
 
         private void _btnSelectPreview_Click(object sender, EventArgs e)
         {
-            var newSel = ListValueSet.ForPeaks(_core, true).Select(_previewPeak).ShowList(this);
+            var newSel = DataSet.ForPeaks(_core).ShowList(this, _previewPeak);
 
             if (newSel != null)
             {
@@ -258,7 +239,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {
-            var sm = (TrendBase)_lstMethod.SelectedItem;
+            var sm = (TrendBase)_ecbMethod.SelectedItem;
             FrmEditParameters.Show(sm, _txtParams, _core, _readOnly);
         }
     }

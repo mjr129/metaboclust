@@ -19,10 +19,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         public readonly RScript _script;
         private readonly bool _usesDistanceMatrix;
 
-        public ClustererScript(string script, string id, string name)
+        public ClustererScript(string script, string id, string name, string fileName)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS);
+            this._script = new RScript(script, INPUTS, fileName);
 
             UiControls.Assert(_script.IsInputPresent(0) || _script.IsInputPresent(1), "ClustererScript must take at least one of value matrix or distance matrix");
 
@@ -34,6 +34,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         public override bool SupportsDistanceMetrics { get { return _usesDistanceMatrix; } }
         public override bool RequiresDistanceMatrix { get { return _usesDistanceMatrix; } }
         public override bool SupportsObservationFilters { get { return true; } }
+        public override RScript Script => _script;
 
         protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {

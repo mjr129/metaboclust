@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Algorithms
         private const string SCRIPT_KMEANS = "## k = integer\r\nkmeans(x, k)$cluster";
 
         // Delegates
-        private delegate T Delegate_Constructor<T>(string scriptText, string id, string name);
+        private delegate T Delegate_Constructor<T>(string scriptText, string id, string name, string fileName);
 
         // Our stores of algorithms, by category
         public readonly StatCollection<AlgoBase> All = new StatCollection<AlgoBase>();                      // All algorithms
@@ -109,8 +109,8 @@ namespace MetaboliteLevels.Algorithms
             Statistics.Add(new MetricInbuilt(Maths.Qian, @"QIAN", "Qian"));
             Statistics.Add(new MetricInbuilt(Maths.QianDistance, @"QIAN_DISTANCE", "Qian × -1 (distance)"));
 
-            Statistics.Add(new MetricScript(SCRIPT_TTEST, ID_METRIC_TTEST, "t-test (p)") { Description = "Conducts a t-test and returns the p-value" });
-            Statistics.Add(new MetricScript(SCRIPT_PEARSON, ID_METRIC_PEARSON, "Pearson (r)"));
+            Statistics.Add(new MetricScript(SCRIPT_TTEST, ID_METRIC_TTEST, "t-test (p)", null) { Description = "Conducts a t-test and returns the p-value" });
+            Statistics.Add(new MetricScript(SCRIPT_PEARSON, ID_METRIC_PEARSON, "Pearson (r)", null));
 
             // Statistics
             Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.InterquartileRange));
@@ -148,13 +148,13 @@ namespace MetaboliteLevels.Algorithms
             Trends.Add(new TrendAverage(Maths.Max, ID_TREND_MOVING_MAXIMUM, "Moving maximum"));
 
             // Corrections
-            Corrections.Add(new CorrectionScript(@"scale(y)", @"SCALE", "UV Scale and centre"));
-            Corrections.Add(new CorrectionScript(@"scale(y, center = FALSE)", @"SCALE_NO_C", "UV Scale"));
-            Corrections.Add(new CorrectionScript(@"scale(y, scale = FALSE)", @"CENTRE_NO_S", "Center"));
+            Corrections.Add(new CorrectionScript(@"scale(y)", @"SCALE", "UV Scale and centre", null));
+            Corrections.Add(new CorrectionScript(@"scale(y, center = FALSE)", @"SCALE_NO_C", "UV Scale", null));
+            Corrections.Add(new CorrectionScript(@"scale(y, scale = FALSE)", @"CENTRE_NO_S", "Center", null));
             Corrections.Add(new CorrectionDirtyRectify(@"ZERO_MISSING", "Zero invalid values"));
 
             // Clusterers
-            Clusterers.Add(new ClustererScript(SCRIPT_KMEANS, ID_KMEANS, "k-means (R)"));
+            Clusterers.Add(new ClustererScript(SCRIPT_KMEANS, ID_KMEANS, "k-means (R)", null));
             Clusterers.Add(new LegacyKMeansClusterer(ID_KMEANSWIZ, "k-means (inbuilt)"));
             Clusterers.Add(new LegacyDKMeansPPClusterer(ID_DKMEANSPPWIZ, "d-k-means++ (inbuilt)"));
             Clusterers.Add(new LegacyPathwayClusterer(ID_PATFROMPATH, "*Cluster to pathways"));
@@ -163,11 +163,11 @@ namespace MetaboliteLevels.Algorithms
             Clusterers.Add(new ClustererAffinityPropagation("AFFINITY", "Affinity propagation (inbuilt)"));
 
             // From files
-            PopulateFiles(Statistics, UiControls.EInitialFolder.FOLDER_STATISTICS, (txt, id, name) => new StatisticScript(txt, id, name));
-            PopulateFiles(Statistics, UiControls.EInitialFolder.FOLDER_METRICS, (txt, id, name) => new MetricScript(txt, id, name));
-            PopulateFiles(Trends, UiControls.EInitialFolder.FOLDER_TRENDS, (txt, id, name) => new TrendScript(txt, id, name));
-            PopulateFiles(Clusterers, UiControls.EInitialFolder.FOLDER_CLUSTERERS, (txt, id, name) => new ClustererScript(txt, id, name));
-            PopulateFiles(Corrections, UiControls.EInitialFolder.FOLDER_CORRECTIONS, (txt, id, name) => new CorrectionScript(txt, id, name));
+            PopulateFiles(Statistics, UiControls.EInitialFolder.FOLDER_STATISTICS, (txt, id, name, fn) => new StatisticScript(txt, id, name, fn));
+            PopulateFiles(Statistics, UiControls.EInitialFolder.FOLDER_METRICS, (txt, id, name, fn) => new MetricScript(txt, id, name, fn));
+            PopulateFiles(Trends, UiControls.EInitialFolder.FOLDER_TRENDS, (txt, id, name, fn) => new TrendScript(txt, id, name, fn));
+            PopulateFiles(Clusterers, UiControls.EInitialFolder.FOLDER_CLUSTERERS, (txt, id, name, fn) => new ClustererScript(txt, id, name, fn));
+            PopulateFiles(Corrections, UiControls.EInitialFolder.FOLDER_CORRECTIONS, (txt, id, name, fn) => new CorrectionScript(txt, id, name, fn));
 
             // Derivative collections
             Metrics.AddRange(Statistics.Where(z => z.IsMetric && ((MetricBase)z).SupportsQuickCalculate).Cast<MetricBase>());
@@ -187,7 +187,7 @@ namespace MetaboliteLevels.Algorithms
             {
                 string id = GetId(searchFolder, fn);
                 string name = Path.GetFileName(fn);
-                targetCollection.Add(constructorMethod(File.ReadAllText(fn), id, name));
+                targetCollection.Add(constructorMethod(File.ReadAllText(fn), id, name, fn));
             }
         }
 
@@ -201,6 +201,19 @@ namespace MetaboliteLevels.Algorithms
         {
             string id = "SCRIPT:" + folder.ToUiString().ToUpper() + "\\" + Path.GetFileNameWithoutExtension(fileName);
             return id;
+        }
+
+        /// <summary>
+        /// Gets a filename from an ID.
+        /// </summary>                 
+        public static string GetFileName(string id)
+        {
+            if (id.StartsWith("SCRIPT:"))
+            {
+                return Path.Combine(UiControls.StartupPath, id.Substring(7) + ".r");
+            }
+
+            return null;
         }
     }
 }

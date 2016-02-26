@@ -56,6 +56,7 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             this.Time = time;
             this.Group = groupInfo;
+            this.Enabled = true;
         }
 
         public override string ToString()
@@ -88,6 +89,7 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
             columns.Add("Time", EColumn.None, z => z.Time);
             columns.Add("Comment", EColumn.None, z => z.Comment);
+            columns.Add("Enabled", EColumn.None, z => z.Enabled);
 
             return columns;
         }

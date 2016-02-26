@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// Constructor.
         /// </summary>
         public AlgoParameterCollection(params AlgoParameter[] parameters)
-        {
+        {                                 
             if (parameters != null && parameters.Length != 0)
             {
                 this._parameters = parameters;
@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             {
                 this._parameters = null;
             }
-        }
+        }       
 
         /// <summary>
         /// Accessor
@@ -67,7 +67,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             {
                 return _parameters != null;
             }
-        }
+        }                                            
 
         /// <summary>
         /// The of the customisable parameters.
@@ -267,6 +267,18 @@ namespace MetaboliteLevels.Algorithms.Statistics
             {
                 return b.ToString();
             }
+        }
+
+        public object[] StringToParams(Core core, string text)
+        {
+            object[] parameters;
+
+            if (!TryStringToParams(core, text, out parameters))
+            {
+                throw new InvalidOperationException("Cannot parse parameters.");
+            }
+
+            return parameters;
         }
 
         /// <summary>

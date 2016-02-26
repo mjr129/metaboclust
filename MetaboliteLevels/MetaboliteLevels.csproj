@@ -214,6 +214,7 @@
     <Compile Include="Forms\Generic\FrmPopoutPlot.Designer.cs">
       <DependentUpon>FrmPopoutPlot.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Generic\IDataSet.cs" />
     <Compile Include="Forms\ISelectionHolder.cs" />
     <Compile Include="Forms\Editing\FrmEditExpGroup.cs">
       <SubType>Form</SubType>
@@ -245,8 +246,8 @@
     <Compile Include="Forms\Editing\FrmPca.Designer.cs">
       <DependentUpon>FrmPca.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Generic\ListValueSet%28of T%29.cs" />
-    <Compile Include="Forms\Generic\ListValueSet.cs" />
+    <Compile Include="Forms\Generic\DataSet%28of T%29.cs" />
+    <Compile Include="Forms\Generic\DataSet.cs" />
     <Compile Include="Forms\Startup\FrmSelectCompounds.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -309,12 +310,6 @@
     <Compile Include="Controls\ConditionBox.cs" />
     <Compile Include="Controls\CtlButton.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\CtlStatistics.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\CtlStatistics.Designer.cs">
-      <DependentUpon>CtlStatistics.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CtlTitleBar.cs">
       <SubType>UserControl</SubType>
@@ -409,12 +404,6 @@
       <DependentUpon>FrmOldData.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\PagerControl.cs" />
-    <Compile Include="Controls\CtlHelpBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\CtlHelpBar.Designer.cs">
-      <DependentUpon>CtlHelpBar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Editing\FrmEditSession.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -545,9 +534,6 @@
     <Compile Include="Viewers\Lists\ShowContextMenuEventArgs.cs" />
     <Compile Include="Viewers\Lists\ListViewHelper%28T%29.SortByColumn.cs" />
     <Compile Include="Settings\XmlSettings.cs" />
-    <EmbeddedResource Include="Controls\CtlStatistics.resx">
-      <DependentUpon>CtlStatistics.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CtlTitleBar.resx">
       <DependentUpon>CtlTitleBar.cs</DependentUpon>
     </EmbeddedResource>
@@ -669,9 +655,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\CtlHelpBar.resx">
-      <DependentUpon>CtlHelpBar.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

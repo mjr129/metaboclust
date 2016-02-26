@@ -79,9 +79,9 @@ namespace MetaboliteLevels.Forms.Editing
             ctlTitleBar1.Text = readOnly ? "View Condition" : "Edit Condition";
 
             // Setup boxes
-            _cbPeaks = ListValueSet.ForPeaks(core, true).CreateConditionBox(_txtIsInSet, _btnIsInSet);
-            _cbFlags = ListValueSet.ForPeakFlags(core).CreateConditionBox(_txtIsFlaggedWith, _btnIsFlaggedWith);
-            _cbClusters = ListValueSet.ForClusters(core, true).CreateConditionBox(_txtIsInCluster, _btnIsInCluster);
+            _cbPeaks = DataSet.ForPeaks(core).CreateConditionBox(_txtIsInSet, _btnIsInSet);
+            _cbFlags = DataSet.ForPeakFlags(core).CreateConditionBox(_txtIsFlaggedWith, _btnIsFlaggedWith);
+            _cbClusters = DataSet.ForClusters(core).CreateConditionBox(_txtIsInCluster, _btnIsInCluster);
 
             _lsoFlags = EnumComboBox.Create(this._lstFlagComparator, Filter.ESetOperator.AnyXinY);
             _lsoPats = EnumComboBox.Create(this._lstClusterComparator, Filter.ESetOperator.AnyXinY);
@@ -90,7 +90,7 @@ namespace MetaboliteLevels.Forms.Editing
             _lsoStats = EnumComboBox.Create(this._lstStatisticComparator, Filter.EStatOperator.LessThan);
             this._lstIsStatistic.Items.AddRange(IVisualisableExtensions.WhereEnabled(core.AllStatistics).ToArray());
 
-            _ecbFilter = ListValueSet.ForPeakFilter(core, true).CreateComboBox(_lstFilter, null, core);
+            _ecbFilter = DataSet.ForPeakFilter(core).CreateComboBox(_lstFilter, null,  ENullItemName.All);
 
             _isInitialised = true;
 

@@ -16,25 +16,29 @@ namespace MetaboliteLevels.Forms.Generic
         public static bool Show(Form owner, IVisualisable v, bool readOnly)
         {
             string name = v.OverrideDisplayName;
-            string comments = v.Comment;
-            bool enabled = v.Enabled;
+            string comments = v.Comment;                                
 
-            // Test if this item supports enable/disable
-            bool canEnable = IVisualisableExtensions.SupportsDisable(v);
-
-            if (Show(owner, v.DefaultDisplayName, "Edit name and comments", v.ToString(), v.DefaultDisplayName, ref name, ref comments, ref enabled, readOnly, canEnable))
+            if (Show(owner, v.DefaultDisplayName, "Edit name and comments", v.ToString(), v.DefaultDisplayName, ref name, ref comments, readOnly, v))
             {
                 v.OverrideDisplayName = name;
-                v.Comment = comments;
-                v.Enabled = enabled;
+                v.Comment = comments;     
                 return true;
             }
 
             return false;
         }
 
-        public static bool Show(Form owner, string windowText, string mainTitle, string subTitle, string defaultName, ref string name, ref string comments, ref bool enabled, bool readOnly, bool canEnable)
-        {
+        public static bool Show(Form owner, string windowText, string mainTitle, string subTitle, string defaultName, ref string name, ref string comments, bool readOnly, IVisualisable supports)
+        {                                                                         
+            bool canRename = IVisualisableExtensions.SupportsRename(supports);
+            bool canComment = IVisualisableExtensions.SupportsComment(supports);
+
+            if (!canRename && !canComment)
+            {
+                FrmMsgBox.ShowInfo(owner, defaultName, "This item cannot be renamed.");
+                return false;
+            }
+
             using (FrmInput2 frm = new FrmInput2())
             {
                 frm.Text = windowText;
@@ -43,14 +47,16 @@ namespace MetaboliteLevels.Forms.Generic
                 frm.textBox1.Text = name;
                 frm._txtInput.Text = comments;
                 frm.ctlTitleBar1.Text = mainTitle;
-                frm.ctlTitleBar1.SubText = subTitle;
-                frm.checkBox1.Checked = enabled;
+                frm.ctlTitleBar1.SubText = subTitle;    
 
                 frm.AcceptButton = null;
                 frm.CancelButton = frm._btnCancel;
-
-                frm.checkBox1.Visible = canEnable;
-                frm.label4.Visible = !canEnable;
+                                                    
+                frm.textBox1.Visible = canRename;
+                frm.label6.Visible = !canRename;
+                frm.label6.Text = defaultName;
+                frm._txtInput.Visible = canComment;
+                frm.label2.Visible = canComment;
 
                 if (readOnly)
                 {
@@ -58,15 +64,13 @@ namespace MetaboliteLevels.Forms.Generic
                     frm._btnCancel.Text = "  Close";
                     frm.AcceptButton = frm._btnCancel;
                     frm.textBox1.ReadOnly = true;
-                    frm._txtInput.ReadOnly = true;
-                    frm.checkBox1.AutoCheck = false;
+                    frm._txtInput.ReadOnly = true;     
                 }
 
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
                     name = frm.textBox1.Text;
-                    comments = frm._txtInput.Text;
-                    enabled = frm.checkBox1.Checked;
+                    comments = frm._txtInput.Text;        
                     return true;
                 }
 

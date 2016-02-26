@@ -34,17 +34,20 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// </summary>
         public readonly string[] InputNames;
 
+        public readonly string FileName;
+
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="text">Script text</param>
         /// <param name="inputs">Input parameters</param>
         /// <param name="quickCalcCheck">If set then this corresponds to which input parameters must be set for the script to support QuickCalc mode. This should be a string of "0" and "1" the same length as the input parameter array.</param>
-        public RScript(string text, string inputs)
+        public RScript(string text, string inputs, string fileName)
         {
             Dictionary<string, EAlgoParameterType> conv = EnumHelper.GetEnumKeys<EAlgoParameterType>();
             int pos = 0;
             int lpos;
+            this.FileName = fileName;
 
             string[] ie = inputs.Split(",".ToCharArray());
             List<Tuple<string, string>> inputNames = new List<Tuple<string, string>>(); // ID, Name

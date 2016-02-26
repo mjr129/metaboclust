@@ -81,11 +81,20 @@ namespace MetaboliteLevels.Forms.Startup
         {
             get
             {
-                return CtlHelpBar.GetHidden("FrmOldData");
+                return MainSettings.Instance.DoNotShowAgain.ContainsKey("FrmOldData");
             }
             set
             {
-                CtlHelpBar.SetHidden("FrmOldData", value);
+                if (value)
+                {
+                    MainSettings.Instance.DoNotShowAgain["FrmOldData"] = 1;
+                }
+                else
+                {
+                    MainSettings.Instance.DoNotShowAgain.Remove("FrmOldData");
+                }
+
+                MainSettings.Instance.Save();
             }
         }
 

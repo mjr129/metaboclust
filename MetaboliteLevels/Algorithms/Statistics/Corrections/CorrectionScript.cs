@@ -14,10 +14,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Corrections
         public readonly RScript _script;
         public const string INPUTS = "intensity=y";
 
-        public CorrectionScript(string script, string id, string name)
+        public CorrectionScript(string script, string id, string name, string fileName)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS);
+            this._script = new RScript(script, INPUTS, fileName);
         }
 
         public override double[] Calculate(double[] raw, ArgsCorrection args)
@@ -32,5 +32,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Corrections
         {
             return _script.RequiredParameters;
         }
+
+        public override RScript Script => _script;
     }
 }

@@ -417,6 +417,8 @@ namespace MetaboliteLevels.Utilities
                 case ImageListOrder.ListSortUp: return bold ? Resources.ListSortUp : Resources.ListSortUp;
                 case ImageListOrder.ListSortDown: return bold ? Resources.ListSortDown : Resources.ListSortDown;
                 case ImageListOrder.ListFilter: return bold ? Resources.ListFilter : Resources.ListFilter;
+                case ImageListOrder.ScriptInbuilt: return bold ? Resources.MnuDisable : Resources.MnuDisable;
+                case ImageListOrder.ScriptFile: return bold ? Resources.MnuFile : Resources.MnuFile;
                 default: throw new SwitchException(v);
             }
         }
@@ -449,6 +451,8 @@ namespace MetaboliteLevels.Utilities
             ListSortUp,
             ListSortDown,
             ListFilter,
+            ScriptInbuilt,
+            ScriptFile,
         }
 
         /// <summary>
