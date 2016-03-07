@@ -7,6 +7,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Utilities;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
@@ -25,6 +26,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
         protected ConfigurationBase(string name, string comments, string id)
         {
+            Debug.Assert(id != null);
+
             OverrideDisplayName = name;
             Comment = comments;
             Id = id;
@@ -168,6 +171,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         protected ConfigurationBase(string name, string comments, string id, TArgs args)
             : base(name, comments, id)
         {
+            Debug.Assert(args != null);
+
             Args = args;
         }
 

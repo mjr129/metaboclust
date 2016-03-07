@@ -52,7 +52,8 @@ namespace MetaboliteLevels.Forms.Startup
             _lblProgramDescription.BackColor = UiControls.BackColour;
             _lblProgramDescription.ForeColor = UiControls.ForeColour;
 
-            Text = UiControls.Title;
+            Text = UiControls.Title + " - Load data";
+            tabPage6.Text = UiControls.Title;
             UiControls.SetIcon(this);
 
             _lbl32BitWarning.Visible = IntPtr.Size != 8;
@@ -104,19 +105,24 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Workspaces
             ToolStripMenuItem tsmi;
+            int index = 0;
 
-            foreach (var entry in recentWorkspaces.Reverse<DataFileNames>())
+            foreach (DataFileNames recentWorkspace in recentWorkspaces.Reverse<DataFileNames>())
             {
+                index++;
+
                 tsmi = new ToolStripMenuItem
                 {
-                    Text = (_cmsRecentWorkspaces.Items.Count + 1).ToString() + ". " + entry.GetDescription(),
-                    Tag = entry
+                    Text = "&" + index + ". " + recentWorkspace.GetDescription(),
+                    Tag = recentWorkspace
                 };
 
                 tsmi.Click += tsmi_Click;
 
                 _cmsRecentWorkspaces.Items.Add(tsmi);
-                UiControls.AddMenuCaption(_cmsRecentWorkspaces, entry.Session);
+                var x = UiControls.AddMenuCaption(_cmsRecentWorkspaces, "Details...");
+                x.Tag = recentWorkspace;
+                x.Click += FrmDataLoadQuery_Click;
             }
 
             _mnuBrowseWorkspaceSep = new ToolStripSeparator();
@@ -137,24 +143,40 @@ namespace MetaboliteLevels.Forms.Startup
                 Image = Resources.MnuOpen
             };
 
-            tsmi.Click += tsmi2_Click;
+            tsmi.Click += mnuRecentSession_Click;
             _cmsRecentSessions.Items.Add(tsmi);
 
             _cmsRecentSessions.Items.Add(new ToolStripSeparator());
 
             var recentSessions = MainSettings.Instance.RecentSessions;
+            HashSet<string> itemsExist = new HashSet<string>();
+            index = 0;
 
-            foreach (var entry in recentSessions.Reverse<MainSettings.RecentSession>())
+            foreach (MainSettings.RecentSession entry in recentSessions.Reverse<MainSettings.RecentSession>())
             {
+                if (itemsExist.Contains(entry.FileName))
+                {
+                    continue;
+                }
+
+                itemsExist.Add(entry.FileName);
+
+                index++;
+
                 tsmi = new ToolStripMenuItem();
 
-                tsmi.Text = (_cmsRecentSessions.Items.Count - 1).ToString() + ". " + (string.IsNullOrWhiteSpace(entry.Title) ? "Untitled" : entry.Title);
+                tsmi.Text = "&" + index + ". " + (string.IsNullOrWhiteSpace(entry.Title) ? "Untitled" : entry.Title);
                 tsmi.ToolTipText = entry.FileName;
                 tsmi.Tag = entry;
-                tsmi.Click += tsmi2_Click;
+                tsmi.Click += mnuRecentSession_Click;
+
+                if (!File.Exists(entry.FileName))
+                {
+                    tsmi.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
+                }
 
                 _cmsRecentSessions.Items.Add(tsmi);
-                UiControls.AddMenuCaption(_cmsRecentSessions, entry.FileName);
+                UiControls.AddMenuCaptionFilename(_cmsRecentSessions, entry.FileName);
             }
 
             if (recentSessions.Count == 0)
@@ -165,9 +187,15 @@ namespace MetaboliteLevels.Forms.Startup
             else
             {
                 var mostRecent = recentSessions[recentSessions.Count - 1];
+
                 _btnMostRecent.Text = "    " + mostRecent.Title;
                 _tipSideBar.SetToolTip(_btnMostRecent, mostRecent.FileName);
                 _btnMostRecent.Tag = mostRecent.FileName;
+
+                if (!File.Exists(mostRecent.FileName))
+                {
+                    _btnMostRecent.Visible = false;
+                }
             }
 
             UiControls.CompensateForVisualStyles(this);
@@ -185,6 +213,13 @@ namespace MetaboliteLevels.Forms.Startup
                     }
                 }
             }
+        }
+
+        private void FrmDataLoadQuery_Click(object sender, EventArgs e)
+        {
+            DataFileNames recentWorkspace = (DataFileNames)((ToolStripLabel)sender).Tag;
+
+            UiControls.ShowSessionInfo(this, recentWorkspace);
         }
 
         protected override void OnSizeChanged(EventArgs e)
@@ -404,9 +439,15 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        void tsmi2_Click(object sender, EventArgs e)
+        void mnuRecentSession_Click(object sender, EventArgs e)
         {
-            var rs = ((MainSettings.RecentSession)((ToolStripMenuItem)sender).Tag);
+            MainSettings.RecentSession rs = ((MainSettings.RecentSession)((ToolStripMenuItem)sender).Tag);
+
+            if (rs != null && !File.Exists(rs.FileName))
+            {
+                FrmMsgBox.ShowError(this, $"The session file cannot be found at the specified location: Filename = \"{rs.FileName}\", Title = \"{rs.Title}\", GUID = \"{rs.Guid}\".");
+                return;
+            }
 
             LoadSession(rs == null ? null : rs.FileName);
         }
@@ -759,7 +800,7 @@ namespace MetaboliteLevels.Forms.Startup
             }
 
             // Loaded ok!
-            MainSettings.Instance.AddRecentSession(fn, _result.FileNames.Title);
+            MainSettings.Instance.AddRecentSession(_result);
             MainSettings.Instance.Save();
 
             if (_result.FileNames.AppVersion == null)
@@ -814,7 +855,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            _mnuDebug.Show(linkLabel1, new Point(0, 0), ToolStripDropDownDirection.AboveRight);
+            UiControls.ShowAbout(this);
         }
 
         private void restartToolStripMenuItem_Click(object sender, EventArgs e)

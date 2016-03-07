@@ -182,7 +182,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
 
             _listViewHelper.DivertList(_list);
-        }
+        }             
 
         public static IEnumerable Show(Form owner, Core core, IDataSet config, bool readOnly, object automaticAddTemplate)
         {

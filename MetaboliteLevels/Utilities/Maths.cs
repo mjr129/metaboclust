@@ -239,12 +239,14 @@ namespace MetaboliteLevels.Utilities
         public static T FindHighest<T>(this IEnumerable<T> list, Converter<T, IComparable> convertor) where T : class
         {
             T max = null;
+            IComparable maxc = null;
 
             foreach (T t in list)
-            {
-                if (max == null || convertor(t).CompareTo(convertor(max)) > 0)
+            {                  
+                if (max == null || convertor(t).CompareTo(maxc) > 0)
                 {
                     max = t;
+                    maxc = convertor(max);
                 }
             }
 
@@ -257,12 +259,14 @@ namespace MetaboliteLevels.Utilities
         public static T FindLowest<T>(this IEnumerable<T> list, Converter<T, IComparable> convertor) where T : class
         {
             T max = null;
+            IComparable maxc = null;
 
             foreach (T t in list)
             {
-                if (max == null || convertor(t).CompareTo(convertor(max)) < 0)
+                if (max == null || convertor(t).CompareTo(maxc) < 0)
                 {
                     max = t;
+                    maxc = convertor(max);
                 }
             }
 

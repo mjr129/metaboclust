@@ -142,9 +142,6 @@ namespace MetaboliteLevels.Forms
             _coreWatchers.Add(_chartPeakForPrinting);
             _coreWatchers.Add(_chartClusterForPrinting);
 
-            _chartPeakForPrinting.Chart.Style.Margin = Padding.Empty;
-            _chartClusterForPrinting.Chart.Style.Margin = Padding.Empty;
-
             // Primary lists
             _peakList = CreatePrimaryList<Peak>(_lstVariables, z => z.Peaks);
             _clusterList = CreatePrimaryList<Cluster>(_lstClusters, z => z.Clusters);
@@ -152,7 +149,7 @@ namespace MetaboliteLevels.Forms
             _compoundList = CreatePrimaryList<Compound>(_lstCompounds, z => z.Compounds);
             _pathwayList = CreatePrimaryList<Pathway>(_lstPathways, z => z.Pathways);
             _assignmentList = CreatePrimaryList<Assignment>(_lstAssignments, z => z.Assignments);
-            _annotationList = CreatePrimaryList<Data.Visualisables.Annotation>(_lstAnnotations, z => z.Annotations);
+            _annotationList = CreatePrimaryList<Annotation>(_lstAnnotations, z => z.Annotations);
 
             // Secondary lists
             _peakList2 = CreateSecondaryList<Peak>(_lst2Peaks);
@@ -161,7 +158,7 @@ namespace MetaboliteLevels.Forms
             _compoundList2 = CreateSecondaryList<Compound>(_lst2Compounds);
             _pathwayList2 = CreateSecondaryList<Pathway>(_lst2Pathways);
             _assignmentList2 = CreateSecondaryList<Assignment>(_lst2Assignments);
-            _annotationList2 = CreateSecondaryList<Data.Visualisables.Annotation>(_lstSubAnnots);
+            _annotationList2 = CreateSecondaryList<Annotation>(_lstSubAnnots);
 
             // Pagers
             _pgrMain = new PagerControl(ref tabControl1);
@@ -365,7 +362,7 @@ namespace MetaboliteLevels.Forms
         {
             if (!_autoChangingSelection)
             {
-                CommitSelection(new VisualisableSelection(this._chartCluster.SelectedCluster.ActualElement, e.peak));
+                CommitSelection(new VisualisableSelection(this._chartCluster.SelectedCluster?.ActualElement, e.peak));
             }
         }
 
@@ -775,7 +772,7 @@ namespace MetaboliteLevels.Forms
             EndWait();
 
             // Remember recent files
-            MainSettings.Instance.AddRecentSession(fileName, _core.FileNames.Title);
+            MainSettings.Instance.AddRecentSession(_core);
             MainSettings.Instance.Save();
 
             // Display the filesize
@@ -1203,7 +1200,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmInputLarge.ShowFixed(this, UiControls.Title, "Current session information", Path.GetFileName(_core.FileNames.Session), _core.FileNames.GetDetails());
+            UiControls.ShowSessionInfo(this, _core.FileNames);
         }
 
         /// <summary>
@@ -1211,7 +1208,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            FrmMsgBox.ShowInfo(this, "About " + UiControls.Title, UiControls.GetManText("copyright").Replace("{productname}", UiControls.Title).Replace("{version}", UiControls.VersionString));
+            UiControls.ShowAbout(this);
         }
 
         /// <summary>

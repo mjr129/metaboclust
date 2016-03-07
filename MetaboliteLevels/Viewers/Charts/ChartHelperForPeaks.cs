@@ -116,7 +116,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 {
                     MChart.Series legendEntry2 = new MChart.Series();
                     legendEntry2.Name = "Trend";
-                    legendEntry2.Style.DrawLines = new Pen(Color.Black);
+                    legendEntry2.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
                     legendEntry2.Style.DrawLines.Width = 4;
                     plot.LegendEntries.Add(legendEntry2);
 
@@ -170,7 +170,7 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 MChart.Series legendEntry = new MChart.Series();
                 legendEntry.Name = "Range min/max";
-                legendEntry.Style.DrawLines = new Pen(Color.Gray);
+                legendEntry.Style.DrawLines = new Pen(Color.Gray, _core.Options.LineWidth);
                 plot.LegendEntries.Add(legendEntry);
 
                 AddToPlot(plot, peak, seriesNames, min, "Min value", condOrder, opts, EPlot.DrawLine, groupLegends, legendEntry);
@@ -182,8 +182,8 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 MChart.Series legendEntry = new MChart.Series();
                 legendEntry.Name = "Trend";
-                legendEntry.Style.DrawLines = new Pen(Color.Black);
-                legendEntry.Style.DrawLines.Width = 4;
+                legendEntry.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
+                legendEntry.Style.DrawLines.Width = _core.Options.LineWidth * 4;
                 plot.LegendEntries.Add(legendEntry);
 
                 if (stylisedPeak.ForceTrend != null)
@@ -280,13 +280,13 @@ namespace MetaboliteLevels.Viewers.Charts
         {
             MChart.Series legendEntry = new MChart.Series();
             legendEntry.Name = "Std. Dev. Min/Max";
-            legendEntry.Style.DrawLines = new Pen(Color.Gray);
+            legendEntry.Style.DrawLines = new Pen(Color.Gray, _core.Options.LineWidth);
             legendEntry.Style.DrawLines.DashStyle = DashStyle.Dot;
             plot.LegendEntries.Add(legendEntry);
 
             MChart.Series legendEntry2 = new MChart.Series();
             legendEntry2.Name = "Mean";
-            legendEntry2.Style.DrawLines = new Pen(Color.Black);
+            legendEntry2.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
             plot.LegendEntries.Add(legendEntry2);
 
             // Iterate the types
@@ -326,9 +326,9 @@ namespace MetaboliteLevels.Viewers.Charts
                 sMax.Tag = peak;
 
                 Color c = @group.ColourLight;
-                sMean.Style.DrawLines = new Pen(c);
-                sMin.Style.DrawLines = new Pen(c);
-                sMax.Style.DrawLines = new Pen(c);
+                sMean.Style.DrawLines = new Pen(c, _core.Options.LineWidth);
+                sMin.Style.DrawLines = new Pen(c, _core.Options.LineWidth);
+                sMax.Style.DrawLines = new Pen(c, _core.Options.LineWidth);
 
                 sMin.Style.DrawLines.DashStyle = DashStyle.Dot;
                 sMax.Style.DrawLines.DashStyle = DashStyle.Dot;
@@ -453,7 +453,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     if (draw.HasFlag(EPlot.DrawLine))
                     {
                         series.Style.DrawLines = new Pen(colour);
-                        series.Style.DrawLines.Width = draw.HasFlag(EPlot.DrawBold) ? 4 : 1;
+                        series.Style.DrawLines.Width = draw.HasFlag(EPlot.DrawBold) ? _core.Options.LineWidth * 4 : _core.Options.LineWidth;
                     }
                     else
                     {

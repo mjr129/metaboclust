@@ -17,6 +17,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         public ConfigurationMetric( string name, string comments, string id, ArgsMetric args)
             : base( name, comments, id, args)
         {
+            // NA
         }
 
         internal double Calculate(double[] a, double[] b)

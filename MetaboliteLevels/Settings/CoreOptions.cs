@@ -92,6 +92,12 @@ namespace MetaboliteLevels.Settings
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public PlotSetup ClusterDisplay { get; set; }
 
+        [DisplayName("No axes")]
+        [Description("Treats all plots as a preview for drawing purposes, suppressing the drawing of the axes. This is useful if you have a very small plot window or for exporting data to small images.")]
+        [Category("Miscellaneous")]
+        [DefaultValue(false)]
+        public bool NoAxes { get; set; }
+
         [DisplayName("Display")]
         [Category("Peaks")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -138,10 +144,10 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return (ParseElementCollection.IsNullOrEmpty(Information) 
-                    && ParseElementCollection.IsNullOrEmpty(Title) 
-                    && ParseElementCollection.IsNullOrEmpty(SubTitle) 
-                    && ParseElementCollection.IsNullOrEmpty(AxisX) 
+                return (ParseElementCollection.IsNullOrEmpty(Information)
+                    && ParseElementCollection.IsNullOrEmpty(Title)
+                    && ParseElementCollection.IsNullOrEmpty(SubTitle)
+                    && ParseElementCollection.IsNullOrEmpty(AxisX)
                     && ParseElementCollection.IsNullOrEmpty(AxisY))
                     ? "(None)"
                     : "(Custom text)";
@@ -165,6 +171,24 @@ namespace MetaboliteLevels.Settings
         [Description("Size of thumbnails on popout lists")]
         [DefaultValue(128)]
         public int PopoutThumbnailSize { get; set; }
+
+        [DisplayName("Margin")]
+        [Description("Plot margin width")]
+        [Category("Miscellaneous")]
+        [DefaultValue(32)]
+        public int Margin { get; set; }
+
+        [DisplayName("Line width")]
+        [Description("Multiplier applied to the width of the lines in the plots")]
+        [Category("Miscellaneous")]
+        [DefaultValue(1.0f)]
+        public float LineWidth { get; set; }
+
+        [DisplayName("Display groups")]
+        [Description("When set all groups will be displayed in cluster plots. This is the default behaviour since these plots represent the input vectors rather than the peaks directly. If unchecked only the visible groups will be displayed. Only the visible groups will ever be shown in the peak plots.")]
+        [Category("Cluster")]
+        [DefaultValue(true)]
+        public bool DisplayAllGroupsInClusterPlot { get; set; }
 
         private readonly Dictionary<string, ColumnDetails> _columnDisplayStatuses = new Dictionary<string, ColumnDetails>();
         private readonly Dictionary<string, object> _defaultValues = new Dictionary<string, object>();

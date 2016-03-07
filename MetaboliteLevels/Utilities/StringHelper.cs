@@ -30,7 +30,7 @@ namespace MetaboliteLevels.Utilities
         public static string UtSansBold = @"𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵 𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭 𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇";
         public static string UtSansBoldItalic = @"0123456789 𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅𝙆𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕 𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯";
         public static string UtCircled = @"0⑴⑵⑶⑷⑸⑹⑺⑻⑼ ⒜⒝⒞⒟⒠⒡⒢⒣⒤⒥⒦⒧⒨⒩⒪⒫⒬⒭⒮⒯⒰⒱⒲⒳⒴⒵ ⒜⒝⒞⒟⒠⒡⒢⒣⒤⒥⒦⒧⒨⒩⒪⒫⒬⒭⒮⒯⒰⒱⒲⒳⒴⒵";
-        public static string UtSmallCaps = @"0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴩǫʀsᴛᴜᴠᴡxyᴢ";
+        public static string UtSmallCaps = @"0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴩǫʀsᴛᴜᴠᴡxʏᴢ";
         public static string UtSuper = @"⁰¹²³⁴⁵⁶⁷⁸⁹ ᴬᴮᶜᴰᴱᶠᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾQᴿˢᵀᵁⱽᵂˣʸᶻ ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ";
         public static string UtSubscript = @"₀₁₂₃₄₅₆₇₈₉ ₐBCDₑFGₕᵢⱼₖₗₘₙₒₚQᵣₛₜᵤᵥWₓYZ ₐbcdₑfgₕᵢⱼₖₗₘₙₒₚqᵣₛₜᵤᵥwₓyz";
 
@@ -641,7 +641,7 @@ namespace MetaboliteLevels.Utilities
         {
             if (destinationType == typeof(string))
             {
-                return ParseElementCollection.GetOriginal((ParseElementCollection)value);
+                return ((ParseElementCollection)value).ToStringSafe();
             }
 
             return base.ConvertTo(context, culture, value, destinationType);
@@ -749,19 +749,9 @@ namespace MetaboliteLevels.Utilities
             return r.ToString();
         }
 
-        private string GetOriginal()
+        public override string ToString()
         {
             return string.Join(string.Empty, _contents);
-        }
-
-        public static string GetOriginal(ParseElementCollection collection)
-        {
-            if (collection == null)
-            {
-                return string.Empty;
-            }
-
-            return collection.GetOriginal();
         }
 
         public static bool IsNullOrEmpty(ParseElementCollection collection)

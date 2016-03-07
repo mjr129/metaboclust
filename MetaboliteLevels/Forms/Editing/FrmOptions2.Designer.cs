@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this._numSizeLimit = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
@@ -134,8 +135,10 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this._numSizeLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numClusterMaxPlot)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -630,7 +633,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1013, 610);
+            this.tabPage2.Size = new System.Drawing.Size(1013, 589);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Peaks";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -681,7 +684,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 604);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel2.TabIndex = 16;
             // 
             // label17
@@ -885,7 +888,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1013, 610);
+            this.tabPage3.Size = new System.Drawing.Size(1013, 589);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Compounds";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -915,7 +918,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1007, 604);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel3.TabIndex = 16;
             // 
             // label22
@@ -1019,7 +1022,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 30);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1013, 610);
+            this.tabPage4.Size = new System.Drawing.Size(1013, 589);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Pathways";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1049,7 +1052,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1007, 604);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel4.TabIndex = 16;
             // 
             // label27
@@ -1153,7 +1156,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 30);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1013, 610);
+            this.tabPage5.Size = new System.Drawing.Size(1013, 589);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Calculations";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1175,7 +1178,7 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(1007, 604);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // tabPage6
@@ -1184,7 +1187,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 30);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1013, 610);
+            this.tabPage6.Size = new System.Drawing.Size(1013, 589);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Colours";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1225,7 +1228,7 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1007, 604);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // label44
@@ -1297,7 +1300,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 30);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1013, 610);
+            this.tabPage7.Size = new System.Drawing.Size(1013, 589);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "General";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1317,10 +1320,11 @@
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.RowCount = 2;
+            this.tableLayoutPanel7.RowCount = 3;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(1007, 604);
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel7.TabIndex = 1;
             // 
             // label41
@@ -1397,6 +1401,7 @@
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this._btnCancel);
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
+            this.flowLayoutPanel1.Controls.Add(this.linkLabel1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 710);
@@ -1430,6 +1435,20 @@
             this._btnOk.UseVisualStyleBackColor = true;
             this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel1.Location = new System.Drawing.Point(594, 27);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(8);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(131, 21);
+            this.linkLabel1.TabIndex = 4;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Advanced display";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -1445,6 +1464,12 @@
             this.ctlTitleBar1.TabIndex = 18;
             this.ctlTitleBar1.Text = "Preferences";
             this.ctlTitleBar1.WarningText = null;
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 50000;
+            this.toolTip1.InitialDelay = 100;
+            this.toolTip1.ReshowDelay = 100;
             // 
             // FrmOptions2
             // 
@@ -1488,6 +1513,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._numThumbnail)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1603,5 +1629,7 @@
         private System.Windows.Forms.Button _btnColourUntypedElements;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private Controls.CtlTitleBar ctlTitleBar1;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

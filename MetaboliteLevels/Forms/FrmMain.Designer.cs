@@ -396,7 +396,7 @@ namespace MetaboliteLevels.Forms
             // 
             this.experimentalOptionsToolStripMenuItem.Name = "experimentalOptionsToolStripMenuItem";
             this.experimentalOptionsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
-            this.experimentalOptionsToolStripMenuItem.Text = "&Advanced options...";
+            this.experimentalOptionsToolStripMenuItem.Text = "&Miscellaneous functions...";
             this.experimentalOptionsToolStripMenuItem.Click += new System.EventHandler(this.experimentalOptionsToolStripMenuItem_Click);
             // 
             // manageDataToolStripMenuItem

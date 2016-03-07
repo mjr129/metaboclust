@@ -16,21 +16,30 @@ namespace MetaboliteLevels.Forms.Editing
 {
     internal partial class FrmOptions2 : Form
     {
-        internal static bool Show(Form owner, Core core)
+        public static bool Show(Form owner, Core core)
         {
-            return Show(owner, core.Options);
-        }
-
-        public static bool Show(Form owner, CoreOptions options)
-        {
-            using (FrmOptions2 frm = new FrmOptions2(options))
+            using (FrmOptions2 frm = new FrmOptions2(core.Options))
             {
-                return frm.ShowDialog() == DialogResult.OK;
+                switch (frm.ShowDialog())
+                {
+                    case DialogResult.OK:
+                        return true;
+
+                    case DialogResult.Cancel:
+                        return false;
+
+                    case DialogResult.Yes:
+                        FrmOptions.Show(owner, core);
+                        return true;
+
+                    default:
+                        throw new SwitchException();
+                }
             }
         }
 
         public FrmOptions2(CoreOptions target)
-        {   
+        {
             InitializeComponent();
             UiControls.SetIcon(this);
 
@@ -95,7 +104,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             foreach (var kvp in props)
             {
-                SetValue(kvp.Key, GetValue(kvp.Value));
+                ControlSetValue(kvp.Key, kvp.Value);
             }
 
             UiControls.CompensateForVisualStyles(this);
@@ -103,15 +112,20 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnOk_Click(object sender, EventArgs e)
         {
-            foreach (var kvp in props)
-            {
-                SetValue(kvp.Value, GetValue(kvp.Key));
-            }
-
-            DialogResult = DialogResult.OK;
+            SaveAndClose(DialogResult.OK);
         }
 
-        private object GetValue(Control c)
+        private void SaveAndClose(DialogResult result)
+        {
+            foreach (var kvp in props)
+            {
+                PropertySetValue(kvp.Value, ControlGetValue(kvp.Key));
+            }
+
+            DialogResult = result;
+        }
+
+        private object ControlGetValue(Control c)
         {
             if (c is TextBox)
             {
@@ -139,11 +153,47 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private void SetValue(Control c, object value)
+        private void ControlSetValue(Control c, string[] propertyPath)
         {
+            PropertyInfo property = null;
+            object value = _target;
+
+            foreach (string name in propertyPath)
+            {
+                property = value.GetType().GetProperty(name);
+                value = property.GetValue(value);
+            }
+
+            StringBuilder sb = new StringBuilder();
+            CategoryAttribute cat = property.GetCustomAttribute<CategoryAttribute>();
+            DisplayNameAttribute namer = property.GetCustomAttribute<DisplayNameAttribute>();
+            DescriptionAttribute desc = property.GetCustomAttribute<DescriptionAttribute>();
+
+            if (cat != null)
+            {
+                sb.Append(cat.Category.ToBold() + ": ");
+            }
+
+            if (namer != null)
+            {
+                sb.Append(namer.DisplayName.ToBold());
+            }
+            else
+            {
+                sb.Append(property.Name.ToBold());
+            }
+
+            if (desc != null)
+            {
+                sb.AppendLine();
+                sb.Append(desc.Description);
+            }
+
+            toolTip1.SetToolTip(c, sb.ToString());
+
             if (c is TextBox)
             {
-                ((TextBox)c).Text = value.ToString();
+                ((TextBox)c).Text = value != null ? value.ToString() : "";
             }
             else if (c is CheckBox)
             {
@@ -167,36 +217,27 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private object GetValue(string[] values)
+        private void PropertySetValue(string[] values, object v)
         {
-            object x = _target;
-
-            foreach (string value in values)
-            {
-                PropertyInfo pi = x.GetType().GetProperty(value);
-
-                x = pi.GetValue(x);
-            }
-
-            return x;
-        }
-
-        private void SetValue(string[] values, object v)
-        {
-            object x = _target;
+            object target = _target;
 
             for (int n = 0; n < values.Length; n++)
             {
                 string value = values[n];
-                PropertyInfo pi = x.GetType().GetProperty(value);
+                PropertyInfo property = target.GetType().GetProperty(value);
 
                 if (n == values.Length - 1)
                 {
-                    pi.SetValue(x, v);
+                    if (property.PropertyType == typeof(ParseElementCollection))
+                    {
+                        v = new ParseElementCollection((string)v);
+                    }
+
+                    property.SetValue(target, v);
                 }
                 else
                 {
-                    x = pi.GetValue(x);
+                    target = property.GetValue(target);
                 }
             }
         }
@@ -222,6 +263,11 @@ namespace MetaboliteLevels.Forms.Editing
         private void _btnEditFlags_Click(object sender, EventArgs e)
         {
             FrmOptions.Show(this, "Peak Flags", _target.PeakFlags);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            SaveAndClose(DialogResult.Yes);
         }
     }
 }

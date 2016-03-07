@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Properties;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -36,7 +37,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 return EChangeLevel.None;
             }
-        }     
+        }
 
         public static EChangeLevel ShowTrendsChanged(Form owner)
         {
@@ -70,13 +71,20 @@ namespace MetaboliteLevels.Forms.Editing
         {
             this._changeLevel = changeLevel;
 
+            float resize = 2.0f;
+            var sz = new Size((int)(_chkCor.Image.Size.Width * resize), (int)(_chkCor.Image.Size.Height * 2));
+            _chkCor.Image = new Bitmap(_chkCor.Image, sz);
+            _chkTrend.Image = new Bitmap(_chkTrend.Image, sz);
+            _chkStat.Image = new Bitmap(_chkStat.Image, sz);
+            _chkClus.Image = new Bitmap(_chkClus.Image, sz);
+
             switch (_changeLevel)
             {
                 case EChangeLevel.None:
-                    _chkCor.Text = "Update corrections";
-                    _chkTrend.Text = "Update trends";
-                    _chkStat.Text = "Update statistics";
-                    _chkClus.Text = "Update clusters";
+                    toolTip1.SetToolTip(_chkCor, "Update corrections");
+                    toolTip1.SetToolTip(_chkTrend, "Update trends");
+                    toolTip1.SetToolTip(_chkStat, "Update statistics");
+                    toolTip1.SetToolTip(_chkClus, "Update clusters");
 
                     this.ctlTitleBar1.Text = "Update values";
                     this.ctlTitleBar1.SubText = "Select what you wish to update";
@@ -90,30 +98,31 @@ namespace MetaboliteLevels.Forms.Editing
                     _chkStat.Checked = true;
                     _chkClus.Checked = true;
 
-                    _chkCor.Text = "Update corrections";
-                    _chkTrend.Text = "Update trends to reflect new corrections";
-                    _chkStat.Text = "Update statistics to reflect new trends or corrections or corrections";
-                    _chkClus.Text = "Update clusters to reflect new trends";
+                    toolTip1.SetToolTip(_chkCor, "Update corrections");
+                    toolTip1.SetToolTip(_chkTrend, "Update trends to reflect new corrections");
+                    toolTip1.SetToolTip(_chkStat, "Update statistics to reflect new trends or corrections");
+                    toolTip1.SetToolTip(_chkClus, "Update clusters to reflect new trends or corrections");
 
                     this.ctlTitleBar1.Text = "Corrections Changed";
-                    this.ctlTitleBar1.SubText = "Changes to the data will affect values, select what you'd like to update";
+                    this.ctlTitleBar1.SubText = "Corrections to the data will affect other results, select what you'd like to update";
                     break;
 
                 case EChangeLevel.Trend:
-                    _chkCor.Visible = false;
+                    _chkCor.Checked = false;
+                    _chkCor.Enabled = false;
                     _chkTrend.Checked = true;
                     _chkTrend.Enabled = false;
 
                     _chkStat.Checked = true;
                     _chkClus.Checked = true;
 
-                    _chkCor.Text = "N/A";
-                    _chkTrend.Text = "Update trends";
-                    _chkStat.Text = "Update statistics to reflect new trends";
-                    _chkClus.Text = "Update clusters to reflect new trends";
+                    toolTip1.SetToolTip(_chkCor, "Update corrections");
+                    toolTip1.SetToolTip(_chkTrend, "Update trends");
+                    toolTip1.SetToolTip(_chkStat, "Update statistics to reflect new trends");
+                    toolTip1.SetToolTip(_chkClus, "Update clusters to reflect new trends");
 
                     this.ctlTitleBar1.Text = "Trends Changed";
-                    this.ctlTitleBar1.SubText = "Changes to the trends may affect calculations that use them, select what you'd like to update";
+                    this.ctlTitleBar1.SubText = "Corrections to the trends will affect other results, select what you'd like to update";
                     break;
 
                 default:
@@ -121,8 +130,21 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private void _chkClus_CheckedChanged(object sender, EventArgs e)
+        private void _chkClus_CheckedChanged(object senderr, EventArgs e)
         {
+            CheckBox sender = (CheckBox)senderr;
+
+            sender.Font = new Font(sender.Font, sender.Checked ? FontStyle.Regular : FontStyle.Strikeout);
+
+            if (sender.Tag == null)
+            {
+                sender.Tag = new Tuple<Image, Image>(UiControls.Inset(sender.Image, Resources.OverlayYes), UiControls.Inset(sender.Image, Resources.OverlayNo));
+            }
+
+            var img = (Tuple<Image, Image>)sender.Tag;
+
+            sender.Image = sender.Checked ? img.Item1 : img.Item2;
+
             button1.Enabled = GetResult() != EChangeLevel.None;
 
             _chkClus.Enabled = _chkTrend.Checked;

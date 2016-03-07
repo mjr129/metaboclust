@@ -383,6 +383,16 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MnuNew {
+            get {
+                object obj = ResourceManager.GetObject("MnuNew", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MnuNewEvaluation {
             get {
                 object obj = ResourceManager.GetObject("MnuNewEvaluation", resourceCulture);
@@ -1066,6 +1076,36 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap ObjVariableU {
             get {
                 object obj = ResourceManager.GetObject("ObjVariableU", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OverlayCross {
+            get {
+                object obj = ResourceManager.GetObject("OverlayCross", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OverlayNo {
+            get {
+                object obj = ResourceManager.GetObject("OverlayNo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OverlayYes {
+            get {
+                object obj = ResourceManager.GetObject("OverlayYes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

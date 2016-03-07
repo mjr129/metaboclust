@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Settings
@@ -63,11 +64,11 @@ namespace MetaboliteLevels.Settings
             UiControls.InvokeConstructor(this);
         }
 
-        public void AddRecentSession(string fileName, string title)
+        public void AddRecentSession(Core core)
         {
-            string fnu = fileName.ToUpper();
+            string fnu = core.FileNames.Session.ToUpper();
             RecentSessions.RemoveAll(λ => λ.FileName.ToUpper() == fnu);
-            RecentSession e = new RecentSession(fileName, title);
+            RecentSession e = new RecentSession(core);
             RecentSessions.Add(e);
             ArrayHelper.TrimList(RecentSessions, MAX_RECENT_SESSIONS);
         }
@@ -84,17 +85,13 @@ namespace MetaboliteLevels.Settings
         {
             public string FileName;
             public string Title;
+            public Guid Guid;
 
-            public RecentSession()
+            public RecentSession(Core core)
             {
-                this.FileName = "";
-                this.Title = "";
-            }
-
-            public RecentSession(string fn, string title)
-            {
-                this.FileName = fn;
-                this.Title = title;
+                this.FileName = core.FileNames.Session;
+                this.Title = core.FileNames.Title;
+                this.Guid = core.CoreGuid;
             }
         }
     }

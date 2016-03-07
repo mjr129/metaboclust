@@ -219,7 +219,7 @@ namespace MetaboliteLevels.Data.Session
         public IReadOnlyList<GroupInfo> ConditionsOfInterest { get { return _cache._conditionsOfInterest; } }
         public IReadOnlyList<int> Acquisitions { get { return _cache._acquisitions; } }
         public IReadOnlyList<GroupInfo> ControlConditions { get { return _cache._controlConditions; } }
-        public Range TimeRange { get { return _cache._timeRange; } }    
+        public Range TimeRange { get { return _cache._timeRange; } }
 
         public IReadOnlyList<GroupInfo> Groups { get { return _groups; } }
         public IReadOnlyList<BatchInfo> Batches { get { return _batches; } }
@@ -236,7 +236,7 @@ namespace MetaboliteLevels.Data.Session
         public IReadOnlyList<ConfigurationClusterer> AllClusterers { get { return _clusterers; } }
         public IReadOnlyList<ConfigurationTrend> AllTrends { get { return _trends; } }
         public IReadOnlyList<PeakFilter> AllPeakFilters { get { return _peakFilters; } }
-        public IReadOnlyList<ObsFilter> AllObsFilters { get { return _obsFilters; } }                       
+        public IReadOnlyList<ObsFilter> AllObsFilters { get { return _obsFilters; } }
 
         class CachedData
         {
@@ -287,6 +287,7 @@ namespace MetaboliteLevels.Data.Session
 
             if (result != null)
             {
+                result.FileNames.Session = fileName;
                 result._cache = new CachedData(result);
             }
 
@@ -331,7 +332,7 @@ namespace MetaboliteLevels.Data.Session
             this._obsFilters = new List<ObsFilter>();
 
             this._cache = new CachedData(this);
-        }   
+        }
 
         /// <summary>
         /// Rates the current assignments based on SUM( |x - c(x)|)^2 (the k-means function).
@@ -415,7 +416,8 @@ namespace MetaboliteLevels.Data.Session
 
             // Get first change
             var newListEnabled = newList.WhereEnabled().ToList();
-            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference(_corrections, newListEnabled);
+            var prevList = _corrections.WhereEnabled();
+            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference(prevList, newListEnabled);
 
             // Remove old results
             _ClearCorrections(firstChange);
@@ -606,7 +608,8 @@ namespace MetaboliteLevels.Data.Session
 
             // Get changes
             var newListEnabled = newList.WhereEnabled().ToList();
-            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference(this._statistics, newListEnabled);
+            var prevList = this._statistics.WhereEnabled();
+            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference(prevList, newListEnabled);
 
             // Remove old results
             for (int i = firstChange; i < this._statistics.Count; i++)
@@ -644,6 +647,7 @@ namespace MetaboliteLevels.Data.Session
                 catch (Exception ex)
                 {
                     result = false;
+                    stat.Enabled = false;
                     actList.Remove(stat);
                     _ClearStatistic(stat);
                     stat.SetError(ex);
@@ -671,7 +675,6 @@ namespace MetaboliteLevels.Data.Session
                 x.Statistics.Remove(stat);
             }
 
-            stat.Enabled = false;
             stat.ClearError();
             stat.ClearResults();
         }

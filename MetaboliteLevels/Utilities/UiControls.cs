@@ -26,6 +26,7 @@ using System.Diagnostics;
 using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Forms.Algorithms;
 using Microsoft.Win32;
+using MetaboliteLevels.Forms;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -76,6 +77,8 @@ namespace MetaboliteLevels.Utilities
                 Color.FromArgb(0,0,255),
             };
 
+
+
         /// <summary>
         /// Initialises this class.
         /// REQUIRED.
@@ -100,12 +103,25 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Adds a caption after the last item in the menu.
         /// </summary>                                     
-        public static void AddMenuCaption(ToolStripDropDownMenu destination, string text)
+        public static ToolStripLabel AddMenuCaptionFilename(ToolStripDropDownMenu destination, string fileName)
+        {
+            ToolStripLabel tsl = AddMenuCaption(destination, Path.GetFileName(fileName) + " (EXPLORE)");
+
+            tsl.Tag = fileName;
+            tsl.Text = Path.GetFileName(fileName); // Needed to set text with " (explore)" originally to get correct size
+            tsl.MouseEnter += Tsl_MouseEnter;
+            tsl.MouseLeave += Tsl_MouseLeave;
+            tsl.ToolTipText = fileName + "\r\nClick to show in Windows Explorer";
+            tsl.Click += Tsl_Click;
+
+            return tsl;
+        }
+
+        public static ToolStripLabel AddMenuCaption(ToolStripDropDownMenu destination, string text)
         {
             ToolStripLabel tsl = new ToolStripLabel()
             {
-                Text = Path.GetFileName(text) + " (explore)",
-                Tag = text,
+                Text = text,
                 Font = FontHelper.SmallRegularFont,
                 ForeColor = Color.SteelBlue,
                 Margin = new Padding(24, 0, 8, 8),
@@ -114,17 +130,13 @@ namespace MetaboliteLevels.Utilities
                 LinkColor = Color.SteelBlue,
                 IsLink = true,
                 TextAlign = ContentAlignment.TopLeft,
-                ToolTipText = text + "\r\nClick to show in Windows Explorer",
             };
 
             tsl.AutoSize = false;
             tsl.Size = tsl.GetPreferredSize(Size.Empty);
-            tsl.Text = Path.GetFileName(text);
-            tsl.MouseEnter += Tsl_MouseEnter;
-            tsl.MouseLeave += Tsl_MouseLeave;
-            tsl.Click += Tsl_Click;
 
             destination.Items.Add(tsl);
+            return tsl;
         }
 
         private static void Tsl_MouseLeave(object sender, EventArgs e)
@@ -138,13 +150,33 @@ namespace MetaboliteLevels.Utilities
         {
             ToolStripLabel tsl = (ToolStripLabel)sender;
 
-            tsl.Text = Path.GetFileName((string)tsl.Tag) + " (explore)";
+            tsl.Text = Path.GetFileName((string)tsl.Tag) + " (EXPLORE)";
         }
 
         private static void Tsl_Click(object sender, EventArgs e)
         {
             ToolStripLabel tsl = (ToolStripLabel)sender;
-            ExploreTo(tsl.GetCurrentParent().FindForm(), (string)tsl.Tag);
+
+            string fileName = (string)tsl.Tag;
+            Form form = tsl.GetCurrentParent().FindForm();
+
+            if (File.Exists(fileName))
+            {
+                ExploreTo(form, fileName);
+            }
+            else
+            {
+                string directory = Path.GetDirectoryName(fileName);
+
+                if (Directory.Exists(directory))
+                {
+                    Explore(form, directory);
+                }
+                else
+                {
+                    FrmMsgBox.ShowError(form, $"Neither the file \"{Path.GetFileName(fileName)}\" nor the directory \"{directory}\" can be found.");
+                }
+            }
         }
 
         /// <summary>
@@ -899,6 +931,23 @@ namespace MetaboliteLevels.Utilities
             return r;
         }
 
+        public static Bitmap Inset(Image orig, Image inset, int width = 0, int height = 0)
+        {
+            Bitmap result = new Bitmap(orig);
+
+            if (width == 0) width = inset.Width;
+            if (height == 0) height = inset.Height;
+
+            using (Graphics g = Graphics.FromImage(result))
+            {
+                Rectangle r = new Rectangle(result.Width - width, result.Height - height, width, height);
+
+                g.DrawImage(inset, r);
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Puts a crossout icon on an image.
         /// </summary>
@@ -1243,6 +1292,11 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        internal static void ShowSessionInfo(Form owner, DataFileNames fileNames)
+        {
+            FrmInputLarge.ShowFixed(owner, UiControls.Title, "Current session information", Path.GetFileName(fileNames.Session), fileNames.GetDetails());
+        }
+
         /// <summary>
         /// Opens the file browser with the specified file in focus.
         /// </summary>                                              
@@ -1251,6 +1305,21 @@ namespace MetaboliteLevels.Utilities
             try
             {
                 Process.Start("explorer.exe", "/select,\"" + fileName + "\"");
+            }
+            catch (Exception ex)
+            {
+                FrmMsgBox.ShowError(owner, ex);
+            }
+        }
+
+        /// <summary>
+        /// Opens the file browser with the specified directory
+        /// </summary>                                              
+        internal static void Explore(Form owner, string fileName)
+        {
+            try
+            {
+                Process.Start("explorer.exe", "\"" + fileName + "\"");
             }
             catch (Exception ex)
             {
@@ -1310,6 +1379,11 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        internal static void ShowAbout(Form owner)
+        {
+            FrmMsgBox.ShowInfo(owner, "About " + UiControls.Title, UiControls.GetManText("copyright").Replace("{productname}", UiControls.Title).Replace("{version}", UiControls.VersionString));
+        }
+
         public static void DrawWatermark(Bitmap bmp, Core core, string watermark)
         {
             using (Graphics g = Graphics.FromImage(bmp))
@@ -1317,6 +1391,20 @@ namespace MetaboliteLevels.Utilities
                 string txt = core.CoreGuid.ToString() + "\r\n" + core.FileNames.Title + "\r\n" + watermark;
                 g.DrawString(txt.ToUpper(), FontHelper.TinyRegularFont, Brushes.Silver, 0, 0);
             }
+        }
+
+        /// <summary>
+        /// (EXTENSION) (MJR) Returns the object as a string, or an empty string if the object is null
+        /// </summary>                                                                                
+        public static string ToStringSafe<T>(this T self)
+            where T : class
+        {
+            if (self == null)
+            {
+                return string.Empty;
+            }
+
+            return self.ToString();
         }
     }
 

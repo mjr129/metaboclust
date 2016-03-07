@@ -322,8 +322,10 @@ namespace MetaboliteLevels.Forms.Generic
                         return false;
                     }
 
-                    z.Status = FrmEditUpdate.ShowTrendsChanged(z.Owner);
-                    return true;
+                    var ch = FrmEditUpdate.ShowTrendsChanged(z.Owner);
+                    z.Status = ch;
+
+                    return ch != FrmEditUpdate.EChangeLevel.None;
                 },
                 ListChangeApplicator = z =>
                 {
@@ -358,8 +360,10 @@ namespace MetaboliteLevels.Forms.Generic
                 ListSupportsReorder = true,
                 BeforeListChangesApplied = z =>
                 {
-                    z.Status = FrmEditUpdate.ShowCorrectionsChanged(z.Owner);
-                    return true;
+                    var ch = FrmEditUpdate.ShowCorrectionsChanged(z.Owner);
+                    z.Status = ch;
+
+                    return ch != FrmEditUpdate.EChangeLevel.None;
                 },
                 AfterListChangesApplied = z =>
                 {

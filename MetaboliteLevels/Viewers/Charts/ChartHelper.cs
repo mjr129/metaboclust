@@ -41,13 +41,18 @@ namespace MetaboliteLevels.Viewers.Charts
         private readonly ToolStripDropDownButton _mnuSelectedPeak;
         private readonly ToolStripDropDownButton _mnuSelectedSeries;
         private readonly ToolStripMenuItem _mnuSelectionDisplay;
-        private readonly ToolStripButton _chkShowPeak;
-        private readonly ToolStripButton _chkShowSeries;
-        private readonly ToolStripButton _chkShowIntensity;
-        private readonly ToolStripButton _chkShowGroup;
-        private readonly ToolStripButton _chkShowReplicate;
-        private readonly ToolStripButton _chkShowTime;
-        private readonly ToolStripButton _chkShowCustom;
+        private readonly ToolStripMenuItem _chkShowPeak;
+        private readonly ToolStripMenuItem _chkShowSeries;
+        private readonly ToolStripMenuItem _chkShowIntensity;
+        private readonly ToolStripMenuItem _chkShowGroup;
+        private readonly ToolStripMenuItem _chkShowReplicate;
+        private readonly ToolStripMenuItem _chkShowTime;
+        private readonly ToolStripMenuItem _chkShowCustom;
+        private readonly ToolStripMenuItem _mnuLegend;
+        private readonly ToolStripMenuItem _mnuLegend0;
+        private readonly ToolStripMenuItem _mnuLegend1;
+        private readonly ToolStripMenuItem _mnuLegend2;
+        private readonly ToolStripMenuItem _restoreZoom;
 
         public virtual IVisualisable CurrentPlot
         {
@@ -139,13 +144,13 @@ namespace MetaboliteLevels.Viewers.Charts
             _btnNavigateToSelected = _mnuPlot.DropDownItems.Add("Select this", null, SelectThis_Click);
             _mnuPlot.DropDownItems.Add(new ToolStripSeparator());
             _mnuPlot.DropDownItems.Add("Popout", Resources.MnuEnlarge, Popout_Click);
-            _mnuPlot.DropDownItems.Add("Toggle legend", null, ToggleLegend_Click);
-            _mnuPlot.DropDownItems.Add("Reset scale (MMB)", null, ResetScale_Click);
-            _mnuPlot.DropDownItems.Add("Clear selection (MMB)", null, ResetSel_Click);
-            _mnuPlot.DropDownItems.Add("Copy caption text to clipboard", null, ShowCaption_Click);
-            _mnuPlot.DropDownItems.Add("Display caption text...", null, ShowCaption2_Click);
-            _mnuPlot.DropDownItems.Add("Copy image to clipboard", null, ShowImage_Click);
-            _mnuPlot.DropDownItems.Add("Save image...", null, SaveImage_Click);
+            _mnuLegend = new ToolStripMenuItem("Legend");
+            _mnuLegend.DropDownOpening += MnuLegend_DropDownOpening;
+            _mnuPlot.DropDownItems.Add(_mnuLegend);
+            _restoreZoom = (ToolStripMenuItem)_mnuPlot.DropDownItems.Add("Restore zoom", null, ResetScale_Click);
+            _restoreZoom.ShortcutKeyDisplayString = "MMB";
+            _restoreZoom.ShowShortcutKeys = true;
+            _mnuPlot.DropDownItems.Add("Export...", null, SaveImage_Click);
             _mnuSelectionDisplay = (ToolStripMenuItem)_mnuPlot.DropDownItems.Add("Selection display", null, null);
             _chkShowCustom = AddCheckButton("Custom text", true);
             _chkShowPeak = AddCheckButton("Peak", describePeaks);
@@ -155,8 +160,19 @@ namespace MetaboliteLevels.Viewers.Charts
             _chkShowTime = AddCheckButton("Time", !describePeaks);
             _chkShowIntensity = AddCheckButton("Intensity", !describePeaks);
 
+            _mnuLegend0 = (ToolStripMenuItem)_mnuLegend.DropDownItems.Add("Off", null, ToggleLegend0_Click);
+            _mnuLegend1 = (ToolStripMenuItem)_mnuLegend.DropDownItems.Add("On", null, ToggleLegend1_Click);
+            _mnuLegend2 = (ToolStripMenuItem)_mnuLegend.DropDownItems.Add("Context", null, ToggleLegend2_Click);
+
             _btnNavigateToSelected.Font = new Font(_btnNavigateToSelected.Font, FontStyle.Bold);
             _btnNavigateToSelected.Enabled = _selector != null;
+        }
+
+        private void MnuLegend_DropDownOpening(object sender, EventArgs e)
+        {
+            _mnuLegend0.Checked = _chart.Style.LegendDisplay == MChart.ELegendDisplay.Hidden;
+            _mnuLegend1.Checked = _chart.Style.LegendDisplay == MChart.ELegendDisplay.Visible;
+            _mnuLegend2.Checked = _chart.Style.LegendDisplay == MChart.ELegendDisplay.Selection;
         }
 
         private void Popout_Click(object sender, EventArgs e)
@@ -164,9 +180,9 @@ namespace MetaboliteLevels.Viewers.Charts
             FrmPopoutPlot.Show(this.Chart.FindForm(), _selector, _core, this);
         }
 
-        private ToolStripButton AddCheckButton(string v, bool isChecked)
+        private ToolStripMenuItem AddCheckButton(string v, bool isChecked)
         {
-            ToolStripButton result = new ToolStripButton(v);
+            ToolStripMenuItem result = new ToolStripMenuItem(v);
             _mnuSelectionDisplay.DropDownItems.Add(result);
             result.Checked = isChecked;
             result.Visible = true;
@@ -244,80 +260,33 @@ namespace MetaboliteLevels.Viewers.Charts
             _selector.Selection = new VisualisableSelection(CurrentPlot);
         }
 
-        private void ToggleLegend_Click(object sender, EventArgs e)
+        private void ToggleLegend0_Click(object sender, EventArgs e)
         {
-            switch (_chart.Style.LegendDisplay)
-            {
-                case MChart.ELegendDisplay.Visible:
-                    _chart.Style.LegendDisplay = MChart.ELegendDisplay.Hidden;
-                    break;
+            _chart.Style.LegendDisplay = MChart.ELegendDisplay.Hidden;
+            _chart.Redraw();
+        }
 
-                case MChart.ELegendDisplay.Hidden:
-                    _chart.Style.LegendDisplay = MChart.ELegendDisplay.Selection;
-                    break;
+        private void ToggleLegend1_Click(object sender, EventArgs e)
+        {
+            _chart.Style.LegendDisplay = MChart.ELegendDisplay.Visible;
+            _chart.Redraw();
+        }
 
-                case MChart.ELegendDisplay.Selection:
-                    _chart.Style.LegendDisplay = MChart.ELegendDisplay.Visible;
-                    break;
-            }
-
+        private void ToggleLegend2_Click(object sender, EventArgs e)
+        {
+            _chart.Style.LegendDisplay = MChart.ELegendDisplay.Selection;
             _chart.Redraw();
         }
 
         private void ResetScale_Click(object sender, EventArgs e)
         {
             _chart.RestoreZoom();
-        }
-
-        private void ResetSel_Click(object sender, EventArgs e)
-        {
             _chart.SelectedItem = null;
-        }
-
-        private void ShowCaption_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(_captionBar.Text);
-        }
-
-        private void ShowCaption2_Click(object sender, EventArgs e)
-        {
-            Form f = _chart.FindForm();
-
-            FrmInputLarge.ShowFixed(f, f.Text, "Plot caption", null, _captionBar.Text);
-        }
-
-        private void ShowImage_Click(object sender, EventArgs e)
-        {
-            using (System.IO.MemoryStream memStream = new System.IO.MemoryStream())
-            {
-                using (Bitmap bitmap = _chart.DrawToBitmap())
-                {
-                    UiControls.DrawWatermark(bitmap, _core, CurrentPlot.DisplayName);
-                    bitmap.Save(memStream, ImageFormat.Png);
-                }
-
-                using (Image img = Image.FromStream(memStream))
-                {
-                    Clipboard.SetImage(img);
-                }
-            }
         }
 
         private void SaveImage_Click(object sender, EventArgs e)
         {
-            Form f = _chart.FindForm();
-
-            string fn = f.BrowseForFile(null, UiControls.EFileExtension.PngOrEmf, FileDialogMode.SaveAs, UiControls.EInitialFolder.SavedImages);
-
-            if (fn != null)
-            {
-                using (Bitmap bitmap = _chart.DrawToBitmap())
-                {
-                    UiControls.DrawWatermark(bitmap, _core, CurrentPlot.DisplayName);
-
-                    bitmap.Save(fn, fn.ToLower().EndsWith("emf") ? ImageFormat.Emf : ImageFormat.Png);
-                }
-            }
+            FrmImageExport.Show(_chart.FindForm(), _core, this, CurrentPlot.DisplayName, _captionBar.Text);
         }
 
         public MChart Chart
@@ -379,6 +348,11 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
             }
 
+            if (_core.Options.NoAxes)
+            {
+                axes = false;                                               
+            }
+
             if (axes)
             {
                 plot.Style.BackColour = _core.Options.Colours.PlotBackground;
@@ -404,9 +378,10 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 plot.Style.AutoTickX = false;
-                plot.Style.GridStyle = new Pen(_core.Options.Colours.MinorGrid);
-                plot.Style.TickStyle = new Pen(_core.Options.Colours.MajorGrid);
+                plot.Style.GridStyle = new Pen(_core.Options.Colours.MinorGrid, _core.Options.LineWidth);
+                plot.Style.TickStyle = new Pen(_core.Options.Colours.MajorGrid, _core.Options.LineWidth);
                 plot.Style.AxisText = new SolidBrush(_core.Options.Colours.AxisTitle);
+                Chart.Style.Margin = new Padding(_core.Options.Margin);
             }
             else
             {
@@ -416,6 +391,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 plot.Style.GridStyle = null;
                 plot.Style.TickStyle = null;
                 plot.Style.AxisStyle = null;
+                Chart.Style.Margin = Padding.Empty;
             }
 
             return plot;

@@ -96,8 +96,8 @@ namespace MetaboliteLevels.Forms.Wizards
 
             if (b)
             {
-                _lowestPeak = _core.Peaks.FindLowest(λ => λ.GetStatistic(stat));
-                _highestPeak = _core.Peaks.FindHighest(λ => λ.GetStatistic(stat));
+                _lowestPeak = _core.Peaks.Where(λ => λ.GetStatistic(stat).IsValid()).FindLowest(λ => λ.GetStatistic(stat));
+                _highestPeak = _core.Peaks.Where(λ => λ.GetStatistic(stat).IsValid()).FindHighest(λ => λ.GetStatistic(stat));
                 _lblSeedStudent.Text = _lowestPeak.DisplayName;
                 _lblSeedPearson.Text = _highestPeak.DisplayName;
             }
@@ -171,7 +171,7 @@ namespace MetaboliteLevels.Forms.Wizards
             {
                 FrmMsgBox.ShowError(this, "Not all options have been selected.");
                 return;
-            }                                          
+            }
 
             int param1_numClusters = _radStopN.Checked ? int.Parse(_txtStopN.Text) : int.MinValue;
             double param2_distanceLimit = _radStopD.Checked ? double.Parse(_txtStopD.Text) : double.MinValue;

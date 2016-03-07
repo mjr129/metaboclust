@@ -208,6 +208,12 @@
     <Compile Include="Forms\Generic\FrmAlarm.Designer.cs">
       <DependentUpon>FrmAlarm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Generic\FrmImageExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Generic\FrmImageExport.Designer.cs">
+      <DependentUpon>FrmImageExport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Generic\FrmPopoutPlot.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -567,6 +573,9 @@
     <EmbeddedResource Include="Forms\Generic\FrmAlarm.resx">
       <DependentUpon>FrmAlarm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Generic\FrmImageExport.resx">
+      <DependentUpon>FrmImageExport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Generic\FrmPopoutPlot.resx">
       <DependentUpon>FrmPopoutPlot.cs</DependentUpon>
     </EmbeddedResource>
@@ -674,6 +683,10 @@
     <Content Include="Manual.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\1385_Disable_16x16_72.png" />
+    <None Include="Resources\109_AllAnnotations_Default_16x16_72.png" />
+    <None Include="Resources\OverlayCross.png" />
+    <None Include="Resources\MnuNew.png" />
     <None Include="Resources\filter_16xLG.png" />
     <None Include="Resources\Filter2HS.png" />
     <None Include="Resources\112_UpArrowShort_Grey_16x16_72.png" />

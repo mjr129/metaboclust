@@ -390,19 +390,11 @@ namespace MetaboliteLevels.Viewers.Lists
                 c2.Dispose();
             }
 
-            // If many columns then show a listbox instead
+            // If many columns then allow the user to show a listbox instead
             if (_availableColumns.Count >= 50)
             {
-                IEnumerable<Column> selected = DataSet.ForColumns(_availableColumns).ShowCheckList(this.ListView.FindForm(), _availableColumns.Where(z => !z.IsAlwaysEmpty && z.Visible));
-
-                if (selected != null)
-                {
-                    _availableColumns.ForEach(z => z.Visible = z.IsAlwaysEmpty || selected.Contains(z));
-                }
-
-                SaveColumnUserPreferences();
-                Rebuild(EListInvalids.ToggleColumn);
-                return;
+                ToolStripMenuItem editColumnsAsList = new ToolStripMenuItem("(Column editor...)", Resources.MnuEdit, EditColumnsAsList_Click);
+                ctrl.DropDownItems.Add(editColumnsAsList);
             }
 
             // Create new
@@ -461,8 +453,20 @@ namespace MetaboliteLevels.Viewers.Lists
                     tsmi.Checked = col.Visible;
                 }
             }
-        }
+        }    
 
+        private void EditColumnsAsList_Click(object sender, EventArgs e)
+        {
+            IEnumerable<Column> selected = DataSet.ForColumns(_availableColumns).ShowCheckList(this.ListView.FindForm(), _availableColumns.Where(z => !z.IsAlwaysEmpty && z.Visible));
+
+            if (selected != null)
+            {
+                _availableColumns.ForEach(z => z.Visible = z.IsAlwaysEmpty || selected.Contains(z));
+            }
+
+            SaveColumnUserPreferences();
+            Rebuild(EListInvalids.ToggleColumn);
+        }             
 
         /// <summary>
         /// Menu: Column help
