@@ -75,9 +75,7 @@ namespace MetaboliteLevels.Utilities
                 Color.FromArgb(128,128,0),
                 Color.FromArgb(0,128,128),
                 Color.FromArgb(0,0,255),
-            };
-
-
+            };    
 
         /// <summary>
         /// Initialises this class.
