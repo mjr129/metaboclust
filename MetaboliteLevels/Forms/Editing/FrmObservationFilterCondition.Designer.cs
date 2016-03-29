@@ -62,11 +62,7 @@
             this._chkCond = new System.Windows.Forms.RadioButton();
             this._lstCond = new System.Windows.Forms.ComboBox();
             this._txtCond = new System.Windows.Forms.TextBox();
-            this._chkVCond = new System.Windows.Forms.RadioButton();
-            this._lstVCond = new System.Windows.Forms.ComboBox();
-            this._txtVCond = new System.Windows.Forms.TextBox();
             this._btnCond = new System.Windows.Forms.Button();
-            this._btnVCond = new System.Windows.Forms.Button();
             this._lblSigPeaks = new System.Windows.Forms.Label();
             this._lblInsigPeaks = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -175,16 +171,12 @@
             this.tableLayoutPanel2.Controls.Add(this._chkCond, 0, 7);
             this.tableLayoutPanel2.Controls.Add(this._lstCond, 1, 7);
             this.tableLayoutPanel2.Controls.Add(this._txtCond, 2, 7);
-            this.tableLayoutPanel2.Controls.Add(this._chkVCond, 0, 8);
-            this.tableLayoutPanel2.Controls.Add(this._lstVCond, 1, 8);
-            this.tableLayoutPanel2.Controls.Add(this._txtVCond, 2, 8);
             this.tableLayoutPanel2.Controls.Add(this._btnCond, 3, 7);
-            this.tableLayoutPanel2.Controls.Add(this._btnVCond, 3, 8);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 9;
+            this.tableLayoutPanel2.RowCount = 8;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -193,8 +185,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(953, 433);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(953, 384);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
             // _chkRep
@@ -237,10 +228,10 @@
             // 
             this._txtGroup.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtGroup.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtGroup.Location = new System.Drawing.Point(415, 49);
+            this._txtGroup.Location = new System.Drawing.Point(407, 49);
             this._txtGroup.Margin = new System.Windows.Forms.Padding(8);
             this._txtGroup.Name = "_txtGroup";
-            this._txtGroup.Size = new System.Drawing.Size(484, 30);
+            this._txtGroup.Size = new System.Drawing.Size(492, 30);
             this._txtGroup.TabIndex = 4;
             this._txtGroup.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -258,10 +249,10 @@
             // 
             this._txtTime.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtTime.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtTime.Location = new System.Drawing.Point(415, 98);
+            this._txtTime.Location = new System.Drawing.Point(407, 98);
             this._txtTime.Margin = new System.Windows.Forms.Padding(8);
             this._txtTime.Name = "_txtTime";
-            this._txtTime.Size = new System.Drawing.Size(484, 30);
+            this._txtTime.Size = new System.Drawing.Size(492, 30);
             this._txtTime.TabIndex = 6;
             this._txtTime.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -279,10 +270,10 @@
             // 
             this._txtRep.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtRep.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtRep.Location = new System.Drawing.Point(415, 147);
+            this._txtRep.Location = new System.Drawing.Point(407, 147);
             this._txtRep.Margin = new System.Windows.Forms.Padding(8);
             this._txtRep.Name = "_txtRep";
-            this._txtRep.Size = new System.Drawing.Size(484, 30);
+            this._txtRep.Size = new System.Drawing.Size(492, 30);
             this._txtRep.TabIndex = 7;
             this._txtRep.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -315,10 +306,10 @@
             this._lstRep.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstRep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstRep.FormattingEnabled = true;
-            this._lstRep.Location = new System.Drawing.Point(165, 147);
+            this._lstRep.Location = new System.Drawing.Point(153, 147);
             this._lstRep.Margin = new System.Windows.Forms.Padding(8);
             this._lstRep.Name = "_lstRep";
-            this._lstRep.Size = new System.Drawing.Size(234, 29);
+            this._lstRep.Size = new System.Drawing.Size(238, 29);
             this._lstRep.TabIndex = 1;
             this._lstRep.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -327,10 +318,10 @@
             this._lstDay.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstDay.FormattingEnabled = true;
-            this._lstDay.Location = new System.Drawing.Point(165, 98);
+            this._lstDay.Location = new System.Drawing.Point(153, 98);
             this._lstDay.Margin = new System.Windows.Forms.Padding(8);
             this._lstDay.Name = "_lstDay";
-            this._lstDay.Size = new System.Drawing.Size(234, 29);
+            this._lstDay.Size = new System.Drawing.Size(238, 29);
             this._lstDay.TabIndex = 1;
             this._lstDay.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -339,10 +330,10 @@
             this._lstGroup.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstGroup.FormattingEnabled = true;
-            this._lstGroup.Location = new System.Drawing.Point(165, 49);
+            this._lstGroup.Location = new System.Drawing.Point(153, 49);
             this._lstGroup.Margin = new System.Windows.Forms.Padding(8);
             this._lstGroup.Name = "_lstGroup";
-            this._lstGroup.Size = new System.Drawing.Size(234, 29);
+            this._lstGroup.Size = new System.Drawing.Size(238, 29);
             this._lstGroup.TabIndex = 1;
             this._lstGroup.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -363,10 +354,10 @@
             this._lstBatch.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstBatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstBatch.FormattingEnabled = true;
-            this._lstBatch.Location = new System.Drawing.Point(165, 196);
+            this._lstBatch.Location = new System.Drawing.Point(153, 196);
             this._lstBatch.Margin = new System.Windows.Forms.Padding(8);
             this._lstBatch.Name = "_lstBatch";
-            this._lstBatch.Size = new System.Drawing.Size(234, 29);
+            this._lstBatch.Size = new System.Drawing.Size(238, 29);
             this._lstBatch.TabIndex = 1;
             this._lstBatch.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -374,10 +365,10 @@
             // 
             this._txtBatch.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtBatch.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtBatch.Location = new System.Drawing.Point(415, 196);
+            this._txtBatch.Location = new System.Drawing.Point(407, 196);
             this._txtBatch.Margin = new System.Windows.Forms.Padding(8);
             this._txtBatch.Name = "_txtBatch";
-            this._txtBatch.Size = new System.Drawing.Size(484, 30);
+            this._txtBatch.Size = new System.Drawing.Size(492, 30);
             this._txtBatch.TabIndex = 7;
             this._txtBatch.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -398,10 +389,10 @@
             this._lstAq.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstAq.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstAq.FormattingEnabled = true;
-            this._lstAq.Location = new System.Drawing.Point(165, 245);
+            this._lstAq.Location = new System.Drawing.Point(153, 245);
             this._lstAq.Margin = new System.Windows.Forms.Padding(8);
             this._lstAq.Name = "_lstAq";
-            this._lstAq.Size = new System.Drawing.Size(234, 29);
+            this._lstAq.Size = new System.Drawing.Size(238, 29);
             this._lstAq.TabIndex = 1;
             this._lstAq.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -409,10 +400,10 @@
             // 
             this._txtAq.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtAq.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtAq.Location = new System.Drawing.Point(415, 245);
+            this._txtAq.Location = new System.Drawing.Point(407, 245);
             this._txtAq.Margin = new System.Windows.Forms.Padding(8);
             this._txtAq.Name = "_txtAq";
-            this._txtAq.Size = new System.Drawing.Size(484, 30);
+            this._txtAq.Size = new System.Drawing.Size(492, 30);
             this._txtAq.TabIndex = 7;
             this._txtAq.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -433,10 +424,10 @@
             this._lstObs.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstObs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstObs.FormattingEnabled = true;
-            this._lstObs.Location = new System.Drawing.Point(165, 294);
+            this._lstObs.Location = new System.Drawing.Point(153, 294);
             this._lstObs.Margin = new System.Windows.Forms.Padding(8);
             this._lstObs.Name = "_lstObs";
-            this._lstObs.Size = new System.Drawing.Size(234, 29);
+            this._lstObs.Size = new System.Drawing.Size(238, 29);
             this._lstObs.TabIndex = 1;
             this._lstObs.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -444,10 +435,10 @@
             // 
             this._txtObs.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtObs.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtObs.Location = new System.Drawing.Point(415, 294);
+            this._txtObs.Location = new System.Drawing.Point(407, 294);
             this._txtObs.Margin = new System.Windows.Forms.Padding(8);
             this._txtObs.Name = "_txtObs";
-            this._txtObs.Size = new System.Drawing.Size(484, 30);
+            this._txtObs.Size = new System.Drawing.Size(492, 30);
             this._txtObs.TabIndex = 7;
             this._txtObs.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -498,10 +489,10 @@
             this._lstCond.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstCond.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstCond.FormattingEnabled = true;
-            this._lstCond.Location = new System.Drawing.Point(165, 343);
+            this._lstCond.Location = new System.Drawing.Point(153, 343);
             this._lstCond.Margin = new System.Windows.Forms.Padding(8);
             this._lstCond.Name = "_lstCond";
-            this._lstCond.Size = new System.Drawing.Size(234, 29);
+            this._lstCond.Size = new System.Drawing.Size(238, 29);
             this._lstCond.TabIndex = 1;
             this._lstCond.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
@@ -509,47 +500,12 @@
             // 
             this._txtCond.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtCond.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtCond.Location = new System.Drawing.Point(415, 343);
+            this._txtCond.Location = new System.Drawing.Point(407, 343);
             this._txtCond.Margin = new System.Windows.Forms.Padding(8);
             this._txtCond.Name = "_txtCond";
-            this._txtCond.Size = new System.Drawing.Size(484, 30);
+            this._txtCond.Size = new System.Drawing.Size(492, 30);
             this._txtCond.TabIndex = 7;
             this._txtCond.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
-            // 
-            // _chkVCond
-            // 
-            this._chkVCond.AutoSize = true;
-            this._chkVCond.Location = new System.Drawing.Point(24, 392);
-            this._chkVCond.Margin = new System.Windows.Forms.Padding(24, 8, 8, 16);
-            this._chkVCond.Name = "_chkVCond";
-            this._chkVCond.Size = new System.Drawing.Size(125, 25);
-            this._chkVCond.TabIndex = 0;
-            this._chkVCond.Text = "Val. Condition";
-            this._chkVCond.UseVisualStyleBackColor = true;
-            this._chkVCond.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
-            // 
-            // _lstVCond
-            // 
-            this._lstVCond.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lstVCond.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstVCond.FormattingEnabled = true;
-            this._lstVCond.Location = new System.Drawing.Point(165, 392);
-            this._lstVCond.Margin = new System.Windows.Forms.Padding(8);
-            this._lstVCond.Name = "_lstVCond";
-            this._lstVCond.Size = new System.Drawing.Size(234, 29);
-            this._lstVCond.TabIndex = 1;
-            this._lstVCond.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
-            // 
-            // _txtVCond
-            // 
-            this._txtVCond.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtVCond.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtVCond.Location = new System.Drawing.Point(415, 392);
-            this._txtVCond.Margin = new System.Windows.Forms.Padding(8);
-            this._txtVCond.Name = "_txtVCond";
-            this._txtVCond.Size = new System.Drawing.Size(484, 30);
-            this._txtVCond.TabIndex = 7;
-            this._txtVCond.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
             // 
             // _btnCond
             // 
@@ -560,16 +516,6 @@
             this._btnCond.Size = new System.Drawing.Size(30, 30);
             this._btnCond.TabIndex = 5;
             this._btnCond.UseVisualStyleBackColor = true;
-            // 
-            // _btnVCond
-            // 
-            this._btnVCond.Image = ((System.Drawing.Image)(resources.GetObject("_btnVCond.Image")));
-            this._btnVCond.Location = new System.Drawing.Point(915, 392);
-            this._btnVCond.Margin = new System.Windows.Forms.Padding(8);
-            this._btnVCond.Name = "_btnVCond";
-            this._btnVCond.Size = new System.Drawing.Size(30, 30);
-            this._btnVCond.TabIndex = 5;
-            this._btnVCond.UseVisualStyleBackColor = true;
             // 
             // _lblSigPeaks
             // 
@@ -604,7 +550,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(953, 589);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(953, 515);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // flowLayoutPanel4
@@ -615,7 +561,7 @@
             this.flowLayoutPanel4.Controls.Add(this._btnCancel);
             this.flowLayoutPanel4.Controls.Add(this._btnOk);
             this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(665, 533);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(665, 459);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(288, 56);
@@ -661,7 +607,7 @@
             this.flowLayoutPanel5.Controls.Add(this._lblInsigPeaks);
             this.flowLayoutPanel5.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel5.ForeColor = System.Drawing.Color.Black;
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(8, 487);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(8, 413);
             this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(8);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Size = new System.Drawing.Size(257, 94);
@@ -698,7 +644,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(953, 676);
+            this.ClientSize = new System.Drawing.Size(953, 602);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -764,10 +710,6 @@
         private System.Windows.Forms.RadioButton _chkCond;
         private System.Windows.Forms.ComboBox _lstCond;
         private System.Windows.Forms.TextBox _txtCond;
-        private System.Windows.Forms.RadioButton _chkVCond;
-        private System.Windows.Forms.ComboBox _lstVCond;
-        private System.Windows.Forms.TextBox _txtVCond;
         private System.Windows.Forms.Button _btnCond;
-        private System.Windows.Forms.Button _btnVCond;
     }
 }

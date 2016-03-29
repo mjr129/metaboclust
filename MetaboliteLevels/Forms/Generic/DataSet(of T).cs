@@ -304,9 +304,9 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Shows the big list (FrmBigList).
         /// </summary>         
-        public IEnumerable<T> ShowListEditor(Form owner, bool readOnly, object automaticAddTemplate)
+        public IEnumerable<T> ShowListEditor(Form owner, FrmBigList.EShow show, object automaticAddTemplate)
         {
-            IEnumerable result = FrmBigList.Show(owner, Core, this, readOnly, automaticAddTemplate);
+            IEnumerable result = FrmBigList.Show(owner, Core, this, show, automaticAddTemplate);
 
             if (result == null)
             {
@@ -318,10 +318,12 @@ namespace MetaboliteLevels.Forms.Generic
 
         /// <summary>
         /// Shows the big list (FrmBigList).
+        /// The list is editable if a ListChangeAcceptor is set.
         /// </summary>        
+        /// <returns>If the list was modified</returns>
         public bool ShowListEditor(Form owner)
         {
-            return ShowListEditor(owner, false, null) != null;
+            return ShowListEditor(owner, FrmBigList.EShow.Default, null) != null;
         }
 
         /// <summary>

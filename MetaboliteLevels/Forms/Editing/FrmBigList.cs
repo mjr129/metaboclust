@@ -49,12 +49,24 @@ namespace MetaboliteLevels.Forms.Editing
         private readonly ListViewHelper<IVisualisable> _listViewHelper;
         private bool _keepChanges;
 
-        private FrmBigList()
+        public enum EShow
         {
-            InitializeComponent();
-            UiControls.SetIcon(this);
-            UiControls.PopulateImageList(imageList1);
-        }
+            /// <summary>
+            /// Default behaviour - the list is editable if the DataSet has a ListChangeAcceptor function set.
+            /// </summary>
+            Default,
+
+            /// <summary>
+            /// Read-only behaviour - neither the list nor items are editable
+            /// </summary>
+            ReadOnly,
+
+            /// <summary>
+            /// Acceptor behaviour - the list is always editable (it is assumed the caller of the form does something with the result itself).
+            /// ListChangeAcceptor is still called if present.
+            /// </summary>
+            Acceptor
+        }                   
 
         class Wrapper : IVisualisable
         {
@@ -109,9 +121,12 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private FrmBigList(Core core, IDataSet config, bool readOnly, object automaticAddTemplate)
-                : this()
+        private FrmBigList(Core core, IDataSet config, EShow show, object automaticAddTemplate)
         {
+            InitializeComponent();
+            UiControls.SetIcon( this );
+            UiControls.PopulateImageList( imageList1 );
+
             _listViewHelper = new ListViewHelper<IVisualisable>(listView1, core, null, null);
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
             _listViewHelper.Activate += listView1_ItemActivate;
@@ -145,7 +160,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnDown.Visible = false;
             }
 
-            if (!config.ListSupportsChanges && !config.ListChangesOnEdit)
+            if ((!config.ListSupportsChanges && !config.ListChangesOnEdit) && show != EShow.Acceptor)
             {
                 _btnAdd.Visible = false;
                 _btnDuplicate.Visible = false;
@@ -154,7 +169,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnCancel.Text = "Close";
             }
 
-            if (readOnly) // || !hasEditor
+            if (show == EShow.ReadOnly) // || !hasEditor
             {
                 _btnAdd.Visible = false;
                 _btnEdit.Visible = false;
@@ -184,9 +199,9 @@ namespace MetaboliteLevels.Forms.Editing
             _listViewHelper.DivertList(_list);
         }             
 
-        public static IEnumerable Show(Form owner, Core core, IDataSet config, bool readOnly, object automaticAddTemplate)
+        public static IEnumerable Show(Form owner, Core core, IDataSet config, EShow show, object automaticAddTemplate)
         {
-            using (var frm = new FrmBigList(core, config, readOnly, automaticAddTemplate))
+            using (var frm = new FrmBigList(core, config, show, automaticAddTemplate))
             {
                 if (owner is FrmBigList)
                 {

@@ -29,12 +29,15 @@ using System.IO;
 namespace MetaboliteLevels.Forms.Generic
 {
     /// <summary>
-    /// This is a helper class, see DataSet(of T) for the main description.
+    /// This class maps pretty much everything to the DataSet class, which specifies how things
+    /// are displayed and edited.
+    /// 
+    /// See DataSet(of T) for the main description.
     /// </summary>
     static class DataSet
     {
         /// <summary>
-        /// Enum flags
+        /// An enum with flags
         /// </summary>
         public static DataSet<T> ForFlagsEnum<T>(string title)
             where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
@@ -50,7 +53,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Strings
+        /// An arbitrary list of strings
         /// </summary>
         public static DataSet<int> ForString(string title, params string[] options)
         {
@@ -63,7 +66,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Enum without flags
+        /// An enum without flags
         /// </summary>
         public static DataSet<T> ForDiscreteEnum<T>(string title, T cancelValue)
             where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
@@ -80,7 +83,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Creates a ConditionBox.
+        /// The session's observations.
         /// </summary>
         public static DataSet<ObservationInfo> ForObservations(Core core)
         {
@@ -94,7 +97,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Creates a ConditionBox.
+        /// The session's conditions.
         /// </summary>
         public static DataSet<ConditionInfo> ForConditions(Core core)
         {
@@ -108,7 +111,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Creates a ConditionBox.
+        /// The columns of a listview.
         /// </summary>
         public static DataSet<Column> ForColumns(IEnumerable<Column> columns)
         {
@@ -122,7 +125,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Tests
+        /// The session's cluster-optimistation tests
         /// </summary>             
         public static DataSet<ClusterEvaluationPointer> ForTests(Core core)
         {
@@ -141,7 +144,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Acquisitions
+        /// The session's acquisition indices
         /// </summary>
         public static DataSet<int> ForAcquisitions(Core core)
         {
@@ -156,7 +159,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Batches.
+        /// The session's batches.
         /// </summary>
         public static DataSet<BatchInfo> ForBatches(Core core)
         {
@@ -171,7 +174,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Times
+        /// The session's timepoints
         /// </summary>
         public static DataSet<int> ForTimes(Core core)
         {
@@ -186,7 +189,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Replicates
+        /// The session's replicate indices
         /// </summary>
         public static DataSet<int> ForReplicates(Core core)
         {
@@ -201,7 +204,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Meta headers
+        /// The headers for a particular metadata (misc user data) set
         /// </summary>
         internal static DataSet<string> ForMetaHeaders(MetaInfoHeader headerCollection)
         {
@@ -213,7 +216,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Parameters
+        /// The parameters for an agrotithm
         /// </summary>
         internal static DataSet<int> ForParameters(Core core, AlgoParameter[] parameters, int selectedIndex, string message = null)
         {
@@ -229,7 +232,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Clusters
+        /// The session's clusters
         /// </summary>
         internal static DataSet<Cluster> ForClusters(Core core)
         {
@@ -244,7 +247,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Peaks
+        /// The session's peaks
         /// </summary>
         internal static DataSet<Peak> ForPeaks(Core core)
         {
@@ -259,7 +262,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// All IVisualisables in core
+        /// Pretty much everything in the session in one go (all IVisualisables in Core).
         /// </summary>
         internal static DataSet<object> ForEverything(Core core)
         {
@@ -296,7 +299,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Trends
+        /// The session's trends
         /// </summary>
         internal static DataSet<ConfigurationTrend> ForTrends(Core core)
         {
@@ -347,7 +350,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// ConfigurationCorrection
+        /// The session's corrections
         /// </summary> 
         public static DataSet<ConfigurationCorrection> ForCorrections(Core core)
         {
@@ -390,7 +393,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// ConfigurationClusterer
+        /// The session's clustering algorithms
         /// </summary>
         internal static DataSet<ConfigurationClusterer> ForClusterers(Core core)
         {
@@ -417,7 +420,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Metrics
+        /// All available metrics (not just those in use)
         /// </summary>            
         internal static DataSet<MetricBase> ForMetricAlgorithms(Core core)
         {
@@ -433,7 +436,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// TrendBase
+        /// All available trend algorithms (not just those in use)
         /// </summary>            
         internal static DataSet<TrendBase> ForTrendAlgorithms(Core core)
         {
@@ -449,7 +452,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// ClustererBase
+        /// All available clustering algorithms (not just those in use)
         /// </summary>            
         internal static DataSet<ClustererBase> ForClustererAlgorithms(Core core)
         {
@@ -465,7 +468,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Trends and corrections
+        /// All available trend and correction algorithms (not just those in use)
         /// </summary>            
         internal static DataSet<AlgoBase> ForTrendAndCorrectionAlgorithms(Core core)
         {
@@ -508,7 +511,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// StatisticBase
+        /// All available statistics (not just those in use)
         /// </summary>                  
         internal static DataSet<StatisticBase> ForStatisticsAlgorithms(Core core)
         {
@@ -551,7 +554,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// ConfigurationStatistic
+        /// The session's statistics (those in use)
         /// </summary>
         internal static DataSet<ConfigurationStatistic> ForStatistics(Core core)
         {
@@ -577,7 +580,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// PeakFlag
+        /// The session's peak (user-comment) flags
         /// </summary>
         internal static DataSet<PeakFlag> ForPeakFlags(Core core)
         {
@@ -592,7 +595,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// PeakFilter
+        /// All session's peak-filters
         /// </summary>
         internal static DataSet<PeakFilter> ForPeakFilter(Core core)
         {
@@ -606,9 +609,9 @@ namespace MetaboliteLevels.Forms.Generic
                 ListSupportsReorder = true,
                 ItemEditor = z =>
                 {
-                    var newList = DataSet.ForPeakFilterConditions(core, z.DefaultValue).ShowListEditor(z.Owner, z.ReadOnly, null);
+                    var newList = DataSet.ForPeakFilterConditions(core, z.DefaultValue).ShowListEditor(z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null);
 
-                    if (newList == null)
+                    if (newList == null || z.ReadOnly)
                     {
                         return null;
                     }
@@ -619,7 +622,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// ObsFilter.Condition
+        /// All the filters for a particular observation filter
         /// </summary>
         internal static DataSet<ObsFilter.Condition> ForObsFilterConditions(Core core, ObsFilter of)
         {
@@ -627,14 +630,14 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Observation filter conditions",
-                List = of.Conditions.Cast<ObsFilter.Condition>(),
+                List = of != null? of.Conditions.Cast<ObsFilter.Condition>(): new ObsFilter.Condition[0],
                 ItemEditor = z => FrmObservationFilterCondition.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
                 ListSupportsReorder = true,
             };
         }
 
         /// <summary>
-        /// PeakFilter.Condition
+        /// All the filters for a particular peak filter
         /// </summary>
         internal static DataSet<PeakFilter.Condition> ForPeakFilterConditions(Core core, PeakFilter of)
         {
@@ -644,12 +647,12 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Peak filter conditions",
                 List = of.Conditions.Cast<PeakFilter.Condition>(),
                 ItemEditor = z => FrmPeakFilterCondition.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
-                ListSupportsReorder = true,
+                ListSupportsReorder = true,                    
             };
         }
 
         /// <summary>
-        /// ObsFilter
+        /// The session's observation filters
         /// </summary>
         internal static DataSet<ObsFilter> ForObsFilter(Core core)
         {
@@ -661,9 +664,9 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ItemEditor = z =>
                 {
-                    var newlist = DataSet.ForObsFilterConditions(core, z.DefaultValue).ShowListEditor(z.Owner, z.ReadOnly, null);
+                    var newlist = DataSet.ForObsFilterConditions(core, z.DefaultValue).ShowListEditor(z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null);
 
-                    if (newlist == null)
+                    if (newlist == null || z.ReadOnly)
                     {
                         return null;
                     }
@@ -676,7 +679,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// GroupInfo
+        /// The session's experimental groups
         /// </summary>
         internal static DataSet<GroupInfo> ForGroups(Core core)
         {
@@ -693,7 +696,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Helper method: Gets comment
+        /// Private helper method: Gets comment for an IVisualisable
         /// </summary>
         private static string _GetComment(IVisualisable vis)
         {
@@ -706,7 +709,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Helper method: Gets comment
+        /// Private helper method: Gets comment for a ConfigurationBase
         /// </summary>
         private static string _GetComment(ConfigurationBase z)
         {
@@ -714,7 +717,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Helper method: Compares enums
+        /// Private helper method: Compares enums to strings
         /// </summary>
         private static bool _EnumComparator<T>(string name, T value)
         {
@@ -728,7 +731,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Helper method: Compares type names
+        /// Private helper method: Compares experimental group names to strings
         /// </summary>
         private static bool _TypeNameComparator(string name, GroupInfo group)
         {
@@ -738,7 +741,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Helper method: Shows error / remove results dialogues
+        /// Private helper method: Shows error and remove results dialogues
         /// </summary>
         private static bool _ShowEditPreamble(Form owner, ConfigurationBase toEdit)
         {
@@ -794,7 +797,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Helper function for [ForTests]
+        /// Private helper method: Gets icons for clusting evaluations
         /// </summary>         
         private static UiControls.ImageListOrder _GetIcon(ClusterEvaluationPointer input)
         {
@@ -809,7 +812,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Helper function, removes scripts.
+        /// Private helper method: Checks script editability
         /// </summary>    
         private static void _ScriptReplace(Form owner, AlgoBase find, AlgoBase replace)
         {
@@ -839,7 +842,7 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// Helper function, shows the script editor.
+        /// Private helper method: Shows the script editor.
         /// </summary>    
         private static T _ShowScriptEditor<T>(DataSet<T>.EditItemArgs z, string title, string inputs, UiControls.EInitialFolder folder)
           where T : AlgoBase

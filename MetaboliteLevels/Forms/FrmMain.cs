@@ -1518,7 +1518,7 @@ namespace MetaboliteLevels.Forms
 
             ConfigurationClusterer template = new ConfigurationClusterer(null, null, null, new ArgsClusterer(filter, null, EAlgoSourceMode.None, null, false, EClustererStatistics.None, null));
 
-            if (DataSet.ForClusterers(_core).ShowListEditor(this, false, template) != null)
+            if (DataSet.ForClusterers(_core).ShowListEditor(this, FrmBigList.EShow.Default, template) != null)
             {
                 UpdateAll("Clusters changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
             }
@@ -1531,7 +1531,7 @@ namespace MetaboliteLevels.Forms
         {
             ConfigurationStatistic template = new ConfigurationStatistic(null, null, null, new ArgsStatistic(EAlgoSourceMode.None, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null));
 
-            DataSet.ForStatistics(_core).ShowListEditor(this, false, template);
+            DataSet.ForStatistics(_core).ShowListEditor(this, FrmBigList.EShow.Default, template);
         }
 
         /// <summary>

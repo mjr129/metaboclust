@@ -202,6 +202,7 @@
     <Compile Include="Forms\Editing\FrmOptions2.Designer.cs">
       <DependentUpon>FrmOptions2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Generic\Chaperone.cs" />
     <Compile Include="Forms\Generic\FrmAlarm.cs">
       <SubType>Form</SubType>
     </Compile>

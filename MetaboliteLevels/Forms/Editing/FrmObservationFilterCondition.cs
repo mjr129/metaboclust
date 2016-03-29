@@ -5,7 +5,6 @@ using MetaboliteLevels.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -34,7 +33,7 @@ namespace MetaboliteLevels.Forms.Editing
         private EnumComboBox<Filter.EElementOperator> _lsoObs;
         private EnumComboBox<Filter.EElementOperator> _lsoRep;
         private EnumComboBox<Filter.EElementOperator> _lsoTime;
-        private readonly bool _readOnly;
+        private readonly bool _readOnly;                                      
 
         /// <summary>
         /// Shows the form.
@@ -82,17 +81,17 @@ namespace MetaboliteLevels.Forms.Editing
             ctlTitleBar1.Text = readOnly ? "View Condition" : "Edit Condition";
 
             // Setup boxes
-            this._cbAq = Generic.DataSet.ForAcquisitions(core).CreateConditionBox(this._txtAq, this._btnAq);
-            this._cbBatch = Generic.DataSet.ForBatches(core).CreateConditionBox(this._txtBatch, this._btnBatch);
-            this._cbCond = Generic.DataSet.ForConditions(core).CreateConditionBox(this._txtCond, this._btnCond);
-            this._cbGroup = Generic.DataSet.ForGroups(core).CreateConditionBox(this._txtGroup, this._btnGroup);
-            this._cbObs = Generic.DataSet.ForObservations(core).CreateConditionBox(this._txtObs, this._btnObs);
-            this._cbRep = Generic.DataSet.ForReplicates(core).CreateConditionBox(this._txtRep, this._btnRep);
-            this._cbTime = Generic.DataSet.ForTimes(core).CreateConditionBox(this._txtTime, this._btnTime);
+            this._cbAq = DataSet.ForAcquisitions(core).CreateConditionBox(this._txtAq, this._btnAq);
+            this._cbBatch = DataSet.ForBatches(core).CreateConditionBox(this._txtBatch, this._btnBatch);
+            this._cbCond = DataSet.ForConditions(core).CreateConditionBox(this._txtCond, this._btnCond); 
+            this._cbGroup = DataSet.ForGroups(core).CreateConditionBox(this._txtGroup, this._btnGroup);
+            this._cbObs = DataSet.ForObservations(core).CreateConditionBox(this._txtObs, this._btnObs);
+            this._cbRep = DataSet.ForReplicates(core).CreateConditionBox(this._txtRep, this._btnRep);
+            this._cbTime = DataSet.ForTimes(core).CreateConditionBox(this._txtTime, this._btnTime);
 
             _lsoAq = EnumComboBox.Create(this._lstAq, Filter.EElementOperator.Is);
             _lsoBatch = EnumComboBox.Create(this._lstBatch, Filter.EElementOperator.Is);
-            _lsoCond = EnumComboBox.Create(this._lstCond, Filter.EElementOperator.Is);
+            _lsoCond = EnumComboBox.Create(this._lstCond, Filter.EElementOperator.Is);    
             _lsoGroup = EnumComboBox.Create(this._lstGroup, Filter.EElementOperator.Is);
             _lsoObs = EnumComboBox.Create(this._lstObs, Filter.EElementOperator.Is);
             _lsoRep = EnumComboBox.Create(this._lstRep, Filter.EElementOperator.Is);
@@ -168,7 +167,7 @@ namespace MetaboliteLevels.Forms.Editing
                     _chkCond.Checked = true;
                     _lsoCond.SelectedItem = def.Operator;
                     _cbCond.SelectedItems = def.Possibilities;
-                }
+                }     
                 else
                 {
                     throw new SwitchException(defaults.GetType());
@@ -259,7 +258,7 @@ namespace MetaboliteLevels.Forms.Editing
             _lsoGroup.Visible = _cbGroup.Visible = _chkGroup.Checked;
             _lsoObs.Visible = _cbObs.Visible = _chkObs.Checked;
             _lsoRep.Visible = _cbRep.Visible = _chkRep.Checked;
-            _lsoTime.Visible = _cbTime.Visible = _chkTime.Checked;
+            _lsoTime.Visible = _cbTime.Visible = _chkTime.Checked;     
 
             UpdatePreview(sel);
         }
