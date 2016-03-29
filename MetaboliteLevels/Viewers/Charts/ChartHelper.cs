@@ -415,7 +415,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 else if (_chart.SelectedItem.DataPoint.Tag is IntensityInfo[])
                 {
                     IntensityInfo[] dataPointArray = (IntensityInfo[])_chart.SelectedItem.DataPoint.Tag;
-                    dataPoint = dataPointArray != null ? dataPointArray[_chart.SelectedItem.DataIndex] : default(IntensityInfo);
+                    dataPoint = dataPointArray != null ? dataPointArray[_chart.SelectedItem.YIndex] : default(IntensityInfo);
                 }
                 else
                 {
@@ -554,7 +554,7 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 MChart.Series legendEntry = new MChart.Series();
                 legendEntry.Name = group.DisplayName;
-                legendEntry.Style.DrawBands = new SolidBrush(group.Colour);
+                legendEntry.Style.DrawVBands = new SolidBrush(group.Colour);
                 plot.LegendEntries.Add(legendEntry);
                 result.Add(group, legendEntry);
             }

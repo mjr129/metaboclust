@@ -211,7 +211,7 @@ namespace MetaboliteLevels.Viewers.Charts
         {
             MChart.Series legendEntry = new MChart.Series();
             legendEntry.Name = "Range";
-            legendEntry.Style.DrawBands = new SolidBrush(Color.Gray);
+            legendEntry.Style.DrawVBands = new SolidBrush(Color.Gray);
             plot.LegendEntries.Add(legendEntry);
 
             // Iterate the conditions
@@ -232,7 +232,7 @@ namespace MetaboliteLevels.Viewers.Charts
                         Color c = cond.Group.ColourLight;
                         c = Color.FromArgb(0x80, c.R, c.G, c.B);
                         series.Tag = peak;
-                        series.Style.DrawBands = new SolidBrush(c);
+                        series.Style.DrawVBands = new SolidBrush(c);
                         series.ApplicableLegends.Add(groupLegends[cond.Group]);
                         series.ApplicableLegends.Add(legendEntry);
                         seriesNames.Add(name, series);

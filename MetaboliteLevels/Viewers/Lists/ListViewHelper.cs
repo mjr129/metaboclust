@@ -703,7 +703,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
                 if (value == -1)
                 {
-                    return;
+                    return;    
                 }
 
                 _listView.SelectedIndices.Add(value);

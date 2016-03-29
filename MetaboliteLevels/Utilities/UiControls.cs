@@ -75,7 +75,12 @@ namespace MetaboliteLevels.Utilities
                 Color.FromArgb(128,128,0),
                 Color.FromArgb(0,128,128),
                 Color.FromArgb(0,0,255),
-            };    
+            };
+
+        public static bool IsValid( this double d )
+        {
+            return !double.IsNaN( d ) && !double.IsInfinity( d );
+        }
 
         /// <summary>
         /// Initialises this class.

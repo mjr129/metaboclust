@@ -317,21 +317,29 @@ namespace MetaboliteLevels.Forms.Generic
 
         private void RefreshList(IEnumerable selectedItems)
         {
+            // Clear existing items
             _handler.ClearItems();
 
+            // Get the current items, and the selected items
             int n = 0;
             IEnumerable<object> source = opts.UntypedGetList(true).Cast<object>();
             IEnumerable<object> selected = selectedItems != null ? selectedItems.Cast<object>() : new object[0];
+            HashSet<int> selectedIndices = new HashSet<int>();
 
+            // Add the new items  
             foreach (object item in source)
             {
                 _handler.AddItem(item, opts.UntypedName(item), opts.UntypedDescription(item));
 
-                _handler.SetState(n, selected.Contains(item));
+                if (selected.Contains( item ))
+                {
+                    selectedIndices.Add( n );
+                }
 
                 n++;
             }
 
+            // Add any selected items that aren't in the list (if _allowNewEntries is set)
             foreach (object item in selected)
             {
                 if (!source.Contains(item))
@@ -339,9 +347,7 @@ namespace MetaboliteLevels.Forms.Generic
                     if (_allowNewEntries)
                     {
                         _handler.AddItem(item, opts.UntypedName(item), opts.UntypedDescription(item));
-
-                        _handler.SetState(n, true);
-
+                        selectedIndices.Add( n );  
                         n++;
                     }
                     else
@@ -351,9 +357,15 @@ namespace MetaboliteLevels.Forms.Generic
                 }
             }
 
+            // Finalise any controls
             UiControls.CompensateForVisualStyles(this);
-
             _handler.Ready();
+
+            // Set the states
+            for(int m = 0; m < n; m++)
+            {            
+                _handler.SetState( m, selectedIndices.Contains( m ) );
+            }
         }
 
         private IEnumerable<bool> GetStates()

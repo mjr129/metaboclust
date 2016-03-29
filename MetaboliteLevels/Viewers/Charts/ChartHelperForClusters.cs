@@ -104,7 +104,7 @@ namespace MetaboliteLevels.Viewers.Charts
             if (e.Selection.Series.Length == 1)
             {
                 Peak peak = (Peak)e.Selection.Series[0].Tag;
-                e.Selection = new MChart.Selection(GetSeries(peak).ToArray(), e.Selection.DataPoint, e.Selection.DataIndex);
+                e.Selection = new MChart.Selection(GetSeries(peak).ToArray(), e.Selection.DataPoint, e.Selection.YIndex, e.Selection.XIndex);
             }
         }
 
