@@ -54,7 +54,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         {
             get
             {
-                return _parameters.Length;
+                return _parameters!=null ? _parameters.Length:0;
             }
         }
 
@@ -289,7 +289,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             if (!HasCustomisableParams)
             {
                 parameters = null;
-                return false;
+                return true;
             }
 
             List<string> elements = StringHelper.SplitGroups(text);

@@ -64,7 +64,7 @@ namespace MetaboliteLevels.Forms.Generic
             sb.AppendLine();
             sb.AppendLine();
 
-            this._titleBar.SubText = "The following inputs are specified: " + sb2.ToString();
+            this._titleBar.SubText = "Enter an R script. The following variables are available: " + sb2.ToString();
 
             if (string.IsNullOrEmpty(defaultContent))
             {

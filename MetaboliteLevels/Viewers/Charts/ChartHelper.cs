@@ -131,6 +131,9 @@ namespace MetaboliteLevels.Viewers.Charts
             _mnuCustomText.AutoSize = true;
             this._menuBar.Items.Add(_mnuCustomText);
 
+            // GENERIC CHART BAR
+            _chart.AddControls( _menuBar );
+
             // SELECTION BUTTONS
             _mnuSelectedIntensity = CreateSelectionButton(Resources.ObjLIntensity);
             _mnuSelectedReplicate = CreateSelectionButton(Resources.ObjLReplicate);
