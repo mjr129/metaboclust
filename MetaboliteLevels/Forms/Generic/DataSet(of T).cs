@@ -220,7 +220,7 @@ namespace MetaboliteLevels.Forms.Generic
 
             /// <summary>
             /// When set the caller intends to create a new item, when not set the caller intends
-            /// to replace DefaultValue. Always true where DefaultValue is NULL.
+            /// to replace DefaultValue. Always false when DefaultValue is NULL.
             /// 
             /// Used to avoid filename conflicts and ensure a deep copy is taken, if the editor
             /// only uses a shallow copy.

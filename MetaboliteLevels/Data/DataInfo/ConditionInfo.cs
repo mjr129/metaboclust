@@ -64,9 +64,9 @@ namespace MetaboliteLevels.Data.DataInfo
             return DisplayName;
         }    
 
-        public static int GroupTimeOrder(ConditionInfo a, ConditionInfo b)
+        public static int GroupTimeDisplayOrder(ConditionInfo a, ConditionInfo b)
         {
-            int i = a.Group.Id.CompareTo(b.Group.Id);
+            int i = a.Group.DisplayPriority.CompareTo(b.Group.DisplayPriority);
 
             if (i != 0)
             {

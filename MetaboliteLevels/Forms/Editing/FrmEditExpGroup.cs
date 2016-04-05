@@ -41,7 +41,8 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtAbvTitle.Text = group.OverrideShortName;
             this._txtAbvTitle.Watermark = group.DefaultShortName;
             this._txtComments.Text = group.Comment;
-            this._txtId.Text = group.Id.ToString();
+            this._txtId.Text = group.StringId.ToString();
+            this._txtDisplayOrder.Text = group.DisplayPriority.ToString();
             this._txtTimeRange.Text = group.Range.ToString();
             _colour = group.Colour;
 
@@ -69,15 +70,9 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void button3_Click(object sender, EventArgs e)
         {
-            using (ColorDialog cd = new ColorDialog())
+            if (UiControls.EditColor(sender))
             {
-                cd.Color = _colour;
-
-                if (UiControls.ShowWithDim(this, cd) == System.Windows.Forms.DialogResult.OK)
-                {
-                    _colour = cd.Color;
-                    UpdateButtonImage();
-                }
+                UpdateButtonImage();
             }
         }
 

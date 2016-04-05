@@ -39,6 +39,10 @@
             this.resetdoNotShowAgainMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._tipSideBar = new System.Windows.Forms.ToolTip(this.components);
+            this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.label15 = new System.Windows.Forms.Label();
@@ -128,11 +132,13 @@
             this.label12 = new System.Windows.Forms.Label();
             this._txtHelp = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
+            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
             this._mnuDebug.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -155,11 +161,6 @@
             this.tableLayoutPanel9.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // _cmsRecentWorkspaces
@@ -226,6 +227,55 @@
             // 
             this._tipSideBar.AutomaticDelay = 1;
             this._tipSideBar.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
+            // 
+            // _cmsRecentSessions
+            // 
+            this._cmsRecentSessions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._cmsRecentSessions.Name = "contextMenuStrip2";
+            this._cmsRecentSessions.Size = new System.Drawing.Size(61, 4);
+            // 
+            // _tipPopup
+            // 
+            this._tipPopup.AutomaticDelay = 200;
+            this._tipPopup.AutoPopDelay = 5000;
+            this._tipPopup.InitialDelay = 200;
+            this._tipPopup.ReshowDelay = 40;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.splitContainer1, 0, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 758F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1020, 758);
+            this.tableLayoutPanel4.TabIndex = 19;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Location = new System.Drawing.Point(16, 16);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(16);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this._txtHelp);
+            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer1.Size = new System.Drawing.Size(988, 726);
+            this.splitContainer1.SplitterDistance = 948;
+            this.splitContainer1.TabIndex = 18;
             // 
             // tabControl1
             // 
@@ -298,7 +348,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3524, 521);
+            this.pictureBox1.Location = new System.Drawing.Point(3533, 521);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -1218,8 +1268,8 @@
             this._lstAdducts.Name = "_lstAdducts";
             this._lstAdducts.Size = new System.Drawing.Size(344, 301);
             this._lstAdducts.TabIndex = 7;
-            this._tipPopup.SetToolTip(this._lstAdducts, "Selected libraries");
             this._tipSideBar.SetToolTip(this._lstAdducts, "*Adducts");
+            this._tipPopup.SetToolTip(this._lstAdducts, "Selected libraries");
             // 
             // _lstAvailableAdducts
             // 
@@ -1234,8 +1284,8 @@
             this._lstAvailableAdducts.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this._lstAvailableAdducts.Size = new System.Drawing.Size(345, 301);
             this._lstAvailableAdducts.TabIndex = 5;
-            this._tipPopup.SetToolTip(this._lstAvailableAdducts, "Available libraries");
             this._tipSideBar.SetToolTip(this._lstAvailableAdducts, "*Adducts");
+            this._tipPopup.SetToolTip(this._lstAvailableAdducts, "Available libraries");
             // 
             // _lstCompounds
             // 
@@ -1496,8 +1546,8 @@
             this._chkAlarm.Size = new System.Drawing.Size(71, 40);
             this._chkAlarm.TabIndex = 5;
             this._chkAlarm.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this._tipSideBar.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Microsoft Windows only).");
             this._tipPopup.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Microsoft Windows only).");
+            this._tipSideBar.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Microsoft Windows only).");
             this._chkAlarm.UseVisualStyleBackColor = true;
             // 
             // label12
@@ -1540,55 +1590,6 @@
             this.textBox1.TabIndex = 2;
             this._tipSideBar.SetToolTip(this.textBox1, "*");
             // 
-            // _cmsRecentSessions
-            // 
-            this._cmsRecentSessions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._cmsRecentSessions.Name = "contextMenuStrip2";
-            this._cmsRecentSessions.Size = new System.Drawing.Size(61, 4);
-            // 
-            // _tipPopup
-            // 
-            this._tipPopup.AutomaticDelay = 200;
-            this._tipPopup.AutoPopDelay = 5000;
-            this._tipPopup.InitialDelay = 200;
-            this._tipPopup.ReshowDelay = 40;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.tableLayoutPanel4.ColumnCount = 1;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this.splitContainer1, 0, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 758F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1020, 758);
-            this.tableLayoutPanel4.TabIndex = 19;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(16, 16);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(16);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this._txtHelp);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(988, 726);
-            this.splitContainer1.SplitterDistance = 948;
-            this.splitContainer1.TabIndex = 18;
-            // 
             // FrmDataLoadQuery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -1603,6 +1604,12 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Load Session";
             this._mnuDebug.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
@@ -1637,12 +1644,6 @@
             this.tabPage7.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1751,5 +1752,6 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label _lblProgramDescription;
         private System.Windows.Forms.Label _lbl32BitWarning;
+        private Controls.CtlError _checker;
     }
 }

@@ -47,8 +47,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 
                 List<Assignment> assignments = new List<Assignment>(peak.Assignments.List
                                                          .Where(z => config.Results.Clusters.Contains(z.Cluster))
-                                                         .OrderBy(z => z.Vector.Group.Id));
-                //.Select(z => new RefAss(z.Vector.Group, z.Cluster)));
+                                                         .OrderBy(z => z.Vector.Group.Order));
 
                 int index = FindMatch(uniqueCombinations, assignments);
                 Cluster pat;

@@ -161,11 +161,11 @@ namespace MetaboliteLevels.Algorithms
 
                     if (group == null)
                     {
-                        which = core.Conditions.WhichInOrder(obsFilter.Test, ConditionInfo.GroupTimeOrder).ToArray();
+                        which = core.Conditions.WhichInOrder(obsFilter.Test, ConditionInfo.GroupTimeDisplayOrder).ToArray();
                     }
                     else
                     {
-                        which = core.Conditions.WhichInOrder(z => z.Group == group && obsFilter.Test(z), ConditionInfo.GroupTimeOrder).ToArray();
+                        which = core.Conditions.WhichInOrder(z => z.Group == group && obsFilter.Test(z), ConditionInfo.GroupTimeDisplayOrder).ToArray();
                     }
 
                     conditions = core.Conditions.In(which).ToArray();
@@ -197,11 +197,11 @@ namespace MetaboliteLevels.Algorithms
 
                     if (group == null)
                     {
-                        which = core.Observations.WhichInOrder(obsFilter.Test, ObservationInfo.GroupTimeOrder).ToArray();
+                        which = core.Observations.WhichInOrder(obsFilter.Test, ObservationInfo.GroupTimeDisplayOrder).ToArray();
                     }
                     else
                     {
-                        which = core.Observations.WhichInOrder(z => z.Group == group && obsFilter.Test(z), ObservationInfo.GroupTimeOrder).ToArray();
+                        which = core.Observations.WhichInOrder(z => z.Group == group && obsFilter.Test(z), ObservationInfo.GroupTimeDisplayOrder).ToArray();
                     }
 
                     observations = core.Observations.In(which).ToArray();

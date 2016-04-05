@@ -242,7 +242,7 @@ namespace MetaboliteLevels.Data.Session
         {
             public readonly ReadOnlyCollection<int> _times;
             public readonly ReadOnlyCollection<int> _reps;
-            public readonly Dictionary<int, GroupInfo> _groupsById;
+            public readonly Dictionary<string, GroupInfo> _groupsById;
             public readonly ReadOnlyCollection<GroupInfo> _conditionsOfInterest;
             public readonly ReadOnlyCollection<GroupInfo> _controlConditions;
             public readonly ReadOnlyCollection<int> _acquisitions;
@@ -255,15 +255,15 @@ namespace MetaboliteLevels.Data.Session
                 _reps = new HashSet<int>(core._observations.Select(z => z.Rep)).ToList().AsReadOnly();
                 _acquisitions = new HashSet<int>(core._observations.Select(z => z.Acquisition)).ToList().AsReadOnly();
 
-                _groupsById = new Dictionary<int, GroupInfo>();
+                _groupsById = new Dictionary<string, GroupInfo>();
 
                 foreach (var t in core._groups)
                 {
-                    _groupsById.Add(t.Id, t);
+                    _groupsById.Add(t.StringId, t);
                 }
 
-                _conditionsOfInterest = new List<GroupInfo>(core.FileNames.ConditionsOfInterest.Select(z => _groupsById[z])).AsReadOnly();
-                _controlConditions = new List<GroupInfo>(core.FileNames.ControlConditions.Select(z => _groupsById[z])).AsReadOnly();
+                _conditionsOfInterest = new List<GroupInfo>(core.FileNames.ConditionsOfInterestString.Select(z => _groupsById[z])).AsReadOnly();
+                _controlConditions = new List<GroupInfo>(core.FileNames.ControlConditionsString.Select(z => _groupsById[z])).AsReadOnly();
 
                 _timeRange = new Range(_times.Min(), _times.Max());
                 _repRange = new Range(_reps.Min(), _reps.Max());
@@ -303,7 +303,7 @@ namespace MetaboliteLevels.Data.Session
 
             this.FileNames = fileNames;
             this.Options = new CoreOptions();
-            this.Options.ViewTypes = new List<GroupInfo>(data.Types.OrderBy(z => z.Id));
+            this.Options.ViewTypes = new List<GroupInfo>(data.Types.OrderBy(z => z.DisplayPriority));
 
             this._adducts = adducts;
             this._clusters = new List<Cluster>();

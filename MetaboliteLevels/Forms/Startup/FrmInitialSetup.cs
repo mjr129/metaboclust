@@ -5,6 +5,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.Diagnostics;
 using MetaboliteLevels.Forms.Generic;
+using System.Runtime.InteropServices;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -15,69 +16,12 @@ namespace MetaboliteLevels.Forms.Startup
     {
         private bool _potentials;
 
-        public FrmInitialSetup()
-        {
-            InitializeComponent();
-            UiControls.SetIcon(this);
-
-            this._txtWorkingDirectory.Text = UiControls.StartupPath;
-            this._txtDataSetData.Text = MainSettings.Instance.General.RBinPath;
-            this._txtPathwayTools.Text = MainSettings.Instance.General.PathwayToolsDatabasesPath;
-
-            UiControls.EnumerateControls<Label>(this, z => z.Text = z.Text.Replace("{ProductName}", UiControls.Title));
-            this.defaultToolStripMenuItem.Text = UiControls.GetOrCreateFixedFolder(UiControls.EInitialFolder.CompondDatabases);
-
-            TestFolder(@"C:\Program Files\R");
-            TestFolder(@"C:\Program Files (x86)\R");
-
-            UiControls.CompensateForVisualStyles(this);
-        }
-
-        private void TestFolder(string p)
-        {
-            if (Directory.Exists(p))
-            {
-                foreach (string fn in Directory.GetDirectories(p))
-                {
-                    TestFile(Path.Combine(fn, @"bin\i386"));
-                }
-            }
-        }
-
-        private void TestFile(string p)
-        {
-            string dll = Path.Combine(p, @"R.dll");
-
-            if (File.Exists(dll))
-            {
-                FileVersionInfo version = FileVersionInfo.GetVersionInfo(dll);
-
-                ToolStripMenuItem tsmi = new ToolStripMenuItem("Version " + version.FileVersion);
-                tsmi.Tag = p;
-                tsmi.Click += contextMenuStrip1_Click;
-                _cmsR.Items.Add(tsmi);
-
-                _potentials = true;
-            }
-        }
-
-        void contextMenuStrip1_Click(object sender, EventArgs e)
-        {
-            _txtDataSetData.Text = (string)((ToolStripMenuItem)sender).Tag;
-        }
-
-        private void _btnDataSetData_Click(object sender, EventArgs e)
-        {
-            if (_potentials)
-            {
-                _cmsR.Show(_btnDataSetData, 0, _btnDataSetData.Height);
-            }
-            else
-            {
-                DoBrowse();
-            }
-        }
-
+        /// <summary>
+        /// Show method.
+        /// </summary>
+        /// <param name="owner">Owner form</param>
+        /// <param name="forceShow">Always show, even if a configuration is already present</param>
+        /// <returns>Whether a new configuration was provided</returns>
         internal static bool Show(Form owner, bool forceShow)
         {
             if (!forceShow)
@@ -100,6 +44,98 @@ namespace MetaboliteLevels.Forms.Startup
             return true;
         }
 
+        /// <summary>
+        /// CONSTRUCTOR
+        /// </summary>
+        public FrmInitialSetup()
+        {
+            InitializeComponent();
+            UiControls.SetIcon(this);
+
+            this._txtWorkingDirectory.Text = UiControls.StartupPath;
+            this._txtDataSetData.Text = MainSettings.Instance.General.RBinPath;
+            this._txtPathwayTools.Text = MainSettings.Instance.General.PathwayToolsDatabasesPath;
+
+            UiControls.EnumerateControls<Label>(this, z => z.Text = z.Text.Replace("{ProductName}", UiControls.Title));
+            this.defaultToolStripMenuItem.Text = UiControls.GetOrCreateFixedFolder(UiControls.EInitialFolder.CompondDatabases);
+
+            TestFolder(@"C:\Program Files\R");
+            TestFolder(@"C:\Program Files (x86)\R");
+
+            UiControls.CompensateForVisualStyles(this);
+        }
+
+        /// <summary>
+        /// Checks to see if a folder contains the R DLL.
+        /// </summary>                                   
+        private void TestFolder(string path)
+        {
+            bool isNot64 = Marshal.SizeOf(typeof(IntPtr)) != 8;
+            bool isNot32 = Marshal.SizeOf(typeof(IntPtr)) != 4;
+
+            if (Directory.Exists(path))
+            {
+                foreach (string fn in Directory.GetDirectories(path))
+                {
+                    if (isNot64)
+                    {
+                        TestFile(Path.Combine(fn, @"bin\i386"));
+                    }
+
+                    if (isNot32)
+                    {
+                        TestFile(Path.Combine(fn, @"bin\x64"));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks if a file contains the R DLL, if it does adds it to the list.
+        /// </summary>                                                          
+        private void TestFile(string path)
+        {
+            string dll = Path.Combine(path, @"R.dll");
+
+            if (File.Exists(dll))
+            {
+                FileVersionInfo version = FileVersionInfo.GetVersionInfo(dll);
+
+                ToolStripMenuItem tsmi = new ToolStripMenuItem("Version " + version.FileVersion);
+                tsmi.Tag = path;
+                tsmi.Click += mnuRDirectoryName_Click;
+                _cmsR.Items.Add(tsmi);
+
+                _potentials = true;
+            }
+        }
+
+        /// <summary>
+        /// R path selected.
+        /// </summary>      
+        void mnuRDirectoryName_Click(object sender, EventArgs e)
+        {
+            _txtDataSetData.Text = (string)((ToolStripMenuItem)sender).Tag;
+        }
+
+        /// <summary>
+        /// R browse clicked.
+        /// </summary>       
+        private void _btnDataSetData_Click(object sender, EventArgs e)
+        {
+            if (_potentials)
+            {
+                _cmsR.Show(_btnDataSetData, 0, _btnDataSetData.Height);
+            }
+            else
+            {
+                DoBrowse();
+            }
+        }
+
+        /// <summary>
+        /// OK clicked
+        /// </summary>
         private void _btnOk_Click(object sender, EventArgs e)
         {
             MainSettings.Instance.General.RBinPath = _txtDataSetData.Text;
@@ -108,9 +144,18 @@ namespace MetaboliteLevels.Forms.Startup
             DialogResult = DialogResult.OK;
         }
 
-        private void _txtDataSetData_TextChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Various changes handler.
+        /// </summary>              
+        private void something_Changed(object sender, EventArgs e)
         {
-            _btnOk.Enabled = File.Exists(Path.Combine(_txtDataSetData.Text, "R.dll")) && Directory.Exists(_txtPathwayTools.Text);
+            bool validRPath = File.Exists(Path.Combine(_txtDataSetData.Text, "R.dll"));
+            bool validPTPath = Directory.Exists(_txtPathwayTools.Text);
+
+            errorProvider1.ShowError(_txtDataSetData, validRPath, "A valid path to R is mandatory.");
+            errorProvider1.ShowError(_txtPathwayTools, validPTPath, "The folder must exist.");
+
+            _btnOk.Enabled = validRPath;
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -193,7 +238,7 @@ namespace MetaboliteLevels.Forms.Startup
         private void ctlButton3_Click(object sender, EventArgs e)
         {
             tableLayoutPanel2.Visible = !tableLayoutPanel2.Visible;
-        }     
+        }
 
         private void _btnSetWorkingDirectory_Click(object sender, EventArgs e)
         {

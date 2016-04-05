@@ -29,8 +29,8 @@ namespace MetaboliteLevels.Controls
         private readonly bool _integerBehaviour;
         private readonly Color _defaultColour;
 
-        private readonly TextBox _textBox;
-        private readonly Button _button;
+        public readonly TextBox TextBox;
+        public readonly Button Button;
 
         private HashSet<T> _selected = new HashSet<T>();
         private HashSet<T> _lastValidSelection;
@@ -44,8 +44,8 @@ namespace MetaboliteLevels.Controls
         {
             this._args = args;
             this._integerBehaviour = args.IntegerBehaviour && typeof(T) == typeof(int);
-            this._textBox = textBox;
-            this._button = button;
+            this.TextBox = textBox;
+            this.Button = button;
 
             _defaultColour = textBox.BackColor;
             _allowNewEntries = allowNewEntries;
@@ -66,11 +66,11 @@ namespace MetaboliteLevels.Controls
 
             if (_args.TypedGetList(true).Count() < 10)
             {
-                newSelected = sel.ShowCheckBox(_textBox.FindForm(), _lastValidSelection, _allowNewEntries);
+                newSelected = sel.ShowCheckBox(TextBox.FindForm(), _lastValidSelection, _allowNewEntries);
             }
             else
             {
-                newSelected = sel.ShowCheckList(_textBox.FindForm(), _lastValidSelection, _allowNewEntries);
+                newSelected = sel.ShowCheckList(TextBox.FindForm(), _lastValidSelection, _allowNewEntries);
             }
 
             if (newSelected != null)
@@ -163,7 +163,7 @@ namespace MetaboliteLevels.Controls
         {
             if (_integerBehaviour)
             {
-                _textBox.Text = StringHelper.ArrayToStringInt(_lastValidSelection.Cast<int>());
+                TextBox.Text = StringHelper.ArrayToStringInt(_lastValidSelection.Cast<int>());
             }
             else
             {
@@ -196,7 +196,7 @@ namespace MetaboliteLevels.Controls
                     sb.Append(GetText(extraChoice));
                 }
 
-                _textBox.Text = sb.ToString();
+                TextBox.Text = sb.ToString();
             }
         }
 
@@ -217,11 +217,11 @@ namespace MetaboliteLevels.Controls
 
             if (r)
             {
-                this._textBox.BackColor = _defaultColour;
+                this.TextBox.BackColor = _defaultColour;
             }
             else
             {
-                this._textBox.BackColor = Color.Red;
+                this.TextBox.BackColor = Color.Red;
             }
 
             return r;
@@ -236,7 +236,7 @@ namespace MetaboliteLevels.Controls
 
             if (_integerBehaviour)
             {
-                List<int> ints = StringHelper.StringToArrayInt(_textBox.Text, EErrorHandler.ReturnNull);
+                List<int> ints = StringHelper.StringToArrayInt(TextBox.Text, EErrorHandler.ReturnNull);
 
                 if (ints == null || ints.Any(z => !choices.Cast<int>().Contains(z)))
                 {
@@ -250,7 +250,7 @@ namespace MetaboliteLevels.Controls
             }
             else
             {
-                string[] ee = _textBox.Text.Split(",".ToCharArray());
+                string[] ee = TextBox.Text.Split(",".ToCharArray());
 
                 HashSet<T> result = new HashSet<T>();
 
@@ -331,12 +331,12 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return _textBox.Enabled && _button.Enabled;
+                return TextBox.Enabled && Button.Enabled;
             }
             set
             {
-                _textBox.Enabled = value;
-                _button.Enabled = value;
+                TextBox.Enabled = value;
+                Button.Enabled = value;
             }
         }
 
@@ -344,12 +344,12 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return _textBox.Visible && _button.Visible;
+                return TextBox.Visible && Button.Visible;
             }
             set
             {
-                _textBox.Visible = value;
-                _button.Visible = value;
+                TextBox.Visible = value;
+                Button.Visible = value;
             }
         }
     }

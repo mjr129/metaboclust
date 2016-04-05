@@ -344,7 +344,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void GenerateTypeButtons()
         {
             vTypes.AddRange(_core.Groups);
-            vBatches.Add(_core.Batches.OrderBy(z => z.Id).First());
+            vBatches.Add(_core.Batches.OrderBy(z => z.DisplayPriority).First());
 
             _flpBatchButtons = new FlowLayoutPanel();
             _flpGroupButtons = new FlowLayoutPanel();
@@ -361,12 +361,12 @@ namespace MetaboliteLevels.Forms.Algorithms
             _flpPreviewButtons.Controls.Add(_flpBatchButtons);
             _flpPreviewButtons.Controls.Add(_flpGroupButtons);
 
-            foreach (var ti in _core.Groups.OrderBy(z => z.Id))
+            foreach (var ti in _core.Groups.OrderBy(z => z.DisplayPriority))
             {
                 _flpGroupButtons.Controls.Add(GenerateTypeButton(ti));
             }
 
-            foreach (var ti in _core.Batches.OrderBy(z => z.Id))
+            foreach (var ti in _core.Batches.OrderBy(z => z.DisplayPriority))
             {
                 _flpBatchButtons.Controls.Add(GenerateTypeButton(ti));
             }

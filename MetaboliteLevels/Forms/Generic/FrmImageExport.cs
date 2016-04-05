@@ -50,7 +50,7 @@ namespace MetaboliteLevels.Forms.Generic
 
         private void _btnPreferences_Click(object sender, EventArgs e)
         {
-            if (FrmOptions2.Show(this, _core))
+            if (FrmOptions2.Show(this, _core, false))
             {
                 RenderPreview();
             }

@@ -134,7 +134,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Core = core,
                 Title = "Test Results",
                 List = core.EvaluationResultFiles,
-                ItemNameProvider = z => z.DisplayName,
+                ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
                 ItemIconProvider = _GetIcon,
                 ItemEditor = z => FrmEvaluateClusteringOptions.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
@@ -168,8 +168,8 @@ namespace MetaboliteLevels.Forms.Generic
                 Core = core,
                 Title = "Batches",
                 List = core.Batches,
-                ItemNameProvider = z => z.Id.ToString(),
-                ItemDescriptionProvider = z => z.DisplayShortName + ": " + z.DisplayName + z.Comment.FormatIf("\r\nComment: ")
+                ItemNameProvider = _GetDisplayName,
+                ItemDescriptionProvider = z => z.DisplayShortName + z.Comment.FormatIf("\r\nComment: ")
             };
         }
 
@@ -241,7 +241,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Core = core,
                 Title = "Clusters",
                 List = core.Clusters,
-                ItemNameProvider = z => z.DisplayName,
+                ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = _GetComment
             };
         }
@@ -256,7 +256,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Core = core,
                 Title = "Peaks",
                 List = core.Peaks,
-                ItemNameProvider = z => z.DisplayName,
+                ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = _GetComment
             };
         }
@@ -588,9 +588,16 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Peak Flags",
+                SubTitle = "These flags can be used to assign categories or labels to data",
                 List = core.Options.PeakFlags,
-                ItemDescriptionProvider = z => z.Comments.FormatIf("\r\nComments: "),
+                ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
+                ItemEditor = z =>
+                {
+                    var val = z.WorkOnCopy ? z.DefaultValue.Clone() : (z.DefaultValue ?? new PeakFlag());
+                    return FrmEditFlag.Show(z.Owner, val, z.ReadOnly) ? val : null;
+                },
+                ListChangesOnEdit = true,
             };
         }
 
@@ -630,7 +637,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Observation filter conditions",
-                List = of != null? of.Conditions.Cast<ObsFilter.Condition>(): new ObsFilter.Condition[0],
+                List = of != null ? of.Conditions.Cast<ObsFilter.Condition>() : new ObsFilter.Condition[0],
                 ItemEditor = z => FrmObservationFilterCondition.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
                 ListSupportsReorder = true,
             };
@@ -645,9 +652,9 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Peak filter conditions",
-                List = of.Conditions.Cast<PeakFilter.Condition>(),
+                List = of != null ? of.Conditions.Cast<PeakFilter.Condition>() : new PeakFilter.Condition[0],
                 ItemEditor = z => FrmPeakFilterCondition.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
-                ListSupportsReorder = true,                    
+                ListSupportsReorder = true,
             };
         }
 
@@ -688,7 +695,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Core = core,
                 Title = "Experimental Groups",
                 List = core.Groups,
-                ItemNameProvider = z => z.DisplayName,
+                ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = z => z.DisplayShortName + ": " + z.DisplayName,
                 StringComparator = _TypeNameComparator,
                 ItemEditor = z => { return FrmEditExpGroup.Show(z.Owner, z.DefaultValue, z.ReadOnly) ? z.DefaultValue : null; }
@@ -706,6 +713,14 @@ namespace MetaboliteLevels.Forms.Generic
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Private helper method: Gets display name for an IVisualisable
+        /// </summary>
+        private static string _GetDisplayName(IVisualisable z)
+        {
+            return z.DisplayName;
         }
 
         /// <summary>
@@ -737,7 +752,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             name = name.ToUpper();
 
-            return group.DisplayName.ToUpper() == name || group.DisplayShortName.ToUpper() == name || group.Id.ToString() == name;
+            return group.DisplayName.ToUpper() == name || group.DisplayShortName.ToUpper() == name || group.StringId == name;
         }
 
         /// <summary>

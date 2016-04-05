@@ -77,9 +77,9 @@ namespace MetaboliteLevels.Utilities
                 Color.FromArgb(0,0,255),
             };
 
-        public static bool IsValid( this double d )
+        public static bool IsValid(this double d)
         {
-            return !double.IsNaN( d ) && !double.IsInfinity( d );
+            return !double.IsNaN(d) && !double.IsInfinity(d);
         }
 
         /// <summary>
@@ -101,6 +101,22 @@ namespace MetaboliteLevels.Utilities
         {
             self.SetError(control, text);
             self.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
+        }
+
+        /// <summary>
+        /// (MJR) Conditionally shows an error provider on a control, using the application default position.
+        /// </summary>                                                                         
+        public static void ShowError(this ErrorProvider self, Control control, bool condition, string text)
+        {
+            if (!condition)
+            {
+                self.SetError(control, text);
+                self.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
+            }
+            else
+            {
+                self.SetError(control, null);
+            }
         }
 
         /// <summary>
@@ -272,6 +288,24 @@ namespace MetaboliteLevels.Utilities
             }
 
             return colour.R.ToString() + ", " + colour.G + ", " + colour.B;
+        }
+
+        internal static bool EditColor(object sender)
+        {
+            Control c = (Control)sender;
+
+            using (ColorDialog cd = new ColorDialog())
+            {
+                cd.Color = c.BackColor;
+
+                if (cd.ShowDialog() == DialogResult.OK)
+                {
+                    c.BackColor = cd.Color;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

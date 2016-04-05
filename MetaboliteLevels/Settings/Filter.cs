@@ -590,7 +590,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Bᴀᴛᴄʜ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities, z => z.Id.ToString()) + "}";
+                return "Bᴀᴛᴄʜ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities, z => z.DisplayShortName.ToString()) + "}";
             }
         }
 
@@ -906,7 +906,7 @@ namespace MetaboliteLevels.Settings
 
             public override string ToString()
             {
-                return "Fʟᴀɢ " + FlagsOp.ToUiString() + " {" + StringHelper.ArrayToString(Flags, z => z.Id) + "}";
+                return "Fʟᴀɢ " + FlagsOp.ToUiString() + " {" + StringHelper.ArrayToString(Flags, z => z.DisplayName) + "}";
             }
         }
     }

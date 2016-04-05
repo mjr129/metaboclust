@@ -97,9 +97,9 @@ namespace MetaboliteLevels.Data.DataInfo
         /// </summary>
         public bool Enabled { get; set; }
 
-        public static int GroupTimeReplicateOrder(ObservationInfo a, ObservationInfo b)
+        public static int GroupTimeReplicateDisplayOrder(ObservationInfo a, ObservationInfo b)
         {
-            int i = a.Group.Id.CompareTo(b.Group.Id);
+            int i = a.Group.DisplayPriority.CompareTo(b.Group.DisplayPriority);
 
             if (i != 0)
             {
@@ -116,9 +116,9 @@ namespace MetaboliteLevels.Data.DataInfo
             return a.Rep.CompareTo(b.Rep);
         }
 
-        public static int BatchAcquisitionOrder(ObservationInfo a, ObservationInfo b)
+        public static int BatchAcquisitionDisplayOrder(ObservationInfo a, ObservationInfo b)
         {
-            int i = a.Batch.Id.CompareTo(b.Batch.Id);
+            int i = a.Batch.DisplayPriority.CompareTo(b.Batch.DisplayPriority);
 
             if (i != 0)
             {
@@ -128,9 +128,9 @@ namespace MetaboliteLevels.Data.DataInfo
             return a.Acquisition.CompareTo(b.Acquisition);
         }
 
-        public static int GroupTimeOrder(ObservationInfo a, ObservationInfo b)
+        public static int GroupTimeDisplayOrder(ObservationInfo a, ObservationInfo b)
         {
-            int i = a.Group.Id.CompareTo(b.Group.Id);
+            int i = a.Group.DisplayPriority.CompareTo(b.Group.DisplayPriority);
 
             if (i != 0)
             {

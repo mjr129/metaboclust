@@ -30,15 +30,15 @@ namespace MetaboliteLevels.Forms.Startup
         private string CondInfoFileName { get { return _chkCondInfo.Checked ? _txtCondInfo.Text : null; } }
         private string _typeCacheFileName;
 
-        private readonly ConditionBox<int> _cbExp;
-        private readonly ConditionBox<int> _cbControl;
+        private readonly ConditionBox<string> _cbExp;
+        private readonly ConditionBox<string> _cbControl;
 
         private readonly List<CompoundLibrary> _compoundLibraries;
         private readonly List<NamedItem<string>> _adductLibraries;
 
 
-        private Dictionary<int, string> _typeCacheNames = new Dictionary<int, string>();
-        private readonly HashSet<int> _typeCacheIds = new HashSet<int>();
+        private Dictionary<string, string> _typeCacheNames = new Dictionary<string, string>();
+        private readonly HashSet<string> _typeCacheIds = new HashSet<string>();
         private readonly ToolStripMenuItem _mnuBrowseWorkspace;
         private readonly ToolStripSeparator _mnuBrowseWorkspaceSep;
 
@@ -294,36 +294,42 @@ namespace MetaboliteLevels.Forms.Startup
         {
             switch (input)
             {
-                case 0:
-                    return true;
+                case 0: // Welcome
+                    break;
 
-                case 1:
-                    return _txtTitle.Text.Length != 0;
+                case 1: // Session name                                           
+                    _checker.Check(_txtTitle, _txtTitle.Text.Length != 0, "A session title must be provided.");
+                    break;
 
-                case 2:
-                    return _lstLcmsMode.SelectedIndex != -1
-                           && File.Exists(_txtDataSetData.Text)
-                           && File.Exists(_txtDataSetObs.Text)
-                           && File.Exists(_txtDataSetVar.Text)
-                           && (!_chkAltVals.Checked || File.Exists(_txtAltVals.Text))
-                           && (!_chkCondInfo.Checked || File.Exists(_txtCondInfo.Text));
+                case 2: // Select data
+                    _checker.Check(_lstLcmsMode, _lstLcmsMode.SelectedIndex != -1, "A LC-MS mode must be provided (use \"other\" for non-LC-MS data).");
+                    _checker.Check(_txtDataSetData, File.Exists(_txtDataSetData.Text), "Filename not provided or file not found.");
+                    _checker.Check(_txtDataSetObs, File.Exists(_txtDataSetObs.Text), "Filename not provided or file not found.");
+                    _checker.Check(_txtDataSetVar, File.Exists(_txtDataSetVar.Text), "Filename not provided or file not found.");
+                    _checker.Check(_txtAltVals, !_chkAltVals.Checked || File.Exists(_txtAltVals.Text), "Filename not provided or file not found.");
+                    _checker.Check(_chkCondInfo, !_chkCondInfo.Checked || File.Exists(_txtCondInfo.Text), "Filename not provided or file not found.");
+                    break;
 
-                case 3:
-                    return !_chkStatT.Checked
-                           || (_cbExp.SelectedItems != null && _cbControl.SelectedItems != null);
+                case 3: // Statistics
+                    _checker.Check(_cbExp.TextBox, !_chkStatT.Checked || _cbExp.SelectedItems != null, "Experimental conditions must be provided to conduct t-tests.");
+                    _checker.Check(_cbControl.TextBox, !_chkStatT.Checked || _cbControl.SelectedItems != null, "Control conditions must be provided to conduct t-tests.");
+                    break;
 
-                case 4:
-                    return true;
+                case 4: // Compounds
+                    break;
 
-                case 5:
-                    return (!_chkIdentifications.Checked || File.Exists(_txtIdentifications.Text));
+                case 5: // Annotations
+                    _checker.Check(_txtIdentifications, !_chkIdentifications.Checked || File.Exists(_txtIdentifications.Text), "Filename not provided or file not found.");
+                    break;
 
-                case 6:
-                    return true;
+                case 6: // Ready
+                    break;
 
-                default:
+                default: // ???
                     return false;
             }
+
+            return _checker.NoErrors;
         }
 
         private void SetFocusTooltips(Control t)
@@ -399,8 +405,8 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 EnumComboBox.Set(_lstLcmsMode, lfn.LcmsMode, true);
 
-                _cbExp.SelectedItems = (lfn.ConditionsOfInterest);
-                _cbControl.SelectedItems = (lfn.ControlConditions);
+                _cbExp.SelectedItems = (lfn.ConditionsOfInterestString);
+                _cbControl.SelectedItems = (lfn.ControlConditionsString);
             }
             else
             {
@@ -544,8 +550,8 @@ namespace MetaboliteLevels.Forms.Startup
                 fileNames.Session = null;
                 fileNames.AltData = _chkAltVals.Checked ? _txtAltVals.Text : null;
                 fileNames.ConditionInfo = CondInfoFileName;
-                fileNames.ConditionsOfInterest = new List<int>(_cbExp.GetSelectedItemsE());
-                fileNames.ControlConditions = new List<int>(_cbControl.GetSelectedItemsE());
+                fileNames.ConditionsOfInterestString = new List<string>(_cbExp.GetSelectedItemsE());
+                fileNames.ControlConditionsString = new List<string>(_cbControl.GetSelectedItemsE());
                 fileNames.StandardStatisticalMethods = EStatisticalMethods.None;
                 fileNames.StandardStatisticalMethods = GetCheck(_chkStatT, fileNames.StandardStatisticalMethods, EStatisticalMethods.TTest);
                 fileNames.StandardStatisticalMethods = GetCheck(_chkStatP, fileNames.StandardStatisticalMethods, EStatisticalMethods.Pearson);
@@ -893,9 +899,9 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        private ConditionBox<int> CreateExpConditionBox(TextBox textBox, Button button)
+        private ConditionBox<string> CreateExpConditionBox(TextBox textBox, Button button)
         {
-            return new DataSet<int>()
+            return new DataSet<string>()
             {
                 Title = "Experimental Conditions",
                 List = new TypeCacheIdsWrapper(this),
@@ -909,7 +915,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// Wraps the list of type IDs to make a check to update the list from the
         /// users choices whenever the list is enumerated (e.g. by the options list).
         /// </summary>
-        private class TypeCacheIdsWrapper : IEnumerable<int>
+        private class TypeCacheIdsWrapper : IEnumerable<string>
         {
             private FrmDataLoadQuery _owner;
 
@@ -918,7 +924,7 @@ namespace MetaboliteLevels.Forms.Startup
                 _owner = owner;
             }
 
-            public IEnumerator<int> GetEnumerator()
+            public IEnumerator<string> GetEnumerator()
             {
                 _owner.UpdateCacheOfTypes();
                 return _owner._typeCacheIds.GetEnumerator();
@@ -930,29 +936,25 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        private bool ConditionBox_Retriever(string name, out int item)
+        private bool ConditionBox_Retriever(string name, out string item)
         {
-            if (name.StartsWith("TYPE_"))
-            {
-                return int.TryParse(name.Substring(5), out item);
-            }
-
-            return int.TryParse(name, out item);
+            item = name;
+            return true;
         }
 
-        private string ConditionBox_Describer(int item)
+        private string ConditionBox_Describer(string item)
         {
             string name;
 
             if (_typeCacheNames.TryGetValue(item, out name))
             {
-                return "Type: " + name + ", ID = " + item;
+                return "Name: " + name + ", ID = " + item;
             }
 
             return "Type: Unnamed, ID = " + item;
         }
 
-        private string ConditionBox_Namer(int item)
+        private string ConditionBox_Namer(string item)
         {
             string name;
 
@@ -961,7 +963,7 @@ namespace MetaboliteLevels.Forms.Startup
                 return name;
             }
 
-            return "Type_" + item;
+            return item;
         }
 
         private void _chkStatT_CheckedChanged(object sender, EventArgs e)

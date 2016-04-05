@@ -345,6 +345,15 @@ namespace MetaboliteLevels.Forms
             }
             catch (Exception ex)
             {
+                if (Debugger.IsAttached)
+                {
+                    if (FrmMsgBox.Show(this, "Error", null, "There was a problem initialising R (you have a debugger attached so you can ignore this - not recommended).\r\n\r\n" + ex.Message, Resources.MsgError, new[] { new FrmMsgBox.ButtonSet("Configure", Resources.MnuEdit, DialogResult.Cancel), new FrmMsgBox.ButtonSet("Ignore", Resources.MnuWarning, DialogResult.Ignore) }) == DialogResult.Ignore)
+                    {
+                        Algo.Initialise();
+                        return true;
+                    }
+                }
+
                 FrmMsgBox.ShowError(this, "There was a problem initialising R.\r\n\r\n" + ex.Message);
                 forceShow = true;
                 goto __RETRY__;
@@ -586,7 +595,11 @@ namespace MetaboliteLevels.Forms
             // Select it in the peaks list
             _autoChangingSelection = true;
 
-            _peakList.Selection = peak; // make sure it is selected
+            // The peak might be hidden due to a filter!
+            if (_peakList.GetVisible().Contains(peak)) // Todo - this is show, there should be a tryselect
+            {
+                _peakList.Selection = peak; // make sure it is selected
+            }
 
             StylisedPeak sp = new StylisedPeak(peak);
             _chartPeak.Plot(sp);
@@ -665,7 +678,7 @@ namespace MetaboliteLevels.Forms
             // Add new items
             int index2 = toolStrip1.Items.IndexOf(_tssInsertViews);
 
-            foreach (GroupInfo ti in _core.Groups.WhereEnabled().OrderBy(z => z.Id))
+            foreach (GroupInfo ti in _core.Groups.WhereEnabled().OrderBy(z => z.DisplayPriority))
             {
                 bool e = _core.Options.ViewTypes.Contains(ti);
 
@@ -712,7 +725,7 @@ namespace MetaboliteLevels.Forms
             else
             {
                 core.Options.ViewTypes.Add(type);
-                core.Options.ViewTypes.Sort((x, y) => x.Id.CompareTo(y.Id));
+                core.Options.ViewTypes.Sort((x, y) => x.DisplayPriority.CompareTo(y.DisplayPriority));
                 @checked = true;
             }
 
@@ -1128,20 +1141,51 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Peak list: Keypress --> Set/clear comment flags
         /// </summary>
-        private void _lstVariables_KeyPress(object sender, KeyPressEventArgs e)
+        private void _lstVariables_KeyDown(object sender, KeyEventArgs e)
         {
             if (_core.Options.EnablePeakFlagging)
             {
-                char c = char.ToUpper(e.KeyChar);
-
                 foreach (var f in _core.Options.PeakFlags)
                 {
-                    if (f.Key == c)
+                    if (f.Key == (char)e.KeyCode)
                     {
                         NativeMethods.Beep(f.BeepFrequency, f.BeepDuration);
-                        _peakList.Selection.ToggleCommentFlag(f);
-                        _peakList.Update(_peakList.Selection);
-                        e.Handled = true;
+
+                        if (e.Control)
+                        {
+                            bool add = !_peakList.Selection.CommentFlags.Contains(f);
+
+                            if (FrmMsgBox.ShowOkCancel(this, f.ToString(), (add ? "Apply this flag to" : "Remove this flag from") + " all peaks shown in list?"))
+                            {
+                                foreach (Peak peak in _peakList.GetVisible())
+                                {
+                                    if (add)
+                                    {
+                                        if (!peak.CommentFlags.Contains(f))
+                                        {
+                                            peak.CommentFlags.Add(f);
+                                        }
+                                    }
+
+                                    if (!add)
+                                    {
+                                        if (peak.CommentFlags.Contains(f))
+                                        {
+                                            peak.CommentFlags.Remove(f);
+                                        }
+                                    }
+                                }
+
+                                _peakList.Rebuild(EListInvalids.ValuesChanged);
+                            }
+                        }
+                        else
+                        {
+                            _peakList.Selection.ToggleCommentFlag(f);
+                            _peakList.Update(_peakList.Selection);
+                            e.Handled = true;
+                        }
+
                         return;
                     }
                 }
@@ -1178,7 +1222,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void visualOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmOptions2.Show(this, _core);
+            FrmOptions2.Show(this, _core, false);
             UpdateVisualOptions();
             UpdateAll("Changed options", EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged);
             Replot();
@@ -1602,7 +1646,7 @@ namespace MetaboliteLevels.Forms
             Replicates,
 
             [Name("Data: Peak flags")]
-            PeakFlags,            
+            PeakFlags,
 
             [Name("Data: Experimental observations")]
             Observations,

@@ -308,28 +308,25 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Clusters\\All (scores)", EColumn.None, λ => λ.Assignments.Scores);
 
             columns.Add("Clusters\\Unique", EColumn.None, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
-            columns.Add("Clusters\\Grouped", EColumn.None, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.Id).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
+            columns.Add("Clusters\\Grouped", EColumn.None, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.DisplayPriority).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
 
             foreach (GroupInfo group in core.Groups)
             {
                 var closure = group;
-                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
-                columns[columns.Count - 1].Colour = z => closure.Colour;
-                columns.Add("Clusters\\" + UiControls.ZEROSPACE + group.DisplayName + " (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray());
-                columns[columns.Count - 1].Colour = z => closure.Colour;
+                columns.Add("Clusters\\" + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray(), z => closure.Colour);
+                columns.Add("Clusters\\" + group.DisplayName + " (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray(), z => closure.Colour);
             }
 
             foreach (PeakFlag flag in core.Options.PeakFlags)
             {
                 var closure = flag;
-                columns.Add("Flags\\" + UiControls.ZEROSPACE + flag, EColumn.None, λ => λ.CommentFlags.Contains(closure) ? closure.Id : string.Empty);
-                columns[columns.Count - 1].Colour = z => closure.Colour;
+                columns.Add("Flags\\" + UiControls.ZEROSPACE + flag, EColumn.None, λ => λ.CommentFlags.Contains(closure) ? closure.DisplayName : string.Empty, z => closure.Colour);
             }
 
             columns.Add("Clusters\\Groupless", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
             columns.Add("Clusters\\Groupless (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
 
-            columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.CommentFlags));
+            columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.CommentFlags), z=> z.CommentFlags.Count == 1 ? z.CommentFlags[0].Colour : Color.Black );
 
 
             columns.Add("Comment", EColumn.None, λ => λ.Comment);

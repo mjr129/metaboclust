@@ -70,6 +70,7 @@
             this.browseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -79,6 +80,7 @@
             this.flowLayoutPanel5.SuspendLayout();
             this._cmsR.SuspendLayout();
             this._cmsPathwayTools.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -91,7 +93,9 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(664, 32);
             this.label1.TabIndex = 7;
-            this.label1.Text = resources.GetString("label1.Text");
+            this.label1.Text = "The programming environment \"R\" is required to perform some of the statistical ca" +
+    "lculations used in this software.\nIf you\'ve not got R yet exit the application a" +
+    "nd download R first. The link is below.";
             this.label1.Visible = false;
             // 
             // tableLayoutPanel1
@@ -302,7 +306,7 @@
             this._txtDataSetData.Name = "_txtDataSetData";
             this._txtDataSetData.Size = new System.Drawing.Size(814, 29);
             this._txtDataSetData.TabIndex = 8;
-            this._txtDataSetData.TextChanged += new System.EventHandler(this._txtDataSetData_TextChanged);
+            this._txtDataSetData.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnDataSetData
             // 
@@ -345,7 +349,7 @@
             this._txtPathwayTools.Name = "_txtPathwayTools";
             this._txtPathwayTools.Size = new System.Drawing.Size(814, 29);
             this._txtPathwayTools.TabIndex = 8;
-            this._txtPathwayTools.TextChanged += new System.EventHandler(this._txtDataSetData_TextChanged);
+            this._txtPathwayTools.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnPathwayTools
             // 
@@ -528,7 +532,7 @@
             this._txtWorkingDirectory.ReadOnly = true;
             this._txtWorkingDirectory.Size = new System.Drawing.Size(814, 29);
             this._txtWorkingDirectory.TabIndex = 8;
-            this._txtWorkingDirectory.TextChanged += new System.EventHandler(this._txtDataSetData_TextChanged);
+            this._txtWorkingDirectory.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnSetWorkingDirectory
             // 
@@ -592,6 +596,11 @@
             this.defaultToolStripMenuItem.Text = "{Default}";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProvider1.ContainerControl = this;
+            // 
             // FrmInitialSetup
             // 
             this.AcceptButton = this._btnOk;
@@ -620,6 +629,7 @@
             this.flowLayoutPanel5.PerformLayout();
             this._cmsR.ResumeLayout(false);
             this._cmsPathwayTools.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -666,5 +676,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox _txtWorkingDirectory;
         private Controls.CtlButton _btnSetWorkingDirectory;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

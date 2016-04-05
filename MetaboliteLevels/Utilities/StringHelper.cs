@@ -598,6 +598,11 @@ namespace MetaboliteLevels.Utilities
                 return (bytes / (1024 * 1024)) + "Mb";
             }
         }
+
+        internal static bool IsInteger(string id)
+        {
+            return id.All(char.IsDigit);
+        }
     }
 
     /// <summary>

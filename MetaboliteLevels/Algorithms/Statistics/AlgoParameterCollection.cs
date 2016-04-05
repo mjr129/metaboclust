@@ -213,7 +213,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             {
                 GroupInfo p = (GroupInfo)param;
 
-                return (reversable ? p.Id.ToString() : p.DisplayName);
+                return (reversable ? p.StringId : p.DisplayName);
             }
             else if (param is double)
             {
@@ -438,15 +438,8 @@ namespace MetaboliteLevels.Algorithms.Statistics
                     }
 
                 case EAlgoParameterType.Group:
-                    {
-                        int ival;
-
-                        if (!int.TryParse(element, out ival))
-                        {
-                            return null;
-                        }
-
-                        return core.Groups.First(z => z.Id == ival);
+                    {         
+                        return core.Groups.First(z => z.StringId == element);
                     }
 
                 default:

@@ -257,7 +257,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnAdd_Click(object sender, EventArgs e)
         {
-            IVisualisable o = (IVisualisable)_config.UntypedEdit(this, null, false, true);
+            IVisualisable o = (IVisualisable)_config.UntypedEdit(this, null, false, false);
 
             if (o != null)
             {
