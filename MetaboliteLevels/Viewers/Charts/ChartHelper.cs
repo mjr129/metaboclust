@@ -219,7 +219,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
         private void _userDetailsButton_Clicked(object sender, EventArgs e)
         {
-            FrmOptions2.Show(_chart.FindForm(), _core);
+            FrmOptions2.Show(_chart.FindForm(), _core, false);
         }
 
         private void _menuButtonMenu_Opening(object sender, EventArgs e)

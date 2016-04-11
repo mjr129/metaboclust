@@ -109,8 +109,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 21);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Comments";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.label2.Text = "Comments";                                     
             // 
             // flowLayoutPanel1
             // 
@@ -169,8 +168,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(214, 21);
             this.label6.TabIndex = 1;
-            this.label6.Text = "This item cannot be renamed.";
-            this.label6.Click += new System.EventHandler(this.label2_Click);
+            this.label6.Text = "This item cannot be renamed.";              
             // 
             // ctlTitleBar1
             // 

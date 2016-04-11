@@ -420,9 +420,18 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case VisualClass.Cluster:
-                    request.Text = "Clusters related to {0}";
+                    request.Text = "Clusters with peaks also in {0}";
 
-                    request.AddRange(Related);
+                    foreach (Cluster c in request.Core.Clusters)
+                    {
+                        if (c != this)
+                        {
+                            if (c.Assignments.Peaks.Any(this.Assignments.Peaks.Contains))
+                            {
+                                request.Add(c);
+                            }
+                        }
+                    }                          
                     break;
 
                 case VisualClass.Compound:
@@ -545,11 +554,11 @@ namespace MetaboliteLevels.Data.Visualisables
             foreach (PeakFlag flag in core.Options.PeakFlags)
             {
                 PeakFlag closure = flag;
-                result.Add("Flag\\" + flag, EColumn.None, λ => λ.CommentFlags.ContainsKey(closure) ? closure.Id : "");
+                result.Add("Flag\\" + flag, EColumn.None, λ => λ.CommentFlags.ContainsKey(closure) ? λ.CommentFlags[closure] : 0);
                 result[result.Count - 1].Colour = z => closure.Colour;
             }
 
-            result.Add("Flag\\(all)", EColumn.None, λ => λ.CommentFlags.Keys);
+            result.Add("Flag\\(all)", EColumn.None, λ => λ.CommentFlags.Select(z => z.Key + " = " + z.Value), z => z.CommentFlags.Count != 1 ? Color.Black : z.CommentFlags.Keys.First().Colour);
 
             foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
             {

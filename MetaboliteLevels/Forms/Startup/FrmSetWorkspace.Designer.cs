@@ -294,7 +294,7 @@
             // _btnSetDataFolder
             // 
             this._btnSetDataFolder.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnSetDataFolder.Image = ((System.Drawing.Image)(resources.GetObject("_btnSetDataFolder.Image")));
+            this._btnSetDataFolder.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
             this._btnSetDataFolder.Location = new System.Drawing.Point(707, 93);
             this._btnSetDataFolder.Margin = new System.Windows.Forms.Padding(8);
             this._btnSetDataFolder.Name = "_btnSetDataFolder";

@@ -75,15 +75,14 @@
             this._btnSetStatistics = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // newMetricToolStripMenuItem
@@ -128,17 +127,17 @@
             // 
             // _btnNewStatistic
             // 
-            this._btnNewStatistic.Image = ((System.Drawing.Image)(resources.GetObject("_btnNewStatistic.Image")));
+            this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnNewStatistic.Location = new System.Drawing.Point(932, 53);
             this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewStatistic.Name = "_btnNewStatistic";
             this._btnNewStatistic.Size = new System.Drawing.Size(28, 28);
             this._btnNewStatistic.TabIndex = 16;
-            this._btnNewStatistic.UseVisualStyleBackColor = true;                                  
+            this._btnNewStatistic.UseVisualStyleBackColor = true;
             // 
             // _btnComment
             // 
-            this._btnComment.Image = ((System.Drawing.Image)(resources.GetObject("_btnComment.Image")));
+            this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.CommentHS;
             this._btnComment.Location = new System.Drawing.Point(932, 8);
             this._btnComment.Margin = new System.Windows.Forms.Padding(8);
             this._btnComment.Name = "_btnComment";
@@ -174,7 +173,7 @@
             // 
             // _btnObsFilter
             // 
-            this._btnObsFilter.Image = ((System.Drawing.Image)(resources.GetObject("_btnObsFilter.Image")));
+            this._btnObsFilter.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnObsFilter.Location = new System.Drawing.Point(932, 516);
             this._btnObsFilter.Margin = new System.Windows.Forms.Padding(8);
             this._btnObsFilter.Name = "_btnObsFilter";
@@ -387,7 +386,7 @@
             // 
             this._btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("_btnCancel.Image")));
+            this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
             this._btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnCancel.Location = new System.Drawing.Point(140, 4);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(4);
@@ -404,7 +403,7 @@
             this._btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._btnOk.Enabled = false;
-            this._btnOk.Image = ((System.Drawing.Image)(resources.GetObject("_btnOk.Image")));
+            this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
             this._btnOk.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnOk.Location = new System.Drawing.Point(4, 4);
             this._btnOk.Margin = new System.Windows.Forms.Padding(4);
@@ -494,7 +493,7 @@
             // 
             // _btnPeakFilter
             // 
-            this._btnPeakFilter.Image = ((System.Drawing.Image)(resources.GetObject("_btnPeakFilter.Image")));
+            this._btnPeakFilter.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnPeakFilter.Location = new System.Drawing.Point(932, 180);
             this._btnPeakFilter.Margin = new System.Windows.Forms.Padding(8);
             this._btnPeakFilter.Name = "_btnPeakFilter";
@@ -538,13 +537,13 @@
             // 
             // _btnNewDistance
             // 
-            this._btnNewDistance.Image = ((System.Drawing.Image)(resources.GetObject("_btnNewDistance.Image")));
+            this._btnNewDistance.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnNewDistance.Location = new System.Drawing.Point(932, 225);
             this._btnNewDistance.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewDistance.Name = "_btnNewDistance";
             this._btnNewDistance.Size = new System.Drawing.Size(28, 28);
             this._btnNewDistance.TabIndex = 16;
-            this._btnNewDistance.UseVisualStyleBackColor = true;                                  
+            this._btnNewDistance.UseVisualStyleBackColor = true;
             // 
             // _btnEditDistanceParameters
             // 
@@ -648,12 +647,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Statistics";
             // 
-            // errorProvider1
-            // 
-            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.errorProvider1.ContainerControl = this;
-            this.errorProvider1.Icon = global::MetaboliteLevels.Properties.Resources.ErrorBarIcon;
-            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -692,7 +685,6 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -737,7 +729,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.ToolTip toolTip1;
         private Controls.CtlButton _btnParameterOptimiser;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.TextBox _txtStatistics;
         private System.Windows.Forms.Button _btnSetStatistics;
         private System.Windows.Forms.Label label2;
@@ -747,5 +738,6 @@
         private System.Windows.Forms.Button _btnCancel;
         private System.Windows.Forms.Button _btnOk;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private Controls.CtlError _checker;
     }
 }

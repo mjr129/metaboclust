@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBigList));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -111,7 +110,7 @@
             // _btnOk
             // 
             this._btnOk.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnOk.Image = ((System.Drawing.Image)(resources.GetObject("_btnOk.Image")));
+            this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
             this._btnOk.Location = new System.Drawing.Point(8, 8);
             this._btnOk.Margin = new System.Windows.Forms.Padding(8);
             this._btnOk.Name = "_btnOk";
@@ -126,7 +125,7 @@
             // 
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("_btnCancel.Image")));
+            this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
             this._btnCancel.Location = new System.Drawing.Point(152, 8);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(8);
             this._btnCancel.Name = "_btnCancel";
@@ -160,7 +159,7 @@
             // _btnAdd
             // 
             this._btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("_btnAdd.Image")));
+            this._btnAdd.Image = global::MetaboliteLevels.Properties.Resources.MnuAdd;
             this._btnAdd.Location = new System.Drawing.Point(0, 0);
             this._btnAdd.Margin = new System.Windows.Forms.Padding(0);
             this._btnAdd.Name = "_btnAdd";
@@ -174,7 +173,7 @@
             // _btnDuplicate
             // 
             this._btnDuplicate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnDuplicate.Image = ((System.Drawing.Image)(resources.GetObject("_btnDuplicate.Image")));
+            this._btnDuplicate.Image = global::MetaboliteLevels.Properties.Resources.MnuCopy;
             this._btnDuplicate.Location = new System.Drawing.Point(0, 40);
             this._btnDuplicate.Margin = new System.Windows.Forms.Padding(0);
             this._btnDuplicate.Name = "_btnDuplicate";
@@ -189,7 +188,7 @@
             // 
             this._btnRemove.Enabled = false;
             this._btnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnRemove.Image = ((System.Drawing.Image)(resources.GetObject("_btnRemove.Image")));
+            this._btnRemove.Image = global::MetaboliteLevels.Properties.Resources.MnuDelete;
             this._btnRemove.Location = new System.Drawing.Point(0, 80);
             this._btnRemove.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this._btnRemove.Name = "_btnRemove";
@@ -204,7 +203,7 @@
             // 
             this._btnView.Enabled = false;
             this._btnView.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnView.Image = ((System.Drawing.Image)(resources.GetObject("_btnView.Image")));
+            this._btnView.Image = global::MetaboliteLevels.Properties.Resources.glasses_16xLG;
             this._btnView.Location = new System.Drawing.Point(0, 128);
             this._btnView.Margin = new System.Windows.Forms.Padding(0);
             this._btnView.Name = "_btnView";
@@ -220,7 +219,7 @@
             this._btnEdit.Enabled = false;
             this._btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this._btnEdit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnEdit.Image = ((System.Drawing.Image)(resources.GetObject("_btnEdit.Image")));
+            this._btnEdit.Image = global::MetaboliteLevels.Properties.Resources.MnuEdit;
             this._btnEdit.Location = new System.Drawing.Point(0, 168);
             this._btnEdit.Margin = new System.Windows.Forms.Padding(0);
             this._btnEdit.Name = "_btnEdit";
@@ -235,7 +234,7 @@
             // 
             this._btnRename.Enabled = false;
             this._btnRename.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnRename.Image = ((System.Drawing.Image)(resources.GetObject("_btnRename.Image")));
+            this._btnRename.Image = global::MetaboliteLevels.Properties.Resources.CommentHS;
             this._btnRename.Location = new System.Drawing.Point(0, 208);
             this._btnRename.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this._btnRename.Name = "_btnRename";
@@ -250,7 +249,7 @@
             // 
             this._btnUp.Enabled = false;
             this._btnUp.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnUp.Image = ((System.Drawing.Image)(resources.GetObject("_btnUp.Image")));
+            this._btnUp.Image = global::MetaboliteLevels.Properties.Resources.MnuUp;
             this._btnUp.Location = new System.Drawing.Point(0, 256);
             this._btnUp.Margin = new System.Windows.Forms.Padding(0);
             this._btnUp.Name = "_btnUp";
@@ -265,7 +264,7 @@
             // 
             this._btnDown.Enabled = false;
             this._btnDown.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnDown.Image = ((System.Drawing.Image)(resources.GetObject("_btnDown.Image")));
+            this._btnDown.Image = global::MetaboliteLevels.Properties.Resources.MnuDown;
             this._btnDown.Location = new System.Drawing.Point(0, 296);
             this._btnDown.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this._btnDown.Name = "_btnDown";
@@ -280,7 +279,7 @@
             // 
             this._btnEnableDisable.Enabled = false;
             this._btnEnableDisable.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnEnableDisable.Image = ((System.Drawing.Image)(resources.GetObject("_btnEnableDisable.Image")));
+            this._btnEnableDisable.Image = global::MetaboliteLevels.Properties.Resources.MnuDisable;
             this._btnEnableDisable.Location = new System.Drawing.Point(0, 344);
             this._btnEnableDisable.Margin = new System.Windows.Forms.Padding(0);
             this._btnEnableDisable.Name = "_btnEnableDisable";

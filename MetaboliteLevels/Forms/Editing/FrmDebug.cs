@@ -55,7 +55,7 @@ namespace MetaboliteLevels.Forms.Editing
         private void EndWait()
         {
             _waitCounter--;
-            UiControls.Assert(_waitCounter >= 0);
+            UiControls.Assert(_waitCounter >= 0, "EndWait called when no wait preceded.");
 
             if (_waitCounter == 0)
             {

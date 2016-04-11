@@ -337,7 +337,7 @@
             // 
             // _btnIsInSet
             // 
-            this._btnIsInSet.Image = ((System.Drawing.Image)(resources.GetObject("_btnIsInSet.Image")));
+            this._btnIsInSet.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnIsInSet.Location = new System.Drawing.Point(887, 49);
             this._btnIsInSet.Margin = new System.Windows.Forms.Padding(8);
             this._btnIsInSet.Name = "_btnIsInSet";
@@ -359,7 +359,7 @@
             // 
             // _btnIsInCluster
             // 
-            this._btnIsInCluster.Image = ((System.Drawing.Image)(resources.GetObject("_btnIsInCluster.Image")));
+            this._btnIsInCluster.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnIsInCluster.Location = new System.Drawing.Point(887, 98);
             this._btnIsInCluster.Margin = new System.Windows.Forms.Padding(8);
             this._btnIsInCluster.Name = "_btnIsInCluster";
@@ -381,7 +381,7 @@
             // 
             // _btnIsFlaggedWith
             // 
-            this._btnIsFlaggedWith.Image = ((System.Drawing.Image)(resources.GetObject("_btnIsFlaggedWith.Image")));
+            this._btnIsFlaggedWith.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnIsFlaggedWith.Location = new System.Drawing.Point(887, 147);
             this._btnIsFlaggedWith.Margin = new System.Windows.Forms.Padding(8);
             this._btnIsFlaggedWith.Name = "_btnIsFlaggedWith";

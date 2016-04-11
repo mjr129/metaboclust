@@ -43,23 +43,21 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ConfigurationCorrection GetSelection()
         {
+            _checker.Clear();
+
             // Algo
             AlgoBase algo = _ecbMethod.SelectedItem;
 
             // Params
             object[] parameters;
 
-            if (algo == null)
-            {
-                return null;
-            }
+            _checker.Check( _ecbMethod.ComboBox, algo != null, "Select a correction method" );
 
-            if (algo.Parameters.HasCustomisableParams)
+            if (algo!=null && algo.Parameters.HasCustomisableParams)
             {
-                if (!algo.Parameters.TryStringToParams(_core, _txtParameters.Text, out parameters))
-                {
-                    return null;
-                }
+                bool parametersValid = algo.Parameters.TryStringToParams( _core, _txtParameters.Text, out parameters );
+
+                _checker.Check( _txtParameters, parametersValid, "Specify valid parameters for the algorithm." );
             }
             else
             {
@@ -81,7 +79,9 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
                 else
                 {
-                    return null;
+                    _checker.Check( _radSubtract, false, "Select a method" );
+                    _checker.Check( _radDivide, false, "Select a method" );
+                    met = default( ECorrectionMethod );
                 }
 
                 // Mode
@@ -94,14 +94,8 @@ namespace MetaboliteLevels.Forms.Algorithms
                     mode = ECorrectionMode.Batch;
                     controlGroup = null;
 
-                    if (_ecbFilter.HasSelection)
-                    {
-                        filter = _ecbFilter.SelectedItem;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    _checker.Check( _ecbFilter.ComboBox, _ecbFilter.HasSelection, "Select a filter" );
+                    filter = _ecbFilter.SelectedItem;
                 }
                 else if (_radType.Checked)
                 {
@@ -111,20 +105,34 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
                 else
                 {
+                    _checker.Check( _radBatch, false, "Select a mode" );
+                    _checker.Check( _radType, false, "Select a mode" );
+                    controlGroup = default( GroupInfo );
+                    filter = default( ObsFilter );
+                    mode = default( ECorrectionMode );
+                }
+
+                if (_checker.HasErrors)
+                {
                     return null;
                 }
 
-                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection(mode, met, controlGroup, filter, parameters);
-                return new ConfigurationCorrection(_txtName.Text, _comments, (TrendBase)algo, args);
+                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection( mode, met, controlGroup, filter, parameters );
+                return new ConfigurationCorrection( _txtName.Text, _comments, (TrendBase)algo, args );
             }
             else if (algo is CorrectionBase)
             {
-                ArgsCorrection args = new ArgsCorrection(parameters);
-                return new ConfigurationCorrection(_txtName.Text, _comments, (CorrectionBase)algo, args);
+                if (_checker.HasErrors)
+                {
+                    return null;
+                }
+
+                ArgsCorrection args = new ArgsCorrection( parameters );
+                return new ConfigurationCorrection( _txtName.Text, _comments, (CorrectionBase)algo, args );
             }
             else
             {
-                throw new InvalidOperationException("Unknown type on switch: " + algo.ToString());
+                return null;
             }
         }
 
@@ -146,7 +154,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _lblCorrector.Visible = correctorVisible;
             _flpCorrector.Visible = correctorVisible;
-            _ecbTypes.Visible = correctorVisible && _radType.Checked;
+            _lstTypes.Visible = correctorVisible && _radType.Checked;
+            _btnEditTypes.Visible = correctorVisible;
+            _btnBatchInfo2.Visible = correctorVisible;
 
             bool filterVisible = correctorVisible && _radBatch.Checked;
 
@@ -161,7 +171,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             bool readyToGo = (usingTrend && operatorVisible && (_radDivide.Checked || _radSubtract.Checked)) || (!usingTrend && paramsValid);
 
-            ConfigurationCorrection sel = readyToGo ? GetSelection() : null;
+            ConfigurationCorrection sel = GetSelection();
             bool valid = sel != null;
 
             _tlpPreview.Visible = valid;
@@ -344,7 +354,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void GenerateTypeButtons()
         {
             vTypes.AddRange(_core.Groups);
-            vBatches.Add(_core.Batches.OrderBy(z => z.Id).First());
+            vBatches.Add(_core.Batches.OrderBy(z => z.DisplayPriority).First());
 
             _flpBatchButtons = new FlowLayoutPanel();
             _flpGroupButtons = new FlowLayoutPanel();
@@ -361,12 +371,12 @@ namespace MetaboliteLevels.Forms.Algorithms
             _flpPreviewButtons.Controls.Add(_flpBatchButtons);
             _flpPreviewButtons.Controls.Add(_flpGroupButtons);
 
-            foreach (var ti in _core.Groups.OrderBy(z => z.Id))
+            foreach (var ti in _core.Groups.OrderBy(z => z.DisplayPriority))
             {
                 _flpGroupButtons.Controls.Add(GenerateTypeButton(ti));
             }
 
-            foreach (var ti in _core.Batches.OrderBy(z => z.Id))
+            foreach (var ti in _core.Batches.OrderBy(z => z.DisplayPriority))
             {
                 _flpBatchButtons.Controls.Add(GenerateTypeButton(ti));
             }
@@ -508,6 +518,26 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void _btnBatchInfo_Click(object sender, EventArgs e)
         {
             DataSet.ForBatches(_core).ShowListEditor(this);
+        }
+
+        private void _radType_CheckedChanged( object sender, EventArgs e )
+        {
+            if (_radType.Checked)
+            {
+                _radBatch.Checked = false;
+            }
+
+            anything_SomethingChanged( sender, e );
+        }
+
+        private void _radBatch_CheckedChanged( object sender, EventArgs e )
+        {
+            if (_radBatch.Checked)
+            {
+                _radType.Checked = false;
+            }
+
+            anything_SomethingChanged( sender, e );
         }
     }
 }

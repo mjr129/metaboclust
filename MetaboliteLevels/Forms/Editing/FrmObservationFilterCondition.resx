@@ -124,68 +124,7 @@ You can choose to filter these peaks out before performing certain actions, such
 
 Use "existing" to keep the current assignments of whether peaks are significant or not.</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="_btnGroup.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACsSURBVDhPzZNRDcIwFEUrAQlIwAFIwAlzAE5AAg5AAhJwMBzAPS+8ZXn0Le0fNzlZ0+2eNe1W
-        OrITW3EQR3EWN9GUlXiId+Al7CbmJXiGFUTBXZgl3phzERsxzuYcEzB4ilOFQWRlmAQ2qCQrsx/A6lLB
-        Upk9gb1IBczVymthRU8miEfnb+bK/kzJBMQLXiY83ywgFL1MugUxfyrgvPmzWvgRXAUr6OH7HZTyAbgW
-        cG72DSuXAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="_btnTime.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACsSURBVDhPzZNRDcIwFEUrAQlIwAFIwAlzAE5AAg5AAhJwMBzAPS+8ZXn0Le0fNzlZ0+2eNe1W
-        OrITW3EQR3EWN9GUlXiId+Al7CbmJXiGFUTBXZgl3phzERsxzuYcEzB4ilOFQWRlmAQ2qCQrsx/A6lLB
-        Upk9gb1IBczVymthRU8miEfnb+bK/kzJBMQLXiY83ywgFL1MugUxfyrgvPmzWvgRXAUr6OH7HZTyAbgW
-        cG72DSuXAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="_btnRep.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACsSURBVDhPzZNRDcIwFEUrAQlIwAFIwAlzAE5AAg5AAhJwMBzAPS+8ZXn0Le0fNzlZ0+2eNe1W
-        OrITW3EQR3EWN9GUlXiId+Al7CbmJXiGFUTBXZgl3phzERsxzuYcEzB4ilOFQWRlmAQ2qCQrsx/A6lLB
-        Upk9gb1IBczVymthRU8miEfnb+bK/kzJBMQLXiY83ywgFL1MugUxfyrgvPmzWvgRXAUr6OH7HZTyAbgW
-        cG72DSuXAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="_btnBatch.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACsSURBVDhPzZNRDcIwFEUrAQlIwAFIwAlzAE5AAg5AAhJwMBzAPS+8ZXn0Le0fNzlZ0+2eNe1W
-        OrITW3EQR3EWN9GUlXiId+Al7CbmJXiGFUTBXZgl3phzERsxzuYcEzB4ilOFQWRlmAQ2qCQrsx/A6lLB
-        Upk9gb1IBczVymthRU8miEfnb+bK/kzJBMQLXiY83ywgFL1MugUxfyrgvPmzWvgRXAUr6OH7HZTyAbgW
-        cG72DSuXAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="_btnObs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACsSURBVDhPzZNRDcIwFEUrAQlIwAFIwAlzAE5AAg5AAhJwMBzAPS+8ZXn0Le0fNzlZ0+2eNe1W
-        OrITW3EQR3EWN9GUlXiId+Al7CbmJXiGFUTBXZgl3phzERsxzuYcEzB4ilOFQWRlmAQ2qCQrsx/A6lLB
-        Upk9gb1IBczVymthRU8miEfnb+bK/kzJBMQLXiY83ywgFL1MugUxfyrgvPmzWvgRXAUr6OH7HZTyAbgW
-        cG72DSuXAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="_btnAq.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACsSURBVDhPzZNRDcIwFEUrAQlIwAFIwAlzAE5AAg5AAhJwMBzAPS+8ZXn0Le0fNzlZ0+2eNe1W
-        OrITW3EQR3EWN9GUlXiId+Al7CbmJXiGFUTBXZgl3phzERsxzuYcEzB4ilOFQWRlmAQ2qCQrsx/A6lLB
-        Upk9gb1IBczVymthRU8miEfnb+bK/kzJBMQLXiY83ywgFL1MugUxfyrgvPmzWvgRXAUr6OH7HZTyAbgW
-        cG72DSuXAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="_btnCond.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACsSURBVDhPzZNRDcIwFEUrAQlIwAFIwAlzAE5AAg5AAhJwMBzAPS+8ZXn0Le0fNzlZ0+2eNe1W
-        OrITW3EQR3EWN9GUlXiId+Al7CbmJXiGFUTBXZgl3phzERsxzuYcEzB4ilOFQWRlmAQ2qCQrsx/A6lLB
-        Upk9gb1IBczVymthRU8miEfnb+bK/kzJBMQLXiY83ywgFL1MugUxfyrgvPmzWvgRXAUr6OH7HZTyAbgW
-        cG72DSuXAAAAAElFTkSuQmCC
-</value>
-  </data>
+  <metadata name="_checker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

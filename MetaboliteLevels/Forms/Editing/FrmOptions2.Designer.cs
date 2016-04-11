@@ -139,6 +139,7 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.coreOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this._numSizeLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numClusterMaxPlot)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -159,6 +160,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numThumbnail)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.coreOptionsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -1471,6 +1473,10 @@
             this.toolTip1.InitialDelay = 100;
             this.toolTip1.ReshowDelay = 100;
             // 
+            // coreOptionsBindingSource
+            // 
+            this.coreOptionsBindingSource.DataSource = typeof(MetaboliteLevels.Settings.CoreOptions);
+            // 
             // FrmOptions2
             // 
             this.AcceptButton = this._btnOk;
@@ -1514,6 +1520,7 @@
             ((System.ComponentModel.ISupportInitialize)(this._numThumbnail)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.coreOptionsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1631,5 +1638,6 @@
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.BindingSource coreOptionsBindingSource;
     }
 }

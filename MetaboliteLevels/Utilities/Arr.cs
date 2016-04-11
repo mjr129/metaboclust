@@ -22,6 +22,8 @@ namespace MetaboliteLevels.Utilities
         /// </summary>
         readonly REngine R;
 
+        private string _origEnvPath;
+
         /// <summary>
         /// Singleton instance.
         /// </summary>
@@ -41,9 +43,20 @@ namespace MetaboliteLevels.Utilities
         /// <param name="rBinPath">Where R binaries live</param>
         public Arr(string rBinPath)
         {
-            var envPath = Environment.GetEnvironmentVariable("PATH");
+            var envPath = _origEnvPath ?? Environment.GetEnvironmentVariable("PATH");
+            _origEnvPath = envPath;
             Environment.SetEnvironmentVariable("PATH", envPath + ";" + rBinPath);
-            R = REngine.GetInstance();
+
+            try
+            {
+                R = REngine.GetInstance();
+            }
+            catch
+            {
+                // Looks like an error with the adapter that causes a fail first time if the path isn't in the registry
+                R = REngine.GetInstance();
+            }
+
             R.Initialize();
             TestR();
         }
@@ -126,7 +139,7 @@ namespace MetaboliteLevels.Utilities
 
             for (int r = 0; r < rowCount; r++)
             {
-                groups[r] = types[r / replicates.Count].Id;
+                groups[r] = types[r / replicates.Count].Order;
             }
 
             // Fill out the values we know
@@ -303,13 +316,13 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
         /// </summary>            
         private void ApplyArgs(RScript script, object[] args)
         {
-            UiControls.Assert((args != null) == script.RequiredParameters.HasCustomisableParams);
+            UiControls.Assert((args != null) == script.RequiredParameters.HasCustomisableParams, "No arguments provided when algorithm has customisable parameters, or arguments provided when the algorithm has no customisable parameters." );
 
             if (script.RequiredParameters.HasCustomisableParams)
             {
                 var req = script.RequiredParameters;
 
-                UiControls.Assert(req.Count == args.Length);
+                UiControls.Assert(req.Count == args.Length, "Argument count passed in doesn't match the count expected by the script");
 
                 for (int i = 0; i < req.Count; i++)
                 {
@@ -394,7 +407,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
                 ObservationInfo o = core.Observations[i];
 
                 mat_obs[i] = new int[3];
-                mat_obs[i][0] = o.Group.Id;
+                mat_obs[i][0] = o.Group.Order;
                 mat_obs[i][1] = o.Time;
                 mat_obs[i][2] = o.Rep;
             }
@@ -404,7 +417,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
                 ConditionInfo o = core.Conditions[i];
 
                 mat_con[i] = new int[2];
-                mat_con[i][0] = o.Group.Id;
+                mat_con[i][0] = o.Group.Order;
                 mat_con[i][1] = o.Time;
             }
 

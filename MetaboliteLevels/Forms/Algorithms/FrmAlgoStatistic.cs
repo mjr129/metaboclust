@@ -68,11 +68,10 @@ namespace MetaboliteLevels.Forms.Algorithms
             Peak bpeak;
             string title;
 
+            _checker.Clear();
+
             // Selection
-            if (sel == null)
-            {
-                return null;
-            }
+            _checker.Check( _ecbMeasure.ComboBox, sel != null, "Select a method" );
 
             // Title / comments
             title = string.IsNullOrWhiteSpace(_txtName.Text) ? null : _txtName.Text;
@@ -80,19 +79,18 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Parameters
             object[] parameters;
 
-            if (sel.Parameters.HasCustomisableParams)
+            if (sel!=null && sel.Parameters.HasCustomisableParams)
             {
-                if (!sel.Parameters.TryStringToParams(_core, _txtParams.Text, out parameters))
-                {
-                    return null;
-                }
+                bool parametersValid = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out parameters );
+
+                _checker.Check( _txtParams, parametersValid, "Specify valid parameters for the method." );
             }
             else
             {
                 parameters = null;
             }
 
-            if (!sel.SupportsInputFilters)
+            if (sel==null || !sel.SupportsInputFilters)
             {
                 filter1 = null;
                 filter2 = null;
@@ -113,22 +111,17 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
                 else
                 {
-                    //throw new InvalidOperationException("Missing SourceMode");
-                    return null;
+                    _checker.Check( _radObs, false, "Select a source" );
+                    _checker.Check( _radTrend, false, "Select a source" );
+                    src = default( EAlgoSourceMode );
                 }
 
                 // Vector A
-                if (_ecbFilter1.HasSelection)
-                {
-                    filter1 = _ecbFilter1.SelectedItem;
-                }
-                else
-                {
-                    return null;
-                }
+                filter1 = _ecbFilter1.SelectedItem;
+                _checker.Check( _ecbFilter1.ComboBox, _ecbFilter1.HasSelection, "Select a filter" );
 
                 // Vector B
-                if (!sel.IsMetric)
+                if (sel==null || !sel.IsMetric)
                 {
                     // If the stat isn't comparing anything there is nothing to set
                     bsrc = EAlgoInputBSource.None;
@@ -147,12 +140,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     // Use alt peak is checked then we are comparing against another peak - use the same X points
                     bsrc = EAlgoInputBSource.AltPeak;
                     bpeak = NamedItem<Peak>.Extract(_lstDiffPeak.SelectedItem);
-
-                    if (bpeak == null)
-                    {
-                        return null;
-                    }
-
+                    _checker.Check( _lstDiffPeak, bpeak != null, "Select a peak" );
                     filter2 = filter1;
                 }
                 else if (this._radSamePeak.Checked)
@@ -160,21 +148,24 @@ namespace MetaboliteLevels.Forms.Algorithms
                     // Otherwise we are comparing against the same peak, get what we are comparing against
                     bsrc = EAlgoInputBSource.SamePeak;
                     bpeak = null;
-
-                    if (this._ecbFilter2.HasSelection)
-                    {
-                        filter2 = this._ecbFilter2.SelectedItem;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    filter2 = this._ecbFilter2.SelectedItem;
+                    _checker.Check( _ecbFilter2.ComboBox, this._ecbFilter2.HasSelection, "Select a peak" );
                 }
                 else
                 {
                     // What are we comparing against?
-                    return null;
+                    _checker.Check( _radBCorTime, false, "Select a comparison" );
+                    _checker.Check( _radBDiffPeak, false, "Select a comparison" );
+                    _checker.Check( _radSamePeak, false, "Select a comparison" );
+                    bsrc = default( EAlgoInputBSource );
+                    bpeak = default( Peak );
+                    filter2 = default( ObsFilter );
                 }
+            }
+
+            if (_checker.HasErrors)
+            {
+                return null;
             }
 
             // Result

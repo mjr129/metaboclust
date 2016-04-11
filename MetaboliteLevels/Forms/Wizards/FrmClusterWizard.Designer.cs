@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmClusterWizard));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -51,6 +50,16 @@
             this._lstGroups = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.label8 = new System.Windows.Forms.Label();
+            this._lstPeakFilter = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this._btnPeakFilter = new MetaboliteLevels.Controls.CtlButton();
+            this.label10 = new System.Windows.Forms.Label();
+            this._btnDistanceParams = new MetaboliteLevels.Controls.CtlButton();
+            this._txtDistanceParams = new System.Windows.Forms.TextBox();
+            this._lstDistanceMeasure = new System.Windows.Forms.ComboBox();
+            this._btnDistanceMeasure = new MetaboliteLevels.Controls.CtlButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
@@ -66,29 +75,19 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.label8 = new System.Windows.Forms.Label();
-            this._lstPeakFilter = new System.Windows.Forms.ComboBox();
-            this._btnPeakFilter = new MetaboliteLevels.Controls.CtlButton();
-            this.label9 = new System.Windows.Forms.Label();
-            this._btnDistanceMeasure = new MetaboliteLevels.Controls.CtlButton();
-            this.label10 = new System.Windows.Forms.Label();
-            this._txtDistanceParams = new System.Windows.Forms.TextBox();
-            this._btnDistanceParams = new MetaboliteLevels.Controls.CtlButton();
-            this._lstDistanceMeasure = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            this.tableLayoutPanel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -191,7 +190,7 @@
             // 
             // _btnEditFilters
             // 
-            this._btnEditFilters.Image = global::MetaboliteLevels.Properties.Resources.MnuAdd;
+            this._btnEditFilters.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnEditFilters.Location = new System.Drawing.Point(837, 61);
             this._btnEditFilters.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditFilters.Name = "_btnEditFilters";
@@ -367,7 +366,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.label7, 3);
             this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label7.Location = new System.Drawing.Point(4, 530);
+            this.label7.Location = new System.Drawing.Point(4, 538);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(8);
@@ -383,7 +382,7 @@
             this._lstGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstGroups.Enabled = false;
             this._lstGroups.FormattingEnabled = true;
-            this._lstGroups.Location = new System.Drawing.Point(19, 579);
+            this._lstGroups.Location = new System.Drawing.Point(19, 587);
             this._lstGroups.Margin = new System.Windows.Forms.Padding(19, 12, 11, 12);
             this._lstGroups.Name = "_lstGroups";
             this._lstGroups.Size = new System.Drawing.Size(842, 29);
@@ -397,7 +396,7 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.tableLayoutPanel1.SetRowSpan(this.panel1, 4);
-            this.panel1.Size = new System.Drawing.Size(681, 440);
+            this.panel1.Size = new System.Drawing.Size(681, 448);
             this.panel1.TabIndex = 5;
             // 
             // tabPage2
@@ -412,13 +411,147 @@
             this.tabPage2.Text = "Additional options";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 3;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.Controls.Add(this.label8, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this._lstPeakFilter, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.label9, 0, 2);
+            this.tableLayoutPanel6.Controls.Add(this._btnPeakFilter, 2, 1);
+            this.tableLayoutPanel6.Controls.Add(this.label10, 0, 4);
+            this.tableLayoutPanel6.Controls.Add(this._btnDistanceParams, 2, 4);
+            this.tableLayoutPanel6.Controls.Add(this._txtDistanceParams, 1, 4);
+            this.tableLayoutPanel6.Controls.Add(this._lstDistanceMeasure, 0, 3);
+            this.tableLayoutPanel6.Controls.Add(this._btnDistanceMeasure, 2, 3);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(4, 5);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 5;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(872, 620);
+            this.tableLayoutPanel6.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.tableLayoutPanel6.SetColumnSpan(this.label8, 3);
+            this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label8.Location = new System.Drawing.Point(8, 8);
+            this.label8.Margin = new System.Windows.Forms.Padding(8);
+            this.label8.Name = "label8";
+            this.label8.Padding = new System.Windows.Forms.Padding(8);
+            this.label8.Size = new System.Drawing.Size(287, 37);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Shold insignificant peaks be filtered";
+            // 
+            // _lstPeakFilter
+            // 
+            this.tableLayoutPanel6.SetColumnSpan(this._lstPeakFilter, 2);
+            this._lstPeakFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstPeakFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstPeakFilter.FormattingEnabled = true;
+            this._lstPeakFilter.Location = new System.Drawing.Point(24, 61);
+            this._lstPeakFilter.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this._lstPeakFilter.Name = "_lstPeakFilter";
+            this._lstPeakFilter.Size = new System.Drawing.Size(795, 29);
+            this._lstPeakFilter.TabIndex = 3;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.tableLayoutPanel6.SetColumnSpan(this.label9, 3);
+            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label9.Location = new System.Drawing.Point(8, 106);
+            this.label9.Margin = new System.Windows.Forms.Padding(8);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(8);
+            this.label9.Size = new System.Drawing.Size(154, 37);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Distance measure";
+            // 
+            // _btnPeakFilter
+            // 
+            this._btnPeakFilter.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnPeakFilter.Location = new System.Drawing.Point(835, 61);
+            this._btnPeakFilter.Margin = new System.Windows.Forms.Padding(8);
+            this._btnPeakFilter.Name = "_btnPeakFilter";
+            this._btnPeakFilter.Size = new System.Drawing.Size(29, 29);
+            this._btnPeakFilter.TabIndex = 4;
+            this._btnPeakFilter.Text = "";
+            this._btnPeakFilter.UseDefaultSize = true;
+            this._btnPeakFilter.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(24, 204);
+            this.label10.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(89, 21);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "parameters";
+            // 
+            // _btnDistanceParams
+            // 
+            this._btnDistanceParams.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
+            this._btnDistanceParams.Location = new System.Drawing.Point(835, 204);
+            this._btnDistanceParams.Margin = new System.Windows.Forms.Padding(8);
+            this._btnDistanceParams.Name = "_btnDistanceParams";
+            this._btnDistanceParams.Size = new System.Drawing.Size(29, 29);
+            this._btnDistanceParams.TabIndex = 4;
+            this._btnDistanceParams.Text = "";
+            this._btnDistanceParams.UseDefaultSize = true;
+            this._btnDistanceParams.UseVisualStyleBackColor = true;
+            // 
+            // _txtDistanceParams
+            // 
+            this._txtDistanceParams.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtDistanceParams.Location = new System.Drawing.Point(129, 204);
+            this._txtDistanceParams.Margin = new System.Windows.Forms.Padding(8);
+            this._txtDistanceParams.Name = "_txtDistanceParams";
+            this._txtDistanceParams.Size = new System.Drawing.Size(690, 29);
+            this._txtDistanceParams.TabIndex = 2;
+            // 
+            // _lstDistanceMeasure
+            // 
+            this.tableLayoutPanel6.SetColumnSpan(this._lstDistanceMeasure, 2);
+            this._lstDistanceMeasure.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstDistanceMeasure.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstDistanceMeasure.FormattingEnabled = true;
+            this._lstDistanceMeasure.Location = new System.Drawing.Point(24, 159);
+            this._lstDistanceMeasure.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this._lstDistanceMeasure.Name = "_lstDistanceMeasure";
+            this._lstDistanceMeasure.Size = new System.Drawing.Size(795, 29);
+            this._lstDistanceMeasure.TabIndex = 3;
+            // 
+            // _btnDistanceMeasure
+            // 
+            this._btnDistanceMeasure.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnDistanceMeasure.Location = new System.Drawing.Point(835, 159);
+            this._btnDistanceMeasure.Margin = new System.Windows.Forms.Padding(8);
+            this._btnDistanceMeasure.Name = "_btnDistanceMeasure";
+            this._btnDistanceMeasure.Size = new System.Drawing.Size(29, 29);
+            this._btnDistanceMeasure.TabIndex = 4;
+            this._btnDistanceMeasure.Text = "";
+            this._btnDistanceMeasure.UseDefaultSize = true;
+            this._btnDistanceMeasure.UseVisualStyleBackColor = true;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.tableLayoutPanel3);
-            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(880, 631);
+            this.tabPage3.Size = new System.Drawing.Size(880, 630);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Stopping conditions";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -441,7 +574,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(874, 625);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(874, 624);
             this.tableLayoutPanel3.TabIndex = 6;
             // 
             // label3
@@ -501,10 +634,10 @@
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.tableLayoutPanel4);
-            this.tabPage5.Location = new System.Drawing.Point(4, 29);
+            this.tabPage5.Location = new System.Drawing.Point(4, 30);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(880, 631);
+            this.tabPage5.Size = new System.Drawing.Size(880, 630);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Centre handling";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -523,7 +656,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(874, 625);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(874, 624);
             this.tableLayoutPanel4.TabIndex = 5;
             // 
             // label5
@@ -565,10 +698,10 @@
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.tableLayoutPanel5);
-            this.tabPage6.Location = new System.Drawing.Point(4, 29);
+            this.tabPage6.Location = new System.Drawing.Point(4, 30);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(880, 631);
+            this.tabPage6.Size = new System.Drawing.Size(880, 630);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Generate clusters";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -583,7 +716,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(874, 625);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(874, 624);
             this.tableLayoutPanel5.TabIndex = 2;
             // 
             // label6
@@ -596,140 +729,6 @@
             this.label6.Size = new System.Drawing.Size(688, 25);
             this.label6.TabIndex = 0;
             this.label6.Text = "Click OK to generate the clusters. Any existing clusters will be lost.";
-            // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.ColumnCount = 3;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel6.Controls.Add(this.label8, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this._lstPeakFilter, 0, 1);
-            this.tableLayoutPanel6.Controls.Add(this.label9, 0, 2);
-            this.tableLayoutPanel6.Controls.Add(this._btnPeakFilter, 2, 1);
-            this.tableLayoutPanel6.Controls.Add(this.label10, 0, 4);
-            this.tableLayoutPanel6.Controls.Add(this._btnDistanceParams, 2, 4);
-            this.tableLayoutPanel6.Controls.Add(this._txtDistanceParams, 1, 4);
-            this.tableLayoutPanel6.Controls.Add(this._lstDistanceMeasure, 0, 3);
-            this.tableLayoutPanel6.Controls.Add(this._btnDistanceMeasure, 2, 3);
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(4, 5);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 5;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(872, 620);
-            this.tableLayoutPanel6.TabIndex = 1;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.tableLayoutPanel6.SetColumnSpan(this.label8, 3);
-            this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label8.Location = new System.Drawing.Point(8, 8);
-            this.label8.Margin = new System.Windows.Forms.Padding(8);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(8);
-            this.label8.Size = new System.Drawing.Size(287, 37);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Shold insignificant peaks be filtered";
-            // 
-            // _lstPeakFilter
-            // 
-            this.tableLayoutPanel6.SetColumnSpan(this._lstPeakFilter, 2);
-            this._lstPeakFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lstPeakFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstPeakFilter.FormattingEnabled = true;
-            this._lstPeakFilter.Location = new System.Drawing.Point(24, 61);
-            this._lstPeakFilter.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
-            this._lstPeakFilter.Name = "_lstPeakFilter";
-            this._lstPeakFilter.Size = new System.Drawing.Size(795, 29);
-            this._lstPeakFilter.TabIndex = 3;
-            // 
-            // _btnPeakFilter
-            // 
-            this._btnPeakFilter.Image = ((System.Drawing.Image)(resources.GetObject("_btnPeakFilter.Image")));
-            this._btnPeakFilter.Location = new System.Drawing.Point(835, 61);
-            this._btnPeakFilter.Margin = new System.Windows.Forms.Padding(8);
-            this._btnPeakFilter.Name = "_btnPeakFilter";
-            this._btnPeakFilter.Size = new System.Drawing.Size(29, 29);
-            this._btnPeakFilter.TabIndex = 4;
-            this._btnPeakFilter.Text = "";
-            this._btnPeakFilter.UseDefaultSize = true;
-            this._btnPeakFilter.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.tableLayoutPanel6.SetColumnSpan(this.label9, 3);
-            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label9.Location = new System.Drawing.Point(8, 106);
-            this.label9.Margin = new System.Windows.Forms.Padding(8);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(8);
-            this.label9.Size = new System.Drawing.Size(154, 37);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "Distance measure";
-            // 
-            // _btnDistanceMeasure
-            // 
-            this._btnDistanceMeasure.Image = ((System.Drawing.Image)(resources.GetObject("_btnDistanceMeasure.Image")));
-            this._btnDistanceMeasure.Location = new System.Drawing.Point(835, 159);
-            this._btnDistanceMeasure.Margin = new System.Windows.Forms.Padding(8);
-            this._btnDistanceMeasure.Name = "_btnDistanceMeasure";
-            this._btnDistanceMeasure.Size = new System.Drawing.Size(29, 29);
-            this._btnDistanceMeasure.TabIndex = 4;
-            this._btnDistanceMeasure.Text = "";
-            this._btnDistanceMeasure.UseDefaultSize = true;
-            this._btnDistanceMeasure.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(24, 204);
-            this.label10.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(89, 21);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "parameters";
-            // 
-            // _txtDistanceParams
-            // 
-            this._txtDistanceParams.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtDistanceParams.Location = new System.Drawing.Point(129, 204);
-            this._txtDistanceParams.Margin = new System.Windows.Forms.Padding(8);
-            this._txtDistanceParams.Name = "_txtDistanceParams";
-            this._txtDistanceParams.Size = new System.Drawing.Size(690, 29);
-            this._txtDistanceParams.TabIndex = 2;
-            // 
-            // _btnDistanceParams
-            // 
-            this._btnDistanceParams.Image = ((System.Drawing.Image)(resources.GetObject("_btnDistanceParams.Image")));
-            this._btnDistanceParams.Location = new System.Drawing.Point(835, 204);
-            this._btnDistanceParams.Margin = new System.Windows.Forms.Padding(8);
-            this._btnDistanceParams.Name = "_btnDistanceParams";
-            this._btnDistanceParams.Size = new System.Drawing.Size(29, 29);
-            this._btnDistanceParams.TabIndex = 4;
-            this._btnDistanceParams.Text = "";
-            this._btnDistanceParams.UseDefaultSize = true;
-            this._btnDistanceParams.UseVisualStyleBackColor = true;
-            // 
-            // _lstDistanceMeasure
-            // 
-            this.tableLayoutPanel6.SetColumnSpan(this._lstDistanceMeasure, 2);
-            this._lstDistanceMeasure.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lstDistanceMeasure.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstDistanceMeasure.FormattingEnabled = true;
-            this._lstDistanceMeasure.Location = new System.Drawing.Point(24, 159);
-            this._lstDistanceMeasure.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
-            this._lstDistanceMeasure.Name = "_lstDistanceMeasure";
-            this._lstDistanceMeasure.Size = new System.Drawing.Size(795, 29);
-            this._lstDistanceMeasure.TabIndex = 3;
             // 
             // FrmClusterWizard
             // 
@@ -752,6 +751,8 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
@@ -760,8 +761,6 @@
             this.tableLayoutPanel4.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel6.ResumeLayout(false);
-            this.tableLayoutPanel6.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -14,16 +14,16 @@ namespace MetaboliteLevels.Forms.Editing
 {
     public partial class FrmEditExpGroup : Form
     {
-        private readonly GroupInfo _group;
+        private readonly GroupInfoBase _group;
         private Color _colour;
 
-        internal static bool Show(Form owner, GroupInfo group, bool readOnly)
+        internal static bool Show(Form owner, GroupInfoBase group, bool readOnly)
         {
             using (FrmEditExpGroup frm = new FrmEditExpGroup(group, readOnly))
             {
                 return UiControls.ShowWithDim(owner, frm) == DialogResult.OK;
             }
-        }
+        }     
 
         private FrmEditExpGroup()
         {
@@ -31,32 +31,34 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.SetIcon(this);
         }
 
-        private FrmEditExpGroup(GroupInfo group, bool readOnly)
+        private FrmEditExpGroup( GroupInfoBase group, bool readOnly)
             : this()
         {
-            this._group = group;
+            this._group = group;    
 
             this._txtTitle.Text = group.OverrideDisplayName;
             this._txtTitle.Watermark = group.DefaultDisplayName;
             this._txtAbvTitle.Text = group.OverrideShortName;
             this._txtAbvTitle.Watermark = group.DefaultShortName;
             this._txtComments.Text = group.Comment;
-            this._txtId.Text = group.Id.ToString();
+            this._txtId.Text = group.StringId.ToString();
+            this._txtDisplayOrder.Text = group.DisplayPriority.ToString();
             this._txtTimeRange.Text = group.Range.ToString();
             _colour = group.Colour;
 
             UpdateButtonImage();
 
+            bool exp = group is GroupInfo;
+            string txtGroup = exp ? "group" : "batch";
+            string txtGroupLong = exp ? "experimental group" : "batch";
+            string txtContext = readOnly ? "View" : "Edit";
+            _lblTimeRange.Text = exp ? "Time range" : "Acquisition range";
+            ctlTitleBar1.Text = $"{txtContext} {txtGroup}";
+            ctlTitleBar1.SubText = $"{txtContext} the details for the {txtGroupLong}";
+
             if (readOnly)
             {
-                ctlTitleBar1.Text = "View group";
-                ctlTitleBar1.SubText = "View the details for the experimental group";
-                UiControls.MakeReadOnly(this);
-            }
-            else
-            {
-                ctlTitleBar1.Text = "Edit Group";
-                ctlTitleBar1.SubText = "Enter the new details for the experimental group";
+                UiControls.MakeReadOnly( this );
             }
 
             UiControls.CompensateForVisualStyles(this);
@@ -69,15 +71,9 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void button3_Click(object sender, EventArgs e)
         {
-            using (ColorDialog cd = new ColorDialog())
+            if (UiControls.EditColor(ref _colour ))
             {
-                cd.Color = _colour;
-
-                if (UiControls.ShowWithDim(this, cd) == System.Windows.Forms.DialogResult.OK)
-                {
-                    _colour = cd.Color;
-                    UpdateButtonImage();
-                }
+                UpdateButtonImage();
             }
         }
 

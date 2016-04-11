@@ -11,25 +11,25 @@ namespace MetaboliteLevels.Controls
     internal class EnumComboBox<T>
         where T : struct
     {
-        private ComboBox _box;
+        public ComboBox ComboBox;
         private T? _fallback;
 
         public EnumComboBox(ComboBox box, T? def, T? fallback, bool useFirst)
         {
-            _box = box;
+            ComboBox = box;
             _fallback = fallback;
             EnumComboBox.Populate<T>(box, def, useFirst);
         }
 
         public bool HasSelection
         {
-            get { return _box.SelectedItem != null; }
+            get { return ComboBox.SelectedItem != null; }
         }
 
         public T SelectedItemOrDefault
         {
-            get { return EnumComboBox.Get(_box, _fallback); }
-            set { EnumComboBox.Set(_box, (T?)value); }
+            get { return EnumComboBox.Get(ComboBox, _fallback); }
+            set { EnumComboBox.Set(ComboBox, (T?)value); }
         }
 
         public T? SelectedItem
@@ -38,25 +38,25 @@ namespace MetaboliteLevels.Controls
             {
                 if (HasSelection)
                 {
-                    return EnumComboBox.Get(this._box, _fallback);
+                    return EnumComboBox.Get(this.ComboBox, _fallback);
                 }
                 else
                 {
                     return null;
                 }
             }
-            set { EnumComboBox.Set(_box, (T?)value); }
+            set { EnumComboBox.Set(ComboBox, (T?)value); }
         }
 
         public void ClearSelection()
         {
-            EnumComboBox.Set(_box, (T?)null);
+            EnumComboBox.Set(ComboBox, (T?)null);
         }
 
         public bool Visible
         {
-            get { return _box.Visible; }
-            set { _box.Visible = value; }
+            get { return ComboBox.Visible; }
+            set { ComboBox.Visible = value; }
         }
     }
 
@@ -103,13 +103,13 @@ namespace MetaboliteLevels.Controls
         }
 
         /// <summary>
-        /// Create an EnumComboBox.
+        /// Create an EnumComboBox with the contents of an enum.
         /// </summary>
         /// <typeparam name="T">Enum type</typeparam>
         /// <param name="comboBox">The combobox</param>
-        /// <param name="def">Initially selected value (if not a member of the enum then selects nothing)</param>
-        /// <param name="useFirst">If [def] is not in the list then use the first member of the enum.</param>
-        internal static void Populate<T>(ComboBox comboBox, T? def, bool useFirst) where T : struct
+        /// <param name="default">Initially selected value (if this is null or not a member of the enum then this selects the "none" selection)</param>
+        /// <param name="useFirstForNone">If [default] is not in the list then use the first member of the enum.</param>
+        internal static void Populate<T>(ComboBox comboBox, T? @default, bool useFirstForNone) where T : struct
         {
             comboBox.Items.Clear();
 
@@ -123,22 +123,39 @@ namespace MetaboliteLevels.Controls
                 }
             }
 
-            Set(comboBox, def, useFirst);
+            Set(comboBox, @default, useFirstForNone);
         }
 
-        internal static void Populate<T>(ComboBox comboBox, T def, bool useFirst) where T : struct
+        /// <summary>
+        /// Create an EnumComboBox with the contents of an enum.
+        /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="comboBox">The combobox</param>
+        /// <param name="default">Initially selected value (if this is null or not a member of the enum then this selects the "none" selection)</param>
+        internal static void Populate<T>(ComboBox comboBox, T @default) where T : struct
         {
-            Populate<T>(comboBox, (T?)def, useFirst);
+            Populate<T>(comboBox, (T?)@default, false);
+        }
+
+        /// <summary>
+        /// Create an EnumComboBox with the contents of an enum.
+        /// The default value is the "none" selection.
+        /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="comboBox">The combobox</param>                                                                                                
+        internal static void Populate<T>( ComboBox comboBox ) where T : struct
+        {
+            Populate<T>( comboBox, (T?)null, false );
         }
 
         /// <summary>
         /// Sets the value of an EnumComboBox.
         /// <typeparam name="T">Enum type</typeparam>
         /// <param name="comboBox">The combobox</param>
-        /// <param name="val">Selected value</param>
-        internal static void Set<T>(ComboBox comboBox, T? val) where T : struct
+        /// <param name="value">Selected value</param>
+        internal static void Set<T>(ComboBox comboBox, T? value) where T : struct
         {
-            Set(comboBox, val, false);
+            Set(comboBox, value, false);
         }
 
         internal static void Set<T>(ComboBox comboBox, T val, bool useFirst) where T : struct

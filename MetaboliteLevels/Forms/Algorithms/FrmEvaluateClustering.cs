@@ -606,7 +606,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// </summary>             
         private static ClusterEvaluationPointer RunTest(Core core, ClusterEvaluationPointer origPointer, ClusterEvaluationConfiguration test, ProgressReporter proggy, bool paranoid, int index, int of)
         {
-            UiControls.Assert(core.FileNames.Session != null);
+            UiControls.Assert(core.FileNames.Session != null, "Didn't expect the session filename to be null for cluster evaluation.");
 
             List<ClusterEvaluationParameterResult> results = new List<ClusterEvaluationParameterResult>();
 
@@ -794,7 +794,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return null;
             }
 
-            UiControls.Assert(!guidS.HasLookupTableChanged);
+            UiControls.Assert(!guidS.HasLookupTableChanged, "Didn't expect the GUID lookup table to change when loading data.");
             proggy.Leave();
 
             return result;

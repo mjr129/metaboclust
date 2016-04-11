@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmObservationFilterCondition));
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this._radAnd = new System.Windows.Forms.RadioButton();
@@ -72,6 +73,7 @@
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this._lblPreviewTitle = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -89,7 +91,7 @@
             this.checkBox1.TabIndex = 1;
             this.checkBox1.Text = "Negate";
             this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _radAnd
             // 
@@ -102,7 +104,7 @@
             this._radAnd.TabStop = true;
             this._radAnd.Text = "And";
             this._radAnd.UseVisualStyleBackColor = true;
-            this._radAnd.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._radAnd.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _radOr
             // 
@@ -115,7 +117,7 @@
             this._radOr.TabStop = true;
             this._radOr.Text = "Or";
             this._radOr.UseVisualStyleBackColor = true;
-            this._radOr.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._radOr.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // ctlTitleBar1
             // 
@@ -198,7 +200,7 @@
             this._chkRep.TabIndex = 0;
             this._chkRep.Text = "Replicate";
             this._chkRep.UseVisualStyleBackColor = true;
-            this._chkRep.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._chkRep.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _chkTime
             // 
@@ -210,7 +212,7 @@
             this._chkTime.TabIndex = 0;
             this._chkTime.Text = "Time";
             this._chkTime.UseVisualStyleBackColor = true;
-            this._chkTime.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._chkTime.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _chkGroup
             // 
@@ -222,7 +224,7 @@
             this._chkGroup.TabIndex = 0;
             this._chkGroup.Text = "Group";
             this._chkGroup.UseVisualStyleBackColor = true;
-            this._chkGroup.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._chkGroup.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _txtGroup
             // 
@@ -233,11 +235,11 @@
             this._txtGroup.Name = "_txtGroup";
             this._txtGroup.Size = new System.Drawing.Size(492, 30);
             this._txtGroup.TabIndex = 4;
-            this._txtGroup.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._txtGroup.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnGroup
             // 
-            this._btnGroup.Image = ((System.Drawing.Image)(resources.GetObject("_btnGroup.Image")));
+            this._btnGroup.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnGroup.Location = new System.Drawing.Point(915, 49);
             this._btnGroup.Margin = new System.Windows.Forms.Padding(8);
             this._btnGroup.Name = "_btnGroup";
@@ -254,11 +256,11 @@
             this._txtTime.Name = "_txtTime";
             this._txtTime.Size = new System.Drawing.Size(492, 30);
             this._txtTime.TabIndex = 6;
-            this._txtTime.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._txtTime.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnTime
             // 
-            this._btnTime.Image = ((System.Drawing.Image)(resources.GetObject("_btnTime.Image")));
+            this._btnTime.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnTime.Location = new System.Drawing.Point(915, 98);
             this._btnTime.Margin = new System.Windows.Forms.Padding(8);
             this._btnTime.Name = "_btnTime";
@@ -275,11 +277,11 @@
             this._txtRep.Name = "_txtRep";
             this._txtRep.Size = new System.Drawing.Size(492, 30);
             this._txtRep.TabIndex = 7;
-            this._txtRep.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._txtRep.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnRep
             // 
-            this._btnRep.Image = ((System.Drawing.Image)(resources.GetObject("_btnRep.Image")));
+            this._btnRep.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnRep.Location = new System.Drawing.Point(915, 147);
             this._btnRep.Margin = new System.Windows.Forms.Padding(8);
             this._btnRep.Name = "_btnRep";
@@ -311,7 +313,7 @@
             this._lstRep.Name = "_lstRep";
             this._lstRep.Size = new System.Drawing.Size(238, 29);
             this._lstRep.TabIndex = 1;
-            this._lstRep.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._lstRep.SelectedIndexChanged += new System.EventHandler(this.something_Changed);
             // 
             // _lstDay
             // 
@@ -323,7 +325,7 @@
             this._lstDay.Name = "_lstDay";
             this._lstDay.Size = new System.Drawing.Size(238, 29);
             this._lstDay.TabIndex = 1;
-            this._lstDay.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._lstDay.SelectedIndexChanged += new System.EventHandler(this.something_Changed);
             // 
             // _lstGroup
             // 
@@ -335,7 +337,7 @@
             this._lstGroup.Name = "_lstGroup";
             this._lstGroup.Size = new System.Drawing.Size(238, 29);
             this._lstGroup.TabIndex = 1;
-            this._lstGroup.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._lstGroup.SelectedIndexChanged += new System.EventHandler(this.something_Changed);
             // 
             // _chkBatch
             // 
@@ -347,7 +349,7 @@
             this._chkBatch.TabIndex = 0;
             this._chkBatch.Text = "Batch";
             this._chkBatch.UseVisualStyleBackColor = true;
-            this._chkBatch.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._chkBatch.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _lstBatch
             // 
@@ -359,7 +361,7 @@
             this._lstBatch.Name = "_lstBatch";
             this._lstBatch.Size = new System.Drawing.Size(238, 29);
             this._lstBatch.TabIndex = 1;
-            this._lstBatch.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._lstBatch.SelectedIndexChanged += new System.EventHandler(this.something_Changed);
             // 
             // _txtBatch
             // 
@@ -370,7 +372,7 @@
             this._txtBatch.Name = "_txtBatch";
             this._txtBatch.Size = new System.Drawing.Size(492, 30);
             this._txtBatch.TabIndex = 7;
-            this._txtBatch.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._txtBatch.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _chkAq
             // 
@@ -382,7 +384,7 @@
             this._chkAq.TabIndex = 0;
             this._chkAq.Text = "Acquisition";
             this._chkAq.UseVisualStyleBackColor = true;
-            this._chkAq.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._chkAq.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _lstAq
             // 
@@ -394,7 +396,7 @@
             this._lstAq.Name = "_lstAq";
             this._lstAq.Size = new System.Drawing.Size(238, 29);
             this._lstAq.TabIndex = 1;
-            this._lstAq.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._lstAq.SelectedIndexChanged += new System.EventHandler(this.something_Changed);
             // 
             // _txtAq
             // 
@@ -405,7 +407,7 @@
             this._txtAq.Name = "_txtAq";
             this._txtAq.Size = new System.Drawing.Size(492, 30);
             this._txtAq.TabIndex = 7;
-            this._txtAq.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._txtAq.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _chkObs
             // 
@@ -417,7 +419,7 @@
             this._chkObs.TabIndex = 0;
             this._chkObs.Text = "Observation";
             this._chkObs.UseVisualStyleBackColor = true;
-            this._chkObs.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._chkObs.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _lstObs
             // 
@@ -429,7 +431,7 @@
             this._lstObs.Name = "_lstObs";
             this._lstObs.Size = new System.Drawing.Size(238, 29);
             this._lstObs.TabIndex = 1;
-            this._lstObs.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._lstObs.SelectedIndexChanged += new System.EventHandler(this.something_Changed);
             // 
             // _txtObs
             // 
@@ -440,11 +442,11 @@
             this._txtObs.Name = "_txtObs";
             this._txtObs.Size = new System.Drawing.Size(492, 30);
             this._txtObs.TabIndex = 7;
-            this._txtObs.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._txtObs.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnBatch
             // 
-            this._btnBatch.Image = ((System.Drawing.Image)(resources.GetObject("_btnBatch.Image")));
+            this._btnBatch.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnBatch.Location = new System.Drawing.Point(915, 196);
             this._btnBatch.Margin = new System.Windows.Forms.Padding(8);
             this._btnBatch.Name = "_btnBatch";
@@ -454,7 +456,7 @@
             // 
             // _btnObs
             // 
-            this._btnObs.Image = ((System.Drawing.Image)(resources.GetObject("_btnObs.Image")));
+            this._btnObs.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnObs.Location = new System.Drawing.Point(915, 294);
             this._btnObs.Margin = new System.Windows.Forms.Padding(8);
             this._btnObs.Name = "_btnObs";
@@ -464,7 +466,7 @@
             // 
             // _btnAq
             // 
-            this._btnAq.Image = ((System.Drawing.Image)(resources.GetObject("_btnAq.Image")));
+            this._btnAq.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnAq.Location = new System.Drawing.Point(915, 245);
             this._btnAq.Margin = new System.Windows.Forms.Padding(8);
             this._btnAq.Name = "_btnAq";
@@ -482,7 +484,7 @@
             this._chkCond.TabIndex = 0;
             this._chkCond.Text = "Condition";
             this._chkCond.UseVisualStyleBackColor = true;
-            this._chkCond.CheckedChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._chkCond.CheckedChanged += new System.EventHandler(this.something_Changed);
             // 
             // _lstCond
             // 
@@ -494,7 +496,7 @@
             this._lstCond.Name = "_lstCond";
             this._lstCond.Size = new System.Drawing.Size(238, 29);
             this._lstCond.TabIndex = 1;
-            this._lstCond.SelectedIndexChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._lstCond.SelectedIndexChanged += new System.EventHandler(this.something_Changed);
             // 
             // _txtCond
             // 
@@ -505,11 +507,11 @@
             this._txtCond.Name = "_txtCond";
             this._txtCond.Size = new System.Drawing.Size(492, 30);
             this._txtCond.TabIndex = 7;
-            this._txtCond.TextChanged += new System.EventHandler(this._txtComp_TextChanged);
+            this._txtCond.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnCond
             // 
-            this._btnCond.Image = ((System.Drawing.Image)(resources.GetObject("_btnCond.Image")));
+            this._btnCond.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
             this._btnCond.Location = new System.Drawing.Point(915, 343);
             this._btnCond.Margin = new System.Windows.Forms.Padding(8);
             this._btnCond.Name = "_btnCond";
@@ -633,12 +635,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Red;
             this.label2.Location = new System.Drawing.Point(3, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 21);
+            this.label2.Size = new System.Drawing.Size(118, 21);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Errors";
+            this.label2.Text = "Incomplete rule";
             // 
             // FrmObservationFilterCondition
             // 
@@ -711,5 +712,6 @@
         private System.Windows.Forms.ComboBox _lstCond;
         private System.Windows.Forms.TextBox _txtCond;
         private System.Windows.Forms.Button _btnCond;
+        private Controls.CtlError _checker;
     }
 }

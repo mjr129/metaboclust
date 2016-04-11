@@ -988,7 +988,7 @@ namespace MetaboliteLevels.Viewers.Lists
             IVisualisable tag = _filteredList[e.ItemIndex];
             e.Item = CreateNewListViewItem(tag);
             DoUpdate(e.Item, tag);
-            UiControls.Assert(e.Item.SubItems.Count == _listView.Columns.Count);
+            UiControls.Assert(e.Item.SubItems.Count == _listView.Columns.Count, "ListViewItem doesn't have the expected number of subitems.");
         }
 
         /// <summary>
@@ -1018,7 +1018,7 @@ namespace MetaboliteLevels.Viewers.Lists
                     ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem();
 
                     string result = c.GetRowAsString(tag);
-                    Color color = c.GetColour(tag);
+                    Color color;
 
                     if (!tag.Enabled)
                     {
@@ -1028,6 +1028,7 @@ namespace MetaboliteLevels.Viewers.Lists
                     else
                     {
                         lvsi.Font = FontHelper.RegularFont;
+                        color = c.GetColour(tag);
                     }
 
                     lvsi.Text = result;

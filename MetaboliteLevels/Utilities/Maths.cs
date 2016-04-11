@@ -470,7 +470,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>
         public static double Qian(double[] X, double[] Y)
         {
-            UiControls.Assert(X.Length == Y.Length);
+            UiControls.Assert(X.Length == Y.Length, "Qian metric, X and Y lengths differ");
 
             X = Normalise(X);
             Y = Normalise(Y);

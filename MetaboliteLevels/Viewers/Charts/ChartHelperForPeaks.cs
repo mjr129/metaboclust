@@ -108,7 +108,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 legendEntry.Style.DrawPoints = new SolidBrush(Color.Black);
                 plot.LegendEntries.Add(legendEntry);
 
-                ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
+                ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionDisplayOrder);
                 AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.ByBatch, groupLegends, legendEntry);
 
                 // --- TREND (thick line) ---
@@ -122,7 +122,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                     raw = stylisedPeak.ForceTrend.ToArray();
                     obsOrder = ((IEnumerable<ObservationInfo>)stylisedPeak.ForceTrendOrder).ToArray();
-                    ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionOrder);
+                    ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionDisplayOrder);
 
                     AddToPlot(plot, peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2);
                 }
@@ -135,8 +135,8 @@ namespace MetaboliteLevels.Viewers.Charts
             // Sort data
             Tuple<double, double, double>[] amm = ArrayHelper.Zip(observations.Trend, observations.Min, observations.Max).ToArray(); // TODO: this is awful sorting
 
-            ArrayHelper.Sort(condOrder, amm, ConditionInfo.GroupTimeOrder);
-            ArrayHelper.Sort(obsOrder, raw, ObservationInfo.GroupTimeOrder);
+            ArrayHelper.Sort(condOrder, amm, ConditionInfo.GroupTimeDisplayOrder);
+            ArrayHelper.Sort(obsOrder, raw, ObservationInfo.GroupTimeDisplayOrder);
 
             double[] avg = amm.Select(z => z.Item1).ToArray();
             double[] min = amm.Select(z => z.Item2).ToArray();
@@ -191,7 +191,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     ConditionInfo[] forder = stylisedPeak.ForceTrendOrder.Cast<ConditionInfo>().ToArray();
                     double[] fdata = stylisedPeak.ForceTrend.ToArray();
 
-                    ArrayHelper.Sort(forder, fdata, ConditionInfo.GroupTimeOrder);
+                    ArrayHelper.Sort(forder, fdata, ConditionInfo.GroupTimeDisplayOrder);
 
                     AddToPlot(plot, peak, seriesNames, fdata, "Trend data", forder, opts, EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry);
                 }

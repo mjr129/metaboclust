@@ -5,7 +5,7 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace MetaboliteLevels.DataLoader
 {
-    class Matrix<T>
+    internal class Matrix<T>
     {
         public readonly string Title;
         public readonly string[] RowNames;
@@ -288,6 +288,26 @@ namespace MetaboliteLevels.DataLoader
             {
                 collection.Write(headers, ColNames[col], Data[row, col].ToString());
             }
+        }
+    }
+
+    internal static class MatrixExtensions
+    {
+        /// <summary>
+        /// (MJR) (EXTENSION) String as integer.
+        /// </summary>                                          
+        public static int AsInteger(this Matrix<string> self, int row, int col)
+        {
+            string v = self[row, col];
+
+            int r;
+
+            if (int.TryParse(v, out r))
+            {
+                return r;
+            }
+
+            throw new FormatException($"The string \"{v}\" at row {row} and column {col} in matrix \"{self.Title}\" is not convertable to integer.");
         }
     }
 }

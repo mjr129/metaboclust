@@ -28,17 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CtlWizard));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._lblOrder = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._btnShowHelp = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnBack = new MetaboliteLevels.Controls.CtlButton();
             this._btnNext = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
@@ -68,7 +67,7 @@
             this._lblOrder.BackColor = System.Drawing.Color.LightSteelBlue;
             this._lblOrder.Dock = System.Windows.Forms.DockStyle.Top;
             this._lblOrder.ForeColor = System.Drawing.Color.Black;
-            this._lblOrder.Location = new System.Drawing.Point(0, 66);
+            this._lblOrder.Location = new System.Drawing.Point(0, 56);
             this._lblOrder.Margin = new System.Windows.Forms.Padding(0);
             this._lblOrder.Name = "_lblOrder";
             this._lblOrder.Size = new System.Drawing.Size(756, 28);
@@ -96,15 +95,31 @@
             // panel1
             // 
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 94);
+            this.panel1.Location = new System.Drawing.Point(0, 84);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(756, 245);
+            this.panel1.Size = new System.Drawing.Size(756, 255);
             this.panel1.TabIndex = 21;
+            // 
+            // ctlTitleBar1
+            // 
+            this.ctlTitleBar1.AutoSize = true;
+            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
+            this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
+            this.ctlTitleBar1.Name = "ctlTitleBar1";
+            this.ctlTitleBar1.Size = new System.Drawing.Size(756, 56);
+            this.ctlTitleBar1.SubText = "";
+            this.ctlTitleBar1.TabIndex = 22;
+            this.ctlTitleBar1.Text = "Title";
+            this.ctlTitleBar1.WarningText = null;
             // 
             // _btnShowHelp
             // 
-            this._btnShowHelp.Image = ((System.Drawing.Image)(resources.GetObject("_btnShowHelp.Image")));
+            this._btnShowHelp.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this._btnShowHelp.Location = new System.Drawing.Point(4, 8);
             this._btnShowHelp.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnShowHelp.Name = "_btnShowHelp";
@@ -116,7 +131,7 @@
             // 
             // _btnCancel
             // 
-            this._btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("_btnCancel.Image")));
+            this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
             this._btnCancel.Location = new System.Drawing.Point(140, 8);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnCancel.Name = "_btnCancel";
@@ -129,7 +144,7 @@
             // 
             // _btnBack
             // 
-            this._btnBack.Image = ((System.Drawing.Image)(resources.GetObject("_btnBack.Image")));
+            this._btnBack.Image = global::MetaboliteLevels.Properties.Resources.MnuBack;
             this._btnBack.Location = new System.Drawing.Point(276, 8);
             this._btnBack.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnBack.Name = "_btnBack";
@@ -142,7 +157,7 @@
             // 
             // _btnNext
             // 
-            this._btnNext.Image = ((System.Drawing.Image)(resources.GetObject("_btnNext.Image")));
+            this._btnNext.Image = global::MetaboliteLevels.Properties.Resources.arrow_Forward_16xLG;
             this._btnNext.Location = new System.Drawing.Point(412, 8);
             this._btnNext.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnNext.Name = "_btnNext";
@@ -155,7 +170,7 @@
             // 
             // _btnOk
             // 
-            this._btnOk.Image = ((System.Drawing.Image)(resources.GetObject("_btnOk.Image")));
+            this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
             this._btnOk.Location = new System.Drawing.Point(548, 8);
             this._btnOk.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnOk.Name = "_btnOk";
@@ -165,22 +180,6 @@
             this._btnOk.UseDefaultSize = true;
             this._btnOk.UseVisualStyleBackColor = true;
             this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
-            // 
-            // ctlTitleBar1
-            // 
-            this.ctlTitleBar1.AutoSize = true;
-            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
-            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
-            this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(0);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
-            this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(756, 66);
-            this.ctlTitleBar1.SubText = "";
-            this.ctlTitleBar1.TabIndex = 22;
-            this.ctlTitleBar1.Text = "Title";
-            this.ctlTitleBar1.WarningText = null;
             // 
             // CtlWizard
             // 

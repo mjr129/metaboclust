@@ -41,7 +41,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
-                    UiControls.Assert(!readOnly);
+                    UiControls.Assert(!readOnly, "Didn't expect an OK result from a readonly dialogue.");
                     return frm.GetSelection();
                 }
 
@@ -133,20 +133,17 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ConfigurationClusterer GetSelection()
         {
-            ClustererBase sel = (ClustererBase)this._ecbMethod.SelectedItem;
+            
             EAlgoSourceMode src;
             PeakFilter peakFilter;
             ObsFilter obsFilter;
             string title;
 
-            errorProvider1.Clear();
+            _checker.Clear();
 
             // Selection
-            if (sel == null)
-            {
-                errorProvider1.SetError(_ecbMethod._box, "Select a method");
-                return null;
-            }
+            ClustererBase sel = (ClustererBase)this._ecbMethod.SelectedItem;
+            _checker.Check( _ecbMethod.ComboBox, sel != null, "A method is required." );    
 
             // Title / comments
             title = string.IsNullOrWhiteSpace(_txtName.Text) ? null : _txtName.Text;
@@ -154,13 +151,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Parameters
             object[] parameters;
 
-            if (sel.Parameters.HasCustomisableParams)
+            if (sel != null && sel.Parameters.HasCustomisableParams)
             {
-                if (!sel.Parameters.TryStringToParams(_core, _txtParams.Text, out parameters))
-                {
-                    errorProvider1.SetError(_txtParams, "Enter a set of valid parameters for your selected method");
-                    return null;
-                }
+                bool parametersValid = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out parameters );
+
+                _checker.Check( _txtParams, parametersValid, "Enter a set of valid parameters for your selected method" );
             }
             else
             {
@@ -168,46 +163,36 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             // Peak filter
-            if (_ecbPeakFilter.HasSelection)
+            peakFilter = _ecbPeakFilter.SelectedItem;
+            _checker.Check( _ecbPeakFilter.ComboBox, _ecbPeakFilter.HasSelection, "Select a valid peak filter" );
+
+            // Suppress metric
+            EClustererStatistics suppressMetric;
+
+            if (_cbStatistics.SelectionValid)
             {
-                peakFilter = _ecbPeakFilter.SelectedItem;
+                suppressMetric = (EClustererStatistics)_cbStatistics.SelectedItems.Cast<int>().Sum();
             }
             else
             {
-                errorProvider1.SetError(_ecbPeakFilter._box, "Select a valid observation filter");
-                return null;
+                _checker.Check( _cbStatistics.TextBox, false, "Select a valid set of statistics" );
+                suppressMetric = default( EClustererStatistics );
             }
-
-            // Suppress metric
-            if (!_cbStatistics.SelectionValid)
-            {
-                errorProvider1.SetError(_txtStatistics, "Select a valid set of statistics");
-                return null;
-            }
-
-            EClustererStatistics suppressMetric = (EClustererStatistics)_cbStatistics.SelectedItems.Cast<int>().Sum();
 
             // Distance metric
             MetricBase dMet;
 
             dMet = (MetricBase)_ecbMeasure.SelectedItem;
-
-            if (dMet == null)
-            {
-                errorProvider1.SetError(_ecbMeasure._box, "Specify a distance measure");
-                return null;
-            }
+            _checker.Check( _ecbMeasure.ComboBox, dMet != null, "Specify a distance measure" );
 
             // Distance metric params
             object[] dMetParams;
 
             if (dMet != null && dMet.Parameters.HasCustomisableParams)
             {
-                if (!dMet.Parameters.TryStringToParams(_core, _txtMeasureParams.Text, out dMetParams))
-                {
-                    errorProvider1.SetError(_txtMeasureParams, "Specify a set of valid parameters for your selected distance measure");
-                    return null;
-                }
+                bool parametersValid = !dMet.Parameters.TryStringToParams( _core, _txtMeasureParams.Text, out dMetParams );
+                
+                _checker.Check( _txtMeasureParams, parametersValid, "Specify a set of valid parameters for your selected distance measure");
             }
             else
             {
@@ -215,7 +200,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             // Obs source
-            if (!sel.SupportsObservationFilters)
+            if (sel == null || !sel.SupportsObservationFilters)
             {
                 src = EAlgoSourceMode.None;
             }
@@ -229,12 +214,12 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
             else
             {
-                errorProvider1.SetError(_radObs, "Select a valid input vector");
-                return null;
+                src = default( EAlgoSourceMode);
+                _checker.Check( _radObs, false, "Select a valid input vector");
             }
 
             // Vector A
-            if (!sel.SupportsObservationFilters)
+            if (sel==null || !sel.SupportsObservationFilters)
             {
                 obsFilter = null;
             }
@@ -244,7 +229,12 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
             else
             {
-                errorProvider1.SetError(_ecbObsFilter._box, "Select a valid observation filter");
+                _checker.Check( _ecbObsFilter.ComboBox, false, "Select a valid observation filter");
+                obsFilter = default( ObsFilter );
+            }
+
+            if (_checker.HasErrors)
+            {
                 return null;
             }
 
@@ -258,53 +248,34 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void CheckAndChange(object sender, EventArgs e)
         {
             ClustererBase stat = (ClustererBase)_ecbMethod.SelectedItem;
-            MetricBase met = _ecbMeasure.SelectedItem as MetricBase;
-            object[] tmp;
-
-            // Stat selected?
-            bool s = stat != null;
+            MetricBase met = _ecbMeasure.SelectedItem as MetricBase;  
 
             // Stat has params?
-            bool paramsVisible = s && stat.Parameters.HasCustomisableParams;
+            bool paramsVisible = stat != null && stat.Parameters.HasCustomisableParams;
             _txtParams.Enabled = paramsVisible;
             _btnEditParameters.Enabled = paramsVisible;
             _lblParams.Enabled = paramsVisible;
             _lblParams.Text = paramsVisible ? stat.Parameters.ParamNames() : "Parameters";
 
-            // Stat is valid?
-            bool peakFilterVisible = s && (!stat.Parameters.HasCustomisableParams || stat.Parameters.TryStringToParams(_core, _txtParams.Text, out tmp));
-            _lblPeaks.Enabled = peakFilterVisible;
-            _ecbPeakFilter.Enabled = peakFilterVisible;
-
-            // Performance
-            bool performanceVisible = peakFilterVisible;
-            _cbStatistics.Enabled = performanceVisible;
-
             // Distance
-            bool distanceVisible = performanceVisible;
-            _lblMeasure2.Enabled = distanceVisible;
-            _ecbMeasure.Enabled = distanceVisible;
-            linkLabel1.Visible = distanceVisible && !stat.SupportsDistanceMetrics;
+            linkLabel1.Visible = stat !=null && !stat.SupportsDistanceMetrics;
 
             // Distance params
-            bool distParamsVisible = performanceVisible && met != null && met.Parameters != null && met.Parameters.HasCustomisableParams;
+            bool distParamsVisible = met != null && met.Parameters != null && met.Parameters.HasCustomisableParams;
             _txtMeasureParams.Enabled = distParamsVisible;
             _btnEditDistanceParameters.Enabled = distParamsVisible;
             _lblMeasureParams.Enabled = distParamsVisible;
             _lblMeasureParams.Text = distParamsVisible ? met.Parameters.ParamNames() : "Parameters";
 
             // Input vector
-            bool obsFilterVisible = peakFilterVisible && stat.SupportsObservationFilters;
+            bool obsFilterVisible = stat != null && stat.SupportsObservationFilters;
             _lblApply.Visible = obsFilterVisible;
             _radObs.Enabled = obsFilterVisible;
             _radTrend.Enabled = obsFilterVisible;
-            _btnTrendHelp.Enabled = obsFilterVisible;
-
-            // Obs filter
-            bool u = obsFilterVisible && (_radObs.Checked || _radTrend.Checked);
-            _lblAVec.Enabled = u;
-            _ecbObsFilter.Enabled = u;
-            _chkSepGroups.Enabled = u;
+            _btnTrendHelp.Enabled = obsFilterVisible;                           
+            _lblAVec.Enabled = obsFilterVisible;
+            _ecbObsFilter.Enabled = obsFilterVisible;
+            _chkSepGroups.Enabled = obsFilterVisible;
 
             // Is OK?
             Check(null, null);

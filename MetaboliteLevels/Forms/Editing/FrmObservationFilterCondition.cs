@@ -17,15 +17,15 @@ namespace MetaboliteLevels.Forms.Editing
 {
     public partial class FrmObservationFilterCondition : Form
     {
-        Core _core;
-        private bool _isInitialised;
-        private ConditionBox<int> _cbAq;
-        private ConditionBox<BatchInfo> _cbBatch;
-        private ConditionBox<ConditionInfo> _cbCond;
-        private ConditionBox<GroupInfo> _cbGroup;
-        private ConditionBox<ObservationInfo> _cbObs;
-        private ConditionBox<int> _cbRep;
-        private ConditionBox<int> _cbTime;
+        Core                                          _core;
+        private bool                                  _isInitialised;
+        private ConditionBox<int>                     _cbAq;
+        private ConditionBox<BatchInfo>               _cbBatch;
+        private ConditionBox<ConditionInfo>           _cbCond;
+        private ConditionBox<GroupInfo>               _cbGroup;
+        private ConditionBox<ObservationInfo>         _cbObs;
+        private ConditionBox<int>                     _cbRep;
+        private ConditionBox<int>                     _cbTime;
         private EnumComboBox<Filter.EElementOperator> _lsoAq;
         private EnumComboBox<Filter.EElementOperator> _lsoBatch;
         private EnumComboBox<Filter.EElementOperator> _lsoCond;
@@ -33,7 +33,7 @@ namespace MetaboliteLevels.Forms.Editing
         private EnumComboBox<Filter.EElementOperator> _lsoObs;
         private EnumComboBox<Filter.EElementOperator> _lsoRep;
         private EnumComboBox<Filter.EElementOperator> _lsoTime;
-        private readonly bool _readOnly;                                      
+        private readonly bool                         _readOnly;                                      
 
         /// <summary>
         /// Shows the form.
@@ -44,10 +44,9 @@ namespace MetaboliteLevels.Forms.Editing
             using (FrmObservationFilterCondition frm = new FrmObservationFilterCondition(owner, core, defaults, readOnly))
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
-                {
-                    string err;
-                    var r = frm.GetSelection(out err);
-                    UiControls.Assert(r != null, err);
+                {                 
+                    var r = frm.GetSelection();
+                    UiControls.Assert(r != null, "Expected selection to be present if dialogue returned OK.");
 
                     return r;
                 }
@@ -75,98 +74,91 @@ namespace MetaboliteLevels.Forms.Editing
         private FrmObservationFilterCondition(Form owner, Core core, ObsFilter.Condition defaults, bool readOnly)
             : this()
         {
-            this._core = core;
+            this._core     = core;
             this._readOnly = readOnly;
 
             ctlTitleBar1.Text = readOnly ? "View Condition" : "Edit Condition";
 
             // Setup boxes
-            this._cbAq = DataSet.ForAcquisitions(core).CreateConditionBox(this._txtAq, this._btnAq);
-            this._cbBatch = DataSet.ForBatches(core).CreateConditionBox(this._txtBatch, this._btnBatch);
-            this._cbCond = DataSet.ForConditions(core).CreateConditionBox(this._txtCond, this._btnCond); 
-            this._cbGroup = DataSet.ForGroups(core).CreateConditionBox(this._txtGroup, this._btnGroup);
-            this._cbObs = DataSet.ForObservations(core).CreateConditionBox(this._txtObs, this._btnObs);
-            this._cbRep = DataSet.ForReplicates(core).CreateConditionBox(this._txtRep, this._btnRep);
-            this._cbTime = DataSet.ForTimes(core).CreateConditionBox(this._txtTime, this._btnTime);
+            this._cbAq    = DataSet.ForAcquisitions(core).CreateConditionBox(this._txtAq   , this._btnAq);
+            this._cbBatch = DataSet.ForBatches     (core).CreateConditionBox(this._txtBatch, this._btnBatch);
+            this._cbCond  = DataSet.ForConditions  (core).CreateConditionBox(this._txtCond , this._btnCond); 
+            this._cbGroup = DataSet.ForGroups      (core).CreateConditionBox(this._txtGroup, this._btnGroup);
+            this._cbObs   = DataSet.ForObservations(core).CreateConditionBox(this._txtObs  , this._btnObs);
+            this._cbRep   = DataSet.ForReplicates  (core).CreateConditionBox(this._txtRep  , this._btnRep);
+            this._cbTime  = DataSet.ForTimes       (core).CreateConditionBox(this._txtTime , this._btnTime);
 
-            _lsoAq = EnumComboBox.Create(this._lstAq, Filter.EElementOperator.Is);
-            _lsoBatch = EnumComboBox.Create(this._lstBatch, Filter.EElementOperator.Is);
-            _lsoCond = EnumComboBox.Create(this._lstCond, Filter.EElementOperator.Is);    
-            _lsoGroup = EnumComboBox.Create(this._lstGroup, Filter.EElementOperator.Is);
-            _lsoObs = EnumComboBox.Create(this._lstObs, Filter.EElementOperator.Is);
-            _lsoRep = EnumComboBox.Create(this._lstRep, Filter.EElementOperator.Is);
-            _lsoTime = EnumComboBox.Create(this._lstDay, Filter.EElementOperator.Is);
+            _lsoAq    = EnumComboBox.Create   (this._lstAq      , Filter.EElementOperator.Is);
+            _lsoBatch = EnumComboBox.Create   (this._lstBatch   , Filter.EElementOperator.Is);
+            _lsoCond  = EnumComboBox.Create   (this._lstCond    , Filter.EElementOperator.Is);    
+            _lsoGroup = EnumComboBox.Create   (this._lstGroup   , Filter.EElementOperator.Is);
+            _lsoObs   = EnumComboBox.Create   (this._lstObs     , Filter.EElementOperator.Is);
+            _lsoRep   = EnumComboBox.Create   (this._lstRep     , Filter.EElementOperator.Is);
+            _lsoTime  = EnumComboBox.Create   (this._lstDay     , Filter.EElementOperator.Is);
 
             _isInitialised = true;
 
             if (defaults == null)
             {
                 checkBox1.Checked = false;
-                _radAnd.Checked = true;
-                _txtComp_TextChanged(null, null);
+                _radAnd.Checked   = true;
+                something_Changed(null, null);
             }
             else
             {
                 // Not
                 checkBox1.Checked = defaults.Negate;
-                _radAnd.Checked = defaults.CombiningOperator == Filter.ELogicOperator.And;
-                _radOr.Checked = defaults.CombiningOperator == Filter.ELogicOperator.Or;
+                _radAnd.Checked   = defaults.CombiningOperator == Filter.ELogicOperator.And;
+                _radOr.Checked    = defaults.CombiningOperator == Filter.ELogicOperator.Or;
 
-                if (defaults is ObsFilter.ConditionAcquisition)
+                if (defaults      is ObsFilter.ConditionAcquisition)
                 {
-                    var def = (ObsFilter.ConditionAcquisition)defaults;
-
-                    _chkAq.Checked = true;
-                    _lsoAq.SelectedItem = def.Operator;
-                    _cbAq.SelectedItems = def.Possibilities;
+                    var def                = (ObsFilter.ConditionAcquisition)defaults;
+                    _chkAq.Checked         = true;
+                    _lsoAq.SelectedItem    = def.Operator;
+                    _cbAq.SelectedItems    = def.Possibilities;
                 }
                 else if (defaults is ObsFilter.ConditionBatch)
                 {
-                    var def = (ObsFilter.ConditionBatch)defaults;
-
-                    _chkBatch.Checked = true;
+                    var def                = (ObsFilter.ConditionBatch)defaults;
+                    _chkBatch.Checked      = true;
                     _lsoBatch.SelectedItem = def.Operator;
                     _cbBatch.SelectedItems = def.Possibilities;
                 }
                 else if (defaults is ObsFilter.ConditionGroup)
                 {
-                    var def = (ObsFilter.ConditionGroup)defaults;
-
-                    _chkGroup.Checked = true;
+                    var def                = (ObsFilter.ConditionGroup)defaults;
+                    _chkGroup.Checked      = true;
                     _lsoGroup.SelectedItem = def.Operator;
                     _cbGroup.SelectedItems = def.Possibilities;
                 }
                 else if (defaults is ObsFilter.ConditionRep)
                 {
-                    var def = (ObsFilter.ConditionRep)defaults;
-
-                    _chkRep.Checked = true;
-                    _lsoRep.SelectedItem = def.Operator;
-                    _cbRep.SelectedItems = def.Possibilities;
+                    var def                = (ObsFilter.ConditionRep)defaults;
+                    _chkRep.Checked        = true;
+                    _lsoRep.SelectedItem   = def.Operator;
+                    _cbRep.SelectedItems   = def.Possibilities;
                 }
                 else if (defaults is ObsFilter.ConditionTime)
                 {
-                    var def = (ObsFilter.ConditionTime)defaults;
-
-                    _chkTime.Checked = true;
-                    _lsoTime.SelectedItem = def.Operator;
-                    _cbTime.SelectedItems = def.Possibilities;
+                    var def                = (ObsFilter.ConditionTime)defaults;
+                    _chkTime.Checked       = true;
+                    _lsoTime.SelectedItem  = def.Operator;
+                    _cbTime.SelectedItems  = def.Possibilities;
                 }
                 else if (defaults is ObsFilter.ConditionObservation)
                 {
-                    var def = (ObsFilter.ConditionObservation)defaults;
-
-                    _chkObs.Checked = true;
-                    _lsoObs.SelectedItem = def.Operator;
-                    _cbObs.SelectedItems = def.Possibilities;
+                    var def                = (ObsFilter.ConditionObservation)defaults;
+                    _chkObs.Checked        = true;
+                    _lsoObs.SelectedItem   = def.Operator;
+                    _cbObs.SelectedItems   = def.Possibilities;
                 }
                 else if (defaults is ObsFilter.ConditionCondition)
                 {
-                    var def = (ObsFilter.ConditionCondition)defaults;
-
-                    _chkCond.Checked = true;
-                    _lsoCond.SelectedItem = def.Operator;
-                    _cbCond.SelectedItems = def.Possibilities;
+                    var def                = (ObsFilter.ConditionCondition)defaults;
+                    _chkCond.Checked       = true;
+                    _lsoCond.SelectedItem  = def.Operator;
+                    _cbCond.SelectedItems  = def.Possibilities;
                 }     
                 else
                 {
@@ -180,30 +172,43 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private ObsFilter.Condition GetSelection(out string error)
+        private ObsFilter.Condition GetSelection()
         {
+            _checker.Clear();
+
             if (!_radAnd.Checked && !_radOr.Checked)
             {
-                error = "Select AND or OR";
-                return null;
-            }
+                _checker.Check( _radAnd, false, "Select AND or OR" );
+                _checker.Check( _radOr, false, "Select AND or OR" );  
+            }    
 
             ObsFilter.Condition result;
 
-            if (TryInvoke(this._chkAq, _cbAq, _lsoAq, typeof(ObsFilter.ConditionAcquisition), out result)
-                || TryInvoke(this._chkBatch, _cbBatch, _lsoBatch, typeof(ObsFilter.ConditionBatch), out result)
-                || TryInvoke(this._chkCond, _cbCond, _lsoCond, typeof(ObsFilter.ConditionCondition), out result)
-                || TryInvoke(this._chkGroup, _cbGroup, _lsoGroup, typeof(ObsFilter.ConditionGroup), out result)
-                || TryInvoke(this._chkObs, _cbObs, _lsoObs, typeof(ObsFilter.ConditionObservation), out result)
-                || TryInvoke(this._chkRep, _cbRep, _lsoRep, typeof(ObsFilter.ConditionRep), out result)
-                || TryInvoke(this._chkTime, _cbTime, _lsoTime, typeof(ObsFilter.ConditionTime), out result))
+            if (!( TryInvoke(this._chkAq   , _cbAq,    _lsoAq,    typeof(ObsFilter.ConditionAcquisition), out result)
+                || TryInvoke(this._chkBatch, _cbBatch, _lsoBatch, typeof(ObsFilter.ConditionBatch),       out result)
+                || TryInvoke(this._chkCond , _cbCond,  _lsoCond,  typeof(ObsFilter.ConditionCondition),   out result)
+                || TryInvoke(this._chkGroup, _cbGroup, _lsoGroup, typeof(ObsFilter.ConditionGroup),       out result)
+                || TryInvoke(this._chkObs  , _cbObs,   _lsoObs,   typeof(ObsFilter.ConditionObservation), out result)
+                || TryInvoke(this._chkRep  , _cbRep,   _lsoRep,   typeof(ObsFilter.ConditionRep),         out result)
+                || TryInvoke(this._chkTime , _cbTime,  _lsoTime,  typeof(ObsFilter.ConditionTime),        out result)))
             {
-                error = null;
-                return result;
+                _checker.Check( _chkAq   , false, "Select a condition" );
+                _checker.Check( _chkBatch, false, "Select a condition" );
+                _checker.Check( _chkCond , false, "Select a condition" );
+                _checker.Check( _chkGroup, false, "Select a condition" );
+                _checker.Check( _chkObs  , false, "Select a condition" );
+                _checker.Check( _chkRep  , false, "Select a condition" );
+                _checker.Check( _chkTime , false, "Select a condition" );
+
+                return null;
             }
 
-            error = "Select the conditions";
-            return null;
+            if (_checker.HasErrors)
+            {
+                return null;
+            }
+                                            
+            return result;
         }
 
         private bool TryInvoke<T>(RadioButton radioButton, ConditionBox<T> conditionBox, EnumComboBox<Filter.EElementOperator> enumBox, Type type, out ObsFilter.Condition result)
@@ -220,15 +225,13 @@ namespace MetaboliteLevels.Forms.Editing
 
             var sel = conditionBox.GetSelection();
 
-            if (sel == null)
-            {
-                result = null;
-                return true;
-            }
+            _checker.Check( conditionBox.TextBox, conditionBox.SelectionValid, "Select a condition" );
 
             var en = enumBox.SelectedItem;
 
-            if (!en.HasValue)
+            _checker.Check( enumBox.ComboBox, enumBox.HasSelection, "Select a condition" );
+
+            if (sel==null || !en.HasValue)
             {
                 result = null;
                 return true;
@@ -239,26 +242,24 @@ namespace MetaboliteLevels.Forms.Editing
             return true;
         }  
 
-        private void _txtComp_TextChanged(object sender, EventArgs e)
+        private void something_Changed(object sender, EventArgs e)
         {
             if (!_isInitialised)
             {
                 return;
             }
-
-            string err;
-            var sel = GetSelection(out err);
-            label2.Text = err;
-            label2.Visible = !string.IsNullOrEmpty(err);
+                       
+            var sel = GetSelection();
+            label2.Visible = sel == null;
             _btnOk.Enabled = sel != null;
 
-            _lsoAq.Visible = _cbAq.Visible = _chkAq.Checked;
+            _lsoAq.Visible    = _cbAq.Visible    = _chkAq.Checked;
             _lsoBatch.Visible = _cbBatch.Visible = _chkBatch.Checked;
-            _lsoCond.Visible = _cbCond.Visible = _chkCond.Checked;
+            _lsoCond.Visible  = _cbCond.Visible  = _chkCond.Checked;
             _lsoGroup.Visible = _cbGroup.Visible = _chkGroup.Checked;
-            _lsoObs.Visible = _cbObs.Visible = _chkObs.Checked;
-            _lsoRep.Visible = _cbRep.Visible = _chkRep.Checked;
-            _lsoTime.Visible = _cbTime.Visible = _chkTime.Checked;     
+            _lsoObs.Visible   = _cbObs.Visible   = _chkObs.Checked;
+            _lsoRep.Visible   = _cbRep.Visible   = _chkRep.Checked;
+            _lsoTime.Visible  = _cbTime.Visible  = _chkTime.Checked;     
 
             UpdatePreview(sel);
         }
@@ -269,12 +270,12 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 int passed = _core.Observations.Count(r.Preview);
                 int failed = _core.Observations.Count - passed;
-                _lblSigPeaks.Text = "True: " + passed;
-                _lblInsigPeaks.Text = "False: " + failed;
-                _lblSigPeaks.ForeColor = (failed < passed) ? Color.Blue : ForeColor;
+                _lblSigPeaks.Text        = "True: " + passed;
+                _lblInsigPeaks.Text      = "False: " + failed;
+                _lblSigPeaks.ForeColor   = (failed < passed) ? Color.Blue : ForeColor;
                 _lblInsigPeaks.ForeColor = (failed > passed) ? Color.Blue : ForeColor;
-                _lblSigPeaks.Visible = true;
-                _lblInsigPeaks.Visible = true;
+                _lblSigPeaks.Visible     = true;
+                _lblInsigPeaks.Visible   = true;
             }
             else
             {

@@ -77,9 +77,9 @@ namespace MetaboliteLevels.Utilities
                 Color.FromArgb(0,0,255),
             };
 
-        public static bool IsValid( this double d )
+        public static bool IsValid(this double d)
         {
-            return !double.IsNaN( d ) && !double.IsInfinity( d );
+            return !double.IsNaN(d) && !double.IsInfinity(d);
         }
 
         /// <summary>
@@ -101,6 +101,22 @@ namespace MetaboliteLevels.Utilities
         {
             self.SetError(control, text);
             self.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
+        }
+
+        /// <summary>
+        /// (MJR) Conditionally shows an error provider on a control, using the application default position.
+        /// </summary>                                                                         
+        public static void ShowError(this ErrorProvider self, Control control, bool condition, string text)
+        {
+            if (!condition)
+            {
+                self.SetError(control, text);
+                self.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
+            }
+            else
+            {
+                self.SetError(control, null);
+            }
         }
 
         /// <summary>
@@ -274,6 +290,36 @@ namespace MetaboliteLevels.Utilities
             return colour.R.ToString() + ", " + colour.G + ", " + colour.B;
         }
 
+        internal static bool EditColor( object sender )
+        {
+            Control c = (Control)sender;
+            Color colour = c.BackColor;
+            
+            if (EditColor( ref colour ))
+            {
+                c.BackColor =colour;
+                return true;
+            }
+
+            return false;
+        }
+
+        internal static bool EditColor(ref Color colour)
+        {            
+            using (ColorDialog cd = new ColorDialog())
+            {
+                cd.Color = colour;
+
+                if (cd.ShowDialog() == DialogResult.OK)
+                {
+                    colour = cd.Color;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Sets the properties of an object to their [DefaultAttribute] value.
         /// </summary>                                                         
@@ -412,16 +458,16 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Asserts the condition is true (regardless of build).
         /// </summary>                             
-        internal static void Assert(bool p, string message = null)
+        internal static void Assert(bool condition, string message)
         {
-            if (!p)
+            if (!condition)
             {
                 if (System.Diagnostics.Debugger.IsAttached)
                 {
                     System.Diagnostics.Debugger.Break();
                 }
 
-                throw new Exception("Assert failed: " + (message ?? "No details provided"));
+                throw new InvalidOperationException("Assert failed: " + (message ?? "No details provided"));
             }
         }
 

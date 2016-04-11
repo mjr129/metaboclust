@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFilter));
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.button2 = new MetaboliteLevels.Controls.CtlButton();
@@ -36,6 +37,7 @@
             this._txtNumComp = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
             this.flowLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -169,5 +171,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TextBox _txtNumComp;
         private System.Windows.Forms.ComboBox _lstNumComp;
+        private Controls.CtlError _checker;
     }
 }

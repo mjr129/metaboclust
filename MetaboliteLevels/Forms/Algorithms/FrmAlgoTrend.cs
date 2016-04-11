@@ -95,26 +95,29 @@ namespace MetaboliteLevels.Forms.Algorithms
             string title;
             object[] args;
 
+            _checker.Clear();
+
             // Selection
-            if (sel == null)
-            {
-                return null;
-            }
+            _checker.Check( _ecbMethod.ComboBox, sel != null, "Select a method" );
 
             // Title / comments
             title = string.IsNullOrWhiteSpace(_txtName.Text) ? null : _txtName.Text;
 
             // Parameters
-            if (sel.Parameters.HasCustomisableParams)
+            if (sel !=null && sel.Parameters.HasCustomisableParams)
             {
-                if (!sel.Parameters.TryStringToParams(_core, _txtParams.Text, out args))
-                {
-                    return null;
-                }
+                bool parametersValid = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out args );
+
+                _checker.Check( _txtParams, parametersValid, "Specify valid parameters for the method" );
             }
             else
             {
                 args = null;
+            }
+
+            if (_checker.HasErrors)
+            {
+                return null;
             }
 
             return new ConfigurationTrend(title, _comments, sel.Id, new ArgsTrend(args));

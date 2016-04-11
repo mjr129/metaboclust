@@ -41,5 +41,11 @@ namespace MetaboliteLevels.Forms.Editing
             core.FileNames.ShortTitle = textBox2.Text;
             core.FileNames.Comments = textBox3.Text;
         }
+
+        private void textBox1_TextChanged( object sender, EventArgs e )
+        {
+            _checker.Check( textBox1, textBox1.TextLength != 0, "A title for the session is required." );
+            button1.Enabled = _checker.NoErrors;
+        }
     }
 }

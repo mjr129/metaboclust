@@ -19,7 +19,8 @@ namespace MetaboliteLevels.Viewers.Lists
         None,
         Visible,
         Meta,
-        Statistic
+        Statistic,
+        Advanced = None,
     }
 
     enum EListDisplayMode
@@ -158,7 +159,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 ITitlable v = (ITitlable)result;
 
                 return v.DisplayName;
-            }
+            }          
 
             if (result is double)
             {
@@ -207,6 +208,7 @@ namespace MetaboliteLevels.Viewers.Lists
             : base(name, special, description)
         {
             Provider = provider;
+            Colour = colour;
         }
 
         public override object GetRow(IVisualisable line)

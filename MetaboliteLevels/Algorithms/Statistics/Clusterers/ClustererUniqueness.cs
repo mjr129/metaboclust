@@ -47,8 +47,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 
                 List<Assignment> assignments = new List<Assignment>(peak.Assignments.List
                                                          .Where(z => config.Results.Clusters.Contains(z.Cluster))
-                                                         .OrderBy(z => z.Vector.Group.Id));
-                //.Select(z => new RefAss(z.Vector.Group, z.Cluster)));
+                                                         .OrderBy(z => z.Vector.Group.Order));
 
                 int index = FindMatch(uniqueCombinations, assignments);
                 Cluster pat;
@@ -120,7 +119,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             for (int index = 0; index < uniqueCombinations.Count; index++)
             {
                 var list = uniqueCombinations[index];
-                UiControls.Assert(list.Count == pats.Count);
+                UiControls.Assert(list.Count == pats.Count, "FindMatch requires the lists to be of equal length.");
 
                 if (IsEqual(pats, list))
                 {
@@ -141,7 +140,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 Assignment v = pats[index];
                 Assignment t = list[index];
 
-                UiControls.Assert(v.Vector.Group == t.Vector.Group);
+                UiControls.Assert(v.Vector.Group == t.Vector.Group, "IsEqual expects the vector groups to match.");
 
                 if (t.Cluster != v.Cluster)
                 {

@@ -17,7 +17,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 frm.ctlTitleBar1.SubText += " for " + colName;
 
-                EnumComboBox.Populate(frm._lstNumComp, op, true);
+                EnumComboBox.Populate(frm._lstNumComp, op);
                 frm._txtNumComp.Text = text;
 
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
@@ -45,7 +45,8 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void something_Changed(object sender, EventArgs e)
         {
-            bool ok;
+            _checker.Clear();
+                     
             string txt = _txtNumComp.Text;
             double tmp;
 
@@ -57,21 +58,24 @@ namespace MetaboliteLevels.Forms.Editing
                 case ListVieweHelper.EOperator.MoreThan:
                 case ListVieweHelper.EOperator.MoreThanEq:
                 case ListVieweHelper.EOperator.NotEqualTo:
-                    ok = txt.Length != 0 && double.TryParse(txt, out tmp);
+                    _txtNumComp.Enabled = true;
+                    _checker.Check( _txtNumComp, txt.Length != 0 && double.TryParse( txt, out tmp ), "Please enter a valid number." );
                     break;
 
                 case ListVieweHelper.EOperator.Regex:
                 case ListVieweHelper.EOperator.TextContains:
                 case ListVieweHelper.EOperator.TextDoesNotContain:
-                    ok = txt.Length != 0;
+                    _txtNumComp.Enabled = true;
+                    _checker.Check( _txtNumComp, txt.Length != 0, "The field cannot be empty." );
                     break;
 
                 default:
-                    ok = false;
+                    _txtNumComp.Enabled = false;
+                    _checker.Check( _lstNumComp, false, "Select an operator" );
                     break;
             }
 
-            button1.Enabled = ok;
+            button1.Enabled = _checker.NoErrors;
         }
     }
 }

@@ -196,7 +196,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 // Okay! Now plot the values pertinent to this peak & type
                 if (vec.Conditions != null)
                 {
-                    IEnumerable<int> order = vec.Conditions.WhichOrder(ConditionInfo.GroupTimeOrder);
+                    IEnumerable<int> order = vec.Conditions.WhichOrder(ConditionInfo.GroupTimeDisplayOrder);
 
                     foreach (int index in order)
                     {
@@ -238,7 +238,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
                 else if (vec.Observations != null)
                 {
-                    IEnumerable<int> order = vec.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateOrder);
+                    IEnumerable<int> order = vec.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateDisplayOrder);
 
                     foreach (int index in order)
                     {
@@ -307,7 +307,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                     if (templateAssignment.Vector.Conditions != null)
                     {
-                        IEnumerable<int> order = templateAssignment.Vector.Conditions.WhichOrder(ConditionInfo.GroupTimeOrder);
+                        IEnumerable<int> order = templateAssignment.Vector.Conditions.WhichOrder(ConditionInfo.GroupTimeDisplayOrder);
 
                         foreach (int index in order)
                         {
@@ -328,7 +328,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     }
                     else
                     {
-                        IEnumerable<int> order = templateAssignment.Vector.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateOrder);
+                        IEnumerable<int> order = templateAssignment.Vector.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateDisplayOrder);
 
                         foreach (int index in order)
                         {

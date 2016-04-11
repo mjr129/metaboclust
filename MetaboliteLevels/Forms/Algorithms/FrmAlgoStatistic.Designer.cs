@@ -50,6 +50,8 @@
             this._btnCancel = new System.Windows.Forms.Button();
             this._btnOk = new System.Windows.Forms.Button();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this._btnObs = new System.Windows.Forms.Button();
+            this._btnTrend = new System.Windows.Forms.Button();
             this._btnNewStatistic = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this._txtName = new System.Windows.Forms.TextBox();
@@ -72,8 +74,7 @@
             this._btnEditParameters = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._btnTrend = new System.Windows.Forms.Button();
-            this._btnObs = new System.Windows.Forms.Button();
+            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreivew.SuspendLayout();
             this._flpPreviewButtons.SuspendLayout();
@@ -412,9 +413,32 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(180, 88);
             this.flowLayoutPanel2.TabIndex = 13;
             // 
+            // _btnObs
+            // 
+            this.flowLayoutPanel2.SetFlowBreak(this._btnObs, true);
+            this._btnObs.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnObs.Location = new System.Drawing.Point(144, 8);
+            this._btnObs.Margin = new System.Windows.Forms.Padding(8);
+            this._btnObs.Name = "_btnObs";
+            this._btnObs.Size = new System.Drawing.Size(28, 28);
+            this._btnObs.TabIndex = 16;
+            this._btnObs.UseVisualStyleBackColor = true;
+            this._btnObs.Click += new System.EventHandler(this._btnObs_Click);
+            // 
+            // _btnTrend
+            // 
+            this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnTrend.Location = new System.Drawing.Point(84, 52);
+            this._btnTrend.Margin = new System.Windows.Forms.Padding(8);
+            this._btnTrend.Name = "_btnTrend";
+            this._btnTrend.Size = new System.Drawing.Size(28, 28);
+            this._btnTrend.TabIndex = 16;
+            this._btnTrend.UseVisualStyleBackColor = true;
+            this._btnTrend.Click += new System.EventHandler(this._btnTrend_Click);
+            // 
             // _btnNewStatistic
             // 
-            this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.MnuAdd;
+            this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnNewStatistic.Location = new System.Drawing.Point(680, 53);
             this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewStatistic.Name = "_btnNewStatistic";
@@ -447,7 +471,7 @@
             // 
             // _btnComment
             // 
-            this._btnComment.Image = ((System.Drawing.Image)(resources.GetObject("_btnComment.Image")));
+            this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.CommentHS;
             this._btnComment.Location = new System.Drawing.Point(680, 8);
             this._btnComment.Margin = new System.Windows.Forms.Padding(8);
             this._btnComment.Name = "_btnComment";
@@ -459,7 +483,7 @@
             // 
             // _btnFilter1
             // 
-            this._btnFilter1.Image = ((System.Drawing.Image)(resources.GetObject("_btnFilter1.Image")));
+            this._btnFilter1.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnFilter1.Location = new System.Drawing.Point(680, 305);
             this._btnFilter1.Margin = new System.Windows.Forms.Padding(8);
             this._btnFilter1.Name = "_btnFilter1";
@@ -534,7 +558,7 @@
             // 
             // _btnSelectDiffPeak
             // 
-            this._btnSelectDiffPeak.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
+            this._btnSelectDiffPeak.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnSelectDiffPeak.Location = new System.Drawing.Point(680, 428);
             this._btnSelectDiffPeak.Margin = new System.Windows.Forms.Padding(8);
             this._btnSelectDiffPeak.Name = "_btnSelectDiffPeak";
@@ -558,7 +582,7 @@
             // 
             // _btnFilter2
             // 
-            this._btnFilter2.Image = ((System.Drawing.Image)(resources.GetObject("_btnFilter2.Image")));
+            this._btnFilter2.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnFilter2.Location = new System.Drawing.Point(680, 473);
             this._btnFilter2.Margin = new System.Windows.Forms.Padding(8);
             this._btnFilter2.Name = "_btnFilter2";
@@ -661,29 +685,6 @@
             this.ctlTitleBar1.Text = "Select Statistic";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // _btnTrend
-            // 
-            this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.MnuAdd;
-            this._btnTrend.Location = new System.Drawing.Point(84, 52);
-            this._btnTrend.Margin = new System.Windows.Forms.Padding(8);
-            this._btnTrend.Name = "_btnTrend";
-            this._btnTrend.Size = new System.Drawing.Size(28, 28);
-            this._btnTrend.TabIndex = 16;
-            this._btnTrend.UseVisualStyleBackColor = true;
-            this._btnTrend.Click += new System.EventHandler(this._btnTrend_Click);
-            // 
-            // _btnObs
-            // 
-            this.flowLayoutPanel2.SetFlowBreak(this._btnObs, true);
-            this._btnObs.Image = global::MetaboliteLevels.Properties.Resources.MnuAdd;
-            this._btnObs.Location = new System.Drawing.Point(144, 8);
-            this._btnObs.Margin = new System.Windows.Forms.Padding(8);
-            this._btnObs.Name = "_btnObs";
-            this._btnObs.Size = new System.Drawing.Size(28, 28);
-            this._btnObs.TabIndex = 16;
-            this._btnObs.UseVisualStyleBackColor = true;
-            this._btnObs.Click += new System.EventHandler(this._btnObs_Click);
-            // 
             // FrmAlgoStatistic
             // 
             this.AcceptButton = this._btnOk;
@@ -759,5 +760,6 @@
         private Controls.CtlButton ctlButton3;
         private System.Windows.Forms.Button _btnObs;
         private System.Windows.Forms.Button _btnTrend;
+        private Controls.CtlError _checker;
     }
 }

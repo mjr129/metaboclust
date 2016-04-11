@@ -28,26 +28,26 @@ namespace MetaboliteLevels.Forms.Startup
     public partial class FrmDataLoad : Form, IProgressReceiver
     {
         // column headers
-        private const string OBSFILE_TIME_HEADER = "time,day,t";
-        private const string OBSFILE_REPLICATE_HEADER = "rep,replicate";
-        private const string OBSFILE_GROUP_HEADER = "type,group,condition,conditions";
-        private const string OBSFILE_BATCH_HEADER = "batch";
-        private const string OBSFILE_ACQUISITION_HEADER = "acquisition,order,file,index";
-        private const string IDFILE_PEAK_HEADER = "name,peak,variable";
-        private const string IDFILE_COMPOUNDS_HEADER = "id,annotation,ids,annotations,compounds,compound";
-        private const string ADDUCTFILE_NAME_HEADER = "name";
-        private const string ADDUCTFILE_CHARGE_HEADER = "charge,z";
+        private const string OBSFILE_TIME_HEADER               = "time,day,t";
+        private const string OBSFILE_REPLICATE_HEADER          = "rep,replicate";
+        private const string OBSFILE_GROUP_HEADER              = "type,group,condition,conditions";
+        private const string OBSFILE_BATCH_HEADER              = "batch";
+        private const string OBSFILE_ACQUISITION_HEADER        = "acquisition,order,file,index";
+        private const string IDFILE_PEAK_HEADER                = "name,peak,variable";
+        private const string IDFILE_COMPOUNDS_HEADER           = "id,annotation,ids,annotations,compounds,compound";
+        private const string ADDUCTFILE_NAME_HEADER            = "name";
+        private const string ADDUCTFILE_CHARGE_HEADER          = "charge,z";
         private const string ADDUCTFILE_MASS_DIFFERENCE_HEADER = "mass.difference";
-        private const string PATHWAYFILE_NAME_HEADER = "name";
-        private const string PATHWAYFILE_FRAME_ID_HEADER = "frame.id,id";
-        private const string COMPOUNDFILE_NAME_HEADER = "name";
-        private const string COMPOUNDFILE_FRAME_ID_HEADER = "frame.id,id";
-        private const string COMPOUNDFILE_MASS_HEADER = "mass,m";
-        private const string COMPOUNDFILE_PATHWAYS_HEADER = "pathways,pathway,pathway.ids,pathway.id";
-        private const string CONDITIONFILE_ID_HEADER = "id,frame.id";
-        private const string CONDITIONFILE_NAME_HEADER = "name";
-        private const string VARFILE_MZ_HEADER = "mz";
-        private const string VARFILE_MODE_HEADER = "mode,lcmsmode,lcms,lcms.mode";
+        private const string PATHWAYFILE_NAME_HEADER           = "name";
+        private const string PATHWAYFILE_FRAME_ID_HEADER       = "frame.id,id";
+        private const string COMPOUNDFILE_NAME_HEADER          = "name";
+        private const string COMPOUNDFILE_FRAME_ID_HEADER      = "frame.id,id";
+        private const string COMPOUNDFILE_MASS_HEADER          = "mass,m";
+        private const string COMPOUNDFILE_PATHWAYS_HEADER      = "pathways,pathway,pathway.ids,pathway.id";
+        private const string CONDITIONFILE_ID_HEADER           = "id,frame.id";
+        private const string CONDITIONFILE_NAME_HEADER         = "name";
+        private const string VARFILE_MZ_HEADER                 = "mz";
+        private const string VARFILE_MODE_HEADER               = "mode,lcmsmode,lcms,lcms.mode";
 
         private readonly DataFileNames _fileNames; // files to load...
         private readonly string _sessionFileName; // ... OR session to load
@@ -75,7 +75,7 @@ namespace MetaboliteLevels.Forms.Startup
         private FrmDataLoad(DataFileNames fileNames, string sessionFileName)
             : this()
         {
-            this._fileNames = fileNames;
+            this._fileNames       = fileNames;
             this._sessionFileName = sessionFileName;
 
             UiControls.CompensateForVisualStyles(this);
@@ -147,12 +147,12 @@ namespace MetaboliteLevels.Forms.Startup
             }
 
             // CREATE A NEW CORE
-            List<Compound> compounds = new List<Compound>();
-            List<Pathway> pathways = new List<Pathway>();
-            List<Adduct> adducts = new List<Adduct>();
-            MetaInfoHeader pathwayHeader = new MetaInfoHeader();
-            MetaInfoHeader compoundHeader = new MetaInfoHeader();
-            MetaInfoHeader adductsHeader = new MetaInfoHeader();
+            List<Compound> compounds         = new List<Compound>();
+            List<Pathway> pathways           = new List<Pathway>();
+            List<Adduct> adducts             = new List<Adduct>();
+            MetaInfoHeader pathwayHeader     = new MetaInfoHeader();
+            MetaInfoHeader compoundHeader    = new MetaInfoHeader();
+            MetaInfoHeader adductsHeader     = new MetaInfoHeader();
             MetaInfoHeader annotationsHeader = new MetaInfoHeader();
 
             // DATA SETS
@@ -165,7 +165,7 @@ namespace MetaboliteLevels.Forms.Startup
             Load_3_Adducts(adducts, _fileNames.AdductLibraries, adductsHeader, _prog);
 
             // M/Zs
-            Load_4_MatchMzs(data.Peaks, adducts, compounds, _prog);
+            Load_4_MatchMzs(data.Peaks, adducts, compounds, _fileNames.AutomaticIdentificationsToleranceValue, _fileNames.AutomaticIdentificationsToleranceUnit,  _prog );
 
             // IDENTIFICATIONS
             if (!string.IsNullOrEmpty(_fileNames.Identifications))
@@ -190,8 +190,8 @@ namespace MetaboliteLevels.Forms.Startup
             prog.Leave();
 
             prog.Enter("Interpreting identifications");
-            int peakCol = mat.OptionalColIndex(IDFILE_PEAK_HEADER);
-            int mzCol = mat.OptionalColIndex(VARFILE_MZ_HEADER);
+            int peakCol      = mat.OptionalColIndex(IDFILE_PEAK_HEADER);
+            int mzCol        = mat.OptionalColIndex(VARFILE_MZ_HEADER);
             int compoundsCol = mat.ColIndex(IDFILE_COMPOUNDS_HEADER);
 
             for (int row = 0; row < mat.NumRows; row++)
@@ -293,33 +293,58 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        private static void Load_4_MatchMzs(List<Peak> peaks, List<Adduct> adducts, List<Compound> compounds, ProgressReporter prog)
+        private static void Load_4_MatchMzs(List<Peak> peaks, List<Adduct> adducts, List<Compound> compounds, decimal toleranceValue, ETolerance toleranceUnit, ProgressReporter progress)
         {
-            prog.Enter("Matching peaks to compounds");
+            progress.Enter("Matching peaks to compounds");
 
-            for (int pi = 0; pi < peaks.Count; pi++)
+            decimal tolerance;
+
+            switch (toleranceUnit)
             {
-                prog.SetProgress(pi, peaks.Count);
+                case ETolerance.Absolute:
+                    tolerance = toleranceValue;
+                    break;
 
-                Peak p = peaks[pi];
+                case ETolerance.PartsPerMillion:
+                    tolerance = toleranceValue / 1000000m;
+                    break;
 
-                foreach (Adduct a in adducts)
+                case ETolerance.Percent:
+                    tolerance = toleranceValue / 100m;
+                    break;
+
+                default:
+                    throw new SwitchException( toleranceUnit );
+            }
+
+            UiControls.Assert( tolerance > 0, "m/z matching tolerance cannot be 0 or less." );
+
+
+            for (int i = 0; i < peaks.Count; i++)
+            {
+                progress.SetProgress( i, peaks.Count );
+
+                Peak pᵢ = peaks[i];
+                
+
+                foreach (Adduct aᵢ in adducts)
                 {
-                    if ((int)p.LcmsMode == Math.Sign(a.Charge))
+                    if ((int)pᵢ.LcmsMode == Math.Sign(aᵢ.Charge))
                     {
-                        decimal tol = (p.Mz / 1000000) * 5;
-                        decimal tmz = p.Mz - (a.Mz * Math.Abs(a.Charge));
+                        decimal tol = pᵢ.Mz * tolerance;
+                        decimal tmz = pᵢ.Mz - (aᵢ.Mz * Math.Abs(aᵢ.Charge));
 
-                        foreach (Compound c in compounds)
+                        foreach (Compound cᵢ in compounds)
                         {
-                            if (c.Mass != 0)
+                            if (cᵢ.Mass != 0)
                             {
-                                if (c.Mass >= tmz - tol && c.Mass <= tmz + tol)
+                                if (cᵢ.Mass >= tmz - tol && cᵢ.Mass <= tmz + tol)
                                 {
-                                    Annotation annotation = new Annotation(p, c, a);
-                                    p.Annotations.Add(annotation);
-                                    c.Annotations.Add(annotation);
-                                    a.Annotations.Add(annotation);
+                                    Annotation annotation = new Annotation(pᵢ, cᵢ, aᵢ);
+
+                                    pᵢ.Annotations.Add(annotation);
+                                    cᵢ.Annotations.Add(annotation);
+                                    aᵢ.Annotations.Add(annotation);
                                 }
                             }
                         }
@@ -327,13 +352,13 @@ namespace MetaboliteLevels.Forms.Startup
                 }
             }
 
-            prog.Leave();
+            progress.Leave();
 
-            prog.Enter("Matching peaks to peaks");
+            progress.Enter("Matching peaks to peaks");
 
             for (int pi = 0; pi < peaks.Count; pi++)
             {
-                prog.SetProgress(pi, peaks.Count);
+                progress.SetProgress(pi, peaks.Count);
 
                 Peak p = peaks[pi];
 
@@ -354,7 +379,7 @@ namespace MetaboliteLevels.Forms.Startup
                 }
             }
 
-            prog.Leave();
+            progress.Leave();
         }
 
         internal static void GetCompoundLibraries(out List<CompoundLibrary> compounds, out List<NamedItem<string>> adducts)
@@ -750,14 +775,14 @@ namespace MetaboliteLevels.Forms.Startup
             pathwaysList.ReplaceAll(pathways.Values);
         }
 
-        public static Dictionary<int, string> LoadConditionInfo(string fileName)
+        public static Dictionary<string, string> LoadConditionInfo(string fileName)
         {
             return LoadConditionInfo(fileName, null);
         }
 
-        private static Dictionary<int, string> LoadConditionInfo(string fileName, ProgressReporter reportProgress)
+        private static Dictionary<string, string> LoadConditionInfo(string fileName, ProgressReporter reportProgress)
         {
-            Dictionary<int, string> output = new Dictionary<int, string>();
+            Dictionary<string, string> output = new Dictionary<string, string>();
 
             Matrix<string> mat = new Matrix<string>(fileName, true, true, reportProgress);
 
@@ -768,7 +793,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             for (int row = 0; row < mat.NumRows; row++)
             {
-                output.Add(int.Parse(mat[row, idCol]), mat[row, nameCol]);
+                output.Add(mat[row, idCol], mat[row, nameCol]);
             }
 
             return output;
@@ -787,24 +812,24 @@ namespace MetaboliteLevels.Forms.Startup
             public MetaInfoHeader PeakMetaHeader;
         }
 
-        private static DataSet Load_1_DataSets(DataFileNames dfn, ProgressReporter prog)
+        private static DataSet Load_1_DataSets(DataFileNames files, ProgressReporter prog)
         {
             DataSet result = new DataSet();
             result.PeakMetaHeader = new MetaInfoHeader();
 
             // Assertions
-            UiControls.Assert(!string.IsNullOrEmpty(dfn.Data), "Missing data file.");
-            UiControls.Assert(!string.IsNullOrEmpty(dfn.ObservationInfo), "Missing data file.");
-            UiControls.Assert(!string.IsNullOrEmpty(dfn.PeakInfo), "Missing data file.");
-            UiControls.Assert(dfn.ConditionsOfInterest.Count != 0, "Missing experimental conditions.");
+            UiControls.Assert(!string.IsNullOrEmpty(files.Data), "The intensities file has not been specified.");
+            UiControls.Assert(!string.IsNullOrEmpty(files.ObservationInfo), "The observation information file has not been specified.");
+            //UiControls.Assert(!string.IsNullOrEmpty(dfn.PeakInfo), "The peak information file has not been specified.");
+            //UiControls.Assert(dfn.ConditionsOfInterest.Count != 0, "The experimental conditions of interest have not been specified. At least one condition of interest must be specified.");
 
             // Condition names
-            Dictionary<int, string> conditionNames;
+            Dictionary<string, string> conditionNames;
 
-            if (!string.IsNullOrEmpty(dfn.ConditionInfo))
+            if (!string.IsNullOrEmpty(files.ConditionInfo))
             {
                 prog.Enter("Loading conditions");
-                conditionNames = LoadConditionInfo(dfn.ConditionInfo, prog);
+                conditionNames = LoadConditionInfo(files.ConditionInfo, prog);
                 prog.Leave();
             }
             else
@@ -814,19 +839,19 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Load data
             prog.Enter("Loading intensities");
-            Matrix<double> data = new Matrix<double>(dfn.Data, true, true, prog);
+            Matrix<double> data = new Matrix<double>(files.Data, true, true, prog);
             prog.Leave();
 
             prog.Enter("Loading alt. intensities");
-            Matrix<double> altData = !string.IsNullOrWhiteSpace(dfn.AltData) ? new Matrix<double>(dfn.AltData, true, true, prog) : null;
+            Matrix<double> altData = !string.IsNullOrWhiteSpace(files.AltData) ? new Matrix<double>(files.AltData, true, true, prog) : null;
             prog.Leave();
 
             prog.Enter("Loading observations");
-            Matrix<int> info = new Matrix<int>(dfn.ObservationInfo, true, true, prog);
+            Matrix<string> info = new Matrix<string>(files.ObservationInfo, true, true, prog);
             prog.Leave();
 
             prog.Enter("Loading peaks");
-            Matrix<string> varInfo = new Matrix<string>(dfn.PeakInfo, true, true, prog);
+            Matrix<string> varInfo = new Matrix<string>(files.PeakInfo, true, true, prog);
             prog.Leave();
 
             prog.Enter("Formatting data");
@@ -841,7 +866,7 @@ namespace MetaboliteLevels.Forms.Startup
             // Get "peakinfo" columns specific to LCMS mode
             int mzCol;
             int lcmsModeCol;
-            switch (dfn.LcmsMode)
+            switch (files.LcmsMode)
             {
                 case ELcmsMode.None:
                     mzCol = -1;
@@ -865,23 +890,23 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Create our TYPE array
             var types = new List<GroupInfo>();
-            var typesById = new Dictionary<int, GroupInfo>();
+            var typesById = new Dictionary<string, GroupInfo>();
             var batches = new List<BatchInfo>();
-            var batchesById = new Dictionary<int, BatchInfo>();
+            var batchesById = new Dictionary<string, BatchInfo>();
 
             {
-                List<int> typeIds = new List<int>();
-                Dictionary<int, Range> typeRanges = new Dictionary<int, Range>();
+                List<string> typeIds = new List<string>();
+                Dictionary<string, Range> typeRanges = new Dictionary<string, Range>();
 
-                List<int> batchIds = new List<int>();
-                Dictionary<int, Range> batchRanges = new Dictionary<int, Range>();
+                List<string> batchIds = new List<string>();
+                Dictionary<string, Range> batchRanges = new Dictionary<string, Range>();
 
                 for (int oId = 0; oId < info.NumRows; oId++) // obs info
                 {
-                    int day = dayCol != -1 ? info[oId, dayCol] : 0;
-                    int typeId = typeCol != -1 ? info[oId, typeCol] : 0;
-                    int acquis = acquisitionCol != -1 ? info[oId, acquisitionCol] : 0;
-                    int batchId = batchCol != -1 ? info[oId, batchCol] : 0;
+                    int day = dayCol != -1 ? info.AsInteger(oId, dayCol) : 0;
+                    string typeId = typeCol != -1 ? info[oId, typeCol] : string.Empty;
+                    int acquis = acquisitionCol != -1 ? info.AsInteger(oId, acquisitionCol) : 0;
+                    string batchId = batchCol != -1 ? info[oId, batchCol] : string.Empty;
 
                     // Add type (if not already)
                     if (!typeIds.Contains(typeId))
@@ -901,34 +926,9 @@ namespace MetaboliteLevels.Forms.Startup
                     batchRanges[batchId] = batchRanges[batchId].ExpandOrStart(acquis);
                 }
 
-                for (int n = 0; n < typeIds.Count; n++)
-                {
-                    int id = typeIds[n];
-                    string name;
-                    string shortName;
 
-                    if (conditionNames != null && conditionNames.TryGetValue(id, out name))
-                    {
-                        shortName = name.Substring(0, 1).ToUpper();
-                    }
-                    else
-                    {
-                        name = "Type " + id;
-                        shortName = "T" + id;
-                    }
-
-                    var ti = new GroupInfo(id, n, typeRanges[id], name, shortName, GetTypeColor(n, false), GetTypeColor(n, true));
-                    types.Add(ti);
-                    typesById.Add(id, ti);
-                }
-
-                for (int n = 0; n < batchIds.Count; n++)
-                {
-                    int id = batchIds[n];
-                    var bi = new BatchInfo(id, n, batchRanges[id]);
-                    batches.Add(bi);
-                    batchesById.Add(id, bi);
-                }
+                ConvertType(conditionNames, types, typesById, typeIds, (index, stringId, displayPriority, name, shortName) => new GroupInfo(stringId, index, typeRanges[stringId], name, shortName, GetTypeColor(index, false), GetTypeColor(index, true), displayPriority));
+                ConvertType(null, batches, batchesById, batchIds, (index, stringId, displayPriority, name, shortName) => new BatchInfo(stringId, index, batchRanges[stringId], name, shortName, displayPriority));
             }
 
             // Create our arrays of { observations, conditions, types }
@@ -937,14 +937,16 @@ namespace MetaboliteLevels.Forms.Startup
 
             for (int oId = 0; oId < info.NumRows; oId++) // obs info
             {
-                int day = dayCol != -1 ? info[oId, dayCol] : 0;
-                int repId = repCol != -1 ? info[oId, repCol] : 0;
-                int typeId = typeCol != -1 ? info[oId, typeCol] : 0;
-                int batchId = batchCol != -1 ? info[oId, batchCol] : 0;
-                int acquisition = acquisitionCol != -1 ? info[oId, acquisitionCol] : 0;
+                int day = dayCol != -1 ? info.AsInteger(oId, dayCol) : 0;
+                int repId = repCol != -1 ? info.AsInteger(oId, repCol) : 0;
+                string typeId = typeCol != -1 ? info[oId, typeCol] : string.Empty;
+                string batchId = batchCol != -1 ? info[oId, batchCol] : string.Empty;
+                int acquisition = acquisitionCol != -1 ? info.AsInteger(oId, acquisitionCol) : 0;
+
+                GroupInfo groupInfo = typesById[typeId];
 
                 // Add condition (if not already)
-                ConditionInfo ci = conditions.FirstOrDefault(λ => λ.Time == day && λ.Group.Id == typeId);
+                ConditionInfo ci = conditions.FirstOrDefault(λ => λ.Time == day && λ.Group == groupInfo);
 
                 if (ci == null)
                 {
@@ -982,14 +984,14 @@ namespace MetaboliteLevels.Forms.Startup
                 // Field: LC-MS mode
                 ELcmsMode lcmsMode;
 
-                if (dfn.LcmsMode == ELcmsMode.Mixed)
+                if (files.LcmsMode == ELcmsMode.Mixed)
                 {
                     lcmsMode = (ELcmsMode)int.Parse(varInfo[peakIndex, lcmsModeCol]);
                     UiControls.Assert(lcmsMode == ELcmsMode.Negative || lcmsMode == ELcmsMode.Positive, "LC-MS mode for peak " + peakIndex + " is invalid (" + lcmsMode + ")");
                 }
                 else
                 {
-                    lcmsMode = dfn.LcmsMode;
+                    lcmsMode = files.LcmsMode;
                 }
 
                 // Field: m/z
@@ -1029,7 +1031,7 @@ namespace MetaboliteLevels.Forms.Startup
                 }
 
                 // Computation values
-                IEnumerable<double> cvalues = values.ExtractValues(result.Conditions, IdsToTypes(result.Types, dfn.ConditionsOfInterest));
+                IEnumerable<double> cvalues = values.ExtractValues(result.Conditions, IdsToTypes(result.Types, files.ConditionsOfInterestString));
 
                 // Create the variable
                 Peak peak = new Peak(peakIndex, data.ColNames[peakIndex], values, altValues, lcmsMode, mz);
@@ -1040,6 +1042,60 @@ namespace MetaboliteLevels.Forms.Startup
             prog.Leave();
 
             return result;
+        }
+
+        private static void ConvertType<T>(Dictionary<string, string> conditionNames, List<T> types, Dictionary<string, T> byId, List<string> typeIds, Func<int, string, int, string, string, T> result)
+            where T : GroupInfoBase
+        {
+            for (int index = 0; index < typeIds.Count; index++)
+            {
+                string stringId = typeIds[index];
+
+                string name;
+                string shortName;
+                int displayPriority;
+
+                // If we have been provided a name then use it
+                if (stringId.Length == 0)
+                {
+                    shortName = "";
+                    name = "";
+                    displayPriority = 0;
+                }
+                else if (conditionNames != null && conditionNames.TryGetValue(stringId, out name))
+                {
+                    shortName = name.Substring(0, 1).ToUpper();
+                    displayPriority = 0;
+                }
+                else
+                {
+                    // If we have just got a number then give it a longer name
+                    int intId = 0;
+
+                    if (int.TryParse(stringId, out intId))
+                    {
+                        name = "Type " + stringId;
+                        shortName = "T" + stringId;
+                        displayPriority = intId;
+                    }
+                    else
+                    {
+                        name = stringId;
+                        shortName = name.Substring(0, 1).ToUpper();
+                        displayPriority = 0;
+                    }
+                }   
+
+                while (types.Any(z => z.DisplayPriority == displayPriority))
+                {
+                    displayPriority++;
+                }
+
+                // (n, intId, name, shortName)
+                T r = result(index, stringId, displayPriority, name, shortName);
+                types.Add(r);
+                byId.Add(stringId, r);
+            }
         }
 
         private static Color GetTypeColor(int n, bool bold)
@@ -1065,9 +1121,9 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        private static List<GroupInfo> IdsToTypes(IEnumerable<GroupInfo> types, IEnumerable<int> list)
+        private static List<GroupInfo> IdsToTypes(IEnumerable<GroupInfo> types, IEnumerable<string> list)
         {
-            return list.Select(z => types.First(x => x.Id == z)).ToList();
+            return list.Select(z => types.First(x => x.StringId == z)).ToList();
         }
 
         private static void Load_6_CalculateDefaultStatistics(Core core, bool calcT, bool calcP, ProgressReporter prog)

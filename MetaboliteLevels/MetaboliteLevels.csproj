@@ -167,7 +167,13 @@
     <Compile Include="Algorithms\Statistics\Results\ResultTrend.cs" />
     <Compile Include="Algorithms\ValueMatrix.cs" />
     <Compile Include="Algorithms\Vector.cs" />
-    <Compile Include="Controls\CtlErrorProvider.cs" />
+    <Compile Include="Controls\CtlBinder.cs" />
+    <Compile Include="Controls\CtlError.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlError.Designer.cs">
+      <DependentUpon>CtlError.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CtlSplitter.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -195,6 +201,12 @@
     </Compile>
     <Compile Include="Forms\Algorithms\FrmEvaluateClusteringOptions.Designer.cs">
       <DependentUpon>FrmEvaluateClusteringOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditFlag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditFlag.Designer.cs">
+      <DependentUpon>FrmEditFlag.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Editing\FrmOptions2.cs">
       <SubType>Form</SubType>
@@ -541,6 +553,12 @@
     <Compile Include="Viewers\Lists\ShowContextMenuEventArgs.cs" />
     <Compile Include="Viewers\Lists\ListViewHelper%28T%29.SortByColumn.cs" />
     <Compile Include="Settings\XmlSettings.cs" />
+    <EmbeddedResource Include="Controls\CtlBinder.resx">
+      <DependentUpon>CtlBinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtlError.resx">
+      <DependentUpon>CtlError.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CtlTitleBar.resx">
       <DependentUpon>CtlTitleBar.cs</DependentUpon>
     </EmbeddedResource>
@@ -555,6 +573,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmEditExpGroup.resx">
       <DependentUpon>FrmEditExpGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmEditFlag.resx">
+      <DependentUpon>FrmEditFlag.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmEditParameters.resx">
       <DependentUpon>FrmEditParameters.cs</DependentUpon>
@@ -684,6 +705,14 @@
     <Content Include="Manual.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\arrow_Forward_16xLG.png" />
+    <None Include="Resources\glasses_16xLG.png" />
+    <None Include="Resources\CommentHS1.png" />
+    <None Include="Resources\ListMembers_2407.png" />
+    <None Include="Resources\database_16xLG.png" />
+    <None Include="Resources\arrow.ico" />
+    <None Include="Resources\Arrow2.ico" />
+    <None Include="Resources\arrow.bmp" />
     <None Include="Resources\1385_Disable_16x16_72.png" />
     <None Include="Resources\109_AllAnnotations_Default_16x16_72.png" />
     <None Include="Resources\OverlayCross.png" />
@@ -937,6 +966,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithms\Statistics\ClustererStatistics\" />
+    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

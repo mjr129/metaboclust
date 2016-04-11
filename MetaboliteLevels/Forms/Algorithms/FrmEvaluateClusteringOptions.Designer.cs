@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this._lstParameters = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
@@ -60,9 +61,10 @@
             this._numCount = new System.Windows.Forms.NumericUpDown();
             this._txtValue = new System.Windows.Forms.TextBox();
             this._btnClear = new MetaboliteLevels.Controls.CtlButton();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.label11 = new System.Windows.Forms.Label();
             this._txtNumberOfValues = new System.Windows.Forms.TextBox();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._numNumTimes)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
@@ -545,10 +547,10 @@
             // 
             this._txtValue.Location = new System.Drawing.Point(868, 143);
             this._txtValue.Margin = new System.Windows.Forms.Padding(8);
-            this._txtValue.MaximumSize = new System.Drawing.Size(128, 0);
-            this._txtValue.MinimumSize = new System.Drawing.Size(128, 0);
+            this._txtValue.MaximumSize = new System.Drawing.Size(128, 4);
+            this._txtValue.MinimumSize = new System.Drawing.Size(128, 4);
             this._txtValue.Name = "_txtValue";
-            this._txtValue.Size = new System.Drawing.Size(128, 29);
+            this._txtValue.Size = new System.Drawing.Size(128, 4);
             this._txtValue.TabIndex = 8;
             this._txtValue.Text = "1";
             // 
@@ -565,21 +567,6 @@
             this._btnClear.UseDefaultSize = true;
             this._btnClear.Click += new System.EventHandler(this._btnClear_Click);
             // 
-            // ctlTitleBar1
-            // 
-            this.ctlTitleBar1.AutoSize = true;
-            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
-            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
-            this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(1004, 66);
-            this.ctlTitleBar1.SubText = "";
-            this.ctlTitleBar1.TabIndex = 3;
-            this.ctlTitleBar1.Text = "Explore clustering parameters";
-            this.ctlTitleBar1.WarningText = null;
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -594,13 +581,28 @@
             // 
             this._txtNumberOfValues.Location = new System.Drawing.Point(868, 233);
             this._txtNumberOfValues.Margin = new System.Windows.Forms.Padding(8);
-            this._txtNumberOfValues.MaximumSize = new System.Drawing.Size(128, 0);
-            this._txtNumberOfValues.MinimumSize = new System.Drawing.Size(128, 0);
+            this._txtNumberOfValues.MaximumSize = new System.Drawing.Size(128, 4);
+            this._txtNumberOfValues.MinimumSize = new System.Drawing.Size(128, 4);
             this._txtNumberOfValues.Name = "_txtNumberOfValues";
             this._txtNumberOfValues.ReadOnly = true;
-            this._txtNumberOfValues.Size = new System.Drawing.Size(128, 29);
+            this._txtNumberOfValues.Size = new System.Drawing.Size(128, 4);
             this._txtNumberOfValues.TabIndex = 8;
             this._txtNumberOfValues.Text = "?";
+            // 
+            // ctlTitleBar1
+            // 
+            this.ctlTitleBar1.AutoSize = true;
+            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
+            this.ctlTitleBar1.Name = "ctlTitleBar1";
+            this.ctlTitleBar1.Size = new System.Drawing.Size(1004, 66);
+            this.ctlTitleBar1.SubText = "";
+            this.ctlTitleBar1.TabIndex = 3;
+            this.ctlTitleBar1.Text = "Explore clustering parameters";
+            this.ctlTitleBar1.WarningText = null;
             // 
             // FrmEvaluateClusteringOptions
             // 
@@ -672,5 +674,6 @@
         private Controls.CtlButton _btnClear;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox _txtNumberOfValues;
+        private Controls.CtlError _checker;
     }
 }

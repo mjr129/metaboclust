@@ -101,7 +101,7 @@
             // _btnEdit
             // 
             this._btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnEdit.Image = global::MetaboliteLevels.Properties.Resources.MnuEdit;
+            this._btnEdit.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
             this._btnEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnEdit.Location = new System.Drawing.Point(8, 8);
             this._btnEdit.Margin = new System.Windows.Forms.Padding(8);

@@ -14,7 +14,7 @@ namespace MetaboliteLevels.Controls
 {
     class EditableComboBox<T>
     {
-        public readonly ComboBox _box;
+        public readonly ComboBox ComboBox;
         private Button _button;
         private DataSet<T> _config;          
         private ENullItemName _includeNull;
@@ -22,7 +22,7 @@ namespace MetaboliteLevels.Controls
 
         public EditableComboBox(ComboBox box, Button editButton, DataSet<T> items, ENullItemName includeNull)
         {
-            _box = box;
+            ComboBox = box;
             _button = editButton;             
             _includeNull = includeNull;
             _config = items;
@@ -37,22 +37,22 @@ namespace MetaboliteLevels.Controls
 
         private void UpdateItems()
         {
-            _box.Items.Clear();
+            ComboBox.Items.Clear();
 
             if (_includeNull != ENullItemName.NoNullItem)
             {
                 _none = new NamedItem<T>(default(T), _includeNull.ToUiString());
-                _box.Items.Add(_none);
+                ComboBox.Items.Add(_none);
             }
 
-            _box.Items.AddRange(NamedItem.GetRange<T>(_config.TypedGetList(true), _config.ItemNameProvider).ToArray());
+            ComboBox.Items.AddRange(NamedItem.GetRange<T>(_config.TypedGetList(true), _config.ItemNameProvider).ToArray());
         }
 
         void _button_Click(object sender, EventArgs e)
         {
             T orig = SelectedItem;
 
-            if (_config.ShowListEditor(_box.FindForm()))
+            if (_config.ShowListEditor(ComboBox.FindForm()))
             {
                 UpdateItems();
                 SelectedItem = orig;
@@ -64,7 +64,7 @@ namespace MetaboliteLevels.Controls
         /// </summary>
         public bool HasSelection
         {
-            get { return _box.SelectedItem != null; }
+            get { return ComboBox.SelectedItem != null; }
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace MetaboliteLevels.Controls
         /// </summary>
         public void ClearSelection()
         {
-            _box.SelectedItem = null;
+            ComboBox.SelectedItem = null;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return NamedItem<T>.Extract(_box.SelectedItem);
+                return NamedItem<T>.Extract(ComboBox.SelectedItem);
             }
             set
             {
@@ -96,7 +96,7 @@ namespace MetaboliteLevels.Controls
                 {
                     if ((_includeNull != ENullItemName.NoNullItem))
                     {
-                        _box.SelectedItem = _none;
+                        ComboBox.SelectedItem = _none;
                         return;
                     }
                     else
@@ -106,7 +106,7 @@ namespace MetaboliteLevels.Controls
                     }
                 }         
 
-                _box.SelectedItem = value;
+                ComboBox.SelectedItem = value;
             }
         }
 
@@ -114,11 +114,11 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return _box.Enabled && _button.Enabled;
+                return ComboBox.Enabled && _button.Enabled;
             }
             set
             {
-                _box.Enabled = value;
+                ComboBox.Enabled = value;
                 _button.Enabled = value;
             }
         }
@@ -127,11 +127,11 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return _box.Visible && _button.Visible;
+                return ComboBox.Visible && _button.Visible;
             }
             set
             {
-                _box.Visible = value;
+                ComboBox.Visible = value;
                 _button.Visible = value;
             }
         }

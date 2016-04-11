@@ -210,7 +210,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 }
             }
 
-            UiControls.Assert(k == flat.Length);
+            UiControls.Assert(k == flat.Length, "ApMedian count mismatch. Maybe the matrix wasn't square.");
 
             return Maths.Median(flat);
         }

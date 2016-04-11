@@ -61,6 +61,46 @@ namespace MetaboliteLevels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow {
+            get {
+                object obj = ResourceManager.GetObject("arrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_Forward_16xLG {
+            get {
+                object obj = ResourceManager.GetObject("arrow_Forward_16xLG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon arrow1 {
+            get {
+                object obj = ResourceManager.GetObject("arrow1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CommentHS {
+            get {
+                object obj = ResourceManager.GetObject("CommentHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon delete {
@@ -93,6 +133,16 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap glasses_16xLG {
+            get {
+                object obj = ResourceManager.GetObject("glasses_16xLG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap IcoHelp {
             get {
                 object obj = ResourceManager.GetObject("IcoHelp", resourceCulture);
@@ -116,6 +166,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap ListFilter {
             get {
                 object obj = ResourceManager.GetObject("ListFilter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListMembers_2407 {
+            get {
+                object obj = ResourceManager.GetObject("ListMembers_2407", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -566,6 +626,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap MnuUp {
             get {
                 object obj = ResourceManager.GetObject("MnuUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuViewList {
+            get {
+                object obj = ResourceManager.GetObject("MnuViewList", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

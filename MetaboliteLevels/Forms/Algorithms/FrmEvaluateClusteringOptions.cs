@@ -23,8 +23,7 @@ namespace MetaboliteLevels.Forms.Algorithms
     {
         private Core _core;
         private ConfigurationClusterer __backingField_selectedAlgorithm;
-        private bool _readonly;
-        private CtlErrorProvider _errorProvider1 = new CtlErrorProvider();
+        private bool _readonly;                                           
 
         internal ConfigurationClusterer SelectedAlgorithm
         {
@@ -111,23 +110,13 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ClusterEvaluationPointer GetSelection()
         {
-            _errorProvider1.Clear();
+            _checker.Clear();
 
-            if (SelectedAlgorithm == null)
-            {
-                _txtNumberOfValues.Text = "?";
-                _errorProvider1.ShowError(_txtAlgorithm, "Requires algorithm");
-                return null;
-            }
+            _checker.Check( _txtAlgorithm, SelectedAlgorithm != null, "An algorithm is required" );
 
             int p = _lstParameters.SelectedIndex;
 
-            if (p == -1)
-            {
-                _txtNumberOfValues.Text = "?";
-                _errorProvider1.ShowError(_lstParameters, "Requires parameter");
-                return null;
-            }
+            _checker.Check( _lstParameters, p == -1, "Requires parameter" );
 
             AlgoParameter pa = (AlgoParameter)_lstParameters.SelectedItem;
 
@@ -135,23 +124,14 @@ namespace MetaboliteLevels.Forms.Algorithms
             int num = (int)_numNumTimes.Value;
             _txtNumberOfValues.Text = opts.Length.ToString();
 
-            if (opts.Length == 0 || (opts.Length == 1 && opts[0] == null))
-            {
-                _errorProvider1.ShowError(_txtValues, "Enter a valid list of parameters");
-                return null;
-            }
+            _checker.Check( _txtValues, opts.Length != 0 && !(opts.Length == 1 && opts[0] == null), "Enter a valid list of parameters");   
+            _checker.Check( _txtValues, !opts.Any( z => z == null ), "One or more values are invalid");   
+            _checker.Check( _numNumTimes, num > 0 && num <100, "Repeat count is invalid");
 
-            if (opts.Any(z => z == null))
+            if (_checker.HasErrors)
             {
-                _errorProvider1.ShowError(_txtValues, "One or more values are invalid");
                 return null;
-            }
-
-            if (num <= 0 || num > 99)
-            {
-                _errorProvider1.ShowError(_numNumTimes, "Repeat count is invalid");
-                return null;
-            }
+            }               
 
             return new ClusterEvaluationPointer(new ClusterEvaluationConfiguration(SelectedAlgorithm, p, opts, num));
         }

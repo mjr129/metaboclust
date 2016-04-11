@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditParameters));
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -149,7 +148,7 @@
             // 
             // _btnOk
             // 
-            this._btnOk.Image = ((System.Drawing.Image)(resources.GetObject("_btnOk.Image")));
+            this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
             this._btnOk.Location = new System.Drawing.Point(562, 8);
             this._btnOk.Margin = new System.Windows.Forms.Padding(8);
             this._btnOk.Name = "_btnOk";

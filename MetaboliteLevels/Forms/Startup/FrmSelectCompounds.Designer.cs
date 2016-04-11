@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSelectCompounds));
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new System.Windows.Forms.Button();
@@ -101,7 +100,7 @@
             // 
             this._btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("_btnCancel.Image")));
+            this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
             this._btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnCancel.Location = new System.Drawing.Point(137, 5);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -118,7 +117,7 @@
             this._btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._btnOk.Enabled = false;
-            this._btnOk.Image = ((System.Drawing.Image)(resources.GetObject("_btnOk.Image")));
+            this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
             this._btnOk.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnOk.Location = new System.Drawing.Point(3, 5);
             this._btnOk.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -146,7 +145,7 @@
             // _btnCompounds
             // 
             this._btnCompounds.Enabled = false;
-            this._btnCompounds.Image = ((System.Drawing.Image)(resources.GetObject("_btnCompounds.Image")));
+            this._btnCompounds.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
             this._btnCompounds.Location = new System.Drawing.Point(853, 59);
             this._btnCompounds.Margin = new System.Windows.Forms.Padding(8);
             this._btnCompounds.Name = "_btnCompounds";
@@ -159,7 +158,7 @@
             // _btnPathways
             // 
             this._btnPathways.Enabled = false;
-            this._btnPathways.Image = ((System.Drawing.Image)(resources.GetObject("_btnPathways.Image")));
+            this._btnPathways.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
             this._btnPathways.Location = new System.Drawing.Point(853, 104);
             this._btnPathways.Margin = new System.Windows.Forms.Padding(8);
             this._btnPathways.Name = "_btnPathways";
@@ -185,7 +184,7 @@
             // _btnPathwayTools
             // 
             this._btnPathwayTools.Enabled = false;
-            this._btnPathwayTools.Image = ((System.Drawing.Image)(resources.GetObject("_btnPathwayTools.Image")));
+            this._btnPathwayTools.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
             this._btnPathwayTools.Location = new System.Drawing.Point(853, 190);
             this._btnPathwayTools.Margin = new System.Windows.Forms.Padding(8);
             this._btnPathwayTools.Name = "_btnPathwayTools";

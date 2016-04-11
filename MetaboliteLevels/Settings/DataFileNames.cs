@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Utilities;
+using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Settings
 {
@@ -27,10 +29,12 @@ namespace MetaboliteLevels.Settings
         // modes
         public ELcmsMode LcmsMode;               // lc-ms mode
         public bool AutomaticIdentifications;   // for annotations - whether to auto-id
+        public decimal AutomaticIdentificationsToleranceValue; // for annotations - m/z tolerance
+        public ETolerance AutomaticIdentificationsToleranceUnit; // for annotations - m/z tolerance unit
 
         // stats
-        public List<int> ConditionsOfInterest;  // for stats - conditions of interest
-        public List<int> ControlConditions;     // for stats - control conditions
+        public List<string> ConditionsOfInterestString;  // for stats - conditions of interest
+        public List<string> ControlConditionsString;  // for stats - conditions of interest
         public EStatisticalMethods StandardStatisticalMethods;  // for stats - what methods to apply
 
         // session info
@@ -43,6 +47,41 @@ namespace MetaboliteLevels.Settings
         public bool ForceSaveAs;                // only allow "save as" not "save" (set if saving might lose data)
         public bool? SaveOnClose;               // save automatically on close
         public Version AppVersion;              // version of app saved using
+
+        #region Obsolete
+
+        [Obsolete("For serialisation of old data only. Should always be null. Please use 'ConditionsOfInterestString'.")]
+        public List<int> ConditionsOfInterest;  // for stats - conditions of interest
+        [Obsolete("For serialisation of old data only. Should always be null. Please use 'ControlConditionsString'.")]
+        public List<int> ControlConditions;     // for stats - control conditions
+
+        [OnDeserialized]
+        void OnDeserialised(StreamingContext context)
+        {
+#pragma warning disable CS0618
+            if (ConditionsOfInterest != null)
+            {
+                Debug.Write("Obsolete field \"ConditionsOfInterest\" updated.");
+                UiControls.Assert(ConditionsOfInterestString == null, "New field ConditionsOfInterestString expected to be null when old field ConditionsOfInterest is present." );
+
+                ConditionsOfInterestString = new List<string>();
+                ConditionsOfInterestString.AddRange(ConditionsOfInterest.Select(z => z.ToString()));
+                ConditionsOfInterest = null;
+            }
+
+            if (ControlConditions != null)
+            {
+                Debug.Write("Obsolete field \"ControlConditions\" updated.");
+
+                UiControls.Assert(ControlConditionsString == null, "New field ControlConditionsString expected to be null when old field ControlConditions is present." );
+
+                ControlConditionsString = new List<string>();
+                ControlConditionsString.AddRange(ControlConditions.Select(z => z.ToString()));
+                ControlConditions = null;
+            }
+#pragma warning restore CS0618
+        }
+        #endregion
 
         /// <summary>
         /// Gets the title
@@ -94,8 +133,8 @@ namespace MetaboliteLevels.Settings
 
             sb.AppendLine("--- Experimental information ---");
             sb.AppendLine("ConditionInfo: " + ConditionInfo);
-            sb.AppendLine("ConditionsOfInterest: " + StringHelper.ArrayToString(ConditionsOfInterest));
-            sb.AppendLine("ControlConditions: " + StringHelper.ArrayToString(ControlConditions));
+            sb.AppendLine("ConditionsOfInterest: " + StringHelper.ArrayToString(ConditionsOfInterestString));
+            sb.AppendLine("ControlConditions: " + StringHelper.ArrayToString(ControlConditionsString));
             sb.AppendLine("StandardStatisticalMethods: " + StandardStatisticalMethods.ToString());
 
             return sb.ToString();

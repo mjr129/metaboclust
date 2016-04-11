@@ -81,6 +81,7 @@ namespace MetaboliteLevels.Forms
             this._imgList = new System.Windows.Forms.ImageList(this.components);
             this._imgListClusters = new System.Windows.Forms.ImageList(this.components);
             this._cmsSelectionButton = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.pLACEHOLDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._statusMain = new System.Windows.Forms.StatusStrip();
             this._lblChanges = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -177,7 +178,6 @@ namespace MetaboliteLevels.Forms
             this._btnExterior = new System.Windows.Forms.ToolStripButton();
             this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer3 = new MetaboliteLevels.Controls.CtlSplitter();
-            this.pLACEHOLDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._mnuMain.SuspendLayout();
             this._cmsSelectionButton.SuspendLayout();
             this._statusMain.SuspendLayout();
@@ -571,8 +571,14 @@ namespace MetaboliteLevels.Forms
             this._cmsSelectionButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pLACEHOLDERToolStripMenuItem});
             this._cmsSelectionButton.Name = "_cmsSelectionButton";
-            this._cmsSelectionButton.Size = new System.Drawing.Size(155, 48);
+            this._cmsSelectionButton.Size = new System.Drawing.Size(155, 26);
             this._cmsSelectionButton.Opening += new System.ComponentModel.CancelEventHandler(this._cmsSelectionButton_Opening);
+            // 
+            // pLACEHOLDERToolStripMenuItem
+            // 
+            this.pLACEHOLDERToolStripMenuItem.Name = "pLACEHOLDERToolStripMenuItem";
+            this.pLACEHOLDERToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.pLACEHOLDERToolStripMenuItem.Text = "PLACEHOLDER";
             // 
             // _statusMain
             // 
@@ -614,15 +620,15 @@ namespace MetaboliteLevels.Forms
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(899, 17);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(880, 17);
             this.toolStripStatusLabel3.Spring = true;
             // 
             // _txtGuid
             // 
             this._txtGuid.Enabled = false;
-            this._txtGuid.Font = new System.Drawing.Font("Arial Narrow", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._txtGuid.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtGuid.Name = "_txtGuid";
-            this._txtGuid.Size = new System.Drawing.Size(154, 17);
+            this._txtGuid.Size = new System.Drawing.Size(173, 17);
             this._txtGuid.Text = "{CF99C23A-DC53-4E93-BAC8-93FC5D30FE01}";
             // 
             // toolStrip1
@@ -938,7 +944,7 @@ namespace MetaboliteLevels.Forms
             this._lstVariables.TabIndex = 5;
             this._lstVariables.UseCompatibleStateImageBehavior = false;
             this._lstVariables.View = System.Windows.Forms.View.Details;
-            this._lstVariables.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this._lstVariables_KeyPress);
+            this._lstVariables.KeyDown += new System.Windows.Forms.KeyEventHandler(this._lstVariables_KeyDown);       
             // 
             // tabPage2
             // 
@@ -1117,7 +1123,7 @@ namespace MetaboliteLevels.Forms
             // _tsBarBrowser
             // 
             this._tsBarBrowser.BackColor = System.Drawing.SystemColors.Control;
-            this._tsBarBrowser.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._tsBarBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._tsBarBrowser.ImageScalingSize = new System.Drawing.Size(24, 24);
             this._tsBarBrowser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnMain0,
@@ -1545,7 +1551,7 @@ namespace MetaboliteLevels.Forms
             // _tsBarSelection
             // 
             this._tsBarSelection.BackColor = System.Drawing.SystemColors.Control;
-            this._tsBarSelection.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._tsBarSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._tsBarSelection.ImageScalingSize = new System.Drawing.Size(24, 24);
             this._tsBarSelection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnSubInfo,
@@ -1741,12 +1747,6 @@ namespace MetaboliteLevels.Forms
             this.splitContainer3.Size = new System.Drawing.Size(722, 711);
             this.splitContainer3.SplitterDistance = 349;
             this.splitContainer3.TabIndex = 10;
-            // 
-            // pLACEHOLDERToolStripMenuItem
-            // 
-            this.pLACEHOLDERToolStripMenuItem.Name = "pLACEHOLDERToolStripMenuItem";
-            this.pLACEHOLDERToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.pLACEHOLDERToolStripMenuItem.Text = "PLACEHOLDER";
             // 
             // FrmMain
             // 

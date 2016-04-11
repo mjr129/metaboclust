@@ -31,4 +31,16 @@ namespace MetaboliteLevels.Data.General
         [Name("Other")]
         None = 2,
     }
+
+    public enum ETolerance
+    {
+        [Name( "absolute" )]
+        Absolute,
+
+        [Name( "%" )]
+        Percent,
+
+        [Name("ppm")]
+        PartsPerMillion,
+    }
 }
