@@ -220,7 +220,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (this._chkIsInCluster.Checked)
             {
-                var sel = _cbClusters.GetSelection();
+                var sel = _cbClusters.GetSelectionOrNull();
 
                 if (sel == null)
                 {
@@ -241,7 +241,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
             else if (this._chkIsInSet.Checked)
             {
-                var sel = _cbPeaks.GetSelection();
+                var sel = _cbPeaks.GetSelectionOrNull();
 
                 if (sel == null)
                 {
@@ -262,7 +262,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
             else if (this._chkIsFlaggedWith.Checked)
             {
-                var sel = _cbFlags.GetSelection();
+                var sel = _cbFlags.GetSelectionOrNull();
 
                 if (sel == null)
                 {

@@ -25,12 +25,12 @@ namespace MetaboliteLevels.Forms.Startup
     /// <summary>
     /// Performs loading of the dataset / session.
     /// </summary>
-    public partial class FrmDataLoad : Form, IProgressReceiver
+    internal partial class FrmDataLoad : Form, IProgressReceiver
     {
         // column headers
         private const string OBSFILE_TIME_HEADER               = "time,day,t";
         private const string OBSFILE_REPLICATE_HEADER          = "rep,replicate";
-        private const string OBSFILE_GROUP_HEADER              = "type,group,condition,conditions";
+        internal const string OBSFILE_GROUP_HEADER              = "type,group,condition,conditions";
         private const string OBSFILE_BATCH_HEADER              = "batch";
         private const string OBSFILE_ACQUISITION_HEADER        = "acquisition,order,file,index";
         private const string IDFILE_PEAK_HEADER                = "name,peak,variable";
@@ -165,7 +165,10 @@ namespace MetaboliteLevels.Forms.Startup
             Load_3_Adducts(adducts, _fileNames.AdductLibraries, adductsHeader, _prog);
 
             // M/Zs
-            Load_4_MatchMzs(data.Peaks, adducts, compounds, _fileNames.AutomaticIdentificationsToleranceValue, _fileNames.AutomaticIdentificationsToleranceUnit,  _prog );
+            if (_fileNames.AutomaticIdentifications)
+            {
+                Load_4_MatchMzs( data.Peaks, adducts, compounds, _fileNames.AutomaticIdentificationsToleranceValue, _fileNames.AutomaticIdentificationsToleranceUnit, _prog );
+            }
 
             // IDENTIFICATIONS
             if (!string.IsNullOrEmpty(_fileNames.Identifications))
@@ -773,14 +776,9 @@ namespace MetaboliteLevels.Forms.Startup
 
             compoundsOut.ReplaceAll(compounds.Values);
             pathwaysList.ReplaceAll(pathways.Values);
-        }
+        } 
 
-        public static Dictionary<string, string> LoadConditionInfo(string fileName)
-        {
-            return LoadConditionInfo(fileName, null);
-        }
-
-        private static Dictionary<string, string> LoadConditionInfo(string fileName, ProgressReporter reportProgress)
+        public static Dictionary<string, string> LoadConditionInfo(string fileName, ProgressReporter reportProgress)
         {
             Dictionary<string, string> output = new Dictionary<string, string>();
 
@@ -1123,7 +1121,22 @@ namespace MetaboliteLevels.Forms.Startup
 
         private static List<GroupInfo> IdsToTypes(IEnumerable<GroupInfo> types, IEnumerable<string> list)
         {
-            return list.Select(z => types.First(x => x.StringId == z)).ToList();
+            List<GroupInfo> result = new List<GroupInfo>( );
+
+            foreach (string name in list)
+            {
+                GroupInfo group = types.FirstOrDefault( z => z.StringId == name );
+
+                if (group == null)
+                {
+                    string expG = StringHelper.ArrayToString( types, z=> z.StringId );
+                    throw new InvalidOperationException( $"Cannot find the experimental group named '{name}' in the list of experimental groups: {expG}"  );
+                }
+
+                result.Add( group );
+            }
+
+            return result;                                                        
         }
 
         private static void Load_6_CalculateDefaultStatistics(Core core, bool calcT, bool calcP, ProgressReporter prog)

@@ -20,26 +20,28 @@ namespace MetaboliteLevels.Forms.Generic
 {
     internal partial class FrmList : Form
     {
-        private IFormList _handler;
-        private IDataSet opts;
-        private int _numFields;
-        private bool _multiSelect;
-        private bool _allowNewEntries;
+        const string MISSING_LABEL = "𝑴𝒊𝒔𝒔𝒊𝒏𝒈";
 
-        private static IEnumerable<T> Show<T>(Form owner, IFormList handler, DataSet<T> opts, bool multiSelect, IEnumerable<T> defaultSelection, bool allowNewEntries)
+        private IFormList _handler;
+        private IDataSet opts; 
+        private bool _multiSelect;
+        private readonly List<object> _objects = new List<object>();
+        private readonly List<int> _invalidIndices = new List<int>();
+
+        private static IEnumerable<T> Show<T>(Form owner, IFormList handler, DataSet<T> opts, bool multiSelect, IEnumerable<T> defaultSelection)
         {
-            using (FrmList frm = new FrmList(handler, opts, multiSelect, defaultSelection, allowNewEntries, opts.Core))
+            using (FrmList frm = new FrmList(handler, opts, multiSelect, defaultSelection, opts.Core))
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
-                    return opts.TypedGetList(true).Corresponding(frm.GetStates());
+                    return frm._objects.Cast<T>().Corresponding(frm.GetStates());
                 }
 
                 return null;
             }
         }
 
-        private FrmList(IFormList handler, IDataSet opts, bool multiSelect, IEnumerable defaultSelection, bool _allowNewEntries, Core core)
+        private FrmList(IFormList handler, IDataSet opts, bool multiSelect, IEnumerable defaultSelection, Core core)
             : this()
         {
             this.Text = opts.Title;
@@ -47,11 +49,9 @@ namespace MetaboliteLevels.Forms.Generic
             this.ctlTitleBar1.SubText = opts.SubTitle;
             this._btnEdit.Visible = opts.ListSupportsChanges;
 
-            this._handler = handler;
-            this._numFields = opts.UntypedGetList(true).CountAll();
+            this._handler = handler;                               
             this.opts = opts;
-            this._multiSelect = multiSelect;
-            this._allowNewEntries = _allowNewEntries;
+            this._multiSelect = multiSelect;            
             _flpSelectAll.Visible = multiSelect;
 
             this._handler.Initialise(this, core);
@@ -329,6 +329,7 @@ namespace MetaboliteLevels.Forms.Generic
             // Add the new items  
             foreach (object item in source)
             {
+                _objects.Add( item );
                 _handler.AddItem(item, opts.UntypedName(item), opts.UntypedDescription(item));
 
                 if (selected.Contains( item ))
@@ -344,16 +345,19 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 if (!source.Contains(item))
                 {
-                    if (_allowNewEntries)
+                    if (opts.AllowNewEntries)
                     {
-                        _handler.AddItem(item, opts.UntypedName(item), opts.UntypedDescription(item));
-                        selectedIndices.Add( n );  
-                        n++;
+                        _handler.AddItem( item, opts.UntypedName( item ), opts.UntypedDescription( item ) );
+                        _objects.Add( item );
                     }
                     else
                     {
-                        throw new InvalidOperationException("Item present in selection but not in list.");
+                        _handler.AddItem( item, MISSING_LABEL + " " + opts.UntypedName( item ), opts.UntypedDescription( item ) );
+                        _invalidIndices.Add( n );
                     }
+
+                    selectedIndices.Add( n );  
+                    n++;
                 }
             }
 
@@ -370,9 +374,9 @@ namespace MetaboliteLevels.Forms.Generic
 
         private IEnumerable<bool> GetStates()
         {
-            bool[] r = new bool[_numFields];
+            bool[] r = new bool[_objects.Count];
 
-            for (int n = 0; n < _numFields; n++)
+            for (int n = 0; n < _objects.Count; n++)
             {
                 r[n] = _handler.GetState(n);
             }
@@ -399,6 +403,15 @@ namespace MetaboliteLevels.Forms.Generic
 
         private void button1_Click(object sender, EventArgs e)
         {
+            foreach (int invalidIndex in _invalidIndices)
+            {
+                if (_handler.GetState( invalidIndex ))
+                {
+                    FrmMsgBox.ShowError( this, $"One or more items marked \"{MISSING_LABEL}\" have been selected. Please review and deselect these items before continuing." );
+                    return;
+                }
+            }
+
             if (!_multiSelect)
             {
                 if (!GetStates().Any(z => z))
@@ -411,15 +424,15 @@ namespace MetaboliteLevels.Forms.Generic
             DialogResult = DialogResult.OK;
         }
 
-        internal static T ShowList<T>(Form owner, DataSet<T> listValueSet, T defaultSelection, bool allowNewEntries)
+        internal static T ShowList<T>(Form owner, DataSet<T> listValueSet, T defaultSelection)
         {
             if (typeof(IVisualisable).IsAssignableFrom(typeof(T)))
             {
-                return Show<T>(owner, new FormListBigListBox(), listValueSet, false, AsArray(defaultSelection, listValueSet), allowNewEntries).FirstOrDefault(listValueSet.CancelValue);
+                return Show<T>(owner, new FormListBigListBox(), listValueSet, false, AsArray(defaultSelection, listValueSet)).FirstOrDefault(listValueSet.CancelValue);
             }
             else
             {
-                return Show<T>(owner, new FormListListBox(), listValueSet, false, AsArray(defaultSelection, listValueSet), allowNewEntries).FirstOrDefault(listValueSet.CancelValue);
+                return Show<T>(owner, new FormListListBox(), listValueSet, false, AsArray(defaultSelection, listValueSet)).FirstOrDefault(listValueSet.CancelValue);
             }
         }
 
@@ -435,32 +448,32 @@ namespace MetaboliteLevels.Forms.Generic
             }
         }
 
-        public static T ShowRadio<T>(Form owner, DataSet<T> listValueSet, T defaultSelection, bool allowNewEntries)
+        public static T ShowRadio<T>(Form owner, DataSet<T> listValueSet, T defaultSelection)
         {
             Debug.Assert(listValueSet.TypedGetList(true).Count() < 50, "When list count is large you might be better using a different view method.");
-            return Show<T>(owner, new FormListRadioButtonArray(), listValueSet, false, AsArray(defaultSelection, listValueSet), allowNewEntries).FirstOrDefault(listValueSet.CancelValue);
+            return Show<T>(owner, new FormListRadioButtonArray(), listValueSet, false, AsArray(defaultSelection, listValueSet)).FirstOrDefault(listValueSet.CancelValue);
         }
 
-        public static T ShowButtons<T>(Form owner, DataSet<T> listValueSet, T defaultSelection, bool allowNewEntries)
+        public static T ShowButtons<T>(Form owner, DataSet<T> listValueSet, T defaultSelection)
         {
             Debug.Assert(listValueSet.TypedGetList(true).Count() < 50, "When list count is large you might be better using a different view method.");
-            return Show<T>(owner, new FormListButtonArray(), listValueSet, false, AsArray(defaultSelection, listValueSet), allowNewEntries).FirstOrDefault(listValueSet.CancelValue);
+            return Show<T>(owner, new FormListButtonArray(), listValueSet, false, AsArray(defaultSelection, listValueSet)).FirstOrDefault(listValueSet.CancelValue);
         }
 
-        public static IEnumerable<T> ShowCheckList<T>(Form owner, DataSet<T> listValueSet, IEnumerable<T> defaultSelection, bool allowNewEntries)
+        public static IEnumerable<T> ShowCheckList<T>(Form owner, DataSet<T> listValueSet, IEnumerable<T> defaultSelection)
         {
-            return Show<T>(owner, new FormListCheckList(), listValueSet, true, defaultSelection, allowNewEntries);
+            return Show<T>(owner, new FormListCheckList(), listValueSet, true, defaultSelection);
         }
 
-        public static IEnumerable<T> ShowCheckBox<T>(Form owner, DataSet<T> listValueSet, IEnumerable<T> defaultSelection, bool allowNewEntries)
+        public static IEnumerable<T> ShowCheckBox<T>(Form owner, DataSet<T> listValueSet, IEnumerable<T> defaultSelection)
         {
             Debug.Assert(listValueSet.TypedGetList(true).Count() < 50, "When list count is large you might be better using a different view method.");
-            return Show<T>(owner, new FormListCheckBoxArray(), listValueSet, true, defaultSelection, allowNewEntries);
+            return Show<T>(owner, new FormListCheckBoxArray(), listValueSet, true, defaultSelection);
         }
 
         private void _btnSelectAll_Click(object sender, EventArgs e)
         {
-            for (int n = 0; n < _numFields; n++)
+            for (int n = 0; n < _objects.Count; n++)
             {
                 _handler.SetState(n, true);
             }
@@ -468,7 +481,7 @@ namespace MetaboliteLevels.Forms.Generic
 
         private void _btnSelectNone_Click(object sender, EventArgs e)
         {
-            for (int n = 0; n < _numFields; n++)
+            for (int n = 0; n < _objects.Count; n++)
             {
                 _handler.SetState(n, false);
             }

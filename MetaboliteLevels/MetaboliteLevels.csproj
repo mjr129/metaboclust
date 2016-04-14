@@ -326,7 +326,7 @@
     <Compile Include="Utilities\Arr.cs" />
     <Compile Include="Data\General\AssignmentList.cs" />
     <Compile Include="Controls\CaptionBar.cs" />
-    <Compile Include="Controls\ConditionBox.cs" />
+    <Compile Include="Controls\ConditionBox%28of T%29.cs" />
     <Compile Include="Controls\CtlButton.cs">
       <SubType>Component</SubType>
     </Compile>

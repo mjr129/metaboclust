@@ -21,43 +21,38 @@ using MetaboliteLevels.Settings;
 namespace MetaboliteLevels.Controls
 {
     /// <summary>
-    /// See ConditionBox.
+    /// A multiple choice list displayed as a textbox and button.
     /// </summary>
     internal class ConditionBox<T>
     {
-        private readonly DataSet<T> _args;
-        private readonly bool _integerBehaviour;
-        private readonly Color _defaultColour;
-
+        /// <summary>Dataset</summary>
+        private readonly DataSet<T> _args;    
+        /// <summary>The textbox</summary>
         public readonly TextBox TextBox;
+        /// <summary>The button</summary>
         public readonly Button Button;
-
-        private HashSet<T> _selected = new HashSet<T>();
-        private HashSet<T> _lastValidSelection;
-
-        bool _allowNewEntries;
+        /// <summary>The selection</summary>
+        private HashSet<T> _selection = new HashSet<T>();
+        /// <summary>If the selection is valid</summary>
+        private bool _isSelectionValid;   
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ConditionBox(DataSet<T> args, TextBox textBox, Button button, bool allowNewEntries)
+        public ConditionBox(DataSet<T> args, TextBox textBox, Button button)
         {
-            this._args = args;
-            this._integerBehaviour = args.IntegerBehaviour && typeof(T) == typeof(int);
+            this._args = args;                                                         
             this.TextBox = textBox;
-            this.Button = button;
+            this.Button = button;               
 
-            _defaultColour = textBox.BackColor;
-            _allowNewEntries = allowNewEntries;
-
+            textBox.TextChanged += _textBox_TextChanged;
             textBox.Validating += _textBox_Validating;
-            button.Click += button_Click;
+            button.Click += _button_Click;
         }
-
         /// <summary>
         /// Show list button clicked.
         /// </summary>
-        void button_Click(object sender, EventArgs e)
+        void _button_Click(object sender, EventArgs e)
         {
             // Get available options
             DataSet<T> sel = _args.Clone();
@@ -66,57 +61,66 @@ namespace MetaboliteLevels.Controls
 
             if (_args.TypedGetList(true).Count() < 10)
             {
-                newSelected = sel.ShowCheckBox(TextBox.FindForm(), _lastValidSelection, _allowNewEntries);
+                newSelected = sel.ShowCheckBox(TextBox.FindForm(), _selection);
             }
             else
             {
-                newSelected = sel.ShowCheckList(TextBox.FindForm(), _lastValidSelection, _allowNewEntries);
+                newSelected = sel.ShowCheckList(TextBox.FindForm(), _selection);
             }
 
             if (newSelected != null)
             {
-                _selected = new HashSet<T>(newSelected);
-                _lastValidSelection = _selected;
+                _selection = new HashSet<T>(newSelected);
+                _isSelectionValid = true;
 
-                UpdateText();
+                UpdateTextFromSelection();
             }
         }
+
+        /// <summary>
+        /// Update the list as we change.
+        /// </summary>                   
+        private void _textBox_TextChanged( object sender, EventArgs e )
+        {
+            UpdateListFromText();
+        }                    
 
         /// <summary>
         /// Handler.
         /// </summary>
         void _textBox_Validating(object sender, CancelEventArgs e)
-        {
-            if (UpdateList())
-            {
-                UpdateText();
+        {       
+            // Nicely format selection (can only do if valuid)  
+            if (_isSelectionValid)
+            {   
+                UpdateTextFromSelection();
             }
         }
 
         /// <summary>
         /// Gets a copy of the selected items set, or throws an error for an invalid selection.
         /// </summary>
-        public HashSet<T> GetSelectedItemsE()
+        public HashSet<T> GetSelectedItemsOrThrow()
         {
-            if (_selected == null)
+            if (!_isSelectionValid)
             {
                 throw new InvalidOperationException("Invalid selection.");
             }
 
-            return new HashSet<T>(_selected);
+            return new HashSet<T>(_selection);
         }
 
         /// <summary>
         /// Gets a copy of the selection items set, or returns NULL if the selection is invalid.
         /// </summary>
-        public HashSet<T> GetSelection()
+        public HashSet<T> GetSelectionOrNull()
         {
-            if (_selected == null)
+            if (!_isSelectionValid)
             {
                 return null;
             }
 
-            return new HashSet<T>(_selected);
+            return new HashSet<T>( _selection );
         }
 
         /// <summary>
@@ -124,7 +128,7 @@ namespace MetaboliteLevels.Controls
         /// </summary>
         public bool SelectionValid
         {
-            get { return _selected != null; }
+            get { return _isSelectionValid; }
         }
 
         /// <summary>
@@ -136,40 +140,40 @@ namespace MetaboliteLevels.Controls
         public IEnumerable<T> SelectedItems
         {
             get
-            {
-                return _selected;
+            {   
+                return GetSelectionOrNull();
             }
             set
             {
                 if (value == null)
                 {
-                    _selected = new HashSet<T>();
+                    _selection = new HashSet<T>();
+                    _isSelectionValid = true;
                 }
                 else
                 {
-                    _selected = new HashSet<T>(value);
-                }
+                    _selection = new HashSet<T>(value);
+                    _isSelectionValid = true;
+                }                                   
 
-                _lastValidSelection = _selected;
-
-                UpdateText();
+                UpdateTextFromSelection();
             }
         }
 
         /// <summary>
         /// Updates the textbox text to reflect the current selection.
         /// </summary>
-        private void UpdateText()
+        private void UpdateTextFromSelection()
         {
-            if (_integerBehaviour)
+            if (_args.IntegerBehaviour)
             {
-                TextBox.Text = StringHelper.ArrayToStringInt(_lastValidSelection.Cast<int>());
+                TextBox.Text = StringHelper.ArrayToStringInt(_selection.Cast<int>());
             }
             else
             {
                 StringBuilder sb = new StringBuilder();
 
-                HashSet<T> sel = new HashSet<T>(_lastValidSelection);
+                HashSet<T> sel = new HashSet<T>(_selection);
 
                 foreach (var choice in _args.TypedGetList(true))
                 {
@@ -180,7 +184,7 @@ namespace MetaboliteLevels.Controls
                             sb.Append(", ");
                         }
 
-                        sb.Append(GetText(choice));
+                        sb.Append( _args.ItemNameProvider( choice ));
                         sel.Remove(choice);
                     }
                 }
@@ -193,92 +197,61 @@ namespace MetaboliteLevels.Controls
                         sb.Append(", ");
                     }
 
-                    sb.Append(GetText(extraChoice));
+                    sb.Append( _args.ItemNameProvider( extraChoice ) );
                 }
 
                 TextBox.Text = sb.ToString();
             }
-        }
-
-        /// <summary>
-        /// Returns the text for the specified choice.
-        /// </summary>
-        private string GetText(T choice)
-        {                        
-            return _args.ItemNameProvider(choice);
-        }
+        }        
 
         /// <summary>
         /// Updates the selection list to reflect the current text.
         /// </summary>
-        private bool UpdateList()
+        private void UpdateListFromText()
         {
-            bool r = DoUpdateList();
+            IEnumerable<T> possibilities = _args.TypedGetList(true);
+            _isSelectionValid = true;
 
-            if (r)
+            if (_args.IntegerBehaviour)
             {
-                this.TextBox.BackColor = _defaultColour;
-            }
-            else
-            {
-                this.TextBox.BackColor = Color.Red;
-            }
+                List<int> selected = StringHelper.StringToArrayInt(TextBox.Text, EErrorHandler.ReturnNull);
 
-            return r;
-        }
-
-        /// <summary>
-        /// Updates the selection list to reflect the current text.
-        /// </summary>
-        private bool DoUpdateList()
-        {
-            var choices = _args.TypedGetList(true);
-
-            if (_integerBehaviour)
-            {
-                List<int> ints = StringHelper.StringToArrayInt(TextBox.Text, EErrorHandler.ReturnNull);
-
-                if (ints == null || ints.Any(z => !choices.Cast<int>().Contains(z)))
+                if (selected == null || selected.Any( z => !possibilities.Cast<int>().Contains( z ) ))
                 {
-                    _selected = null;
-                    return false;
-                }
+                    _isSelectionValid = false;
+                }  
 
-                _selected = new HashSet<T>(ints.Cast<T>());
-                _lastValidSelection = _selected;
-                return true;
+                _selection = new HashSet<T>(selected.Cast<T>()); 
             }
             else
             {
-                string[] ee = TextBox.Text.Split(",".ToCharArray());
+                string[] elements = TextBox.Text.Split(",".ToCharArray());
 
                 HashSet<T> result = new HashSet<T>();
 
-                foreach (string e in ee)
+                foreach (string e in elements)
                 {
                     if (!string.IsNullOrWhiteSpace(e))
                     {
                         T choice;
 
-                        if (!TryGetChoice(choices, e, out choice))
+                        if (!TryGetChoice( possibilities, e, out choice ))
                         {
-                            _selected = null;
-                            return false;
+                            _isSelectionValid = false;
                         }
-
-                        if (!_allowNewEntries && !choices.Contains(choice))
+                        else
                         {
-                            _selected = null;
-                            return false;
-                        }
+                            if (!_args.AllowNewEntries && !possibilities.Contains( choice ))
+                            {
+                                _isSelectionValid = false;
+                            }
 
-                        result.Add(choice);
+                            result.Add( choice );
+                        }
                     }
                 }
 
-                _selected = result;
-                _lastValidSelection = _selected;
-                return true;
+                _selection = result;            
             }
         }
 

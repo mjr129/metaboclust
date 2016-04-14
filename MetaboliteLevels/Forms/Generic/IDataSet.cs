@@ -36,5 +36,6 @@ namespace MetaboliteLevels.Forms.Generic
         bool ListSupportsReorder { get; }
 
         void UntypedBeforeReplace(Form owner, object remove, object create);
+        bool AllowNewEntries { get; }
     }
 }

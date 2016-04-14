@@ -15,6 +15,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.Collections;
+using MetaboliteLevels.DataLoader;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -28,7 +29,7 @@ namespace MetaboliteLevels.Forms.Startup
         private readonly CtlWizard _wizard;
         private bool _historyDelete; // Why the context menu is being shown (load | delete)
         private string CondInfoFileName { get { return _chkCondInfo.Checked ? _txtCondInfo.Text : null; } }
-        private string _typeCacheFileName;
+        private string _experimentalGroupCacheSource;
 
         private readonly ConditionBox<string> _cbExp;
         private readonly ConditionBox<string> _cbControl;
@@ -38,7 +39,7 @@ namespace MetaboliteLevels.Forms.Startup
 
 
         private Dictionary<string, string> _typeCacheNames = new Dictionary<string, string>();
-        private readonly HashSet<string> _typeCacheIds = new HashSet<string>();
+        private readonly HashSet<string> _experimentalGroupCache = new HashSet<string>();
         private readonly ToolStripMenuItem _mnuBrowseWorkspace;
         private readonly ToolStripSeparator _mnuBrowseWorkspaceSep;
 
@@ -584,12 +585,12 @@ namespace MetaboliteLevels.Forms.Startup
                 fileNames.Session                    = null;
                 fileNames.AltData                    = _chkAltVals.Checked ? _txtAltVals.Text : null;
                 fileNames.ConditionInfo              = CondInfoFileName;
-                fileNames.ConditionsOfInterestString = new List<string>( _cbExp.GetSelectedItemsE() );
-                fileNames.ControlConditionsString    = new List<string>( _cbControl.GetSelectedItemsE() );
+                fileNames.ConditionsOfInterestString = new List<string>( _cbExp.GetSelectedItemsOrThrow() );
+                fileNames.ControlConditionsString    = new List<string>( _cbControl.GetSelectedItemsOrThrow() );
                 fileNames.StandardStatisticalMethods = EStatisticalMethods.None;
                 fileNames.StandardStatisticalMethods = GetCheck( _chkStatT, fileNames.StandardStatisticalMethods, EStatisticalMethods.TTest );
                 fileNames.StandardStatisticalMethods = GetCheck( _chkStatP, fileNames.StandardStatisticalMethods, EStatisticalMethods.Pearson );
-                fileNames.AutomaticIdentificationsToleranceUnit  = EnumComboBox.Get<ETolerance>( _lstTolerance );
+                fileNames.AutomaticIdentificationsToleranceUnit  = EnumComboBox.Get<ETolerance>( _lstTolerance, ETolerance.PartsPerMillion );
                 fileNames.AutomaticIdentificationsToleranceValue = _numTolerance.Value;
             }
             catch (Exception ex)
@@ -907,31 +908,60 @@ namespace MetaboliteLevels.Forms.Startup
 
         public void UpdateCacheOfTypes()
         {
-            string newFile = _txtCondInfo.Text;
-
-            if (_typeCacheFileName != newFile)
+            if (!Visible)
             {
-                _typeCacheIds.Clear();
+                return;
+            }
+
+            string conditionFile = _txtCondInfo.Text;
+            string observationFile = _txtDataSetObs.Text;
+            bool useObsFile = string.IsNullOrWhiteSpace( conditionFile );
+            string sourceDescription = useObsFile ? ("O" + observationFile) : ("C" + conditionFile);
+
+            if (_experimentalGroupCacheSource != sourceDescription)
+            {
+                _experimentalGroupCacheSource = sourceDescription;
+                
+                _typeCacheNames.Clear();
 
                 try
                 {
-                    _typeCacheFileName = newFile;
-
-                    if (File.Exists( newFile ))
+                    FrmWait.Show(this, "Updating experimental groups", null, delegate(ProgressReporter progress)
                     {
-                        _typeCacheNames = FrmDataLoad.LoadConditionInfo( newFile );
-                    }
-                    else
-                    {
-                        _typeCacheNames.Clear();
-                    }
+                        if (useObsFile)
+                        {
+                            if (File.Exists( observationFile ))
+                            {
+                                Matrix<string> info = new Matrix<string>( observationFile, true, true, progress );
+                                int typeCol = info.OptionalColIndex( FrmDataLoad.OBSFILE_GROUP_HEADER );
 
-                    _typeCacheIds.AddRange( _typeCacheNames.Keys );
+                                for (int row = 0; row < info.NumRows; row++)
+                                {
+                                    string id = info[row, typeCol];
+
+                                    if (!_typeCacheNames.ContainsKey( id ))
+                                    {
+                                        _typeCacheNames.Add( id, id );
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (File.Exists( conditionFile ))
+                                {
+                                    _typeCacheNames = FrmDataLoad.LoadConditionInfo( conditionFile, progress );
+                                }
+                            }
+                        }
+                    } );
                 }
                 catch
                 {
-                    _typeCacheNames.Clear();
+                   // NA
                 }
+
+                _experimentalGroupCache.Clear();
+                _experimentalGroupCache.AddRange( _typeCacheNames.Keys );
             }
         }
 
@@ -963,7 +993,7 @@ namespace MetaboliteLevels.Forms.Startup
             public IEnumerator<string> GetEnumerator()
             {
                 _owner.UpdateCacheOfTypes();
-                return _owner._typeCacheIds.GetEnumerator();
+                return _owner._experimentalGroupCache.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -1102,6 +1132,11 @@ namespace MetaboliteLevels.Forms.Startup
             _lstCompounds.Items.AddRange( _lstAvailCompounds.Items.Cast<CompoundLibrary>().ToArray() );
             UpdateAvailableCompoundsList();
             UpdateAutoIdentifyButton();
+        }
+
+        private void _chkAutoIdentify_CheckedChanged( object sender, EventArgs e )
+        {
+            _numTolerance.Enabled = _lblTolerance.Enabled = _lstTolerance.Enabled = _chkAutoIdentify.Checked;
         }
     }
 }

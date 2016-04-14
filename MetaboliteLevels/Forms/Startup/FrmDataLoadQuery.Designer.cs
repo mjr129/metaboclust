@@ -123,7 +123,7 @@
             this._txtIdentifications = new System.Windows.Forms.TextBox();
             this._chkIdentifications = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this.label8 = new System.Windows.Forms.Label();
+            this._lblTolerance = new System.Windows.Forms.Label();
             this._numTolerance = new System.Windows.Forms.NumericUpDown();
             this._lstTolerance = new System.Windows.Forms.ComboBox();
             this._tabReady = new System.Windows.Forms.TabPage();
@@ -305,7 +305,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3569, 521);
+            this.pictureBox1.Location = new System.Drawing.Point(3587, 521);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -662,7 +662,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(749, 529);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(749, 537);
             this.tableLayoutPanel2.TabIndex = 0;
             this._tipSideBar.SetToolTip(this.tableLayoutPanel2, "*");
             // 
@@ -670,7 +670,7 @@
             // 
             this._btnCondInfo.Enabled = false;
             this._btnCondInfo.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnCondInfo.Location = new System.Drawing.Point(707, 483);
+            this._btnCondInfo.Location = new System.Drawing.Point(707, 491);
             this._btnCondInfo.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnCondInfo.Name = "_btnCondInfo";
             this._btnCondInfo.Size = new System.Drawing.Size(28, 29);
@@ -685,7 +685,7 @@
             this._txtCondInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtCondInfo.Enabled = false;
             this._txtCondInfo.ForeColor = System.Drawing.Color.Blue;
-            this._txtCondInfo.Location = new System.Drawing.Point(34, 483);
+            this._txtCondInfo.Location = new System.Drawing.Point(34, 491);
             this._txtCondInfo.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
             this._txtCondInfo.Name = "_txtCondInfo";
             this._txtCondInfo.Size = new System.Drawing.Size(665, 29);
@@ -715,7 +715,7 @@
             // _chkCondInfo
             // 
             this._chkCondInfo.AutoSize = true;
-            this._chkCondInfo.Location = new System.Drawing.Point(14, 444);
+            this._chkCondInfo.Location = new System.Drawing.Point(14, 452);
             this._chkCondInfo.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
             this._chkCondInfo.Name = "_chkCondInfo";
             this._chkCondInfo.Size = new System.Drawing.Size(201, 25);
@@ -739,7 +739,7 @@
             // _btnDataSetVar
             // 
             this._btnDataSetVar.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnDataSetVar.Location = new System.Drawing.Point(707, 315);
+            this._btnDataSetVar.Location = new System.Drawing.Point(707, 323);
             this._btnDataSetVar.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnDataSetVar.Name = "_btnDataSetVar";
             this._btnDataSetVar.Size = new System.Drawing.Size(28, 29);
@@ -752,7 +752,7 @@
             // _btnDataSetObs
             // 
             this._btnDataSetObs.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnDataSetObs.Location = new System.Drawing.Point(707, 251);
+            this._btnDataSetObs.Location = new System.Drawing.Point(707, 259);
             this._btnDataSetObs.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnDataSetObs.Name = "_btnDataSetObs";
             this._btnDataSetObs.Size = new System.Drawing.Size(28, 29);
@@ -765,7 +765,7 @@
             // _btnDataSetData
             // 
             this._btnDataSetData.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnDataSetData.Location = new System.Drawing.Point(707, 187);
+            this._btnDataSetData.Location = new System.Drawing.Point(707, 195);
             this._btnDataSetData.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnDataSetData.Name = "_btnDataSetData";
             this._btnDataSetData.Size = new System.Drawing.Size(28, 29);
@@ -778,7 +778,7 @@
             // 
             this._txtDataSetData.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetData.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetData.Location = new System.Drawing.Point(58, 187);
+            this._txtDataSetData.Location = new System.Drawing.Point(58, 195);
             this._txtDataSetData.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetData.Name = "_txtDataSetData";
             this._txtDataSetData.Size = new System.Drawing.Size(641, 29);
@@ -789,7 +789,7 @@
             // 
             this._txtDataSetObs.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetObs.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetObs.Location = new System.Drawing.Point(58, 251);
+            this._txtDataSetObs.Location = new System.Drawing.Point(58, 259);
             this._txtDataSetObs.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetObs.Name = "_txtDataSetObs";
             this._txtDataSetObs.Size = new System.Drawing.Size(641, 29);
@@ -799,7 +799,7 @@
             // _lblDataSetData
             // 
             this._lblDataSetData.AutoSize = true;
-            this._lblDataSetData.Location = new System.Drawing.Point(34, 159);
+            this._lblDataSetData.Location = new System.Drawing.Point(34, 167);
             this._lblDataSetData.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
             this._lblDataSetData.Name = "_lblDataSetData";
             this._lblDataSetData.Size = new System.Drawing.Size(105, 21);
@@ -810,7 +810,7 @@
             // _lblDataSetObs
             // 
             this._lblDataSetObs.AutoSize = true;
-            this._lblDataSetObs.Location = new System.Drawing.Point(34, 223);
+            this._lblDataSetObs.Location = new System.Drawing.Point(34, 231);
             this._lblDataSetObs.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
             this._lblDataSetObs.Name = "_lblDataSetObs";
             this._lblDataSetObs.Size = new System.Drawing.Size(194, 21);
@@ -821,7 +821,7 @@
             // _lblDataSetVar
             // 
             this._lblDataSetVar.AutoSize = true;
-            this._lblDataSetVar.Location = new System.Drawing.Point(34, 287);
+            this._lblDataSetVar.Location = new System.Drawing.Point(34, 295);
             this._lblDataSetVar.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
             this._lblDataSetVar.Name = "_lblDataSetVar";
             this._lblDataSetVar.Size = new System.Drawing.Size(142, 21);
@@ -833,7 +833,7 @@
             // 
             this._txtDataSetVar.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetVar.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetVar.Location = new System.Drawing.Point(58, 315);
+            this._txtDataSetVar.Location = new System.Drawing.Point(58, 323);
             this._txtDataSetVar.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetVar.Name = "_txtDataSetVar";
             this._txtDataSetVar.Size = new System.Drawing.Size(641, 29);
@@ -843,7 +843,7 @@
             // _chkAltVals
             // 
             this._chkAltVals.AutoSize = true;
-            this._chkAltVals.Location = new System.Drawing.Point(14, 360);
+            this._chkAltVals.Location = new System.Drawing.Point(14, 368);
             this._chkAltVals.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
             this._chkAltVals.Name = "_chkAltVals";
             this._chkAltVals.Size = new System.Drawing.Size(230, 25);
@@ -858,7 +858,7 @@
             this._txtAltVals.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtAltVals.Enabled = false;
             this._txtAltVals.ForeColor = System.Drawing.Color.Blue;
-            this._txtAltVals.Location = new System.Drawing.Point(34, 399);
+            this._txtAltVals.Location = new System.Drawing.Point(34, 407);
             this._txtAltVals.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
             this._txtAltVals.Name = "_txtAltVals";
             this._txtAltVals.Size = new System.Drawing.Size(665, 29);
@@ -869,7 +869,7 @@
             // 
             this._btnAltVals.Enabled = false;
             this._btnAltVals.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnAltVals.Location = new System.Drawing.Point(707, 399);
+            this._btnAltVals.Location = new System.Drawing.Point(707, 407);
             this._btnAltVals.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnAltVals.Name = "_btnAltVals";
             this._btnAltVals.Size = new System.Drawing.Size(28, 29);
@@ -1113,7 +1113,7 @@
             this._tabCompounds.Margin = new System.Windows.Forms.Padding(4);
             this._tabCompounds.Name = "_tabCompounds";
             this._tabCompounds.Padding = new System.Windows.Forms.Padding(4);
-            this._tabCompounds.Size = new System.Drawing.Size(748, 720);
+            this._tabCompounds.Size = new System.Drawing.Size(757, 720);
             this._tabCompounds.TabIndex = 2;
             this._tabCompounds.Text = "Compounds";
             this._tabCompounds.ToolTipText = "*";
@@ -1144,7 +1144,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(740, 712);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(749, 712);
             this.tableLayoutPanel7.TabIndex = 19;
             // 
             // flowLayoutPanel4
@@ -1155,7 +1155,7 @@
             this.flowLayoutPanel4.Controls.Add(this._btnBrowseAdducts);
             this.flowLayoutPanel4.Controls.Add(this._btnDelAdduct);
             this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(348, 411);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(352, 411);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(44, 111);
@@ -1223,7 +1223,7 @@
             this._lstAdducts.Location = new System.Drawing.Point(8, 411);
             this._lstAdducts.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this._lstAdducts.Name = "_lstAdducts";
-            this._lstAdducts.Size = new System.Drawing.Size(340, 301);
+            this._lstAdducts.Size = new System.Drawing.Size(344, 301);
             this._lstAdducts.TabIndex = 7;
             this._tipPopup.SetToolTip(this._lstAdducts, "Selected libraries");
             this._tipSideBar.SetToolTip(this._lstAdducts, "*Adducts");
@@ -1235,11 +1235,11 @@
             this._lstAvailableAdducts.ForeColor = System.Drawing.Color.Blue;
             this._lstAvailableAdducts.FormattingEnabled = true;
             this._lstAvailableAdducts.ItemHeight = 21;
-            this._lstAvailableAdducts.Location = new System.Drawing.Point(392, 411);
+            this._lstAvailableAdducts.Location = new System.Drawing.Point(396, 411);
             this._lstAvailableAdducts.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this._lstAvailableAdducts.Name = "_lstAvailableAdducts";
             this._lstAvailableAdducts.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this._lstAvailableAdducts.Size = new System.Drawing.Size(340, 301);
+            this._lstAvailableAdducts.Size = new System.Drawing.Size(345, 301);
             this._lstAvailableAdducts.TabIndex = 5;
             this._tipPopup.SetToolTip(this._lstAvailableAdducts, "Available libraries");
             this._tipSideBar.SetToolTip(this._lstAvailableAdducts, "*Adducts");
@@ -1254,7 +1254,7 @@
             this._lstCompounds.Location = new System.Drawing.Point(8, 74);
             this._lstCompounds.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this._lstCompounds.Name = "_lstCompounds";
-            this._lstCompounds.Size = new System.Drawing.Size(340, 300);
+            this._lstCompounds.Size = new System.Drawing.Size(344, 300);
             this._lstCompounds.TabIndex = 5;
             this._tipSideBar.SetToolTip(this._lstCompounds, "*Compounds");
             // 
@@ -1267,7 +1267,7 @@
             this.flowLayoutPanel3.Controls.Add(this._btnAddCompoundLibrary);
             this.flowLayoutPanel3.Controls.Add(this._btnRemoveLibrary);
             this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(348, 74);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(352, 74);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(44, 148);
@@ -1336,11 +1336,11 @@
             this._lstAvailCompounds.ForeColor = System.Drawing.Color.Blue;
             this._lstAvailCompounds.FormattingEnabled = true;
             this._lstAvailCompounds.ItemHeight = 21;
-            this._lstAvailCompounds.Location = new System.Drawing.Point(392, 74);
+            this._lstAvailCompounds.Location = new System.Drawing.Point(396, 74);
             this._lstAvailCompounds.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this._lstAvailCompounds.Name = "_lstAvailCompounds";
             this._lstAvailCompounds.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this._lstAvailCompounds.Size = new System.Drawing.Size(340, 300);
+            this._lstAvailCompounds.Size = new System.Drawing.Size(345, 300);
             this._lstAvailCompounds.TabIndex = 5;
             this._tipSideBar.SetToolTip(this._lstAvailCompounds, "*Compounds");
             // 
@@ -1442,6 +1442,7 @@
             this._tipSideBar.SetToolTip(this._chkAutoIdentify, "Select this option to automatically annotate Peaks based on their m/z.\r\n\r\nThis wi" +
         "ll only function if the requisite information has been selected.");
             this._chkAutoIdentify.UseVisualStyleBackColor = true;
+            this._chkAutoIdentify.CheckedChanged += new System.EventHandler(this._chkAutoIdentify_CheckedChanged);
             // 
             // _txtIdentifications
             // 
@@ -1476,7 +1477,7 @@
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.Controls.Add(this.label8, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this._lblTolerance, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this._numTolerance, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this._lstTolerance, 2, 0);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1488,19 +1489,21 @@
             this.tableLayoutPanel8.Size = new System.Drawing.Size(678, 45);
             this.tableLayoutPanel8.TabIndex = 7;
             // 
-            // label8
+            // _lblTolerance
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(32, 8);
-            this.label8.Margin = new System.Windows.Forms.Padding(32, 8, 8, 8);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(77, 21);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Tolerance";
+            this._lblTolerance.AutoSize = true;
+            this._lblTolerance.Enabled = false;
+            this._lblTolerance.Location = new System.Drawing.Point(32, 8);
+            this._lblTolerance.Margin = new System.Windows.Forms.Padding(32, 8, 8, 8);
+            this._lblTolerance.Name = "_lblTolerance";
+            this._lblTolerance.Size = new System.Drawing.Size(77, 21);
+            this._lblTolerance.TabIndex = 0;
+            this._lblTolerance.Text = "Tolerance";
             // 
             // _numTolerance
             // 
             this._numTolerance.Dock = System.Windows.Forms.DockStyle.Top;
+            this._numTolerance.Enabled = false;
             this._numTolerance.Location = new System.Drawing.Point(125, 8);
             this._numTolerance.Margin = new System.Windows.Forms.Padding(8);
             this._numTolerance.Maximum = new decimal(new int[] {
@@ -1515,6 +1518,7 @@
             // _lstTolerance
             // 
             this._lstTolerance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstTolerance.Enabled = false;
             this._lstTolerance.FormattingEnabled = true;
             this._lstTolerance.Location = new System.Drawing.Point(549, 8);
             this._lstTolerance.Margin = new System.Windows.Forms.Padding(8);
@@ -1528,7 +1532,7 @@
             this._tabReady.Location = new System.Drawing.Point(4, 4);
             this._tabReady.Name = "_tabReady";
             this._tabReady.Padding = new System.Windows.Forms.Padding(3);
-            this._tabReady.Size = new System.Drawing.Size(748, 720);
+            this._tabReady.Size = new System.Drawing.Size(757, 720);
             this._tabReady.TabIndex = 7;
             this._tabReady.Text = "Ready";
             this._tabReady.UseVisualStyleBackColor = true;
@@ -1545,7 +1549,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(742, 714);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(751, 714);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // _chkAlarm
@@ -1572,7 +1576,7 @@
             this.label12.Margin = new System.Windows.Forms.Padding(48);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(8);
-            this.label12.Size = new System.Drawing.Size(646, 100);
+            this.label12.Size = new System.Drawing.Size(655, 100);
             this.label12.TabIndex = 4;
             this.label12.Text = "Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSaving " +
     "your session from the main menu will allow it to be loaded quickly in future.";
@@ -1818,7 +1822,7 @@
         private System.Windows.Forms.Label _lblProgramDescription;
         private System.Windows.Forms.Label _lbl32BitWarning;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label _lblTolerance;
         private System.Windows.Forms.NumericUpDown _numTolerance;
         private System.Windows.Forms.ComboBox _lstTolerance;
         private Controls.CtlError _checker;

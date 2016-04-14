@@ -266,7 +266,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSelectPreview_Click(object sender, EventArgs e)
         {
-            var sel = DataSet.ForPeaks(_core).ShowList(this, _selectedPeak, false);
+            var sel = DataSet.ForPeaks(_core).ShowList(this, _selectedPeak);
 
             if (sel != null)
             {

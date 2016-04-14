@@ -223,7 +223,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             bool negate = checkBox1.Checked;
 
-            var sel = conditionBox.GetSelection();
+            var sel = conditionBox.GetSelectionOrNull();
 
             _checker.Check( conditionBox.TextBox, conditionBox.SelectionValid, "Select a condition" );
 

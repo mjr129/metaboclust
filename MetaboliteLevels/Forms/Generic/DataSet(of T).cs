@@ -103,11 +103,16 @@ namespace MetaboliteLevels.Forms.Generic
 
         /// <summary>
         /// Retrieves an item with the specified name.
-        /// NOTE: This is only for cases where the item is not in the source list and only works
-        ///       when AllowNewEntries is TRUE.
+        /// NOTE: This is only for cases where the item is not in the source list and therefore
+        /// allows users to specify new entries.
         ///       x.ToString(), Namer(x) and StringComparator are always checked regardless.
         /// </summary>
         public RetrieverDelegate NewItemRetriever { get; set; }
+
+        /// <summary>
+        /// Returns if there is a NewItemRetriever.
+        /// </summary>
+        public bool AllowNewEntries => NewItemRetriever != null;
 
         /// <summary>
         /// When set signifies the list changes when items are edited.
@@ -329,49 +334,49 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Shows the list selection form (FrmList, single selection).
         /// </summary>
-        public T ShowList(Form owner, T defaultSelection, bool allowUnknownDefaultSelection = false)
+        public T ShowList(Form owner, T defaultSelection)
         {
-            return FrmList.ShowList(owner, this, defaultSelection, allowUnknownDefaultSelection);
+            return FrmList.ShowList(owner, this, defaultSelection);
         }
 
         /// <summary>
         /// Shows the radio button selection form (FrmList, single selection).
         /// </summary>
-        public T ShowRadio(Form owner, T defaultSelection, bool allowUnknownDefaultSelection = false)
+        public T ShowRadio(Form owner, T defaultSelection)
         {
-            return FrmList.ShowRadio(owner, this, defaultSelection, allowUnknownDefaultSelection);
+            return FrmList.ShowRadio(owner, this, defaultSelection);
         }
 
         /// <summary>
         /// Shows the button selection form (FrmList, single selection).
         /// </summary>
-        public T ShowButtons(Form owner, T defaultSelection, bool allowUnknownDefaultSelection = false)
+        public T ShowButtons(Form owner, T defaultSelection)
         {
-            return FrmList.ShowButtons(owner, this, defaultSelection, allowUnknownDefaultSelection);
+            return FrmList.ShowButtons(owner, this, defaultSelection);
         }
 
         /// <summary>
         /// Shows the list selection form (FrmList, multiple selection).
         /// </summary>
-        public IEnumerable<T> ShowCheckList(Form owner, IEnumerable<T> defaultSelection, bool allowUnknownDefaultSelection = false)
+        public IEnumerable<T> ShowCheckList(Form owner, IEnumerable<T> defaultSelection)
         {
-            return FrmList.ShowCheckList(owner, this, defaultSelection, allowUnknownDefaultSelection);
+            return FrmList.ShowCheckList(owner, this, defaultSelection);
         }
 
         /// <summary>
         /// Shows the checkbox selection form (FrmList, single selection).
         /// </summary>
-        public IEnumerable<T> ShowCheckBox(Form owner, IEnumerable<T> defaultSelection, bool allowUnknownDefaultSelection = false)
+        public IEnumerable<T> ShowCheckBox(Form owner, IEnumerable<T> defaultSelection)
         {
-            return FrmList.ShowCheckBox(owner, this, defaultSelection, allowUnknownDefaultSelection);
+            return FrmList.ShowCheckBox(owner, this, defaultSelection);
         }
 
         /// <summary>
         /// Creates a ConditionBox (textbox and browse button) from the list.
         /// </summary>
-        public ConditionBox<T> CreateConditionBox(TextBox textBox, Button button, bool allowNewEntries = false)
+        public ConditionBox<T> CreateConditionBox(TextBox textBox, Button button)
         {
-            return new ConditionBox<T>(this, textBox, button, allowNewEntries);
+            return new ConditionBox<T>(this, textBox, button);
         }
 
         /// <summary>
