@@ -11,10 +11,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
     {
         private readonly AlgoDelegate_Input1 _delegate;
 
-        public StatisticInbuilt(AlgoDelegate_Input1 method)
+        public StatisticInbuilt(AlgoDelegate_Input1 method, bool isMathDotNet)
             : base(method.Method.Name.ToUpper(), method.Method.Name)
         {
             this._delegate = method;
+            IsMathDotNet = isMathDotNet;
         }
 
         public override double Calculate(InputStatistic input)

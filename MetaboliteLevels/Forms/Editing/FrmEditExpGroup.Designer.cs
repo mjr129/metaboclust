@@ -33,16 +33,16 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this._txtId = new System.Windows.Forms.TextBox();
+            this._txtId = new Controls.CtlTextBox();
             this._lblTimeRange = new System.Windows.Forms.Label();
-            this._txtTimeRange = new System.Windows.Forms.TextBox();
-            this._txtDisplayOrder = new System.Windows.Forms.TextBox();
+            this._txtTimeRange = new Controls.CtlTextBox();
+            this._txtDisplayOrder = new Controls.CtlTextBox();
             this._txtTitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this._txtAbvTitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this._txtComments = new System.Windows.Forms.TextBox();
+            this._txtComments = new Controls.CtlTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this._btnColour = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -357,15 +357,15 @@
         private System.Windows.Forms.Label label2;
         private Controls.CtlTextBox _txtAbvTitle;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox _txtComments;
+        private Controls.CtlTextBox _txtComments;
         private System.Windows.Forms.Label label4;
         private MetaboliteLevels.Controls.CtlButton _btnColour;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label _lblTimeRange;
-        private System.Windows.Forms.TextBox _txtId;
-        private System.Windows.Forms.TextBox _txtTimeRange;
+        private Controls.CtlTextBox _txtId;
+        private Controls.CtlTextBox _txtTimeRange;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox _txtDisplayOrder;
+        private Controls.CtlTextBox _txtDisplayOrder;
     }
 }

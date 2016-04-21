@@ -27,6 +27,7 @@ namespace MetaboliteLevels.Forms.Generic
         private bool _multiSelect;
         private readonly List<object> _objects = new List<object>();
         private readonly List<int> _invalidIndices = new List<int>();
+        private object[] _result;
 
         private static IEnumerable<T> Show<T>(Form owner, IFormList handler, DataSet<T> opts, bool multiSelect, IEnumerable<T> defaultSelection)
         {
@@ -34,7 +35,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
-                    return frm._objects.Cast<T>().Corresponding(frm.GetStates());
+                    return frm._result.Cast<T>();
                 }
 
                 return null;
@@ -362,7 +363,7 @@ namespace MetaboliteLevels.Forms.Generic
             }
 
             // Finalise any controls
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
             _handler.Ready();
 
             // Set the states
@@ -421,6 +422,7 @@ namespace MetaboliteLevels.Forms.Generic
                 }
             }
 
+            _result = _objects.Corresponding( GetStates() ).ToArray();
             DialogResult = DialogResult.OK;
         }
 

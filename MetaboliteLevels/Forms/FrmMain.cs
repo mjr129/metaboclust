@@ -180,6 +180,31 @@ namespace MetaboliteLevels.Forms
 
             // General stuff
             HandleCoreChange();
+
+            Dictionary<string, ToolStripMenuItem> dict = new Dictionary<string, ToolStripMenuItem>();
+
+            // Database menu
+            foreach (EDataManager dm in Enum.GetValues( typeof( EDataManager ) ))
+            {
+                string[] text = dm.ToUiString().Split('\\');
+
+                ToolStripMenuItem tsi = dict.GetOrCreate( text[0], z => (ToolStripMenuItem)databaseToolStripMenuItem.DropDownItems.Add( z ) );
+
+                ToolStripMenuItem tsmi = new ToolStripMenuItem( text[1], Resources.MnuViewList, dataManagerMenuItem );
+                tsmi.Tag = dm;
+
+                tsi.DropDownItems.Add( tsmi );
+            }
+        }
+
+        /// <summary>
+        /// Handles menu click.
+        /// </summary>aram>
+        private void dataManagerMenuItem( object sender, EventArgs e )
+        {
+            ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
+            EDataManager tag = (EDataManager)tsmi.Tag;
+            ShowEditor( tag );
         }
 
         /// <summary>
@@ -1621,97 +1646,78 @@ namespace MetaboliteLevels.Forms
         }
 
         enum EDataManager
-        {
-            Cancel,
-
-            [Name("Data: Peaks")]
+        {      
+            [Name("Data\\Peaks")]
             Peaks,
 
-            [Name("Data: Clusters")]
+            [Name("Data\\Clusters")]
             Clusters,
 
-            [Name("Data: Acquisition indices")]
+            [Name("Data\\Acquisition indices")]
             Acquisitions,
 
-            [Name("Data: Batches")]
+            [Name("Data\\Batches")]
             Batches,
 
-            [Name("Data: Experimental conditions")]
+            [Name("Data\\Experimental conditions")]
             Conditions,
 
-            [Name("Data: Timepoints")]
+            [Name("Data\\Timepoints")]
             Times,
 
-            [Name("Data: Replicate indices")]
+            [Name("Data\\Replicate indices")]
             Replicates,
 
-            [Name("Data: Peak flags")]
+            [Name("Data\\Peak flags")]
             PeakFlags,
 
-            [Name("Data: Experimental observations")]
+            [Name("Data\\Experimental observations")]
             Observations,
 
-            [Name("Data: Experimental groups")]
+            [Name("Data\\Experimental groups")]
             Groups,
 
-            [Name("Workflow: Peak filters")]
+            [Name("Workflow\\Peak filters")]
             PeakFilters,
 
-            [Name("Workflow: Observation filters")]
+            [Name("Workflow\\Observation filters")]
             ObservationFilters,
 
-            [Name("Workflow: Corrections")]
+            [Name("Workflow\\Corrections")]
             Corrections,
 
-            [Name("Workflow: Trends")]
+            [Name("Workflow\\Trends")]
             Trends,
 
-            [Name("Workflow: Statistics")]
+            [Name("Workflow\\Statistics")]
             Statistics,
 
-            [Name("Workflow: Clusterers")]
+            [Name("Workflow\\Clusterers")]
             Clusterers,
 
-            [Name("Workflow: Clustering evaluations")]
+            [Name("Workflow\\Clustering evaluations")]
             Evaluations,
 
-            [Name("Algorithms: Trends and corrections")]
+            [Name("Algorithms\\Trends and corrections")]
             TrendAndCorrectionAlgorithms,
 
-            [Name("Algorithms: Trends")]
+            [Name("Algorithms\\Trends")]
             TrendAlgorithms,
 
-            [Name("Algorithms: Statistics")]
+            [Name("Algorithms\\Statistics")]
             StatisticsAlgorithms,
 
-            [Name("Algorithms: Metrics")]
+            [Name("Algorithms\\Metrics")]
             MetricAlgorithms,
 
-            [Name("Algorithms: Clustering")]
-            ClusteringAlgorithms,
-
-            [Name("Everything (selection only)")]
-            Everything,
-        }
-
-        private void manageDataToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            ShowEditor(DataSet.ForDiscreteEnum<EDataManager>("Manage Data", EDataManager.Cancel).ShowList(this, EDataManager.Cancel));
-        }
+            [Name("Algorithms\\Clustering")]
+            ClusteringAlgorithms,          
+        }                                 
 
         private void ShowEditor(EDataManager which)
         {
             switch (which)
-            {
-                case EDataManager.Everything:
-                    var selection = DataSet.ForEverything(_core).ShowList(this, null);
-
-                    if (selection != null)
-                    {
-                        CommitSelection(new VisualisableSelection(selection as IVisualisable));
-                    }
-                    break;
-
+            {                  
                 case EDataManager.Acquisitions:
                     DataSet.ForAcquisitions(_core).ShowListEditor(this);
                     break;
@@ -1815,8 +1821,7 @@ namespace MetaboliteLevels.Forms
                 case EDataManager.TrendAndCorrectionAlgorithms:
                     DataSet.ForTrendAndCorrectionAlgorithms(_core).ShowListEditor(this);
                     break;
-
-                case EDataManager.Cancel:
+                                         
                 default:
                     break;
             }

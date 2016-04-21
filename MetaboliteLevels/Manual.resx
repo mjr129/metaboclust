@@ -1,0 +1,427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Adducts" xml:space="preserve">
+    <value>Specifies adduct information.
+
+OPTIONAL: If not specified then no automatic identifications will be performed.
+
+EXPECTS: Name of a file.
+
+FILE LAYOUT: Standard CSV format file with row and header names.
+
+Rows:
+    * Row 0 / column headers:   Column names. Ignored. Mandatory.
+    * One adduct per row
+
+Columns:
+    * Column 0 / row headers:   Row names. Ignored. Mandatory.
+    * "name"                    The name of the adduct. Optional.
+    * "charge"                  The charge of the adduct (-1 = negative mode LC-MS, 1 = positive mode LS-MS). Required.
+    * "mass.difference          The mass of the adduct. Required.
+    * All other columns:        Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
+  </data>
+  <data name="AlternativeValues" xml:space="preserve">
+    <value>An alternative dataset which may be viewed by the user (for instance unscaled or raw data).
+
+OPTIONAL: If not specified no alternative data will be available.
+
+EXPCETS: Intensity data in CSV format.
+
+FILE LAYOUT:
+
+Rows:
+    * Row 0 / Header: Variable names
+    * One row per observation. Only observations also occurring in the standard dataset are read, these may appear in any order.
+
+Columns:
+    * Column 0 / Header: Observation names
+    * One row per variable. Only variables also occurring in the standard dataset are read, these may appear in any order.</value>
+  </data>
+  <data name="ClusteringRScriptExample" xml:space="preserve">
+    <value>kmeans(v, 3)$cluster</value>
+  </data>
+  <data name="ClusterRScript" xml:space="preserve">
+    <value>Clusters based on R script.
+The script should use the variable "s" (the distance matrix) and return cluster IDs (integer numeric vector).</value>
+  </data>
+  <data name="Compounds" xml:space="preserve">
+    <value>Specifies the compounds available for identification. 
+
+OPTIONAL: If not specified then no automatic identifications will be performed. Note that you can use "identifications" field to specify known identifications.
+
+EXPECTS: One or more compound libraries. Either a PathwayTools database folder or a CSV file.
+A list of available libraries will be displayed if the library folder has been configured, otherwise the source must be specified manually.
+
+DATABASE LAYOUT: PathwayTools database folder.
+
+A link to the description of this format is given when defining the library folder.
+
+CSV FILE LAYOUT: Two standard CSV format files with row and header names.
+
+COMPOUND FILE:
+
+Rows:
+    * Row 0 / column headers:   Column names. Ignored. Mandatory.
+
+Columns:
+    * Column 0 / row headers:   Row names. Ignored. Mandatory.
+    * "name"                    The name of the compound. Optional.
+    * "id"                      A unique ID for the compound. Required for automatic or manual annotations.
+    * "mass"                    The mass of the compound. Required for automatic annotations.
+    * "pathways"                The "id"s of the pathways the compound is implicated in. Comma delimited. NOTE: CSV files use commas as their internal delimiter, enclosed this list in quotes to avoid confusion. Required for pathway analysis. 
+    * All other columns:        Any additional data the user wishes to provide, unused but will be available for viewing in the software.
+
+PATHWAY FILE:
+    
+Rows:
+    * Row 0 / column headers:   Column names. Ignored. Mandatory.
+    
+Columns:
+    * Column 0 / row headers:   Row names. Ignored. Mandatory.
+    * "id"                      The unique ID of the pathway. Required.
+    * "name"                    The name of the pathway. Optional.
+    * All other columns:        Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
+  </data>
+  <data name="ConditionNames" xml:space="preserve">
+    <value>Names of the experimental conditions.
+
+OPTIONAL: If not specified conditions will be referred to by their index.
+
+EXPECTS: File in CSV format.
+
+FILE LAYOUT:
+
+Rows:
+    * Row 0 / Header: Column names
+    * One row per experimental condition.
+
+Columns:
+    * Column 0 / Header: Row names (ignored)
+    * id (integer values) - Corresponding to the "type" column of the observation info file.
+    * name - The name of the experimental condition</value>
+  </data>
+  <data name="ControlConditions" xml:space="preserve">
+    <value>The indices of the control condition(s), these should correspond to the "type" column of your observation file.</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>{productname} version {version}.
+Martin Rusilowicz.
+
+Additional icons made by Freepik, Google, Appzgear, Vectorgraphit from www.flaticon.com are licensed by CC BY 3.0.
+
+Download the latest version and source code: https://bitbucket.org/mjr129/metabolitelevels</value>
+  </data>
+  <data name="DKMeansPlusPlus" xml:space="preserve">
+    <value>This process starts with a "seed" variable to act as an exemplar. The distance of all other variables to this variable is then calculated. The most distant variable is then used as a second exemplar. The variable most distant from their closest exemplar acts as a third exemplar and so forth. The process is repeated until all variables fall within a certain distance range of the exemplars, or optionally until a certain number of exemplars are generated. These exemplars then act as the centres in a standard k-means clustering.</value>
+  </data>
+  <data name="ExperimentalConditions" xml:space="preserve">
+    <value>The indices of the experimental condition(s), these should correspond to the "type" column of your observation file.</value>
+  </data>
+  <data name="Identifications" xml:space="preserve">
+    <value>Specifies potential identifications for the peaks.
+
+OPTIONAL: Use only to specify identifications manually if required. You can use the "compounds" field to request automated identifications.
+
+EXPECTS: One or more adduct library files.
+A list of available libraries will be displayed if the library folder has been configured, otherwise the source must be specified manually.
+
+FILE LAYOUT: Standard CSV format file with row and header names.
+
+Rows:
+    * Row 0 / column headers:   Column names. Ignored. Mandatory.
+    
+Columns:
+    * Column 0 / row headers:   Row names. Ignored. Mandatory.
+    * "id"                      The ID of the peak. Required.
+    * "compounds"               Comma separated list of compounds. These should correspond to the "frame.id" or "name" of loaded compounds.
+                                If compounds are not loaded or IDs cannot be found, no extra information (such as mass or potential pathways)
+                                will be available for the compound. NOTE: CSV files use commas as their internal delimiter, enclosed this
+                                list in quotes to avoid confusion. Required for pathway analysis. 
+    * All other columns:        Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
+  </data>
+  <data name="Intensities" xml:space="preserve">
+    <value>Specifies the intentisities for each peak (row) and observation (column).
+
+EXPECTS: Name of a file.
+
+FILE LAYOUT: Standard CSV format file with row and header names.
+
+Rows:
+    * Row 0 / column headers:   Peak names (must not be duplicated). Required.
+    * All further rows:         One row per observation, defining the matrix of intensities. Required.
+
+Columns:
+    * Column 0 / row headers:   Observation names (must not be duplicated). Required.
+    * All further columns:      One column per peak, defining the matrix of intensities. Required.</value>
+  </data>
+  <data name="LcMsMode" xml:space="preserve">
+    <value>Specifies the LC-MS mode.
+
+This is used to determine which adducts are available during compound identification.
+
+If no compound identification is required then select "none". This may be the case when using NMR data or if compounds have already been identified.
+If the data contains both positive and negative LC data then this should be set to "mixed", in which case the mode for each peak must be specified in the peak info file.
+
+EXPECTS: "positive", "negative", "mixed" OR "none".</value>
+  </data>
+  <data name="Observations" xml:space="preserve">
+    <value>Specifies information about the observations (columns) in the values matrix.
+
+EXPECTS: Name of a file.
+
+FILE LAYOUT: Standard CSV format file with row and header names.
+
+Rows:
+    * Row 0 / column headers:   Column names. Required.
+    * All further rows:         One row per observation. Required.
+
+Columns:
+    * Column 0 / row headers:   Observation name - these must appear in the same order as in, and have names corresponding to those in the intensities/values file. Required.
+    * "type":                   The experimental group of the observation (must be an integer). Required.
+    * "day":                    The timestep of the obervation (must be an integer). Optional.
+    * "rep":                    The replicate index of the observation (must be a integer). Optional.
+    * "batch":                  Batch (must be an integer). Optional.
+    * "acquisition":            Acquisition order (must be a unique integer). Optional.
+    * All other columns:        Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
+  </data>
+  <data name="Replicates" xml:space="preserve">
+    <value>The replicates to expect for each condition and time (used for statistical tests).
+
+OPTIONAL: Required only for the PCA-MANOVA statistic. If not specified PCA-MANOVA calculation will fail.
+
+EXPECTS: This should be a comma-delimited list of replicate numbers (e.g. 1, 2, 3).</value>
+  </data>
+  <data name="RScript" xml:space="preserve">
+    <value>Specify the code for your algorithm.
+
+You can use "##" to give names to script parameters, for example the number of clusters "k" in k-means might be specified as:
+
+## k = integer
+
+The available parameter types are: integer, double
+
+Standard inputs are also provided, for instance clustering requires a value matrix
+
+## x = value.matrix
+
+The available inputs for the type of algorithm you are editing are shown in the caption below the title bar.
+If you don't specify an input they will be given the names shown in the title bar.
+
+Some inputs are optional since they and are represented by a dash "-" by default, meaning unused. Give these inputs a name to use them in your code. For instance your clustering algorithm might not need the value matrix to be created, so it can choose use the distance matrix directly instead.</value>
+  </data>
+  <data name="RScriptEditor" xml:space="preserve">
+    <value>Specify the code for your algorithm.
+
+You can use "##" to give names to script parameters, for example the number of clusters "k" in k-means might be specified as:
+
+## k = integer
+
+The available parameter types are: integer, double
+
+Standard inputs are also provided, for instance clustering requires a value matrix
+
+## x = value.matrix
+
+The available inputs for the type of algorithm you are editing are shown in the caption below the title bar.
+If you don't specify an input they will be given the names shown in the title bar.
+
+Some inputs are optional since they and are represented by a dash "-" by default, meaning unused. Give these inputs a name to use them in your code. For instance your clustering algorithm might not need the value matrix to be created, so it can choose use the distance matrix directly instead.</value>
+  </data>
+  <data name="SaveData" xml:space="preserve">
+    <value>Data can be saved in sereral formats.
+MS-NRFB is the fastest and most compact format and is recommended for speed and reliability, however this format is unfortunately unable to cope with large object graph sizes (i.e. datasets with lots of discrete objects), the MJR-SBF format provides a fallback in this case.
+MJR-SBF also provides a higher degree of backwards compatibility, making it useful for migrating data between software versions.
+The MJR-STF format is identical to MJR-SBF but stores the data as text. Due to the memory and speed overhead of the text format MJR-STF is only recommended as a version comatible text backup.
+XML and Data contract formats have been removed and are no longer supported.
+Other formats, including RData and CSV (text) are available as export only options from the Export menu.
+
+                    MS-NRFB                             XML
+                    |           MJR-SBF                 |           Data contract 
+                    |           |           MJR-STF     |           |
+                    |           |           |           |           |
+Speed               Fast        Slow        Very slow   Slow        Slow
+Back-compatible     No          Yes         Yes         No          No
+Human-readable      No          No          Yes         Yes         Yes
+Data-size           Limited     Unlimited   Unlimited   Limited     Limited
+Use                 Normally    When        Migrating   Don't       Don't
+                                 MS-NRFB     data
+                                  fails       between
+                                               versions</value>
+  </data>
+  <data name="SavedSession" xml:space="preserve">
+    <value>Use to restore cluster assignments.
+
+OPTIONAL: No clusters will be assigned if this is not specified.
+
+EXPECTS: Cluster assignments in XML format.
+
+FILE LAYOUT:
+These files can be created from the File--&gt;Save menu and are only used in this program.</value>
+  </data>
+  <data name="Session" xml:space="preserve">
+    <value>Name your session here.
+
+Try to be descriptve, the software will allow you to display a shorter name and add comments to your session later, but this is the name you will see when loading your data.
+
+Your name also acts as a unique identifier the software uses to remember which files and settings you used to create the session, in case you want to create new, similar sessions later (Use the HISTORY button on this screen to access this feature).
+
+DETAILS: Accepts any text</value>
+  </data>
+  <data name="StatisticsRScriptExample" xml:space="preserve">
+    <value>kmeans(v, 3)$cluster
+
+[Unable to load session]
+The selected session could not be loaded.
+
+* The file may be missing or corrupt.
+* The file may have been saved using a version of the application which isn't compatible with the current version.
+
+Please recreate the session from the original files.</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>Specifies information about the peaks in the data matrix.
+Note: To avoid ambiguity the software refers to the dependent variables as "peaks" and their values for a particular observation as "intensities", in reality these can represent any dependent variable.
+
+EXPECTS: Name of a file.
+
+FILE LAYOUT: Standard CSV format file with row and header names.
+
+Rows:
+    * Row 0 / column headers:   Column names
+    * All further rows:         One row per variable. 
+    
+Columns:
+    * Column 0 / row headers:   Variable names - these must appear in the same order as in, and have names corresponding to those in the data matrix.
+    * "mz":                     The m/z of the peak. Required only if LC-MS mode ≠ None)
+    * "mode":                   The LC mode for the peak. Required only if LC-MS mode = Mixed.
+    * All other columns:        Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
+  </data>
+  <data name="UnableToLoadSession" xml:space="preserve">
+    <value>The selected session could not be loaded.
+
+* The file may be missing or corrupt.
+* The file may have been saved using a version of the application which isn't compatible with the current version.
+
+Please recreate the session from the original files.</value>
+  </data>
+  <data name="DataLoadQueryHelp" xml:space="preserve">
+    <value>Select the data you'd like to load into the application. Select the "help" button at the bottom to show the side-bar, describing the data you need to provide for each input.</value>
+  </data>
+</root>

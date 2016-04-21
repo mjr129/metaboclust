@@ -12,7 +12,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             InitializeComponent();
             UiControls.SetIcon(this);
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         public static bool Show(Form owner, TextBox name, ref string comments, bool readOnly)

@@ -113,7 +113,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
 
                 if (_checker.HasErrors)
-                {
+                {                                     
                     return null;
                 }
 
@@ -131,7 +131,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return new ConfigurationCorrection( _txtName.Text, _comments, (CorrectionBase)algo, args );
             }
             else
-            {
+            {                                  
                 return null;
             }
         }
@@ -153,7 +153,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             bool correctorVisible = paramsValid && usingTrend;
 
             _lblCorrector.Visible = correctorVisible;
-            _flpCorrector.Visible = correctorVisible;
+            tableLayoutPanel3.Visible = correctorVisible;
             _lstTypes.Visible = correctorVisible && _radType.Checked;
             _btnEditTypes.Visible = correctorVisible;
             _btnBatchInfo2.Visible = correctorVisible;
@@ -167,11 +167,12 @@ namespace MetaboliteLevels.Forms.Algorithms
             bool operatorVisible = correctorVisible && ((_radType.Checked && _ecbTypes.HasSelection) || _radBatch.Checked);
 
             _lblCorrector2.Visible = operatorVisible;
-            _flpCorrector2.Visible = operatorVisible;
+            tableLayoutPanel4.Visible = operatorVisible;
 
             bool readyToGo = (usingTrend && operatorVisible && (_radDivide.Checked || _radSubtract.Checked)) || (!usingTrend && paramsValid);
 
             ConfigurationCorrection sel = GetSelection();
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
             bool valid = sel != null;
 
             _tlpPreview.Visible = valid;
@@ -250,7 +251,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 UiControls.MakeReadOnly(this, _tlpPreview);
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         public FrmAlgoCorrection()
@@ -538,6 +539,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             anything_SomethingChanged( sender, e );
+        }
+
+        private void _btnEditTypes_Click( object sender, EventArgs e )
+        {
+            DataSet.ForGroups( _core ).ShowListEditor( this );
         }
     }
 }

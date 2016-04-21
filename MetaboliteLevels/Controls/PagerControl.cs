@@ -202,6 +202,8 @@ namespace MetaboliteLevels.Controls
 
                 OnPageChanging();
 
+                MainPanel.SuspendDrawingAndLayout();
+
                 if (current != null)
                 {
                     current.Visible = false;
@@ -211,6 +213,9 @@ namespace MetaboliteLevels.Controls
                 current = Pages[p];
                 current.Visible = true;
                 OnPageChanged(EventArgs.Empty);
+
+                MainPanel.ResumeDrawingAndLayout();
+
                 return true;
             }
             else

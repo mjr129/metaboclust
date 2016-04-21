@@ -106,12 +106,7 @@ namespace MetaboliteLevels.Controls
                 }
             }
 
-            string helpText = _helpText;
-
-            if (helpText.StartsWith("@"))
-            {
-                helpText = UiControls.GetManText(_helpText.Substring(1));
-            }
+            string helpText = _helpText;        
 
             FrmInputLarge.ShowFixed(this.FindForm(), "Help", "Help", Text, helpText);
         }

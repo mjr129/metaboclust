@@ -65,7 +65,7 @@ namespace MetaboliteLevels.Forms.Editing
             _lblPreviewTitle.ForeColor = UiControls.PreviewForeColour;
             DoubleBuffered = true;
             UiControls.SetIcon(this);
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         /// <summary>

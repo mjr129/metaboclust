@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnOk = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this._btnOk = new Controls.CtlButton();
+            this.btnCancel = new Controls.CtlButton();
+            this.textBox1 = new Controls.CtlTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._mnuStrip = new System.Windows.Forms.MenuStrip();
             this._mnuFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -217,9 +217,9 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button _btnOk;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TextBox textBox1;
+        private Controls.CtlButton _btnOk;
+        private Controls.CtlButton btnCancel;
+        private Controls.CtlTextBox textBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private Controls.CtlTitleBar _titleBar;
         private System.Windows.Forms.MenuStrip _mnuStrip;

@@ -358,7 +358,7 @@ namespace MetaboliteLevels.Forms.Generic
                 },
                 ItemEditor = z =>
                     {
-                        if (!_ShowEditPreamble(z.Owner, z.DefaultValue))
+                        if (!_ShowEditPreamble(z.Cast<ConfigurationBase>() ))
                         {
                             return null;
                         }
@@ -367,7 +367,7 @@ namespace MetaboliteLevels.Forms.Generic
                     },
                 AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Trends", FrmEditUpdate.GetUpdateMessage((FrmEditUpdate.EChangeLevel)z.Status)),
             };
-        }
+        }   
 
         /// <summary>
         /// The session's corrections
@@ -402,7 +402,7 @@ namespace MetaboliteLevels.Forms.Generic
                 },
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Owner, z.DefaultValue))
+                    if (!_ShowEditPreamble(z.Cast<ConfigurationBase>() ))
                     {
                         return null;
                     }
@@ -427,7 +427,7 @@ namespace MetaboliteLevels.Forms.Generic
                 ListChangeApplicator = z => core.SetClusterers(z.List, false, z.Progress),
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Owner, z.DefaultValue))
+                    if (!_ShowEditPreamble(z.Cast<ConfigurationBase>() ))
                     {
                         return null;
                     }
@@ -588,7 +588,7 @@ namespace MetaboliteLevels.Forms.Generic
                 ListSupportsReorder = true,
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Owner, z.DefaultValue))
+                    if (!_ShowEditPreamble(z.Cast< ConfigurationBase >()))
                     {
                         return null;
                     }
@@ -760,24 +760,24 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Shows error and remove results dialogues
         /// </summary>
-        private static bool _ShowEditPreamble(Form owner, ConfigurationBase toEdit)
+        private static bool _ShowEditPreamble( DataSet<ConfigurationBase>.EditItemArgs args)
         {
-            if (toEdit != null)
+            if (args.DefaultValue != null)
             {
-                if (toEdit.HasError)
+                if (args.DefaultValue.HasError)
                 {
                     FrmMsgBox.ButtonSet[] btns = {
                                                      new   FrmMsgBox.ButtonSet("Continue", Resources.MnuAccept, DialogResult.Yes),
                                                      new   FrmMsgBox.ButtonSet("Clear error", Resources.MnuDelete, DialogResult.No),
                                                      new   FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
-                    switch (FrmMsgBox.Show(owner, "Error report", "Last time this configuration was run it reported an error", toEdit.Error, Resources.MsgWarning, btns))
+                    switch (FrmMsgBox.Show(args.Owner, "Error report", "Last time this configuration was run it reported an error", args.DefaultValue.Error, Resources.MsgWarning, btns))
                     {
                         case DialogResult.Yes:
                             break;
 
                         case DialogResult.No:
-                            toEdit.ClearError();
+                            args.DefaultValue.ClearError();
                             break;
 
                         case DialogResult.Cancel:
@@ -788,7 +788,7 @@ namespace MetaboliteLevels.Forms.Generic
                     }
                 }
 
-                if (toEdit.HasResults)
+                if (args.DefaultValue.HasResults && !args.ReadOnly)
                 {
                     string text1 = "The configuration to be modified has results associated with it";
                     string text2 = "Changing this configuration will result in the loss of the associated results.";
@@ -796,7 +796,7 @@ namespace MetaboliteLevels.Forms.Generic
                     FrmMsgBox.ButtonSet[] btns = {  new FrmMsgBox.ButtonSet( "Replace", Resources.MnuAccept, DialogResult.No),
                                                         new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
-                    switch (FrmMsgBox.Show(owner, owner.Text, text1, text2, Resources.MsgHelp, btns, "FrmBigList.EditConfig", DialogResult.No))
+                    switch (FrmMsgBox.Show(args.Owner, args.Owner.Text, text1, text2, Resources.MsgHelp, btns, "FrmBigList.EditConfig", DialogResult.No))
                     {
                         case DialogResult.No:
                             break;

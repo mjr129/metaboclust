@@ -9,7 +9,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             InitializeComponent();
             UiControls.SetIcon(this);
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         public static string Show(Form owner, string formText, string title, string subTitle, string @default)

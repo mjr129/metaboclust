@@ -12,7 +12,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             InitializeComponent();
             UiControls.SetIcon(this);
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         public static void ShowFixed(Form owner, string windowText, string mainTitle, string subTitle, string content)

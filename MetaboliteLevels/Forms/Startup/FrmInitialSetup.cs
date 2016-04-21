@@ -62,7 +62,7 @@ namespace MetaboliteLevels.Forms.Startup
             TestFolder(@"C:\Program Files\R");
             TestFolder(@"C:\Program Files (x86)\R");
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         /// <summary>

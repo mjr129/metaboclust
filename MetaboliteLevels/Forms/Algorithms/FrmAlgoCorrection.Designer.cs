@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAlgoCorrection));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._tlpPreview = new System.Windows.Forms.TableLayoutPanel();
             this._lblPreviewTitle = new System.Windows.Forms.Label();
@@ -43,53 +42,49 @@
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this._btnEditParameters = new System.Windows.Forms.Button();
-            this._btnFilter = new System.Windows.Forms.Button();
+            this._btnEditParameters = new MetaboliteLevels.Controls.CtlButton();
+            this._btnFilter = new MetaboliteLevels.Controls.CtlButton();
             this._lblAVec = new System.Windows.Forms.Label();
             this._lstFilter = new System.Windows.Forms.ComboBox();
-            this._btnNewStatistic = new System.Windows.Forms.Button();
+            this._btnNewStatistic = new MetaboliteLevels.Controls.CtlButton();
             this._lblAApply = new System.Windows.Forms.Label();
-            this._flpCorrector = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this._radType = new System.Windows.Forms.RadioButton();
             this._lstTypes = new System.Windows.Forms.ComboBox();
-            this._btnEditTypes = new System.Windows.Forms.Button();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this._btnEditTypes = new MetaboliteLevels.Controls.CtlButton();
             this._radBatch = new System.Windows.Forms.RadioButton();
-            this._btnBatchInfo2 = new System.Windows.Forms.Button();
+            this._btnBatchInfo2 = new MetaboliteLevels.Controls.CtlButton();
             this.label6 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.label3 = new System.Windows.Forms.Label();
-            this._txtName = new System.Windows.Forms.TextBox();
+            this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this._lblCorrector = new System.Windows.Forms.Label();
             this._lblParams = new System.Windows.Forms.Label();
-            this._txtParameters = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this._txtParameters = new MetaboliteLevels.Controls.CtlTextBox();
             this._lblCorrector2 = new System.Windows.Forms.Label();
-            this._flpCorrector2 = new System.Windows.Forms.FlowLayoutPanel();
             this._radSubtract = new System.Windows.Forms.RadioButton();
             this._radDivide = new System.Windows.Forms.RadioButton();
-            this._btnComment = new System.Windows.Forms.Button();
+            this._btnComment = new MetaboliteLevels.Controls.CtlButton();
             this.label5 = new System.Windows.Forms.Label();
             this._lstMethod = new System.Windows.Forms.ComboBox();
             this._lblSepFilter = new System.Windows.Forms.Label();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreview.SuspendLayout();
             this._flpPreviewButtons.SuspendLayout();
             this._tabPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this._flpCorrector.SuspendLayout();
-            this.flowLayoutPanel3.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this._flpCorrector2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -100,6 +95,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this._tlpPreview, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this._btnEditParameters, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this._btnFilter, 3, 6);
@@ -107,7 +103,6 @@
             this.tableLayoutPanel1.Controls.Add(this._lstFilter, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this._btnNewStatistic, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this._lblAApply, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this._flpCorrector, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
@@ -116,7 +111,6 @@
             this.tableLayoutPanel1.Controls.Add(this._lblCorrector, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this._lblParams, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this._txtParameters, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this._btnComment, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this._lstMethod, 1, 1);
@@ -150,13 +144,13 @@
             this._tlpPreview.Controls.Add(this._flpPreviewButtons, 1, 0);
             this._tlpPreview.Controls.Add(this._tabPreview, 0, 1);
             this._tlpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._tlpPreview.Location = new System.Drawing.Point(8, 380);
+            this._tlpPreview.Location = new System.Drawing.Point(8, 381);
             this._tlpPreview.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._tlpPreview.Name = "_tlpPreview";
             this._tlpPreview.RowCount = 2;
             this._tlpPreview.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tlpPreview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._tlpPreview.Size = new System.Drawing.Size(872, 326);
+            this._tlpPreview.Size = new System.Drawing.Size(872, 325);
             this._tlpPreview.TabIndex = 2;
             // 
             // _lblPreviewTitle
@@ -255,7 +249,7 @@
             this._tabPreview.RowCount = 2;
             this._tabPreview.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tabPreview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._tabPreview.Size = new System.Drawing.Size(872, 293);
+            this._tabPreview.Size = new System.Drawing.Size(872, 292);
             this._tabPreview.TabIndex = 5;
             // 
             // pictureBox1
@@ -266,7 +260,7 @@
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
             this._tabPreview.SetRowSpan(this.pictureBox1, 2);
-            this.pictureBox1.Size = new System.Drawing.Size(2, 293);
+            this.pictureBox1.Size = new System.Drawing.Size(2, 292);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -300,7 +294,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 29);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(435, 264);
+            this.panel1.Size = new System.Drawing.Size(435, 263);
             this.panel1.TabIndex = 2;
             // 
             // panel2
@@ -309,7 +303,7 @@
             this.panel2.Location = new System.Drawing.Point(437, 29);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(435, 264);
+            this.panel2.Size = new System.Drawing.Size(435, 263);
             this.panel2.TabIndex = 2;
             // 
             // _btnEditParameters
@@ -326,7 +320,7 @@
             // _btnFilter
             // 
             this._btnFilter.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnFilter.Location = new System.Drawing.Point(852, 306);
+            this._btnFilter.Location = new System.Drawing.Point(852, 307);
             this._btnFilter.Margin = new System.Windows.Forms.Padding(8);
             this._btnFilter.Name = "_btnFilter";
             this._btnFilter.Size = new System.Drawing.Size(28, 28);
@@ -336,7 +330,7 @@
             // _lblAVec
             // 
             this._lblAVec.AutoSize = true;
-            this._lblAVec.Location = new System.Drawing.Point(8, 306);
+            this._lblAVec.Location = new System.Drawing.Point(8, 307);
             this._lblAVec.Margin = new System.Windows.Forms.Padding(8);
             this._lblAVec.Name = "_lblAVec";
             this._lblAVec.Size = new System.Drawing.Size(45, 21);
@@ -349,7 +343,7 @@
             this._lstFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstFilter.FormattingEnabled = true;
-            this._lstFilter.Location = new System.Drawing.Point(100, 306);
+            this._lstFilter.Location = new System.Drawing.Point(100, 307);
             this._lstFilter.Margin = new System.Windows.Forms.Padding(8);
             this._lstFilter.Name = "_lstFilter";
             this._lstFilter.Size = new System.Drawing.Size(736, 29);
@@ -369,7 +363,7 @@
             // _lblAApply
             // 
             this._lblAApply.AutoSize = true;
-            this._lblAApply.Location = new System.Drawing.Point(8, 351);
+            this._lblAApply.Location = new System.Drawing.Point(8, 352);
             this._lblAApply.Margin = new System.Windows.Forms.Padding(8);
             this._lblAApply.Name = "_lblAApply";
             this._lblAApply.Size = new System.Drawing.Size(14, 21);
@@ -377,38 +371,9 @@
             this._lblAApply.Text = " ";
             this._lblAApply.Visible = false;
             // 
-            // _flpCorrector
-            // 
-            this._flpCorrector.AutoSize = true;
-            this._flpCorrector.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._flpCorrector.Controls.Add(this.flowLayoutPanel3);
-            this._flpCorrector.Controls.Add(this.flowLayoutPanel2);
-            this._flpCorrector.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this._flpCorrector.Location = new System.Drawing.Point(92, 172);
-            this._flpCorrector.Margin = new System.Windows.Forms.Padding(0);
-            this._flpCorrector.Name = "_flpCorrector";
-            this._flpCorrector.Size = new System.Drawing.Size(332, 89);
-            this._flpCorrector.TabIndex = 4;
-            this._flpCorrector.WrapContents = false;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.AutoSize = true;
-            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel3.Controls.Add(this._radType);
-            this.flowLayoutPanel3.Controls.Add(this._lstTypes);
-            this.flowLayoutPanel3.Controls.Add(this._btnEditTypes);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(332, 45);
-            this.flowLayoutPanel3.TabIndex = 20;
-            this.flowLayoutPanel3.WrapContents = false;
-            // 
             // _radType
             // 
             this._radType.AutoSize = true;
-            this.flowLayoutPanel3.SetFlowBreak(this._radType, true);
             this._radType.Location = new System.Drawing.Point(8, 8);
             this._radType.Margin = new System.Windows.Forms.Padding(8);
             this._radType.Name = "_radType";
@@ -423,8 +388,8 @@
             // 
             this._lstTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstTypes.FormattingEnabled = true;
-            this._lstTypes.Location = new System.Drawing.Point(88, 8);
-            this._lstTypes.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
+            this._lstTypes.Location = new System.Drawing.Point(96, 8);
+            this._lstTypes.Margin = new System.Windows.Forms.Padding(8);
             this._lstTypes.Name = "_lstTypes";
             this._lstTypes.Size = new System.Drawing.Size(200, 29);
             this._lstTypes.TabIndex = 5;
@@ -432,31 +397,19 @@
             // 
             // _btnEditTypes
             // 
-            this._btnEditTypes.Image = ((System.Drawing.Image)(resources.GetObject("_btnEditTypes.Image")));
-            this._btnEditTypes.Location = new System.Drawing.Point(296, 8);
-            this._btnEditTypes.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
+            this._btnEditTypes.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnEditTypes.Location = new System.Drawing.Point(312, 8);
+            this._btnEditTypes.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditTypes.Name = "_btnEditTypes";
             this._btnEditTypes.Size = new System.Drawing.Size(28, 28);
             this._btnEditTypes.TabIndex = 17;
             this._btnEditTypes.UseVisualStyleBackColor = true;
-            // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.AutoSize = true;
-            this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel2.Controls.Add(this._radBatch);
-            this.flowLayoutPanel2.Controls.Add(this._btnBatchInfo2);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 45);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(118, 44);
-            this.flowLayoutPanel2.TabIndex = 19;
-            this.flowLayoutPanel2.WrapContents = false;
+            this._btnEditTypes.Click += new System.EventHandler(this._btnEditTypes_Click);
             // 
             // _radBatch
             // 
             this._radBatch.AutoSize = true;
-            this._radBatch.Location = new System.Drawing.Point(8, 8);
+            this._radBatch.Location = new System.Drawing.Point(8, 53);
             this._radBatch.Margin = new System.Windows.Forms.Padding(8);
             this._radBatch.Name = "_radBatch";
             this._radBatch.Size = new System.Drawing.Size(66, 25);
@@ -468,9 +421,9 @@
             // 
             // _btnBatchInfo2
             // 
-            this._btnBatchInfo2.Image = ((System.Drawing.Image)(resources.GetObject("_btnBatchInfo2.Image")));
-            this._btnBatchInfo2.Location = new System.Drawing.Point(82, 8);
-            this._btnBatchInfo2.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
+            this._btnBatchInfo2.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnBatchInfo2.Location = new System.Drawing.Point(312, 53);
+            this._btnBatchInfo2.Margin = new System.Windows.Forms.Padding(8);
             this._btnBatchInfo2.Name = "_btnBatchInfo2";
             this._btnBatchInfo2.Size = new System.Drawing.Size(28, 28);
             this._btnBatchInfo2.TabIndex = 17;
@@ -547,6 +500,7 @@
             this._txtName.Name = "_txtName";
             this._txtName.Size = new System.Drawing.Size(736, 29);
             this._txtName.TabIndex = 9;
+            this._txtName.Watermark = null;
             // 
             // label1
             // 
@@ -582,31 +536,13 @@
             // _txtParameters
             // 
             this._txtParameters.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtParameters.Location = new System.Drawing.Point(432, 98);
+            this._txtParameters.Location = new System.Drawing.Point(200, 98);
             this._txtParameters.Margin = new System.Windows.Forms.Padding(8);
             this._txtParameters.Name = "_txtParameters";
-            this._txtParameters.Size = new System.Drawing.Size(404, 29);
+            this._txtParameters.Size = new System.Drawing.Size(636, 29);
             this._txtParameters.TabIndex = 9;
+            this._txtParameters.Watermark = null;
             this._txtParameters.TextChanged += new System.EventHandler(this.anything_SomethingChanged);
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.AutoSize = true;
-            this.tableLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Controls.Add(this._lblCorrector2, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this._flpCorrector2, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(424, 172);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(420, 82);
-            this.tableLayoutPanel2.TabIndex = 7;
             // 
             // _lblCorrector2
             // 
@@ -619,24 +555,10 @@
             this._lblCorrector2.Text = "Operator";
             this._lblCorrector2.Visible = false;
             // 
-            // _flpCorrector2
-            // 
-            this._flpCorrector2.AutoSize = true;
-            this._flpCorrector2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._flpCorrector2.Controls.Add(this._radSubtract);
-            this._flpCorrector2.Controls.Add(this._radDivide);
-            this._flpCorrector2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this._flpCorrector2.Location = new System.Drawing.Point(89, 0);
-            this._flpCorrector2.Margin = new System.Windows.Forms.Padding(0);
-            this._flpCorrector2.Name = "_flpCorrector2";
-            this._flpCorrector2.Size = new System.Drawing.Size(124, 82);
-            this._flpCorrector2.TabIndex = 4;
-            this._flpCorrector2.WrapContents = false;
-            // 
             // _radSubtract
             // 
             this._radSubtract.AutoSize = true;
-            this._radSubtract.Location = new System.Drawing.Point(8, 8);
+            this._radSubtract.Location = new System.Drawing.Point(97, 8);
             this._radSubtract.Margin = new System.Windows.Forms.Padding(8);
             this._radSubtract.Name = "_radSubtract";
             this._radSubtract.Size = new System.Drawing.Size(108, 25);
@@ -649,7 +571,7 @@
             // _radDivide
             // 
             this._radDivide.AutoSize = true;
-            this._radDivide.Location = new System.Drawing.Point(8, 49);
+            this._radDivide.Location = new System.Drawing.Point(97, 49);
             this._radDivide.Margin = new System.Windows.Forms.Padding(8);
             this._radDivide.Name = "_radDivide";
             this._radDivide.Size = new System.Drawing.Size(84, 25);
@@ -697,7 +619,7 @@
             // _lblSepFilter
             // 
             this._lblSepFilter.AutoSize = true;
-            this._lblSepFilter.Location = new System.Drawing.Point(8, 269);
+            this._lblSepFilter.Location = new System.Drawing.Point(8, 270);
             this._lblSepFilter.Margin = new System.Windows.Forms.Padding(8);
             this._lblSepFilter.Name = "_lblSepFilter";
             this._lblSepFilter.Size = new System.Drawing.Size(14, 21);
@@ -710,7 +632,9 @@
             this.ctlTitleBar1.AutoSize = true;
             this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.HelpText = "Select the method and parameters for your correction algorithm.\r\n\r\nOnce configure" +
+    "d you can preview the effects of your algorithm on individual peaks before commi" +
+    "tting it.\r\n";
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
@@ -720,6 +644,67 @@
             this.ctlTitleBar1.TabIndex = 0;
             this.ctlTitleBar1.Text = "Data Correction";
             this.ctlTitleBar1.WarningText = null;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.AutoSize = true;
+            this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this._btnEditTypes, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this._lstTypes, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this._radType, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this._radBatch, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this._btnBatchInfo2, 2, 1);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(348, 90);
+            this.tableLayoutPanel3.TabIndex = 21;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.AutoSize = true;
+            this.tableLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.Controls.Add(this._radDivide, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this._radSubtract, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this._lblCorrector2, 0, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(398, 0);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(213, 82);
+            this.tableLayoutPanel4.TabIndex = 2;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.AutoSize = true;
+            this.tableLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel2, 3);
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(92, 172);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(796, 90);
+            this.tableLayoutPanel2.TabIndex = 2;
             // 
             // FrmAlgoCorrection
             // 
@@ -743,17 +728,13 @@
             this._tabPreview.ResumeLayout(false);
             this._tabPreview.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this._flpCorrector.ResumeLayout(false);
-            this._flpCorrector.PerformLayout();
-            this.flowLayoutPanel3.ResumeLayout(false);
-            this.flowLayoutPanel3.PerformLayout();
-            this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            this._flpCorrector2.ResumeLayout(false);
-            this._flpCorrector2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -774,41 +755,39 @@
         private Controls.CtlButton _btnCancel;
         private Controls.CtlButton _btnSelectPreview;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.FlowLayoutPanel _flpCorrector2;
         private System.Windows.Forms.RadioButton _radSubtract;
         private System.Windows.Forms.RadioButton _radDivide;
         private System.Windows.Forms.Label _lblCorrector;
-        private System.Windows.Forms.FlowLayoutPanel _flpCorrector;
         private System.Windows.Forms.RadioButton _radType;
         private System.Windows.Forms.RadioButton _radBatch;
         private System.Windows.Forms.ComboBox _lstTypes;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox _txtName;
+        private Controls.CtlTextBox _txtName;
         private System.Windows.Forms.Label _lblParams;
-        private System.Windows.Forms.TextBox _txtParameters;
-        private System.Windows.Forms.Button _btnComment;
+        private Controls.CtlTextBox _txtParameters;
+        private Controls.CtlButton _btnComment;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button _btnNewStatistic;
+        private Controls.CtlButton _btnNewStatistic;
         private System.Windows.Forms.ComboBox _lstMethod;
         private System.Windows.Forms.FlowLayoutPanel _flpPreviewButtons;
         private Controls.CtlButton _btnPreviousPreview;
         private Controls.CtlButton _btnNextPreview;
-        private System.Windows.Forms.Button _btnFilter;
+        private Controls.CtlButton _btnFilter;
         private System.Windows.Forms.Label _lblAVec;
         private System.Windows.Forms.Label _lblSepFilter;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ComboBox _lstFilter;
-        private System.Windows.Forms.Button _btnEditParameters;
+        private Controls.CtlButton _btnEditParameters;
         private System.Windows.Forms.TableLayoutPanel _tlpPreview;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.Button _btnEditTypes;
-        private System.Windows.Forms.Button _btnBatchInfo2;
+        private Controls.CtlButton _btnEditTypes;
+        private Controls.CtlButton _btnBatchInfo2;
         private Controls.CtlError _checker;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }

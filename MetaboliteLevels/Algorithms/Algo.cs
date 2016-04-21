@@ -94,37 +94,37 @@ namespace MetaboliteLevels.Algorithms
             Corrections.Clear();
 
             // Metrics
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Canberra));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Chebyshev));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Cosine));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Euclidean, ID_METRIC_EUCLIDEAN, "Euclidean"));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Hamming));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Jaccard));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.MAE));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Manhattan));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.MSE));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Pearson, ID_METRIC_PEARSONDISTANCE, "1 - Pearson (distance)"));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.SAD));
-            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.SSD));
-            Statistics.Add(new MetricInbuilt(Maths.Qian, @"QIAN", "Qian"));
-            Statistics.Add(new MetricInbuilt(Maths.QianDistance, @"QIAN_DISTANCE", "Qian × -1 (distance)"));
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Canberra, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Chebyshev, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Cosine, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Euclidean, ID_METRIC_EUCLIDEAN, "Euclidean", true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Hamming, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Jaccard, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.MAE, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Manhattan, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.MSE, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.Pearson, ID_METRIC_PEARSONDISTANCE, "1 - Pearson (distance)", true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.SAD, true ) );
+            Statistics.Add(new MetricInbuilt(MathNet.Numerics.Distance.SSD, true ) );
+            Statistics.Add(new MetricInbuilt(Maths.Qian, @"QIAN", "Qian", false));
+            Statistics.Add(new MetricInbuilt(Maths.QianDistance, @"QIAN_DISTANCE", "Qian × -1 (distance)", false));
 
             Statistics.Add(new MetricScript(SCRIPT_TTEST, ID_METRIC_TTEST, "t-test (p)", null) { Description = "Conducts a t-test and returns the p-value" });
             Statistics.Add(new MetricScript(SCRIPT_PEARSON, ID_METRIC_PEARSON, "Pearson (r)", null));
 
             // Statistics
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.InterquartileRange));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Kurtosis));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.LowerQuartile));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Maximum));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Mean));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Median));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Minimum));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.RootMeanSquare));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Skewness));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.StandardDeviation));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.UpperQuartile));
-            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Variance));
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.InterquartileRange, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Kurtosis, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.LowerQuartile, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Maximum, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Mean, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Median, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Minimum, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.RootMeanSquare, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Skewness, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.StandardDeviation, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.UpperQuartile, true ) );
+            Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Variance, true ) );
 
             Statistics.Add(new StatisticPcaAnova(@"PCA_ANOVA", "PCA-ANOVA") { Description = "Constructs a matrix representing a CONDITION and REPLICATE for each row (TIME for each column) and uses PCA to reduce this to 1 dimension. Uses ANOVA to determine if there is a difference between groups of replicates for each CONDITION. It is recommended to constrain this method to CONDITIONS of interest and only use REPLICATES with comparable sets (CONDITIONs and TIMEs) of data since missing values are guessed based on the average of the other replicates." });
 
@@ -154,12 +154,13 @@ namespace MetaboliteLevels.Algorithms
             Corrections.Add(new CorrectionDirtyRectify(@"ZERO_MISSING", "Zero invalid values"));
 
             // Clusterers
-            Clusterers.Add(new ClustererScript(SCRIPT_KMEANS, ID_KMEANS, "k-means (R)", null));
-            Clusterers.Add(new LegacyKMeansClusterer(ID_KMEANSWIZ, "k-means (inbuilt)"));
-            Clusterers.Add(new LegacyDKMeansPPClusterer(ID_DKMEANSPPWIZ, "d-k-means++ (inbuilt)"));
+            Clusterers.Add(new ClustererScript(SCRIPT_KMEANS, ID_KMEANS, "k-means (Hartigan–Wong algorithm)", null));
+            Clusterers.Add(new LegacyKMeansClusterer(ID_KMEANSWIZ, "k-means (LLoyd algorithm, using random starting centroids)"));
+            Clusterers.Add(new LegacyDKMeansPPClusterer(ID_DKMEANSPPWIZ, "k-means (LLoyd algorithm, using d-means++ starting centroids)" ) );
+            Clusterers.Add( new ClustererReclusterer( "RECLUSTERER", "k-means (LLoyd algorithm, starting with existing cluster centroids)" ) );
             Clusterers.Add(new LegacyPathwayClusterer(ID_PATFROMPATH, "*Cluster to pathways"));
-            Clusterers.Add(new ClustererReclusterer("RECLUSTERER", "*Cluster to existing clusters"));
-            Clusterers.Add(new ClustererUniqueness("UNIQCLUST", "*Find unique clusters"));
+            Clusterers.Add( new ClustererExisting( "EXISTING", "*Cluster new vectors based on existing clusters" ) );
+            Clusterers.Add(new ClustererUniqueness("UNIQCLUST", "*Cluster new vectors based on existing cluster combinations"));
             Clusterers.Add(new ClustererAffinityPropagation("AFFINITY", "Affinity propagation (inbuilt)"));
 
             // From files

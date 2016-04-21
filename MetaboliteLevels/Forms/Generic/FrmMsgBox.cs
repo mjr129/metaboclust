@@ -183,7 +183,7 @@ namespace MetaboliteLevels.Forms.Generic
                 this.CancelButton = this._buttons[this._buttons.Count - 1];
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons)

@@ -42,6 +42,7 @@ namespace MetaboliteLevels.Forms.Startup
         private readonly HashSet<string> _experimentalGroupCache = new HashSet<string>();
         private readonly ToolStripMenuItem _mnuBrowseWorkspace;
         private readonly ToolStripSeparator _mnuBrowseWorkspaceSep;
+        private readonly FileLoadInfo _fileLoadInfo;
 
         /// <summary>
         /// Constructor.
@@ -49,11 +50,14 @@ namespace MetaboliteLevels.Forms.Startup
         private FrmDataLoadQuery()
         {
             InitializeComponent();
-            UiControls.SetIcon( this );
+            UiControls.SetIcon( this );        
+
+            _fileLoadInfo = XmlSettings.LoadAndResave<FileLoadInfo>( FileId.FileLoadInfo, ProgressReporter.GetEmpty(), null );
 
             // Match program description to title bar
             _lblProgramDescription.BackColor = UiControls.BackColour;
             _lblProgramDescription.ForeColor = UiControls.ForeColour;
+            _lblOrder.BackColor = UiControls.BackColour;
 
             // Set texts
             Text = UiControls.Title + " - Load data";
@@ -65,11 +69,12 @@ namespace MetaboliteLevels.Forms.Startup
             // Setup the wizard
             _wizard = CtlWizard.BindNew( tabControl1.Parent, tabControl1, CtlWizardOptions.ShowCancel | CtlWizardOptions.HandleBasicChanges );
             _wizard.Pager.PageTitles[0] = UiControls.Title;
-            _wizard.HelpClicked += _btnHelp_LinkClicked;
+            _wizard.HelpClicked += _wizard_HelpClicked;
             _wizard.CancelClicked += _wizard_CancelClicked;
             _wizard.OkClicked += _wizard_OkClicked;
             _wizard.PermitAdvance += _wizard_PermitAdvance;
-            _wizard.Pager.PageChanged += Pager_PageChanged;
+            _wizard.Pager.PageChanged += _wizard_PageChanged;
+            _wizard.TitleHelpText = Manual.DataLoadQueryHelp;
 
             // Setup the experimental group boxes
             _cbControl = CreateExpConditionBox( _txtControls, _btnBrowseContCond );
@@ -203,7 +208,7 @@ namespace MetaboliteLevels.Forms.Startup
                 }
             }
 
-            UiControls.CompensateForVisualStyles( this );
+            // UiControls.CompensateForVisualStyles( this );
 
             if (!Application.RenderWithVisualStyles)
             {
@@ -217,6 +222,14 @@ namespace MetaboliteLevels.Forms.Startup
                         l.BorderStyle = BorderStyle.Fixed3D;
                     }
                 }
+            }
+        }
+
+        private void SetToolTip( string text, params Control[] controls )
+        {
+            foreach (var control in controls)
+            {
+                _tipSideBar.SetToolTip( control, text );
             }
         }
 
@@ -259,7 +272,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (fn != null)
             {
-                Core core = FrmWait.Show<Core, string>( this, "Retreiving settings", "Retrieving settings from the selected file", XmlSettings.LoadFromFile<Core>, fn );
+                Core core = FrmWait.Show<Core>( this, "Retreiving settings", "Retrieving settings from the selected file", z=> XmlSettings.LoadOrDefault<Core>( fn, null, null, z) );
 
                 if (core == null || core.FileNames == null)
                 {
@@ -271,7 +284,7 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        void Pager_PageChanged( object sender, EventArgs e )
+        void _wizard_PageChanged( object sender, EventArgs e )
         {
             if (_wizard.Page != 0)
             {
@@ -604,7 +617,7 @@ namespace MetaboliteLevels.Forms.Startup
             MainSettings.Instance.Save();
 
             // Load the data
-            _result = FrmDataLoad.Show( this, fileNames );
+            _result = FrmDataLoad.Show( this, fileNames, _fileLoadInfo );
 
             if (_result == null)
             {
@@ -635,13 +648,15 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (Browse( _txtDataSetData ))
             {
-                TryAutoSet( _txtDataSetData.Text, _txtDataSetObs, "Info.csv", "ObsInfo.csv", "Observations.csv", "*.jgf" );
-                TryAutoSet( _txtDataSetData.Text, _txtDataSetVar, "VarInfo.csv", "PeakInfo.csv", "Peaks.csv", "Variables.csv" );
+                TryAutoSet( _txtDataSetData.Text, _txtDataSetObs, _fileLoadInfo.AUTOFILE_OBSERVATIONS );
+                TryAutoSet( _txtDataSetData.Text, _txtDataSetVar, _fileLoadInfo.AUTOFILE_PEAKS );
             }
         }
 
-        private void TryAutoSet( string firstFileName, TextBox dst, params string[] possibleFileNames )
+        private void TryAutoSet( string firstFileName, TextBox dst, string possibleFileNamesCommaDelimited )
         {
+            string[] possibleFileNames = possibleFileNamesCommaDelimited.Split( ',' );
+
             if (dst.TextLength == 0)
             {
                 foreach (string s in possibleFileNames)
@@ -746,7 +761,7 @@ namespace MetaboliteLevels.Forms.Startup
             CheckTheBox( _chkCondInfo, _txtCondInfo, _btnCondInfo );
         }
 
-        private void _btnHelp_LinkClicked( object sender, EventArgs e )
+        private void _wizard_HelpClicked( object sender, EventArgs e )
         {
             splitContainer1.Panel2Collapsed = !splitContainer1.Panel2Collapsed;
             _wizard.HelpText = splitContainer1.Panel2Collapsed ? "Show help" : "Hide help";
@@ -774,26 +789,13 @@ namespace MetaboliteLevels.Forms.Startup
         }
 
         private void ShowControlHelp( Control c )
-        {
+        {                    
             string text = _tipSideBar.GetToolTip( c );
 
-            if (text.StartsWith( "*" ))
-            {
-                if (text.Length == 1)
-                {
-                    text = "Hover the mouse over a control to view help";
-                    textBox1.Visible = false;
-                }
-                else
-                {
-                    textBox1.Text = text.Substring( 1 );
-                    text = UiControls.GetManText( text.Substring( 1 ) );
-                    textBox1.Visible = true;
-                }
-            }
-            else
-            {
-                textBox1.Visible = false;
+            // We use "*" to signify "nothing" or we don't get the Popup event saying when a control has lost focus.
+            if (string.IsNullOrEmpty( text ) || text=="*")
+            {          
+                text = "Hover the mouse over a control for help";
             }
 
             _txtHelp.Text = text;
@@ -833,7 +835,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (_result == null)
             {
-                FrmMsgBox.ShowError( this, UiControls.GetManText( "Unable to load session" ) );
+                FrmMsgBox.ShowError( this, Manual.UnableToLoadSession );
                 return;
             }
 
@@ -927,13 +929,13 @@ namespace MetaboliteLevels.Forms.Startup
                 try
                 {
                     FrmWait.Show(this, "Updating experimental groups", null, delegate(ProgressReporter progress)
-                    {
+                    {   
                         if (useObsFile)
                         {
                             if (File.Exists( observationFile ))
                             {
                                 Matrix<string> info = new Matrix<string>( observationFile, true, true, progress );
-                                int typeCol = info.OptionalColIndex( FrmDataLoad.OBSFILE_GROUP_HEADER );
+                                int typeCol = info.OptionalColIndex( _fileLoadInfo.OBSFILE_GROUP_HEADER );
 
                                 for (int row = 0; row < info.NumRows; row++)
                                 {
@@ -949,7 +951,7 @@ namespace MetaboliteLevels.Forms.Startup
                             {
                                 if (File.Exists( conditionFile ))
                                 {
-                                    _typeCacheNames = FrmDataLoad.LoadConditionInfo( conditionFile, progress );
+                                    _typeCacheNames = FrmDataLoad.LoadConditionInfo( _fileLoadInfo, conditionFile, progress );
                                 }
                             }
                         }
@@ -965,7 +967,7 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        private ConditionBox<string> CreateExpConditionBox( TextBox textBox, Button button )
+        private ConditionBox<string> CreateExpConditionBox( CtlTextBox textBox, Button button )
         {
             return new DataSet<string>()
             {

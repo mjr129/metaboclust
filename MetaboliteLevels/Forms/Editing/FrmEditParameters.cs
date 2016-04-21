@@ -114,7 +114,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnCancel.Text = "Close";
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         void button_Click(object sender, EventArgs e)

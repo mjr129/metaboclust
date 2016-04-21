@@ -42,29 +42,29 @@
             this._chkPeakTrend = new System.Windows.Forms.CheckBox();
             this._chkPeakFlag = new System.Windows.Forms.CheckBox();
             this._btnEditFlags = new MetaboliteLevels.Controls.CtlButton();
-            this._txtEvalFilename = new System.Windows.Forms.TextBox();
+            this._txtEvalFilename = new Controls.CtlTextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this._btnColourCentre = new System.Windows.Forms.Button();
+            this._btnColourCentre = new Controls.CtlButton();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this._btnColourSeries = new System.Windows.Forms.Button();
+            this._btnColourSeries = new Controls.CtlButton();
             this.label8 = new System.Windows.Forms.Label();
-            this._btnColourHighlight = new System.Windows.Forms.Button();
+            this._btnColourHighlight = new Controls.CtlButton();
             this.label9 = new System.Windows.Forms.Label();
-            this._btnColourMinorGrid = new System.Windows.Forms.Button();
+            this._btnColourMinorGrid = new Controls.CtlButton();
             this.label10 = new System.Windows.Forms.Label();
-            this._btnColourMajorGrid = new System.Windows.Forms.Button();
+            this._btnColourMajorGrid = new Controls.CtlButton();
             this.label11 = new System.Windows.Forms.Label();
-            this._btnColourAxisTitle = new System.Windows.Forms.Button();
-            this._txtClusterInfo = new System.Windows.Forms.TextBox();
+            this._btnColourAxisTitle = new Controls.CtlButton();
+            this._txtClusterInfo = new Controls.CtlTextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this._txtClusterTitle = new System.Windows.Forms.TextBox();
+            this._txtClusterTitle = new Controls.CtlTextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this._txtClusterXAxis = new System.Windows.Forms.TextBox();
+            this._txtClusterXAxis = new Controls.CtlTextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this._txtClusterSubtitle = new System.Windows.Forms.TextBox();
+            this._txtClusterSubtitle = new Controls.CtlTextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this._txtClusterYAxis = new System.Windows.Forms.TextBox();
+            this._txtClusterYAxis = new Controls.CtlTextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label37 = new System.Windows.Forms.Label();
@@ -73,13 +73,13 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label17 = new System.Windows.Forms.Label();
-            this._txtPeakYAxis = new System.Windows.Forms.TextBox();
-            this._txtPeakInfo = new System.Windows.Forms.TextBox();
-            this._txtPeakXAxis = new System.Windows.Forms.TextBox();
+            this._txtPeakYAxis = new Controls.CtlTextBox();
+            this._txtPeakInfo = new Controls.CtlTextBox();
+            this._txtPeakXAxis = new Controls.CtlTextBox();
             this.label18 = new System.Windows.Forms.Label();
-            this._txtPeakSubtitle = new System.Windows.Forms.TextBox();
+            this._txtPeakSubtitle = new Controls.CtlTextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this._txtPeakTitle = new System.Windows.Forms.TextBox();
+            this._txtPeakTitle = new Controls.CtlTextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
@@ -93,25 +93,25 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label22 = new System.Windows.Forms.Label();
-            this._txtCompYAxis = new System.Windows.Forms.TextBox();
-            this._txtCompInfo = new System.Windows.Forms.TextBox();
-            this._txtCompXAxis = new System.Windows.Forms.TextBox();
+            this._txtCompYAxis = new Controls.CtlTextBox();
+            this._txtCompInfo = new Controls.CtlTextBox();
+            this._txtCompXAxis = new Controls.CtlTextBox();
             this.label23 = new System.Windows.Forms.Label();
-            this._txtCompSubtitle = new System.Windows.Forms.TextBox();
+            this._txtCompSubtitle = new Controls.CtlTextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this._txtCompTitle = new System.Windows.Forms.TextBox();
+            this._txtCompTitle = new Controls.CtlTextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label27 = new System.Windows.Forms.Label();
-            this._txtPathYAxis = new System.Windows.Forms.TextBox();
-            this._txtPathInfo = new System.Windows.Forms.TextBox();
-            this._txtPathXAxis = new System.Windows.Forms.TextBox();
+            this._txtPathYAxis = new Controls.CtlTextBox();
+            this._txtPathInfo = new Controls.CtlTextBox();
+            this._txtPathXAxis = new Controls.CtlTextBox();
             this.label28 = new System.Windows.Forms.Label();
-            this._txtPathSubtitle = new System.Windows.Forms.TextBox();
+            this._txtPathSubtitle = new Controls.CtlTextBox();
             this.label29 = new System.Windows.Forms.Label();
-            this._txtPathTitle = new System.Windows.Forms.TextBox();
+            this._txtPathTitle = new Controls.CtlTextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -121,9 +121,9 @@
             this.label44 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
-            this._btnColourBackground = new System.Windows.Forms.Button();
-            this._btnColourPreviewBackground = new System.Windows.Forms.Button();
-            this._btnColourUntypedElements = new System.Windows.Forms.Button();
+            this._btnColourBackground = new Controls.CtlButton();
+            this._btnColourPreviewBackground = new Controls.CtlButton();
+            this._btnColourUntypedElements = new Controls.CtlButton();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label41 = new System.Windows.Forms.Label();
@@ -135,11 +135,12 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.coreOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.resetToDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this._numSizeLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numClusterMaxPlot)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -161,6 +162,7 @@
             ((System.ComponentModel.ISupportInitialize)(this._numThumbnail)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.coreOptionsBindingSource)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -559,9 +561,10 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.label12, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this._txtClusterYAxis, 1, 4);
@@ -642,10 +645,11 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnCount = 4;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.Controls.Add(this.label17, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this._txtPeakYAxis, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this._txtPeakInfo, 1, 0);
@@ -897,9 +901,10 @@
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.Controls.Add(this.label22, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this._txtCompYAxis, 1, 4);
             this.tableLayoutPanel3.Controls.Add(this._txtCompInfo, 1, 0);
@@ -919,7 +924,6 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel3.TabIndex = 16;
             // 
@@ -1031,9 +1035,10 @@
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnCount = 3;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel4.Controls.Add(this.label27, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this._txtPathYAxis, 1, 4);
             this.tableLayoutPanel4.Controls.Add(this._txtPathInfo, 1, 0);
@@ -1053,7 +1058,6 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel4.TabIndex = 16;
             // 
@@ -1165,9 +1169,10 @@
             // 
             // tableLayoutPanel5
             // 
-            this.tableLayoutPanel5.ColumnCount = 3;
+            this.tableLayoutPanel5.ColumnCount = 4;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this._txtEvalFilename, 1, 1);
@@ -1196,8 +1201,10 @@
             // 
             // tableLayoutPanel6
             // 
-            this.tableLayoutPanel6.ColumnCount = 2;
+            this.tableLayoutPanel6.ColumnCount = 4;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel6.Controls.Add(this.label44, 0, 8);
             this.tableLayoutPanel6.Controls.Add(this.label43, 0, 7);
@@ -1309,12 +1316,13 @@
             // 
             // tableLayoutPanel7
             // 
-            this.tableLayoutPanel7.ColumnCount = 3;
+            this.tableLayoutPanel7.ColumnCount = 4;
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel7.Controls.Add(this.label41, 0, 1);
-            this.tableLayoutPanel7.Controls.Add(this.numericUpDown2, 0, 1);
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel7.Controls.Add(this.label41, 2, 1);
+            this.tableLayoutPanel7.Controls.Add(this.numericUpDown2, 1, 1);
             this.tableLayoutPanel7.Controls.Add(this.label38, 0, 0);
             this.tableLayoutPanel7.Controls.Add(this._numThumbnail, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.label39, 2, 0);
@@ -1325,7 +1333,7 @@
             this.tableLayoutPanel7.RowCount = 3;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel7.TabIndex = 1;
             // 
@@ -1403,7 +1411,6 @@
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this._btnCancel);
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
-            this.flowLayoutPanel1.Controls.Add(this.linkLabel1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 710);
@@ -1437,20 +1444,6 @@
             this._btnOk.UseVisualStyleBackColor = true;
             this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
             // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(594, 27);
-            this.linkLabel1.Margin = new System.Windows.Forms.Padding(8);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(131, 21);
-            this.linkLabel1.TabIndex = 4;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Advanced display";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -1476,6 +1469,19 @@
             // coreOptionsBindingSource
             // 
             this.coreOptionsBindingSource.DataSource = typeof(MetaboliteLevels.Settings.CoreOptions);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resetToDefaultToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(157, 26);
+            // 
+            // resetToDefaultToolStripMenuItem
+            // 
+            this.resetToDefaultToolStripMenuItem.Name = "resetToDefaultToolStripMenuItem";
+            this.resetToDefaultToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.resetToDefaultToolStripMenuItem.Text = "&Reset to default";
             // 
             // FrmOptions2
             // 
@@ -1519,8 +1525,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._numThumbnail)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.coreOptionsBindingSource)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1541,29 +1547,29 @@
         private System.Windows.Forms.CheckBox _chkPeakTrend;
         private System.Windows.Forms.CheckBox _chkPeakFlag;
         private Controls.CtlButton _btnEditFlags;
-        private System.Windows.Forms.TextBox _txtEvalFilename;
+        private Controls.CtlTextBox _txtEvalFilename;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button _btnColourCentre;
+        private Controls.CtlButton _btnColourCentre;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button _btnColourSeries;
+        private Controls.CtlButton _btnColourSeries;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button _btnColourHighlight;
+        private Controls.CtlButton _btnColourHighlight;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button _btnColourMinorGrid;
+        private Controls.CtlButton _btnColourMinorGrid;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Button _btnColourMajorGrid;
+        private Controls.CtlButton _btnColourMajorGrid;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button _btnColourAxisTitle;
-        private System.Windows.Forms.TextBox _txtClusterInfo;
+        private Controls.CtlButton _btnColourAxisTitle;
+        private Controls.CtlTextBox _txtClusterInfo;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox _txtClusterTitle;
+        private Controls.CtlTextBox _txtClusterTitle;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox _txtClusterXAxis;
+        private Controls.CtlTextBox _txtClusterXAxis;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox _txtClusterSubtitle;
+        private Controls.CtlTextBox _txtClusterSubtitle;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox _txtClusterYAxis;
+        private Controls.CtlTextBox _txtClusterYAxis;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TabControl tabControl1;
@@ -1571,13 +1577,13 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox _txtPeakYAxis;
-        private System.Windows.Forms.TextBox _txtPeakInfo;
-        private System.Windows.Forms.TextBox _txtPeakXAxis;
+        private Controls.CtlTextBox _txtPeakYAxis;
+        private Controls.CtlTextBox _txtPeakInfo;
+        private Controls.CtlTextBox _txtPeakXAxis;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox _txtPeakSubtitle;
+        private Controls.CtlTextBox _txtPeakSubtitle;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox _txtPeakTitle;
+        private Controls.CtlTextBox _txtPeakTitle;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label32;
@@ -1591,25 +1597,25 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox _txtCompYAxis;
-        private System.Windows.Forms.TextBox _txtCompInfo;
-        private System.Windows.Forms.TextBox _txtCompXAxis;
+        private Controls.CtlTextBox _txtCompYAxis;
+        private Controls.CtlTextBox _txtCompInfo;
+        private Controls.CtlTextBox _txtCompXAxis;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox _txtCompSubtitle;
+        private Controls.CtlTextBox _txtCompSubtitle;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.TextBox _txtCompTitle;
+        private Controls.CtlTextBox _txtCompTitle;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.TextBox _txtPathYAxis;
-        private System.Windows.Forms.TextBox _txtPathInfo;
-        private System.Windows.Forms.TextBox _txtPathXAxis;
+        private Controls.CtlTextBox _txtPathYAxis;
+        private Controls.CtlTextBox _txtPathInfo;
+        private Controls.CtlTextBox _txtPathXAxis;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.TextBox _txtPathSubtitle;
+        private Controls.CtlTextBox _txtPathSubtitle;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.TextBox _txtPathTitle;
+        private Controls.CtlTextBox _txtPathTitle;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TabPage tabPage5;
@@ -1631,13 +1637,14 @@
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label42;
-        private System.Windows.Forms.Button _btnColourBackground;
-        private System.Windows.Forms.Button _btnColourPreviewBackground;
-        private System.Windows.Forms.Button _btnColourUntypedElements;
+        private Controls.CtlButton _btnColourBackground;
+        private Controls.CtlButton _btnColourPreviewBackground;
+        private Controls.CtlButton _btnColourUntypedElements;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private Controls.CtlTitleBar ctlTitleBar1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.BindingSource coreOptionsBindingSource;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem resetToDefaultToolStripMenuItem;
     }
 }

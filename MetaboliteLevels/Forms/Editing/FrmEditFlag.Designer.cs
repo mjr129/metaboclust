@@ -30,17 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this._btnComment = new System.Windows.Forms.Button();
+            this._btnComment = new Controls.CtlButton();
             this.label1 = new System.Windows.Forms.Label();
-            this._txtName = new System.Windows.Forms.TextBox();
+            this._txtName = new Controls.CtlTextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this._txtKey = new System.Windows.Forms.TextBox();
+            this._txtKey = new Controls.CtlTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this._numFrequency = new System.Windows.Forms.NumericUpDown();
             this._numDuration = new System.Windows.Forms.NumericUpDown();
-            this._btnColour = new System.Windows.Forms.Button();
+            this._btnColour = new Controls.CtlButton();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -319,17 +319,17 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox _txtName;
+        private Controls.CtlTextBox _txtName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox _txtKey;
+        private Controls.CtlTextBox _txtKey;
         private System.Windows.Forms.Label label3;
         private Controls.CtlTitleBar ctlTitleBar1;
-        private System.Windows.Forms.Button _btnComment;
+        private Controls.CtlButton _btnComment;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown _numFrequency;
         private System.Windows.Forms.NumericUpDown _numDuration;
-        private System.Windows.Forms.Button _btnColour;
+        private Controls.CtlButton _btnColour;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;

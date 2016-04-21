@@ -150,6 +150,7 @@
     <Compile Include="Algorithms\Statistics\Arguments\ArgsCorrection.cs" />
     <Compile Include="Algorithms\Statistics\Arguments\ArgsTrendAsCorrection.cs" />
     <Compile Include="Algorithms\Statistics\Clusterers\ClustererAffinityPropagation.cs" />
+    <Compile Include="Algorithms\Statistics\Clusterers\ClustererExisting.cs" />
     <Compile Include="Algorithms\Statistics\Clusterers\ClustererReclusterer.cs" />
     <Compile Include="Algorithms\Statistics\Clusterers\ClustererUniqueness.cs" />
     <Compile Include="Algorithms\Statistics\Clusterers\Legacy\LegacyDKMeansPPClusterer.cs" />
@@ -278,6 +279,11 @@
     </Compile>
     <Compile Include="Forms\Startup\FrmSetWorkspace.Designer.cs">
       <DependentUpon>FrmSetWorkspace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manual.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Manual.resx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\ArrayHelper.cs" />
     <Compile Include="Utilities\ComparisonComparer.cs" />
@@ -472,12 +478,6 @@
     <Compile Include="Data\General\PeakValueSet.cs" />
     <Compile Include="Data\General\Range.cs" />
     <Compile Include="Data\Session\Visualisables\Adduct.cs" />
-    <Compile Include="Forms\Editing\FrmOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Editing\FrmOptions.Designer.cs">
-      <DependentUpon>FrmOptions.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Wizards\FrmClusterWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -670,9 +670,6 @@
     <EmbeddedResource Include="Forms\Startup\FrmDataLoad.resx">
       <DependentUpon>FrmDataLoad.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmOptions.resx">
-      <DependentUpon>FrmOptions.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmPatternSheet.resx">
       <DependentUpon>FrmPatternSheet.cs</DependentUpon>
     </EmbeddedResource>
@@ -681,6 +678,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Wizards\FrmClusterWizard.resx">
       <DependentUpon>FrmClusterWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manual.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Manual.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -702,9 +703,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Manual.dat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="Resources\Binary.png" />
+    <None Include="Resources\MathNet.png" />
+    <None Include="Resources\Arrow_UndoRevertRestore_16xLG.png" />
+    <None Include="Resources\Open_6296.png" />
     <None Include="Resources\arrow_Forward_16xLG.png" />
     <None Include="Resources\glasses_16xLG.png" />
     <None Include="Resources\CommentHS1.png" />

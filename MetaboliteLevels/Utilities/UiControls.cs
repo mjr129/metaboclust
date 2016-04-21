@@ -59,6 +59,9 @@ namespace MetaboliteLevels.Utilities
         public static readonly Color PreviewBackColour = Color.LightSteelBlue; // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color PreviewForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
 
+        // Messages
+        private const int WM_SETREDRAW = 0x000B;
+
         public static readonly Color[] BrightColours =
             {
                 Color.FromArgb(0,255,0),
@@ -117,6 +120,25 @@ namespace MetaboliteLevels.Utilities
             {
                 self.SetError(control, null);
             }
+        }
+
+
+        public static void SuspendDrawingAndLayout(this  Control control )
+        {
+            Message message = Message.Create( control.Handle, WM_SETREDRAW, IntPtr.Zero, IntPtr.Zero );
+
+            NativeWindow window = NativeWindow.FromHandle( control.Handle );
+            window.DefWndProc( ref message );
+        }
+
+        public static void ResumeDrawingAndLayout( this Control control )
+        {                                                                                  
+            Message message = Message.Create( control.Handle, WM_SETREDRAW, new IntPtr( 1 ), IntPtr.Zero );
+
+            NativeWindow window = NativeWindow.FromHandle( control.Handle );
+            window.DefWndProc( ref message );
+
+            control.Refresh();
         }
 
         /// <summary>
@@ -498,8 +520,9 @@ namespace MetaboliteLevels.Utilities
                 case ImageListOrder.ListSortUp: return bold ? Resources.ListSortUp : Resources.ListSortUp;
                 case ImageListOrder.ListSortDown: return bold ? Resources.ListSortDown : Resources.ListSortDown;
                 case ImageListOrder.ListFilter: return bold ? Resources.ListFilter : Resources.ListFilter;
-                case ImageListOrder.ScriptInbuilt: return bold ? Resources.MnuDisable : Resources.MnuDisable;
-                case ImageListOrder.ScriptFile: return bold ? Resources.MnuFile : Resources.MnuFile;
+                case ImageListOrder.ScriptInbuilt: return bold ? Resources.MnuBinary : Resources.MnuBinary;
+                case ImageListOrder.ScriptFile: return bold ? Resources.MnuR : Resources.MnuR;
+                case ImageListOrder.ScriptMathDotNet: return bold ? Resources.MnuMathNet : Resources.MnuMathNet;
                 default: throw new SwitchException(v);
             }
         }
@@ -534,6 +557,7 @@ namespace MetaboliteLevels.Utilities
             ListFilter,
             ScriptInbuilt,
             ScriptFile,
+            ScriptMathDotNet
         }
 
         /// <summary>
@@ -571,47 +595,7 @@ namespace MetaboliteLevels.Utilities
                 return false;
 #endif
             }
-        }
-
-        /// <summary>
-        /// Gets the manual text for the [topic].
-        /// </summary>                           
-        internal static string GetManText(string topic)
-        {
-            StringBuilder sb = new StringBuilder();
-            bool reading = false;
-            string manFile = Path.Combine(Application.StartupPath, "Manual.dat");
-            topic = topic.ToUpper();
-
-            if (!File.Exists(manFile))
-            {
-                throw new FileNotFoundException("The manual file appears to be missing:\r\n" + manFile, manFile);
-            }
-
-            using (StreamReader sr = new StreamReader(manFile))
-            {
-                while (!sr.EndOfStream)
-                {
-                    string l = sr.ReadLine();
-
-                    if (l.ToUpper() == "[" + topic + "]")
-                    {
-                        reading = true;
-                    }
-                    else if (reading)
-                    {
-                        if (l.StartsWith("["))
-                        {
-                            break;
-                        }
-
-                        sb.AppendLine(l);
-                    }
-                }
-            }
-
-            return sb.ToString();
-        }
+        }      
 
         /// <summary>
         /// Sets the forms icon to the main application icon.
@@ -619,35 +603,8 @@ namespace MetaboliteLevels.Utilities
         /// </summary>                  
         internal static void SetIcon(Form frm)
         {
-            //frm.Icon = Resources.MetaboliteExplorer;
-            frm.Icon = Resources.MainIcon2;
-            //frm.Font = new Font("Segoe UI", 14, FontStyle.Regular, GraphicsUnit.Pixel);
-        }
-
-        /// <summary>
-        /// Stops the application looking weird if VisualStyles are off.
-        /// This is called on all forms but must be done AFTER control creation.
-        /// </summary>                 
-        internal static void CompensateForVisualStyles(Form frm)
-        {
-            if (!Application.RenderWithVisualStyles)
-            {
-                EnumerateControls<Button>(frm, CompensateForVisualStyles);
-            }
-        }
-
-        /// <summary>
-        /// Used by [CompensateForVisualStyles(Form)].
-        /// </summary>                               
-        private static void CompensateForVisualStyles(Button obj)
-        {
-            if (obj.FlatStyle == FlatStyle.Standard || obj.FlatStyle == FlatStyle.System)
-            {
-                obj.UseVisualStyleBackColor = false;
-                obj.BackColor = Color.CornflowerBlue;
-                obj.ForeColor = Color.White;
-            }
-        }
+            frm.Icon = (frm is FrmMain) ? Resources.MainIcon : Resources.MainIcon2;
+        }      
 
         /// <summary>
         /// Disposes [d] if not null.
@@ -1430,7 +1387,14 @@ namespace MetaboliteLevels.Utilities
 
         internal static void ShowAbout(Form owner)
         {
-            FrmMsgBox.ShowInfo(owner, "About " + UiControls.Title, UiControls.GetManText("copyright").Replace("{productname}", UiControls.Title).Replace("{version}", UiControls.VersionString));
+            string aboutText = $"{UiControls.Title} version {UiControls.VersionString}.\r\n"
+                                + "Martin Rusilowicz.\r\n"
+                                + "\r\n"
+                                + "Additional icons made by Freepik, Google, Appzgear, Vectorgraphit from www.flaticon.com are licensed by CC BY 3.0.\r\n"
+                                + "\r\n"
+                                + "Download the latest version and source code: https://bitbucket.org/mjr129/metabolitelevels";
+
+            FrmMsgBox.ShowInfo(owner, "About " + UiControls.Title, aboutText);
         }
 
         public static void DrawWatermark(Bitmap bmp, Core core, string watermark)

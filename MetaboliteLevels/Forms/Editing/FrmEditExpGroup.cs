@@ -61,7 +61,7 @@ namespace MetaboliteLevels.Forms.Editing
                 UiControls.MakeReadOnly( this );
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void UpdateButtonImage()

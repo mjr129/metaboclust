@@ -56,7 +56,7 @@ namespace MetaboliteLevels.Forms.Startup
             this.textBox1.Text = core.FileNames.Session;
             this.comboBox1.SelectedIndex = 0;
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

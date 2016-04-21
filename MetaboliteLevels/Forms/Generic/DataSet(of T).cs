@@ -239,6 +239,11 @@ namespace MetaboliteLevels.Forms.Generic
                 this.ReadOnly = readOnly;
                 this.WorkOnCopy = workOnCopy;
             }
+
+            public DataSet<T2>.EditItemArgs Cast<T2>()
+            {
+                return new DataSet<T2>.EditItemArgs( Owner, (T2)(object)DefaultValue, ReadOnly, WorkOnCopy );
+            }
         }
 
         /// <summary>
@@ -374,7 +379,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Creates a ConditionBox (textbox and browse button) from the list.
         /// </summary>
-        public ConditionBox<T> CreateConditionBox(TextBox textBox, Button button)
+        public ConditionBox<T> CreateConditionBox(CtlTextBox textBox, Button button)
         {
             return new ConditionBox<T>(this, textBox, button);
         }

@@ -86,7 +86,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lvhClusters.Activate += _lstClusters_SelectedIndexChanged;
             _lvhStatistics.Activate += _lstStats_SelectedIndexChanged;
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         class ColumnWrapper : IVisualisable
@@ -716,7 +716,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             LookupByGuidSerialiser guidS = core.GetLookups();
 
             proggy.Enter("Saving results");
-            XmlSettings.SaveToFile(fileName, results, SerialisationFormat.Infer, guidS, proggy);
+            XmlSettings.Save<ClusterEvaluationResults>( fileName, results, guidS, proggy);
 
             if (core.SetLookups(guidS))
             {
@@ -745,7 +745,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             LookupByGuidSerialiser guidS = core.GetLookups();
 
             proggy.Enter("Saving intermediate results");
-            XmlSettings.SaveToFile<ResultClusterer>(fileName, result, SerialisationFormat.MSerialiserCompactBinary, guidS, proggy);
+            XmlSettings.Save<ResultClusterer>(new FileDescriptor( fileName, SerialisationFormat.MSerialiserCompactBinary), result, guidS, proggy);
 
             if (core.SetLookups(guidS))
             {
@@ -786,7 +786,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             try
             {
-                result = XmlSettings.LoadFromFile<ResultClusterer>(fileName, SerialisationFormat.MSerialiserCompactBinary, proggy, guidS);
+                result = XmlSettings.LoadOrDefault<ResultClusterer>(new FileDescriptor(  fileName, SerialisationFormat.MSerialiserCompactBinary), null, guidS, proggy );
             }
             catch
             {
@@ -816,7 +816,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             LookupByGuidSerialiser guidS = core.GetLookups();
             ClusterEvaluationResults set;
 
-            set = XmlSettings.LoadFromFile<ClusterEvaluationResults>(fileName, SerialisationFormat.Infer, z, guidS);
+            set = XmlSettings.LoadOrDefault<ClusterEvaluationResults>(fileName,null, guidS, z );
 
             if (set != null)
             {

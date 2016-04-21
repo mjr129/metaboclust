@@ -28,26 +28,7 @@ namespace MetaboliteLevels.Forms.Startup
     internal partial class FrmDataLoad : Form, IProgressReceiver
     {
         // column headers
-        private const string OBSFILE_TIME_HEADER               = "time,day,t";
-        private const string OBSFILE_REPLICATE_HEADER          = "rep,replicate";
-        internal const string OBSFILE_GROUP_HEADER              = "type,group,condition,conditions";
-        private const string OBSFILE_BATCH_HEADER              = "batch";
-        private const string OBSFILE_ACQUISITION_HEADER        = "acquisition,order,file,index";
-        private const string IDFILE_PEAK_HEADER                = "name,peak,variable";
-        private const string IDFILE_COMPOUNDS_HEADER           = "id,annotation,ids,annotations,compounds,compound";
-        private const string ADDUCTFILE_NAME_HEADER            = "name";
-        private const string ADDUCTFILE_CHARGE_HEADER          = "charge,z";
-        private const string ADDUCTFILE_MASS_DIFFERENCE_HEADER = "mass.difference";
-        private const string PATHWAYFILE_NAME_HEADER           = "name";
-        private const string PATHWAYFILE_FRAME_ID_HEADER       = "frame.id,id";
-        private const string COMPOUNDFILE_NAME_HEADER          = "name";
-        private const string COMPOUNDFILE_FRAME_ID_HEADER      = "frame.id,id";
-        private const string COMPOUNDFILE_MASS_HEADER          = "mass,m";
-        private const string COMPOUNDFILE_PATHWAYS_HEADER      = "pathways,pathway,pathway.ids,pathway.id";
-        private const string CONDITIONFILE_ID_HEADER           = "id,frame.id";
-        private const string CONDITIONFILE_NAME_HEADER         = "name";
-        private const string VARFILE_MZ_HEADER                 = "mz";
-        private const string VARFILE_MODE_HEADER               = "mode,lcmsmode,lcms,lcms.mode";
+      
 
         private readonly DataFileNames _fileNames; // files to load...
         private readonly string _sessionFileName; // ... OR session to load
@@ -57,56 +38,52 @@ namespace MetaboliteLevels.Forms.Startup
         private const string ALT_NAMES_KEY = "Alt. Names";
         private ProgressReporter _prog;
 
+        FileLoadInfo _dataInfo; 
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public FrmDataLoad()
+        private FrmDataLoad(DataFileNames fileNames, string sessionFileName, FileLoadInfo dataInfo )
         {
             InitializeComponent();
-            UiControls.SetIcon(this);
+            UiControls.SetIcon( this );
 
             label1.Text = UiControls.Title;
             label2.Text = UiControls.Description;
-        }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        private FrmDataLoad(DataFileNames fileNames, string sessionFileName)
-            : this()
-        {
             this._fileNames       = fileNames;
             this._sessionFileName = sessionFileName;
+            this._dataInfo        = dataInfo;
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         /// <summary>
         /// Loads data from file
         /// </summary>
-        internal static Core Show(Form owner, DataFileNames fileNames)
+        internal static Core Show(Form owner, DataFileNames fileNames, FileLoadInfo dataInfo )
         {
-            return Show(owner, fileNames, null);
+            return Show(owner, fileNames, null, dataInfo );
         }
 
         /// <summary>
         /// Loads previous session
         /// </summary>
-        internal static Core Show(Form owner, string sessionFileName)
+        internal static Core Show(Form owner, string sessionFileName )
         {
-            return Show(owner, null, sessionFileName);
+            return Show(owner, null, sessionFileName, null );
         }
 
         /// <summary>
         /// Loads data from file or session
         /// </summary>
-        private static Core Show(Form owner, DataFileNames fileNames, string sessionFileName)
+        private static Core Show(Form owner, DataFileNames fileNames, string sessionFileName, FileLoadInfo dataInfo)
         {
             UiControls.Assert((fileNames == null) ^ (sessionFileName == null), "Specify filenames to load or session to load.");
 
             owner.Hide();
 
-            using (FrmDataLoad frm = new FrmDataLoad(fileNames, sessionFileName))
+            using (FrmDataLoad frm = new FrmDataLoad(fileNames, sessionFileName, dataInfo ))
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
@@ -144,10 +121,10 @@ namespace MetaboliteLevels.Forms.Startup
                 _result = Core.Load(_sessionFileName, _prog);
                 _prog.Leave();
                 return;
-            }
+            }                                                                             
 
             // CREATE A NEW CORE
-            List<Compound> compounds         = new List<Compound>();
+            List <Compound> compounds         = new List<Compound>();
             List<Pathway> pathways           = new List<Pathway>();
             List<Adduct> adducts             = new List<Adduct>();
             MetaInfoHeader pathwayHeader     = new MetaInfoHeader();
@@ -156,13 +133,13 @@ namespace MetaboliteLevels.Forms.Startup
             MetaInfoHeader annotationsHeader = new MetaInfoHeader();
 
             // DATA SETS
-            DataSet data = Load_1_DataSets(_fileNames, _prog);
+            DataSet data = Load_1_DataSets(_dataInfo, _fileNames, _prog);
 
             // COMPOUNDS & PATHWAYS
-            Load_2_Compounds(compounds, pathways, pathwayHeader, compoundHeader, _fileNames.CompoundLibraies, _prog);
+            Load_2_Compounds( _dataInfo, compounds, pathways, pathwayHeader, compoundHeader, _fileNames.CompoundLibraies, _prog);
 
             // ADDUCTS
-            Load_3_Adducts(adducts, _fileNames.AdductLibraries, adductsHeader, _prog);
+            Load_3_Adducts( _dataInfo, adducts, _fileNames.AdductLibraries, adductsHeader, _prog);
 
             // M/Zs
             if (_fileNames.AutomaticIdentifications)
@@ -173,7 +150,7 @@ namespace MetaboliteLevels.Forms.Startup
             // IDENTIFICATIONS
             if (!string.IsNullOrEmpty(_fileNames.Identifications))
             {
-                Load_5_UserIdentifications(annotationsHeader, data.Peaks, compounds, adducts, _fileNames.Identifications, _prog);
+                Load_5_UserIdentifications( _dataInfo, annotationsHeader, data.Peaks, compounds, adducts, _fileNames.Identifications, _prog);
             }
 
             // Set result
@@ -186,16 +163,16 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Loads identifications.
         /// </summary>
-        private static void Load_5_UserIdentifications(MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, ProgressReporter prog)
+        private static void Load_5_UserIdentifications( FileLoadInfo dataInfo, MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, ProgressReporter prog)
         {
             prog.Enter("Loading identifications");
             Matrix<string> mat = new Matrix<string>(fileName, true, true, prog);
             prog.Leave();
 
             prog.Enter("Interpreting identifications");
-            int peakCol      = mat.OptionalColIndex(IDFILE_PEAK_HEADER);
-            int mzCol        = mat.OptionalColIndex(VARFILE_MZ_HEADER);
-            int compoundsCol = mat.ColIndex(IDFILE_COMPOUNDS_HEADER);
+            int peakCol      = mat.OptionalColIndex( dataInfo.IDFILE_PEAK_HEADER );
+            int mzCol        = mat.OptionalColIndex( dataInfo.VARFILE_MZ_HEADER );
+            int compoundsCol = mat.ColIndex( dataInfo.IDFILE_COMPOUNDS_HEADER );
 
             for (int row = 0; row < mat.NumRows; row++)
             {
@@ -266,7 +243,7 @@ namespace MetaboliteLevels.Forms.Startup
             return result;
         }
 
-        private static void Load_3_Adducts(List<Adduct> adducts, List<string> fileNames, MetaInfoHeader header, ProgressReporter prog)
+        private static void Load_3_Adducts( FileLoadInfo dataInfo, List<Adduct> adducts, List<string> fileNames, MetaInfoHeader header, ProgressReporter prog)
         {
             for (int index = 0; index < fileNames.Count; index++)
             {
@@ -277,9 +254,9 @@ namespace MetaboliteLevels.Forms.Startup
 
                 prog.Enter("Interpreting adducts (" + index + " of " + fileNames.Count + ")");
 
-                int nameCol = mat.ColIndex(ADDUCTFILE_NAME_HEADER);
-                int chargeCol = mat.ColIndex(ADDUCTFILE_CHARGE_HEADER);
-                int mzCol = mat.ColIndex(ADDUCTFILE_MASS_DIFFERENCE_HEADER);
+                int nameCol = mat.ColIndex( dataInfo.ADDUCTFILE_NAME_HEADER );
+                int chargeCol = mat.ColIndex( dataInfo.ADDUCTFILE_CHARGE_HEADER );
+                int mzCol = mat.ColIndex( dataInfo.ADDUCTFILE_MASS_DIFFERENCE_HEADER );
 
                 for (int row = 0; row < mat.NumRows; row++)
                 {
@@ -684,7 +661,7 @@ namespace MetaboliteLevels.Forms.Startup
             return pathway;
         }
 
-        private static void Load_2_Compounds(List<Compound> compounds, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, List<CompoundLibrary> toLoad, ProgressReporter prog)
+        private static void Load_2_Compounds(FileLoadInfo dataInfo, List<Compound> compounds, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, List<CompoundLibrary> toLoad, ProgressReporter prog)
         {
             for (int index = 0; index < toLoad.Count; index++)
             {
@@ -698,14 +675,14 @@ namespace MetaboliteLevels.Forms.Startup
                 }
                 else
                 {
-                    LoadCsvDatabase(compounds, pathwaysList, pathwayMeta, compoundMeta, cl.CompoundFile, cl.PathwayFile, cl, prog);
+                    LoadCsvDatabase( dataInfo, compounds, pathwaysList, pathwayMeta, compoundMeta, cl.CompoundFile, cl.PathwayFile, cl, prog);
                 }
 
                 prog.Leave();
             }
         }
 
-        private static void LoadCsvDatabase(List<Compound> compoundsOut, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, string compFile, string patFile, CompoundLibrary tag, ProgressReporter prog)
+        private static void LoadCsvDatabase( FileLoadInfo dataInfo, List<Compound> compoundsOut, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, string compFile, string patFile, CompoundLibrary tag, ProgressReporter prog)
         {
             Dictionary<string, Pathway> pathways = new Dictionary<string, Pathway>();
 
@@ -715,8 +692,8 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 Matrix<string> pathwayMatrix = new Matrix<string>(patFile, true, true, prog);
 
-                int nameCol = pathwayMatrix.ColIndex(PATHWAYFILE_NAME_HEADER);
-                int idCol = pathwayMatrix.ColIndex(PATHWAYFILE_FRAME_ID_HEADER);
+                int nameCol = pathwayMatrix.ColIndex( dataInfo.PATHWAYFILE_NAME_HEADER );
+                int idCol = pathwayMatrix.ColIndex( dataInfo.PATHWAYFILE_FRAME_ID_HEADER );
 
                 for (int row = 0; row < pathwayMatrix.NumRows; row++)
                 {
@@ -739,10 +716,10 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 Matrix<string> mat = new Matrix<string>(compFile, true, true, prog);
 
-                int nameCol = mat.ColIndex(COMPOUNDFILE_NAME_HEADER);
-                int idCol = mat.ColIndex(COMPOUNDFILE_FRAME_ID_HEADER);
-                int mzCol = mat.ColIndex(COMPOUNDFILE_MASS_HEADER);
-                int pathwayCol = mat.ColIndex(COMPOUNDFILE_PATHWAYS_HEADER);
+                int nameCol = mat.ColIndex( dataInfo.COMPOUNDFILE_NAME_HEADER );
+                int idCol = mat.ColIndex( dataInfo.COMPOUNDFILE_FRAME_ID_HEADER );
+                int mzCol = mat.ColIndex( dataInfo.COMPOUNDFILE_MASS_HEADER );
+                int pathwayCol = mat.ColIndex( dataInfo.COMPOUNDFILE_PATHWAYS_HEADER );
 
                 for (int row = 0; row < mat.NumRows; row++)
                 {
@@ -778,7 +755,7 @@ namespace MetaboliteLevels.Forms.Startup
             pathwaysList.ReplaceAll(pathways.Values);
         } 
 
-        public static Dictionary<string, string> LoadConditionInfo(string fileName, ProgressReporter reportProgress)
+        public static Dictionary<string, string> LoadConditionInfo(FileLoadInfo dataInfo, string fileName, ProgressReporter reportProgress)
         {
             Dictionary<string, string> output = new Dictionary<string, string>();
 
@@ -786,8 +763,8 @@ namespace MetaboliteLevels.Forms.Startup
 
             output.Clear();
 
-            int idCol = mat.ColIndex(CONDITIONFILE_ID_HEADER);
-            int nameCol = mat.ColIndex(CONDITIONFILE_NAME_HEADER);
+            int idCol = mat.ColIndex( dataInfo.CONDITIONFILE_ID_HEADER );
+            int nameCol = mat.ColIndex( dataInfo.CONDITIONFILE_NAME_HEADER );
 
             for (int row = 0; row < mat.NumRows; row++)
             {
@@ -810,7 +787,7 @@ namespace MetaboliteLevels.Forms.Startup
             public MetaInfoHeader PeakMetaHeader;
         }
 
-        private static DataSet Load_1_DataSets(DataFileNames files, ProgressReporter prog)
+        private static DataSet Load_1_DataSets(FileLoadInfo dataInfo, DataFileNames files, ProgressReporter prog)
         {
             DataSet result = new DataSet();
             result.PeakMetaHeader = new MetaInfoHeader();
@@ -827,7 +804,7 @@ namespace MetaboliteLevels.Forms.Startup
             if (!string.IsNullOrEmpty(files.ConditionInfo))
             {
                 prog.Enter("Loading conditions");
-                conditionNames = LoadConditionInfo(files.ConditionInfo, prog);
+                conditionNames = LoadConditionInfo(dataInfo, files.ConditionInfo, prog);
                 prog.Leave();
             }
             else
@@ -855,11 +832,11 @@ namespace MetaboliteLevels.Forms.Startup
             prog.Enter("Formatting data");
 
             // Get "obsinfo" columns
-            int dayCol = info.OptionalColIndex(OBSFILE_TIME_HEADER);
-            int repCol = info.OptionalColIndex(OBSFILE_REPLICATE_HEADER);
-            int typeCol = info.OptionalColIndex(OBSFILE_GROUP_HEADER);
-            int batchCol = info.OptionalColIndex(OBSFILE_BATCH_HEADER);
-            int acquisitionCol = info.OptionalColIndex(OBSFILE_ACQUISITION_HEADER);
+            int dayCol = info.OptionalColIndex( dataInfo.OBSFILE_TIME_HEADER );
+            int repCol = info.OptionalColIndex( dataInfo.OBSFILE_REPLICATE_HEADER );
+            int typeCol = info.OptionalColIndex( dataInfo.OBSFILE_GROUP_HEADER );
+            int batchCol = info.OptionalColIndex( dataInfo.OBSFILE_BATCH_HEADER );
+            int acquisitionCol = info.OptionalColIndex( dataInfo.OBSFILE_ACQUISITION_HEADER );
 
             // Get "peakinfo" columns specific to LCMS mode
             int mzCol;
@@ -873,13 +850,13 @@ namespace MetaboliteLevels.Forms.Startup
 
                 case ELcmsMode.Positive:
                 case ELcmsMode.Negative:
-                    mzCol = varInfo.ColIndex(VARFILE_MZ_HEADER);
+                    mzCol = varInfo.ColIndex( dataInfo.VARFILE_MZ_HEADER );
                     lcmsModeCol = -1;
                     break;
 
                 case ELcmsMode.Mixed:
-                    mzCol = varInfo.ColIndex(VARFILE_MZ_HEADER);
-                    lcmsModeCol = varInfo.ColIndex(VARFILE_MODE_HEADER);
+                    mzCol = varInfo.ColIndex( dataInfo.VARFILE_MZ_HEADER );
+                    lcmsModeCol = varInfo.ColIndex( dataInfo.VARFILE_MODE_HEADER );
                     break;
 
                 default:
@@ -1349,5 +1326,31 @@ namespace MetaboliteLevels.Forms.Startup
         {
 
         }
+    }
+
+    internal sealed class FileLoadInfo
+    {
+        public readonly string OBSFILE_TIME_HEADER = "time,day,t";
+        public readonly string OBSFILE_REPLICATE_HEADER = "rep,replicate";
+        public readonly string OBSFILE_GROUP_HEADER = "type,group,condition,conditions";
+        public readonly string OBSFILE_BATCH_HEADER = "batch";
+        public readonly string OBSFILE_ACQUISITION_HEADER = "acquisition,order,file,index";
+        public readonly string IDFILE_PEAK_HEADER = "name,peak,variable";
+        public readonly string IDFILE_COMPOUNDS_HEADER = "id,annotation,ids,annotations,compounds,compound";
+        public readonly string ADDUCTFILE_NAME_HEADER = "name";
+        public readonly string ADDUCTFILE_CHARGE_HEADER = "charge,z";
+        public readonly string ADDUCTFILE_MASS_DIFFERENCE_HEADER = "mass.difference";
+        public readonly string PATHWAYFILE_NAME_HEADER = "name";
+        public readonly string PATHWAYFILE_FRAME_ID_HEADER = "frame.id,id";
+        public readonly string COMPOUNDFILE_NAME_HEADER = "name";
+        public readonly string COMPOUNDFILE_FRAME_ID_HEADER = "frame.id,id";
+        public readonly string COMPOUNDFILE_MASS_HEADER = "mass,m";
+        public readonly string COMPOUNDFILE_PATHWAYS_HEADER = "pathways,pathway,pathway.ids,pathway.id";
+        public readonly string CONDITIONFILE_ID_HEADER = "id,frame.id";
+        public readonly string CONDITIONFILE_NAME_HEADER = "name";
+        public readonly string VARFILE_MZ_HEADER = "mz";
+        public readonly string VARFILE_MODE_HEADER = "mode,lcmsmode,lcms,lcms.mode";
+        public readonly string AUTOFILE_OBSERVATIONS= "Info.csv,ObsInfo.csv,ObservationInfo.csv,Observations.csv,*.jgf";
+        public readonly string AUTOFILE_PEAKS = "VarInfo.csv,PeakInfo.csv,FeatureInfo.csv,Peaks.csv,Variables.csv,Features.csv";
     }
 }

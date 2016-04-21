@@ -50,7 +50,7 @@ namespace MetaboliteLevels.Forms.Startup
                     throw new SwitchException(UiControls.StartupPathMode);
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)

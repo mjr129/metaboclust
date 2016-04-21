@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._txtInput = new System.Windows.Forms.TextBox();
+            this._txtInput = new Controls.CtlTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnOk = new System.Windows.Forms.Button();
-            this._btnCancel = new System.Windows.Forms.Button();
+            this._btnOk = new Controls.CtlButton();
+            this._btnCancel = new Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -150,11 +150,11 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox _txtInput;
+        private Controls.CtlTextBox _txtInput;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button _btnOk;
-        private System.Windows.Forms.Button _btnCancel;
+        private Controls.CtlButton _btnOk;
+        private Controls.CtlButton _btnCancel;
         private Controls.CtlTitleBar ctlTitleBar1;
     }
 }

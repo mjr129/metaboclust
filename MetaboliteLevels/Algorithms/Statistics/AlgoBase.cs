@@ -95,9 +95,13 @@ namespace MetaboliteLevels.Algorithms.Statistics
             get { return null; }
         }
 
+        public bool IsMathDotNet { get; protected set; }
+
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
-            return Script != null ? UiControls.ImageListOrder.ScriptFile : UiControls.ImageListOrder.ScriptInbuilt;
+            return Script != null ? UiControls.ImageListOrder.ScriptFile
+                : IsMathDotNet ? UiControls.ImageListOrder.ScriptMathDotNet
+                : UiControls.ImageListOrder.ScriptInbuilt;
         }
 
         void IVisualisable.RequestContents(ContentsRequest list)

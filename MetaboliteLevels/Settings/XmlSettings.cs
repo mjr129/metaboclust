@@ -22,7 +22,7 @@ namespace MetaboliteLevels.Settings
         Infer,
 
         /// <summary>
-        /// DataContractSerializer - don't use - doesn't handle changes well
+        /// DataContractSerializer (REQUIRES SUPPORTED CLASSES. Nb. don't use - doesn't handle changes well)
         /// </summary>
         DataContract,
 
@@ -30,10 +30,10 @@ namespace MetaboliteLevels.Settings
         /// BinaryFormatter - MS-NRBF
         /// https://msdn.microsoft.com/en-us/library/cc236844.aspx
         /// </summary>
-        Binary,
+        MsnrbfBinary,
 
         /// <summary>
-        /// XmlSerializer - don't use - not supported
+        /// XmlSerializer (REQUIRES SUPPORTED CLASSES)
         /// </summary>
         Xml,
 
@@ -56,96 +56,95 @@ namespace MetaboliteLevels.Settings
         /// MSerialiser.Serialise (as fast binary)
         /// </summary>
         MSerialiserFastBinary,
+
+        /// <summary>
+        /// IniSerialiser.Serialise (REQUIRES SUPPORTED CLASSES)
+        /// </summary>
+        Ini,
     }
 
-    /// <summary>
-    /// Reads and writes objects to XML.
-    /// </summary>
-    static class XmlSettings
+    enum FileId
     {
-        public static void Save<T>(string id, SerialisationFormat format, T data, ObjectSerialiser serialiser, ProgressReporter prog)
-        {
-            string fn = GetFile(id, format);
+        [Name( "FileLoadInfo.ini" )] FileLoadInfo,
+        [Name( "RecentSessions.dat" )] RecentSessions,
+        [Name( "RecentWorkspaces.dat" )] RecentWorkspaces,
+        [Name( "General.dat" )] General,
+        [Name( "DoNotShowAgain.dat" )] DoNotShowAgain
+    }
 
-            SaveToFile<T>(fn, data, format, serialiser, prog);
+    internal class FileDescriptor
+    {
+        public readonly string FileName;
+        public readonly SerialisationFormat Format;
+
+        public FileDescriptor( string fileName )
+            : this(fileName, SerialisationFormat.Infer )
+        {                                          
+            // NA
         }
 
-        public static void SaveToFile<T>(string fn, T data, SerialisationFormat format, ObjectSerialiser serialiser, ProgressReporter prog)
+        public FileDescriptor( string fileName, SerialisationFormat format )
         {
-            // Because we move files we can write over readonly files, so prevent this here
-            if (File.Exists(fn) && new FileInfo(fn).IsReadOnly)
-            {
-                throw new InvalidOperationException($"Will not overwrite file because it is marked as readonly. Filename = '{fn}'.");
-            }
-
-            // Can't cancel halfway through writing a file
-            prog.DisableThrowOnCancel();
-
-            try
-            {
-                // Create backup
-                if (MainSettings.Instance.General.AutoBackup)
-                {
-                    if (File.Exists(fn))
-                    {
-                        string bakFile = fn + ".bak";
-
-                        if (File.Exists(bakFile))
-                        {
-                            File.Delete(bakFile);
-                        }
-
-                        File.Move(fn, bakFile);
-                    }
-                }
-
-                if (data == null)
-                {
-                    // Special case for deleting files
-                    File.Delete(fn);
-                    return;
-                }
-
-                // Save to a temporary file (in case we get an error we don't want to destroy the original by saving over it with a corrupt copy)
-                string tempFile = fn + ".tmp";
-
-                try
-                {
-                    using (Stream sw = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
-                    {
-                        format = Infer(fn, format);
-                        _Serialise<T>(data, sw, format, serialiser, prog);
-                    }
-                }
-                catch
-                {
-                    File.Delete(tempFile);
-                    throw;
-                }
-
-                // Move the temp file to the new location
-                File.Delete(fn);
-                File.Move(tempFile, fn);
-            }
-            finally
-            {
-                prog.ReenableThrowOnCancel();
-            }
+            this.FileName = fileName;
+            this.Format = _GetFormat(fileName, format );
         }
 
-        private static SerialisationFormat Infer(string fn, SerialisationFormat format)
+        public FileDescriptor( FileId fileId )
+            : this( _GetFile( fileId ))
+        {                                          
+            // NA
+        }
+
+        public override string ToString()
+        {
+            return $"\"{FileName}\" ({Format})";
+        }
+
+        public static implicit operator string( FileDescriptor descriptor )
+        {
+            return descriptor.FileName;
+        }
+
+        public static implicit operator FileDescriptor( string fileName )
+        {
+            return new FileDescriptor( fileName );
+        }
+
+        public static implicit operator FileDescriptor( FileId fileId )
+        {
+            return new FileDescriptor( fileId );
+        }
+
+        /// <summary>
+        /// Gets a filename for internal app settings designated by "id".
+        /// 
+        /// </summary>
+        public static string _GetFile( FileId id )
+        {
+            string dir = Path.Combine( UiControls.StartupPath, "UserData\\Settings" );
+
+            if (!Directory.Exists( dir ))
+            {
+                Directory.CreateDirectory( dir );
+            }
+
+            return Path.Combine( dir, id.ToUiString() );
+        }
+
+        private static SerialisationFormat _GetFormat( string fn, SerialisationFormat format )
         {
             if (format != SerialisationFormat.Infer)
             {
                 return format;
             }
 
-            switch (Path.GetExtension(fn).ToUpper())
+            switch (Path.GetExtension( fn ).ToUpper())
             {
+                case ".DAT":
                 case ".MDAT":
                 case ".MDAT-BIN":
                 case ".MRES-BIN":
-                    return SerialisationFormat.Binary;
+                    return SerialisationFormat.MsnrbfBinary;
 
                 case ".MDAT-MBIN":
                 case ".MRES-MBIN":
@@ -174,19 +173,90 @@ namespace MetaboliteLevels.Settings
                 case ".XML":
                     return SerialisationFormat.Xml;
 
+                case ".INI":
+                    return SerialisationFormat.Ini;
+
                 default:
-                    throw new InvalidOperationException("Could not determine file type from extension.");
+                    throw new InvalidOperationException( $"A request was made to determine the filetype of a file based on its extension, but that extension could not be found in the lookup table. The filename in question is \"{fn}\"." );
             }
         }
+    }
 
-        private static XmlSerializer CreateXmlSerialiser<T>()
+    /// <summary>
+    /// Reads and writes objects to XML.
+    /// </summary>
+    static class XmlSettings
+    {                          
+        public static void Save<T>( FileDescriptor fileName, T data,  ObjectSerialiser serialiser, ProgressReporter prog)
+        {
+            // Because we move files we can write over readonly files, so prevent this here
+            if (File.Exists( fileName ) && new FileInfo( fileName ).IsReadOnly)
+            {
+                throw new InvalidOperationException($"Will not overwrite file because it is marked as readonly. Filename: {fileName}" );
+            }
+
+            // Can't cancel halfway through writing a file
+            prog.DisableThrowOnCancel();
+
+            try
+            {
+                // Create backup
+                if (MainSettings.Instance.General.AutoBackup)
+                {
+                    if (File.Exists( fileName ))
+                    {
+                        string bakFile = fileName + ".bak";
+
+                        if (File.Exists(bakFile))
+                        {
+                            File.Delete(bakFile);
+                        }
+
+                        File.Move( fileName, bakFile);
+                    }
+                }
+
+                if (data == null)
+                {
+                    // Special case for deleting files
+                    File.Delete( fileName );
+                    return;
+                }
+
+                // Save to a temporary file (in case we get an error we don't want to destroy the original by saving over it with a corrupt copy)
+                string tempFile = fileName + ".tmp";
+
+                try
+                {
+                    using (Stream sw = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+                    {                                         
+                        _Serialise<T>(data, sw, fileName.Format, serialiser, prog);
+                    }
+                }
+                catch
+                {
+                    File.Delete(tempFile);
+                    throw;
+                }
+
+                // Move the temp file to the new location
+                File.Delete( fileName );
+                File.Move(tempFile, fileName );
+            }
+            finally
+            {
+                prog.ReenableThrowOnCancel();
+            }
+        }                                 
+
+        private static XmlSerializer _CreateXmlSerialiser<T>()
         {
             var xs = new XmlSerializer(typeof(T));
 
             return xs;
         }
 
-        private static DataContractSerializer CreateDataContactSerialiser<T>()
+        private static DataContractSerializer _CreateDataContactSerialiser<T>()
         {
             var dcs = new DataContractSerializer(typeof(T), null, int.MaxValue, false, true, null);
 
@@ -214,18 +284,22 @@ namespace MetaboliteLevels.Settings
                     return;
 
                 case SerialisationFormat.Xml:
-                    var xs = CreateXmlSerialiser<T>();
+                    var xs = _CreateXmlSerialiser<T>();
                     xs.Serialize(s, data);
                     break;
 
                 case SerialisationFormat.DataContract:
-                    var dcs = CreateDataContactSerialiser<T>();
+                    var dcs = _CreateDataContactSerialiser<T>();
                     dcs.WriteObject(s, (object)data);
                     break;
 
-                case SerialisationFormat.Binary:
+                case SerialisationFormat.MsnrbfBinary:
                     var bcs = new BinaryFormatter();
                     bcs.Serialize(s, data);
+                    break;
+
+                case SerialisationFormat.Ini:
+                    IniSerialiser.Serialise( s, data );
                     break;
 
                 default:
@@ -233,7 +307,7 @@ namespace MetaboliteLevels.Settings
             }
         }
 
-        private static T Deserialise<T>(Stream s, SerialisationFormat format, ObjectSerialiser serialiser, ProgressReporter prog)
+        private static T _Deserialise<T>(Stream s, SerialisationFormat format, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             switch (format)
             {
@@ -250,87 +324,62 @@ namespace MetaboliteLevels.Settings
                     return MSerialiser.DeserialiseStream<T>(s, ETransmission.FastBinary, new[] { serialiser }, null);
 
                 case SerialisationFormat.Xml:
-                    var xs = CreateXmlSerialiser<T>();
+                    var xs = _CreateXmlSerialiser<T>();
                     return (T)xs.Deserialize(s);
 
                 case SerialisationFormat.DataContract:
-                    var dcs = CreateDataContactSerialiser<T>();
+                    var dcs = _CreateDataContactSerialiser<T>();
                     return (T)dcs.ReadObject(s);
 
-                case SerialisationFormat.Binary:
+                case SerialisationFormat.MsnrbfBinary:
                     var bcs = new BinaryFormatter();
                     return (T)bcs.Deserialize(s);
+
+                case SerialisationFormat.Ini:
+                    return IniSerialiser.Deserialise<T>( s );
 
                 default:
                     throw new InvalidOperationException("Invalid switch: " + format);
             }
-        }
+        }   
 
-        public static T Load<T>(string id, SerialisationFormat format, ObjectSerialiser serialiser)
+        public static T LoadAndResave<T>( FileDescriptor fileName,  ProgressReporter prog, ObjectSerialiser serialiser  )
+            where T:new()
         {
             T result;
-            TryLoad(id, format, null, out result, default(T), serialiser);
+
+            if (!TryLoad<T>( fileName, prog, out result, default( T ), serialiser ))
+            {
+                result = new T();
+            }
+
+            Save<T>( fileName, result, null, prog );
+
             return result;
         }
 
-        public static T LoadFromFile<T>(string fn, SerialisationFormat format, ProgressReporter progress, ObjectSerialiser serialiser = null)
+        public static T LoadOrDefault<T>( FileDescriptor fileName,  T @default, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             T result;
-            TryLoadFromFile(fn, format, progress, out result, default(T), serialiser);
+            TryLoad( fileName,  prog, out result, @default, serialiser);
             return result;
         }
 
-        public static T Load<T>(string id, SerialisationFormat format, T @default, ObjectSerialiser serialiser, ProgressReporter prog)
-        {
-            T result;
-            TryLoad(id, format, prog, out result, @default, serialiser);
-            return result;
-        }
-
-        public static void SaveLoad<T>(bool save, string id, ref T @default, ObjectSerialiser serialiser, ProgressReporter prog)
+        public static void SaveLoad<T>( bool save, FileDescriptor fileName, ref T @default, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             if (save)
             {
-                Save(id, SerialisationFormat.Binary, @default, serialiser, prog);
+                Save( fileName,  @default, serialiser, prog);
             }
             else
             {
-                @default = Load(id, SerialisationFormat.Binary, @default, serialiser, prog);
+                @default = LoadOrDefault( fileName,  @default, serialiser, prog);
             }
-        }
+        }          
 
-        public static T LoadFromFile<T>(string fn)
+        public static bool TryLoad<T>( FileDescriptor fileName, ProgressReporter progress, out T result, T @default, ObjectSerialiser serialiser)
         {
-            return LoadFromFile<T>(fn, SerialisationFormat.Binary, default(T), null);
-        }
-
-        public static T LoadFromFile<T>(string fn, SerialisationFormat format, T @default, ObjectSerialiser serialiser)
-        {
-            T result;
-            TryLoadFromFile(fn, format, null, out result, @default, serialiser);
-            return result;
-        }
-
-        public static bool TryLoad<T>(string id, SerialisationFormat format, out T result, ObjectSerialiser serialiser)
-        {
-            return TryLoad(id, format, null, out result, default(T), serialiser);
-        }
-
-        public static bool TryLoadFromFile<T>(string fn, SerialisationFormat format, ProgressReporter progress, out T result, ObjectSerialiser serialiser)
-        {
-            return TryLoadFromFile(fn, format, progress, out result, default(T), serialiser);
-        }
-
-        public static bool TryLoad<T>(string id, SerialisationFormat format, ProgressReporter progress, out T result, T @default, ObjectSerialiser serialiser)
-        {
-            string fn = GetFile(id, format);
-
-            return TryLoadFromFile<T>(fn, format, progress, out result, @default, serialiser);
-        }
-
-        public static bool TryLoadFromFile<T>(string fn, SerialisationFormat format, ProgressReporter progress, out T result, T @default, ObjectSerialiser serialiser)
-        {
-            if (!File.Exists(fn))
+            if (!File.Exists( fileName ))
             {
                 result = @default;
                 return false;
@@ -338,20 +387,18 @@ namespace MetaboliteLevels.Settings
 
             try
             {
-                using (FileStream sr = new FileStream(fn, FileMode.Open, FileAccess.Read))
-                {
-                    format = Infer(fn, format);
-
+                using (FileStream sr = new FileStream( fileName, FileMode.Open, FileAccess.Read))
+                {        
                     if (progress != null)
                     {
                         using (ProgressStream ps = new ProgressStream(sr, progress))
                         {
-                            result = Deserialise<T>(ps, format, serialiser, progress);
+                            result = _Deserialise<T>(ps, fileName.Format, serialiser, progress);
                         }
                     }
                     else
                     {
-                        result = Deserialise<T>(sr, format, serialiser, progress);
+                        result = _Deserialise<T>(sr, fileName.Format, serialiser, progress);
                     }
                 }
 
@@ -362,32 +409,6 @@ namespace MetaboliteLevels.Settings
                 result = @default;
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Gets a filename for internal app settings designated by "id".
-        /// </summary>
-        public static string GetFile(string id, SerialisationFormat format)
-        {
-            string dir = Path.Combine(UiControls.StartupPath, "UserData\\Settings");
-
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-
-            switch (format)
-            {
-                case SerialisationFormat.Binary:
-                    return Path.Combine(dir, id + ".bin");
-
-                case SerialisationFormat.DataContract:
-                case SerialisationFormat.Xml:
-                    return Path.Combine(dir, id + ".xml");
-
-                default:
-                    throw new InvalidOperationException("GetFile: Invalid switch: " + format);
-            }
-        }
+        }    
     }
 }

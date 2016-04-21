@@ -13,7 +13,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         public readonly RScript _script;
 
         public TrendScript(string script, string id, string name, string fileName)
-            : base(id, name)
+            : base(id, name )
         {
             this._script = new RScript(script, INPUTS, fileName);
         }

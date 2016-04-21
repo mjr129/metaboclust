@@ -187,21 +187,22 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void Validate(object sender, EventArgs e)
         {
-            bool v;
+            bool previewSucceeded;
 
             try
             {
                 ConfigurationStatistic sel = GetSelection();
                 GeneratePreview(sel);
-                v = sel != null;
+                previewSucceeded = sel != null;
+                _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
             }
             catch
             {
-                v = false;
+                previewSucceeded = false;
             }
 
-            _btnOk.Enabled = v;
-            _tlpPreivew.Visible = v;
+            _btnOk.Enabled = previewSucceeded;
+            _tlpPreivew.Visible = previewSucceeded;
         }
 
         private FrmAlgoStatistic(Core core, ConfigurationStatistic defaultSelection, Peak defaultPeak, bool readOnly)
@@ -262,7 +263,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 ctlTitleBar1.Text = "New Statistic";
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }       
 
         private string GetStatName(StatisticBase input)

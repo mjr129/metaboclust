@@ -15,7 +15,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
         private readonly bool _supportsQuickCalculate;
 
         public MetricScript(string script, string id, string name, string fileName)
-            : base(id, name)
+            : base(id, name  )
         {
             this._script = new RScript(script, INPUTS, fileName);
 

@@ -48,9 +48,9 @@
             this._numY = new System.Windows.Forms.NumericUpDown();
             this._lblPreview = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this._txtTitle = new System.Windows.Forms.TextBox();
+            this._txtTitle = new Controls.CtlTextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this._txtCaption = new System.Windows.Forms.TextBox();
+            this._txtCaption = new Controls.CtlTextBox();
             this._btnCopyTitle = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._chkCaption = new System.Windows.Forms.CheckBox();
@@ -474,11 +474,11 @@
         private System.Windows.Forms.Label _lblPreview;
         private System.Windows.Forms.CheckBox _chkClipboard;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox _txtTitle;
+        private Controls.CtlTextBox _txtTitle;
         private Controls.CtlTitleBar ctlTitleBar1;
         private Controls.CtlButton _btnCopy;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox _txtCaption;
+        private Controls.CtlTextBox _txtCaption;
         private Controls.CtlButton _btnCopyTitle;
         private System.Windows.Forms.CheckBox _chkCaption;
     }

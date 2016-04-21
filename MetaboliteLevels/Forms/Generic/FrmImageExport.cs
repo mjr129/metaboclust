@@ -40,7 +40,7 @@ namespace MetaboliteLevels.Forms.Generic
             _numX.Value = chart.Chart.ClientSize.Width;
             _numY.Value = chart.Chart.ClientSize.Height;
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)

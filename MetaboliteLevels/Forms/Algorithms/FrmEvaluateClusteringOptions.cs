@@ -156,7 +156,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _numNumTimes.Value = def.NumberOfRepeats;
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
 
             if (readOnly)
             {

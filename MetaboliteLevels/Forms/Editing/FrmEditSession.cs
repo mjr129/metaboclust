@@ -24,7 +24,7 @@ namespace MetaboliteLevels.Forms.Editing
             textBox2.Text = core.FileNames.GetShortTitle();
             textBox3.Text = core.FileNames.Comments;
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         internal static void Show(Form owner, Core session)

@@ -44,10 +44,10 @@
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
-            this._txtDataSetData = new System.Windows.Forms.TextBox();
+            this._txtDataSetData = new Controls.CtlTextBox();
             this._btnDataSetData = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._txtPathwayTools = new System.Windows.Forms.TextBox();
+            this._txtPathwayTools = new Controls.CtlTextBox();
             this._btnPathwayTools = new MetaboliteLevels.Controls.CtlButton();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -61,7 +61,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.ctlButton5 = new MetaboliteLevels.Controls.CtlButton();
             this.label10 = new System.Windows.Forms.Label();
-            this._txtWorkingDirectory = new System.Windows.Forms.TextBox();
+            this._txtWorkingDirectory = new Controls.CtlTextBox();
             this._btnSetWorkingDirectory = new MetaboliteLevels.Controls.CtlButton();
             this._cmsR = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.browseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -639,7 +639,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private MetaboliteLevels.Controls.CtlButton _btnDataSetData;
-        private System.Windows.Forms.TextBox _txtDataSetData;
+        private Controls.CtlTextBox _txtDataSetData;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private MetaboliteLevels.Controls.CtlButton _btnOk;
         private MetaboliteLevels.Controls.CtlButton _btnCancel;
@@ -648,7 +648,7 @@
         private System.Windows.Forms.ToolStripMenuItem browseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox _txtPathwayTools;
+        private Controls.CtlTextBox _txtPathwayTools;
         private Controls.CtlButton _btnPathwayTools;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -674,7 +674,7 @@
         private System.Windows.Forms.Label label9;
         private Controls.CtlButton ctlButton5;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox _txtWorkingDirectory;
+        private Controls.CtlTextBox _txtWorkingDirectory;
         private Controls.CtlButton _btnSetWorkingDirectory;
         private System.Windows.Forms.ErrorProvider errorProvider1;
     }

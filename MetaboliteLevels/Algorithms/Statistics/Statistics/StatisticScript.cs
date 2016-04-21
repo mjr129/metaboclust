@@ -13,7 +13,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
         public readonly RScript _script;                
 
         public StatisticScript(string script, string id, string name, string fileName)
-            : base(id, name)
+            : base(id, name )
         {
             this._script = new RScript(script, INPUTS, fileName);
             // this._script.CheckInputMask("10000");

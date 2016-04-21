@@ -32,14 +32,14 @@ namespace MetaboliteLevels.Controls
         /// <summary>The button</summary>
         public readonly Button Button;
         /// <summary>The selection</summary>
-        private HashSet<T> _selection = new HashSet<T>();
+        private HashSet<T> _selection;
         /// <summary>If the selection is valid</summary>
         private bool _isSelectionValid;   
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ConditionBox(DataSet<T> args, TextBox textBox, Button button)
+        public ConditionBox(DataSet<T> args, CtlTextBox textBox, Button button)
         {
             this._args = args;                                                         
             this.TextBox = textBox;
@@ -47,7 +47,11 @@ namespace MetaboliteLevels.Controls
 
             textBox.TextChanged += _textBox_TextChanged;
             textBox.Validating += _textBox_Validating;
+            textBox.Watermark = "(None)";
             button.Click += _button_Click;
+
+            _selection = new HashSet<T>();
+            _isSelectionValid = true;
         }
         /// <summary>
         /// Show list button clicked.

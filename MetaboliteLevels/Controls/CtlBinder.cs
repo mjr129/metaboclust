@@ -16,7 +16,7 @@ namespace MetaboliteLevels.Controls
     {
         private ToolTip toolTip1;
         private IContainer components;
-        Dictionary<Control, PropertyInfo[]> _properties = new Dictionary<Control, PropertyInfo[]>();
+        Dictionary<Control, PropertyPath> _properties = new Dictionary<Control, PropertyPath>();
         private T _target;
 
         public CtlBinder()
@@ -24,46 +24,136 @@ namespace MetaboliteLevels.Controls
             InitializeComponent();
         }
 
-        public void Bind(Control control, Expression<Converter<T, object>> property)
-        {
-            List<PropertyInfo> properties = new List<PropertyInfo>();
+        class PropertyPath
+        {                                                     
+            PropertyInfo[] _properties;
 
-            var body = property.Body;
-
-            while (!(body is ParameterExpression))
+            public PropertyPath( Expression<Converter<T, object>> property )
             {
-                var bodyUe = body as UnaryExpression;
+                List<PropertyInfo> properties = new List<PropertyInfo>();
 
-                if (bodyUe != null)
+                var body = property.Body;
+
+                while (!(body is ParameterExpression))
                 {
-                    MemberExpression memEx = bodyUe.Operand as MemberExpression;
-                    properties.Add((PropertyInfo)memEx.Member);
+                    var bodyUe = body as UnaryExpression;
 
-                    body = memEx.Expression;
-                    continue;
+                    if (bodyUe != null)
+                    {
+                        MemberExpression memEx = bodyUe.Operand as MemberExpression;
+                        properties.Add( (PropertyInfo)memEx.Member );
+
+                        body = memEx.Expression;
+                        continue;
+                    }
+
+                    var bodyMe = body as MemberExpression;
+
+                    if (bodyMe != null)
+                    {
+                        properties.Add( (PropertyInfo)bodyMe.Member );
+
+                        body = bodyMe.Expression;
+                        continue;
+                    }
                 }
 
-                var bodyMe = body as MemberExpression;
+                _properties = properties.Reverse<PropertyInfo>().ToArray();
+            } 
 
-                if (bodyMe != null)
+            public PropertyInfo Last
+            {
+                get
                 {
-                    properties.Add((PropertyInfo)bodyMe.Member);
-
-                    body = bodyMe.Expression;
-                    continue;
+                    return _properties[_properties.Length - 1];
                 }
             }
 
-            _properties.Add(control, properties.Reverse<PropertyInfo>().ToArray());
+            public object this[object target]
+            {
+                get
+                {
+                    PropertyInfo property = null;
+                    object value = target;
+
+                    foreach (PropertyInfo property2 in _properties)
+                    {
+                        value = property2.GetValue( value );
+                        property = property2;
+                    }
+
+                    return value;
+                }
+                set
+                {
+                    for (int n = 0; n < _properties.Length; n++)
+                    {
+                        PropertyInfo property = _properties[n];
+
+                        if (n == _properties.Length - 1)
+                        {
+                            if (property.PropertyType == typeof( ParseElementCollection ))
+                            {
+                                value = new ParseElementCollection( (string)value );
+                            }
+
+                            property.SetValue( target, value );
+                        }
+                        else
+                        {
+                            target = property.GetValue( target );
+                        }
+                    }
+                }
+            }
+        }
+
+        public void Bind(Control control, Expression<Converter<T, object>> property)
+        {
+            // Get property path
+            var path = new PropertyPath( property );
+            _properties.Add( control, path );
+
+            // Create reset button
+            if (!(control is CheckBox))
+            {
+                CtlButton resetButton = new CtlButton();
+                resetButton.Text = string.Empty;
+                resetButton.Image = Properties.Resources.MnuUndo;
+                resetButton.UseDefaultSize = true;
+                resetButton.Visible = true;
+                resetButton.Tag = control;
+                resetButton.Margin = control.Margin;
+
+                TableLayoutPanel tlp = (TableLayoutPanel)control.Parent;
+                tlp.Controls.Add( resetButton, tlp.ColumnCount - 1, tlp.GetRow( control ) );
+
+                resetButton.Enabled = path.Last.GetCustomAttribute<DefaultValueAttribute>() != null;
+
+                resetButton.Click += resetButton_Click;
+            }
+        }
+
+        private void resetButton_Click( object sender, EventArgs e )
+        {
+            CtlButton resetButton = (CtlButton)sender;
+            Control editControl = (Control )resetButton.Tag;
+            PropertyPath property = _properties[editControl];
+
+            var attr = property.Last.GetCustomAttribute<DefaultValueAttribute>();
+
+            property[_target] = attr.Value;
+
+            ControlSetValue( editControl );
         }
 
         internal void Read(T target)
         {
             _target = target;
 
-            foreach (var kvp in _properties)
+            foreach (Control control in _properties.Keys)
             {
-                ControlSetValue(kvp.Key, kvp.Value);
+                ControlSetValue(control);
             }
         }
 
@@ -71,7 +161,7 @@ namespace MetaboliteLevels.Controls
         {
             foreach (var kvp in _properties)
             {
-                PropertySetValue(kvp.Value, ControlGetValue(kvp.Key));
+                kvp.Value[_target] = ControlGetValue(kvp.Key);
             }
         }
 
@@ -103,16 +193,11 @@ namespace MetaboliteLevels.Controls
             }
         }
 
-        private void ControlSetValue(Control c, PropertyInfo[] propertyPath)
+        private void ControlSetValue(Control c)
         {
-            PropertyInfo property = null;
-            object value = _target;
-
-            foreach (PropertyInfo property2 in propertyPath)
-            {
-                value = property2.GetValue(value);
-                property = property2;
-            }
+            PropertyPath propertyPath = _properties[c];
+            object value = propertyPath[_target];
+            var property = propertyPath.Last;
 
             StringBuilder sb = new StringBuilder();
             CategoryAttribute cat = property.GetCustomAttribute<CategoryAttribute>();
@@ -165,31 +250,7 @@ namespace MetaboliteLevels.Controls
             {
                 throw new SwitchException(c);
             }
-        }
-
-        private void PropertySetValue(PropertyInfo[] values, object v)
-        {
-            object target = _target;
-
-            for (int n = 0; n < values.Length; n++)
-            {
-                PropertyInfo property = values[n];
-
-                if (n == values.Length - 1)
-                {
-                    if (property.PropertyType == typeof(ParseElementCollection))
-                    {
-                        v = new ParseElementCollection((string)v);
-                    }
-
-                    property.SetValue(target, v);
-                }
-                else
-                {
-                    target = property.GetValue(target);
-                }
-            }
-        }
+        }   
 
         private void InitializeComponent()
         {

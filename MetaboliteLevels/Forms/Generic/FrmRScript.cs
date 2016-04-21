@@ -40,7 +40,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             this.Text = "Script Editor";
             this._titleBar.Text = title;
-            this._titleBar.HelpText = "@RScript";
+            this._titleBar.HelpText = Manual.RScript;
             this._saveFolder = saveFolder;
 
             string[] e = inputs.Split(",".ToCharArray());
@@ -96,7 +96,7 @@ namespace MetaboliteLevels.Forms.Generic
                 textBox1.ReadOnly = true;
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void _btnOk_Click(object sender, EventArgs e)

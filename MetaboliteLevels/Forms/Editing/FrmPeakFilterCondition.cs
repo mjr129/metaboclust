@@ -64,7 +64,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             DoubleBuffered = true;
             UiControls.SetIcon(this);
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         /// <summary>

@@ -38,7 +38,7 @@ namespace MetaboliteLevels.Forms.Editing
             listView1.TileSize = this._imageSize;
             listView1.VirtualListSize = items.Count;
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private int GeneratePreviewImage(IVisualisable item)

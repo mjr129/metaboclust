@@ -32,11 +32,7 @@ namespace MetaboliteLevels.Forms.Editing
                         return true;
 
                     case DialogResult.Cancel:
-                        return false;
-
-                    case DialogResult.Yes:
-                        FrmOptions.Show(owner, core);
-                        return true;
+                        return false;       
 
                     default:
                         throw new SwitchException();
@@ -47,7 +43,7 @@ namespace MetaboliteLevels.Forms.Editing
         public FrmOptions2(Core core, bool readOnly)
         {
             InitializeComponent();
-            UiControls.SetIcon(this);
+            UiControls.SetIcon(this);                           
 
             _core = core;
             _readOnly = readOnly;
@@ -114,7 +110,7 @@ namespace MetaboliteLevels.Forms.Editing
                 UiControls.MakeReadOnly(this);
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void _btnOk_Click(object sender, EventArgs e)
@@ -142,6 +138,11 @@ namespace MetaboliteLevels.Forms.Editing
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             SaveAndClose(DialogResult.Yes);
+        }
+
+        private void resetAllToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            
         }
     }
 }

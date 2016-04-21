@@ -182,7 +182,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnCancel.Text = "Close";
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void UpdateListFromSource()

@@ -63,30 +63,10 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap arrow {
-            get {
-                object obj = ResourceManager.GetObject("arrow", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap arrow_Forward_16xLG {
             get {
                 object obj = ResourceManager.GetObject("arrow_Forward_16xLG", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon arrow1 {
-            get {
-                object obj = ResourceManager.GetObject("arrow1", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -103,19 +83,9 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon delete {
+        internal static System.Drawing.Icon ErrorSignifier {
             get {
-                object obj = ResourceManager.GetObject("delete", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon ErrorBarIcon {
-            get {
-                object obj = ResourceManager.GetObject("ErrorBarIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("ErrorSignifier", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -157,6 +127,78 @@ namespace MetaboliteLevels.Properties {
             get {
                 object obj = ResourceManager.GetObject("IcoWarning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Input_Adducts {
+            get {
+                return ResourceManager.GetString("Input_Adducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Input_Compounds {
+            get {
+                return ResourceManager.GetString("Input_Compounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Input_Identifications {
+            get {
+                return ResourceManager.GetString("Input_Identifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Input_Intensities {
+            get {
+                return ResourceManager.GetString("Input_Intensities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Input_Mode {
+            get {
+                return ResourceManager.GetString("Input_Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Input_Observations {
+            get {
+                return ResourceManager.GetString("Input_Observations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Input_Peaks {
+            get {
+                return ResourceManager.GetString("Input_Peaks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Input_SessionName {
+            get {
+                return ResourceManager.GetString("Input_SessionName", resourceCulture);
             }
         }
         
@@ -221,16 +263,6 @@ namespace MetaboliteLevels.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon MetaboliteExplorer {
-            get {
-                object obj = ResourceManager.GetObject("MetaboliteExplorer", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap MnuAccept {
@@ -256,6 +288,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap MnuBack {
             get {
                 object obj = ResourceManager.GetObject("MnuBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuBinary {
+            get {
+                object obj = ResourceManager.GetObject("MnuBinary", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -426,6 +468,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap MnuHistory {
             get {
                 object obj = ResourceManager.GetObject("MnuHistory", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuMathNet {
+            get {
+                object obj = ResourceManager.GetObject("MnuMathNet", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -616,6 +668,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap MnuTrend {
             get {
                 object obj = ResourceManager.GetObject("MnuTrend", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuUndo {
+            get {
+                object obj = ResourceManager.GetObject("MnuUndo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1146,6 +1208,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap ObjVariableU {
             get {
                 object obj = ResourceManager.GetObject("ObjVariableU", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Open_6296 {
+            get {
+                object obj = ResourceManager.GetObject("Open_6296", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

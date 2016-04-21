@@ -275,7 +275,7 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         public void Save(string fileName, ProgressReporter prog)
         {
-            XmlSettings.SaveToFile<Core>(fileName, this, SerialisationFormat.Infer, null, prog);
+            XmlSettings.Save<Core>(fileName, this, null, prog);
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         public static Core Load(string fileName, ProgressReporter progress)
         {
-            Core result = XmlSettings.LoadFromFile<Core>(fileName, SerialisationFormat.Infer, progress);
+            Core result = XmlSettings.LoadOrDefault<Core>(fileName, null, null, progress);
 
             if (result != null)
             {
@@ -841,7 +841,7 @@ namespace MetaboliteLevels.Data.Session
                 peak.Assignments.ClearAll();
             }
 
-            foreach (ConfigurationClusterer config in _clusterers)
+            foreach (ConfigurationClusterer config in newListEnabled)
             {
                 if (config.HasResults)
                 {

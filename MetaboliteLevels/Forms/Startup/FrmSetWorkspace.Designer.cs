@@ -33,7 +33,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.ctlButton4 = new MetaboliteLevels.Controls.CtlButton();
             this.label10 = new System.Windows.Forms.Label();
-            this._txtDataFolder = new System.Windows.Forms.TextBox();
+            this._txtDataFolder = new Controls.CtlTextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
@@ -357,7 +357,7 @@
         private System.Windows.Forms.Label label9;
         private Controls.CtlButton ctlButton4;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox _txtDataFolder;
+        private Controls.CtlTextBox _txtDataFolder;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private Controls.CtlButton _btnOk;

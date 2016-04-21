@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new Controls.CtlButton();
+            this.button2 = new Controls.CtlButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this._btnEdit = new System.Windows.Forms.Button();
+            this._btnEdit = new Controls.CtlButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this._flpSelectAll = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnSelectNone = new System.Windows.Forms.Button();
-            this._btnSelectAll = new System.Windows.Forms.Button();
+            this._btnSelectNone = new Controls.CtlButton();
+            this._btnSelectAll = new Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel1.SuspendLayout();
             this._flpSelectAll.SuspendLayout();
@@ -217,16 +217,16 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private Controls.CtlButton button1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button button2;
+        private Controls.CtlButton button2;
         private Controls.CtlTitleBar ctlTitleBar1;
-        private System.Windows.Forms.Button _btnEdit;
+        private Controls.CtlButton _btnEdit;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.FlowLayoutPanel _flpSelectAll;
-        private System.Windows.Forms.Button _btnSelectNone;
-        private System.Windows.Forms.Button _btnSelectAll;
+        private Controls.CtlButton _btnSelectNone;
+        private Controls.CtlButton _btnSelectAll;
 
     }
 }

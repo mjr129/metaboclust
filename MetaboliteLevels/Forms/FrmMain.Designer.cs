@@ -60,8 +60,8 @@ namespace MetaboliteLevels.Forms
             this.visualOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manageDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clusteringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pCAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
@@ -224,6 +224,7 @@ namespace MetaboliteLevels.Forms
             this._mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
+            this.databaseToolStripMenuItem,
             this.clusteringToolStripMenuItem,
             this.helpToolStripMenuItem});
             this._mnuMain.Location = new System.Drawing.Point(0, 0);
@@ -359,7 +360,6 @@ namespace MetaboliteLevels.Forms
             this.visualOptionsToolStripMenuItem,
             this.experimentalGroupsToolStripMenuItem,
             this.experimentalOptionsToolStripMenuItem,
-            this.manageDataToolStripMenuItem,
             this.toolStripMenuItem6});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
@@ -399,17 +399,16 @@ namespace MetaboliteLevels.Forms
             this.experimentalOptionsToolStripMenuItem.Text = "&Miscellaneous functions...";
             this.experimentalOptionsToolStripMenuItem.Click += new System.EventHandler(this.experimentalOptionsToolStripMenuItem_Click);
             // 
-            // manageDataToolStripMenuItem
-            // 
-            this.manageDataToolStripMenuItem.Name = "manageDataToolStripMenuItem";
-            this.manageDataToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
-            this.manageDataToolStripMenuItem.Text = "&Manage data...";
-            this.manageDataToolStripMenuItem.Click += new System.EventHandler(this.manageDataToolStripMenuItem_Click_1);
-            // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             this.toolStripMenuItem6.Size = new System.Drawing.Size(228, 6);
+            // 
+            // databaseToolStripMenuItem
+            // 
+            this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
+            this.databaseToolStripMenuItem.Size = new System.Drawing.Size(67, 19);
+            this.databaseToolStripMenuItem.Text = "&Database";
             // 
             // clusteringToolStripMenuItem
             // 
@@ -599,8 +598,8 @@ namespace MetaboliteLevels.Forms
             // _lblChanges
             // 
             this._lblChanges.Name = "_lblChanges";
-            this._lblChanges.Size = new System.Drawing.Size(71, 17);
-            this._lblChanges.Text = "_lblChanges";
+            this._lblChanges.Size = new System.Drawing.Size(42, 17);
+            this._lblChanges.Text = "VALUE";
             // 
             // toolStripStatusLabel2
             // 
@@ -620,7 +619,7 @@ namespace MetaboliteLevels.Forms
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(880, 17);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(1052, 17);
             this.toolStripStatusLabel3.Spring = true;
             // 
             // _txtGuid
@@ -628,8 +627,8 @@ namespace MetaboliteLevels.Forms
             this._txtGuid.Enabled = false;
             this._txtGuid.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtGuid.Name = "_txtGuid";
-            this._txtGuid.Size = new System.Drawing.Size(173, 17);
-            this._txtGuid.Text = "{CF99C23A-DC53-4E93-BAC8-93FC5D30FE01}";
+            this._txtGuid.Size = new System.Drawing.Size(30, 17);
+            this._txtGuid.Text = "VALUE";
             // 
             // toolStrip1
             // 
@@ -729,7 +728,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel2
             // 
             this.toolStripLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel2.Image")));
+            this.toolStripLabel2.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
             this.toolStripLabel2.Name = "toolStripLabel2";
             this.toolStripLabel2.Size = new System.Drawing.Size(24, 43);
             // 
@@ -746,7 +745,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel3
             // 
             this.toolStripLabel3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel3.Image")));
+            this.toolStripLabel3.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
             this.toolStripLabel3.Name = "toolStripLabel3";
             this.toolStripLabel3.Size = new System.Drawing.Size(24, 43);
             // 
@@ -763,7 +762,7 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel1
             // 
             this.toolStripLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel1.Image")));
+            this.toolStripLabel1.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(24, 43);
             // 
@@ -828,8 +827,8 @@ namespace MetaboliteLevels.Forms
             this._btnSession.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSession.Name = "_btnSession";
             this._btnSession.ShowDropDownArrow = false;
-            this._btnSession.Size = new System.Drawing.Size(182, 43);
-            this._btnSession.Text = "<Session name>";
+            this._btnSession.Size = new System.Drawing.Size(97, 43);
+            this._btnSession.Text = "VALUE";
             // 
             // editNameAndCommentsToolStripMenuItem
             // 
@@ -944,7 +943,7 @@ namespace MetaboliteLevels.Forms
             this._lstVariables.TabIndex = 5;
             this._lstVariables.UseCompatibleStateImageBehavior = false;
             this._lstVariables.View = System.Windows.Forms.View.Details;
-            this._lstVariables.KeyDown += new System.Windows.Forms.KeyEventHandler(this._lstVariables_KeyDown);       
+            this._lstVariables.KeyDown += new System.Windows.Forms.KeyEventHandler(this._lstVariables_KeyDown);
             // 
             // tabPage2
             // 
@@ -1144,93 +1143,100 @@ namespace MetaboliteLevels.Forms
             // _btnMain0
             // 
             this._btnMain0.AutoSize = false;
+            this._btnMain0.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMain0.ForeColor = System.Drawing.Color.Black;
             this._btnMain0.Image = global::MetaboliteLevels.Properties.Resources.ObjLVariableU;
             this._btnMain0.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain0.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain0.Name = "_btnMain0";
             this._btnMain0.Size = new System.Drawing.Size(44, 44);
-            this._btnMain0.Text = "Peaks";
+            this._btnMain0.Text = "Peak";
             this._btnMain0.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnMain0.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
-    "type of data you wish to view.";
+            this._btnMain0.ToolTipText = "Peaks";
             // 
             // _btnMain1
             // 
             this._btnMain1.AutoSize = false;
+            this._btnMain1.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMain1.ForeColor = System.Drawing.Color.Black;
             this._btnMain1.Image = global::MetaboliteLevels.Properties.Resources.ObjLCluster;
             this._btnMain1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain1.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain1.Name = "_btnMain1";
             this._btnMain1.Size = new System.Drawing.Size(44, 44);
-            this._btnMain1.Text = "Clusters";
+            this._btnMain1.Text = "Clust";
             this._btnMain1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnMain1.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
-    "type of data you wish to view.";
+            this._btnMain1.ToolTipText = "Clusters";
             // 
             // _btnMain5
             // 
             this._btnMain5.AutoSize = false;
+            this._btnMain5.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMain5.ForeColor = System.Drawing.Color.Black;
             this._btnMain5.Image = global::MetaboliteLevels.Properties.Resources.ObjLAssignment;
             this._btnMain5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain5.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain5.Name = "_btnMain5";
             this._btnMain5.Size = new System.Drawing.Size(44, 44);
-            this._btnMain5.Text = "Assigs";
+            this._btnMain5.Text = "Assig";
             this._btnMain5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnMain5.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
-    "type of data you wish to view.";
+            this._btnMain5.ToolTipText = "Assignments";
             // 
             // _btnMainAnnots
             // 
             this._btnMainAnnots.AutoSize = false;
+            this._btnMainAnnots.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMainAnnots.ForeColor = System.Drawing.Color.Black;
             this._btnMainAnnots.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompound;
             this._btnMainAnnots.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMainAnnots.Margin = new System.Windows.Forms.Padding(0);
             this._btnMainAnnots.Name = "_btnMainAnnots";
             this._btnMainAnnots.Size = new System.Drawing.Size(44, 44);
-            this._btnMainAnnots.Text = "Annots";
+            this._btnMainAnnots.Text = "Annot";
             this._btnMainAnnots.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnMainAnnots.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
-    "type of data you wish to view.";
+            this._btnMainAnnots.ToolTipText = "Annotations";
             // 
             // _btnMain2
             // 
             this._btnMain2.AutoSize = false;
+            this._btnMain2.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMain2.ForeColor = System.Drawing.Color.Black;
             this._btnMain2.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompoundU;
             this._btnMain2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain2.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain2.Name = "_btnMain2";
             this._btnMain2.Size = new System.Drawing.Size(44, 44);
-            this._btnMain2.Text = "Comps";
+            this._btnMain2.Text = "Comp";
             this._btnMain2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnMain2.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
-    "type of data you wish to view.";
+            this._btnMain2.ToolTipText = "Compounds";
             // 
             // _btnMain3
             // 
             this._btnMain3.AutoSize = false;
+            this._btnMain3.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMain3.ForeColor = System.Drawing.Color.Black;
             this._btnMain3.Image = global::MetaboliteLevels.Properties.Resources.ObjLAdduct;
             this._btnMain3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain3.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain3.Name = "_btnMain3";
             this._btnMain3.Size = new System.Drawing.Size(44, 44);
-            this._btnMain3.Text = "Adducts";
+            this._btnMain3.Text = "Adduct";
             this._btnMain3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnMain3.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
-    "type of data you wish to view.";
+            this._btnMain3.ToolTipText = "Adducts";
             // 
             // _btnMain4
             // 
             this._btnMain4.AutoSize = false;
+            this._btnMain4.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMain4.ForeColor = System.Drawing.Color.Black;
             this._btnMain4.Image = global::MetaboliteLevels.Properties.Resources.ObjLPathway;
             this._btnMain4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain4.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain4.Name = "_btnMain4";
             this._btnMain4.Size = new System.Drawing.Size(44, 44);
-            this._btnMain4.Text = "Paths";
+            this._btnMain4.Text = "Path";
             this._btnMain4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnMain4.ToolTipText = "All of the main data are displayed in this panel.\r\nClick the icons to select the " +
-    "type of data you wish to view.";
+            this._btnMain4.ToolTipText = "Pathways";
             // 
             // panel1
             // 
@@ -1574,6 +1580,8 @@ namespace MetaboliteLevels.Forms
             // _btnSubInfo
             // 
             this._btnSubInfo.AutoSize = false;
+            this._btnSubInfo.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubInfo.ForeColor = System.Drawing.Color.Black;
             this._btnSubInfo.Image = global::MetaboliteLevels.Properties.Resources.ObjLInfo;
             this._btnSubInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubInfo.Margin = new System.Windows.Forms.Padding(0);
@@ -1581,94 +1589,119 @@ namespace MetaboliteLevels.Forms
             this._btnSubInfo.Size = new System.Drawing.Size(44, 44);
             this._btnSubInfo.Text = "Info";
             this._btnSubInfo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubInfo.ToolTipText = "Information";
             // 
             // _btnSubStat
             // 
             this._btnSubStat.AutoSize = false;
+            this._btnSubStat.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubStat.ForeColor = System.Drawing.Color.Black;
             this._btnSubStat.Image = global::MetaboliteLevels.Properties.Resources.ObjLStatistics;
             this._btnSubStat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubStat.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubStat.Name = "_btnSubStat";
             this._btnSubStat.Size = new System.Drawing.Size(44, 44);
-            this._btnSubStat.Text = "Stats";
+            this._btnSubStat.Text = "Stat";
             this._btnSubStat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubStat.ToolTipText = "Statistics";
             // 
             // _btnSubPeak
             // 
             this._btnSubPeak.AutoSize = false;
+            this._btnSubPeak.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubPeak.ForeColor = System.Drawing.Color.Black;
             this._btnSubPeak.Image = global::MetaboliteLevels.Properties.Resources.ObjLVariableU;
             this._btnSubPeak.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubPeak.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPeak.Name = "_btnSubPeak";
             this._btnSubPeak.Size = new System.Drawing.Size(44, 44);
-            this._btnSubPeak.Text = "Peaks";
+            this._btnSubPeak.Text = "Peak";
             this._btnSubPeak.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubPeak.ToolTipText = "Peaks";
             // 
             // _btnSubPat
             // 
             this._btnSubPat.AutoSize = false;
+            this._btnSubPat.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubPat.ForeColor = System.Drawing.Color.Black;
             this._btnSubPat.Image = global::MetaboliteLevels.Properties.Resources.ObjLCluster;
             this._btnSubPat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubPat.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPat.Name = "_btnSubPat";
             this._btnSubPat.Size = new System.Drawing.Size(44, 44);
-            this._btnSubPat.Text = "Clusters";
+            this._btnSubPat.Text = "Clust";
             this._btnSubPat.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubPat.ToolTipText = "Clusters";
             // 
             // _btnSubAss
             // 
             this._btnSubAss.AutoSize = false;
+            this._btnSubAss.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubAss.ForeColor = System.Drawing.Color.Black;
             this._btnSubAss.Image = global::MetaboliteLevels.Properties.Resources.ObjLAssignment;
             this._btnSubAss.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubAss.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAss.Name = "_btnSubAss";
             this._btnSubAss.Size = new System.Drawing.Size(44, 44);
-            this._btnSubAss.Text = "Assigs";
+            this._btnSubAss.Text = "Assig";
             this._btnSubAss.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubAss.ToolTipText = "Assignments";
             // 
             // _btnSubAnnot
             // 
             this._btnSubAnnot.AutoSize = false;
+            this._btnSubAnnot.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubAnnot.ForeColor = System.Drawing.Color.Black;
             this._btnSubAnnot.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompound;
             this._btnSubAnnot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubAnnot.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAnnot.Name = "_btnSubAnnot";
             this._btnSubAnnot.Size = new System.Drawing.Size(44, 44);
-            this._btnSubAnnot.Text = "Annots";
+            this._btnSubAnnot.Text = "Annot";
             this._btnSubAnnot.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubAnnot.ToolTipText = "Annotations";
             // 
             // _btnSubComp
             // 
             this._btnSubComp.AutoSize = false;
+            this._btnSubComp.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubComp.ForeColor = System.Drawing.Color.Black;
             this._btnSubComp.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompoundU;
             this._btnSubComp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubComp.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubComp.Name = "_btnSubComp";
             this._btnSubComp.Size = new System.Drawing.Size(44, 44);
-            this._btnSubComp.Text = "Comps";
+            this._btnSubComp.Text = "Comp";
             this._btnSubComp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubComp.ToolTipText = "Compounds";
             // 
             // _btnSubAdd
             // 
             this._btnSubAdd.AutoSize = false;
+            this._btnSubAdd.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubAdd.ForeColor = System.Drawing.Color.Black;
             this._btnSubAdd.Image = global::MetaboliteLevels.Properties.Resources.ObjLAdduct;
             this._btnSubAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubAdd.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAdd.Name = "_btnSubAdd";
             this._btnSubAdd.Size = new System.Drawing.Size(44, 44);
-            this._btnSubAdd.Text = "Adducts";
+            this._btnSubAdd.Text = "Adduct";
             this._btnSubAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubAdd.ToolTipText = "Adducts";
             // 
             // _btnSubPath
             // 
             this._btnSubPath.AutoSize = false;
+            this._btnSubPath.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSubPath.ForeColor = System.Drawing.Color.Black;
             this._btnSubPath.Image = global::MetaboliteLevels.Properties.Resources.ObjLPathway;
             this._btnSubPath.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubPath.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPath.Name = "_btnSubPath";
             this._btnSubPath.Size = new System.Drawing.Size(44, 44);
-            this._btnSubPath.Text = "Paths";
+            this._btnSubPath.Text = "Path";
             this._btnSubPath.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnSubPath.ToolTipText = "Pathways";
             // 
             // toolStrip2
             // 
@@ -1706,8 +1739,8 @@ namespace MetaboliteLevels.Forms
             this._btnSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSelection.Name = "_btnSelection";
             this._btnSelection.ShowDropDownArrow = false;
-            this._btnSelection.Size = new System.Drawing.Size(136, 29);
-            this._btnSelection.Text = "<Selection>";
+            this._btnSelection.Size = new System.Drawing.Size(89, 29);
+            this._btnSelection.Text = "VALUE";
             this._btnSelection.ToolTipText = "The currently selected item is described here.";
             this._btnSelection.DropDownOpening += new System.EventHandler(this._btnSelection_DropDownOpening);
             // 
@@ -1730,8 +1763,8 @@ namespace MetaboliteLevels.Forms
             this._btnSelectionExterior.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSelectionExterior.Name = "_btnSelectionExterior";
             this._btnSelectionExterior.ShowDropDownArrow = false;
-            this._btnSelectionExterior.Size = new System.Drawing.Size(206, 29);
-            this._btnSelectionExterior.Text = "<Exterior selection>";
+            this._btnSelectionExterior.Size = new System.Drawing.Size(89, 29);
+            this._btnSelectionExterior.Text = "VALUE";
             this._btnSelectionExterior.ToolTipText = "If you have selected one item \"inside\" another, that item is displayed here.\r\nThi" +
     "s item will be described using the perspective of the first item.\r\nClick the swa" +
     "p button to reverse the perspective.";
@@ -1953,12 +1986,12 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripDropDownButton _btnSelection;
         private System.Windows.Forms.ToolStripDropDownButton _btnSelectionExterior;
         private System.Windows.Forms.ToolStripSplitButton _btnBack;
-        private System.Windows.Forms.ToolStripMenuItem manageDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sessionInformationToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton _btnExterior;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel _txtGuid;
         private System.Windows.Forms.ToolStripMenuItem pLACEHOLDERToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem;
     }
 }
 

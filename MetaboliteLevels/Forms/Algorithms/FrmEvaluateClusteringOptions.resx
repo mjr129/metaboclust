@@ -117,6 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ctlTitleBar1.HelpText" xml:space="preserve">
+    <value>The clustering parameters explorer allows you to test the effects of varying a parameter (such as the "k" in k-means) on the clustering results.
+
+Select the algorithm first, then choose the parameter and values you'd like to test over.
+
+You can select statistics to gauge how your performance varies with the choice of parameter.</value>
+  </data>
   <metadata name="_checker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

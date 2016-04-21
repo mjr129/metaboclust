@@ -30,14 +30,14 @@
         {
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnCancel = new System.Windows.Forms.Button();
-            this._btnOk = new System.Windows.Forms.Button();
-            this._txtCompounds = new System.Windows.Forms.TextBox();
+            this._btnCancel = new Controls.CtlButton();
+            this._btnOk = new Controls.CtlButton();
+            this._txtCompounds = new Controls.CtlTextBox();
             this._btnCompounds = new MetaboliteLevels.Controls.CtlButton();
             this._btnPathways = new MetaboliteLevels.Controls.CtlButton();
-            this._txtPathwayTools = new System.Windows.Forms.TextBox();
+            this._txtPathwayTools = new Controls.CtlTextBox();
             this._btnPathwayTools = new MetaboliteLevels.Controls.CtlButton();
-            this._txtPathways = new System.Windows.Forms.TextBox();
+            this._txtPathways = new Controls.CtlTextBox();
             this._radCsvFile = new System.Windows.Forms.RadioButton();
             this._radPathwayTools = new System.Windows.Forms.RadioButton();
             this._lblCompounds = new System.Windows.Forms.Label();
@@ -308,20 +308,20 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.TextBox _txtCompounds;
+        private Controls.CtlTextBox _txtCompounds;
         private Controls.CtlButton _btnCompounds;
         private Controls.CtlButton _btnPathways;
-        private System.Windows.Forms.TextBox _txtPathwayTools;
+        private Controls.CtlTextBox _txtPathwayTools;
         private Controls.CtlButton _btnPathwayTools;
-        private System.Windows.Forms.TextBox _txtPathways;
+        private Controls.CtlTextBox _txtPathways;
         private System.Windows.Forms.RadioButton _radCsvFile;
         private System.Windows.Forms.RadioButton _radPathwayTools;
         private System.Windows.Forms.Label _lblCompounds;
         private System.Windows.Forms.Label _lblPathways;
         private System.Windows.Forms.Label _lblPathwayTools;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button _btnCancel;
-        private System.Windows.Forms.Button _btnOk;
+        private Controls.CtlButton _btnCancel;
+        private Controls.CtlButton _btnOk;
         private Controls.CtlTitleBar ctlTitleBar1;
     }
 }

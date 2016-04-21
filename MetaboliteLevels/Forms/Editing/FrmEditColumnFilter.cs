@@ -40,7 +40,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             InitializeComponent();
             UiControls.SetIcon(this);
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void something_Changed(object sender, EventArgs e)

@@ -43,7 +43,7 @@ namespace MetaboliteLevels.Forms.Startup
             allowSaveSetting = !bc;
             this.dfn = dfn;
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         internal static bool Show(Form owner, DataFileNames dfn)

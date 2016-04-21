@@ -47,10 +47,10 @@ namespace MetaboliteLevels.Settings
         private void SaveLoad(bool save)
         {
             ProgressReporter prog = ProgressReporter.GetEmpty(); // too fast to warrent dialogue
-            XmlSettings.SaveLoad(save, "DoNotShowAgain.dat", ref DoNotShowAgain, null, prog);
-            XmlSettings.SaveLoad(save, "RecentSessions.dat", ref RecentSessions, null, prog);
-            XmlSettings.SaveLoad(save, "RecentWorkspaces.dat", ref RecentWorkspaces, null, prog);
-            XmlSettings.SaveLoad(save, "General.dat", ref General, null, prog);
+            XmlSettings.SaveLoad(save, FileId.DoNotShowAgain, ref DoNotShowAgain, null, prog);
+            XmlSettings.SaveLoad(save, FileId.RecentSessions, ref RecentSessions, null, prog);
+            XmlSettings.SaveLoad(save, FileId.RecentWorkspaces, ref RecentWorkspaces, null, prog);
+            XmlSettings.SaveLoad(save, FileId.General, ref General, null, prog);
         }
 
         public void Save()

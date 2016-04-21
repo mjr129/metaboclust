@@ -31,8 +31,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._lblTitle = new System.Windows.Forms.Label();
             this._lblSubTitle = new System.Windows.Forms.Label();
-            this._btnHelp = new System.Windows.Forms.Button();
-            this._btnWarning = new System.Windows.Forms.Button();
+            this._btnHelp = new Controls.CtlButton();
+            this._btnWarning = new Controls.CtlButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -145,8 +145,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label _lblTitle;
         private System.Windows.Forms.Label _lblSubTitle;
-        private System.Windows.Forms.Button _btnHelp;
-        private System.Windows.Forms.Button _btnWarning;
+        private Controls.CtlButton _btnHelp;
+        private Controls.CtlButton _btnWarning;
 
     }
 }

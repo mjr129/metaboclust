@@ -122,7 +122,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             CheckAndChange(null, null);
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
 
             if (hideOptimise)
             {
@@ -132,8 +132,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         }
 
         private ConfigurationClusterer GetSelection()
-        {
-            
+        {      
             EAlgoSourceMode src;
             PeakFilter peakFilter;
             ObsFilter obsFilter;
@@ -234,7 +233,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             if (_checker.HasErrors)
-            {
+            {                                  
                 return null;
             }
 
@@ -272,7 +271,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lblApply.Visible = obsFilterVisible;
             _radObs.Enabled = obsFilterVisible;
             _radTrend.Enabled = obsFilterVisible;
-            _btnTrendHelp.Enabled = obsFilterVisible;                           
+            //_btnTrendHelp.Enabled = obsFilterVisible;                           
             _lblAVec.Enabled = obsFilterVisible;
             _ecbObsFilter.Enabled = obsFilterVisible;
             _chkSepGroups.Enabled = obsFilterVisible;
@@ -283,14 +282,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void Check(object sender, EventArgs e)
         {
-            try
-            {
-                _btnOk.Enabled = (GetSelection() != null);
-            }
-            catch
-            {
-                _btnOk.Enabled = false;
-            }
+            var sel = GetSelection();
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+            _btnOk.Enabled = sel != null;
         }   
 
         private void _btnTrendHelp_Click(object sender, EventArgs e)
@@ -339,6 +333,21 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 _comment = newComment;
             }
+        }
+
+        private void _btnObs_Click( object sender, EventArgs e )
+        {
+            DataSet.ForObservations( _core ).ShowListEditor( this );
+        }
+
+        private void _btnTrend_Click( object sender, EventArgs e )
+        {
+            DataSet.ForTrends( _core ).ShowListEditor( this );
+        }
+
+        private void _btnExperimentalGroups_Click( object sender, EventArgs e )
+        {
+            DataSet.ForGroups( _core ).ShowListEditor( this );
         }
     }
 }

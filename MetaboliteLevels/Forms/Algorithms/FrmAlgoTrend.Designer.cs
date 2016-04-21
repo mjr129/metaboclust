@@ -33,24 +33,24 @@
             this.newStatisticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this._btnNewStatistic = new System.Windows.Forms.Button();
-            this._btnComment = new System.Windows.Forms.Button();
+            this._btnNewStatistic = new MetaboliteLevels.Controls.CtlButton();
+            this._btnComment = new MetaboliteLevels.Controls.CtlButton();
             this.ctlButton1 = new MetaboliteLevels.Controls.CtlButton();
             this.ctlButton2 = new MetaboliteLevels.Controls.CtlButton();
             this.ctlButton3 = new MetaboliteLevels.Controls.CtlButton();
-            this._btnCancel = new System.Windows.Forms.Button();
-            this._btnOk = new System.Windows.Forms.Button();
+            this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
+            this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._lblError = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._lstMethod = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this._txtName = new System.Windows.Forms.TextBox();
+            this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this._btnEditParameters = new System.Windows.Forms.Button();
+            this._btnEditParameters = new MetaboliteLevels.Controls.CtlButton();
             this.label16 = new System.Windows.Forms.Label();
             this._lblParams = new System.Windows.Forms.Label();
-            this._txtParams = new System.Windows.Forms.TextBox();
+            this._txtParams = new MetaboliteLevels.Controls.CtlTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this._tlpPreview = new System.Windows.Forms.TableLayoutPanel();
             this._lblPreviewTitle = new System.Windows.Forms.Label();
@@ -88,23 +88,25 @@
             // _btnNewStatistic
             // 
             this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnNewStatistic.Location = new System.Drawing.Point(1026, 53);
+            this._btnNewStatistic.Location = new System.Drawing.Point(1025, 53);
             this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewStatistic.Name = "_btnNewStatistic";
-            this._btnNewStatistic.Size = new System.Drawing.Size(28, 28);
+            this._btnNewStatistic.Size = new System.Drawing.Size(29, 29);
             this._btnNewStatistic.TabIndex = 16;
             this.toolTip1.SetToolTip(this._btnNewStatistic, "New");
+            this._btnNewStatistic.UseDefaultSize = true;
             this._btnNewStatistic.UseVisualStyleBackColor = true;
             // 
             // _btnComment
             // 
             this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.CommentHS;
-            this._btnComment.Location = new System.Drawing.Point(1026, 8);
+            this._btnComment.Location = new System.Drawing.Point(1025, 8);
             this._btnComment.Margin = new System.Windows.Forms.Padding(8);
             this._btnComment.Name = "_btnComment";
-            this._btnComment.Size = new System.Drawing.Size(28, 28);
+            this._btnComment.Size = new System.Drawing.Size(29, 29);
             this._btnComment.TabIndex = 16;
             this.toolTip1.SetToolTip(this._btnComment, "Comments");
+            this._btnComment.UseDefaultSize = true;
             this._btnComment.UseVisualStyleBackColor = true;
             this._btnComment.Click += new System.EventHandler(this._btnComment_Click);
             // 
@@ -120,7 +122,7 @@
             this.ctlButton1.Text = null;
             this.toolTip1.SetToolTip(this.ctlButton1, "Select preview peak");
             this.ctlButton1.UseDefaultSize = true;
-            this.ctlButton1.UseVisualStyleBackColor = false;
+            this.ctlButton1.UseVisualStyleBackColor = true;
             this.ctlButton1.Click += new System.EventHandler(this._btnSelectPreview_Click);
             // 
             // ctlButton2
@@ -135,7 +137,7 @@
             this.ctlButton2.Text = null;
             this.toolTip1.SetToolTip(this.ctlButton2, "Previous peak");
             this.ctlButton2.UseDefaultSize = true;
-            this.ctlButton2.UseVisualStyleBackColor = false;
+            this.ctlButton2.UseVisualStyleBackColor = true;
             this.ctlButton2.Click += new System.EventHandler(this._btnPreviousPreview_Click);
             // 
             // ctlButton3
@@ -150,23 +152,21 @@
             this.ctlButton3.Text = null;
             this.toolTip1.SetToolTip(this.ctlButton3, "Next peak");
             this.ctlButton3.UseDefaultSize = true;
-            this.ctlButton3.UseVisualStyleBackColor = false;
-            this.ctlButton3.Click += new System.EventHandler(this._btnEditParameters_Click);
+            this.ctlButton3.UseVisualStyleBackColor = true;
+            this.ctlButton3.Click += new System.EventHandler(this.ctlButton3_Click);
             // 
             // _btnCancel
             // 
             this._btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this._btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnCancel.Location = new System.Drawing.Point(340, 5);
+            this._btnCancel.Location = new System.Drawing.Point(336, 5);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this._btnCancel.Name = "_btnCancel";
-            this._btnCancel.Padding = new System.Windows.Forms.Padding(8, 4, 8, 4);
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
             this._btnCancel.TabIndex = 19;
-            this._btnCancel.Text = "  Cancel";
-            this._btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this._btnCancel.Text = "Cancel";
+            this._btnCancel.UseDefaultSize = true;
             this._btnCancel.UseVisualStyleBackColor = true;
             // 
             // _btnOk
@@ -175,15 +175,13 @@
             this._btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._btnOk.Enabled = false;
             this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this._btnOk.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnOk.Location = new System.Drawing.Point(206, 5);
+            this._btnOk.Location = new System.Drawing.Point(202, 5);
             this._btnOk.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this._btnOk.Name = "_btnOk";
-            this._btnOk.Padding = new System.Windows.Forms.Padding(8, 4, 8, 4);
             this._btnOk.Size = new System.Drawing.Size(128, 40);
             this._btnOk.TabIndex = 18;
-            this._btnOk.Text = "  OK";
-            this._btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this._btnOk.Text = "OK";
+            this._btnOk.UseDefaultSize = true;
             this._btnOk.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel1
@@ -196,9 +194,9 @@
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
             this.flowLayoutPanel1.Controls.Add(this._lblError);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(588, 667);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(592, 667);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(471, 50);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(467, 50);
             this.flowLayoutPanel1.TabIndex = 13;
             this.flowLayoutPanel1.WrapContents = false;
             // 
@@ -213,9 +211,9 @@
             this._lblError.Location = new System.Drawing.Point(8, 19);
             this._lblError.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
             this._lblError.Name = "_lblError";
-            this._lblError.Size = new System.Drawing.Size(187, 23);
+            this._lblError.Size = new System.Drawing.Size(183, 23);
             this._lblError.TabIndex = 4;
-            this._lblError.Text = " Something went wrong";
+            this._lblError.Text = "###################";
             // 
             // label1
             // 
@@ -237,7 +235,7 @@
             this._lstMethod.Location = new System.Drawing.Point(88, 53);
             this._lstMethod.Margin = new System.Windows.Forms.Padding(8);
             this._lstMethod.Name = "_lstMethod";
-            this._lstMethod.Size = new System.Drawing.Size(922, 29);
+            this._lstMethod.Size = new System.Drawing.Size(921, 29);
             this._lstMethod.TabIndex = 1;
             this._lstMethod.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
@@ -259,8 +257,9 @@
             this._txtName.Location = new System.Drawing.Point(88, 8);
             this._txtName.Margin = new System.Windows.Forms.Padding(8);
             this._txtName.Name = "_txtName";
-            this._txtName.Size = new System.Drawing.Size(922, 29);
+            this._txtName.Size = new System.Drawing.Size(921, 29);
             this._txtName.TabIndex = 6;
+            this._txtName.Watermark = null;
             this._txtName.TextChanged += new System.EventHandler(this.Check);
             // 
             // tableLayoutPanel1
@@ -302,11 +301,12 @@
             // _btnEditParameters
             // 
             this._btnEditParameters.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnEditParameters.Location = new System.Drawing.Point(1026, 98);
+            this._btnEditParameters.Location = new System.Drawing.Point(1025, 98);
             this._btnEditParameters.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditParameters.Name = "_btnEditParameters";
-            this._btnEditParameters.Size = new System.Drawing.Size(28, 28);
+            this._btnEditParameters.Size = new System.Drawing.Size(29, 29);
             this._btnEditParameters.TabIndex = 16;
+            this._btnEditParameters.UseDefaultSize = true;
             this._btnEditParameters.UseVisualStyleBackColor = true;
             this._btnEditParameters.Click += new System.EventHandler(this._btnEditParameters_Click);
             // 
@@ -326,19 +326,20 @@
             this._lblParams.Location = new System.Drawing.Point(88, 98);
             this._lblParams.Margin = new System.Windows.Forms.Padding(8);
             this._lblParams.Name = "_lblParams";
-            this._lblParams.Size = new System.Drawing.Size(83, 21);
+            this._lblParams.Size = new System.Drawing.Size(46, 21);
             this._lblParams.TabIndex = 0;
-            this._lblParams.Text = "Where k =";
+            this._lblParams.Text = "####";
             // 
             // _txtParams
             // 
             this._txtParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtParams.ForeColor = System.Drawing.Color.Blue;
-            this._txtParams.Location = new System.Drawing.Point(187, 98);
+            this._txtParams.Location = new System.Drawing.Point(150, 98);
             this._txtParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtParams.Name = "_txtParams";
-            this._txtParams.Size = new System.Drawing.Size(823, 29);
+            this._txtParams.Size = new System.Drawing.Size(859, 29);
             this._txtParams.TabIndex = 6;
+            this._txtParams.Watermark = null;
             this._txtParams.TextChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // label2
@@ -419,7 +420,9 @@
             this.ctlTitleBar1.AutoSize = true;
             this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.HelpText = "Select the method and parameters for your smoothing algorithm.\r\n\r\nOnce configured" +
+    " you can preview the effects of your algorithm on individual peaks before commit" +
+    "ting it.";
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(9, 13, 9, 13);
             this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(864, 0);
@@ -462,22 +465,22 @@
         private System.Windows.Forms.ToolStripMenuItem newStatisticToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button _btnNewStatistic;
-        private System.Windows.Forms.Button _btnComment;
-        private System.Windows.Forms.Button _btnCancel;
-        private System.Windows.Forms.Button _btnOk;
+        private Controls.CtlButton _btnNewStatistic;
+        private Controls.CtlButton _btnComment;
+        private Controls.CtlButton _btnCancel;
+        private Controls.CtlButton _btnOk;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox _lstMethod;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox _txtName;
+        private Controls.CtlTextBox _txtName;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label _lblParams;
-        private System.Windows.Forms.TextBox _txtParams;
+        private Controls.CtlTextBox _txtParams;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label _lblError;
-        private System.Windows.Forms.Button _btnEditParameters;
+        private Controls.CtlButton _btnEditParameters;
         private System.Windows.Forms.TableLayoutPanel _tlpPreview;
         private System.Windows.Forms.Label _lblPreviewTitle;
         private System.Windows.Forms.FlowLayoutPanel _flpPreviewButtons;

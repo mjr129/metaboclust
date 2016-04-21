@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// </summary>
         public readonly string[] InputNames;
 
-        public readonly string FileName;
+        public readonly string FileName;               
 
         /// <summary>
         /// Constructor.

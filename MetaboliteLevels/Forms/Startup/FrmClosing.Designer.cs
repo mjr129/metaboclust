@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new Controls.CtlTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnYes = new System.Windows.Forms.Button();
-            this._btnNo = new System.Windows.Forms.Button();
-            this._btnCancel = new System.Windows.Forms.Button();
+            this._btnYes = new Controls.CtlButton();
+            this._btnNo = new Controls.CtlButton();
+            this._btnCancel = new Controls.CtlButton();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
@@ -201,11 +201,11 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button _btnYes;
-        private System.Windows.Forms.Button _btnNo;
-        private System.Windows.Forms.Button _btnCancel;
+        private Controls.CtlButton _btnYes;
+        private Controls.CtlButton _btnNo;
+        private Controls.CtlButton _btnCancel;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private Controls.CtlTextBox textBox1;
         private System.Windows.Forms.Label label1;
     }
 }

@@ -85,7 +85,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 ctlTitleBar1.Text = "New Trend";
             }
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
 
@@ -148,6 +148,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             bool valid = sel != null;
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
 
             _lblError.Visible = false;
 
@@ -244,6 +245,11 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             var sm = (TrendBase)_ecbMethod.SelectedItem;
             FrmEditParameters.Show(sm, _txtParams, _core, _readOnly);
+        }
+
+        private void ctlButton3_Click( object sender, EventArgs e )
+        {
+            PagePreview( 1 );
         }
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button1 = new Controls.CtlButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -68,7 +68,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private Controls.CtlButton button1;
         private System.Windows.Forms.Timer timer1;
     }
 }

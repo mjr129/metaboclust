@@ -15,7 +15,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Corrections
         public const string INPUTS = "intensity=y";
 
         public CorrectionScript(string script, string id, string name, string fileName)
-            : base(id, name)
+            : base(id, name  )
         {
             this._script = new RScript(script, INPUTS, fileName);
         }

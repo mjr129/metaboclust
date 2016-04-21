@@ -30,15 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new Controls.CtlTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new MetaboliteLevels.Controls.CtlButton();
             this.button2 = new MetaboliteLevels.Controls.CtlButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new Controls.CtlTextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new Controls.CtlTextBox();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
             this.tableLayoutPanel2.SuspendLayout();
@@ -222,15 +222,15 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TextBox textBox1;
+        private Controls.CtlTextBox textBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private MetaboliteLevels.Controls.CtlButton button1;
         private MetaboliteLevels.Controls.CtlButton button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
+        private Controls.CtlTextBox textBox2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox3;
+        private Controls.CtlTextBox textBox3;
         private Controls.CtlTitleBar ctlTitleBar1;
         private Controls.CtlError _checker;
     }

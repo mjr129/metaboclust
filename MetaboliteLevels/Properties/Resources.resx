@@ -130,17 +130,14 @@
   <data name="MnuAdd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\action_add_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\delete.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MnuHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Help_6522.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjLine" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Line.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObjLReplicate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObjLReplicate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MnuClear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClearWorkspace.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjLSeries" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjLSeries.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -150,9 +147,6 @@
   </data>
   <data name="ObjList" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\List.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="glasses_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\glasses_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjLInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjLInfo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -172,9 +166,6 @@
   <data name="MnuMoveToList" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MovePrevious_7195.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Textfile_818_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="TestFull" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TestFull.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -193,17 +184,11 @@
   <data name="MnuRefresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\refresh_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MnuPreferences" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CheckBoxList_727.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjLPathway" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjLPathway.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ObjPathway" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObjPathway.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IcoHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Help (3).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -216,6 +201,9 @@
   </data>
   <data name="ObjAdduct" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjAdduct.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ObjLCluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjLPattern.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjCompound" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjCompound.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -244,8 +232,8 @@
   <data name="ObjLPca" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjLPca.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MsgHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\109_AllAnnotations_Help_48x48_72.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MnuViewList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\database_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\7BFF94D7-CE09-4B45-B86F-D588D4DAA95E.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -280,20 +268,20 @@
   <data name="CommentHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CommentHS1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuClear" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ClearWorkspace.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MnuSortAscending" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SortAscending_275.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuPreviewSelect" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\square2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MnuDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow_Down_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrow1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="MnuColumn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SelectColumn_361.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ErrorSignifier" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arrow.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjSave" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjSave.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Seperator" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Seperator.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MainIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MainIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -319,14 +307,11 @@
   <data name="MnuCancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StatusAnnotations_Critical_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObjVariable" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObjVariable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ObjLVariableU" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjLVariableU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FolderOpen_16x16_72" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FolderOpen_16x16_72.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="glasses_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\glasses_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjCluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjPattern.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -355,9 +340,6 @@
   <data name="IcoWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\109_AllAnnotations_Warning_16x16_72.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ErrorBarIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ErrorBarIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="PreviousPageHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PreviousPageHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -373,14 +355,17 @@
   <data name="MnuPreviewPrevious" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arrowhead9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MetaboliteExplorer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MetaboliteExplorer.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="MnuR" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow_Down_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="arrow_Forward_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow_Forward_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MnuFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Textfile_818_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MnuExperimentalGroups" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\type_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="StartLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StartLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -388,14 +373,14 @@
   <data name="ObjClusterU" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjPatternU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuSortAscending" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SortAscending_275.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Seperator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Seperator.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuDescribe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Bubble_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FolderOpen_16x16_72" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FolderOpen_16x16_72.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObjLGraph" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObjLGraph.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ObjLReplicate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjLReplicate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjCompoundId" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjCompoundId.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -408,6 +393,9 @@
   </data>
   <data name="MnuEnlargeList" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\browser11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ObjScriptClusterer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjScriptClusterer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjLScriptStatistic" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjLScriptStatistic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -427,17 +415,17 @@
   <data name="MnuDeleteWorkspace" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Clearwindowcontent_6304.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObjLCluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObjLPattern.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MnuPreviewSelect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\square2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ObjScriptClusterer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ObjScriptClusterer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TestUnivariate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TestUnivariate2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ObjLGraph" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjLGraph.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MnuDisable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lock_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="OverlayCross" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OverlayCross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MnuEnlarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ViewBox_10697.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -448,14 +436,14 @@
   <data name="OverlayYes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\109_AllAnnotations_Default_16x16_72.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuColumn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SelectColumn_361.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ObjPathway" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjPathway.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TestEmpty" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TestEmpty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuViewList" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\database_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ObjVariable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjVariable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MnuUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arrow_Up_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -463,14 +451,17 @@
   <data name="ObjLGroups" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjLGroups.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuExperimentalGroups" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\type_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="TeaAlarm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TeaAlarm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="TestUnivariate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TestUnivariate2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MsgHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\109_AllAnnotations_Help_48x48_72.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OverlayCross" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OverlayCross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MnuDescribe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Bubble_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ObjLCompoundU" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ObjLCompoundU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -490,7 +481,40 @@
   <data name="MnuEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pencil_003_16xMD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="arrow_Forward_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\arrow_Forward_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Open_6296" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Open_6296.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MnuUndo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Arrow_UndoRevertRestore_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MnuBinary" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Binary.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MnuMathNet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MathNet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Input_Adducts" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Input_Compounds" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Input_Identifications" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Input_Intensities" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Input_Mode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Input_Observations" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Input_Peaks" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Input_SessionName" xml:space="preserve">
+    <value />
   </data>
 </root>

@@ -69,13 +69,13 @@ namespace MetaboliteLevels.Forms.Wizards
 
             wizard = CtlWizard.BindNew(this, tabControl1, CtlWizardOptions.DEFAULT | CtlWizardOptions.DialogResultCancel | CtlWizardOptions.HandleBasicChanges);
             wizard.OkClicked += wizard_OkClicked;
-            wizard.TitleHelpText = "@k-means++";
+            wizard.TitleHelpText = Manual.DKMeansPlusPlus;
             wizard.PermitAdvance += this.ValidatePage;
             wizard.Revalidate();
 
             UpdateStatBox();
 
-            UiControls.CompensateForVisualStyles(this);
+            // UiControls.CompensateForVisualStyles(this);
         }
 
         private void _lstDistanceMeasure_SelectedIndexChanged(object sender, EventArgs e)

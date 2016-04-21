@@ -23,6 +23,8 @@ namespace MetaboliteLevels.Controls
             container.Add(this);
 
             InitializeComponent();
+
+            errorProvider1.Icon = Properties.Resources.ErrorSignifier;
         }
 
         public void Check(Control control, bool condition, string text)
