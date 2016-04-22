@@ -9,11 +9,11 @@ namespace MetaboliteLevels.Forms.Editing
     /// <summary>
     /// Edits: A filter (EOperator and text)
     /// </summary>
-    public partial class FrmFilter : Form
+    public partial class FrmEditColumnFilter : Form
     {
         internal static bool Show(Form owner, string colName, ref ListVieweHelper.EOperator op, ref string text)
         {
-            using (FrmFilter frm = new FrmFilter())
+            using (FrmEditColumnFilter frm = new FrmEditColumnFilter())
             {
                 frm.ctlTitleBar1.SubText += " for " + colName;
 
@@ -36,7 +36,7 @@ namespace MetaboliteLevels.Forms.Editing
             return EnumComboBox.Get(_lstNumComp, (ListVieweHelper.EOperator)(-1));
         }
 
-        public FrmFilter()
+        public FrmEditColumnFilter()
         {
             InitializeComponent();
             UiControls.SetIcon(this);

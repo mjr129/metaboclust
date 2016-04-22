@@ -171,14 +171,14 @@ namespace MetaboliteLevels.Forms.Editing
                 sb.AppendLine(_core.Groups[i].ToString());
             }
 
-            FrmInputLarge.ShowFixed(this, "Debugging", "Type Info", null, sb.ToString());
+            FrmInputMultiLine.ShowFixed(this, "Debugging", "Type Info", null, sb.ToString());
         }
 
         [InList]
         [Description("Input and run R command and view the result")]
         void do_something_in_r()
         {
-            string text = FrmInputLarge.Show(this, "R", "Enter command", null, "a = 42\r\na");
+            string text = FrmInputMultiLine.Show(this, "R", "Enter command", null, "a = 42\r\na");
 
             if (text != null)
             {
@@ -186,7 +186,7 @@ namespace MetaboliteLevels.Forms.Editing
                 {
                     string newText = Arr.Instance.Evaluate(text).ToString();
 
-                    FrmInputLarge.ShowFixed(this, "R", "Result of user command", null, newText);
+                    FrmInputMultiLine.ShowFixed(this, "R", "Result of user command", null, newText);
                 }
                 catch (Exception ex)
                 {
@@ -240,7 +240,7 @@ namespace MetaboliteLevels.Forms.Editing
             sb.AppendLine("| " + smallestT.Item1.DisplayName + " - " + smallestT.Item2.DisplayName + " | = " + smallest);
             sb.AppendLine("| " + largestT.Item1.DisplayName + " - " + largestT.Item2.DisplayName + " | = " + largest);
 
-            FrmInputLarge.ShowFixed(this, "Find distance range", "Maximum and minimum differences", "Showing the closest and furthest peaks", sb.ToString());
+            FrmInputMultiLine.ShowFixed(this, "Find distance range", "Maximum and minimum differences", "Showing the closest and furthest peaks", sb.ToString());
         }
 
         [InList]
@@ -262,7 +262,7 @@ namespace MetaboliteLevels.Forms.Editing
                 {
                     double result = dmatrix.Find(v1, null, v2, null);
 
-                    FrmInputLarge.ShowFixed(this, "Compare variables", v1.DisplayName + " - " + v2.DisplayName, "Showing the distance between two variables' vectors", result.ToString());
+                    FrmInputMultiLine.ShowFixed(this, "Compare variables", v1.DisplayName + " - " + v2.DisplayName, "Showing the distance between two variables' vectors", result.ToString());
                 }
             }
         }
@@ -283,7 +283,7 @@ namespace MetaboliteLevels.Forms.Editing
                     sb.AppendLine(obs.Time + obs.Group.DisplayShortName + obs.Rep + " = " + v.Observations.Raw[i]);
                 }
 
-                FrmInputLarge.ShowFixed(this, "View full variable", v.DisplayName, "Full variable information", sb.ToString());
+                FrmInputMultiLine.ShowFixed(this, "View full variable", v.DisplayName, "Full variable information", sb.ToString());
             }
         }
 
@@ -303,7 +303,7 @@ namespace MetaboliteLevels.Forms.Editing
                     sb.AppendLine(cond.Time + cond.Group.DisplayShortName + " = " + v.Observations.Trend[i]);
                 }
 
-                FrmInputLarge.ShowFixed(this, "View variable averages", v.DisplayName, "Variable averages", sb.ToString());
+                FrmInputMultiLine.ShowFixed(this, "View variable averages", v.DisplayName, "Variable averages", sb.ToString());
             }
         }
 
@@ -356,7 +356,7 @@ namespace MetaboliteLevels.Forms.Editing
                 FrmMsgBox.ShowWarning(this, "Performance", "One or more clusters had no centres, their centres were set to the average of the assignments.");
             }
 
-            FrmInputLarge.ShowFixed(this, "Performance", "Performance", null, sb.ToString());
+            FrmInputMultiLine.ShowFixed(this, "Performance", "Performance", null, sb.ToString());
         }
 
         [Description("(Debugging feature) Break into the debugger to execute a query")]
@@ -367,7 +367,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             FrmMsgBox.ShowInfo(this, "Message", "This is a message");
 
-            FrmInputLarge.ShowFixed(this, "Break query", "Allow debugger to take control", "Showing text stored in temporary string", "");
+            FrmInputMultiLine.ShowFixed(this, "Break query", "Allow debugger to take control", "Showing text stored in temporary string", "");
         }
 
         [Description("View object fields")]
@@ -387,7 +387,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (selected != null && !selected.IsEmpty())
                 {
-                    FrmInputLarge.ShowFixed(this, Text, "Property Descriptor", "Example property descriptor", StringHelper.ArrayToString(selected, z => z.Substring(z.IndexOf(':') + 1) + " = {" + z + "}", ", "));
+                    FrmInputMultiLine.ShowFixed(this, Text, "Property Descriptor", "Example property descriptor", StringHelper.ArrayToString(selected, z => z.Substring(z.IndexOf(':') + 1) + " = {" + z + "}", ", "));
                 }
             }
         }
@@ -396,7 +396,7 @@ namespace MetaboliteLevels.Forms.Editing
         [InList]
         void set_peak_names()
         {
-            string header = FrmInput.Show(this, Text, "Peak names", "Enter the peak names", "{DisplayName}");
+            string header = FrmInputSingleLine.Show(this, Text, "Peak names", "Enter the peak names", "{DisplayName}");
 
             if (header != null)
             {
@@ -426,7 +426,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            string sign = FrmInput.Show(this, "Classifier settings", "Find classifier", "Enter the cutoff, or 0 for for automatic", "0");
+            string sign = FrmInputSingleLine.Show(this, "Classifier settings", "Find classifier", "Enter the cutoff, or 0 for for automatic", "0");
             double manCutoff;
 
             type1 = DataSet.ForPeakFlags(_core).IncludeMessage("Specify the comment flag signifying the first type").ShowList(this, null);
@@ -542,14 +542,14 @@ namespace MetaboliteLevels.Forms.Editing
                 sb.AppendLine();
             }
 
-            FrmInputLarge.ShowFixed(this, "Find classifier", "Classifier results", "Best value to determine split between variables marked with \"" + type1 + "\" and \"" + type2 + "\" based on their significances", sb.ToString());
+            FrmInputMultiLine.ShowFixed(this, "Find classifier", "Classifier results", "Best value to determine split between variables marked with \"" + type1 + "\" and \"" + type2 + "\" based on their significances", sb.ToString());
         }
 
         [InList]
         [Description("Prompts for a list of peaks and saves their raw and trend profiles to a file.")]
         private void extract_profiles()
         {
-            string peakNames = FrmInputLarge.Show(this, "Extract profiles", "Specify peak names", null, null);
+            string peakNames = FrmInputMultiLine.Show(this, "Extract profiles", "Specify peak names", null, null);
 
             if (peakNames == null)
             {
@@ -681,7 +681,7 @@ namespace MetaboliteLevels.Forms.Editing
                 sb.AppendLine("    " + flag + " = " + StringHelper.AsFraction(c, core.Peaks.Count));
             }
 
-            FrmInputLarge.ShowFixed(this, "View statistics", "Statistics summary", null, sb.ToString());
+            FrmInputMultiLine.ShowFixed(this, "View statistics", "Statistics summary", null, sb.ToString());
         }
 
         [InList]

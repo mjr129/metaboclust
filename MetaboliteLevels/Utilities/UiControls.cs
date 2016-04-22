@@ -1327,7 +1327,7 @@ namespace MetaboliteLevels.Utilities
 
         internal static void ShowSessionInfo(Form owner, DataFileNames fileNames)
         {
-            FrmInputLarge.ShowFixed(owner, UiControls.Title, "Current session information", Path.GetFileName(fileNames.Session), fileNames.GetDetails());
+            FrmInputMultiLine.ShowFixed(owner, UiControls.Title, "Current session information", Path.GetFileName(fileNames.Session), fileNames.GetDetails());
         }
 
         /// <summary>

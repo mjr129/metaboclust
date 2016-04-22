@@ -272,7 +272,7 @@ namespace MetaboliteLevels.Forms.Editing
             string name = item.OverrideDisplayName;
             string comment = item.Comment;
 
-            if (FrmInput2.Show(this, item.DefaultDisplayName, "Rename", item.ToString(), item.DefaultDisplayName, ref name, ref comment, false, item))
+            if (FrmEditINameable.Show(this, item.DefaultDisplayName, "Rename", item.ToString(), item.DefaultDisplayName, ref name, ref comment, false, item))
             {
                 item.OverrideDisplayName = name;
                 item.Comment = comment;

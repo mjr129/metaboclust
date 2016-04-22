@@ -1,6 +1,6 @@
 ﻿namespace MetaboliteLevels.Forms.Editing
 {
-    partial class FrmFilter
+    partial class FrmEditColumnFilter
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFilter));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditColumnFilter));
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.button2 = new MetaboliteLevels.Controls.CtlButton();
             this.button1 = new MetaboliteLevels.Controls.CtlButton();

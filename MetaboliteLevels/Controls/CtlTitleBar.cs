@@ -108,7 +108,7 @@ namespace MetaboliteLevels.Controls
 
             string helpText = _helpText;        
 
-            FrmInputLarge.ShowFixed(this.FindForm(), "Help", "Help", Text, helpText);
+            FrmInputMultiLine.ShowFixed(this.FindForm(), "Help", "Help", Text, helpText);
         }
 
         private void _btnWarning_Click(object sender, EventArgs e)
