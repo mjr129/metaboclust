@@ -15,8 +15,12 @@ using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
+    /// <summary>
+    /// Extends ListViewHelper to provide a typed interface.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     partial class ListViewHelper<T> : ListViewHelper, ICoreWatcher
-        where T : IVisualisable
+        where T : IVisualisable // The base class deals with unttyped IVisualisable
     {
         private Func<Core, IEnumerable<T>> _sourceOption1;
         private ContentsRequest _sourceOption2;
@@ -55,7 +59,7 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             if (_sourceOption2 != null && _sourceOption2.Owner != null)
             {
-                string colFolder = "*" + _sourceOption2.Owner.VisualClass.ToUiString();
+                string colFolder = "*" + _sourceOption2.Owner.GetType().Name;
 
                 for (int n = 0; n < _sourceOption2.ExtraColumns.Count; n++)
                 {

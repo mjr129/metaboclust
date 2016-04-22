@@ -24,9 +24,7 @@ namespace MetaboliteLevels.Data.DataInfo
         public readonly int Order;          // This program's internal index (Core.Groups[this.Order] / Core.Batches[this.Order]). This is arbitrary but MUST NOT BE CHANGED.
         public readonly Range Range;        // Range covered (days / acquisition-order)
         public Color ColourLight;           // Display colour (light)
-        public Color Colour;                // Display colour
-
-        VisualClass IVisualisable.VisualClass => VisualClass.None;
+        public Color Colour;                // Display colour       
 
         public string DisplayName => IVisualisableExtensions.FormatDisplayName(this);
 
@@ -42,7 +40,7 @@ namespace MetaboliteLevels.Data.DataInfo
 
         public string Comment { get; set; }
 
-        bool ITitlable.Enabled { get { return true; } set { /* NA*/} }
+        bool INameable.Enabled { get { return true; } set { /* NA*/} }
 
         public int DisplayPriority;
 
@@ -120,12 +118,7 @@ namespace MetaboliteLevels.Data.DataInfo
             return columns;
         }
 
-        UiControls.ImageListOrder IVisualisable.GetIcon() => UiControls.ImageListOrder.Point;
-
-        void IVisualisable.RequestContents(ContentsRequest list)
-        {
-            // NA
-        }
+        UiControls.ImageListOrder IVisualisable.GetIcon() => UiControls.ImageListOrder.Point;       
 
         public override string ToString()
         {

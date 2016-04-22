@@ -106,15 +106,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             columns.AddSubObject(core, "Clusterer", z => z.ClustererConfiguration);
 
             return columns;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>               
-        void IVisualisable.RequestContents(ContentsRequest list)
-        {
-            // NA
-        }
+        }      
 
         /// <summary>
         /// The parameter configuation as a string.
@@ -163,18 +155,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        VisualClass IVisualisable.VisualClass
-        {
-            get
-            {
-                return VisualClass.None;
-            }
-        }
+        }     
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -202,7 +183,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// IMPLEMENTS ITitlable
         /// (Wraps an existing member for backwards compatibility before this class extended the interface)
         /// </summary>
-        string ITitlable.OverrideDisplayName
+        string INameable.OverrideDisplayName
         {
             get
             {

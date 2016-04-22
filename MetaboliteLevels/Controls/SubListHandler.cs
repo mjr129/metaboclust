@@ -45,7 +45,7 @@ namespace MetaboliteLevels.Controls
                 _controls.Enabled = false;
             }
 
-            public void Activate(IVisualisable selection)
+            public void Activate( IAssociational selection )
             {
                 if (selection == null)
                 {
@@ -98,7 +98,7 @@ namespace MetaboliteLevels.Controls
             _mappers.Add(new Mapper(_selector, to, type, controls));
         }
 
-        public void Activate(IVisualisable v)
+        public void Activate( IAssociational v )
         {
             foreach (Mapper mapper in _mappers)
             {

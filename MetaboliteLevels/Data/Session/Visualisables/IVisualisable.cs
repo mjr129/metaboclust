@@ -12,7 +12,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// <summary>
     /// Stuff the user can add comments to and change the name of.
     /// </summary>
-    interface ITitlable
+    interface INameable
     {
         /// <summary>
         /// Displayed name of this item.
@@ -41,10 +41,9 @@ namespace MetaboliteLevels.Data.Visualisables
     }
 
     /// <summary>
-    /// Stuff that can appear in lists.
-    /// Peaks...clusters...adducts...metabolites...pathways.
+    /// Stuff that shows in lists.
     /// </summary>
-    interface IVisualisable : ITitlable
+    interface IVisualisable : INameable
     {
         /// <summary>
         /// Icon for this item (as an index).
@@ -52,20 +51,27 @@ namespace MetaboliteLevels.Data.Visualisables
         UiControls.ImageListOrder GetIcon();
 
         /// <summary>
-        /// VisualClass of IVisualisable
-        /// </summary>
-        VisualClass VisualClass { get; }
-
-        /// <summary>
-        /// Gets related items.
-        /// </summary>
-        void RequestContents(ContentsRequest list);
-
-        /// <summary>
         /// STATIC
         /// Gets columns
         /// </summary>
         IEnumerable<Column> GetColumns(Core core);
+    }
+
+    /// <summary>
+    /// Stuff that can have associations.
+    /// Peaks...clusters...adducts...metabolites...pathways.
+    /// </summary>
+    interface IAssociational : IVisualisable
+    {
+        /// <summary>
+        /// Gets related items.
+        /// </summary>
+        void RequestContents( ContentsRequest list );
+
+        /// <summary>
+        /// VisualClass of IVisualisable
+        /// </summary>
+        VisualClass VisualClass { get; }
     }
 
     /// <summary>
@@ -76,7 +82,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Provides a preview for the specified IVisualisable.
         /// </summary>
-        Image ProvidePreview(Size size, IVisualisable p, IVisualisable p2);
+        Image ProvidePreview(Size size, object target, object highlight );
     }
 
     /// <summary>
@@ -92,7 +98,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// (EXTENSION) (MJR) Retrieves a request for contents with the specified parameters.
         /// </summary>
-        public static ContentsRequest GetContents(this IVisualisable self, Core core, VisualClass type)
+        public static ContentsRequest GetContents(this IAssociational self, Core core, VisualClass type)
         {
             ContentsRequest cl = new ContentsRequest(core, self, type);
             self.RequestContents(cl);
@@ -102,7 +108,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Gets the display name.
         /// </summary>    
-        public static string FormatDisplayName(IVisualisable visualisable)
+        public static string FormatDisplayName(INameable visualisable)
         {
             return string.IsNullOrEmpty(visualisable.OverrideDisplayName) ? visualisable.DefaultDisplayName : visualisable.OverrideDisplayName;
         }
@@ -112,7 +118,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string SafeGetDisplayName(this IVisualisable self)
+        public static string SafeGetDisplayName(this INameable self )
         {
             if (self == null)
             {
@@ -126,7 +132,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// (EXTENSION) (MJR) Gets the enabled elements of an IVisualisable enumerable.
         /// </summary>                                               
         public static IEnumerable<T> WhereEnabled<T>(this IEnumerable<T> self)
-            where T : IVisualisable
+            where T : INameable
         {
             return self.Where(z => z.Enabled);
         }
@@ -135,7 +141,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// (EXTENSION) (MJR) Gets the enabled elements of an IVisualisable enumerable.
         /// </summary>     
         public static IEnumerable<T> WhereEnabled<T>(this IEnumerable<T> self, bool onlyEnabled)
-            where T : IVisualisable
+            where T : INameable
         {
             return onlyEnabled ? WhereEnabled(self) : self;
         }
@@ -194,7 +200,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return "{Missing: " + property + "}";
         }
 
-        public static bool SupportsDisable(IVisualisable v)
+        public static bool SupportsDisable( this INameable v )
         {
             bool originalState = v.Enabled;
             v.Enabled = !originalState;
@@ -205,7 +211,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
         const string TEST_VALUE = "{EF304B9C-738D-4E2A-88D5-BFA1A72766EC}";
 
-        public static bool SupportsRename(IVisualisable v)
+        public static bool SupportsRename( this INameable v )
         {
             string originalState = v.OverrideDisplayName;
             v.OverrideDisplayName = TEST_VALUE;
@@ -214,7 +220,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return canEnable;
         }
 
-        public static bool SupportsComment(IVisualisable v)
+        public static bool SupportsComment( this IVisualisable v )
         {
             string originalState = v.Comment;
             v.Comment = TEST_VALUE;

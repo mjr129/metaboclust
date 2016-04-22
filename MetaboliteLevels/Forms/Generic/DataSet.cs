@@ -45,7 +45,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<T>()
             {
                 Title = title,
-                List = EnumHelper.GetEnumFlags<T>(),
+                Source = EnumHelper.GetEnumFlags<T>(),
                 ItemNameProvider = z => EnumHelper.ToUiString((Enum)(object)z),
                 ItemDescriptionProvider = z => EnumHelper.ToDescription((Enum)(object)z),
                 StringComparator = _EnumComparator<T>,
@@ -60,7 +60,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<int>()
             {
                 Title = title,
-                List = options.Indices(),
+                Source = options.Indices(),
                 ItemNameProvider = z => options[z]
             };
         }
@@ -74,7 +74,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<T>()
             {
                 Title = title,
-                List = Enum.GetValues(typeof(T)).Cast<T>().Except(new T[] { cancelValue }),
+                Source = Enum.GetValues(typeof(T)).Cast<T>().Except(new T[] { cancelValue }),
                 ItemNameProvider = z => EnumHelper.ToUiString((Enum)(object)z),
                 ItemDescriptionProvider = z => EnumHelper.ToDescription((Enum)(object)z),
                 StringComparator = _EnumComparator<T>,
@@ -91,7 +91,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Observations",
-                List = core.Observations,
+                Source = core.Observations,
                 ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition
             };
         }
@@ -105,7 +105,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Conditions",
-                List = core.Conditions,
+                Source = core.Conditions,
                 ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time,
             };
         }
@@ -118,7 +118,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<Column>()
             {
                 Title = "Columns",
-                List = columns.Where(z => !z.IsAlwaysEmpty),
+                Source = columns.Where(z => !z.IsAlwaysEmpty),
                 ItemNameProvider = z => z.Id,
                 ItemDescriptionProvider = z => z.OverrideDisplayName,
             };
@@ -133,10 +133,9 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Test Results",
-                List = core.EvaluationResultFiles,
+                Source = core.EvaluationResultFiles,
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
-                ItemIconProvider = _GetIcon,
                 ItemEditor = z => FrmEvaluateClusteringOptions.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
                 ListChangeApplicator = z => core.EvaluationResultFiles.ReplaceAll(z.List),
                 ListSupportsReorder = true,
@@ -152,7 +151,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Time Points",
-                List = core.Acquisitions,
+                Source = core.Acquisitions,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
             };
@@ -167,7 +166,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Experimental Groups",
-                List = core.Groups,
+                Source = core.Groups,
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = z => z.DisplayShortName + ": " + z.DisplayName,
                 StringComparator = _TypeNameComparator,
@@ -185,7 +184,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Batches",
-                List = core.Batches,
+                Source = core.Batches,
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = z => z.DisplayShortName + z.Comment.FormatIf("\r\nComment: "),
                 StringComparator = _TypeNameComparator,
@@ -202,7 +201,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Time Points",
-                List = core.Times,
+                Source = core.Times,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
             };
@@ -217,7 +216,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Replicates",
-                List = core.Reps,
+                Source = core.Reps,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
             };
@@ -231,7 +230,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<string>()
             {
                 Title = "Headers",
-                List = headerCollection.Headers,
+                Source = headerCollection.Headers,
             };
         }
 
@@ -244,7 +243,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Parameters",
-                List = parameters.Indices(),
+                Source = parameters.Indices(),
                 ItemNameProvider = z => parameters[z].Name + " (" + parameters[z].Type.ToUiString() + ")",
                 ItemDescriptionProvider = z => "Parameter " + z.ToString(),
                 CancelValue = int.MinValue,
@@ -260,7 +259,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Clusters",
-                List = core.Clusters,
+                Source = core.Clusters,
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = _GetComment
             };
@@ -275,7 +274,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Peaks",
-                List = core.Peaks,
+                Source = core.Peaks,
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = _GetComment
             };
@@ -312,7 +311,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "All items",
-                List = all,
+                Source = all,
                 ItemNameProvider = z => z.GetType().Name.ToSmallCaps() + ": " + z.ToString(),
                 ItemDescriptionProvider = z => (z is IVisualisable) ? "Selectable" : "Not selectable"
             };
@@ -327,7 +326,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Trends",
-                List = core.AllTrends,
+                Source = core.AllTrends,
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
                 BeforeListChangesApplied = z =>
@@ -378,7 +377,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Corrections",
-                List = core.AllCorrections,
+                Source = core.AllCorrections,
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
                 BeforeListChangesApplied = z =>
@@ -421,7 +420,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Clusterers",
-                List = core.AllClusterers,
+                Source = core.AllClusterers,
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
                 ListChangeApplicator = z => core.SetClusterers(z.List, false, z.Progress),
@@ -448,8 +447,8 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Distance metrics",
-                List = Algo.Instance.Metrics,
-                ItemEditor = z => _ShowScriptEditor<MetricBase>(z, "Metric", MetricScript.INPUTS, UiControls.EInitialFolder.FOLDER_METRICS),
+                Source = Algo.Instance.Metrics,
+                ItemEditor = z => _ShowScriptEditor<MetricBase>(z, UiControls.EInitialFolder.FOLDER_METRICS),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
@@ -464,8 +463,24 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Trend algorithms",
-                List = Algo.Instance.Trends,
-                ItemEditor = z => _ShowScriptEditor(z, "Trend algorithm", TrendScript.INPUTS, UiControls.EInitialFolder.FOLDER_TRENDS),
+                Source = Algo.Instance.Trends,
+                ItemEditor = z => _ShowScriptEditor(z, UiControls.EInitialFolder.FOLDER_TRENDS),
+                ListChangesOnEdit = true,
+                BeforeItemChanged = _ScriptReplace,
+            };
+        }
+
+        /// <summary>
+        /// All available algorithms (not just those in use)
+        /// </summary>            
+        internal static DataSet<AlgoBase> ForAllAlgorithms( Core core )
+        {
+            return new DataSet<AlgoBase>()
+            {
+                Core = core,
+                Title = "Algorithms",
+                Source = Algo.Instance.All,
+                ItemEditor = z => _ShowScriptEditor( z ),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
@@ -480,8 +495,8 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Clustering algorithms",
-                List = Algo.Instance.Clusterers,
-                ItemEditor = z => _ShowScriptEditor(z, "Clustering algorithm", ClustererScript.INPUTS, UiControls.EInitialFolder.FOLDER_CLUSTERERS),
+                Source = Algo.Instance.Clusterers,
+                ItemEditor = z => _ShowScriptEditor(z, UiControls.EInitialFolder.FOLDER_CLUSTERERS),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
@@ -496,35 +511,8 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Trend algorithms",
-                List = Algo.Instance.Trends.Cast<AlgoBase>().Concat(Algo.Instance.Corrections),
-                ItemEditor = z =>
-                {
-                    if (z.DefaultValue is TrendBase)
-                    {
-                        return _ShowScriptEditor(z, "Trend", TrendScript.INPUTS, UiControls.EInitialFolder.FOLDER_TRENDS);
-                    }
-                    else if (z.DefaultValue is CorrectionBase)
-                    {
-                        return _ShowScriptEditor(z, "Correction", CorrectionScript.INPUTS, UiControls.EInitialFolder.FOLDER_CORRECTIONS);
-                    }
-
-                    switch (FrmMsgBox.Show(z.Owner, "Statistics", null, "Create a new trend or correction?", Resources.MsgHelp, new[]
-                    {
-                        new FrmMsgBox.ButtonSet("Trend", Resources.ObjLScriptStatistic, DialogResult.Yes),
-                        new FrmMsgBox.ButtonSet("Correction", Resources.ObjLScriptStatistic, DialogResult.No),
-                        new FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)
-                    }))
-                    {
-                        case DialogResult.Yes:
-                            return _ShowScriptEditor(z, "Trend", TrendScript.INPUTS, UiControls.EInitialFolder.FOLDER_TRENDS);
-
-                        case DialogResult.No:
-                            return _ShowScriptEditor(z, "Correction", CorrectionScript.INPUTS, UiControls.EInitialFolder.FOLDER_CORRECTIONS);
-
-                        default:
-                            return null;
-                    }
-                },
+                Source = Algo.Instance.Trends.Cast<AlgoBase>().Concat(Algo.Instance.Corrections),
+                ItemEditor = z => _ShowScriptEditor(z, UiControls.EInitialFolder.FOLDER_TRENDS, UiControls.EInitialFolder.FOLDER_CORRECTIONS ),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
@@ -539,35 +527,8 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Statistics",
-                List = Algo.Instance.Statistics,
-                ItemEditor = z =>
-                {
-                    if (z.DefaultValue is StatisticBase)
-                    {
-                        return _ShowScriptEditor(z, "Statistic", StatisticScript.INPUTS, UiControls.EInitialFolder.FOLDER_STATISTICS);
-                    }
-                    else if (z.DefaultValue is MetricBase)
-                    {
-                        return _ShowScriptEditor(z, "Metric", MetricScript.INPUTS, UiControls.EInitialFolder.FOLDER_METRICS);
-                    }
-
-                    switch (FrmMsgBox.Show(z.Owner, "Statistics", null, "Create a new statistic or metric?", Resources.MsgHelp, new[]
-                    {
-                        new FrmMsgBox.ButtonSet("Statistic", Resources.ObjLScriptStatistic, DialogResult.Yes),
-                        new FrmMsgBox.ButtonSet("Metric", Resources.ObjLScriptStatistic, DialogResult.No),
-                        new FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)
-                    }))
-                    {
-                        case DialogResult.Yes:
-                            return _ShowScriptEditor(z, "Statistic", StatisticScript.INPUTS, UiControls.EInitialFolder.FOLDER_STATISTICS);
-
-                        case DialogResult.No:
-                            return _ShowScriptEditor(z, "Metric", MetricScript.INPUTS, UiControls.EInitialFolder.FOLDER_METRICS);
-
-                        default:
-                            return null;
-                    }
-                },
+                Source = Algo.Instance.Statistics,
+                ItemEditor = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_STATISTICS, UiControls.EInitialFolder.FOLDER_METRICS ),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
@@ -582,7 +543,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Statistics",
-                List = core.AllStatistics,
+                Source = core.AllStatistics,
                 ItemDescriptionProvider = _GetComment,
                 ListChangeApplicator = z => core.SetStatistics(z.List, false, z.Progress),
                 ListSupportsReorder = true,
@@ -609,7 +570,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Core = core,
                 Title = "Peak Flags",
                 SubTitle = "These flags can be used to assign categories or labels to data",
-                List = core.Options.PeakFlags,
+                Source = core.Options.PeakFlags,
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
                 ItemEditor = z =>
@@ -630,7 +591,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Peak Filters",
-                List = core.AllPeakFilters,
+                Source = core.AllPeakFilters,
                 ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ListChangeApplicator = z => core.SetPeakFilters(z.List),
                 ListSupportsReorder = true,
@@ -657,7 +618,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Observation filter conditions",
-                List = of != null ? of.Conditions.Cast<ObsFilter.Condition>() : new ObsFilter.Condition[0],
+                Source = of != null ? of.Conditions.Cast<ObsFilter.Condition>() : new ObsFilter.Condition[0],
                 ItemEditor = z => FrmObservationFilterCondition.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
                 ListSupportsReorder = true,
             };
@@ -672,7 +633,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Peak filter conditions",
-                List = of != null ? of.Conditions.Cast<PeakFilter.Condition>() : new PeakFilter.Condition[0],
+                Source = of != null ? of.Conditions.Cast<PeakFilter.Condition>() : new PeakFilter.Condition[0],
                 ItemEditor = z => FrmPeakFilterCondition.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
                 ListSupportsReorder = true,
             };
@@ -687,7 +648,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Core = core,
                 Title = "Observation Filters",
-                List = core.AllObsFilters,
+                Source = core.AllObsFilters,
                 ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
                 ItemEditor = z =>
                 {
@@ -861,11 +822,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Shows the script editor.
         /// </summary>    
-        private static T _ShowScriptEditor<T>(DataSet<T>.EditItemArgs z, string title, string inputs, UiControls.EInitialFolder folder)
+        private static T _ShowScriptEditor<T>(DataSet<T>.EditItemArgs z,params  UiControls.EInitialFolder[] folders)
           where T : AlgoBase
         {
             string fileName;
             string defaultContent;
+            UiControls.EInitialFolder folder;
 
             if (z.DefaultValue != null)
             {
@@ -884,11 +846,83 @@ namespace MetaboliteLevels.Forms.Generic
                 }
 
                 defaultContent = z.DefaultValue.Script.Script;
+
+                if (z.DefaultValue is MetricScript)
+                {
+                    folder = UiControls.EInitialFolder.FOLDER_METRICS;
+                }
+                else if (z.DefaultValue is StatisticScript)
+                {
+                    folder = UiControls.EInitialFolder.FOLDER_STATISTICS;
+                }
+                else if (z.DefaultValue is ClustererScript)
+                {
+                    folder = UiControls.EInitialFolder.FOLDER_CLUSTERERS;
+                }
+                else if (z.DefaultValue is CorrectionScript)
+                {
+                    folder = UiControls.EInitialFolder.FOLDER_CORRECTIONS;
+                }
+                else if (z.DefaultValue is TrendScript)
+                {
+                    folder = UiControls.EInitialFolder.FOLDER_TRENDS;
+                }
+                else
+                {
+                    throw new SwitchException(z.DefaultValue.GetType());
+                }
             }
             else
             {
                 fileName = null;
                 defaultContent = null;
+
+                if (folders.Length == 1)
+                {
+                    folder = folders[0];
+                }
+                else
+                {
+                    folder = FrmNewAlgorithm.Show( z.Owner, folders );
+
+                    if (folder == UiControls.EInitialFolder.None)
+                    {
+                        return null;
+                    }
+                }
+            }
+
+            string title, inputs;
+
+            switch (folder)
+            {
+                case UiControls.EInitialFolder.FOLDER_CLUSTERERS:
+                    title = "Clustering Algorithm";
+                    inputs = ClustererScript.INPUTS;
+                    break;
+
+                case UiControls.EInitialFolder.FOLDER_CORRECTIONS:
+                    title = "Correction";
+                    inputs = ClustererScript.INPUTS;
+                    break;
+
+                case UiControls.EInitialFolder.FOLDER_METRICS:
+                    title = "Metric";
+                    inputs = ClustererScript.INPUTS;
+                    break;
+
+                case UiControls.EInitialFolder.FOLDER_STATISTICS:
+                    title = "Statistic";
+                    inputs = ClustererScript.INPUTS;
+                    break;
+
+                case UiControls.EInitialFolder.FOLDER_TRENDS:
+                    title = "Smoothing Algorithm";
+                    inputs = ClustererScript.INPUTS;
+                    break;
+
+                default:
+                    throw new SwitchException( folder );
             }
 
             string newFile = FrmRScript.Show(z.Owner, title, inputs, folder, fileName, z.WorkOnCopy, defaultContent, z.ReadOnly);

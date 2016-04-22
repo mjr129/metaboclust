@@ -8,6 +8,7 @@ using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
+using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Settings
 {
@@ -190,23 +191,23 @@ namespace MetaboliteLevels.Settings
         [DefaultValue(true)]
         public bool DisplayAllGroupsInClusterPlot { get; set; }
 
-        private readonly Dictionary<string, ColumnDetails> _columnDisplayStatuses = new Dictionary<string, ColumnDetails>();
-        private readonly Dictionary<string, object> _defaultValues = new Dictionary<string, object>();
+        public readonly Dictionary<string, ColumnDetails> _columnDisplayStatuses = new Dictionary<string, ColumnDetails>();
+        public readonly Dictionary<string, object> _defaultValues = new Dictionary<string, object>();
 
         public CoreOptions()
         {
             UiControls.ApplyDefaultsFromAttributes(this);
             ViewTypes = new List<GroupInfo>();
-            Colours = new CoreColourSettings();
+            Colours   = new CoreColourSettings();
             PeakFlags = new List<PeakFlag>();
             PeakFlags.Add(new PeakFlag("INT", '1', "Interesting", Color.Green));
             PeakFlags.Add(new PeakFlag("CHK", '2', "Checked", Color.Gray));
             PeakFlags.Add(new PeakFlag("BOR", '3', "Boring", Color.DarkRed));
 
-            PeakDisplay = new PlotSetup();
-            ClusterDisplay = new PlotSetup();
+            PeakDisplay     = new PlotSetup();
+            ClusterDisplay  = new PlotSetup();
             CompoundDisplay = new PlotSetup();
-            PathwayDisplay = new PlotSetup();
+            PathwayDisplay  = new PlotSetup();
 
             PeakDisplay.Information = new ParseElementCollection("m/z = {m/z}, rt = {meta\rt}");
         }
@@ -220,48 +221,48 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// Saves or loads a listview column.
         /// </summary>
-        internal void OpenColumn(bool save, string listId, string columnId, ref string displayName, ref bool visible, ref int width, ref int displayIndex)
+        internal void OpenColumn(bool save, string listId, Column column)
         {
-            string key = listId + "\\" + columnId;
-            ColumnDetails r;
+            string key = listId + "\\" + column.Id;
+            ColumnDetails savedData;
 
             if (save)
             {
                 // Save
-                if (!_columnDisplayStatuses.TryGetValue(key, out r))
+                if (!_columnDisplayStatuses.TryGetValue(key, out savedData))
                 {
-                    r = new ColumnDetails();
-                    _columnDisplayStatuses.Add(key, r);
+                    savedData = new ColumnDetails();
+                    _columnDisplayStatuses.Add(key, savedData);
                 }
 
-                r.DisplayIndex = displayIndex;
-                r.Width = width;
-                r.Visible = visible;
-                r.DisplayName = displayName;
+                savedData.DisplayIndex = column.DisplayIndex;
+                savedData.Width        = column.Width;
+                savedData.Visible      = column.Enabled;
+                savedData.DisplayName  = column.OverrideDisplayName;
             }
             else
             {
                 // Load
-                if (_columnDisplayStatuses.TryGetValue(key, out r))
+                if (_columnDisplayStatuses.TryGetValue(key, out savedData))
                 {
-                    visible = r.Visible;
-                    width = r.Width;
-                    displayIndex = r.DisplayIndex;
-                    displayName = r.DisplayName;
+                    column.Enabled             = savedData.Visible;
+                    column.Width               = savedData.Width;
+                    column.DisplayIndex        = savedData.DisplayIndex;
+                    column.OverrideDisplayName = savedData.DisplayName;
                 }
             }
         }
 
         [Serializable]
-        private class ColumnDetails
+        public class ColumnDetails
         {
-            public bool Visible;
-            public int Width;
-            public int DisplayIndex;
+            public bool   Visible;
+            public int    Width;
+            public int    DisplayIndex;
             public string DisplayName;
         }
 
-        internal PlotSetup GetUserText(Core core, IVisualisable visualisable)
+        internal PlotSetup GetUserText(Core core, IAssociational visualisable)
         {
             if (visualisable == null)
             {

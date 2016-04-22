@@ -51,17 +51,18 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Params
             object[] parameters;
 
-            _checker.Check( _ecbMethod.ComboBox, algo != null, "Select a correction method" );
+            
 
-            if (algo!=null && algo.Parameters.HasCustomisableParams)
+            if (algo!=null)
             {
-                bool parametersValid = algo.Parameters.TryStringToParams( _core, _txtParameters.Text, out parameters );
+                parameters = algo.Parameters.TryStringToParams( _core, _txtParameters.Text );
 
-                _checker.Check( _txtParameters, parametersValid, "Specify valid parameters for the algorithm." );
+                _checker.Check( _txtParameters, parameters!=null, "Specify valid parameters for the algorithm." );
             }
             else
             {
                 parameters = null;
+                _checker.Check( _ecbMethod.ComboBox, false, "Select a correction method" );
             }
 
             if (algo is TrendBase)
@@ -146,11 +147,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             _txtParameters.Visible = paramsVisible;
             _btnEditParameters.Visible = paramsVisible;
             _lblParams.Text = paramsVisible ? trend.Parameters.ParamNames() : "Parameters";
-
-            object[] tmp;
-            bool paramsValid = trend != null && (!trend.Parameters.HasCustomisableParams || trend.Parameters.TryStringToParams(_core, _txtParameters.Text, out tmp));
+                             
             bool usingTrend = trend is TrendBase;
-            bool correctorVisible = paramsValid && usingTrend;
+            bool correctorVisible = usingTrend;
 
             _lblCorrector.Visible = correctorVisible;
             tableLayoutPanel3.Visible = correctorVisible;
@@ -169,7 +168,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _lblCorrector2.Visible = operatorVisible;
             tableLayoutPanel4.Visible = operatorVisible;
 
-            bool readyToGo = (usingTrend && operatorVisible && (_radDivide.Checked || _radSubtract.Checked)) || (!usingTrend && paramsValid);
+            bool readyToGo = (usingTrend && operatorVisible && (_radDivide.Checked || _radSubtract.Checked)) || (!usingTrend);
 
             ConfigurationCorrection sel = GetSelection();
             _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";

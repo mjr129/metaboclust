@@ -102,9 +102,9 @@ namespace MetaboliteLevels.Forms.Algorithms
                 this.Column = col;
             }
 
-            string ITitlable.DefaultDisplayName { get { return Column.Id; } }
+            string INameable.DefaultDisplayName { get { return Column.Id; } }
 
-            bool ITitlable.Enabled { get { return true; } set { } }
+            bool INameable.Enabled { get { return true; } set { } }
 
             public string DisplayName
             {
@@ -114,12 +114,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             UiControls.ImageListOrder IVisualisable.GetIcon()
             {
                 return UiControls.ImageListOrder.Statistic;
-            }
-
-            VisualClass IVisualisable.VisualClass
-            {
-                get { return VisualClass.None; }
-            }
+            }     
 
             public string Comment { get; set; }
 
@@ -136,12 +131,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
 
                 return cols;
-            }
-
-            void IVisualisable.RequestContents(ContentsRequest list)
-            {
-                // NA
-            }
+            }    
         }
 
         private void SelectResults(string fileName, ClusterEvaluationResults config)
@@ -1022,7 +1012,13 @@ namespace MetaboliteLevels.Forms.Algorithms
                         timer.Restart();
                         proggy.Enter("Exporting CSV");
                         proggy.SetProgressMarquee();
-                        this.Invoke((MethodInvoker)(() => _lvhStatistics.ExportAll(csvFileName)));
+                        this.Invoke((MethodInvoker)(() =>
+                        {
+                            using (StreamWriter sw = new StreamWriter( csvFileName ))
+                            {
+                                _lvhStatistics.WriteItems( sw, true );
+                            }
+                        }));
                         proggy.Leave();
                         sb.AppendLine(" - EXPORT-TIME: " + timer.Elapsed);
                         sb.AppendLine(" - EXPORT: " + csvFileName);

@@ -114,7 +114,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
             this.InputNames = inputNamesA;     
 
-            RequiredParameters = new AlgoParameterCollection(Parameters.Count != 0 ? Parameters.ToArray() : null);
+            RequiredParameters = new AlgoParameterCollection(Parameters.ToArray());
         }
 
         /// <summary>

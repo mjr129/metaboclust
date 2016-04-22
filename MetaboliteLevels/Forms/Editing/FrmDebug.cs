@@ -382,7 +382,7 @@ namespace MetaboliteLevels.Forms.Editing
                 {
                     Title = vis.ToString(),
                     SubTitle = "List of properties",
-                    List = ((IVisualisable)vis).QueryProperties(_core)
+                    Source = ((IVisualisable)vis).QueryProperties(_core)
                 }.ShowCheckList(this, null);
 
                 if (selected != null && !selected.IsEmpty())

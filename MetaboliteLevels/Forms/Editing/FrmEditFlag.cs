@@ -56,12 +56,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 UiControls.MakeReadOnly(this, _btnComment);
             }
-        }
-
-        private void _btnColour_Click(object sender, EventArgs e)
-        {
-            UiControls.EditColor(sender);
-        }
+        }    
 
         private void _btnComment_Click(object sender, EventArgs e)
         {

@@ -266,6 +266,36 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
+        /// Like Path.GetFilename but doesn't error for invalid characters.
+        /// </summary>                                                     
+        public static string GetFileName( string key )
+        {
+            int last = key.LastIndexOf( '\\' );
+
+            if (last == -1)
+            {
+                return key;
+            }
+
+            return key.Substring( last + 1 );
+        }
+
+        /// <summary>
+        /// Like Path.GetDirectory but doesn't error for invalid characters.
+        /// </summary>                                                     
+        public static string GetDirectory( string key )
+        {
+            int last = key.LastIndexOf( '\\' );
+
+            if (last == -1)
+            {
+                return string.Empty;
+            }
+
+            return key.Substring( 0, last );
+        }
+
+        /// <summary>
         /// (MJR)
         /// </summary>
         internal static Dictionary<T, int> CreateIndexLookup<T>(this IEnumerable<T> self)
@@ -312,17 +342,14 @@ namespace MetaboliteLevels.Utilities
             return colour.R.ToString() + ", " + colour.G + ", " + colour.B;
         }
 
-        internal static bool EditColor( object sender )
+        public static Color ComplementaryColour( Color colour )
         {
-            Control c = (Control)sender;
-            Color colour = c.BackColor;
-            
-            if (EditColor( ref colour ))
-            {
-                c.BackColor =colour;
-                return true;
-            }
+            return colour.GetBrightness() > 0.5 ? Color.Black : Color.White;
+        }
 
+        [Obsolete]
+        internal static bool EditColor( object colour )
+        {
             return false;
         }
 

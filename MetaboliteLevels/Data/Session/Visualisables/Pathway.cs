@@ -21,7 +21,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Pathway : IVisualisable
+    class Pathway : IAssociational
     {
         /// <summary>
         /// Pathway name
@@ -81,7 +81,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
+        bool INameable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -108,7 +108,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <param name="core">Core</param>
         /// <param name="highlightContents">What to highlight in the plot</param>
         /// <returns>A StylisedCluster</returns>
-        internal StylisedCluster CreateStylisedCluster(Core core, IVisualisable highlightContents)
+        internal StylisedCluster CreateStylisedCluster(Core core, IAssociational highlightContents )
         {
             var colours = new Dictionary<Peak, LineInfo>();
 
@@ -298,7 +298,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        VisualClass IVisualisable.VisualClass
+        VisualClass IAssociational.VisualClass
         {
             get { return VisualClass.Pathway; }
         }
@@ -306,7 +306,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        void IVisualisable.RequestContents(ContentsRequest request)
+        void IAssociational.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {

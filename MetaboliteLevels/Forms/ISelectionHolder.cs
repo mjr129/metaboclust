@@ -39,11 +39,11 @@ namespace MetaboliteLevels.Forms
             }
             else if (Secondary == null)
             {
-                return Primary.VisualClass.ToUiString().ToSmallCaps() + " " + Primary.DisplayName;
+                return Primary.GetType().Name.ToSmallCaps() + " " + Primary.DisplayName;
             }
             else
             {
-                return Primary.VisualClass.ToUiString().ToSmallCaps() + " " + Primary.DisplayName + " :: " + Secondary.VisualClass.ToUiString().ToSmallCaps() + " " + Secondary.DisplayName;
+                return Primary.GetType().Name.ToSmallCaps() + " " + Primary.DisplayName + " :: " + Secondary.GetType().Name.ToSmallCaps() + " " + Secondary.DisplayName;
             }
         }
 

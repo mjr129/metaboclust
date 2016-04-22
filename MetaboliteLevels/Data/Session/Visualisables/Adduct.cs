@@ -16,7 +16,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Adduct : IVisualisable
+    class Adduct : IAssociational
     {
         /// <summary>
         /// Adduct name (may be NULL)
@@ -68,7 +68,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
+        bool INameable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Is this an empty adduct?
@@ -121,7 +121,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        VisualClass IVisualisable.VisualClass
+        VisualClass IAssociational.VisualClass
         {
             get { return VisualClass.Adduct; }
         }
@@ -137,7 +137,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        void IVisualisable.RequestContents(ContentsRequest request)
+        void IAssociational.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {

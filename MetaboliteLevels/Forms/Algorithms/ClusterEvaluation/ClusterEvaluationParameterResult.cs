@@ -37,7 +37,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// IMPLEMENTS: IVisualisable
         /// Not used - meaningless.
         /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
+        bool INameable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Conifguration these results were sourced from
@@ -103,15 +103,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return UiControls.ImageListOrder.TestFull;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        VisualClass IVisualisable.VisualClass
-        {
-            get { return VisualClass.None; }
-        }
+        }     
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -148,15 +140,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             }
 
             return res;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        void IVisualisable.RequestContents(ContentsRequest list)
-        {
-            // NA
-        }
+        }    
 
         /// <summary>
         /// Recalculates the statistcal set.

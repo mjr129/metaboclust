@@ -23,7 +23,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Compound : IVisualisable
+    class Compound : IAssociational
     {
         /// <summary>
         /// Compound name
@@ -68,7 +68,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Unused (can't be disabled)
         /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
+        bool INameable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Defining library.
@@ -133,7 +133,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <param name="core">Core</param>
         /// <param name="highlight">What to highlight in the result</param>
         /// <returns>A StylisedCluster</returns>
-        internal StylisedCluster CreateStylisedCluster(Core core, IVisualisable highlight)
+        internal StylisedCluster CreateStylisedCluster(Core core, IAssociational highlight )
         {
             Cluster fakeCluster = new Cluster(this.DefaultDisplayName, null);
             Dictionary<Peak, LineInfo> colourInfo = new Dictionary<Peak, LineInfo>();
@@ -217,7 +217,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>
-        VisualClass IVisualisable.VisualClass
+        VisualClass IAssociational.VisualClass
         {
             get { return VisualClass.Compound; }
         }
@@ -233,7 +233,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>
-        void IVisualisable.RequestContents(ContentsRequest request)
+        void IAssociational.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {

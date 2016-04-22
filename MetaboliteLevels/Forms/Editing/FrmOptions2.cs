@@ -12,6 +12,9 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Controls;
+using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Viewers.Lists;
+using System.IO;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -123,12 +126,7 @@ namespace MetaboliteLevels.Forms.Editing
             binder1.Commit();
 
             DialogResult = result;
-        }
-
-        private void _btnColourCentre_Click(object sender, EventArgs e)
-        {
-            UiControls.EditColor(sender);
-        }
+        }   
 
         private void _btnEditFlags_Click(object sender, EventArgs e)
         {
@@ -144,5 +142,162 @@ namespace MetaboliteLevels.Forms.Editing
         {
             
         }
+
+        private void _btnEditColumns_Click( object sender, EventArgs e )
+        {                     
+            DataSet<_btnEditColumns_Click__ColumnDisplay> dataSet = new DataSet<_btnEditColumns_Click__ColumnDisplay>()
+            {
+                Core                 = _core,
+                Title                = "Columns",
+                Source                 = _target._columnDisplayStatuses.Select( _btnEditColumns_Click__ColumnDisplay.New),
+                ListChangeApplicator = z =>
+                                       {
+                                           _target._columnDisplayStatuses.Clear();
+                                       
+                                           foreach (var v in z.List)
+                                           {
+                                               _target._columnDisplayStatuses.Add( v.Key, v._col );
+                                           }
+                                       }
+            };
+
+            dataSet.ShowListEditor( this );
+        }
+
+        private void _btnEditDefaults_Click( object sender, EventArgs e )
+        {
+            DataSet<_btnEditDefaults_Click__Kvp> dataSet = new DataSet<_btnEditDefaults_Click__Kvp>()
+            {
+                Core = _core,
+                Title = "Default selections",
+                Source = _target._defaultValues.Select( _btnEditDefaults_Click__Kvp.New ),
+                ListChangeApplicator = z =>
+                {
+                    _target._defaultValues.Clear();
+
+                    foreach (var v in z.List)
+                    {
+                        _target._defaultValues.Add( v.arg.Key, v.arg.Value );
+                    }
+                }
+            };
+
+            dataSet.ShowListEditor( this );
+        }
+
+        private class _btnEditDefaults_Click__Kvp : IVisualisable
+        {
+            public KeyValuePair<string, object> arg;
+
+            public _btnEditDefaults_Click__Kvp( KeyValuePair<string, object> arg )
+            {
+                this.arg = arg;
+            }
+
+            public string Comment
+            {
+                get { return null; }
+                set { /* ro */ }
+            }
+
+            public string DefaultDisplayName => arg.Key;
+
+            public string DisplayName => arg.Key;
+
+            public bool Enabled
+            {
+                get { return true; }
+                set { /* ro */ }
+            }
+
+            public string OverrideDisplayName
+            {
+                get { return null; }
+                set { /* ro */ }
+            }                                                       
+
+            internal static _btnEditDefaults_Click__Kvp New( KeyValuePair<string, object> arg )
+            {
+                return new _btnEditDefaults_Click__Kvp( arg );
+            }
+
+            public IEnumerable<Column> GetColumns( Core core )
+            {
+                List<Column<_btnEditDefaults_Click__Kvp>> result = new List<Column<_btnEditDefaults_Click__Kvp>>();
+
+                result.Add( "Key"  , z => this.arg.Key );
+                result.Add( "Value", z => Column.AsString( this.arg.Value, EListDisplayMode.CountAndContent ) );
+
+                return result;
+            }
+
+            public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Point;     
+        }
+
+        private class _btnEditColumns_Click__ColumnDisplay : IVisualisable
+        {
+          public string Key;
+          public string Id;
+          public CoreOptions.ColumnDetails _col;
+
+            public _btnEditColumns_Click__ColumnDisplay( KeyValuePair<string, CoreOptions.ColumnDetails> arg )
+            {
+                this.Key  = arg.Key;
+                this._col = arg.Value;
+                this.Id   = UiControls.GetFileName( arg.Key );
+            }
+
+            public string Comment
+            {
+                get { return string.Empty; }  
+                set { /* readonly */ }
+            }
+
+            public string DefaultDisplayName => Id;
+
+            public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
+
+            public bool Enabled
+            {
+                get { return _col.Visible; }   
+                set { _col.Visible = value; }
+            }
+
+            public string OverrideDisplayName
+            {
+                get {return _col.DisplayName; }      
+                set { _col.DisplayName = value; }
+            }
+
+            public VisualClass VisualClass => VisualClass.None;
+
+            internal static _btnEditColumns_Click__ColumnDisplay New( KeyValuePair<string,  CoreOptions.ColumnDetails> arg )
+            {
+                return new _btnEditColumns_Click__ColumnDisplay( arg );
+            }
+
+            public IEnumerable<Column> GetColumns( Core core )
+            {
+                List<Column<_btnEditColumns_Click__ColumnDisplay>> list = new List<Column<_btnEditColumns_Click__ColumnDisplay>>();
+
+                list.Add( "ID", EColumn.Visible, z => z.Id );
+                list.Add( "Display index", EColumn.Visible, z => z._col.DisplayIndex );
+                list.Add( "Display name", EColumn.Visible, z => z._col.DisplayName );
+                list.Add( "Visible", EColumn.Visible, z => z._col.Visible );
+                list.Add( "Width", EColumn.Visible, z => z._col.Width );
+                list.Add( "Key", EColumn.Visible, z => z.Key );
+
+                return list;
+            }
+
+            public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Point;
+
+            public void RequestContents( ContentsRequest list )
+            {
+                // NA
+            }
+        }
+
+     
     }
 }

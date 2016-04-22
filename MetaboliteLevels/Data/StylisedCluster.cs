@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Data
         /// <summary>
         /// Actual element the cluster represents (cluster, pathway, metabolite, etc.)
         /// </summary>
-        public IVisualisable ActualElement;
+        public IAssociational ActualElement;
 
         /// <summary>
         /// Colours for the representative peaks.
@@ -85,7 +85,7 @@ namespace MetaboliteLevels.Data
         /// <summary>
         /// Source (for caption)
         /// </summary>
-        public IVisualisable WhatIsHighlighted;
+        public IAssociational WhatIsHighlighted;
 
         /// <summary>
         /// Ctor.
@@ -99,7 +99,7 @@ namespace MetaboliteLevels.Data
         /// <summary>
         /// Ctor.
         /// </summary>
-        public StylisedCluster(Cluster cluster, IVisualisable actualElement, Dictionary<Peak, LineInfo> colours)
+        public StylisedCluster(Cluster cluster, IAssociational actualElement, Dictionary<Peak, LineInfo> colours)
         {
             this.Cluster = cluster;
             this.ActualElement = actualElement;

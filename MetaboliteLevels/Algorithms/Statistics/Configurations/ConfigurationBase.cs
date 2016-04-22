@@ -42,9 +42,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         public abstract bool IsAvailable { get; }
         public abstract string AlgoName { get; }
         public abstract string ArgsToString { get; }
-        public abstract bool HasResults { get; }
-
-        VisualClass IVisualisable.VisualClass { get { return VisualClass.None; } }
+        public abstract bool HasResults { get; }                                  
 
         public string Description
         {
@@ -134,12 +132,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return allResults;
         }
 
-        protected abstract IEnumerable<Column> GetExtraColumns(Core core);
-
-        void IVisualisable.RequestContents(ContentsRequest list)
-        {
-            // NA
-        }
+        protected abstract IEnumerable<Column> GetExtraColumns(Core core);    
     }
 
     /// <summary>

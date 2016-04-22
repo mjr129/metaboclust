@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using MetaboliteLevels.Utilities;
 using System.Collections;
 using MetaboliteLevels.Settings;
+using System.Reflection;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
@@ -32,19 +33,29 @@ namespace MetaboliteLevels.Viewers.Lists
         CountAndContent = 3,
     }
 
-    abstract class Column
+    abstract class Column : IVisualisable
     {
         public readonly string Id;
         public readonly string Description;
         public readonly EColumn Special;
 
         public ColumnHeader Header;
-        public string OverrideDisplayName;
-        public bool Visible;
+        public string OverrideDisplayName { get; set; }
+        public bool Enabled { get; set; }
         public int Width = 128;
         public bool DisableMenu;
         public int DisplayIndex;
-        public EListDisplayMode DisplayMode = EListDisplayMode.Smart;
+        public EListDisplayMode DisplayMode = EListDisplayMode.Smart;   
+        string INameable.DefaultDisplayName => Id;
+                       
+        /// <summary>
+        /// Hide implementation because comment is read-only.
+        /// </summary>
+        string INameable.Comment
+        {
+            get { return Description; }
+            set { /* READONLY */ }
+        }                        
 
         /// <summary>
         /// CONSTRUCTOR
@@ -54,17 +65,11 @@ namespace MetaboliteLevels.Viewers.Lists
             this.Id = name;
             this.OverrideDisplayName = null;
             this.Special = special;
-            this.Visible = special == EColumn.Visible;
+            this.Enabled = special == EColumn.Visible;
             this.Description = description;
         }
 
-        public string DisplayName
-        {
-            get
-            {
-                return string.IsNullOrEmpty(OverrideDisplayName) ? Id : OverrideDisplayName;
-            }
-        }
+        public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
 
         /// <summary>
         /// Gets ID (or display name if set).
@@ -154,9 +159,9 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
             }
 
-            if (result is ITitlable)
+            if (result is INameable)
             {
-                ITitlable v = (ITitlable)result;
+                INameable v = (INameable)result;
 
                 return v.DisplayName;
             }          
@@ -193,6 +198,34 @@ namespace MetaboliteLevels.Viewers.Lists
         public abstract bool IsAlwaysEmpty { get; }
 
         internal abstract Color GetColour(IVisualisable line);
+
+        UiControls.ImageListOrder IVisualisable.GetIcon()
+        {
+            throw new NotImplementedException();
+        }   
+
+        IEnumerable<Column> IVisualisable.GetColumns( Core core )
+        {
+            List<Column<Column>> result = new List<Column<Column>>();
+
+            result.Add( "ID", EColumn.Visible, z => z.Id );
+            result.Add( "Preferred display order", z => z.DisplayIndex );
+            result.Add( "Preferred name", z => z.OverrideDisplayName );
+            result.Add( "Preferred width", z => z.Width );
+            result.Add( "Description", z => z.Description );
+
+            result.Add( "Disable menu", EColumn.Advanced, z => z.DisableMenu );     
+            result.Add( "Display mode", EColumn.Advanced, z => z.DisplayMode );
+            result.Add( "Associated header", EColumn.Advanced, z => z.Header?.Name );
+            result.Add( "Has colour support", EColumn.Advanced, z => z.HasColourSupport );
+            result.Add( "Is always empty", EColumn.Advanced, z => z.IsAlwaysEmpty );
+            result.Add( "Special", EColumn.Advanced, z => z.Special );
+            result.Add( "Displayed name", EColumn.Advanced, z => z.DisplayName );
+            result.Add( "Enabled", EColumn.Advanced, z => z.Enabled );
+
+            return result;
+        }
+
         public abstract bool HasColourSupport { get; }
     }
 
@@ -255,13 +288,33 @@ namespace MetaboliteLevels.Viewers.Lists
     {
         public static IEnumerable<Column> GetColumns(Core core, IVisualisable visualisable)
         {
-            return visualisable.GetColumns(core);
+            return AddProperties( visualisable.GetColumns( core ), visualisable.GetType() );
         }
 
         public static IEnumerable<Column> GetColumns<T>(Core core)
             where T : class, IVisualisable
         {
-            return ((T)(FormatterServices.GetUninitializedObject(typeof(T)))).GetColumns(core);
+            return GetColumns( core, (IVisualisable)(T)(FormatterServices.GetUninitializedObject( typeof( T ) )));
+        }
+
+        private static IEnumerable<Column> AddProperties( IEnumerable<Column> def, Type t )
+        {
+            var bf = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            var fields = t.GetProperties( bf );
+
+            List<Column<IVisualisable>> columns = new List<Column<IVisualisable>>();
+
+            foreach (PropertyInfo prop in t.GetProperties( bf ))
+            {
+                columns.Add( "Properties\\" + prop.Name, EColumn.Advanced, prop.GetValue);
+            }
+
+            foreach (FieldInfo field in t.GetFields( bf ))
+            {
+                columns.Add( "Fields\\" + field.Name, EColumn.Advanced, field.GetValue );
+            }
+
+            return def.Concat( columns );
         }
     }
 

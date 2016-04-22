@@ -19,6 +19,9 @@ namespace MetaboliteLevels.Forms.Generic
     /// objects in the GUI and how to edit them.
     /// 
     /// The concrete implementations can be found in the static DataSet helper class.
+    /// 
+    /// The mandatory properties to set are:
+    ///     Title, Source, ItemNameProvider, ItemDescriptionProvider, Core
     /// </summary>
     internal class DataSet<T> : IDataSet
     {
@@ -38,7 +41,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// (MANDATORY) Where to find the items
         /// </summary>
-        public IEnumerable<T> List { private get; set; }
+        public IEnumerable<T> Source { private get; set; }
 
         /// <summary>
         /// (MANDATORY) How the items should be named in simple lists
@@ -47,13 +50,10 @@ namespace MetaboliteLevels.Forms.Generic
 
         /// <summary>
         /// (MANDATORY) How the items should be described in simple lists
+        /// 
+        /// This is mandatory but may return NULL.
         /// </summary>
-        public Converter<T, string> ItemDescriptionProvider { get; set; }
-
-        /// <summary>
-        /// (MANDATORY) How to get icons for the list
-        /// </summary>
-        public Converter<T, UiControls.ImageListOrder> ItemIconProvider { get; set; }
+        public Converter<T, string> ItemDescriptionProvider { get; set; }    
 
         /// <summary>
         /// (MANDATORY) The core (only a convenience for data which needs a reference to the core to be meaningful).
@@ -62,23 +62,40 @@ namespace MetaboliteLevels.Forms.Generic
 
         /// <summary>
         /// (OPTIONAL) Called before the source list is changed via a call to ListModifier.
+        /// 
+        /// Options are unaffected.
         /// </summary>
         public Converter<BeforeApplyArgs, bool> BeforeListChangesApplied { get; set; }
 
         /// <summary>
         /// (OPTIONAL) Called after the source list is changed via a call to ListModifier.
+        /// 
+        /// Options are unaffected.
         /// </summary>
         public Action<AfterApplyArgs> AfterListChangesApplied { get; set; }
 
         /// <summary>
         /// Called to apply changes to the source list.
+        /// <para/>
         /// NULL if the source list cannot be modified (e.g. temporary or fixed lists).
+        /// <para/>
+        /// Options Add/Remove require this or ListChangesOnEdit.
         /// </summary>
         public Action<ApplyArgs> ListChangeApplicator { get; set; }
 
         /// <summary>
-        /// (OPTIONAL) How to edit items in the list
+        /// When set signifies the list changes when items are edited.
+        /// ListChangeApplicator is ignored and changes to the list cannot be cancelled.
+        /// 
+        /// Options Add/Remove require this or ListChangeApplicator.
+        /// </summary>
+        public bool ListChangesOnEdit { get; set; }
+
+        /// <summary>
+        /// How to edit items in the list
         /// NULL if items cannot be modified.
+        /// 
+        /// Options Add/Edit/View require this.
         /// </summary>
         public Converter<EditItemArgs, T> ItemEditor { get; set; }
 
@@ -107,22 +124,18 @@ namespace MetaboliteLevels.Forms.Generic
         /// allows users to specify new entries.
         ///       x.ToString(), Namer(x) and StringComparator are always checked regardless.
         /// </summary>
-        public RetrieverDelegate NewItemRetriever { get; set; }
+        public RetrieverDelegate DynamicItemRetriever { get; set; }
 
         /// <summary>
-        /// Returns if there is a NewItemRetriever.
+        /// Returns if there is a <see cref="DynamicItemRetriever"/>.
         /// </summary>
-        public bool AllowNewEntries => NewItemRetriever != null;
-
-        /// <summary>
-        /// When set signifies the list changes when items are edited.
-        /// ListChangeApplicator is ignored and changes to the list cannot be cancelled.
-        /// </summary>
-        public bool ListChangesOnEdit { get; set; }
+        public bool DynamicEntries => DynamicItemRetriever != null;
 
         /// <summary>
         /// When set signifies the list can be reordered.
         /// This makes no sense if set with ListChangesOnEdit since the user cannot control the list.
+        /// 
+        /// Required for Up/Down.
         /// </summary>
         public bool ListSupportsReorder { get; set; }
 
@@ -279,10 +292,10 @@ namespace MetaboliteLevels.Forms.Generic
         {
             if (onlyEnabled)
             {
-                return this.List.Where(EnabledFitler);
+                return this.Source.Where(EnabledFitler);
             }
 
-            return this.List;
+            return this.Source;
         }
 
         /// <summary>

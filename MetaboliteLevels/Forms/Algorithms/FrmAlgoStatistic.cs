@@ -68,10 +68,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             Peak bpeak;
             string title;
 
-            _checker.Clear();
-
-            // Selection
-            _checker.Check( _ecbMeasure.ComboBox, sel != null, "Select a method" );
+            _checker.Clear(); 
 
             // Title / comments
             title = string.IsNullOrWhiteSpace(_txtName.Text) ? null : _txtName.Text;
@@ -81,13 +78,14 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (sel!=null && sel.Parameters.HasCustomisableParams)
             {
-                bool parametersValid = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out parameters );
+                parameters = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
 
-                _checker.Check( _txtParams, parametersValid, "Specify valid parameters for the method." );
+                _checker.Check( _txtParams, parameters!=null, "Specify valid parameters for the method." );
             }
             else
             {
                 parameters = null;
+                _checker.Check( _ecbMeasure.ComboBox, false, "Select a method" );
             }
 
             if (sel==null || !sel.SupportsInputFilters)
@@ -320,11 +318,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             _btnEditParameters.Visible = p;
             _lblParams.Visible = p;
             _lblParams.Text = p ? stat.Parameters.ParamNames() : "Parameters";
-
-            object[] tmp;
-            bool s = m
-                    && (!stat.Parameters.HasCustomisableParams || stat.Parameters.TryStringToParams(_core, _txtParams.Text, out tmp))
-                    && stat.SupportsInputFilters;
+                           
+            bool s = m && stat.SupportsInputFilters;
 
             _lblApply.Visible = s;
             _radObs.Visible = s;

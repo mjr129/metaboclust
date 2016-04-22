@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Data.Visualisables
 {
     [Serializable]
     [DeferSerialisation]
-    class Assignment : IVisualisable
+    class Assignment : IAssociational
     {
         /// <summary>
         /// Peak
@@ -60,7 +60,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Unused (can't be disabled)
         /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
+        bool INameable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Ctor.
@@ -149,7 +149,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return UiControls.ImageListOrder.Assignment;
         }
 
-        VisualClass IVisualisable.VisualClass
+        VisualClass IAssociational.VisualClass
         {
             get { return VisualClass.Assignment; }
         }
@@ -178,7 +178,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return cols;
         }
 
-        void IVisualisable.RequestContents(ContentsRequest request)
+        void IAssociational.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {

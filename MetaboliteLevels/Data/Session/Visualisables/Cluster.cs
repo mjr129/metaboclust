@@ -18,7 +18,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Cluster : IVisualisable
+    class Cluster : IAssociational
     {
         /// <summary>
         /// State flags
@@ -96,7 +96,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
+        bool INameable.Enabled { get { return true; } set { } }
 
         /// <summary>
         /// Constructor.
@@ -142,7 +142,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <param name="core">Core</param>
         /// <param name="toHighlight">Which peak to highlight</param>
         /// <returns>The StylisedCluster</returns>
-        public StylisedCluster CreateStylisedCluster(Core core, IVisualisable toHighlight)
+        public StylisedCluster CreateStylisedCluster(Core core, IAssociational toHighlight )
         {
             // Cluster: Peaks in cluster
             // Peak: Handled by selection - take no action

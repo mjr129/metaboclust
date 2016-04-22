@@ -166,11 +166,6 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("Enabled", EColumn.None, z => z.Enabled);
 
             return columns;
-        }
-
-        void IVisualisable.RequestContents(ContentsRequest list)
-        {
-            // NA
-        }
+        }     
     }
 }

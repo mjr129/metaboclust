@@ -97,22 +97,20 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _checker.Clear();
 
-            // Selection
-            _checker.Check( _ecbMethod.ComboBox, sel != null, "Select a method" );
-
             // Title / comments
             title = string.IsNullOrWhiteSpace(_txtName.Text) ? null : _txtName.Text;
 
             // Parameters
             if (sel !=null && sel.Parameters.HasCustomisableParams)
             {
-                bool parametersValid = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out args );
+                args = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
 
-                _checker.Check( _txtParams, parametersValid, "Specify valid parameters for the method" );
+                _checker.Check( _txtParams, args!=null, "Specify valid parameters for the method" );
             }
             else
             {
                 args = null;
+                _checker.Check( _ecbMethod.ComboBox, false, "Select a method" );
             }
 
             if (_checker.HasErrors)

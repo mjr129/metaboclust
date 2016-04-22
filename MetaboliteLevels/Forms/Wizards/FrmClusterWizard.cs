@@ -131,8 +131,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private bool ValidatePage(int p)
         {
             double tmpd;
-            int tmpi;
-            object[] tmpo;
+            int tmpi;      
 
             switch (p)
             {
@@ -147,7 +146,7 @@ namespace MetaboliteLevels.Forms.Wizards
                 case 2:
                     return _ecbPeakFilter.HasSelection &&
                         _ecbDistance.HasSelection
-                        && _ecbDistance.SelectedItem.Parameters.TryStringToParams(_core, _txtDistanceParams.Text, out tmpo);
+                        && _ecbDistance.SelectedItem.Parameters.TryStringToParams(_core, _txtDistanceParams.Text) != null;
 
                 case 3:
                     return (_radStopN.Checked && int.TryParse(_txtStopN.Text, out tmpi))

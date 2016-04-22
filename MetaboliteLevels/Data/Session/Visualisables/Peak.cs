@@ -22,7 +22,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Peak : IVisualisable
+    class Peak : IAssociational
     {                                                  
         public const string ID_COLUMN_CLUSTERCOMBINATION = "Clusters\\Combination (for colours)";
 
@@ -125,7 +125,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
+        bool INameable.Enabled { get { return true; } set { } }
 
         /// <summary>     
         /// Default display name.
@@ -173,7 +173,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        void IVisualisable.RequestContents(ContentsRequest request)
+        void IAssociational.RequestContents(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -267,7 +267,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        VisualClass IVisualisable.VisualClass
+        VisualClass IAssociational.VisualClass
         {
             get { return VisualClass.Peak; }
         }

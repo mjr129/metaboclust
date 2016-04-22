@@ -17,7 +17,7 @@ namespace MetaboliteLevels.Settings
     /// Used to allow the user to "flag" variables with quick comments.
     /// </summary>
     [Serializable]
-    public class PeakFlag : IVisualisable
+    public class PeakFlag : IAssociational
     {
         private char _key;
 
@@ -46,7 +46,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        VisualClass IVisualisable.VisualClass => VisualClass.None;
+        VisualClass IAssociational.VisualClass => VisualClass.None;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
@@ -56,7 +56,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        string ITitlable.DefaultDisplayName => Key.ToString();
+        string INameable.DefaultDisplayName => Key.ToString();
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
@@ -132,7 +132,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>     
-        void IVisualisable.RequestContents(ContentsRequest list)
+        void IAssociational.RequestContents(ContentsRequest list)
         {
             switch (list.Type)
             {

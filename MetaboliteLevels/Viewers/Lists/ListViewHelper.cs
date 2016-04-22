@@ -21,8 +21,8 @@ namespace MetaboliteLevels.Viewers.Lists
     /// Attaches to a listview and manages its contents, columns and menu options.
     /// </summary>
     abstract partial class ListViewHelper : IDisposable
-    {
-        public Core _core;
+    {                 
+        public Core _core;  // link to core
         protected ListView _listView; // listview control to use
         private Dictionary<object, int> _imgListPreviewIndexes = new Dictionary<object, int>(); // cached thumbnails
         private IPreviewProvider _previewProvider; // thumbnail provider
@@ -31,8 +31,8 @@ namespace MetaboliteLevels.Viewers.Lists
         private bool _enablePreviews; // if in thumbnail mode
         protected readonly ToolStrip _toolStrip;
 
-        public event EventHandler<ShowContextMenuEventArgs> ShowContextMenu;
-        public event EventHandler<ListViewItemEventArgs> Activate;
+        public event EventHandler<ShowContextMenuEventArgs> ShowContextMenu; // right clicked item
+        public event EventHandler<ListViewItemEventArgs> Activate; // double clicked item
 
         private List<Column> _availableColumns = new List<Column>();
 
@@ -60,6 +60,8 @@ namespace MetaboliteLevels.Viewers.Lists
         private bool _emptyList;
         private ToolStripMenuItem _mnuDisplayColumn;
         private readonly ToolStripMenuItem _tsThumbNails;
+        private Type _knownColumnType;
+        private string _listViewOptionsKey;
 
         /// <summary>
         /// Constructor
@@ -126,17 +128,21 @@ namespace MetaboliteLevels.Viewers.Lists
             tsSaveMain.DisplayStyle = ToolStripItemDisplayStyle.Image;
             _toolStrip.Items.Add(tsSaveMain);
 
-            // Menu: Export visible
+            // Menu: Export\Save
             ToolStripMenuItem tsSave = new ToolStripMenuItem("Visible columns to file...", Resources.MnuSave, tsExportVisible_Click);
             tsSaveMain.DropDownItems.Add(tsSave);
 
-            // Menu: Export all
-            ToolStripMenuItem tsSaveAll = new ToolStripMenuItem("All columns to file...", Resources.MnuSaveAll, tsExportAll_Click);
+            // Menu: Export\Save all
+            ToolStripMenuItem tsSaveAll = new ToolStripMenuItem("All columns to file...", null, tsExportAll_Click);
             tsSaveMain.DropDownItems.Add(tsSaveAll);
 
-            // Menu: Copy to clipboard
-            ToolStripMenuItem tsSave2 = new ToolStripMenuItem("Visible columns to clipboard", Resources.MnuCopy, tsCopyToClipboard_Click);
+            // Menu: Export\Copy
+            ToolStripMenuItem tsSave2 = new ToolStripMenuItem("Visible columns to clipboard", Resources.MnuCopy, menu_export_copy);
             tsSaveMain.DropDownItems.Add(tsSave2);
+
+            // Menu: Export\Copy all
+            ToolStripMenuItem tsSave3 = new ToolStripMenuItem( "All columns to clipboard", null, menu_export_copyAll );
+            tsSaveMain.DropDownItems.Add( tsSave3 );
 
             // Thumbnails
             if (previewProvider != null)
@@ -239,7 +245,7 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             foreach (Column col in _availableColumns)
             {
-                _core.Options.OpenColumn(true, _listView.Name, col.Id, ref col.OverrideDisplayName, ref col.Visible, ref col.Width, ref col.DisplayIndex);
+                _core.Options.OpenColumn(true, _listViewOptionsKey, col);
             }
         }
 
@@ -250,9 +256,9 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             foreach (Column col in _availableColumns)
             {
-                _core.Options.OpenColumn(false, _listView.Name, col.Id, ref col.OverrideDisplayName, ref col.Visible, ref col.Width, ref col.DisplayIndex);
+                _core.Options.OpenColumn(false, _listViewOptionsKey, col);
             }
-        }
+        }    
 
         /// <summary>
         /// Toggle column clicked.
@@ -262,10 +268,10 @@ namespace MetaboliteLevels.Viewers.Lists
             ToolStripMenuItem s = (ToolStripMenuItem)sender;
             Column c = (Column)s.Tag;
 
-            c.Visible = !c.Visible;
-            s.Checked = c.Visible;
+            c.Enabled = !c.Enabled;
+            s.Checked = c.Enabled;
 
-            if (c.Visible)
+            if (c.Enabled)
             {
                 c.DisplayIndex = _listView.Columns.Count;
             }
@@ -450,18 +456,18 @@ namespace MetaboliteLevels.Viewers.Lists
 
                     menuTarget.DropDownItems.Insert(addAt, tsmi);
 
-                    tsmi.Checked = col.Visible;
+                    tsmi.Checked = col.Enabled;
                 }
             }
         }    
 
         private void EditColumnsAsList_Click(object sender, EventArgs e)
         {
-            IEnumerable<Column> selected = DataSet.ForColumns(_availableColumns).ShowCheckList(this.ListView.FindForm(), _availableColumns.Where(z => !z.IsAlwaysEmpty && z.Visible));
+            IEnumerable<Column> selected = DataSet.ForColumns(_availableColumns).ShowCheckList(this.ListView.FindForm(), _availableColumns.Where(z => !z.IsAlwaysEmpty && z.Enabled ) );
 
             if (selected != null)
             {
-                _availableColumns.ForEach(z => z.Visible = z.IsAlwaysEmpty || selected.Contains(z));
+                _availableColumns.ForEach(z => z.Enabled = z.IsAlwaysEmpty || selected.Contains(z));
             }
 
             SaveColumnUserPreferences();
@@ -503,7 +509,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         void _hidecol_Click(object sender, EventArgs e)
         {
-            _clickedColumn.Visible = !_clickedColumn.Visible;
+            _clickedColumn.Enabled = !_clickedColumn.Enabled;
             SaveColumnUserPreferences();
             Rebuild(EListInvalids.ToggleColumn);
         }
@@ -547,15 +553,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         void tsExportVisible_Click(object sender, EventArgs e)
         {
-            string fn = _listView.FindForm().BrowseForFile(null, UiControls.EFileExtension.Csv, FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
-
-            if (fn != null)
-            {
-                using (StreamWriter sw = new StreamWriter(fn))
-                {
-                    SaveItems(sw);
-                }
-            }
+            SaveItems( false );
         }
 
         /// <summary>
@@ -563,49 +561,52 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         void tsExportAll_Click(object sender, EventArgs e)
         {
-            string fn = _listView.FindForm().BrowseForFile(null, UiControls.EFileExtension.Csv, FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
+            SaveItems( true );
+        }
+
+        private void SaveItems(bool all)
+        {
+            string fn = _listView.FindForm().BrowseForFile( null, UiControls.EFileExtension.Csv, FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData );
 
             if (fn != null)
             {
-                try
+                using (StreamWriter sw = new StreamWriter( fn ))
                 {
-                    ExportAll(fn);
-                }
-                catch (Exception ex)
-                {
-                    FrmMsgBox.ShowError(_listView.FindForm(), ex);
+                    WriteItems( sw, all );
                 }
             }
-        }
+        }      
 
         /// <summary>
-        /// Exports all data
-        /// </summary>                     
-        public void ExportAll(string fileName)
-        {
-            using (StreamWriter sw = new StreamWriter(fileName))
-            {
-                SaveItems(sw, true);
-            }
-        }
-
-        /// <summary>
-        /// Menu: Copy to clipboard
+        /// Menu: Export - Copy to clipboard
         /// </summary>
-        void tsCopyToClipboard_Click(object sender, EventArgs e)
+        void menu_export_copy(object sender, EventArgs e)
+        {
+            CopyItems( false );
+        }
+
+        /// <summary>
+        /// Menu: Export - Copy all to clipboard
+        /// </summary>
+        void menu_export_copyAll( object sender, EventArgs e )
+        {
+            CopyItems( true );
+        }
+
+        void CopyItems(bool all)
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                using (StreamWriter sw = new StreamWriter(ms))
+                using (StreamWriter sw = new StreamWriter( ms ))
                 {
-                    SaveItems(sw);
+                    WriteItems( sw, all );
                 }
 
-                string text = Encoding.UTF8.GetString(ms.ToArray());
+                string text = Encoding.UTF8.GetString( ms.ToArray() );
 
-                if (!string.IsNullOrWhiteSpace(text))
+                if (!string.IsNullOrWhiteSpace( text ))
                 {
-                    Clipboard.SetText(text);
+                    Clipboard.SetText( text );
                 }
             }
         }
@@ -787,7 +788,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
             foreach (Column c in _availableColumns.OrderBy(λ => λ.DisplayIndex))
             {
-                if (c.Visible)
+                if (c.Enabled)
                 {
                     var h = _listView.Columns.Add(c.ToString());
                     c.Header = h;
@@ -820,6 +821,10 @@ namespace MetaboliteLevels.Viewers.Lists
             _isCreatingColumns = false;
         }
 
+        /// <summary>
+        /// Reinitialises the list.
+        /// </summary>
+        /// <param name="checks">What to reinitialise</param>
         public void Rebuild(EListInvalids checks)
         {
             // since we now use a virtual list when the list changes we can just refresh the source
@@ -855,22 +860,7 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 _listView.RedrawItems(0, _listView.VirtualListSize - 1, true);
             }
-        }
-
-        /// <summary>
-        /// Gets the columns associated with the items in this list.
-        /// </summary>                                              
-        private IEnumerable<Column> GetVisualisablesColumns()
-        {
-            IVisualisable firstElement = GetSourceContent().FirstOrDefault();
-
-            if (firstElement != null)
-            {
-                return firstElement.GetColumns(_core);
-            }
-
-            return null;
-        }
+        }    
 
         protected abstract IEnumerable<IVisualisable> GetSourceContent();
 
@@ -956,8 +946,20 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             _availableColumns.Clear();
 
+            // Get the type
+            IVisualisable firstElement = GetSourceContent().FirstOrDefault();
+
+            if (firstElement == null)
+            {
+                _listViewOptionsKey = null;
+                return;
+            }
+
+            // Save the ID (this is used to load/save columns)
+            _listViewOptionsKey = _listView.FindForm().Name + "\\" + _listView.Name + "\\" + firstElement.GetType().Name;
+
             // Get columns for the type "T"
-            var cols = GetVisualisablesColumns();
+            IEnumerable<Column> cols = ColumnManager.GetColumns( _core, firstElement );
 
             if (cols == null)
             {
@@ -1011,7 +1013,7 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 Column c = (Column)h.Tag;
 
-                System.Diagnostics.Debug.Assert(c.Visible);
+                System.Diagnostics.Debug.Assert(c.Enabled );
 
                 if (!c.IsAlwaysEmpty)
                 {
@@ -1084,7 +1086,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// <summary>
         /// Saves the grid as a CSV file.
         /// </summary>
-        protected void SaveItems(StreamWriter sw, bool includeHiddenColumns = false)
+        public void WriteItems(StreamWriter sw, bool includeHiddenColumns)
         {
             bool needsComma = false;
 

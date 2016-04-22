@@ -169,6 +169,9 @@
     <Compile Include="Algorithms\ValueMatrix.cs" />
     <Compile Include="Algorithms\Vector.cs" />
     <Compile Include="Controls\CtlBinder.cs" />
+    <Compile Include="Controls\CtlColourEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\CtlError.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -208,6 +211,12 @@
     </Compile>
     <Compile Include="Forms\Editing\FrmEditFlag.Designer.cs">
       <DependentUpon>FrmEditFlag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmNewAlgorithm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmNewAlgorithm.Designer.cs">
+      <DependentUpon>FrmNewAlgorithm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Editing\FrmOptions2.cs">
       <SubType>Form</SubType>
@@ -582,6 +591,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmEditUpdate.resx">
       <DependentUpon>FrmEditUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmNewAlgorithm.resx">
+      <DependentUpon>FrmNewAlgorithm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmObservationFilterCondition.resx">
       <DependentUpon>FrmObservationFilterCondition.cs</DependentUpon>

@@ -8,6 +8,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Data.DataInfo;
 using System.Collections;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Algorithms.Statistics
 {
@@ -18,6 +19,8 @@ namespace MetaboliteLevels.Algorithms.Statistics
     {
         /// <summary>
         /// User configurable parameters (e.g. k in k-means)
+        /// 
+        /// This is never null but may be empty.
         /// </summary>
         private AlgoParameter[] _parameters;
 
@@ -25,15 +28,10 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// Constructor.
         /// </summary>
         public AlgoParameterCollection(params AlgoParameter[] parameters)
-        {                                 
-            if (parameters != null && parameters.Length != 0)
-            {
-                this._parameters = parameters;
-            }
-            else
-            {
-                this._parameters = null;
-            }
+        {
+            Debug.Assert( parameters != null );
+
+            this._parameters = parameters;
         }       
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         {
             get
             {
-                return _parameters!=null ? _parameters.Length:0;
+                return _parameters.Length;
             }
         }
 
@@ -65,7 +63,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         {
             get
             {
-                return _parameters != null;
+                return _parameters.Length != 0;
             }
         }                                            
 
@@ -269,11 +267,17 @@ namespace MetaboliteLevels.Algorithms.Statistics
             }
         }
 
+        /// <summary>
+        /// Like TryStringToParams but throws an error on failure.
+        /// </summary>
+        /// <param name="core">Required</param>
+        /// <param name="text">Text to convert</param>
+        /// <returns>Parameters</returns>
         public object[] StringToParams(Core core, string text)
         {
-            object[] parameters;
+            object[] parameters = TryStringToParams( core, text );
 
-            if (!TryStringToParams(core, text, out parameters))
+            if (parameters == null)
             {
                 throw new InvalidOperationException("Cannot parse parameters.");
             }
@@ -284,20 +288,25 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// <summary>
         /// Converts the specified string to a customisable parameter set.
         /// </summary>
-        public bool TryStringToParams(Core core, string text, out object[] parameters)
+        /// <param name="core">Required</param>
+        /// <param name="text">Text to convert</param>           
+        /// <returns>Parameters or NULL on failure.</returns>
+        public object[] TryStringToParams(Core core, string text)
         {
             if (!HasCustomisableParams)
             {
-                parameters = null;
-                return true;
+                // Any input is valid if there are no parameters
+                // This way we don't get errors from leftover text when inputs are hidden because
+                // there are no parameters
+                return new object[0];
             }
 
             List<string> elements = StringHelper.SplitGroups(text);
 
             if (elements.Count != _parameters.Length)
             {
-                parameters = null;
-                return false;
+                // Count mismatch
+                return null;
             }
 
             object[] result = new object[_parameters.Length];
@@ -308,13 +317,12 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
                 if (result[i] == null)
                 {
-                    parameters = null;
-                    return false;
+                    // Couldn't read parameter
+                    return null;
                 }
             }
 
-            parameters = result;
-            return true;
+            return result;
         }
 
         public static object TryReadParameter(Core core, string element, EAlgoParameterType paramType)
@@ -453,7 +461,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         }
 
         IEnumerator IEnumerable.GetEnumerator()
-        {
+        {           
             return _parameters.GetEnumerator();
         }
     }

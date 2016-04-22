@@ -35,9 +35,9 @@
             this._chkCor = new System.Windows.Forms.CheckBox();
             this._chkClus = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlButton1 = new MetaboliteLevels.Controls.CtlButton();
             this.button1 = new MetaboliteLevels.Controls.CtlButton();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -99,7 +99,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 87);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(681, 200);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(672, 185);
             this.flowLayoutPanel1.TabIndex = 1;
             this.flowLayoutPanel1.WrapContents = false;
             // 
@@ -157,17 +157,17 @@
             this.flowLayoutPanel2.Controls.Add(this.button1);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 287);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 272);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(681, 56);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(672, 56);
             this.flowLayoutPanel2.TabIndex = 2;
             // 
             // ctlButton1
             // 
             this.ctlButton1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ctlButton1.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this.ctlButton1.Location = new System.Drawing.Point(545, 8);
+            this.ctlButton1.Location = new System.Drawing.Point(536, 8);
             this.ctlButton1.Margin = new System.Windows.Forms.Padding(8);
             this.ctlButton1.Name = "ctlButton1";
             this.ctlButton1.Size = new System.Drawing.Size(128, 40);
@@ -180,7 +180,7 @@
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button1.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this.button1.Location = new System.Drawing.Point(401, 8);
+            this.button1.Location = new System.Drawing.Point(392, 8);
             this.button1.Margin = new System.Windows.Forms.Padding(8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(128, 40);
@@ -199,7 +199,7 @@
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(681, 87);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(672, 87);
             this.ctlTitleBar1.SubText = "and here";
             this.ctlTitleBar1.TabIndex = 0;
             this.ctlTitleBar1.Text = "Text goes here";
@@ -210,7 +210,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(681, 343);
+            this.ClientSize = new System.Drawing.Size(672, 328);
             this.ControlBox = false;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.flowLayoutPanel2);

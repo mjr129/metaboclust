@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new Controls.CtlTextBox();
+            this.textBox1 = new MetaboliteLevels.Controls.CtlTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnYes = new Controls.CtlButton();
-            this._btnNo = new Controls.CtlButton();
-            this._btnCancel = new Controls.CtlButton();
+            this._btnYes = new MetaboliteLevels.Controls.CtlButton();
+            this._btnNo = new MetaboliteLevels.Controls.CtlButton();
+            this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
@@ -75,6 +75,7 @@
             this.textBox1.TabIndex = 2;
             this.textBox1.Text = "c:\\folder\\file.txt";
             this.textBox1.Visible = false;
+            this.textBox1.Watermark = null;
             // 
             // flowLayoutPanel1
             // 
@@ -96,16 +97,13 @@
             this._btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this._btnYes.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnYes.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this._btnYes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnYes.Location = new System.Drawing.Point(8, 8);
             this._btnYes.Margin = new System.Windows.Forms.Padding(8);
             this._btnYes.Name = "_btnYes";
-            this._btnYes.Padding = new System.Windows.Forms.Padding(4);
             this._btnYes.Size = new System.Drawing.Size(128, 40);
             this._btnYes.TabIndex = 5;
-            this._btnYes.Text = "    Yes";
-            this._btnYes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnYes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this._btnYes.Text = "Yes";
+            this._btnYes.UseDefaultSize = true;
             this._btnYes.UseVisualStyleBackColor = true;
             // 
             // _btnNo
@@ -113,16 +111,13 @@
             this._btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
             this._btnNo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnNo.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this._btnNo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnNo.Location = new System.Drawing.Point(152, 8);
             this._btnNo.Margin = new System.Windows.Forms.Padding(8);
             this._btnNo.Name = "_btnNo";
-            this._btnNo.Padding = new System.Windows.Forms.Padding(4);
             this._btnNo.Size = new System.Drawing.Size(128, 40);
             this._btnNo.TabIndex = 7;
-            this._btnNo.Text = "    No";
-            this._btnNo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnNo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this._btnNo.Text = "No";
+            this._btnNo.UseDefaultSize = true;
             this._btnNo.UseVisualStyleBackColor = true;
             // 
             // _btnCancel
@@ -130,16 +125,13 @@
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuBack;
-            this._btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnCancel.Location = new System.Drawing.Point(296, 8);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(8);
             this._btnCancel.Name = "_btnCancel";
-            this._btnCancel.Padding = new System.Windows.Forms.Padding(4);
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
             this._btnCancel.TabIndex = 6;
-            this._btnCancel.Text = "    Cancel";
-            this._btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this._btnCancel.Text = "Cancel";
+            this._btnCancel.UseDefaultSize = true;
             this._btnCancel.UseVisualStyleBackColor = true;
             // 
             // comboBox1
@@ -153,7 +145,7 @@
             "Ask every time",
             "Remember my decision (this session)",
             "Remember my decision (always)"});
-            this.comboBox1.Location = new System.Drawing.Point(24, 182);
+            this.comboBox1.Location = new System.Drawing.Point(24, 174);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(8);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(344, 29);

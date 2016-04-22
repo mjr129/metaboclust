@@ -42,29 +42,29 @@
             this._chkPeakTrend = new System.Windows.Forms.CheckBox();
             this._chkPeakFlag = new System.Windows.Forms.CheckBox();
             this._btnEditFlags = new MetaboliteLevels.Controls.CtlButton();
-            this._txtEvalFilename = new Controls.CtlTextBox();
+            this._txtEvalFilename = new MetaboliteLevels.Controls.CtlTextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this._btnColourCentre = new Controls.CtlButton();
+            this._btnColourCentre = new MetaboliteLevels.Controls.CtlColourEditor();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this._btnColourSeries = new Controls.CtlButton();
+            this._btnColourSeries = new MetaboliteLevels.Controls.CtlColourEditor();
             this.label8 = new System.Windows.Forms.Label();
-            this._btnColourHighlight = new Controls.CtlButton();
+            this._btnColourHighlight = new MetaboliteLevels.Controls.CtlColourEditor();
             this.label9 = new System.Windows.Forms.Label();
-            this._btnColourMinorGrid = new Controls.CtlButton();
+            this._btnColourMinorGrid = new MetaboliteLevels.Controls.CtlColourEditor();
             this.label10 = new System.Windows.Forms.Label();
-            this._btnColourMajorGrid = new Controls.CtlButton();
+            this._btnColourMajorGrid = new MetaboliteLevels.Controls.CtlColourEditor();
             this.label11 = new System.Windows.Forms.Label();
-            this._btnColourAxisTitle = new Controls.CtlButton();
-            this._txtClusterInfo = new Controls.CtlTextBox();
+            this._btnColourAxisTitle = new MetaboliteLevels.Controls.CtlColourEditor();
+            this._txtClusterInfo = new MetaboliteLevels.Controls.CtlTextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this._txtClusterTitle = new Controls.CtlTextBox();
+            this._txtClusterTitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this._txtClusterXAxis = new Controls.CtlTextBox();
+            this._txtClusterXAxis = new MetaboliteLevels.Controls.CtlTextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this._txtClusterSubtitle = new Controls.CtlTextBox();
+            this._txtClusterSubtitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this._txtClusterYAxis = new Controls.CtlTextBox();
+            this._txtClusterYAxis = new MetaboliteLevels.Controls.CtlTextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label37 = new System.Windows.Forms.Label();
@@ -73,13 +73,13 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label17 = new System.Windows.Forms.Label();
-            this._txtPeakYAxis = new Controls.CtlTextBox();
-            this._txtPeakInfo = new Controls.CtlTextBox();
-            this._txtPeakXAxis = new Controls.CtlTextBox();
+            this._txtPeakYAxis = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtPeakInfo = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtPeakXAxis = new MetaboliteLevels.Controls.CtlTextBox();
             this.label18 = new System.Windows.Forms.Label();
-            this._txtPeakSubtitle = new Controls.CtlTextBox();
+            this._txtPeakSubtitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this._txtPeakTitle = new Controls.CtlTextBox();
+            this._txtPeakTitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
@@ -93,25 +93,25 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label22 = new System.Windows.Forms.Label();
-            this._txtCompYAxis = new Controls.CtlTextBox();
-            this._txtCompInfo = new Controls.CtlTextBox();
-            this._txtCompXAxis = new Controls.CtlTextBox();
+            this._txtCompYAxis = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtCompInfo = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtCompXAxis = new MetaboliteLevels.Controls.CtlTextBox();
             this.label23 = new System.Windows.Forms.Label();
-            this._txtCompSubtitle = new Controls.CtlTextBox();
+            this._txtCompSubtitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this._txtCompTitle = new Controls.CtlTextBox();
+            this._txtCompTitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label27 = new System.Windows.Forms.Label();
-            this._txtPathYAxis = new Controls.CtlTextBox();
-            this._txtPathInfo = new Controls.CtlTextBox();
-            this._txtPathXAxis = new Controls.CtlTextBox();
+            this._txtPathYAxis = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtPathInfo = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtPathXAxis = new MetaboliteLevels.Controls.CtlTextBox();
             this.label28 = new System.Windows.Forms.Label();
-            this._txtPathSubtitle = new Controls.CtlTextBox();
+            this._txtPathSubtitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label29 = new System.Windows.Forms.Label();
-            this._txtPathTitle = new Controls.CtlTextBox();
+            this._txtPathTitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -121,9 +121,9 @@
             this.label44 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
-            this._btnColourBackground = new Controls.CtlButton();
-            this._btnColourPreviewBackground = new Controls.CtlButton();
-            this._btnColourUntypedElements = new Controls.CtlButton();
+            this._btnColourBackground = new MetaboliteLevels.Controls.CtlColourEditor();
+            this._btnColourPreviewBackground = new MetaboliteLevels.Controls.CtlColourEditor();
+            this._btnColourUntypedElements = new MetaboliteLevels.Controls.CtlColourEditor();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label41 = new System.Windows.Forms.Label();
@@ -132,6 +132,10 @@
             this._numThumbnail = new System.Windows.Forms.NumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this._btnEditColumns = new MetaboliteLevels.Controls.CtlButton();
+            this._btnEditDefaults = new MetaboliteLevels.Controls.CtlButton();
+            this.label46 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
@@ -322,6 +326,7 @@
             this._txtEvalFilename.Name = "_txtEvalFilename";
             this._txtEvalFilename.Size = new System.Drawing.Size(726, 29);
             this._txtEvalFilename.TabIndex = 5;
+            this._txtEvalFilename.Watermark = null;
             // 
             // label5
             // 
@@ -339,10 +344,8 @@
             this._btnColourCentre.Location = new System.Drawing.Point(176, 8);
             this._btnColourCentre.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourCentre.Name = "_btnColourCentre";
-            this._btnColourCentre.Size = new System.Drawing.Size(128, 32);
             this._btnColourCentre.TabIndex = 4;
             this._btnColourCentre.UseVisualStyleBackColor = false;
-            this._btnColourCentre.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // label6
             // 
@@ -357,7 +360,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 104);
+            this.label7.Location = new System.Drawing.Point(8, 98);
             this.label7.Margin = new System.Windows.Forms.Padding(8);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(112, 21);
@@ -367,18 +370,16 @@
             // _btnColourSeries
             // 
             this._btnColourSeries.BackColor = System.Drawing.Color.White;
-            this._btnColourSeries.Location = new System.Drawing.Point(176, 104);
+            this._btnColourSeries.Location = new System.Drawing.Point(176, 98);
             this._btnColourSeries.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourSeries.Name = "_btnColourSeries";
-            this._btnColourSeries.Size = new System.Drawing.Size(128, 32);
             this._btnColourSeries.TabIndex = 4;
             this._btnColourSeries.UseVisualStyleBackColor = false;
-            this._btnColourSeries.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 56);
+            this.label8.Location = new System.Drawing.Point(8, 53);
             this.label8.Margin = new System.Windows.Forms.Padding(8);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(131, 21);
@@ -388,18 +389,16 @@
             // _btnColourHighlight
             // 
             this._btnColourHighlight.BackColor = System.Drawing.Color.White;
-            this._btnColourHighlight.Location = new System.Drawing.Point(176, 56);
+            this._btnColourHighlight.Location = new System.Drawing.Point(176, 53);
             this._btnColourHighlight.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourHighlight.Name = "_btnColourHighlight";
-            this._btnColourHighlight.Size = new System.Drawing.Size(128, 32);
             this._btnColourHighlight.TabIndex = 4;
             this._btnColourHighlight.UseVisualStyleBackColor = false;
-            this._btnColourHighlight.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(8, 152);
+            this.label9.Location = new System.Drawing.Point(8, 143);
             this.label9.Margin = new System.Windows.Forms.Padding(8);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(84, 21);
@@ -409,18 +408,16 @@
             // _btnColourMinorGrid
             // 
             this._btnColourMinorGrid.BackColor = System.Drawing.Color.White;
-            this._btnColourMinorGrid.Location = new System.Drawing.Point(176, 152);
+            this._btnColourMinorGrid.Location = new System.Drawing.Point(176, 143);
             this._btnColourMinorGrid.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourMinorGrid.Name = "_btnColourMinorGrid";
-            this._btnColourMinorGrid.Size = new System.Drawing.Size(128, 32);
             this._btnColourMinorGrid.TabIndex = 4;
             this._btnColourMinorGrid.UseVisualStyleBackColor = false;
-            this._btnColourMinorGrid.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 200);
+            this.label10.Location = new System.Drawing.Point(8, 188);
             this.label10.Margin = new System.Windows.Forms.Padding(8);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(83, 21);
@@ -430,18 +427,16 @@
             // _btnColourMajorGrid
             // 
             this._btnColourMajorGrid.BackColor = System.Drawing.Color.White;
-            this._btnColourMajorGrid.Location = new System.Drawing.Point(176, 200);
+            this._btnColourMajorGrid.Location = new System.Drawing.Point(176, 188);
             this._btnColourMajorGrid.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourMajorGrid.Name = "_btnColourMajorGrid";
-            this._btnColourMajorGrid.Size = new System.Drawing.Size(128, 32);
             this._btnColourMajorGrid.TabIndex = 4;
             this._btnColourMajorGrid.UseVisualStyleBackColor = false;
-            this._btnColourMajorGrid.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(8, 248);
+            this.label11.Location = new System.Drawing.Point(8, 233);
             this.label11.Margin = new System.Windows.Forms.Padding(8);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(68, 21);
@@ -451,13 +446,11 @@
             // _btnColourAxisTitle
             // 
             this._btnColourAxisTitle.BackColor = System.Drawing.Color.White;
-            this._btnColourAxisTitle.Location = new System.Drawing.Point(176, 248);
+            this._btnColourAxisTitle.Location = new System.Drawing.Point(176, 233);
             this._btnColourAxisTitle.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourAxisTitle.Name = "_btnColourAxisTitle";
-            this._btnColourAxisTitle.Size = new System.Drawing.Size(128, 32);
             this._btnColourAxisTitle.TabIndex = 4;
             this._btnColourAxisTitle.UseVisualStyleBackColor = false;
-            this._btnColourAxisTitle.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // _txtClusterInfo
             // 
@@ -468,6 +461,7 @@
             this._txtClusterInfo.Name = "_txtClusterInfo";
             this._txtClusterInfo.Size = new System.Drawing.Size(880, 29);
             this._txtClusterInfo.TabIndex = 6;
+            this._txtClusterInfo.Watermark = null;
             // 
             // label12
             // 
@@ -488,6 +482,7 @@
             this._txtClusterTitle.Name = "_txtClusterTitle";
             this._txtClusterTitle.Size = new System.Drawing.Size(880, 29);
             this._txtClusterTitle.TabIndex = 8;
+            this._txtClusterTitle.Watermark = null;
             // 
             // label13
             // 
@@ -508,6 +503,7 @@
             this._txtClusterXAxis.Name = "_txtClusterXAxis";
             this._txtClusterXAxis.Size = new System.Drawing.Size(880, 29);
             this._txtClusterXAxis.TabIndex = 12;
+            this._txtClusterXAxis.Watermark = null;
             // 
             // label14
             // 
@@ -528,6 +524,7 @@
             this._txtClusterSubtitle.Name = "_txtClusterSubtitle";
             this._txtClusterSubtitle.Size = new System.Drawing.Size(880, 29);
             this._txtClusterSubtitle.TabIndex = 10;
+            this._txtClusterSubtitle.Watermark = null;
             // 
             // label15
             // 
@@ -548,6 +545,7 @@
             this._txtClusterYAxis.Name = "_txtClusterYAxis";
             this._txtClusterYAxis.Size = new System.Drawing.Size(880, 29);
             this._txtClusterYAxis.TabIndex = 14;
+            this._txtClusterYAxis.Watermark = null;
             // 
             // label16
             // 
@@ -712,6 +710,7 @@
             this._txtPeakYAxis.Name = "_txtPeakYAxis";
             this._txtPeakYAxis.Size = new System.Drawing.Size(883, 29);
             this._txtPeakYAxis.TabIndex = 14;
+            this._txtPeakYAxis.Watermark = null;
             // 
             // _txtPeakInfo
             // 
@@ -722,6 +721,7 @@
             this._txtPeakInfo.Name = "_txtPeakInfo";
             this._txtPeakInfo.Size = new System.Drawing.Size(883, 29);
             this._txtPeakInfo.TabIndex = 6;
+            this._txtPeakInfo.Watermark = null;
             // 
             // _txtPeakXAxis
             // 
@@ -732,6 +732,7 @@
             this._txtPeakXAxis.Name = "_txtPeakXAxis";
             this._txtPeakXAxis.Size = new System.Drawing.Size(883, 29);
             this._txtPeakXAxis.TabIndex = 12;
+            this._txtPeakXAxis.Watermark = null;
             // 
             // label18
             // 
@@ -752,6 +753,7 @@
             this._txtPeakSubtitle.Name = "_txtPeakSubtitle";
             this._txtPeakSubtitle.Size = new System.Drawing.Size(883, 29);
             this._txtPeakSubtitle.TabIndex = 10;
+            this._txtPeakSubtitle.Watermark = null;
             // 
             // label19
             // 
@@ -772,6 +774,7 @@
             this._txtPeakTitle.Name = "_txtPeakTitle";
             this._txtPeakTitle.Size = new System.Drawing.Size(883, 29);
             this._txtPeakTitle.TabIndex = 8;
+            this._txtPeakTitle.Watermark = null;
             // 
             // label20
             // 
@@ -945,6 +948,7 @@
             this._txtCompYAxis.Name = "_txtCompYAxis";
             this._txtCompYAxis.Size = new System.Drawing.Size(883, 29);
             this._txtCompYAxis.TabIndex = 14;
+            this._txtCompYAxis.Watermark = null;
             // 
             // _txtCompInfo
             // 
@@ -954,6 +958,7 @@
             this._txtCompInfo.Name = "_txtCompInfo";
             this._txtCompInfo.Size = new System.Drawing.Size(883, 29);
             this._txtCompInfo.TabIndex = 6;
+            this._txtCompInfo.Watermark = null;
             // 
             // _txtCompXAxis
             // 
@@ -963,6 +968,7 @@
             this._txtCompXAxis.Name = "_txtCompXAxis";
             this._txtCompXAxis.Size = new System.Drawing.Size(883, 29);
             this._txtCompXAxis.TabIndex = 12;
+            this._txtCompXAxis.Watermark = null;
             // 
             // label23
             // 
@@ -982,6 +988,7 @@
             this._txtCompSubtitle.Name = "_txtCompSubtitle";
             this._txtCompSubtitle.Size = new System.Drawing.Size(883, 29);
             this._txtCompSubtitle.TabIndex = 10;
+            this._txtCompSubtitle.Watermark = null;
             // 
             // label24
             // 
@@ -1001,6 +1008,7 @@
             this._txtCompTitle.Name = "_txtCompTitle";
             this._txtCompTitle.Size = new System.Drawing.Size(883, 29);
             this._txtCompTitle.TabIndex = 8;
+            this._txtCompTitle.Watermark = null;
             // 
             // label25
             // 
@@ -1079,6 +1087,7 @@
             this._txtPathYAxis.Name = "_txtPathYAxis";
             this._txtPathYAxis.Size = new System.Drawing.Size(883, 29);
             this._txtPathYAxis.TabIndex = 14;
+            this._txtPathYAxis.Watermark = null;
             // 
             // _txtPathInfo
             // 
@@ -1088,6 +1097,7 @@
             this._txtPathInfo.Name = "_txtPathInfo";
             this._txtPathInfo.Size = new System.Drawing.Size(883, 29);
             this._txtPathInfo.TabIndex = 6;
+            this._txtPathInfo.Watermark = null;
             // 
             // _txtPathXAxis
             // 
@@ -1097,6 +1107,7 @@
             this._txtPathXAxis.Name = "_txtPathXAxis";
             this._txtPathXAxis.Size = new System.Drawing.Size(883, 29);
             this._txtPathXAxis.TabIndex = 12;
+            this._txtPathXAxis.Watermark = null;
             // 
             // label28
             // 
@@ -1116,6 +1127,7 @@
             this._txtPathSubtitle.Name = "_txtPathSubtitle";
             this._txtPathSubtitle.Size = new System.Drawing.Size(883, 29);
             this._txtPathSubtitle.TabIndex = 10;
+            this._txtPathSubtitle.Watermark = null;
             // 
             // label29
             // 
@@ -1135,6 +1147,7 @@
             this._txtPathTitle.Name = "_txtPathTitle";
             this._txtPathTitle.Size = new System.Drawing.Size(883, 29);
             this._txtPathTitle.TabIndex = 8;
+            this._txtPathTitle.Watermark = null;
             // 
             // label30
             // 
@@ -1243,7 +1256,7 @@
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(8, 392);
+            this.label44.Location = new System.Drawing.Point(8, 368);
             this.label44.Margin = new System.Windows.Forms.Padding(8);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(136, 21);
@@ -1253,7 +1266,7 @@
             // label43
             // 
             this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(8, 344);
+            this.label43.Location = new System.Drawing.Point(8, 323);
             this.label43.Margin = new System.Windows.Forms.Padding(8);
             this.label43.Name = "label43";
             this.label43.Size = new System.Drawing.Size(152, 21);
@@ -1263,7 +1276,7 @@
             // label42
             // 
             this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(8, 296);
+            this.label42.Location = new System.Drawing.Point(8, 278);
             this.label42.Margin = new System.Windows.Forms.Padding(8);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(93, 21);
@@ -1273,35 +1286,29 @@
             // _btnColourBackground
             // 
             this._btnColourBackground.BackColor = System.Drawing.Color.White;
-            this._btnColourBackground.Location = new System.Drawing.Point(176, 296);
+            this._btnColourBackground.Location = new System.Drawing.Point(176, 278);
             this._btnColourBackground.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourBackground.Name = "_btnColourBackground";
-            this._btnColourBackground.Size = new System.Drawing.Size(128, 32);
             this._btnColourBackground.TabIndex = 6;
             this._btnColourBackground.UseVisualStyleBackColor = false;
-            this._btnColourBackground.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // _btnColourPreviewBackground
             // 
             this._btnColourPreviewBackground.BackColor = System.Drawing.Color.White;
-            this._btnColourPreviewBackground.Location = new System.Drawing.Point(176, 344);
+            this._btnColourPreviewBackground.Location = new System.Drawing.Point(176, 323);
             this._btnColourPreviewBackground.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourPreviewBackground.Name = "_btnColourPreviewBackground";
-            this._btnColourPreviewBackground.Size = new System.Drawing.Size(128, 32);
             this._btnColourPreviewBackground.TabIndex = 8;
             this._btnColourPreviewBackground.UseVisualStyleBackColor = false;
-            this._btnColourPreviewBackground.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // _btnColourUntypedElements
             // 
             this._btnColourUntypedElements.BackColor = System.Drawing.Color.White;
-            this._btnColourUntypedElements.Location = new System.Drawing.Point(176, 392);
+            this._btnColourUntypedElements.Location = new System.Drawing.Point(176, 368);
             this._btnColourUntypedElements.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourUntypedElements.Name = "_btnColourUntypedElements";
-            this._btnColourUntypedElements.Size = new System.Drawing.Size(128, 32);
             this._btnColourUntypedElements.TabIndex = 10;
             this._btnColourUntypedElements.UseVisualStyleBackColor = false;
-            this._btnColourUntypedElements.Click += new System.EventHandler(this._btnColourCentre_Click);
             // 
             // tabPage7
             // 
@@ -1327,13 +1334,18 @@
             this.tableLayoutPanel7.Controls.Add(this._numThumbnail, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.label39, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.label40, 0, 1);
+            this.tableLayoutPanel7.Controls.Add(this.label45, 0, 2);
+            this.tableLayoutPanel7.Controls.Add(this._btnEditColumns, 1, 2);
+            this.tableLayoutPanel7.Controls.Add(this._btnEditDefaults, 1, 3);
+            this.tableLayoutPanel7.Controls.Add(this.label46, 0, 3);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.RowCount = 3;
+            this.tableLayoutPanel7.RowCount = 4;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(1007, 583);
             this.tableLayoutPanel7.TabIndex = 1;
             // 
@@ -1404,6 +1416,52 @@
             this.label40.Size = new System.Drawing.Size(200, 21);
             this.label40.TabIndex = 0;
             this.label40.Text = "Thumbnail size (windowed)";
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(8, 98);
+            this.label45.Margin = new System.Windows.Forms.Padding(8);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(72, 21);
+            this.label45.TabIndex = 0;
+            this.label45.Text = "Columns";
+            // 
+            // _btnEditColumns
+            // 
+            this._btnEditColumns.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
+            this._btnEditColumns.Location = new System.Drawing.Point(224, 98);
+            this._btnEditColumns.Margin = new System.Windows.Forms.Padding(8);
+            this._btnEditColumns.Name = "_btnEditColumns";
+            this._btnEditColumns.Size = new System.Drawing.Size(128, 40);
+            this._btnEditColumns.TabIndex = 4;
+            this._btnEditColumns.Text = "Edit...";
+            this._btnEditColumns.UseDefaultSize = true;
+            this._btnEditColumns.UseVisualStyleBackColor = true;
+            this._btnEditColumns.Click += new System.EventHandler(this._btnEditColumns_Click);
+            // 
+            // _btnEditDefaults
+            // 
+            this._btnEditDefaults.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
+            this._btnEditDefaults.Location = new System.Drawing.Point(224, 154);
+            this._btnEditDefaults.Margin = new System.Windows.Forms.Padding(8);
+            this._btnEditDefaults.Name = "_btnEditDefaults";
+            this._btnEditDefaults.Size = new System.Drawing.Size(128, 40);
+            this._btnEditDefaults.TabIndex = 4;
+            this._btnEditDefaults.Text = "Edit...";
+            this._btnEditDefaults.UseDefaultSize = true;
+            this._btnEditDefaults.UseVisualStyleBackColor = true;
+            this._btnEditDefaults.Click += new System.EventHandler(this._btnEditDefaults_Click);
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(8, 154);
+            this.label46.Margin = new System.Windows.Forms.Padding(8);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(67, 21);
+            this.label46.TabIndex = 0;
+            this.label46.Text = "Defaults";
             // 
             // flowLayoutPanel1
             // 
@@ -1549,18 +1607,18 @@
         private Controls.CtlButton _btnEditFlags;
         private Controls.CtlTextBox _txtEvalFilename;
         private System.Windows.Forms.Label label5;
-        private Controls.CtlButton _btnColourCentre;
+        private Controls.CtlColourEditor _btnColourCentre;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private Controls.CtlButton _btnColourSeries;
+        private Controls.CtlColourEditor _btnColourSeries;
         private System.Windows.Forms.Label label8;
-        private Controls.CtlButton _btnColourHighlight;
+        private Controls.CtlColourEditor _btnColourHighlight;
         private System.Windows.Forms.Label label9;
-        private Controls.CtlButton _btnColourMinorGrid;
+        private Controls.CtlColourEditor _btnColourMinorGrid;
         private System.Windows.Forms.Label label10;
-        private Controls.CtlButton _btnColourMajorGrid;
+        private Controls.CtlColourEditor _btnColourMajorGrid;
         private System.Windows.Forms.Label label11;
-        private Controls.CtlButton _btnColourAxisTitle;
+        private Controls.CtlColourEditor _btnColourAxisTitle;
         private Controls.CtlTextBox _txtClusterInfo;
         private System.Windows.Forms.Label label12;
         private Controls.CtlTextBox _txtClusterTitle;
@@ -1637,14 +1695,18 @@
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label42;
-        private Controls.CtlButton _btnColourBackground;
-        private Controls.CtlButton _btnColourPreviewBackground;
-        private Controls.CtlButton _btnColourUntypedElements;
+        private Controls.CtlColourEditor _btnColourBackground;
+        private Controls.CtlColourEditor _btnColourPreviewBackground;
+        private Controls.CtlColourEditor _btnColourUntypedElements;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.BindingSource coreOptionsBindingSource;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem resetToDefaultToolStripMenuItem;
+        private System.Windows.Forms.Label label45;
+        private Controls.CtlButton _btnEditColumns;
+        private Controls.CtlButton _btnEditDefaults;
+        private System.Windows.Forms.Label label46;
     }
 }

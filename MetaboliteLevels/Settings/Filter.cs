@@ -40,18 +40,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public bool Enabled { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        VisualClass IVisualisable.VisualClass
-        {
-            get
-            {
-                return VisualClass.None;
-            }
-        }
+        public bool Enabled { get; set; }   
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
@@ -106,15 +95,7 @@ namespace MetaboliteLevels.Settings
             result.Add("Parameters", EColumn.None, z => z.ParamsAsString());
 
             return result;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        void IVisualisable.RequestContents(ContentsRequest list)
-        {
-            // NA
-        }
+        }          
 
         #endregion
 
@@ -263,15 +244,7 @@ namespace MetaboliteLevels.Settings
                 }
             }
 
-            public string OverrideDisplayName { get; set; }
-
-            VisualClass IVisualisable.VisualClass
-            {
-                get
-                {
-                    return VisualClass.None;
-                }
-            }
+            public string OverrideDisplayName { get; set; }       
 
             IEnumerable<Column> IVisualisable.GetColumns(Core core)
             {
@@ -292,12 +265,7 @@ namespace MetaboliteLevels.Settings
             public bool Preview(T target)
             {
                 return (Test(target) ^ Negate);
-            }
-
-            void IVisualisable.RequestContents(ContentsRequest list)
-            {
-                // NA
-            }
+            }                                   
 
             public bool Test(bool previousResult, T target)
             {

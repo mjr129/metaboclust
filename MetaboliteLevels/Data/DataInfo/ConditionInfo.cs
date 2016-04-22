@@ -20,15 +20,7 @@ namespace MetaboliteLevels.Data.DataInfo
     {
         public const string ID_COLNAME_GROUP = "Group";
         public readonly int Time;
-        public readonly GroupInfo Group;
-
-        VisualClass IVisualisable.VisualClass
-        {
-            get
-            {
-                return VisualClass.None;
-            }
-        }
+        public readonly GroupInfo Group; 
 
         public string DisplayName
         {
@@ -92,11 +84,6 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("Enabled", EColumn.None, z => z.Enabled);
 
             return columns;
-        }
-
-        public void RequestContents(ContentsRequest list)
-        {
-            // NA
-        }
+        }      
     }
 }

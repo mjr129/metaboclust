@@ -972,10 +972,10 @@ namespace MetaboliteLevels.Forms.Startup
             return new DataSet<string>()
             {
                 Title = "Experimental Conditions",
-                List = new TypeCacheIdsWrapper( this ),
+                Source = new TypeCacheIdsWrapper( this ),
                 ItemNameProvider = ConditionBox_Namer,
                 ItemDescriptionProvider = ConditionBox_Describer,
-                NewItemRetriever = ConditionBox_Retriever,
+                DynamicItemRetriever = ConditionBox_Retriever,
             }.CreateConditionBox( textBox, button );
         }
 

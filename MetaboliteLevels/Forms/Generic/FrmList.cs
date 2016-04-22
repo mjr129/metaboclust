@@ -346,7 +346,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 if (!source.Contains(item))
                 {
-                    if (opts.AllowNewEntries)
+                    if (opts.DynamicEntries)
                     {
                         _handler.AddItem( item, opts.UntypedName( item ), opts.UntypedDescription( item ) );
                         _objects.Add( item );

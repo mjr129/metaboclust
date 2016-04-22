@@ -245,7 +245,7 @@ namespace MetaboliteLevels.Controls
                         }
                         else
                         {
-                            if (!_args.AllowNewEntries && !possibilities.Contains( choice ))
+                            if (!_args.DynamicEntries && !possibilities.Contains( choice ))
                             {
                                 _isSelectionValid = false;
                             }
@@ -266,9 +266,9 @@ namespace MetaboliteLevels.Controls
         {
             name = name.ToUpper().Trim();
 
-            if (_args.NewItemRetriever != null)
+            if (_args.DynamicItemRetriever != null)
             {
-                if (_args.NewItemRetriever(name, out result))
+                if (_args.DynamicItemRetriever(name, out result))
                 {
                     return true;
                 }

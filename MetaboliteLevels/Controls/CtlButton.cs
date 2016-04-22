@@ -25,8 +25,7 @@ namespace MetaboliteLevels.Controls
         /// CONSTRUCTOR
         /// </summary>
         public CtlButton()
-        {
-            Image = Resources.MnuAccept;
+        {                               
             FixAppearence();
         }
 

@@ -243,16 +243,24 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Implements IPreviewProvider
         /// </summary>
-        Image IPreviewProvider.ProvidePreview(Size s, IVisualisable o, IVisualisable o2)
+        Image IPreviewProvider.ProvidePreview(Size s, object utTarget, object utHighlight)
         {
+            IAssociational target = utTarget as IAssociational;
+            IAssociational highlight = utHighlight as IAssociational;
+
+            if (target == null)
+            {
+                return null;
+            }
+
             bool small = true;
 
-            BeginWait("Creating preview for " + o.DisplayName);
+            BeginWait("Creating preview for " + target.DisplayName);
             Bitmap result;
 
             try
             {
-                switch (o.VisualClass)
+                switch (target.VisualClass)
                 {
                     case VisualClass.Adduct:
                         {
@@ -262,7 +270,7 @@ namespace MetaboliteLevels.Forms
 
                     case VisualClass.Compound:
                         {
-                            StylisedCluster p = ((Compound)o).CreateStylisedCluster(_core, o2);
+                            StylisedCluster p = ((Compound)target).CreateStylisedCluster(_core, highlight);
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -270,7 +278,7 @@ namespace MetaboliteLevels.Forms
 
                     case VisualClass.Pathway:
                         {
-                            StylisedCluster p = ((Pathway)o).CreateStylisedCluster(_core, o2);
+                            StylisedCluster p = ((Pathway)target).CreateStylisedCluster(_core, highlight);
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -278,7 +286,7 @@ namespace MetaboliteLevels.Forms
 
                     case VisualClass.Cluster:
                         {
-                            StylisedCluster p = ((Cluster)o).CreateStylisedCluster(_core, o2);
+                            StylisedCluster p = ((Cluster)target).CreateStylisedCluster(_core, highlight);
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -286,7 +294,7 @@ namespace MetaboliteLevels.Forms
 
                     case VisualClass.Peak:
                         {
-                            StylisedPeak p = new StylisedPeak((Peak)o);
+                            StylisedPeak p = new StylisedPeak((Peak)target);
                             p.IsPreview = small;
                             result = _chartPeakForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -294,7 +302,7 @@ namespace MetaboliteLevels.Forms
 
                     case VisualClass.Assignment:
                         {
-                            StylisedCluster p = ((Assignment)o).CreateStylisedCluster(_core, o2);
+                            StylisedCluster p = ((Assignment)target).CreateStylisedCluster(_core, highlight);
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -302,7 +310,7 @@ namespace MetaboliteLevels.Forms
 
                     default:
                         {
-                            throw new InvalidOperationException("Invalid switch: " + o.VisualClass);
+                            throw new InvalidOperationException("Invalid switch: " + target.VisualClass);
                         }
                 }
             }
@@ -417,7 +425,7 @@ namespace MetaboliteLevels.Forms
                 _selection = selection;
 
                 // Update the lists
-                _subDisplay.Activate(selection.Primary);
+                _subDisplay.Activate(selection.Primary as IAssociational);
 
                 // Icons
                 if (selection.Primary != null)
@@ -460,7 +468,7 @@ namespace MetaboliteLevels.Forms
 
                 // Get the selection
                 Peak peak = selection.Primary as Peak ?? selection.Secondary as Peak;
-                IVisualisable cluster = ((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.Assignments.Clusters.FirstOrDefault();
+                IAssociational cluster = (((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.Assignments.Clusters.FirstOrDefault()) as IAssociational;
                 StylisedCluster sCluster;
 
                 // Plot that!
@@ -473,19 +481,19 @@ namespace MetaboliteLevels.Forms
                     switch (cluster.VisualClass)
                     {
                         case VisualClass.Assignment:
-                            sCluster = ((Assignment)cluster).CreateStylisedCluster(_core, selection.Secondary);
+                            sCluster = ((Assignment)cluster).CreateStylisedCluster(_core, selection.Secondary as IAssociational);
                             break;
 
                         case VisualClass.Cluster:
-                            sCluster = ((Cluster)cluster).CreateStylisedCluster(_core, selection.Secondary);
+                            sCluster = ((Cluster)cluster).CreateStylisedCluster(_core, selection.Secondary as IAssociational );
                             break;
 
                         case VisualClass.Compound:
-                            sCluster = ((Compound)cluster).CreateStylisedCluster(_core, selection.Secondary);
+                            sCluster = ((Compound)cluster).CreateStylisedCluster(_core, selection.Secondary as IAssociational );
                             break;
 
                         case VisualClass.Pathway:
-                            sCluster = ((Pathway)cluster).CreateStylisedCluster(_core, selection.Secondary);
+                            sCluster = ((Pathway)cluster).CreateStylisedCluster(_core, selection.Secondary as IAssociational );
                             break;
 
                         default:
@@ -1363,24 +1371,30 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void viewOnlineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_selectionMenuOpenedFromList != null)
+            string url;
+
+            if (_selectionMenuOpenedFromList is Compound)
             {
-                switch (_selectionMenuOpenedFromList.VisualClass)
-                {
-                    case VisualClass.Compound:
-                        Compound c = (Compound)_selectionMenuOpenedFromList;
-                        Process.Start(c.Url);
-                        break;
+                Compound c = (Compound)_selectionMenuOpenedFromList;
+                url = c.Url;
+            }
+            else if (_selectionMenuOpenedFromList is Pathway)
+            {
+                Pathway p = (Pathway)_selectionMenuOpenedFromList;
+                url = p.Url;
+            }
+            else
+            {
+                url = null;
+            }
 
-                    case VisualClass.Pathway:
-                        Pathway p = (Pathway)_selectionMenuOpenedFromList;
-                        Process.Start(p.Url);
-                        break;
-
-                    default:
-                        FrmMsgBox.ShowInfo(this, "View Online", "Only pathways and compounds taken from the online database can be viewed online.");
-                        break;
-                }
+            if (!string.IsNullOrEmpty( url ))
+            {
+                Process.Start( url );
+            }
+            else
+            {
+                FrmMsgBox.ShowInfo( this, "View Online", "Only pathways and compounds taken from the online database can be viewed online." );
             }
         }
 
@@ -1711,7 +1725,10 @@ namespace MetaboliteLevels.Forms
             MetricAlgorithms,
 
             [Name("Algorithms\\Clustering")]
-            ClusteringAlgorithms,          
+            ClusteringAlgorithms,
+
+            [Name( "Algorithms\\All" )]
+            AllAlgorithms,
         }                                 
 
         private void ShowEditor(EDataManager which)
@@ -1821,7 +1838,11 @@ namespace MetaboliteLevels.Forms
                 case EDataManager.TrendAndCorrectionAlgorithms:
                     DataSet.ForTrendAndCorrectionAlgorithms(_core).ShowListEditor(this);
                     break;
-                                         
+
+                case EDataManager.AllAlgorithms:
+                    DataSet.ForAllAlgorithms( _core ).ShowListEditor( this );
+                    break;
+
                 default:
                     break;
             }

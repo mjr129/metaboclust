@@ -45,13 +45,12 @@ namespace MetaboliteLevels.Algorithms.Statistics
         }
 
         protected abstract AlgoParameterCollection CreateParamaterDesription();
+                                                                  
+        string INameable.DisplayName => Name;
 
-        VisualClass IVisualisable.VisualClass => VisualClass.None;
-        string ITitlable.DisplayName => Name;
+        string INameable.DefaultDisplayName => Name;
 
-        string ITitlable.DefaultDisplayName => Name;
-
-        string ITitlable.OverrideDisplayName
+        string INameable.OverrideDisplayName
         {
             get
             {
@@ -63,7 +62,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             }
         }
 
-        string ITitlable.Comment
+        string INameable.Comment
         {
             get
             {
@@ -75,7 +74,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             }
         }
 
-        bool ITitlable.Enabled
+        bool INameable.Enabled
         {
             get
             {
@@ -102,12 +101,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             return Script != null ? UiControls.ImageListOrder.ScriptFile
                 : IsMathDotNet ? UiControls.ImageListOrder.ScriptMathDotNet
                 : UiControls.ImageListOrder.ScriptInbuilt;
-        }
-
-        void IVisualisable.RequestContents(ContentsRequest list)
-        {
-            // NA
-        }
+        }     
 
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {

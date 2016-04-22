@@ -142,7 +142,6 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             // Selection
             ClustererBase sel = (ClustererBase)this._ecbMethod.SelectedItem;
-            _checker.Check( _ecbMethod.ComboBox, sel != null, "A method is required." );    
 
             // Title / comments
             title = string.IsNullOrWhiteSpace(_txtName.Text) ? null : _txtName.Text;
@@ -150,15 +149,15 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Parameters
             object[] parameters;
 
-            if (sel != null && sel.Parameters.HasCustomisableParams)
+            if (sel != null)
             {
-                bool parametersValid = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out parameters );
-
-                _checker.Check( _txtParams, parametersValid, "Enter a set of valid parameters for your selected method" );
+                parameters = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
+                _checker.Check( _txtParams, parameters != null, "Enter a set of valid parameters for your selected method" );
             }
             else
             {
                 parameters = null;
+                _checker.Check( _ecbMethod.ComboBox, false, "A method is required." );
             }
 
             // Peak filter
@@ -182,19 +181,18 @@ namespace MetaboliteLevels.Forms.Algorithms
             MetricBase dMet;
 
             dMet = (MetricBase)_ecbMeasure.SelectedItem;
-            _checker.Check( _ecbMeasure.ComboBox, dMet != null, "Specify a distance measure" );
 
             // Distance metric params
             object[] dMetParams;
 
-            if (dMet != null && dMet.Parameters.HasCustomisableParams)
+            if (dMet != null)
             {
-                bool parametersValid = !dMet.Parameters.TryStringToParams( _core, _txtMeasureParams.Text, out dMetParams );
-                
-                _checker.Check( _txtMeasureParams, parametersValid, "Specify a set of valid parameters for your selected distance measure");
+                dMetParams = dMet.Parameters.TryStringToParams( _core, _txtMeasureParams.Text );
+                _checker.Check( _txtMeasureParams, dMetParams != null, "Specify a set of valid parameters for your selected distance measure" );
             }
             else
             {
+                _checker.Check( _ecbMeasure.ComboBox,false, "Specify a distance measure" );
                 dMetParams = null;
             }
 

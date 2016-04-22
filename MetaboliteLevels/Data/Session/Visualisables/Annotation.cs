@@ -12,7 +12,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// An annotation;
     /// </summary>
     [Serializable]
-    class Annotation : IVisualisable
+    class Annotation : IAssociational
     {
         public readonly Peak Peak;
         public readonly Compound Compound;
@@ -46,7 +46,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Unused (can't be disabled)
         /// </summary>
-        bool ITitlable.Enabled { get { return true; } set { } }
+        bool INameable.Enabled { get { return true; } set { } }
 
         public string DefaultDisplayName
         {
@@ -64,7 +64,7 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }    
 
-        VisualClass IVisualisable.VisualClass
+        VisualClass IAssociational.VisualClass
         {
             get
             {
@@ -92,7 +92,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return columns;
         }
 
-        void IVisualisable.RequestContents(ContentsRequest list)
+        void IAssociational.RequestContents(ContentsRequest list)
         {
             switch (list.Type)
             {
@@ -102,17 +102,17 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case VisualClass.Annotation:
-                    ((IVisualisable)Peak).RequestContents(list);
-                    ((IVisualisable)Compound).RequestContents(list);
+                    ((IAssociational)Peak).RequestContents(list);
+                    ((IAssociational)Compound).RequestContents(list);
                     list.Text = "Annotations with same peaks/compounds to {0}";
                     break;
 
                 case VisualClass.Assignment:
-                    ((IVisualisable)Peak).RequestContents(list);
+                    ((IAssociational)Peak).RequestContents(list);
                     break;
 
                 case VisualClass.Cluster:
-                    ((IVisualisable)Peak).RequestContents(list);
+                    ((IAssociational)Peak).RequestContents(list);
                     break;
 
                 case VisualClass.Compound:
@@ -121,8 +121,8 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case VisualClass.Pathway:
-                    ((IVisualisable)Peak).RequestContents(list);
-                    ((IVisualisable)Compound).RequestContents(list);
+                    ((IAssociational)Peak).RequestContents(list);
+                    ((IAssociational)Compound).RequestContents(list);
                     break;
 
                 case VisualClass.Peak:
