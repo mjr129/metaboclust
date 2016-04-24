@@ -526,7 +526,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                         FrmMsgBox.ShowError(this, "The evaluations cannot be conducted because the session has not yet been saved. Please return to the main screen and save the session before continuing.");
                         return;
                     }
-                    else if (!FrmMsgBox.ShowOkCancel(this, "Save Session", "To avoid data loss the current session must be saved. The current session is \"" + _core.FileNames.Session + "\".", "FrmEvaluateClustering.SaveBetweenEvaluations", DialogResult.OK))
+                    else if (!FrmMsgBox.ShowOkCancel(this, "Save Session", "To avoid data loss the current session must be saved. The current session is \"" + _core.FileNames.Session + "\".", FrmMsgBox.EDontShowAgainId.SAVE_BETWEEN_EVALUATIONS, DialogResult.OK))
                     {
                         return;
                     }
@@ -693,7 +693,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             FrmWait.Show(this, "Please wait", null, z => SaveResults(_core, fn, null, _selectedResults, z));
 
-            FrmMsgBox.ShowInfo(this, "Export Notice", "Results have been exported. Exported data will only be compatible with the current data set.", "FrmEvaluateClustering.ExportNotice");
+            FrmMsgBox.ShowInfo(this, "Export Notice", "Results have been exported. Exported data will only be compatible with the current data set.", FrmMsgBox.EDontShowAgainId.EXPORT_DATA_NOTICE);
         }
 
         /// <summary>
@@ -833,7 +833,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _core.EvaluationResultFiles.Add(new ClusterEvaluationPointer(fn));
 
-            FrmMsgBox.ShowInfo(this, "Import Results", "The file(s) have been imported into the current session. The complete details for these will not be available until the results are loaded.", "92906743-FBB5-4645-8DFA-0B75D5CBE75A");
+            FrmMsgBox.ShowInfo(this, "Import Results", "The file(s) have been imported into the current session. The complete details for these will not be available until the results are loaded.", FrmMsgBox.EDontShowAgainId.IMPORT_RESULTS_NOTICE);
         }
 
         /// <summary>
@@ -856,7 +856,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _core.EvaluationResultFiles.Remove(res);
                 _core.EvaluationResultFiles.Add(new ClusterEvaluationPointer(res.FileName, set.Configuration));
 
-                FrmMsgBox.ShowInfo(this, "Imported results", "The details on this result set have been imported into the current session. You will have to save the session to view these details in future.", "5E0F2D8D-F4CD-4D92-8E18-62B67743EAC1");
+                FrmMsgBox.ShowInfo(this, "Imported results", "The details on this result set have been imported into the current session. You will have to save the session to view these details in future.", FrmMsgBox.EDontShowAgainId.IMPORT_RESULTS_DETAILS_NOTICE);
             }
 
             if (set != null)

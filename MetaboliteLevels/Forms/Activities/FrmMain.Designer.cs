@@ -307,7 +307,7 @@ namespace MetaboliteLevels.Forms
             // 
             // dataInRFormatToolStripMenuItem
             // 
-            this.dataInRFormatToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuR;
+            this.dataInRFormatToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconR;
             this.dataInRFormatToolStripMenuItem.Name = "dataInRFormatToolStripMenuItem";
             this.dataInRFormatToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.dataInRFormatToolStripMenuItem.Text = "&RData (all data)...";
@@ -431,7 +431,7 @@ namespace MetaboliteLevels.Forms
             // 
             // pCAToolStripMenuItem
             // 
-            this.pCAToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLPca;
+            this.pCAToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconPca;
             this.pCAToolStripMenuItem.Name = "pCAToolStripMenuItem";
             this.pCAToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
@@ -446,7 +446,7 @@ namespace MetaboliteLevels.Forms
             // 
             // editCorrectionsToolStripMenuItem
             // 
-            this.editCorrectionsToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCorrect;
+            this.editCorrectionsToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCorrect;
             this.editCorrectionsToolStripMenuItem.Name = "editCorrectionsToolStripMenuItem";
             this.editCorrectionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
             this.editCorrectionsToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
@@ -455,7 +455,7 @@ namespace MetaboliteLevels.Forms
             // 
             // edittrendToolStripMenuItem
             // 
-            this.edittrendToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptTrend;
+            this.edittrendToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconScriptTrend;
             this.edittrendToolStripMenuItem.Name = "edittrendToolStripMenuItem";
             this.edittrendToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
             this.edittrendToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
@@ -464,7 +464,7 @@ namespace MetaboliteLevels.Forms
             // 
             // editStatisticsToolStripMenuItem
             // 
-            this.editStatisticsToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptStatistic;
+            this.editStatisticsToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconScriptStatistic;
             this.editStatisticsToolStripMenuItem.Name = "editStatisticsToolStripMenuItem";
             this.editStatisticsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
             this.editStatisticsToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
@@ -473,7 +473,7 @@ namespace MetaboliteLevels.Forms
             // 
             // createclustersToolStripMenuItem
             // 
-            this.createclustersToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this.createclustersToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.createclustersToolStripMenuItem.Name = "createclustersToolStripMenuItem";
             this.createclustersToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
             this.createclustersToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
@@ -487,7 +487,7 @@ namespace MetaboliteLevels.Forms
             // 
             // peakFiltersToolStripMenuItem
             // 
-            this.peakFiltersToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.SmallObjFilter;
+            this.peakFiltersToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuFilter;
             this.peakFiltersToolStripMenuItem.Name = "peakFiltersToolStripMenuItem";
             this.peakFiltersToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
             this.peakFiltersToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
@@ -496,7 +496,7 @@ namespace MetaboliteLevels.Forms
             // 
             // observationFiltersToolStripMenuItem
             // 
-            this.observationFiltersToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.SmallObjFilter;
+            this.observationFiltersToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuFilter;
             this.observationFiltersToolStripMenuItem.Name = "observationFiltersToolStripMenuItem";
             this.observationFiltersToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D6)));
             this.observationFiltersToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
@@ -510,7 +510,7 @@ namespace MetaboliteLevels.Forms
             // 
             // clusterParameterOptimiserToolStripMenuItem
             // 
-            this.clusterParameterOptimiserToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this.clusterParameterOptimiserToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.clusterParameterOptimiserToolStripMenuItem.Name = "clusterParameterOptimiserToolStripMenuItem";
             this.clusterParameterOptimiserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.F4)));
@@ -520,7 +520,7 @@ namespace MetaboliteLevels.Forms
             // 
             // autogenerateToolStripMenuItem
             // 
-            this.autogenerateToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this.autogenerateToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.autogenerateToolStripMenuItem.Name = "autogenerateToolStripMenuItem";
             this.autogenerateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
@@ -664,7 +664,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton1
             // 
-            this.toolStripButton1.Image = global::MetaboliteLevels.Properties.Resources.ObjSave;
+            this.toolStripButton1.Image = global::MetaboliteLevels.Properties.Resources.IconSave;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
             this.toolStripButton1.Name = "toolStripButton1";
@@ -681,7 +681,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton5
             // 
-            this.toolStripButton5.Image = global::MetaboliteLevels.Properties.Resources.ObjPrefs;
+            this.toolStripButton5.Image = global::MetaboliteLevels.Properties.Resources.IconPreferences;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
             this.toolStripButton5.Size = new System.Drawing.Size(37, 43);
@@ -691,7 +691,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton8
             // 
-            this.toolStripButton8.Image = global::MetaboliteLevels.Properties.Resources.ObjLGroups;
+            this.toolStripButton8.Image = global::MetaboliteLevels.Properties.Resources.IconGroups;
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
             this.toolStripButton8.Size = new System.Drawing.Size(49, 43);
@@ -701,7 +701,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton7
             // 
-            this.toolStripButton7.Image = global::MetaboliteLevels.Properties.Resources.ObjLPca;
+            this.toolStripButton7.Image = global::MetaboliteLevels.Properties.Resources.IconPca;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
             this.toolStripButton7.Size = new System.Drawing.Size(34, 43);
@@ -717,7 +717,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton2
             // 
-            this.toolStripButton2.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCorrect;
+            this.toolStripButton2.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCorrect;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(50, 43);
@@ -734,7 +734,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton3
             // 
-            this.toolStripButton3.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptTrend;
+            this.toolStripButton3.Image = global::MetaboliteLevels.Properties.Resources.IconScriptTrend;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(42, 43);
@@ -751,7 +751,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton4
             // 
-            this.toolStripButton4.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptStatistic;
+            this.toolStripButton4.Image = global::MetaboliteLevels.Properties.Resources.IconScriptStatistic;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(36, 43);
@@ -768,7 +768,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton6
             // 
-            this.toolStripButton6.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this.toolStripButton6.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
             this.toolStripButton6.Size = new System.Drawing.Size(48, 43);
@@ -784,7 +784,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton9
             // 
-            this.toolStripButton9.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this.toolStripButton9.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton9.Name = "toolStripButton9";
             this.toolStripButton9.Size = new System.Drawing.Size(47, 43);
@@ -795,7 +795,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton10
             // 
-            this.toolStripButton10.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this.toolStripButton10.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton10.Name = "toolStripButton10";
             this.toolStripButton10.Size = new System.Drawing.Size(59, 43);
@@ -823,7 +823,7 @@ namespace MetaboliteLevels.Forms
             this.editNameAndCommentsToolStripMenuItem,
             this.sessionInformationToolStripMenuItem});
             this._btnSession.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnSession.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
+            this._btnSession.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
             this._btnSession.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSession.Name = "_btnSession";
             this._btnSession.ShowDropDownArrow = false;
@@ -1145,7 +1145,7 @@ namespace MetaboliteLevels.Forms
             this._btnMain0.AutoSize = false;
             this._btnMain0.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMain0.ForeColor = System.Drawing.Color.Black;
-            this._btnMain0.Image = global::MetaboliteLevels.Properties.Resources.ObjLVariableU;
+            this._btnMain0.Image = global::MetaboliteLevels.Properties.Resources.IconPeak;
             this._btnMain0.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain0.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain0.Name = "_btnMain0";
@@ -1159,7 +1159,7 @@ namespace MetaboliteLevels.Forms
             this._btnMain1.AutoSize = false;
             this._btnMain1.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMain1.ForeColor = System.Drawing.Color.Black;
-            this._btnMain1.Image = global::MetaboliteLevels.Properties.Resources.ObjLCluster;
+            this._btnMain1.Image = global::MetaboliteLevels.Properties.Resources.IconCluster;
             this._btnMain1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain1.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain1.Name = "_btnMain1";
@@ -1173,7 +1173,7 @@ namespace MetaboliteLevels.Forms
             this._btnMain5.AutoSize = false;
             this._btnMain5.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMain5.ForeColor = System.Drawing.Color.Black;
-            this._btnMain5.Image = global::MetaboliteLevels.Properties.Resources.ObjLAssignment;
+            this._btnMain5.Image = global::MetaboliteLevels.Properties.Resources.IconVector;
             this._btnMain5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain5.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain5.Name = "_btnMain5";
@@ -1187,7 +1187,7 @@ namespace MetaboliteLevels.Forms
             this._btnMainAnnots.AutoSize = false;
             this._btnMainAnnots.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMainAnnots.ForeColor = System.Drawing.Color.Black;
-            this._btnMainAnnots.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompound;
+            this._btnMainAnnots.Image = global::MetaboliteLevels.Properties.Resources.IconCompound;
             this._btnMainAnnots.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMainAnnots.Margin = new System.Windows.Forms.Padding(0);
             this._btnMainAnnots.Name = "_btnMainAnnots";
@@ -1201,7 +1201,7 @@ namespace MetaboliteLevels.Forms
             this._btnMain2.AutoSize = false;
             this._btnMain2.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMain2.ForeColor = System.Drawing.Color.Black;
-            this._btnMain2.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompoundU;
+            this._btnMain2.Image = global::MetaboliteLevels.Properties.Resources.IconCompound;
             this._btnMain2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain2.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain2.Name = "_btnMain2";
@@ -1215,7 +1215,7 @@ namespace MetaboliteLevels.Forms
             this._btnMain3.AutoSize = false;
             this._btnMain3.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMain3.ForeColor = System.Drawing.Color.Black;
-            this._btnMain3.Image = global::MetaboliteLevels.Properties.Resources.ObjLAdduct;
+            this._btnMain3.Image = global::MetaboliteLevels.Properties.Resources.IconAdduct;
             this._btnMain3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain3.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain3.Name = "_btnMain3";
@@ -1229,7 +1229,7 @@ namespace MetaboliteLevels.Forms
             this._btnMain4.AutoSize = false;
             this._btnMain4.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMain4.ForeColor = System.Drawing.Color.Black;
-            this._btnMain4.Image = global::MetaboliteLevels.Properties.Resources.ObjLPathway;
+            this._btnMain4.Image = global::MetaboliteLevels.Properties.Resources.IconPathway;
             this._btnMain4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMain4.Margin = new System.Windows.Forms.Padding(0);
             this._btnMain4.Name = "_btnMain4";
@@ -1582,7 +1582,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubInfo.AutoSize = false;
             this._btnSubInfo.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubInfo.ForeColor = System.Drawing.Color.Black;
-            this._btnSubInfo.Image = global::MetaboliteLevels.Properties.Resources.ObjLInfo;
+            this._btnSubInfo.Image = global::MetaboliteLevels.Properties.Resources.IconInformation;
             this._btnSubInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubInfo.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubInfo.Name = "_btnSubInfo";
@@ -1596,7 +1596,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubStat.AutoSize = false;
             this._btnSubStat.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubStat.ForeColor = System.Drawing.Color.Black;
-            this._btnSubStat.Image = global::MetaboliteLevels.Properties.Resources.ObjLStatistics;
+            this._btnSubStat.Image = global::MetaboliteLevels.Properties.Resources.IconStatistics;
             this._btnSubStat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubStat.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubStat.Name = "_btnSubStat";
@@ -1610,7 +1610,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubPeak.AutoSize = false;
             this._btnSubPeak.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubPeak.ForeColor = System.Drawing.Color.Black;
-            this._btnSubPeak.Image = global::MetaboliteLevels.Properties.Resources.ObjLVariableU;
+            this._btnSubPeak.Image = global::MetaboliteLevels.Properties.Resources.IconPeak;
             this._btnSubPeak.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubPeak.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPeak.Name = "_btnSubPeak";
@@ -1624,7 +1624,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubPat.AutoSize = false;
             this._btnSubPat.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubPat.ForeColor = System.Drawing.Color.Black;
-            this._btnSubPat.Image = global::MetaboliteLevels.Properties.Resources.ObjLCluster;
+            this._btnSubPat.Image = global::MetaboliteLevels.Properties.Resources.IconCluster;
             this._btnSubPat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubPat.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPat.Name = "_btnSubPat";
@@ -1638,7 +1638,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubAss.AutoSize = false;
             this._btnSubAss.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubAss.ForeColor = System.Drawing.Color.Black;
-            this._btnSubAss.Image = global::MetaboliteLevels.Properties.Resources.ObjLAssignment;
+            this._btnSubAss.Image = global::MetaboliteLevels.Properties.Resources.IconVector;
             this._btnSubAss.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubAss.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAss.Name = "_btnSubAss";
@@ -1652,7 +1652,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubAnnot.AutoSize = false;
             this._btnSubAnnot.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubAnnot.ForeColor = System.Drawing.Color.Black;
-            this._btnSubAnnot.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompound;
+            this._btnSubAnnot.Image = global::MetaboliteLevels.Properties.Resources.IconCompound;
             this._btnSubAnnot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubAnnot.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAnnot.Name = "_btnSubAnnot";
@@ -1666,7 +1666,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubComp.AutoSize = false;
             this._btnSubComp.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubComp.ForeColor = System.Drawing.Color.Black;
-            this._btnSubComp.Image = global::MetaboliteLevels.Properties.Resources.ObjLCompoundU;
+            this._btnSubComp.Image = global::MetaboliteLevels.Properties.Resources.IconCompound;
             this._btnSubComp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubComp.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubComp.Name = "_btnSubComp";
@@ -1680,7 +1680,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubAdd.AutoSize = false;
             this._btnSubAdd.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubAdd.ForeColor = System.Drawing.Color.Black;
-            this._btnSubAdd.Image = global::MetaboliteLevels.Properties.Resources.ObjLAdduct;
+            this._btnSubAdd.Image = global::MetaboliteLevels.Properties.Resources.IconAdduct;
             this._btnSubAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubAdd.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAdd.Name = "_btnSubAdd";
@@ -1694,7 +1694,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubPath.AutoSize = false;
             this._btnSubPath.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubPath.ForeColor = System.Drawing.Color.Black;
-            this._btnSubPath.Image = global::MetaboliteLevels.Properties.Resources.ObjLPathway;
+            this._btnSubPath.Image = global::MetaboliteLevels.Properties.Resources.IconPathway;
             this._btnSubPath.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubPath.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubPath.Name = "_btnSubPath";
@@ -1721,7 +1721,7 @@ namespace MetaboliteLevels.Forms
             // _btnBack
             // 
             this._btnBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._btnBack.Image = global::MetaboliteLevels.Properties.Resources.ObjBack;
+            this._btnBack.Image = global::MetaboliteLevels.Properties.Resources.IconBack;
             this._btnBack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnBack.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
             this._btnBack.Name = "_btnBack";
@@ -1735,7 +1735,7 @@ namespace MetaboliteLevels.Forms
             // _btnSelection
             // 
             this._btnSelection.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnSelection.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
+            this._btnSelection.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
             this._btnSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSelection.Name = "_btnSelection";
             this._btnSelection.ShowDropDownArrow = false;
@@ -1759,7 +1759,7 @@ namespace MetaboliteLevels.Forms
             // _btnSelectionExterior
             // 
             this._btnSelectionExterior.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnSelectionExterior.Image = global::MetaboliteLevels.Properties.Resources.ObjLCore;
+            this._btnSelectionExterior.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
             this._btnSelectionExterior.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSelectionExterior.Name = "_btnSelectionExterior";
             this._btnSelectionExterior.ShowDropDownArrow = false;

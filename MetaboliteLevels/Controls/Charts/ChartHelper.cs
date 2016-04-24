@@ -118,7 +118,7 @@ namespace MetaboliteLevels.Viewers.Charts
             this._menuBar.Items.Add(_mnuPlot);
 
             // USER DETAILS BUTTON
-            _mnuCustomText = new ToolStripDropDownButton(Resources.ObjLInfo);
+            _mnuCustomText = new ToolStripDropDownButton(Resources.IconInformation);
             _mnuCustomText.DropDownItems.Add("Configure...", null, _userDetailsButton_Clicked);
             _mnuCustomText.ShowDropDownArrow = false;
             _mnuCustomText.Visible           = false;
@@ -129,11 +129,11 @@ namespace MetaboliteLevels.Viewers.Charts
             _chart.AddControls( _menuBar );
 
             // SELECTION BUTTONS
-            _mnuSelectedIntensity = CreateSelectionButton(Resources.ObjLIntensity);
-            _mnuSelectedReplicate = CreateSelectionButton(Resources.ObjLReplicate);
-            _mnuSelectedTime      = CreateSelectionButton(Resources.ObjLTime);
+            _mnuSelectedIntensity = CreateSelectionButton(Resources.IconIntensity);
+            _mnuSelectedReplicate = CreateSelectionButton(Resources.IconReplicate);
+            _mnuSelectedTime      = CreateSelectionButton(Resources.IconTime);
             _mnuSelectedGroup     = CreateSelectionButton(Resources.MnuWarning);
-            _mnuSelectedPeak      = CreateSelectionButton(Resources.ObjLVariableU);
+            _mnuSelectedPeak      = CreateSelectionButton(Resources.IconPeak);
             _mnuSelectedSeries    = CreateSelectionButton(Resources.MnuWarning);
 
             // PLOT BUTTON ITEMS       
@@ -299,7 +299,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 else
                 {
                     _mnuPlot.Text          = "No selection";
-                    _mnuPlot.Image         = Resources.ObjNone;
+                    _mnuPlot.Image         = Resources.IconTransparent;
                     _mnuPlot.Visible       = false;
                     _mnuCustomText.Text    = "";
                     _mnuCustomText.Visible = false;

@@ -268,10 +268,10 @@ namespace MetaboliteLevels.Viewers.Lists
             ToolStripMenuItem s = (ToolStripMenuItem)sender;
             Column c = (Column)s.Tag;
 
-            c.Enabled = !c.Enabled;
-            s.Checked = c.Enabled;
+            c.Visible = !c.Visible;
+            s.Checked = c.Visible;
 
-            if (c.Enabled)
+            if (c.Visible)
             {
                 c.DisplayIndex = _listView.Columns.Count;
             }
@@ -456,18 +456,18 @@ namespace MetaboliteLevels.Viewers.Lists
 
                     menuTarget.DropDownItems.Insert(addAt, tsmi);
 
-                    tsmi.Checked = col.Enabled;
+                    tsmi.Checked = col.Visible;
                 }
             }
         }    
 
         private void EditColumnsAsList_Click(object sender, EventArgs e)
         {
-            IEnumerable<Column> selected = DataSet.ForColumns(_availableColumns).ShowCheckList(this.ListView.FindForm(), _availableColumns.Where(z => !z.IsAlwaysEmpty && z.Enabled ) );
+            IEnumerable<Column> selected = DataSet.ForColumns(_availableColumns).ShowCheckList(this.ListView.FindForm(), _availableColumns.Where(z => !z.IsAlwaysEmpty && z.Visible ) );
 
             if (selected != null)
             {
-                _availableColumns.ForEach(z => z.Enabled = z.IsAlwaysEmpty || selected.Contains(z));
+                _availableColumns.ForEach(z => z.Visible = z.IsAlwaysEmpty || selected.Contains(z));
             }
 
             SaveColumnUserPreferences();
@@ -479,7 +479,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         void _descm_Click(object sender, EventArgs e)
         {
-            FrmInputMultiLine.ShowFixed(ListView.FindForm(), "Help", _clickedColumn.Id, null, _clickedColumn.Description);
+            FrmInputMultiLine.ShowFixed(ListView.FindForm(), "Help", "Column Help", _clickedColumn.Id, _clickedColumn.Description);
         }
 
         void _filterm_Click(object sender, EventArgs e)
@@ -509,7 +509,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         void _hidecol_Click(object sender, EventArgs e)
         {
-            _clickedColumn.Enabled = !_clickedColumn.Enabled;
+            _clickedColumn.Visible = !_clickedColumn.Visible;
             SaveColumnUserPreferences();
             Rebuild(EListInvalids.ToggleColumn);
         }
@@ -788,12 +788,24 @@ namespace MetaboliteLevels.Viewers.Lists
 
             foreach (Column c in _availableColumns.OrderBy(λ => λ.DisplayIndex))
             {
-                if (c.Enabled)
+                if (c.Visible)
                 {
                     var h = _listView.Columns.Add(c.ToString());
                     c.Header = h;
                     h.Tag = c;
                 }
+            }
+
+            if (_listView.Columns.Count == 0 && _availableColumns.Count != 0)
+            {
+                // If the user hides all the columns we won't be able to create new items
+                // Then we won't know the item type.
+                // Then we won't be able to show the column selector
+                // So the user can never get the columns back
+                // In short, don't hide all the columns.
+                var h = _listView.Columns.Add( "" );
+                _availableColumns[0].Header = h;
+                h.Tag = _availableColumns[0];
             }
 
             foreach (ColumnHeader h in _listView.Columns)
@@ -1013,7 +1025,7 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 Column c = (Column)h.Tag;
 
-                System.Diagnostics.Debug.Assert(c.Enabled );
+                System.Diagnostics.Debug.Assert(c.Visible );
 
                 if (!c.IsAlwaysEmpty)
                 {

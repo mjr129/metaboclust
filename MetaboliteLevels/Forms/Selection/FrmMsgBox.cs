@@ -12,6 +12,17 @@ namespace MetaboliteLevels.Forms.Generic
 {
     public partial class FrmMsgBox : Form
     {
+        public enum EDontShowAgainId
+        {
+            None,
+            SAVE_BETWEEN_EVALUATIONS,
+            IMPORT_RESULTS_NOTICE,
+            IMPORT_RESULTS_DETAILS_NOTICE,
+            CHANGE_EXPERIMENTAL_GROUP_ID,
+            EDIT_WITH_RESULTS,
+            EXPORT_DATA_NOTICE
+        }
+
         public class ButtonSet
         {
             public string Text;
@@ -28,10 +39,10 @@ namespace MetaboliteLevels.Forms.Generic
 
         internal static bool ShowOkCancel(Form owner, string title, string message, Image image = null)
         {
-            return ShowOkCancel(owner, title, message, null, null, image);
+            return ShowOkCancel(owner, title, message, EDontShowAgainId.None, null, image);
         }
 
-        internal static bool ShowOkCancel(Form owner, string title, string message, string dontShowAgainId, DialogResult? dontShowAgainValue, Image image = null)
+        internal static bool ShowOkCancel(Form owner, string title, string message, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue, Image image = null)
         {
             if (image == null)
             {
@@ -94,16 +105,16 @@ namespace MetaboliteLevels.Forms.Generic
             Show(owner, title, null, message, Resources.MsgInfo, buttons);
         }
 
-        public static void ShowInfo(Form owner, string title, string message, string dontShowAgainId)
+        public static void ShowInfo(Form owner, string title, string message, EDontShowAgainId dontShowAgainId )
         {
             ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
             Show(owner, title, null, message, Resources.MsgInfo, buttons, null, null, dontShowAgainId, null);
         }
 
-        public static void ShowWarning(Form owner, string title, string message)
+        public static void ShowWarning(Form owner, string title, string message, EDontShowAgainId dontShowAgainId = EDontShowAgainId.None )
         {
             ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
-            Show(owner, title, null, message, Resources.MsgWarning, buttons);
+            Show(owner, title, null, message, Resources.MsgWarning, buttons, dontShowAgainId, null);
         }
 
         public static void ShowError(Form owner, string title, string message)
@@ -188,16 +199,16 @@ namespace MetaboliteLevels.Forms.Generic
 
         public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons)
         {
-            return Show(owner, title, subTitle, message, image, buttons, null, null, null, null);
+            return Show(owner, title, subTitle, message, image, buttons, null, null, EDontShowAgainId.None, null);
         }
-        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, string dontShowAgainId, DialogResult? dontShowAgainValue)
+        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue)
         {
             return Show(owner, title, subTitle, message, image, buttons, null, null, dontShowAgainId, dontShowAgainValue);
         }
 
         public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, DialogResult? defaultButton, DialogResult? cancelButton)
         {
-            return Show(owner, title, subTitle, message, image, buttons, defaultButton, cancelButton, null, null);
+            return Show(owner, title, subTitle, message, image, buttons, defaultButton, cancelButton, EDontShowAgainId.None, null);
         }
 
         /// <summary>
@@ -214,11 +225,11 @@ namespace MetaboliteLevels.Forms.Generic
         /// <param name="dontShowAgainId">ID of don't show again status (or NULL to disable option).</param>
         /// <param name="dontShowAgainValue">Which button to enable if dontShowAgainId is set (or NULL to allow any and remember the result)</param>
         /// <returns>Dialog result of selected button, or dontShowAgainValue if previously set to not show again.</returns>
-        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, DialogResult? defaultButton, DialogResult? cancelButton, string dontShowAgainId, DialogResult? dontShowAgainValue)
+        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, DialogResult? defaultButton, DialogResult? cancelButton, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue)
         {
             string id = null;
 
-            if (dontShowAgainId != null)
+            if (dontShowAgainId != EDontShowAgainId.None)
             {
                 id = "FrmMsgBox." + dontShowAgainId;
                 int v;
@@ -236,7 +247,7 @@ namespace MetaboliteLevels.Forms.Generic
                 }
             }
 
-            using (FrmMsgBox frm = new FrmMsgBox(title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainId != null, dontShowAgainValue))
+            using (FrmMsgBox frm = new FrmMsgBox(title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainId != EDontShowAgainId.None, dontShowAgainValue))
             {
                 DialogResult result = UiControls.ShowWithDim(owner, frm);
 

@@ -157,7 +157,7 @@
             // 
             // _btnNext
             // 
-            this._btnNext.Image = global::MetaboliteLevels.Properties.Resources.arrow_Forward_16xLG;
+            this._btnNext.Image = global::MetaboliteLevels.Properties.Resources.MnuNext;
             this._btnNext.Location = new System.Drawing.Point(412, 8);
             this._btnNext.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnNext.Name = "_btnNext";

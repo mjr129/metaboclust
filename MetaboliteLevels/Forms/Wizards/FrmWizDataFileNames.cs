@@ -939,8 +939,8 @@ namespace MetaboliteLevels.Forms.Startup
 
                                 for (int row = 0; row < info.NumRows; row++)
                                 {
-                                    string id = info[row, typeCol];
-
+                                    string id = typeCol == -1 ? "A" : info[row, typeCol];
+                                                          
                                     if (!_typeCacheNames.ContainsKey( id ))
                                     {
                                         _typeCacheNames.Add( id, id );

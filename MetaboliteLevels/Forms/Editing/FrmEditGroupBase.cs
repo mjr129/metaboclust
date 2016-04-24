@@ -1,4 +1,5 @@
 ﻿using MetaboliteLevels.Data.DataInfo;
+using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Utilities;
 using System;
 using System.Collections.Generic;
@@ -88,7 +89,20 @@ namespace MetaboliteLevels.Forms.Editing
             _group.OverrideShortName = this._txtAbvTitle.Text;
             _group.Comment = this._txtComments.Text;
             _group.SetColour(_colour);
+            _group.StringId = _txtId.Text;
             DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
+
+        private void _btnEditId_Click( object sender, EventArgs e )
+        {
+            FrmMsgBox.ShowWarning( this, "Edit ID", "The ID represents the identifier used when the data was first loaded. It must be unique. Changing the ID may have unintended consequences.", FrmMsgBox.EDontShowAgainId.CHANGE_EXPERIMENTAL_GROUP_ID );
+
+            string newId = FrmInputSingleLine.Show( this, Text, "Edit ID", _group.DisplayName, _txtId.Text );
+
+            if (newId != null)
+            {
+                _txtId.Text = newId;
+            }
         }
     }
 }

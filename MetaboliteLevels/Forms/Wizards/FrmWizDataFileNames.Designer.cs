@@ -1349,7 +1349,7 @@
             // 
             // _btnAddAllCompounds
             // 
-            this._btnAddAllCompounds.Image = global::MetaboliteLevels.Properties.Resources.ListMembers_2407;
+            this._btnAddAllCompounds.Image = global::MetaboliteLevels.Properties.Resources.MnuAll;
             this._btnAddAllCompounds.Location = new System.Drawing.Point(8, 45);
             this._btnAddAllCompounds.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
             this._btnAddAllCompounds.Name = "_btnAddAllCompounds";

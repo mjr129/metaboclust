@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this._btnColour = new MetaboliteLevels.Controls.CtlColourEditor();
             this._btnComment = new MetaboliteLevels.Controls.CtlButton();
             this.label1 = new System.Windows.Forms.Label();
             this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
@@ -47,7 +48,6 @@
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.ctlError1 = new MetaboliteLevels.Controls.CtlError(this.components);
-            this._btnColour = new MetaboliteLevels.Controls.CtlColourEditor();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._numFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numDuration)).BeginInit();
@@ -88,9 +88,17 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(761, 499);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // _btnColour
+            // 
+            this._btnColour.Location = new System.Drawing.Point(141, 98);
+            this._btnColour.Margin = new System.Windows.Forms.Padding(8);
+            this._btnColour.Name = "_btnColour";
+            this._btnColour.TabIndex = 2;
+            this._btnColour.UseVisualStyleBackColor = true;
+            // 
             // _btnComment
             // 
-            this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.CommentHS;
+            this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.MnuComment;
             this._btnComment.Location = new System.Drawing.Point(722, 8);
             this._btnComment.Margin = new System.Windows.Forms.Padding(8);
             this._btnComment.Name = "_btnComment";
@@ -153,7 +161,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 154);
+            this.label4.Location = new System.Drawing.Point(8, 143);
             this.label4.Margin = new System.Windows.Forms.Padding(8);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 21);
@@ -163,7 +171,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 199);
+            this.label5.Location = new System.Drawing.Point(8, 188);
             this.label5.Margin = new System.Windows.Forms.Padding(8);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(107, 21);
@@ -173,7 +181,7 @@
             // _numFrequency
             // 
             this._numFrequency.Dock = System.Windows.Forms.DockStyle.Top;
-            this._numFrequency.Location = new System.Drawing.Point(141, 154);
+            this._numFrequency.Location = new System.Drawing.Point(141, 143);
             this._numFrequency.Margin = new System.Windows.Forms.Padding(8);
             this._numFrequency.Maximum = new decimal(new int[] {
             10000,
@@ -197,7 +205,7 @@
             // _numDuration
             // 
             this._numDuration.Dock = System.Windows.Forms.DockStyle.Top;
-            this._numDuration.Location = new System.Drawing.Point(141, 199);
+            this._numDuration.Location = new System.Drawing.Point(141, 188);
             this._numDuration.Margin = new System.Windows.Forms.Padding(8);
             this._numDuration.Maximum = new decimal(new int[] {
             500,
@@ -211,7 +219,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(722, 154);
+            this.label6.Location = new System.Drawing.Point(722, 143);
             this.label6.Margin = new System.Windows.Forms.Padding(8);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(28, 21);
@@ -221,7 +229,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(722, 199);
+            this.label7.Location = new System.Drawing.Point(722, 188);
             this.label7.Margin = new System.Windows.Forms.Padding(8);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 21);
@@ -284,15 +292,7 @@
             this.ctlTitleBar1.Text = "Edit peak flag";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // _btnColour
-            // 
-            this._btnColour.Location = new System.Drawing.Point(141, 98);
-            this._btnColour.Margin = new System.Windows.Forms.Padding(8);
-            this._btnColour.Name = "_btnColour";
-            this._btnColour.TabIndex = 2;
-            this._btnColour.UseVisualStyleBackColor = true;
-            // 
-            // FrmEditFlag
+            // FrmEditPeakFlag
             // 
             this.AcceptButton = this._btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -303,7 +303,8 @@
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FrmEditFlag";
+            this.Name = "FrmEditPeakFlag";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Flag";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

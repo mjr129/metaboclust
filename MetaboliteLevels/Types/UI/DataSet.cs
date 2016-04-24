@@ -757,7 +757,7 @@ namespace MetaboliteLevels.Forms.Generic
                     FrmMsgBox.ButtonSet[] btns = {  new FrmMsgBox.ButtonSet( "Replace", Resources.MnuAccept, DialogResult.No),
                                                         new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
-                    switch (FrmMsgBox.Show(args.Owner, args.Owner.Text, text1, text2, Resources.MsgHelp, btns, "FrmBigList.EditConfig", DialogResult.No))
+                    switch (FrmMsgBox.Show(args.Owner, args.Owner.Text, text1, text2, Resources.MsgHelp, btns, FrmMsgBox.EDontShowAgainId.EDIT_WITH_RESULTS, DialogResult.No))
                     {
                         case DialogResult.No:
                             break;

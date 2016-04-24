@@ -36,6 +36,8 @@ namespace MetaboliteLevels.Forms.Startup
         private Core _result; // the result
 
         private const string ALT_NAMES_KEY = "Alt. Names";
+        private const string FALLBACK_ALL_TYPE_ID = "A";
+        private const string FALLBACK_ALL_BATCH_ID = "B";
         private ProgressReporter _prog;
 
         FileLoadInfo _dataInfo; 
@@ -879,9 +881,9 @@ namespace MetaboliteLevels.Forms.Startup
                 for (int oId = 0; oId < info.NumRows; oId++) // obs info
                 {
                     int day = dayCol != -1 ? info.AsInteger(oId, dayCol) : 0;
-                    string typeId = typeCol != -1 ? info[oId, typeCol] : string.Empty;
+                    string typeId = typeCol != -1 ? info[oId, typeCol] : FALLBACK_ALL_TYPE_ID;
                     int acquis = acquisitionCol != -1 ? info.AsInteger(oId, acquisitionCol) : 0;
-                    string batchId = batchCol != -1 ? info[oId, batchCol] : string.Empty;
+                    string batchId = batchCol != -1 ? info[oId, batchCol] : FALLBACK_ALL_BATCH_ID;
 
                     // Add type (if not already)
                     if (!typeIds.Contains(typeId))
@@ -914,8 +916,8 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 int day = dayCol != -1 ? info.AsInteger(oId, dayCol) : 0;
                 int repId = repCol != -1 ? info.AsInteger(oId, repCol) : 0;
-                string typeId = typeCol != -1 ? info[oId, typeCol] : string.Empty;
-                string batchId = batchCol != -1 ? info[oId, batchCol] : string.Empty;
+                string typeId = typeCol != -1 ? info[oId, typeCol] : FALLBACK_ALL_TYPE_ID;
+                string batchId = batchCol != -1 ? info[oId, batchCol] : FALLBACK_ALL_BATCH_ID;
                 int acquisition = acquisitionCol != -1 ? info.AsInteger(oId, acquisitionCol) : 0;
 
                 GroupInfo groupInfo = typesById[typeId];

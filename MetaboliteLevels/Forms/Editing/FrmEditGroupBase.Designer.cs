@@ -33,21 +33,22 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this._txtId = new Controls.CtlTextBox();
+            this._txtId = new MetaboliteLevels.Controls.CtlTextBox();
             this._lblTimeRange = new System.Windows.Forms.Label();
-            this._txtTimeRange = new Controls.CtlTextBox();
-            this._txtDisplayOrder = new Controls.CtlTextBox();
+            this._txtTimeRange = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtDisplayOrder = new MetaboliteLevels.Controls.CtlTextBox();
             this._txtTitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this._txtAbvTitle = new MetaboliteLevels.Controls.CtlTextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this._txtComments = new Controls.CtlTextBox();
+            this._txtComments = new MetaboliteLevels.Controls.CtlTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this._btnColour = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
+            this._btnEditId = new MetaboliteLevels.Controls.CtlButton();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -106,19 +107,21 @@
             // 
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.ColumnCount = 6;
+            this.tableLayoutPanel1.ColumnCount = 7;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Controls.Add(this.label6, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this._txtId, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this._lblTimeRange, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this._txtTimeRange, 5, 0);
-            this.tableLayoutPanel1.Controls.Add(this._txtDisplayOrder, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this._lblTimeRange, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this._txtTimeRange, 6, 0);
+            this.tableLayoutPanel1.Controls.Add(this._txtDisplayOrder, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this._btnEditId, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 581);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -130,7 +133,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(252, 8);
+            this.label6.Location = new System.Drawing.Point(276, 8);
             this.label6.Margin = new System.Windows.Forms.Padding(8);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(103, 21);
@@ -155,14 +158,15 @@
             this._txtId.Name = "_txtId";
             this._txtId.ReadOnly = true;
             this._txtId.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this._txtId.Size = new System.Drawing.Size(187, 29);
+            this._txtId.Size = new System.Drawing.Size(174, 29);
             this._txtId.TabIndex = 0;
+            this._txtId.Watermark = null;
             this._txtId.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // _lblTimeRange
             // 
             this._lblTimeRange.AutoSize = true;
-            this._lblTimeRange.Location = new System.Drawing.Point(574, 8);
+            this._lblTimeRange.Location = new System.Drawing.Point(585, 8);
             this._lblTimeRange.Margin = new System.Windows.Forms.Padding(8);
             this._lblTimeRange.Name = "_lblTimeRange";
             this._lblTimeRange.Size = new System.Drawing.Size(148, 21);
@@ -172,25 +176,27 @@
             // _txtTimeRange
             // 
             this._txtTimeRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtTimeRange.Location = new System.Drawing.Point(738, 8);
+            this._txtTimeRange.Location = new System.Drawing.Point(749, 8);
             this._txtTimeRange.Margin = new System.Windows.Forms.Padding(8);
             this._txtTimeRange.Name = "_txtTimeRange";
             this._txtTimeRange.ReadOnly = true;
             this._txtTimeRange.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this._txtTimeRange.Size = new System.Drawing.Size(187, 29);
+            this._txtTimeRange.Size = new System.Drawing.Size(176, 29);
             this._txtTimeRange.TabIndex = 0;
+            this._txtTimeRange.Watermark = null;
             this._txtTimeRange.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // _txtDisplayOrder
             // 
             this._txtDisplayOrder.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtDisplayOrder.Location = new System.Drawing.Point(371, 8);
+            this._txtDisplayOrder.Location = new System.Drawing.Point(395, 8);
             this._txtDisplayOrder.Margin = new System.Windows.Forms.Padding(8);
             this._txtDisplayOrder.Name = "_txtDisplayOrder";
             this._txtDisplayOrder.ReadOnly = true;
             this._txtDisplayOrder.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this._txtDisplayOrder.Size = new System.Drawing.Size(187, 29);
+            this._txtDisplayOrder.Size = new System.Drawing.Size(174, 29);
             this._txtDisplayOrder.TabIndex = 0;
+            this._txtDisplayOrder.Watermark = null;
             this._txtDisplayOrder.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // _txtTitle
@@ -256,6 +262,7 @@
             this._txtComments.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this._txtComments.Size = new System.Drawing.Size(923, 268);
             this._txtComments.TabIndex = 0;
+            this._txtComments.Watermark = null;
             // 
             // label4
             // 
@@ -321,7 +328,20 @@
             this._btnCancel.UseDefaultSize = true;
             this._btnCancel.UseVisualStyleBackColor = true;
             // 
-            // FrmEditExpGroup
+            // _btnEditId
+            // 
+            this._btnEditId.Image = global::MetaboliteLevels.Properties.Resources.MnuEdit;
+            this._btnEditId.Location = new System.Drawing.Point(231, 8);
+            this._btnEditId.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
+            this._btnEditId.Name = "_btnEditId";
+            this._btnEditId.Size = new System.Drawing.Size(29, 29);
+            this._btnEditId.TabIndex = 3;
+            this._btnEditId.Text = "";
+            this._btnEditId.UseDefaultSize = true;
+            this._btnEditId.UseVisualStyleBackColor = true;
+            this._btnEditId.Click += new System.EventHandler(this._btnEditId_Click);
+            // 
+            // FrmEditGroupBase
             // 
             this.AcceptButton = this._btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -332,7 +352,7 @@
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FrmEditExpGroup";
+            this.Name = "FrmEditGroupBase";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Experimental Group";
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -367,5 +387,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label6;
         private Controls.CtlTextBox _txtDisplayOrder;
+        private Controls.CtlButton _btnEditId;
     }
 }

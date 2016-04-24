@@ -143,6 +143,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CtlBinder.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlBinder.Designer.cs">
+      <DependentUpon>CtlBinder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\Algorithms\General\Algo.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameter.cs" />
     <Compile Include="Data\Algorithms\General\DistanceMatrix.cs" />
@@ -168,7 +174,6 @@
     <Compile Include="Data\Algorithms\Definitions\Trends\ResultTrend.cs" />
     <Compile Include="Data\Algorithms\General\ValueMatrix.cs" />
     <Compile Include="Data\Algorithms\General\Vector.cs" />
-    <Compile Include="Controls\CtlBinder.cs" />
     <Compile Include="Controls\CtlColourEditor.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -194,6 +199,11 @@
     <Compile Include="Data\Evaluation\ClusterEvaluationParameterResult.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationPointer.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationResults.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Types\General\ETolerance.cs" />
     <Compile Include="Forms\Activities\FrmActEvaluate.cs">
       <SubType>Form</SubType>
@@ -244,6 +254,7 @@
       <DependentUpon>FrmPopoutPlot.cs</DependentUpon>
     </Compile>
     <Compile Include="Types\UI\IDataSet.cs" />
+    <Compile Include="Types\UI\PropertyPath.cs" />
     <Compile Include="Utilities\ISelectionHolder.cs" />
     <Compile Include="Forms\Editing\FrmEditGroupBase.cs">
       <SubType>Form</SubType>
@@ -474,11 +485,6 @@
       <DependentUpon>FrmWait.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\Legacy\LegacyClustererHelper.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Data\Session\Singular\CoreColourSettings.cs" />
     <Compile Include="Types\General\ELcMsMode.cs" />
     <Compile Include="Data\Session\Associational\Annotation.cs" />
@@ -978,6 +984,333 @@
   <ItemGroup>
     <Folder Include="Data\Algorithms\Definitions\Statistics\Implementations\" />
     <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconAdduct.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IcoHelp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconBinary.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconCluster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconCompound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconCompoundWithAnnotation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconCore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconGraph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconGroups.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconInformation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconIntensity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconLine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconMathNet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconPathway.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconPca.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconPeak.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconPeakWithAnnotation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconPoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconPreferences.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconReplicate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconSave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconScriptCluster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconScriptCorrect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconScriptStatistic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconScriptTrend.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconStatistics.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconTime.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconTransparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IconVector.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IcoWarning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconAdduct.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconCluster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconClusterInsignificant.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconCompound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconCompoundWithAnnotation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconFilter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconInformation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconInformationMeta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconPathway.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconPeak.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconPeakWithAnnotation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconSortDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconSortUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconStatistics.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconTestEmpty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconTestFull.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ListIconVector.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuAccept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuAdd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuCancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuClear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuColumn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuComment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuCopy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuDelete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuDeleteWorkspace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuDescribe.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuDisable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuEdit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuEnable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuEnlarge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuEnlargeList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuExperimentalGroups.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuFilter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuHelp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuHistory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuMoveToList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuNewEvaluation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuNext.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuOpenColour.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuPreferences.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuPreview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuPreviewNext.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuPreviewPrevious.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuPreviewSelect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuPrint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuRefresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuSave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuSaveAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuSaveList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuSeperator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuSessionInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuSortAscending.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuSortDescending.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuTrend.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuUndo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuView.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuViewList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuViewMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuWarning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MnuWorkflowSeparator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MsgAccept.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MsgError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MsgHelp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MsgInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MsgWarning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OverlayNo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OverlayYes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ErrorSignifier.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MainIcon2.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

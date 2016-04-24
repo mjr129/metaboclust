@@ -54,7 +54,7 @@
             this._btnTrend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnTrend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnTrend.ForeColor = System.Drawing.Color.Blue;
-            this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptTrend;
+            this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.IconScriptTrend;
             this._btnTrend.Location = new System.Drawing.Point(192, 32);
             this._btnTrend.Margin = new System.Windows.Forms.Padding(16, 32, 16, 16);
             this._btnTrend.Name = "_btnTrend";
@@ -76,7 +76,7 @@
             this._btnStatistics.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnStatistics.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnStatistics.ForeColor = System.Drawing.Color.Blue;
-            this._btnStatistics.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptStatistic;
+            this._btnStatistics.Image = global::MetaboliteLevels.Properties.Resources.IconScriptStatistic;
             this._btnStatistics.Location = new System.Drawing.Point(352, 32);
             this._btnStatistics.Margin = new System.Windows.Forms.Padding(16, 32, 16, 16);
             this._btnStatistics.Name = "_btnStatistics";
@@ -114,7 +114,7 @@
             this._btnCorrections.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnCorrections.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnCorrections.ForeColor = System.Drawing.Color.Blue;
-            this._btnCorrections.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCorrect;
+            this._btnCorrections.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCorrect;
             this._btnCorrections.Location = new System.Drawing.Point(32, 32);
             this._btnCorrections.Margin = new System.Windows.Forms.Padding(32, 32, 16, 16);
             this._btnCorrections.Name = "_btnCorrections";
@@ -136,7 +136,7 @@
             this._btnMetrics.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnMetrics.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnMetrics.ForeColor = System.Drawing.Color.Blue;
-            this._btnMetrics.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptStatistic;
+            this._btnMetrics.Image = global::MetaboliteLevels.Properties.Resources.IconScriptStatistic;
             this._btnMetrics.Location = new System.Drawing.Point(512, 32);
             this._btnMetrics.Margin = new System.Windows.Forms.Padding(16, 32, 16, 16);
             this._btnMetrics.Name = "_btnMetrics";
@@ -158,7 +158,7 @@
             this._btnClusterers.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnClusterers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnClusterers.ForeColor = System.Drawing.Color.Blue;
-            this._btnClusterers.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this._btnClusterers.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this._btnClusterers.Location = new System.Drawing.Point(672, 32);
             this._btnClusterers.Margin = new System.Windows.Forms.Padding(16, 32, 16, 16);
             this._btnClusterers.Name = "_btnClusterers";
@@ -180,7 +180,7 @@
             this._btnShowAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnShowAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnShowAll.ForeColor = System.Drawing.Color.Blue;
-            this._btnShowAll.Image = global::MetaboliteLevels.Properties.Resources.ObjList;
+            this._btnShowAll.Image = global::MetaboliteLevels.Properties.Resources.IconList;
             this._btnShowAll.Location = new System.Drawing.Point(832, 32);
             this._btnShowAll.Margin = new System.Windows.Forms.Padding(16, 32, 16, 16);
             this._btnShowAll.Name = "_btnShowAll";

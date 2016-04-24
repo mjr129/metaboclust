@@ -237,7 +237,7 @@ namespace MetaboliteLevels.Settings
 
                 savedData.DisplayIndex = column.DisplayIndex;
                 savedData.Width        = column.Width;
-                savedData.Visible      = column.Enabled;
+                savedData.Visible      = column.Visible;
                 savedData.DisplayName  = column.OverrideDisplayName;
             }
             else
@@ -245,7 +245,7 @@ namespace MetaboliteLevels.Settings
                 // Load
                 if (_columnDisplayStatuses.TryGetValue(key, out savedData))
                 {
-                    column.Enabled             = savedData.Visible;
+                    column.Visible             = savedData.Visible;
                     column.Width               = savedData.Width;
                     column.DisplayIndex        = savedData.DisplayIndex;
                     column.OverrideDisplayName = savedData.DisplayName;

@@ -203,7 +203,7 @@
             // 
             this._btnView.Enabled = false;
             this._btnView.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnView.Image = global::MetaboliteLevels.Properties.Resources.glasses_16xLG;
+            this._btnView.Image = global::MetaboliteLevels.Properties.Resources.MnuView;
             this._btnView.Location = new System.Drawing.Point(0, 128);
             this._btnView.Margin = new System.Windows.Forms.Padding(0);
             this._btnView.Name = "_btnView";
@@ -234,7 +234,7 @@
             // 
             this._btnRename.Enabled = false;
             this._btnRename.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnRename.Image = global::MetaboliteLevels.Properties.Resources.CommentHS;
+            this._btnRename.Image = global::MetaboliteLevels.Properties.Resources.MnuComment;
             this._btnRename.Location = new System.Drawing.Point(0, 208);
             this._btnRename.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this._btnRename.Name = "_btnRename";

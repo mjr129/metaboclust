@@ -39,6 +39,11 @@ namespace MetaboliteLevels.Utilities
         /// </summary>
         public static string ToUtf(this string x, string style)
         {
+            if (x == null)
+            {
+                return null;
+            }
+
             StringInfo si = new StringInfo(style);
             StringBuilder sb = new StringBuilder();
 
@@ -670,9 +675,9 @@ namespace MetaboliteLevels.Utilities
             public readonly bool IsInBrackets;
 
             public ParseElement(string value, bool isInBrackets)
-            {
+            {   
                 this.Value = value;
-                this.IsInBrackets = isInBrackets;
+                this.IsInBrackets = isInBrackets && this.Value != "{";
             }
 
             public override string ToString()
@@ -726,6 +731,11 @@ namespace MetaboliteLevels.Utilities
 
             if (sb.Length != 0)
             {
+                if (isOpen)
+                {
+                    throw new InvalidOperationException( "Open bracket with content \""+sb.ToString()+"\"." );
+                }
+
                 _contents.Add(new ParseElement(sb.ToString(), isOpen));
             }
         }
@@ -752,17 +762,17 @@ namespace MetaboliteLevels.Utilities
             }
 
             return r.ToString();
-        }
+        }      
 
         public override string ToString()
         {
-            return string.Join(string.Empty, _contents);
+            return string.Join(string.Empty, _contents);        
         }
 
         public static bool IsNullOrEmpty(ParseElementCollection collection)
         {
             return (collection == null || collection._contents.Count == 0
                     || (collection._contents.Count == 1 && string.IsNullOrWhiteSpace(collection._contents[0].Value)));
-        }
+        } 
     }
 }

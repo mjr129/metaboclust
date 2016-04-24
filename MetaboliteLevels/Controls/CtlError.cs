@@ -14,13 +14,17 @@ namespace MetaboliteLevels.Controls
         HashSet<Control> withErrors = new HashSet<Control>();
 
         public CtlError()
+            : this( null )
         {
-            InitializeComponent();
+            // NA
         }
 
         public CtlError(IContainer container)
         {
-            container.Add(this);
+            if (container != null)
+            {
+                container.Add( this );
+            }
 
             InitializeComponent();
 
@@ -37,7 +41,7 @@ namespace MetaboliteLevels.Controls
             {
                 Set(control, text);
             }
-        }
+        } 
 
         public void Clear()
         {
@@ -61,7 +65,7 @@ namespace MetaboliteLevels.Controls
             }
         }
 
-        private void Set(Control control, string text)
+        public void Set(Control control, string text)
         {
             errorProvider1.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
             errorProvider1.SetIconPadding(control, 0);
@@ -69,7 +73,7 @@ namespace MetaboliteLevels.Controls
             withErrors.Add(control);
         }
 
-        private void Remove(Control control)
+        public void Remove(Control control)
         {
             errorProvider1.SetError(control, null);
             withErrors.Remove(control);

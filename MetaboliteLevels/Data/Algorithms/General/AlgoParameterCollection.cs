@@ -446,8 +446,9 @@ namespace MetaboliteLevels.Algorithms.Statistics
                     }
 
                 case EAlgoParameterType.Group:
-                    {         
-                        return core.Groups.FirstOrDefault(z => z.StringId == element);
+                    {
+                        string el = element.Trim();
+                        return core.Groups.FirstOrDefault(z => z.StringId == el);
                     }
 
                 default:

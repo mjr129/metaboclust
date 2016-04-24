@@ -218,7 +218,7 @@
             // 
             this._imgPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tableLayoutPanel1.SetColumnSpan(this._imgPreview, 2);
-            this._imgPreview.Image = global::MetaboliteLevels.Properties.Resources.ObjNone;
+            this._imgPreview.Image = global::MetaboliteLevels.Properties.Resources.IconTransparent;
             this._imgPreview.Location = new System.Drawing.Point(89, 278);
             this._imgPreview.Margin = new System.Windows.Forms.Padding(8);
             this._imgPreview.Name = "_imgPreview";

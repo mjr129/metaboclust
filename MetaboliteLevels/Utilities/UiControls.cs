@@ -524,32 +524,32 @@ namespace MetaboliteLevels.Utilities
         {
             switch (v)
             {
-                case ImageListOrder.Adduct: return bold ? Resources.ObjLAdduct : Resources.ObjAdduct;
-                case ImageListOrder.Compound: return bold ? Resources.ObjLCompound : Resources.ObjCompound;
-                case ImageListOrder.CompoundU: return bold ? Resources.ObjLCompoundU : Resources.ObjCompoundU;
-                case ImageListOrder.Info: return bold ? Resources.ObjLInfo : Resources.ObjInfo;
-                case ImageListOrder.InfoU: return bold ? Resources.ObjInfo : Resources.ObjInfoU; // No large
-                case ImageListOrder.List: return bold ? Resources.ObjList : Resources.ObjList; // No large
-                case ImageListOrder.Pathway: return bold ? Resources.ObjLPathway : Resources.ObjPathway;
-                case ImageListOrder.Cluster: return bold ? Resources.ObjLCluster : Resources.ObjCluster;
-                case ImageListOrder.ClusterU: return bold ? Resources.ObjCluster : Resources.ObjClusterU; // No large
-                case ImageListOrder.Variable: return bold ? Resources.ObjVariable : Resources.ObjVariable;
-                case ImageListOrder.VariableU: return bold ? Resources.ObjLVariableU : Resources.ObjVariableU;
-                case ImageListOrder.Line: return bold ? Resources.ObjLine : Resources.ObjLine; // No large
-                case ImageListOrder.Assignment: return bold ? Resources.ObjLAssignment : Resources.ObjAssignment;
+                case ImageListOrder.Adduct: return bold ? Resources.IconAdduct : Resources.ListIconAdduct;
+                case ImageListOrder.Compound: return bold ? Resources.IconCompound : Resources.ListIconCompoundWithAnnotation;
+                case ImageListOrder.CompoundU: return bold ? Resources.IconCompound : Resources.ListIconCompound;
+                case ImageListOrder.Info: return bold ? Resources.IconInformation : Resources.ListIconInformation;
+                case ImageListOrder.InfoU: return bold ? Resources.ListIconInformation : Resources.ListIconInformationMeta; // No large
+                case ImageListOrder.List: return bold ? Resources.IconList : Resources.IconList; // No large
+                case ImageListOrder.Pathway: return bold ? Resources.IconPathway : Resources.ListIconPathway;
+                case ImageListOrder.Cluster: return bold ? Resources.IconCluster : Resources.ListIconCluster;
+                case ImageListOrder.ClusterU: return bold ? Resources.ListIconCluster : Resources.ListIconClusterInsignificant; // No large
+                case ImageListOrder.Variable: return bold ? Resources.ListIconPeakWithAnnotation : Resources.ListIconPeakWithAnnotation;
+                case ImageListOrder.VariableU: return bold ? Resources.IconPeak : Resources.ListIconPeak;
+                case ImageListOrder.Line: return bold ? Resources.IconLine : Resources.IconLine; // No large
+                case ImageListOrder.Assignment: return bold ? Resources.IconVector : Resources.ListIconVector;
                 case ImageListOrder.Warning: return bold ? Resources.MnuWarning : Resources.MnuWarning;
-                case ImageListOrder.TestFull: return bold ? Resources.TestFull : Resources.TestFull;
-                case ImageListOrder.TestEmpty: return bold ? Resources.TestEmpty : Resources.TestEmpty;
-                case ImageListOrder.Filter: return bold ? Resources.SmallObjFilter : Resources.SmallObjFilter;
-                case ImageListOrder.Statistic: return bold ? Resources.ObjLStatistics : Resources.ObjStatistics;
-                case ImageListOrder.Point: return bold ? Resources.ObjPoint : Resources.ObjPoint; // No large
+                case ImageListOrder.TestFull: return bold ? Resources.ListIconTestFull : Resources.ListIconTestFull;
+                case ImageListOrder.TestEmpty: return bold ? Resources.ListIconTestEmpty : Resources.ListIconTestEmpty;
+                case ImageListOrder.Filter: return bold ? Resources.MnuFilter : Resources.MnuFilter;
+                case ImageListOrder.Statistic: return bold ? Resources.IconStatistics : Resources.ListIconStatistics;
+                case ImageListOrder.Point: return bold ? Resources.IconPoint : Resources.IconPoint; // No large
                 case ImageListOrder.File: return bold ? Resources.MnuFile : Resources.MnuFile;
-                case ImageListOrder.ListSortUp: return bold ? Resources.ListSortUp : Resources.ListSortUp;
-                case ImageListOrder.ListSortDown: return bold ? Resources.ListSortDown : Resources.ListSortDown;
-                case ImageListOrder.ListFilter: return bold ? Resources.ListFilter : Resources.ListFilter;
-                case ImageListOrder.ScriptInbuilt: return bold ? Resources.MnuBinary : Resources.MnuBinary;
-                case ImageListOrder.ScriptFile: return bold ? Resources.MnuR : Resources.MnuR;
-                case ImageListOrder.ScriptMathDotNet: return bold ? Resources.MnuMathNet : Resources.MnuMathNet;
+                case ImageListOrder.ListSortUp: return bold ? Resources.ListIconSortUp : Resources.ListIconSortUp;
+                case ImageListOrder.ListSortDown: return bold ? Resources.ListIconSortDown : Resources.ListIconSortDown;
+                case ImageListOrder.ListFilter: return bold ? Resources.ListIconFilter : Resources.ListIconFilter;
+                case ImageListOrder.ScriptInbuilt: return bold ? Resources.IconBinary : Resources.IconBinary;
+                case ImageListOrder.ScriptFile: return bold ? Resources.IconR : Resources.IconR;
+                case ImageListOrder.ScriptMathDotNet: return bold ? Resources.IconMathNet : Resources.IconMathNet;
                 default: throw new SwitchException(v);
             }
         }

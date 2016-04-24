@@ -14,12 +14,15 @@ using System.Windows.Forms;
 
 namespace MetaboliteLevels.Forms.Editing
 {
-    public partial class FrmEditPeakFlag : Form
+    internal partial class FrmEditPeakFlag : Form
     {
         private string _comment;
         private readonly bool _readOnly;
         private readonly CtlBinder<PeakFlag> binder1 = new CtlBinder<PeakFlag>();
 
+        /// <summary>
+        /// Shows the PeakFlag editor
+        /// </summary>               
         public static bool Show(Form owner, PeakFlag flag, bool readOnly)
         {
             UiControls.Assert(flag != null, "flag must not be null");
@@ -37,12 +40,16 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        public FrmEditPeakFlag(PeakFlag flag, bool readOnly)
+        /// <summary>
+        /// CONSTRUCTOR
+        /// </summary>                     
+        private FrmEditPeakFlag(PeakFlag flag, bool readOnly)
         {
             InitializeComponent();      
 
-            _readOnly = readOnly;                           
-                                                              
+            _readOnly = readOnly;
+
+            binder1.GenerateRevertButtons = false;
             binder1.Bind(_txtName, z=> z.OverrideDisplayName);
             binder1.Bind(_txtKey, z => z.Key);
             binder1.Bind(_numDuration, z => z.BeepDuration);
@@ -57,7 +64,7 @@ namespace MetaboliteLevels.Forms.Editing
                 UiControls.MakeReadOnly(this, _btnComment);
             }
         }    
-
+        
         private void _btnComment_Click(object sender, EventArgs e)
         {
             FrmEditINameable.Show(this, _txtName, ref _comment, _readOnly);

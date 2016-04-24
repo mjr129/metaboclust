@@ -311,7 +311,7 @@
             this._btnViewScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._btnViewScript.FlatAppearance.BorderSize = 0;
             this._btnViewScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnViewScript.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this._btnViewScript.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this._btnViewScript.Location = new System.Drawing.Point(0, 0);
             this._btnViewScript.Margin = new System.Windows.Forms.Padding(0);
             this._btnViewScript.Name = "_btnViewScript";
@@ -513,7 +513,7 @@
             this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button7.FlatAppearance.BorderSize = 0;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Image = global::MetaboliteLevels.Properties.Resources.ObjLGraph;
+            this.button7.Image = global::MetaboliteLevels.Properties.Resources.IconGraph;
             this.button7.Location = new System.Drawing.Point(0, 0);
             this.button7.Margin = new System.Windows.Forms.Padding(0);
             this.button7.Name = "button7";
@@ -596,7 +596,7 @@
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Image = global::MetaboliteLevels.Properties.Resources.ObjLGraph;
+            this.button1.Image = global::MetaboliteLevels.Properties.Resources.IconGraph;
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
@@ -680,7 +680,7 @@
             this.findInexplorerToolStripMenuItem,
             this.toolStripMenuItem2,
             this.paranoidModeToolStripMenuItem});
-            this.toolStripDropDownButton2.Image = global::MetaboliteLevels.Properties.Resources.ObjSave;
+            this.toolStripDropDownButton2.Image = global::MetaboliteLevels.Properties.Resources.IconSave;
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Margin = new System.Windows.Forms.Padding(8, 24, 0, 0);
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
@@ -718,7 +718,7 @@
             // 
             // findInexplorerToolStripMenuItem
             // 
-            this.findInexplorerToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.FolderOpen_16x16_72;
+            this.findInexplorerToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuOpenColour;
             this.findInexplorerToolStripMenuItem.Name = "findInexplorerToolStripMenuItem";
             this.findInexplorerToolStripMenuItem.Size = new System.Drawing.Size(205, 30);
             this.findInexplorerToolStripMenuItem.Text = "Find in &explorer...";

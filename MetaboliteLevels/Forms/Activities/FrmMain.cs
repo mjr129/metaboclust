@@ -1310,7 +1310,7 @@ namespace MetaboliteLevels.Forms
 
             foreach (VisualisableSelection o in _viewHistory)
             {
-                Image image = o.Primary != null ? UiControls.GetImage(o.Primary.GetIcon(), true) : Resources.ObjNone;
+                Image image = o.Primary != null ? UiControls.GetImage(o.Primary.GetIcon(), true) : Resources.IconTransparent;
                 ToolStripButton historyButton = new ToolStripButton(o.ToString(), image);
                 historyButton.Click += historyButton_Click;
                 historyButton.Tag = o;

@@ -41,7 +41,8 @@ namespace MetaboliteLevels.Viewers.Lists
 
         public ColumnHeader Header;
         public string OverrideDisplayName { get; set; }
-        public bool Enabled { get; set; }
+        bool INameable.Enabled { get { return true; } set { /* NA */ } }
+        public bool Visible;
         public int Width = 128;
         public bool DisableMenu;
         public int DisplayIndex;
@@ -65,7 +66,7 @@ namespace MetaboliteLevels.Viewers.Lists
             this.Id = name;
             this.OverrideDisplayName = null;
             this.Special = special;
-            this.Enabled = special == EColumn.Visible;
+            this.Visible = special == EColumn.Visible;
             this.Description = description;
         }
 
@@ -213,6 +214,7 @@ namespace MetaboliteLevels.Viewers.Lists
             result.Add( "Preferred name", z => z.OverrideDisplayName );
             result.Add( "Preferred width", z => z.Width );
             result.Add( "Description", z => z.Description );
+            result.Add( "Visible", EColumn.Visible, z => z.Visible );
 
             result.Add( "Disable menu", EColumn.Advanced, z => z.DisableMenu );     
             result.Add( "Display mode", EColumn.Advanced, z => z.DisplayMode );
@@ -221,7 +223,7 @@ namespace MetaboliteLevels.Viewers.Lists
             result.Add( "Is always empty", EColumn.Advanced, z => z.IsAlwaysEmpty );
             result.Add( "Special", EColumn.Advanced, z => z.Special );
             result.Add( "Displayed name", EColumn.Advanced, z => z.DisplayName );
-            result.Add( "Enabled", EColumn.Advanced, z => z.Enabled );
+            result.Add( "Enabled", EColumn.Advanced, z => ((INameable)z).Enabled );
 
             return result;
         }

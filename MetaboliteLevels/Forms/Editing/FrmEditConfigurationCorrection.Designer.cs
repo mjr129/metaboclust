@@ -583,7 +583,7 @@
             // 
             // _btnComment
             // 
-            this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.CommentHS;
+            this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.MnuComment;
             this._btnComment.Location = new System.Drawing.Point(852, 8);
             this._btnComment.Margin = new System.Windows.Forms.Padding(8);
             this._btnComment.Name = "_btnComment";

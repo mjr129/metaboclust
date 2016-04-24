@@ -54,7 +54,7 @@
             this._chkStat.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._chkStat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._chkStat.ForeColor = System.Drawing.Color.Blue;
-            this._chkStat.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptStatistic;
+            this._chkStat.Image = global::MetaboliteLevels.Properties.Resources.IconScriptStatistic;
             this._chkStat.Location = new System.Drawing.Point(352, 32);
             this._chkStat.Margin = new System.Windows.Forms.Padding(16, 32, 16, 16);
             this._chkStat.Name = "_chkStat";
@@ -77,7 +77,7 @@
             this._chkTrend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._chkTrend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._chkTrend.ForeColor = System.Drawing.Color.Blue;
-            this._chkTrend.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptTrend;
+            this._chkTrend.Image = global::MetaboliteLevels.Properties.Resources.IconScriptTrend;
             this._chkTrend.Location = new System.Drawing.Point(192, 32);
             this._chkTrend.Margin = new System.Windows.Forms.Padding(16, 32, 16, 16);
             this._chkTrend.Name = "_chkTrend";
@@ -114,7 +114,7 @@
             this._chkCor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._chkCor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._chkCor.ForeColor = System.Drawing.Color.Blue;
-            this._chkCor.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCorrect;
+            this._chkCor.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCorrect;
             this._chkCor.Location = new System.Drawing.Point(32, 32);
             this._chkCor.Margin = new System.Windows.Forms.Padding(32, 32, 16, 16);
             this._chkCor.Name = "_chkCor";
@@ -137,7 +137,7 @@
             this._chkClus.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._chkClus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._chkClus.ForeColor = System.Drawing.Color.Blue;
-            this._chkClus.Image = global::MetaboliteLevels.Properties.Resources.ObjLScriptCluster;
+            this._chkClus.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this._chkClus.Location = new System.Drawing.Point(512, 32);
             this._chkClus.Margin = new System.Windows.Forms.Padding(16, 32, 16, 16);
             this._chkClus.Name = "_chkClus";

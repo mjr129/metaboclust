@@ -17,10 +17,8 @@ namespace MetaboliteLevels.Data.DataInfo
     /// </summary>
     [Serializable]
     internal abstract class GroupInfoBase : IVisualisable
-    {
+    {                    
         private string _id;
-        public string StringId => _id; // ID (as in data file)
-
         public readonly int Order;          // This program's internal index (Core.Groups[this.Order] / Core.Batches[this.Order]). This is arbitrary but MUST NOT BE CHANGED.
         public readonly Range Range;        // Range covered (days / acquisition-order)
         public Color ColourLight;           // Display colour (light)
@@ -46,6 +44,8 @@ namespace MetaboliteLevels.Data.DataInfo
 
         protected GroupInfoBase(string groupId, int order, Range xRange, string name, string shortName, Color colorLight, Color color, int displayPriority)
         {
+            Debug.Assert( !string.IsNullOrEmpty( groupId ) );
+
 #pragma warning disable CS0618
             this.Id = -1;
 #pragma warning restore CS0618
@@ -103,7 +103,7 @@ namespace MetaboliteLevels.Data.DataInfo
             List<Column<GroupInfoBase>> columns = new List<Column<GroupInfoBase>>();
 
             columns.Add("ID", z => z.StringId);
-            columns.Add("Range", EColumn.Visible, z => z.Range);
+            columns.Add("Range", EColumn.Visible, z => z.Range.ToString());
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
             columns.Add("Short name", z => z.DisplayShortName);
             columns.Add("Default name", z => z.DefaultDisplayName);
@@ -123,6 +123,18 @@ namespace MetaboliteLevels.Data.DataInfo
         public override string ToString()
         {
             return DisplayName;
+        }
+
+        public string StringId
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }               
         }
     }
 
