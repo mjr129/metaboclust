@@ -299,9 +299,7 @@ namespace MetaboliteLevels.Settings
                     break;
 
                 case SerialisationFormat.Ini:
-#warning PUT THIS BACK!
-                    //IniSerialiser.Serialise( s, data );
-                    MSerialiser.SerialiseStream( s, data, ETransmission.Text, new[] { serialiser }, null );
+                    IniSerialiser.Serialise( s, data );                                                    
                     break;
 
                 default:
@@ -338,9 +336,7 @@ namespace MetaboliteLevels.Settings
                     return (T)bcs.Deserialize(s);
 
                 case SerialisationFormat.Ini:
-#warning PUT THIS BACK!
-                    //return IniSerialiser.Deserialise<T>( s );
-                    return MSerialiser.DeserialiseStream<T>( s, ETransmission.Text, new[] { serialiser }, null );
+                    return IniSerialiser.Deserialise<T>( s );                                                    
 
                 default:
                     throw new InvalidOperationException("Invalid switch: " + format);
