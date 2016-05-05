@@ -23,6 +23,7 @@ using MetaboliteLevels.Properties;
 using System.Collections.ObjectModel;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.General;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Editing
 {

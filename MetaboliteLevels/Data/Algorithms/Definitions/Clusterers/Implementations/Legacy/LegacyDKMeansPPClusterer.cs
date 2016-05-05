@@ -9,6 +9,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Data.DataInfo;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
 {

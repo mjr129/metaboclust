@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {

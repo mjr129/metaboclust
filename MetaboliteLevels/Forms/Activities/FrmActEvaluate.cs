@@ -27,6 +27,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Viewers.Lists;
+using MGui.Helpers;
 using MSerialisers;
 using MSerialisers.Serialisers;
 

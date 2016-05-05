@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
+using MGui;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms
 {

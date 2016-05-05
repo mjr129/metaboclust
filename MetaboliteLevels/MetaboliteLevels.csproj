@@ -143,12 +143,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\CtlBinder.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\CtlBinder.Designer.cs">
-      <DependentUpon>CtlBinder.cs</DependentUpon>
-    </Compile>
     <Compile Include="Data\Algorithms\General\Algo.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameter.cs" />
     <Compile Include="Data\Algorithms\General\DistanceMatrix.cs" />
@@ -174,9 +168,6 @@
     <Compile Include="Data\Algorithms\Definitions\Trends\ResultTrend.cs" />
     <Compile Include="Data\Algorithms\General\ValueMatrix.cs" />
     <Compile Include="Data\Algorithms\General\Vector.cs" />
-    <Compile Include="Controls\CtlColourEditor.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\CtlError.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -254,7 +245,6 @@
       <DependentUpon>FrmPopoutPlot.cs</DependentUpon>
     </Compile>
     <Compile Include="Types\UI\IDataSet.cs" />
-    <Compile Include="Types\UI\PropertyPath.cs" />
     <Compile Include="Utilities\ISelectionHolder.cs" />
     <Compile Include="Forms\Editing\FrmEditGroupBase.cs">
       <SubType>Form</SubType>
@@ -305,11 +295,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Manual.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\ArrayHelper.cs" />
-    <Compile Include="Utilities\ComparisonComparer.cs" />
     <Compile Include="Utilities\ConstAttribute.cs" />
     <Compile Include="Utilities\Counter.cs" />
-    <Compile Include="Utilities\EErrorHandler.cs" />
     <Compile Include="Data\Algorithms\Definitions\Configurations\ConfigurationBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Base\ArgsBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ArgsClusterer.cs" />
@@ -345,8 +332,8 @@
     <Compile Include="Utilities\FontHelper.cs" />
     <Compile Include="Utilities\IProgressReporter.cs" />
     <Compile Include="Utilities\MetaInfoCollection.cs" />
+    <Compile Include="Utilities\ParseElementCollectionExtensions.cs" />
     <Compile Include="Utilities\PathwayToolsReader.cs" />
-    <Compile Include="Utilities\StringHelper.cs" />
     <Compile Include="Utilities\SwitchException.cs" />
     <Compile Include="Utilities\Arr.cs" />
     <Compile Include="Data\Session\Collections\AssignmentList.cs" />
@@ -510,7 +497,6 @@
     <Compile Include="Data\Session\General\PeakFlag.cs" />
     <Compile Include="Data\Session\General\GroupInfoBase.cs" />
     <Compile Include="Utilities\UiControls.cs" />
-    <Compile Include="Utilities\WeakReferenceHelper.cs" />
     <Compile Include="Controls\Charts\ChartHelper.cs" />
     <Compile Include="Controls\Charts\ChartHelperForClusters.cs" />
     <Compile Include="Controls\Charts\ChartHelperForPeaks.cs" />
@@ -565,9 +551,6 @@
     <Compile Include="Controls\Lists\ShowContextMenuEventArgs.cs" />
     <Compile Include="Controls\Lists\ListViewHelper%28T%29.SortByColumn.cs" />
     <Compile Include="Utilities\XmlSettings.cs" />
-    <EmbeddedResource Include="Controls\CtlBinder.resx">
-      <DependentUpon>CtlBinder.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CtlError.resx">
       <DependentUpon>CtlError.cs</DependentUpon>
     </EmbeddedResource>
@@ -975,6 +958,10 @@
     <ProjectReference Include="..\..\MChart\MChart\MChart.csproj">
       <Project>{ef8cd51c-caa8-4ea6-82fc-89097b163baf}</Project>
       <Name>MChart</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MGui\MGui\MGui.csproj">
+      <Project>{7e682dc7-2417-4977-870e-73c9797f84d5}</Project>
+      <Name>MGui</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MSerialiser\MSerialiser\MSerialiser.csproj">
       <Project>{3f76ce4d-6fae-4fc2-a6c8-947392b21e72}</Project>

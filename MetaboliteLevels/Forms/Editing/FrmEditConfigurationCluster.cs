@@ -20,6 +20,8 @@ using MetaboliteLevels.Data.Visualisables;
 using System.Text;
 using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Data.General;
+using MGui;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {

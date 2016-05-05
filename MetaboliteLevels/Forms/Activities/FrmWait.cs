@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Generic
 {

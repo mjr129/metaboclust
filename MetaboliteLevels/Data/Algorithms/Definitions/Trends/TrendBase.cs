@@ -4,6 +4,7 @@ using System.Linq;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Trends
 {

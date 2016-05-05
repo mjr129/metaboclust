@@ -14,6 +14,7 @@ using System.Text;
 using System.Linq;
 using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Settings;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Viewers.Lists
 {

@@ -28,6 +28,7 @@ using MetaboliteLevels.Viewers.Lists;
 using System.Drawing.Imaging;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms
 {

@@ -9,6 +9,7 @@ using MetaboliteLevels.Viewers.Lists;
 using MSerialisers;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using MGui;
 
 namespace MetaboliteLevels.Data.DataInfo
 {
@@ -110,8 +111,8 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("Default short name", z => z.DefaultShortName);
             columns.Add("User provided name", z => z.OverrideDisplayName);
             columns.Add("User provided short name", z => z.OverrideShortName);
-            columns.Add("Colour", z => UiControls.ColourToName(z.Colour), z => z.Colour);
-            columns.Add("Light colour", z => UiControls.ColourToName(z.ColourLight), z => z.ColourLight);
+            columns.Add("Colour", z => ColourHelper.ColourToName(z.Colour), z => z.Colour);
+            columns.Add("Light colour", z => ColourHelper.ColourToName(z.ColourLight), z => z.ColourLight);
             columns.Add("Comment", z => z.Comment);
             columns.Add("Display priority", z => z.DisplayPriority);
 

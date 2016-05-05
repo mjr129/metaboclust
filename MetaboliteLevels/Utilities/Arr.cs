@@ -8,6 +8,8 @@ using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
+using MGui;
+using MGui.Helpers;
 using RDotNet;
 
 namespace MetaboliteLevels.Utilities

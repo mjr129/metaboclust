@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Viewers.Lists;
 using System.ComponentModel;
+using MGui;
 
 namespace MetaboliteLevels.Settings
 {
@@ -211,7 +212,7 @@ namespace MetaboliteLevels.Settings
             result.Add("Key", EColumn.Visible, z => z.Key);
             result.Add("Enabled", z => z.Enabled);
             result.Add("Comments", z => z.Comment);
-            result.Add("Colour", EColumn.None, z => UiControls.ColourToName(z.Colour), z => z.Colour);
+            result.Add("Colour", EColumn.None, z => ColourHelper.ColourToName(z.Colour), z => z.Colour);
             result.Add("Beep frequency", z => z.BeepFrequency);
             result.Add("Beep duration", z => z.BeepDuration);
             result.Add("Display name", EColumn.Advanced, z => z.DisplayName);

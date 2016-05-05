@@ -16,6 +16,7 @@ using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Forms.Editing;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {

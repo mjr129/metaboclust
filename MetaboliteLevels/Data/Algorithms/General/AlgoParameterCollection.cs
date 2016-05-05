@@ -9,6 +9,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Data.DataInfo;
 using System.Collections;
 using System.Diagnostics;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics
 {

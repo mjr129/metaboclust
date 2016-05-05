@@ -10,6 +10,7 @@ using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.Collections.Generic;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Editing
 {

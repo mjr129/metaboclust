@@ -27,6 +27,9 @@ using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Forms.Algorithms;
 using Microsoft.Win32;
 using MetaboliteLevels.Forms;
+using MGui;
+using MGui.Datatypes;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -37,7 +40,6 @@ namespace MetaboliteLevels.Utilities
     {
         // Dictionaries
         public static Dictionary<Version, string> BreakingVersions;
-        public static Dictionary<int, string> ColourNames;
         public static int ColourIndex;
 
         // Random numbers
@@ -310,64 +312,7 @@ namespace MetaboliteLevels.Utilities
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Converts a colour to its name.
-        /// </summary>                    
-        public static string ColourToName(Color colour)
-        {
-            if (colour.IsNamedColor)
-            {
-                return colour.Name;
-            }
-
-            if (ColourNames == null)
-            {
-                ColourNames = new Dictionary<int, string>();
-
-                foreach (KnownColor kc in Enum.GetValues(typeof(KnownColor)))
-                {
-                    Color c = Color.FromKnownColor(kc);
-                    ColourNames[c.ToArgb()] = c.Name;
-                }
-            }
-
-            string name;
-            if (ColourNames.TryGetValue(colour.ToArgb(), out name))
-            {
-                return name;
-            }
-
-            return colour.R.ToString() + ", " + colour.G + ", " + colour.B;
-        }
-
-        public static Color ComplementaryColour( Color colour )
-        {
-            return colour.GetBrightness() > 0.5 ? Color.Black : Color.White;
-        }
-
-        [Obsolete]
-        internal static bool EditColor( object colour )
-        {
-            return false;
-        }
-
-        internal static bool EditColor(ref Color colour)
-        {            
-            using (ColorDialog cd = new ColorDialog())
-            {
-                cd.Color = colour;
-
-                if (cd.ShowDialog() == DialogResult.OK)
-                {
-                    colour = cd.Color;
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        }          
 
         /// <summary>
         /// Sets the properties of an object to their [DefaultAttribute] value.
@@ -1431,21 +1376,7 @@ namespace MetaboliteLevels.Utilities
                 string txt = core.CoreGuid.ToString() + "\r\n" + core.FileNames.Title + "\r\n" + watermark;
                 g.DrawString(txt.ToUpper(), FontHelper.TinyRegularFont, Brushes.Silver, 0, 0);
             }
-        }
-
-        /// <summary>
-        /// (EXTENSION) (MJR) Returns the object as a string, or an empty string if the object is null
-        /// </summary>                                                                                
-        public static string ToStringSafe<T>(this T self)
-            where T : class
-        {
-            if (self == null)
-            {
-                return string.Empty;
-            }
-
-            return self.ToString();
-        }
+        }        
     }
 
     /// <summary>
@@ -1456,19 +1387,5 @@ namespace MetaboliteLevels.Utilities
         Open,
         Save,
         SaveAs,
-    }
-
-    /// <summary>
-    /// Name attributes, for giving names to enum members.
-    /// ([ComponentModel.DisplayNameAttribute] unfortunately doesn't work on enums)
-    /// </summary>
-    class NameAttribute : Attribute
-    {
-        public string Name { get; set; }
-
-        public NameAttribute(string name)
-        {
-            Name = name;
-        }
-    }
+    }                   
 }

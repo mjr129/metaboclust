@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MGui;
+using MGui.Controls;
 
 namespace MetaboliteLevels.Forms.Editing
 {

@@ -11,6 +11,7 @@ using MetaboliteLevels.Viewers.Lists;
 using System.Drawing;
 using MetaboliteLevels.Data.DataInfo;
 using MSerialisers;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Visualisables
 {

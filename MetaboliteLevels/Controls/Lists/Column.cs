@@ -12,6 +12,7 @@ using MetaboliteLevels.Utilities;
 using System.Collections;
 using MetaboliteLevels.Settings;
 using System.Reflection;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Viewers.Lists
 {

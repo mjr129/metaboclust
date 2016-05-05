@@ -20,6 +20,7 @@ using MetaboliteLevels.Algorithms.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Corrections;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Forms.Editing;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {

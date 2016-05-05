@@ -15,6 +15,9 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
+using MGui;
+using MGui.Helpers;
+using MGui.Datatypes;
 
 // ReSharper disable UnusedMember.Local
 

@@ -15,6 +15,9 @@ using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
+using MGui;
+using MGui.Datatypes;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Viewers.Charts
 {
@@ -57,7 +60,7 @@ namespace MetaboliteLevels.Viewers.Charts
         {
             if (_captionBar != null)
             {
-                format = format.Replace("{HIGHLIGHTED}", "highlighted in " + UiControls.ColourToName(_core.Options.Colours.NotableHighlight).ToLower());
+                format = format.Replace("{HIGHLIGHTED}", "highlighted in " + ColourHelper.ColourToName(_core.Options.Colours.NotableHighlight).ToLower());
 
                 _captionBar.SetText(format, namableItems);
             }

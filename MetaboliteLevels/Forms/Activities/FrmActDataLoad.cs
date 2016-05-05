@@ -19,6 +19,8 @@ using MetaboliteLevels.Utilities;
 using System.IO;
 using MetaboliteLevels.Controls;
 using System.Threading;
+using MGui.Helpers;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -168,13 +170,13 @@ namespace MetaboliteLevels.Forms.Startup
         private static void Load_5_UserIdentifications( FileLoadInfo dataInfo, MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, ProgressReporter prog)
         {
             prog.Enter("Loading identifications");
-            Matrix<string> mat = new Matrix<string>(fileName, true, true, prog);
+            Spreadsheet<string> mat = Spreadsheet.Read<string>(fileName, true, true, null, prog.SetProgress);
             prog.Leave();
 
             prog.Enter("Interpreting identifications");
-            int peakCol      = mat.OptionalColIndex( dataInfo.IDFILE_PEAK_HEADER );
-            int mzCol        = mat.OptionalColIndex( dataInfo.VARFILE_MZ_HEADER );
-            int compoundsCol = mat.ColIndex( dataInfo.IDFILE_COMPOUNDS_HEADER );
+            int peakCol      = mat.TryFindColumn( dataInfo.IDFILE_PEAK_HEADER );
+            int mzCol        = mat.TryFindColumn( dataInfo.VARFILE_MZ_HEADER );
+            int compoundsCol = mat.FindColumn( dataInfo.IDFILE_COMPOUNDS_HEADER );
 
             for (int row = 0; row < mat.NumRows; row++)
             {
@@ -221,7 +223,7 @@ namespace MetaboliteLevels.Forms.Startup
                         annotation = new Annotation(peak, newCompound, CreateOrGetEmpty(adducts));
                     }
 
-                    mat.WriteMeta(row, annotation.Meta, annotationMeta);
+                    WriteMeta( mat, row, annotation.Meta, annotationMeta);
 
                     annotation.Peak.Annotations.Add(annotation);
                     annotation.Compound.Annotations.Add(annotation);
@@ -230,6 +232,14 @@ namespace MetaboliteLevels.Forms.Startup
             }
 
             prog.Leave();
+        }
+
+        private static void WriteMeta( Spreadsheet<string> data, int row, MetaInfoCollection collection, MetaInfoHeader headers )
+        {
+            for (int col = 0; col < data.NumCols; col++)
+            {
+                collection.Write( headers, data.ColNames[col], data.Data[row, col].ToString() );
+            }
         }
 
         private static Adduct CreateOrGetEmpty(List<Adduct> adducts)
@@ -251,14 +261,14 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 string fileName = fileNames[index];
                 prog.Enter("Loading adducts (" + index + " of " + fileNames.Count + ")");
-                Matrix<string> mat = new Matrix<string>(fileName, true, true, prog);
+                Spreadsheet<string> mat = Spreadsheet.Read<string>( fileName, true, true, null, prog.SetProgress);
                 prog.Leave();
 
                 prog.Enter("Interpreting adducts (" + index + " of " + fileNames.Count + ")");
 
-                int nameCol = mat.ColIndex( dataInfo.ADDUCTFILE_NAME_HEADER );
-                int chargeCol = mat.ColIndex( dataInfo.ADDUCTFILE_CHARGE_HEADER );
-                int mzCol = mat.ColIndex( dataInfo.ADDUCTFILE_MASS_DIFFERENCE_HEADER );
+                int nameCol = mat.FindColumn( dataInfo.ADDUCTFILE_NAME_HEADER );
+                int chargeCol = mat.FindColumn( dataInfo.ADDUCTFILE_CHARGE_HEADER );
+                int mzCol = mat.FindColumn( dataInfo.ADDUCTFILE_MASS_DIFFERENCE_HEADER );
 
                 for (int row = 0; row < mat.NumRows; row++)
                 {
@@ -266,7 +276,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                     Adduct a = new Adduct(mat[row, nameCol], int.Parse(mat[row, chargeCol]), decimal.Parse(mat[row, mzCol]));
 
-                    mat.WriteMeta(row, a.MetaInfo, header);
+                    WriteMeta(mat, row, a.MetaInfo, header);
 
                     adducts.Add(a);
                 }
@@ -692,10 +702,10 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Pathways
             {
-                Matrix<string> pathwayMatrix = new Matrix<string>(patFile, true, true, prog);
+                Spreadsheet<string> pathwayMatrix = Spreadsheet.Read<string>( patFile, true, true, null, prog.SetProgress);
 
-                int nameCol = pathwayMatrix.ColIndex( dataInfo.PATHWAYFILE_NAME_HEADER );
-                int idCol = pathwayMatrix.ColIndex( dataInfo.PATHWAYFILE_FRAME_ID_HEADER );
+                int nameCol = pathwayMatrix.FindColumn( dataInfo.PATHWAYFILE_NAME_HEADER );
+                int idCol = pathwayMatrix.FindColumn( dataInfo.PATHWAYFILE_FRAME_ID_HEADER );
 
                 for (int row = 0; row < pathwayMatrix.NumRows; row++)
                 {
@@ -706,7 +716,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                     Pathway p = AddWithoutConflict(pathwayMeta, tag, pathways, id, name);
 
-                    pathwayMatrix.WriteMeta(row, p.MetaInfo, pathwayMeta);
+                    WriteMeta( pathwayMatrix, row, p.MetaInfo, pathwayMeta);
                 }
             }
 
@@ -716,12 +726,12 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Compounds
             {
-                Matrix<string> mat = new Matrix<string>(compFile, true, true, prog);
+                Spreadsheet<string> mat = Spreadsheet.Read<string>( compFile, true, true, null, prog.SetProgress);
 
-                int nameCol = mat.ColIndex( dataInfo.COMPOUNDFILE_NAME_HEADER );
-                int idCol = mat.ColIndex( dataInfo.COMPOUNDFILE_FRAME_ID_HEADER );
-                int mzCol = mat.ColIndex( dataInfo.COMPOUNDFILE_MASS_HEADER );
-                int pathwayCol = mat.ColIndex( dataInfo.COMPOUNDFILE_PATHWAYS_HEADER );
+                int nameCol = mat.FindColumn( dataInfo.COMPOUNDFILE_NAME_HEADER );
+                int idCol = mat.FindColumn( dataInfo.COMPOUNDFILE_FRAME_ID_HEADER );
+                int mzCol = mat.FindColumn( dataInfo.COMPOUNDFILE_MASS_HEADER );
+                int pathwayCol = mat.FindColumn( dataInfo.COMPOUNDFILE_PATHWAYS_HEADER );
 
                 for (int row = 0; row < mat.NumRows; row++)
                 {
@@ -733,7 +743,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                     Compound compound = AddWithoutConflict(compoundMeta, tag, compounds, id, name, mass);
 
-                    mat.WriteMeta(row, compound.MetaInfo, compoundMeta);
+                    WriteMeta(mat, row, compound.MetaInfo, compoundMeta);
 
                     string[] pathwaysForCompound = mat[row, pathwayCol].Split(",".ToCharArray());
 
@@ -761,12 +771,12 @@ namespace MetaboliteLevels.Forms.Startup
         {
             Dictionary<string, string> output = new Dictionary<string, string>();
 
-            Matrix<string> mat = new Matrix<string>(fileName, true, true, reportProgress);
+            Spreadsheet<string> mat = Spreadsheet.Read<string>( fileName, true, true, null, reportProgress.SetProgress);
 
             output.Clear();
 
-            int idCol = mat.ColIndex( dataInfo.CONDITIONFILE_ID_HEADER );
-            int nameCol = mat.ColIndex( dataInfo.CONDITIONFILE_NAME_HEADER );
+            int idCol = mat.FindColumn( dataInfo.CONDITIONFILE_ID_HEADER );
+            int nameCol = mat.FindColumn( dataInfo.CONDITIONFILE_NAME_HEADER );
 
             for (int row = 0; row < mat.NumRows; row++)
             {
@@ -816,29 +826,29 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Load data
             prog.Enter("Loading intensities");
-            Matrix<double> data = new Matrix<double>(files.Data, true, true, prog);
+            Spreadsheet<double> data = Spreadsheet.Read<double>(files.Data, true, true, null, prog.SetProgress);
             prog.Leave();
 
             prog.Enter("Loading alt. intensities");
-            Matrix<double> altData = !string.IsNullOrWhiteSpace(files.AltData) ? new Matrix<double>(files.AltData, true, true, prog) : null;
+            Spreadsheet<double> altData = !string.IsNullOrWhiteSpace(files.AltData) ? Spreadsheet.Read<double>(files.AltData, true, true, null, prog.SetProgress ) : null;
             prog.Leave();
 
             prog.Enter("Loading observations");
-            Matrix<string> info = new Matrix<string>(files.ObservationInfo, true, true, prog);
+            Spreadsheet<string> info = Spreadsheet.Read<string>( files.ObservationInfo, true, true, null, prog.SetProgress );
             prog.Leave();
 
             prog.Enter("Loading peaks");
-            Matrix<string> varInfo = new Matrix<string>(files.PeakInfo, true, true, prog);
+            Spreadsheet<string> varInfo = Spreadsheet.Read<string>( files.PeakInfo, true, true, null, prog.SetProgress );
             prog.Leave();
 
             prog.Enter("Formatting data");
 
             // Get "obsinfo" columns
-            int dayCol = info.OptionalColIndex( dataInfo.OBSFILE_TIME_HEADER );
-            int repCol = info.OptionalColIndex( dataInfo.OBSFILE_REPLICATE_HEADER );
-            int typeCol = info.OptionalColIndex( dataInfo.OBSFILE_GROUP_HEADER );
-            int batchCol = info.OptionalColIndex( dataInfo.OBSFILE_BATCH_HEADER );
-            int acquisitionCol = info.OptionalColIndex( dataInfo.OBSFILE_ACQUISITION_HEADER );
+            int dayCol = info.TryFindColumn( dataInfo.OBSFILE_TIME_HEADER );
+            int repCol = info.TryFindColumn( dataInfo.OBSFILE_REPLICATE_HEADER );
+            int typeCol = info.TryFindColumn( dataInfo.OBSFILE_GROUP_HEADER );
+            int batchCol = info.TryFindColumn( dataInfo.OBSFILE_BATCH_HEADER );
+            int acquisitionCol = info.TryFindColumn( dataInfo.OBSFILE_ACQUISITION_HEADER );
 
             // Get "peakinfo" columns specific to LCMS mode
             int mzCol;
@@ -852,13 +862,13 @@ namespace MetaboliteLevels.Forms.Startup
 
                 case ELcmsMode.Positive:
                 case ELcmsMode.Negative:
-                    mzCol = varInfo.ColIndex( dataInfo.VARFILE_MZ_HEADER );
+                    mzCol = varInfo.FindColumn( dataInfo.VARFILE_MZ_HEADER );
                     lcmsModeCol = -1;
                     break;
 
                 case ELcmsMode.Mixed:
-                    mzCol = varInfo.ColIndex( dataInfo.VARFILE_MZ_HEADER );
-                    lcmsModeCol = varInfo.ColIndex( dataInfo.VARFILE_MODE_HEADER );
+                    mzCol = varInfo.FindColumn( dataInfo.VARFILE_MZ_HEADER );
+                    lcmsModeCol = varInfo.FindColumn( dataInfo.VARFILE_MODE_HEADER );
                     break;
 
                 default:
@@ -994,12 +1004,12 @@ namespace MetaboliteLevels.Forms.Startup
                     // The alt. data might contain more variables or observations than the original data, or be in a
                     // different order - either way the row/column names must be the same and only those in both sets
                     // are used currently.
-                    int altV = altData.ColIndex(varInfo.RowNames[peakIndex]);
+                    int altV = altData.FindColumn(varInfo.RowNames[peakIndex]);
                     double[] altIntensities = new double[data.NumRows];
 
                     for (int origRow = 0; origRow < data.NumRows; origRow++)
                     {
-                        int altRow = altData.RowIndex(data.RowNames[origRow]);
+                        int altRow = altData.FindRow(data.RowNames[origRow]);
 
                         altIntensities[origRow] = altData[altRow, altV];
                     }
@@ -1012,7 +1022,7 @@ namespace MetaboliteLevels.Forms.Startup
 
                 // Create the variable
                 Peak peak = new Peak(peakIndex, data.ColNames[peakIndex], values, altValues, lcmsMode, mz);
-                varInfo.WriteMeta(peakIndex, peak.MetaInfo, result.PeakMetaHeader);
+                WriteMeta( varInfo, peakIndex, peak.MetaInfo, result.PeakMetaHeader);
                 result.Peaks.Add(peak);
             }
 
@@ -1332,27 +1342,27 @@ namespace MetaboliteLevels.Forms.Startup
 
     internal sealed class FileLoadInfo
     {
-        public readonly string OBSFILE_TIME_HEADER = "time,day,t";
-        public readonly string OBSFILE_REPLICATE_HEADER = "rep,replicate";
-        public readonly string OBSFILE_GROUP_HEADER = "type,group,condition,conditions";
-        public readonly string OBSFILE_BATCH_HEADER = "batch";
-        public readonly string OBSFILE_ACQUISITION_HEADER = "acquisition,order,file,index";
-        public readonly string IDFILE_PEAK_HEADER = "name,peak,variable";
-        public readonly string IDFILE_COMPOUNDS_HEADER = "id,annotation,ids,annotations,compounds,compound";
-        public readonly string ADDUCTFILE_NAME_HEADER = "name";
-        public readonly string ADDUCTFILE_CHARGE_HEADER = "charge,z";
-        public readonly string ADDUCTFILE_MASS_DIFFERENCE_HEADER = "mass.difference";
-        public readonly string PATHWAYFILE_NAME_HEADER = "name";
-        public readonly string PATHWAYFILE_FRAME_ID_HEADER = "frame.id,id";
-        public readonly string COMPOUNDFILE_NAME_HEADER = "name";
-        public readonly string COMPOUNDFILE_FRAME_ID_HEADER = "frame.id,id";
-        public readonly string COMPOUNDFILE_MASS_HEADER = "mass,m";
-        public readonly string COMPOUNDFILE_PATHWAYS_HEADER = "pathways,pathway,pathway.ids,pathway.id";
-        public readonly string CONDITIONFILE_ID_HEADER = "id,frame.id";
-        public readonly string CONDITIONFILE_NAME_HEADER = "name";
-        public readonly string VARFILE_MZ_HEADER = "mz";
-        public readonly string VARFILE_MODE_HEADER = "mode,lcmsmode,lcms,lcms.mode";
-        public readonly string AUTOFILE_OBSERVATIONS= "Info.csv,ObsInfo.csv,ObservationInfo.csv,Observations.csv,*.jgf";
-        public readonly string AUTOFILE_PEAKS = "VarInfo.csv,PeakInfo.csv,FeatureInfo.csv,Peaks.csv,Variables.csv,Features.csv";
+        public readonly string[] OBSFILE_TIME_HEADER               = { "time", "day", "t" };
+        public readonly string[] OBSFILE_REPLICATE_HEADER          = { "rep", "replicate" };
+        public readonly string[] OBSFILE_GROUP_HEADER              = { "type", "group", "condition", "conditions" };
+        public readonly string[] OBSFILE_BATCH_HEADER              = { "batch" };
+        public readonly string[] OBSFILE_ACQUISITION_HEADER        = { "acquisition", "order", "file", "index" };
+        public readonly string[] IDFILE_PEAK_HEADER                = { "name", "peak", "variable" };
+        public readonly string[] IDFILE_COMPOUNDS_HEADER           = { "id", "annotation", "ids", "annotations", "compounds", "compound" };
+        public readonly string[] ADDUCTFILE_NAME_HEADER            = { "name" };
+        public readonly string[] ADDUCTFILE_CHARGE_HEADER          = { "charge", "z" };
+        public readonly string[] ADDUCTFILE_MASS_DIFFERENCE_HEADER = { "mass.difference" };
+        public readonly string[] PATHWAYFILE_NAME_HEADER           = { "name" };
+        public readonly string[] PATHWAYFILE_FRAME_ID_HEADER       = { "frame.id", "id" };
+        public readonly string[] COMPOUNDFILE_NAME_HEADER          = { "name" };
+        public readonly string[] COMPOUNDFILE_FRAME_ID_HEADER      = { "frame.id", "id" };
+        public readonly string[] COMPOUNDFILE_MASS_HEADER          = { "mass", "m" };
+        public readonly string[] COMPOUNDFILE_PATHWAYS_HEADER      = { "pathways", "pathway", "pathway.ids", "pathway.id" };
+        public readonly string[] CONDITIONFILE_ID_HEADER           = { "id", "frame.id" };
+        public readonly string[] CONDITIONFILE_NAME_HEADER         = { "name" };
+        public readonly string[] VARFILE_MZ_HEADER                 = { "mz" };
+        public readonly string[] VARFILE_MODE_HEADER               = { "mode", "lcmsmode", "lcms", "lcms.mode" };
+        public readonly string[] AUTOFILE_OBSERVATIONS             = { "Info.csv", "ObsInfo.csv", "ObservationInfo.csv", "Observations.csv", "*.jgf" };
+        public readonly string[] AUTOFILE_PEAKS                    = { "VarInfo.csv", "PeakInfo.csv", "FeatureInfo.csv", "Peaks.csv", "Variables.csv", "Features.csv" };
     }
 }

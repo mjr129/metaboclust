@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MGui;
+using MGui.Helpers;
 using MSerialisers;
 
 namespace MetaboliteLevels.Utilities

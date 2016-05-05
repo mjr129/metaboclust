@@ -10,6 +10,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Data.Session;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Results
 {

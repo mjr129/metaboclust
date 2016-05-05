@@ -13,6 +13,7 @@ using MetaboliteLevels.Forms;
 using MCharting;
 using System.Drawing.Drawing2D;
 using System.Diagnostics;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Viewers.Charts
 {

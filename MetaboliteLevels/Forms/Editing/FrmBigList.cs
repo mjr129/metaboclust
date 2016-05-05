@@ -18,6 +18,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Editing
 {

@@ -14,6 +14,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Controls;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {

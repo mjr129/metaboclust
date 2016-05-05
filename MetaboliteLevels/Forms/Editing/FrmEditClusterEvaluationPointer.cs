@@ -16,6 +16,8 @@ using System.Windows.Forms;
 using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Properties;
+using MGui;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {

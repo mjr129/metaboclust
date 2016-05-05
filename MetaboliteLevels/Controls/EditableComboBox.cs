@@ -9,6 +9,7 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Controls
 {

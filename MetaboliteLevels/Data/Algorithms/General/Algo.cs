@@ -18,6 +18,7 @@ using MetaboliteLevels.Algorithms.Statistics.Metrics;
 using MetaboliteLevels.Algorithms.Statistics.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Trends;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms
 {

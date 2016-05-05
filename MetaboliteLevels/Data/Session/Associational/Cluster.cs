@@ -9,6 +9,7 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
+using MGui.Helpers;
 using MSerialisers;
 
 namespace MetaboliteLevels.Data.Visualisables

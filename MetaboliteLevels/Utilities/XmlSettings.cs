@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
+using MGui.Helpers;
 using MSerialisers;
 using MSerialisers.Serialisers;
 using MSerialisers.Streams;
@@ -333,6 +336,7 @@ namespace MetaboliteLevels.Settings
 
                 case SerialisationFormat.MsnrbfBinary:
                     var bcs = new BinaryFormatter();
+                    bcs.Binder = new TypeNameConverter();
                     return (T)bcs.Deserialize(s);
 
                 case SerialisationFormat.Ini:
@@ -341,7 +345,41 @@ namespace MetaboliteLevels.Settings
                 default:
                     throw new InvalidOperationException("Invalid switch: " + format);
             }
-        }   
+        }
+
+        /// <summary>
+        /// This little beast handles the conversion of old data types into new data to ensure files
+        /// saved with an earlier version still work.  
+        /// </summary>
+        private class TypeNameConverter : SerializationBinder
+        {
+            public override Type BindToType( string assemblyName, string typeName )
+            {
+                // Changed library
+                if (typeName == "MetaboliteLevels.Utilities.ParseElementCollection")
+                {
+                    return typeof( ParseElementCollection );
+                }
+
+                if (typeName == "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement")
+                {
+                    return typeof( ParseElement );
+                }
+
+                typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement, MetaboliteLevels, Version=1.0.0.4669, Culture=neutral, PublicKeyToken=null", typeof( ParseElement ).AssemblyQualifiedName );
+
+                Type result =  Type.GetType( string.Format( "{0}, {1}", typeName, assemblyName ) );
+
+                if (result == null)
+                {
+                    Debug.WriteLine( "Could not get type: "+ assemblyName+" " + typeName );
+                    Debugger.Break();
+                }
+
+                return result;
+            }
+        }
+
 
         public static T LoadAndResave<T>( FileDescriptor fileName,  ProgressReporter prog, ObjectSerialiser serialiser  )
             where T:new()

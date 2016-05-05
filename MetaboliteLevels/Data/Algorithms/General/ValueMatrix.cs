@@ -11,6 +11,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.IO;
 using System.Diagnostics;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms
 {

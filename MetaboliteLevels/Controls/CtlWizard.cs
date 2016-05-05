@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using MetaboliteLevels.Utilities;
 using System.Text;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Controls
 {

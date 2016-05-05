@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MGui;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -72,7 +73,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (UiControls.EditColor(ref _colour ))
+            if (ColourHelper.EditColor(ref _colour ))
             {
                 UpdateButtonImage();
             }

@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Utilities;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Settings
 {

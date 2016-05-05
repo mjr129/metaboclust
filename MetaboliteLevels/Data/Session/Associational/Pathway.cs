@@ -13,6 +13,7 @@ using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Settings;
 using MSerialisers;
 using System.Drawing.Drawing2D;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Visualisables
 {

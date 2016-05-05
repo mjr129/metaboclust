@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Trends
 {

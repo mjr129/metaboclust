@@ -21,6 +21,7 @@ using System.Collections;
 using MSerialisers;
 using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
 using MSerialisers.Serialisers;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Session
 {

@@ -4,6 +4,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Algorithms.Statistics.Results;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {

@@ -15,6 +15,8 @@ using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Viewers.Lists;
 using System.IO;
+using MGui;
+using MGui.Controls;
 
 namespace MetaboliteLevels.Forms.Editing
 {

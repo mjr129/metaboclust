@@ -11,6 +11,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 {

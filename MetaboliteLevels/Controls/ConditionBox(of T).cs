@@ -17,6 +17,8 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Settings;
+using MGui.Helpers;
+using MGui;
 
 namespace MetaboliteLevels.Controls
 {

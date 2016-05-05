@@ -8,6 +8,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 using RefAss = System.Tuple<MetaboliteLevels.Data.DataInfo.GroupInfo, MetaboliteLevels.Data.Visualisables.Cluster>;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Clusterers

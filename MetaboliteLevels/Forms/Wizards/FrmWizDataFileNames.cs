@@ -16,6 +16,8 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.Collections;
 using MetaboliteLevels.DataLoader;
+using MGui.Datatypes;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -653,10 +655,8 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        private void TryAutoSet( string firstFileName, TextBox dst, string possibleFileNamesCommaDelimited )
-        {
-            string[] possibleFileNames = possibleFileNamesCommaDelimited.Split( ',' );
-
+        private void TryAutoSet( string firstFileName, TextBox dst, string[] possibleFileNames )
+        {                                                                   
             if (dst.TextLength == 0)
             {
                 foreach (string s in possibleFileNames)
@@ -934,8 +934,8 @@ namespace MetaboliteLevels.Forms.Startup
                         {
                             if (File.Exists( observationFile ))
                             {
-                                Matrix<string> info = new Matrix<string>( observationFile, true, true, progress );
-                                int typeCol = info.OptionalColIndex( _fileLoadInfo.OBSFILE_GROUP_HEADER );
+                                Spreadsheet<string> info = Spreadsheet.Read<string>( observationFile, true, true, null, progress.SetProgress );
+                                int typeCol = info.TryFindColumn( _fileLoadInfo.OBSFILE_GROUP_HEADER );
 
                                 for (int row = 0; row < info.NumRows; row++)
                                 {

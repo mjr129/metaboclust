@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this._btnColour = new MetaboliteLevels.Controls.CtlColourEditor();
+            this._btnColour = new MGui.Controls.CtlColourEditor();
             this._btnComment = new MetaboliteLevels.Controls.CtlButton();
             this.label1 = new System.Windows.Forms.Label();
             this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
@@ -336,6 +336,6 @@
         private Controls.CtlButton _btnOk;
         private Controls.CtlButton _btnCancel;
         private Controls.CtlError ctlError1;
-        private Controls.CtlColourEditor _btnColour;
+        private MGui.Controls.CtlColourEditor _btnColour;
     }
 }
