@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmActEvaluate));
-            MCharting.MChart.Selection selection1 = new MCharting.MChart.Selection();
+            MCharting.Selection selection1 = new MCharting.Selection();
             this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();

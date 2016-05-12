@@ -929,12 +929,17 @@ namespace MetaboliteLevels.Forms.Startup
                 try
                 {
                     FrmWait.Show(this, "Updating experimental groups", null, delegate(ProgressReporter progress)
-                    {   
+                    {
+                        SpreadsheetReader reader = new SpreadsheetReader()
+                        {
+                            Progress = progress.SetProgress,
+                        };
+
                         if (useObsFile)
                         {
                             if (File.Exists( observationFile ))
                             {
-                                Spreadsheet<string> info = Spreadsheet.Read<string>( observationFile, true, true, null, progress.SetProgress );
+                                Spreadsheet<string> info = reader.Read<string>( observationFile  );
                                 int typeCol = info.TryFindColumn( _fileLoadInfo.OBSFILE_GROUP_HEADER );
 
                                 for (int row = 0; row < info.NumRows; row++)

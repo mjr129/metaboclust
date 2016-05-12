@@ -53,9 +53,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
                 IEnumerable<int> xOutI = outputOrder.Which(z => z.Group == g);
 
                 // Get obs/cond/values for this TYPE
-                IEnumerable<int> x = inputOrder.In(xI).Select(z => z.Time);
-                IEnumerable<int> xOut = outputOrder.In(xOutI).Select(z => z.Time);
-                IEnumerable<double> y = raw.In(xI);
+                IEnumerable<int> x = inputOrder.At( xI).Select(z => z.Time);
+                IEnumerable<int> xOut = outputOrder.At( xOutI).Select(z => z.Time);
+                IEnumerable<double> y = raw.At( xI);
 
                 // Smooth this line
                 double[] yOut = Smooth(y, x, xOut, args);
@@ -89,9 +89,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
                 IEnumerable<int> xOutI = outputOrder.Which(z => z.Batch == b);
 
                 // Get obs/cond/values for this BATCH
-                IEnumerable<int> x = inputOrder.In(xI).Select(z => z.Acquisition);
-                IEnumerable<int> xOut = outputOrder.In(xOutI).Select(z => z.Acquisition);
-                IEnumerable<double> y = raw.In(xI);
+                IEnumerable<int> x = inputOrder.At( xI).Select(z => z.Acquisition);
+                IEnumerable<int> xOut = outputOrder.At( xOutI).Select(z => z.Acquisition);
+                IEnumerable<double> y = raw.At( xI);
 
                 // Smooth this line
                 double[] yOut = Smooth(y, x, xOut, args);
@@ -118,9 +118,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
                 IEnumerable<int> xOutI = outputOrder.Which(z => getGroupOut(z).Equals(b));
 
                 // Get obs/cond/values for this BATCH
-                IEnumerable<int> x = inputOrder.In(xI).Select(z => getXIn(z));
-                IEnumerable<int> xOut = outputOrder.In(xOutI).Select(z => getXOut(z));
-                IEnumerable<double> y = raw.In(xI);
+                IEnumerable<int> x = inputOrder.At( xI).Select(z => getXIn(z));
+                IEnumerable<int> xOut = outputOrder.At( xOutI).Select(z => getXOut(z));
+                IEnumerable<double> y = raw.At( xI);
 
                 // Smooth this line
                 double[] yOut = Smooth(y, x, xOut, args);

@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
             int medianRadius = (int)arg;
 
             IEnumerable<int> indicesForWindow = x.Which(λ => (λ >= (xTarget - medianRadius)) && (λ <= (xTarget + medianRadius)));
-            IEnumerable<double> valuesForWindow = y.In(indicesForWindow);
+            IEnumerable<double> valuesForWindow = y.At( indicesForWindow);
 
             return _avg(valuesForWindow);
         }

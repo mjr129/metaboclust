@@ -48,11 +48,11 @@ namespace MetaboliteLevels.Viewers.Charts
         public void Plot(StylisedPeak stylisedPeak)
         {
             Debug.WriteLine("PeakPlot: " + stylisedPeak);
-            Dictionary<string, MChart.Series> seriesNames = new Dictionary<string, MChart.Series>();
+            Dictionary<string, MCharting.Series> seriesNames = new Dictionary<string, MCharting.Series>();
             Peak peak = stylisedPeak?.Peak;
 
             // Clear plot
-            MChart.Plot plot = PrepareNewPlot(stylisedPeak != null && !stylisedPeak.IsPreview, peak);
+            MCharting.Plot plot = PrepareNewPlot(stylisedPeak != null && !stylisedPeak.IsPreview, peak);
 
             // Get selection   
             SelectedPeak = peak;
@@ -73,7 +73,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
             // Group legends
             IEnumerable<GroupInfoBase> order = opts.ShowAcqisition ? (IEnumerable<GroupInfoBase>)opts.ViewBatches : (IEnumerable<GroupInfoBase>)opts.ViewTypes;
-            Dictionary<GroupInfoBase, MChart.Series> groupLegends = DrawLegend(plot, order);
+            Dictionary<GroupInfoBase, MCharting.Series> groupLegends = DrawLegend(plot, order);
 
             // Get observations
             PeakValueSet observations;
@@ -104,7 +104,7 @@ namespace MetaboliteLevels.Viewers.Charts
             if (opts.ShowAcqisition)
             {
                 // --- RAW DATA (points) ---
-                MChart.Series legendEntry = new MChart.Series();
+                MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Observations";
                 legendEntry.Style.DrawPoints = new SolidBrush(Color.Black);
                 plot.LegendEntries.Add(legendEntry);
@@ -115,7 +115,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 // --- TREND (thick line) ---
                 if (stylisedPeak.ForceTrend != null)
                 {
-                    MChart.Series legendEntry2 = new MChart.Series();
+                    MCharting.Series legendEntry2 = new MCharting.Series();
                     legendEntry2.Name = "Trend";
                     legendEntry2.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
                     legendEntry2.Style.DrawLines.Width = 4;
@@ -158,7 +158,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // --- RAW DATA (points) ---
             if (opts.ShowPoints && !stylisedPeak.IsPreview)
             {
-                MChart.Series legendEntry = new MChart.Series();
+                MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Observations";
                 legendEntry.Style.DrawPoints = new SolidBrush(Color.Black);
                 plot.LegendEntries.Add(legendEntry);
@@ -169,7 +169,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // --- RANGE (lines) ---
             if (opts.ShowRanges)
             {
-                MChart.Series legendEntry = new MChart.Series();
+                MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Range min/max";
                 legendEntry.Style.DrawLines = new Pen(Color.Gray, _core.Options.LineWidth);
                 plot.LegendEntries.Add(legendEntry);
@@ -181,7 +181,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // --- TREND (thick line) ---
             if (opts.ShowTrend)
             {
-                MChart.Series legendEntry = new MChart.Series();
+                MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Trend";
                 legendEntry.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
                 legendEntry.Style.DrawLines.Width = _core.Options.LineWidth * 4;
@@ -208,9 +208,17 @@ namespace MetaboliteLevels.Viewers.Charts
             CompleteNewPlot(plot);
         }
 
-        private void AddUpperAndLowerShade(MChart.Plot plot, ConditionInfo[] condOrder, StylisedPeakOptions o, Dictionary<string, MChart.Series> seriesNames, Peak peak, double[] min, double[] max, Dictionary<GroupInfoBase, MChart.Series> groupLegends)
+        private void AddUpperAndLowerShade(
+            MCharting.Plot plot,
+            ConditionInfo[] condOrder,
+            StylisedPeakOptions o, 
+            Dictionary<string, MCharting.Series> seriesNames, 
+            Peak peak,
+            double[] min,
+            double[] max,
+            Dictionary<GroupInfoBase, MCharting.Series> groupLegends)
         {
-            MChart.Series legendEntry = new MChart.Series();
+            MCharting.Series legendEntry = new MCharting.Series();
             legendEntry.Name = "Range";
             legendEntry.Style.DrawVBands = new SolidBrush(Color.Gray);
             plot.LegendEntries.Add(legendEntry);
@@ -224,7 +232,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 {
                     // Name the series
                     string name = "Range for " + cond.Group.DisplayName;
-                    MChart.Series series;
+                    MCharting.Series series;
 
                     // Create the series (if required)
                     if (!seriesNames.ContainsKey(name))
@@ -270,22 +278,27 @@ namespace MetaboliteLevels.Viewers.Charts
                     // Create the point
                     IntensityInfo info1 = new IntensityInfo(cond.Time, null, cond.Group, yMin);
                     IntensityInfo info2 = new IntensityInfo(cond.Time, null, cond.Group, yMax);
-                    MChart.DataPoint cdp = new MChart.DataPoint(xVal, new[] { yMin, yMax });
+                    MCharting.DataPoint cdp = new MCharting.DataPoint(xVal, new[] { yMin, yMax });
                     cdp.Tag = new[] { info1, info2 };
                     series.Points.Add(cdp);
                 }
             }
         }
 
-        private void AddMeanAndSdLines(MChart.Plot plot, StylisedPeakOptions o, PeakValueSet observations, Peak peak, Dictionary<GroupInfoBase, MChart.Series> groupLegends)
+        private void AddMeanAndSdLines(
+            MCharting.Plot plot,
+            StylisedPeakOptions o,
+            PeakValueSet observations, 
+            Peak peak, 
+            Dictionary<GroupInfoBase, MCharting.Series> groupLegends)
         {
-            MChart.Series legendEntry = new MChart.Series();
+            MCharting.Series legendEntry = new MCharting.Series();
             legendEntry.Name = "Std. Dev. Min/Max";
             legendEntry.Style.DrawLines = new Pen(Color.Gray, _core.Options.LineWidth);
             legendEntry.Style.DrawLines.DashStyle = DashStyle.Dot;
             plot.LegendEntries.Add(legendEntry);
 
-            MChart.Series legendEntry2 = new MChart.Series();
+            MCharting.Series legendEntry2 = new MCharting.Series();
             legendEntry2.Name = "Mean";
             legendEntry2.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
             plot.LegendEntries.Add(legendEntry2);
@@ -311,9 +324,9 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 // Create the series
-                MChart.Series sMean = plot.Series.Add(@group.DisplayName + ": Mean");
-                MChart.Series sMin = plot.Series.Add(@group.DisplayName + ": StdDevMin");
-                MChart.Series sMax = plot.Series.Add(@group.DisplayName + ": StdDevMax");
+                MCharting.Series sMean = plot.Series.Add(@group.DisplayName + ": Mean");
+                MCharting.Series sMin = plot.Series.Add(@group.DisplayName + ": StdDevMin");
+                MCharting.Series sMax = plot.Series.Add(@group.DisplayName + ": StdDevMax");
 
                 sMean.ApplicableLegends.Add(groupLegends[group]);
                 sMin.ApplicableLegends.Add(groupLegends[group]);
@@ -349,9 +362,9 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <summary>
         /// Adds a tagged datapoint to a series.
         /// </summary>
-        private static void AddDataPoint(MChart.Series series, int x, double y, GroupInfo type)
+        private static void AddDataPoint( MCharting.Series series, int x, double y, GroupInfo type)
         {
-            MChart.DataPoint dp = new MChart.DataPoint(x, y);
+            MCharting.DataPoint dp = new MCharting.DataPoint(x, y);
             dp.Tag = new IntensityInfo(null, null, type, y);
 
             if (double.IsNaN(y) || double.IsInfinity(y))
@@ -382,7 +395,17 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <param name="line">Line or dots/</param>
         /// <param name="bold">Bold line?</param>
         /// <param name="isConditions">Order by conditions or obervations</param>
-        private void AddToPlot(MChart.Plot plot, Peak peak, Dictionary<string, MChart.Series> seriesNames, double[] intensities, string seriesName, IEnumerable xInfo, StylisedPeakOptions o, EPlot draw, Dictionary<GroupInfoBase, MChart.Series> groupLegends, MChart.Series legend)
+        private void AddToPlot( 
+            MCharting.Plot plot, 
+            Peak peak, 
+            Dictionary<string, MCharting.Series> seriesNames,
+            double[] intensities,
+            string seriesName, 
+            IEnumerable xInfo,
+            StylisedPeakOptions o,
+            EPlot draw,
+            Dictionary<GroupInfoBase, MCharting.Series> groupLegends,
+            MCharting.Series legend)
         {
             bool byCondition = xInfo.FirstOrDefault2() is ConditionInfo;
             int i = -1;
@@ -438,7 +461,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 GroupInfoBase seriesUsing = colorByBatch ? (GroupInfoBase)condBatch : (GroupInfoBase)condType;
 
                 string name = seriesName + " for " + seriesUsing.DisplayName;
-                MChart.Series series;
+                MCharting.Series series;
 
                 // Create the series (if required)
                 if (!seriesNames.ContainsKey(name))
@@ -498,7 +521,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 }
 
                 // Create the point
-                MChart.DataPoint cdp = new MChart.DataPoint(xPos, yPos);
+                MCharting.DataPoint cdp = new MCharting.DataPoint(xPos, yPos);
                 IntensityInfo tag = new IntensityInfo(condDay, condRep, condType, yPos);
                 cdp.Tag = tag;
                 series.Points.Add(cdp);

@@ -423,7 +423,7 @@ namespace MetaboliteLevels.Forms.Generic
                 }
             }
 
-            _result = _objects.Corresponding( GetStates() ).ToArray();
+            _result = _objects.At( GetStates() ).ToArray();
             DialogResult = DialogResult.OK;
         }
 

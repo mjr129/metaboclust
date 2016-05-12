@@ -340,11 +340,11 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void CreatePlot(Column<ClusterEvaluationParameterResult> col)
         {
-            MChart.Plot plot = new MChart.Plot();
+            MCharting.Plot plot = new MCharting.Plot();
             //plot.Style = new MChart.PlotStyle();
             //plot.Style.ShowZero = false;
 
-            MChart.Series series = new MChart.Series();
+            MCharting.Series series = new MCharting.Series();
             series.Style.DrawPoints = new SolidBrush(Color.Black);
             series.Style.DrawLines = new Pen(Color.Black);
 
@@ -386,7 +386,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     maxX = value;
                 }
 
-                series.Points.Add(new MChart.DataPoint(x, y));
+                series.Points.Add(new MCharting.DataPoint(x, y));
             }
 
             plot.Series.Add(series);

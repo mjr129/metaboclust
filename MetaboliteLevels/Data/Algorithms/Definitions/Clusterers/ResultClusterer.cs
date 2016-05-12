@@ -205,7 +205,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
 
                 if (filteredIndices != null)
                 {
-                    centreVector = centreVector.In2(filteredIndices);
+                    centreVector = centreVector.Extract(filteredIndices);
                 }
 
                 centreVectors.Add(cluster, centreVector);

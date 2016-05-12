@@ -91,7 +91,7 @@ namespace MetaboliteLevels.Data.General
             foreach (GroupInfo type in typeInfo)
             {
                 IEnumerable<int> indicesForType = obsInfo.Which(λ => λ.Group == type);
-                IEnumerable<double> valuesForType = raw.In(indicesForType);
+                IEnumerable<double> valuesForType = raw.At( indicesForType);
 
                 this.Mean[type.Order] = Maths.Mean(valuesForType);
                 this.StdDev[type.Order] = Maths.StdDev(valuesForType, this.Mean[type.Order]);
@@ -105,7 +105,7 @@ namespace MetaboliteLevels.Data.General
         public IEnumerable<double> ExtractValues(IEnumerable<ConditionInfo> conditions, IEnumerable<GroupInfo> conditionsOfInterest)
         {
             IEnumerable<int> cindexes = conditions.Which(λ => conditionsOfInterest.Contains(λ.Group));
-            IEnumerable<double> cvalues = this.Trend.In(cindexes);
+            IEnumerable<double> cvalues = this.Trend.At( cindexes);
             return cvalues;
         }
     }

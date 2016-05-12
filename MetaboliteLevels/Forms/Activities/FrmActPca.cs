@@ -111,12 +111,12 @@ namespace MetaboliteLevels.Forms.Editing
             if (_trend)
             {
                 which = _core.Conditions.Which(_obsFilter.Test);
-                conds = _core.Conditions.In(which);
+                conds = _core.Conditions.At(which);
             }
             else
             {
                 which = _core.Observations.Which(_obsFilter.Test);
-                conds = _core.Observations.In(which);
+                conds = _core.Observations.At(which);
             }
 
             for (int peakIndex = 0; peakIndex < peaks.Count; peakIndex++)
@@ -125,7 +125,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 PeakValueSet src = corIndex == -1 ? peak.OriginalObservations : peak.CorrectionChain[corIndex];
 
-                IEnumerable<double> vals = _trend ? src.Trend.In(which) : src.Raw.In(which);
+                IEnumerable<double> vals = _trend ? src.Trend.At(which) : src.Raw.At(which);
 
                 if (valueMatrix == null)
                 {
@@ -179,7 +179,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._chart.Visible = true;
             _lblSelection.Text = "";
 
-            MChart.Plot plot = new MChart.Plot();
+            MCharting.Plot plot = new MCharting.Plot();
 
             // Get the "rows"
             IEnumerator enSources;
@@ -258,9 +258,9 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 enSources.MoveNext();
 
-                MChart.Series series = GetOrCreateSeriesForValue(plot, column, (IVisualisable)enSources.Current);
+                MCharting.Series series = GetOrCreateSeriesForValue(plot, column, (IVisualisable)enSources.Current);
 
-                var coord = new MChart.DataPoint(plotPoints[r, _component], plotPoints[r, _component + 1]);
+                var coord = new MCharting.DataPoint(plotPoints[r, _component], plotPoints[r, _component + 1]);
                 coord.Tag = enSources.Current;
 
                 series.Points.Add(coord);
@@ -281,14 +281,14 @@ namespace MetaboliteLevels.Forms.Editing
             _chart.SetPlot(plot);
         }
 
-        private static MChart.Series GetOrCreateSeriesForValue(MChart.Plot plot, Column column, IVisualisable vis)
+        private static MCharting.Series GetOrCreateSeriesForValue( MCharting.Plot plot, Column column, IVisualisable vis)
         {
             object value = column.GetRow(vis);
-            MChart.Series series = plot.Series.FirstOrDefault(z => (z.Tag == null && value == null) || (z.Tag != null && z.Tag.Equals(value)));
+            MCharting.Series series = plot.Series.FirstOrDefault(z => (z.Tag == null && value == null) || (z.Tag != null && z.Tag.Equals(value)));
 
             if (series == null)
             {
-                series = new MChart.Series();
+                series = new MCharting.Series();
                 series.Name = Column.AsString(value, column.DisplayMode);
                 series.Tag = value;
 

@@ -169,8 +169,13 @@ namespace MetaboliteLevels.Forms.Startup
         /// </summary>
         private static void Load_5_UserIdentifications( FileLoadInfo dataInfo, MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, ProgressReporter prog)
         {
+            SpreadsheetReader reader = new SpreadsheetReader()
+            {
+                Progress = prog.SetProgress,
+            };
+
             prog.Enter("Loading identifications");
-            Spreadsheet<string> mat = Spreadsheet.Read<string>(fileName, true, true, null, prog.SetProgress);
+            Spreadsheet<string> mat = reader.Read<string>(fileName);
             prog.Leave();
 
             prog.Enter("Interpreting identifications");
@@ -257,11 +262,16 @@ namespace MetaboliteLevels.Forms.Startup
 
         private static void Load_3_Adducts( FileLoadInfo dataInfo, List<Adduct> adducts, List<string> fileNames, MetaInfoHeader header, ProgressReporter prog)
         {
+            SpreadsheetReader reader = new SpreadsheetReader()
+            {
+                Progress = prog.SetProgress,
+            };
+
             for (int index = 0; index < fileNames.Count; index++)
             {
                 string fileName = fileNames[index];
                 prog.Enter("Loading adducts (" + index + " of " + fileNames.Count + ")");
-                Spreadsheet<string> mat = Spreadsheet.Read<string>( fileName, true, true, null, prog.SetProgress);
+                Spreadsheet<string> mat = reader.Read<string>( fileName);
                 prog.Leave();
 
                 prog.Enter("Interpreting adducts (" + index + " of " + fileNames.Count + ")");
@@ -696,13 +706,18 @@ namespace MetaboliteLevels.Forms.Startup
 
         private static void LoadCsvDatabase( FileLoadInfo dataInfo, List<Compound> compoundsOut, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, string compFile, string patFile, CompoundLibrary tag, ProgressReporter prog)
         {
+            SpreadsheetReader reader = new SpreadsheetReader()
+            {
+                Progress = prog.SetProgress,
+            };
+
             Dictionary<string, Pathway> pathways = new Dictionary<string, Pathway>();
 
             pathways.AddRange(pathwaysList, z => z.Id);
 
             // Pathways
             {
-                Spreadsheet<string> pathwayMatrix = Spreadsheet.Read<string>( patFile, true, true, null, prog.SetProgress);
+                Spreadsheet<string> pathwayMatrix = reader.Read<string>( patFile );
 
                 int nameCol = pathwayMatrix.FindColumn( dataInfo.PATHWAYFILE_NAME_HEADER );
                 int idCol = pathwayMatrix.FindColumn( dataInfo.PATHWAYFILE_FRAME_ID_HEADER );
@@ -726,7 +741,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Compounds
             {
-                Spreadsheet<string> mat = Spreadsheet.Read<string>( compFile, true, true, null, prog.SetProgress);
+                Spreadsheet<string> mat = reader.Read<string>( compFile );
 
                 int nameCol = mat.FindColumn( dataInfo.COMPOUNDFILE_NAME_HEADER );
                 int idCol = mat.FindColumn( dataInfo.COMPOUNDFILE_FRAME_ID_HEADER );
@@ -769,9 +784,14 @@ namespace MetaboliteLevels.Forms.Startup
 
         public static Dictionary<string, string> LoadConditionInfo(FileLoadInfo dataInfo, string fileName, ProgressReporter reportProgress)
         {
+            SpreadsheetReader reader = new SpreadsheetReader()
+            {
+                Progress = reportProgress.SetProgress,
+            };
+
             Dictionary<string, string> output = new Dictionary<string, string>();
 
-            Spreadsheet<string> mat = Spreadsheet.Read<string>( fileName, true, true, null, reportProgress.SetProgress);
+            Spreadsheet<string> mat = reader.Read<string>( fileName );
 
             output.Clear();
 
@@ -801,6 +821,11 @@ namespace MetaboliteLevels.Forms.Startup
 
         private static DataSet Load_1_DataSets(FileLoadInfo dataInfo, DataFileNames files, ProgressReporter prog)
         {
+            SpreadsheetReader reader = new SpreadsheetReader()
+            {
+                Progress = prog.SetProgress,
+            };
+
             DataSet result = new DataSet();
             result.PeakMetaHeader = new MetaInfoHeader();
 
@@ -826,19 +851,19 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Load data
             prog.Enter("Loading intensities");
-            Spreadsheet<double> data = Spreadsheet.Read<double>(files.Data, true, true, null, prog.SetProgress);
+            Spreadsheet<double> data = reader.Read<double>(files.Data);
             prog.Leave();
 
             prog.Enter("Loading alt. intensities");
-            Spreadsheet<double> altData = !string.IsNullOrWhiteSpace(files.AltData) ? Spreadsheet.Read<double>(files.AltData, true, true, null, prog.SetProgress ) : null;
+            Spreadsheet<double> altData = !string.IsNullOrWhiteSpace(files.AltData) ? reader.Read<double>(files.AltData) : null;
             prog.Leave();
 
             prog.Enter("Loading observations");
-            Spreadsheet<string> info = Spreadsheet.Read<string>( files.ObservationInfo, true, true, null, prog.SetProgress );
+            Spreadsheet<string> info = reader.Read<string>( files.ObservationInfo );
             prog.Leave();
 
             prog.Enter("Loading peaks");
-            Spreadsheet<string> varInfo = Spreadsheet.Read<string>( files.PeakInfo, true, true, null, prog.SetProgress );
+            Spreadsheet<string> varInfo = reader.Read<string>( files.PeakInfo );
             prog.Leave();
 
             prog.Enter("Formatting data");

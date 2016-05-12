@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace MetaboliteLevels.Utilities
 {
+    [Serializable] // inherited
     class SwitchException : Exception
     {
         [MethodImpl(MethodImplOptions.NoInlining)]

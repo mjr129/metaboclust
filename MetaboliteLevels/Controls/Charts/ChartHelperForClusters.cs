@@ -63,19 +63,19 @@ namespace MetaboliteLevels.Viewers.Charts
                 return;
             }
 
-            _chart.SelectedItem = new MChart.Selection(GetSeries(peak).ToArray());
+            _chart.SelectedItem = new MCharting.Selection(GetSeries(peak).ToArray());
         }
 
-        private List<MChart.Series> GetSeries(Peak peak)
+        private List<MCharting.Series> GetSeries(Peak peak)
         {
-            List<MChart.Series> theSeries = new List<MChart.Series>();
+            List<MCharting.Series> theSeries = new List<MCharting.Series>();
 
             if (peak == null)
             {
                 return theSeries;
             }
 
-            foreach (MChart.Series series in _chart.CurrentPlot.Series)
+            foreach (MCharting.Series series in _chart.CurrentPlot.Series)
             {
                 if (series.Tag == peak)
                 {
@@ -105,7 +105,7 @@ namespace MetaboliteLevels.Viewers.Charts
             if (e.Selection.Series.Length == 1)
             {
                 Peak peak = (Peak)e.Selection.Series[0].Tag;
-                e.Selection = new MChart.Selection(GetSeries(peak).ToArray(), e.Selection.DataPoint, e.Selection.YIndex, e.Selection.XIndex);
+                e.Selection = new MCharting.Selection(GetSeries(peak).ToArray(), e.Selection.DataPoint, e.Selection.YIndex, e.Selection.XIndex);
             }
         }
 
@@ -118,7 +118,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
             // Reset the chart
             bool isPreview = stylisedCluster != null && stylisedCluster.IsPreview;
-            MChart.Plot plot = PrepareNewPlot(!isPreview, (stylisedCluster != null) ? stylisedCluster.Cluster : null);
+            MCharting.Plot plot = PrepareNewPlot(!isPreview, (stylisedCluster != null) ? stylisedCluster.Cluster : null);
 
             // Set the selected cluster
             Cluster p = stylisedCluster != null ? stylisedCluster.Cluster : null;
@@ -168,7 +168,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 groupOrder = _core.Options.ViewTypes.OrderBy(GroupInfo.GroupOrderBy).ToArray();
             }
 
-            MChart.Series legendEntry = new MChart.Series();
+            MCharting.Series legendEntry = new MCharting.Series();
             legendEntry.Name = "Input vector";
             legendEntry.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth * 2);
             plot.LegendEntries.Add(legendEntry);
@@ -176,7 +176,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // --- LEGEND ---
             var groupLegends = DrawLegend(plot, groupOrder);
 
-            HashSet<MChart.Series> toBringToFront = new HashSet<MChart.Series>();
+            HashSet<MCharting.Series> toBringToFront = new HashSet<MCharting.Series>();
 
             // --- PLOT CLUSTER ASSIGNMENTS ---
             // Iterate variables in cluster
@@ -185,10 +185,10 @@ namespace MetaboliteLevels.Viewers.Charts
                 Assignment assignment = toPlot[assignmentIndex];
                 Vector vec = assignment.Vector;
                 Peak peak = vec.Peak;
-                Dictionary<GroupInfo, MChart.Series> vecSeries = new Dictionary<GroupInfo, MChart.Series>();
-                Dictionary<GroupInfo, MChart.Series> vec2Series = new Dictionary<GroupInfo, MChart.Series>();
-                MChart.DataPoint lastPoint = null;
-                MChart.Series lastSeries = null;
+                Dictionary<GroupInfo, MCharting.Series> vecSeries = new Dictionary<GroupInfo, MCharting.Series>();
+                Dictionary<GroupInfo, MCharting.Series> vec2Series = new Dictionary<GroupInfo, MCharting.Series>();
+                MCharting.DataPoint lastPoint = null;
+                MCharting.Series lastSeries = null;
 
                 double[] vector = vec.Values;
 
@@ -210,8 +210,8 @@ namespace MetaboliteLevels.Viewers.Charts
                             continue;
                         }
 
-                        MChart.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, false);
-                        MChart.Series seriesb = null;
+                        MCharting.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, false);
+                        MCharting.Series seriesb = null;
 
                         if (series != lastSeries && lastSeries != null)
                         {
@@ -224,7 +224,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                         int x = typeOffset + cond.Time;
                         double y = vector[index];
-                        MChart.DataPoint dataPoint = new MChart.DataPoint(x, y);
+                        MCharting.DataPoint dataPoint = new MCharting.DataPoint(x, y);
                         dataPoint.Tag = new IntensityInfo(cond.Time, null, cond.Group, y);
                         series.Points.Add(dataPoint);
 
@@ -252,9 +252,9 @@ namespace MetaboliteLevels.Viewers.Charts
                             continue;
                         }
 
-                        MChart.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, false);
+                        MCharting.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, false);
 
-                        MChart.Series seriesb = null;
+                        MCharting.Series seriesb = null;
 
                         if (series != lastSeries && lastSeries != null)
                         {
@@ -267,7 +267,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                         int x = typeOffset + obs.Time;
                         double v = vector[index];
-                        MChart.DataPoint dataPoint = new MChart.DataPoint(x, v);
+                        MCharting.DataPoint dataPoint = new MCharting.DataPoint(x, v);
                         dataPoint.Tag = new IntensityInfo(obs.Time, obs.Rep, obs.Group, v);
                         series.Points.Add(dataPoint);
 
@@ -285,7 +285,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // --- PLOT CLUSTER CENTRES ---
             if (!isPreview && core.Options.ShowCentres && p.Centres.Count != 0 && p.Centres.Count < 100)
             {
-                MChart.Series legendEntry2 = new MChart.Series();
+                MCharting.Series legendEntry2 = new MCharting.Series();
                 legendEntry2.Name = (p.Centres.Count == 1) ? "Cluster centre" : "Cluster centres";
                 legendEntry2.Style.DrawLines = new Pen(colourSettings.ClusterCentre, _core.Options.LineWidth * 2);
                 legendEntry2.Style.DrawLines.DashStyle = DashStyle.Dash;
@@ -297,7 +297,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                 foreach (double[] centre in p.Centres)
                 {
-                    MChart.Series series = new MChart.Series();
+                    MCharting.Series series = new MCharting.Series();
                     series.ApplicableLegends.Add(legendEntry2);
                     plot.Series.Add(series);
                     series.Name = "Cluster centre #" + (++numClusterCentres);
@@ -322,7 +322,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                             double dp = centre[index];
                             int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
-                            MChart.DataPoint cdp = new MChart.DataPoint(x, dp);
+                            MCharting.DataPoint cdp = new MCharting.DataPoint(x, dp);
                             cdp.Tag = new IntensityInfo(cond.Time, null, cond.Group, dp);
                             series.Points.Add(cdp);
                         }
@@ -343,7 +343,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                             double dp = centre[index];
                             int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
-                            MChart.DataPoint cdp = new MChart.DataPoint(x, dp);
+                            MCharting.DataPoint cdp = new MCharting.DataPoint(x, dp);
                             cdp.Tag = new IntensityInfo(cond.Time, cond.Rep, cond.Group, dp);
                             series.Points.Add(cdp);
                         }
@@ -352,7 +352,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // Bring highlighted series to the front
-            foreach (MChart.Series series in toBringToFront)
+            foreach (MCharting.Series series in toBringToFront)
             {
                 plot.Series.Remove(series);
                 plot.Series.Add(series);
@@ -376,9 +376,18 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <param name="groupLegends">Where to add legends to</param>
         /// <param name="lineLegend">Where to add legends to</param>
         /// <returns>Series (new or existing)</returns>
-        private MChart.Series GetOrCreateSeries(MChart.Plot plot, Dictionary<GroupInfo, MChart.Series> existingSeries, GroupInfo group, Vector vector, StylisedCluster style, Dictionary<GroupInfoBase, MChart.Series> groupLegends, MChart.Series lineLegend, HashSet<MChart.Series> toBringToFront, bool bandw)
+        private MCharting.Series GetOrCreateSeries(
+            MCharting.Plot plot, 
+            Dictionary<GroupInfo, MCharting.Series> existingSeries,
+            GroupInfo group,
+            Vector vector,
+            StylisedCluster style,
+            Dictionary<GroupInfoBase, MCharting.Series> groupLegends,
+            MCharting.Series lineLegend, 
+            HashSet<MCharting.Series> toBringToFront,
+            bool bandw)
         {
-            MChart.Series series;
+            MCharting.Series series;
 
             if (existingSeries.TryGetValue(group, out series))
             {
@@ -389,7 +398,7 @@ namespace MetaboliteLevels.Viewers.Charts
             Dictionary<Peak, LineInfo> colours = style?.Colours;
 
             // Each peak + condition gets its own series (yes we end up with lots of series)
-            series = new MChart.Series();
+            series = new MCharting.Series();
             series.Name = vector.ToString() + " : " + group.DisplayName;
             series.ApplicableLegends.Add(groupLegends[group]);
             series.ApplicableLegends.Add(lineLegend);

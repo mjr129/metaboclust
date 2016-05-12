@@ -75,10 +75,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                         if (args.Constraint != null)
                         {
                             var xI = core.Observations.Which(args.Constraint.Test);
-                            var x = core.Observations.In(xI).ToArray();
+                            var x = core.Observations.At(xI).ToArray();
                             var xOut = core.Observations;
                             var g = core.Batches;
-                            var y = raw.In(xI).ToArray();
+                            var y = raw.At(xI).ToArray();
 
                             trendOrder = xOut;
                             return algo.SmoothByBatch(x, xOut, g, y, args);
@@ -98,9 +98,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                 case ECorrectionMode.Control:
                     {
                         var xI = core.Observations.Which(z => z.Group == args.ControlGroup);
-                        var x = core.Observations.In(xI).ToArray();
+                        var x = core.Observations.At(xI).ToArray();
                         var xOut = core.Conditions.Where(z => z.Group == args.ControlGroup).ToArray();
-                        var y = raw.In(xI).ToArray();
+                        var y = raw.At(xI).ToArray();
                         var g = new[] { args.ControlGroup };
 
                         trendOrder = xOut;

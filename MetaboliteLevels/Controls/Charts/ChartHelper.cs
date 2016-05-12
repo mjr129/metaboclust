@@ -217,7 +217,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
             HashSet<IVisualisable> items = new HashSet<IVisualisable>();
 
-            foreach (MChart.Series series in _chart.SelectedItem.Series)
+            foreach (MCharting.Series series in _chart.SelectedItem.Series)
             {
                 IVisualisable visualisable = series.Tag as IVisualisable;
 
@@ -263,7 +263,7 @@ namespace MetaboliteLevels.Viewers.Charts
             _chart.SetPlot(PrepareNewPlot(false, null));
         }
 
-        protected void CompleteNewPlot(MChart.Plot plot)
+        protected void CompleteNewPlot( MCharting.Plot plot)
         {
             _chart.SetPlot(plot);
         }
@@ -274,9 +274,9 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <param name="axes">Include axis text (i.e. not a preview)</param>
         /// <param name="toPlot">What will be plotted</param>
         /// <returns>New MChart.Plot object</returns>
-        protected MChart.Plot PrepareNewPlot(bool axes, IAssociational toPlot)
+        protected MCharting.Plot PrepareNewPlot(bool axes, IAssociational toPlot)
         {
-            MChart.Plot plot = new MChart.Plot();
+            MCharting.Plot plot = new MCharting.Plot();
 
             CoreOptions.PlotSetup userComments = _core.Options.GetUserText(_core, toPlot);
 
@@ -507,13 +507,13 @@ namespace MetaboliteLevels.Viewers.Charts
             return _chart.DrawToBitmap(width, height);
         }
 
-        protected Dictionary<GroupInfoBase, MChart.Series> DrawLegend(MChart.Plot plot, IEnumerable<GroupInfoBase> viewTypes)
+        protected Dictionary<GroupInfoBase, MCharting.Series> DrawLegend( MCharting.Plot plot, IEnumerable<GroupInfoBase> viewTypes)
         {
-            Dictionary<GroupInfoBase, MChart.Series> result = new Dictionary<GroupInfoBase, MChart.Series>();
+            Dictionary<GroupInfoBase, MCharting.Series> result = new Dictionary<GroupInfoBase, MCharting.Series>();
 
             foreach (GroupInfoBase group in viewTypes)
             {
-                MChart.Series legendEntry    = new MChart.Series();
+                MCharting.Series legendEntry    = new MCharting.Series();
                 legendEntry.Name             = group.DisplayName;
                 legendEntry.Style.DrawVBands = new SolidBrush(group.Colour);
                 plot.LegendEntries.Add(legendEntry);
@@ -523,7 +523,7 @@ namespace MetaboliteLevels.Viewers.Charts
             return result;
         }
 
-        protected void DrawLabels(MChart.Plot plot, bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups)
+        protected void DrawLabels( MCharting.Plot plot, bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups)
         {
             if (bConditionsSideBySide)
             {
@@ -558,24 +558,24 @@ namespace MetaboliteLevels.Viewers.Charts
             }
         }
 
-        private void DrawAxisBar(MChart.Plot plot, int x, int min, int max, string text)
+        private void DrawAxisBar(MCharting.Plot plot, int x, int min, int max, string text)
         {
             if (min == max)
             {
-                plot.XTicks.Add(new MChart.Tick(text, x + min, -3, 1));
-                plot.XTicks.Add(new MChart.Tick(null, x + min, 2, 0));
+                plot.XTicks.Add(new MCharting.Tick(text, x + min, -3, 1));
+                plot.XTicks.Add(new MCharting.Tick(null, x + min, 2, 0));
                 return;
             }
 
-            plot.XTicks.Add(new MChart.Tick(text, x + (min + max) / 2, -3, 0));
+            plot.XTicks.Add(new MCharting.Tick(text, x + (min + max) / 2, -3, 0));
 
-            plot.XTicks.Add(new MChart.Tick(min.ToString(), x + min, 2, 1));
+            plot.XTicks.Add(new MCharting.Tick(min.ToString(), x + min, 2, 1));
 
-            plot.XTicks.Add(new MChart.Tick(max.ToString(), x + max, 2, 1));
+            plot.XTicks.Add(new MCharting.Tick(max.ToString(), x + max, 2, 1));
 
             for (int n = min + 1; n < max; n++)
             {
-                plot.XTicks.Add(new MChart.Tick(null, x + n, 1, 0));
+                plot.XTicks.Add(new MCharting.Tick(null, x + n, 1, 0));
             }
         }
 

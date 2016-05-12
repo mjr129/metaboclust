@@ -621,7 +621,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// Memory cleanup.
         /// </summary>
         public void Dispose()
-        {
+        {         
             OnDisposing(true);
         }
 

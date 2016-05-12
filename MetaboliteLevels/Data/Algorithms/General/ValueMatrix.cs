@@ -96,24 +96,24 @@ namespace MetaboliteLevels.Algorithms
             {
                 Debug.Assert(original.Vectors.CompareAdjacent((x, y) => object.ReferenceEquals(x.Conditions, y.Conditions)));
 
-                var conditions = original.Vectors[0].Conditions.In(filteredIndices).ToArray(); // We assume all condition arrays are equal
+                var conditions = original.Vectors[0].Conditions.At( filteredIndices).ToArray(); // We assume all condition arrays are equal
 
                 for (int r = 0; r < original.NumVectors; r++)
                 {
                     Vector o = original.Vectors[r];
-                    newVectors[r] = new Vector(o.Peak, o.Group, conditions, null, o.Values.In(filteredIndices).ToArray(), r);
+                    newVectors[r] = new Vector(o.Peak, o.Group, conditions, null, o.Values.At( filteredIndices).ToArray(), r);
                 }
             }
             else
             {
                 Debug.Assert(original.Vectors.CompareAdjacent((x, y) => object.ReferenceEquals(x.Observations, y.Observations)));
 
-                var observations = original.Vectors[0].Observations.In(filteredIndices).ToArray(); // We assume all observation arrays are equal
+                var observations = original.Vectors[0].Observations.At( filteredIndices).ToArray(); // We assume all observation arrays are equal
 
                 for (int r = 0; r < original.NumVectors; r++)
                 {
                     Vector o = original.Vectors[r];
-                    newVectors[r] = new Vector(o.Peak, o.Group, null, observations, o.Values.In(filteredIndices).ToArray(), r);
+                    newVectors[r] = new Vector(o.Peak, o.Group, null, observations, o.Values.At( filteredIndices).ToArray(), r);
                 }
             }
 
@@ -169,7 +169,7 @@ namespace MetaboliteLevels.Algorithms
                         which = core.Conditions.WhichInOrder(z => z.Group == group && obsFilter.Test(z), ConditionInfo.GroupTimeDisplayOrder).ToArray();
                     }
 
-                    conditions = core.Conditions.In(which).ToArray();
+                    conditions = core.Conditions.At( which).ToArray();
                     int y = which.Length;
 
                     if (groupIndex != 0)
@@ -205,7 +205,7 @@ namespace MetaboliteLevels.Algorithms
                         which = core.Observations.WhichInOrder(z => z.Group == group && obsFilter.Test(z), ObservationInfo.GroupTimeDisplayOrder).ToArray();
                     }
 
-                    observations = core.Observations.In(which).ToArray();
+                    observations = core.Observations.At( which).ToArray();
                     int y = which.Length;
 
                     if (groupIndex != 0)
