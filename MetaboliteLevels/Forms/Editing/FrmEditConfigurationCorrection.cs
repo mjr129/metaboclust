@@ -539,11 +539,6 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             anything_SomethingChanged( sender, e );
-        }
-
-        private void _btnEditTypes_Click( object sender, EventArgs e )
-        {
-            DataSet.ForGroups( _core ).ShowListEditor( this );
-        }
+        }    
     }
 }

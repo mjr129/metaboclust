@@ -31,7 +31,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new Controls.CtlButton();
             this.btnCancel = new Controls.CtlButton();
-            this.textBox1 = new Controls.CtlTextBox();
+            this.textBox1 = new MGui.Controls.CtlTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._mnuStrip = new System.Windows.Forms.MenuStrip();
             this._mnuFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -219,7 +219,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnOk;
         private Controls.CtlButton btnCancel;
-        private Controls.CtlTextBox textBox1;
+        private MGui.Controls.CtlTextBox textBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private Controls.CtlTitleBar _titleBar;
         private System.Windows.Forms.MenuStrip _mnuStrip;

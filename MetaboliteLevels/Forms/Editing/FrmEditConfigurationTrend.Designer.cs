@@ -45,19 +45,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this._lstMethod = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtName = new MGui.Controls.CtlTextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._btnEditParameters = new MetaboliteLevels.Controls.CtlButton();
             this.label16 = new System.Windows.Forms.Label();
             this._lblParams = new System.Windows.Forms.Label();
-            this._txtParams = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtParams = new MGui.Controls.CtlTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this._tlpPreview = new System.Windows.Forms.TableLayoutPanel();
             this._lblPreviewTitle = new System.Windows.Forms.Label();
             this._flpPreviewButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
+            this._checker = new MGui.Controls.CtlError(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -474,10 +474,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox _lstMethod;
         private System.Windows.Forms.Label label4;
-        private Controls.CtlTextBox _txtName;
+        private MGui.Controls.CtlTextBox _txtName;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label _lblParams;
-        private Controls.CtlTextBox _txtParams;
+        private MGui.Controls.CtlTextBox _txtParams;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label _lblError;
         private Controls.CtlButton _btnEditParameters;
@@ -488,6 +488,6 @@
         private Controls.CtlButton ctlButton2;
         private Controls.CtlButton ctlButton3;
         private System.Windows.Forms.Panel panel1;
-        private Controls.CtlError _checker;
+        private MGui.Controls.CtlError _checker;
     }
 }

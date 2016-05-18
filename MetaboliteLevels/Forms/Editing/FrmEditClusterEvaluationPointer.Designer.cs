@@ -35,10 +35,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this._numNumTimes = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this._txtAlgorithm = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtAlgorithm = new MGui.Controls.CtlTextBox();
             this._btnSetAlgorithm = new MetaboliteLevels.Controls.CtlButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this._txtStatistics = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtStatistics = new MGui.Controls.CtlTextBox();
             this._btnStatistics = new MetaboliteLevels.Controls.CtlButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -56,16 +56,16 @@
             this._numStep = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this._txtValues = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtValues = new MGui.Controls.CtlTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this._numCount = new System.Windows.Forms.NumericUpDown();
-            this._txtValue = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtValue = new MGui.Controls.CtlTextBox();
             this._btnClear = new MetaboliteLevels.Controls.CtlButton();
             this.label11 = new System.Windows.Forms.Label();
-            this._txtNumberOfValues = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtNumberOfValues = new MGui.Controls.CtlTextBox();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
+            this._checker = new MGui.Controls.CtlError(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._numNumTimes)).BeginInit();
             this.tableLayoutPanel4.SuspendLayout();
@@ -657,11 +657,11 @@
         private Controls.CtlButton _btnCancel;
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private Controls.CtlTextBox _txtAlgorithm;
+        private MGui.Controls.CtlTextBox _txtAlgorithm;
         private Controls.CtlButton _btnSetAlgorithm;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private Controls.CtlTextBox _txtStatistics;
+        private MGui.Controls.CtlTextBox _txtStatistics;
         private Controls.CtlButton _btnStatistics;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown _numNumTimes;
@@ -674,14 +674,14 @@
         private Controls.CtlButton _btnAddRepeats;
         private Controls.CtlButton _btnAddRange;
         private System.Windows.Forms.Label label8;
-        private Controls.CtlTextBox _txtValues;
+        private MGui.Controls.CtlTextBox _txtValues;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown _numCount;
-        private Controls.CtlTextBox _txtValue;
+        private MGui.Controls.CtlTextBox _txtValue;
         private Controls.CtlButton _btnClear;
         private System.Windows.Forms.Label label11;
-        private Controls.CtlTextBox _txtNumberOfValues;
-        private Controls.CtlError _checker;
+        private MGui.Controls.CtlTextBox _txtNumberOfValues;
+        private MGui.Controls.CtlError _checker;
     }
 }

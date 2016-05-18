@@ -32,12 +32,12 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new Controls.CtlButton();
             this._btnOk = new Controls.CtlButton();
-            this._txtCompounds = new Controls.CtlTextBox();
+            this._txtCompounds = new MGui.Controls.CtlTextBox();
             this._btnCompounds = new MetaboliteLevels.Controls.CtlButton();
             this._btnPathways = new MetaboliteLevels.Controls.CtlButton();
-            this._txtPathwayTools = new Controls.CtlTextBox();
+            this._txtPathwayTools = new MGui.Controls.CtlTextBox();
             this._btnPathwayTools = new MetaboliteLevels.Controls.CtlButton();
-            this._txtPathways = new Controls.CtlTextBox();
+            this._txtPathways = new MGui.Controls.CtlTextBox();
             this._radCsvFile = new System.Windows.Forms.RadioButton();
             this._radPathwayTools = new System.Windows.Forms.RadioButton();
             this._lblCompounds = new System.Windows.Forms.Label();
@@ -308,12 +308,12 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private Controls.CtlTextBox _txtCompounds;
+        private MGui.Controls.CtlTextBox _txtCompounds;
         private Controls.CtlButton _btnCompounds;
         private Controls.CtlButton _btnPathways;
-        private Controls.CtlTextBox _txtPathwayTools;
+        private MGui.Controls.CtlTextBox _txtPathwayTools;
         private Controls.CtlButton _btnPathwayTools;
-        private Controls.CtlTextBox _txtPathways;
+        private MGui.Controls.CtlTextBox _txtPathways;
         private System.Windows.Forms.RadioButton _radCsvFile;
         private System.Windows.Forms.RadioButton _radPathwayTools;
         private System.Windows.Forms.Label _lblCompounds;

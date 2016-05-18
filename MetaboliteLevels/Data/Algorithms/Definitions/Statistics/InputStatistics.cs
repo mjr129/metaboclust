@@ -7,6 +7,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Settings;
 using MGui.Helpers;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Inputs
 {

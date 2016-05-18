@@ -111,8 +111,8 @@ namespace MetaboliteLevels.Forms
             this._btnSession = new System.Windows.Forms.ToolStripDropDownButton();
             this.editNameAndCommentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sessionInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
-            this.splitContainer2 = new MetaboliteLevels.Controls.CtlSplitter();
+            this.splitContainer1 = new MGui.Controls.CtlSplitter();
+            this.splitContainer2 = new MGui.Controls.CtlSplitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -177,7 +177,7 @@ namespace MetaboliteLevels.Forms
             this._btnSelection = new System.Windows.Forms.ToolStripDropDownButton();
             this._btnExterior = new System.Windows.Forms.ToolStripButton();
             this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
-            this.splitContainer3 = new MetaboliteLevels.Controls.CtlSplitter();
+            this.splitContainer3 = new MGui.Controls.CtlSplitter();
             this._mnuMain.SuspendLayout();
             this._cmsSelectionButton.SuspendLayout();
             this._statusMain.SuspendLayout();
@@ -1857,7 +1857,7 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadDataSetToolStripMenuItem;
         private System.Windows.Forms.ListView _lstVariables;
-        private MetaboliteLevels.Controls.CtlSplitter splitContainer1;
+        private MGui.Controls.CtlSplitter splitContainer1;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem saveExemplarsToolStripMenuItem;
@@ -1865,7 +1865,7 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.StatusStrip _statusMain;
         private System.Windows.Forms.ToolStripStatusLabel _lblChanges;
-        private MetaboliteLevels.Controls.CtlSplitter splitContainer3;
+        private MGui.Controls.CtlSplitter splitContainer3;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripMenuItem printClusterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportClustersToolStripMenuItem;
@@ -1884,7 +1884,7 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripMenuItem visualOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private MetaboliteLevels.Controls.CtlSplitter splitContainer2;
+        private MGui.Controls.CtlSplitter splitContainer2;
         private System.Windows.Forms.ToolStripMenuItem saveSessionAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;

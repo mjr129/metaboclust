@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Controls
 {
@@ -68,7 +69,7 @@ namespace MetaboliteLevels.Controls
                 bool subTitle = false;
                 bool flags = false;
 
-                foreach (Label lab in UiControls.EnumerateControls<Label>(p))
+                foreach (Label lab in FormHelper.EnumerateControls<Label>(p))
                 {
                     if (lab.Text.StartsWith("^^^"))
                     {

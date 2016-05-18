@@ -27,6 +27,7 @@ using MetaboliteLevels.Algorithms.Statistics.Corrections;
 using System.IO;
 using MGui;
 using MGui.Helpers;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Forms.Generic
 {

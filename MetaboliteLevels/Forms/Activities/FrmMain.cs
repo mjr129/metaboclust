@@ -29,6 +29,8 @@ using System.Drawing.Imaging;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MGui.Helpers;
+using MGui.Controls;
+using System.Reflection;
 
 namespace MetaboliteLevels.Forms
 {
@@ -1286,7 +1288,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            UiControls.ShowAbout(this);
+            UiControls.ShowAbout( this );
         }
 
         /// <summary>

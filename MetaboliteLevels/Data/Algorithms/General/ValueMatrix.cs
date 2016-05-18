@@ -272,7 +272,7 @@ namespace MetaboliteLevels.Algorithms
         {
             if (a.Length != b.Length)
             {
-                throw new InvalidOperationException("The size of the vector for " + a.First().Group + " isn't the same as for " + b.First().Group + ". Try putting constraints on the timepoints.");
+                throw new InvalidOperationException($"The size of the vector for the experimental group {a.First().Group} is {a.Length} but for the experimental group {b.First().Group} it is {b.Length}. The length of the input vectors must be the same. Try putting constraints on the timepoints.");
             }
 
             for (int index = 0; index < a.Length; index++)

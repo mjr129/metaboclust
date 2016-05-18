@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._txtInput = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtInput = new MGui.Controls.CtlTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
@@ -146,7 +146,7 @@
 
         #endregion
 
-        private Controls.CtlTextBox _txtInput;
+        private MGui.Controls.CtlTextBox _txtInput;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnOk;

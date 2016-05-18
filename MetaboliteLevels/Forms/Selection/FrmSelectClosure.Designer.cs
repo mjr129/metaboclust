@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new MetaboliteLevels.Controls.CtlTextBox();
+            this.textBox1 = new MGui.Controls.CtlTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnYes = new MetaboliteLevels.Controls.CtlButton();
             this._btnNo = new MetaboliteLevels.Controls.CtlButton();
@@ -197,7 +197,7 @@
         private Controls.CtlButton _btnNo;
         private Controls.CtlButton _btnCancel;
         private System.Windows.Forms.ComboBox comboBox1;
-        private Controls.CtlTextBox textBox1;
+        private MGui.Controls.CtlTextBox textBox1;
         private System.Windows.Forms.Label label1;
     }
 }

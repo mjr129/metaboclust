@@ -18,6 +18,8 @@ using System.Collections;
 using MetaboliteLevels.DataLoader;
 using MGui.Datatypes;
 using MGui.Helpers;
+using MGui.Controls;
+using MGui;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -52,7 +54,17 @@ namespace MetaboliteLevels.Forms.Startup
         private FrmEditDataFileNames()
         {
             InitializeComponent();
-            UiControls.SetIcon( this );        
+            UiControls.SetIcon( this );
+
+            _btnNewSession.BackColor = _btnNewSession.FlatAppearance.BorderColor
+                = _btnReturnToSession.BackColor = _btnReturnToSession.FlatAppearance.BorderColor
+                = _btnMostRecent.BackColor = _btnMostRecent.FlatAppearance.BorderColor
+                = UiControls.BackColour;
+
+            _btnNewSession.FlatAppearance.MouseOverBackColor
+                = _btnReturnToSession.FlatAppearance.MouseOverBackColor
+                = _btnMostRecent.FlatAppearance.MouseOverBackColor
+                = ColourHelper.Blend( UiControls.BackColour, Color.Black, 0.1 );
 
             _fileLoadInfo = XmlSettings.LoadAndResave<FileLoadInfo>( FileId.FileLoadInfo, ProgressReporter.GetEmpty(), null );
 
@@ -214,7 +226,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (!Application.RenderWithVisualStyles)
             {
-                foreach (var l in UiControls.EnumerateControls<Label>( this ))
+                foreach (var l in FormHelper.EnumerateControls<Label>( this ))
                 {
                     if (l.ForeColor == Color.CornflowerBlue)
                     {

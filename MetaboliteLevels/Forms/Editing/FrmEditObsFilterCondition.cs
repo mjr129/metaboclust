@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Forms.Generic;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Forms.Editing
 {

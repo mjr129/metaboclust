@@ -30,6 +30,8 @@ using MetaboliteLevels.Forms;
 using MGui;
 using MGui.Datatypes;
 using MGui.Helpers;
+using MetaboliteLevels.Forms.Startup;
+using MGui.Controls;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -56,13 +58,10 @@ namespace MetaboliteLevels.Utilities
         private static string __startupPath;
         private static EStartupPath __startupPathMode;
 
-        public static readonly Color BackColour = Color.FromArgb(153, 180, 209); // Color.FromKnownColor(KnownColor.ActiveCaption);
+        public static readonly Color BackColour = Color.White; // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color ForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
         public static readonly Color PreviewBackColour = Color.LightSteelBlue; // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color PreviewForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
-
-        // Messages
-        private const int WM_SETREDRAW = 0x000B;
 
         public static readonly Color[] BrightColours =
             {
@@ -97,51 +96,7 @@ namespace MetaboliteLevels.Utilities
             BreakingVersions = new Dictionary<Version, string>();
             BreakingVersions.Add(new Version(1, 0, 0, 4203), "Refactoring.");
             Random = new Random();
-        }
-
-        /// <summary>
-        /// (MJR) Shows an error provider on a control, using the application default position.
-        /// </summary>                                                                         
-        public static void ShowError(this ErrorProvider self, Control control, string text)
-        {
-            self.SetError(control, text);
-            self.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
-        }
-
-        /// <summary>
-        /// (MJR) Conditionally shows an error provider on a control, using the application default position.
-        /// </summary>                                                                         
-        public static void ShowError(this ErrorProvider self, Control control, bool condition, string text)
-        {
-            if (!condition)
-            {
-                self.SetError(control, text);
-                self.SetIconAlignment(control, ErrorIconAlignment.MiddleLeft);
-            }
-            else
-            {
-                self.SetError(control, null);
-            }
-        }
-
-
-        public static void SuspendDrawingAndLayout(this  Control control )
-        {
-            Message message = Message.Create( control.Handle, WM_SETREDRAW, IntPtr.Zero, IntPtr.Zero );
-
-            NativeWindow window = NativeWindow.FromHandle( control.Handle );
-            window.DefWndProc( ref message );
-        }
-
-        public static void ResumeDrawingAndLayout( this Control control )
-        {                                                                                  
-            Message message = Message.Create( control.Handle, WM_SETREDRAW, new IntPtr( 1 ), IntPtr.Zero );
-
-            NativeWindow window = NativeWindow.FromHandle( control.Handle );
-            window.DefWndProc( ref message );
-
-            control.Refresh();
-        }
+        }   
 
         /// <summary>
         /// Adds a caption after the last item in the menu.
@@ -393,7 +348,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>                                            
         internal static void MakeReadOnly(Control form, Control ignore = null)
         {
-            foreach (Control control in UiControls.EnumerateControls(form, ignore))
+            foreach (Control control in FormHelper.EnumerateControls(form, ignore))
             {
                 TextBox textBox = control as TextBox;
 
@@ -954,67 +909,7 @@ namespace MetaboliteLevels.Utilities
         }
 
 
-        /// <summary>
-        /// Enumerates all controls within [ctrl] of type [T].
-        /// </summary>
-        internal static IEnumerable<Control> EnumerateControls(Control ctrl, Control ignore)
-        {
-            if (ctrl == ignore)
-            {
-                yield break;
-            }
-
-            foreach (Control ctrl2 in ctrl.Controls)
-            {
-                foreach (Control ctrl3 in EnumerateControls(ctrl2, ignore))
-                {
-                    yield return ctrl3;
-                }
-            }
-
-            yield return ctrl;
-        }
-
-        /// <summary>
-        /// Enumerates all controls within [ctrl] of type [T].
-        /// </summary>
-        internal static IEnumerable<T> EnumerateControls<T>(Control ctrl)
-             where T : class
-        {
-            foreach (Control ctrl2 in ctrl.Controls)
-            {
-                foreach (T ctrl3 in EnumerateControls<T>(ctrl2))
-                {
-                    yield return ctrl3;
-                }
-            }
-
-            T t = ctrl as T;
-
-            if (t != null)
-            {
-                yield return t;
-            }
-        }
-
-        /// <summary>
-        /// Enumerates all controls within [ctrl] of type [T] and calls [action] on them.
-        /// </summary>
-        internal static void EnumerateControls<T>(Control ctrl, Action<T> action)
-            where T : class
-        {
-            foreach (Control ctrl2 in ctrl.Controls)
-            {
-                EnumerateControls<T>(ctrl2, action);
-            }
-
-            T t = ctrl as T;
-
-            if (t != null)
-            {
-                action(t);
-            }
-        }
+     
 
         /// <summary>
         /// Creates a color1 image with a color2 border.
@@ -1067,41 +962,6 @@ namespace MetaboliteLevels.Utilities
         }
 
         /// <summary>
-        /// Blends two colours.
-        /// </summary>
-        internal static Color Blend(Color colorA, Color colorB, double amountA)
-        {
-            if (double.IsNaN(amountA) || double.IsInfinity(amountA))
-            {
-                // Error
-                return Color.Pink;
-            }
-            else if (amountA < 0)
-            {
-                // Error
-                return Color.Cyan;
-            }
-            else if (amountA > 1)
-            {
-                // Error
-                return Color.Magenta;
-            }
-
-            return Color.FromArgb(Blend(colorA.A, colorB.A, amountA),
-                                  Blend(colorA.R, colorB.R, amountA),
-                                  Blend(colorA.G, colorB.G, amountA),
-                                  Blend(colorA.B, colorB.B, amountA));
-        }
-
-        /// <summary>
-        /// Blends two bytes.
-        /// </summary>
-        private static int Blend(byte byteA, byte byteB, double amountA)
-        {
-            return (int)(byteA + (byteB - byteA) * amountA);
-        }
-
-        /// <summary>
         /// Returns the trend message text.
         /// </summary>
         internal static string GetDefaultTrendMessage(Core core)
@@ -1134,6 +994,19 @@ namespace MetaboliteLevels.Utilities
 
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Shows the about dialogue.
+        /// </summary>                  
+        internal static void ShowAbout( Form owner )
+        {
+            AboutForm.Show(
+                owner,
+                Assembly.GetExecutingAssembly(),
+                "Additional icons made by Freepik, Google, Appzgear, Vectorgraphit from www.flaticon.com are licensed by CC BY 3.0.",
+                "https://bitbucket.org/mjr129/metabolitelevels"
+                );
         }
 
         /// <summary>
@@ -1193,7 +1066,7 @@ namespace MetaboliteLevels.Utilities
 
             double pct = (value - min) / (max - min);
 
-            return Blend(Color.Green, Color.Red, pct);
+            return ColourHelper.Blend(Color.Green, Color.Red, pct);
         }
 
         public enum EStartupPath
@@ -1355,19 +1228,7 @@ namespace MetaboliteLevels.Utilities
                 default:
                     throw new SwitchException(mode);
             }
-        }
-
-        internal static void ShowAbout(Form owner)
-        {
-            string aboutText = $"{UiControls.Title} version {UiControls.VersionString}.\r\n"
-                                + "Martin Rusilowicz.\r\n"
-                                + "\r\n"
-                                + "Additional icons made by Freepik, Google, Appzgear, Vectorgraphit from www.flaticon.com are licensed by CC BY 3.0.\r\n"
-                                + "\r\n"
-                                + "Download the latest version and source code: https://bitbucket.org/mjr129/metabolitelevels";
-
-            FrmMsgBox.ShowInfo(owner, "About " + UiControls.Title, aboutText);
-        }
+        }   
 
         public static void DrawWatermark(Bitmap bmp, Core core, string watermark)
         {

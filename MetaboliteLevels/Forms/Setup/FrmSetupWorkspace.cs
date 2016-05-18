@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Forms.Startup
 {

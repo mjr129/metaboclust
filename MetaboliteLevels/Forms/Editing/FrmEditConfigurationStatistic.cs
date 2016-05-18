@@ -77,11 +77,18 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Parameters
             object[] parameters;
 
-            if (sel!=null && sel.Parameters.HasCustomisableParams)
+            if (sel!=null )
             {
-                parameters = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
+                if (sel.Parameters.HasCustomisableParams)
+                {
+                    parameters = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
 
-                _checker.Check( _txtParams, parameters!=null, "Specify valid parameters for the method." );
+                    _checker.Check( _txtParams, parameters != null, "Specify valid parameters for the method." );
+                }
+                else
+                {
+                    parameters = null;
+                }
             }
             else
             {
@@ -401,10 +408,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                 double v = sel.Calculate(_core, _previewPeak);
 
                 _lblPreview2.Text = v.ToString();
+                _lblPreview2.ForeColor = System.Drawing.Color.Gray;
             }
             catch (Exception ex)
             {
                 _lblPreview2.Text = ex.Message;
+                _lblPreview2.ForeColor = System.Drawing.Color.Red;
             }
         }
 

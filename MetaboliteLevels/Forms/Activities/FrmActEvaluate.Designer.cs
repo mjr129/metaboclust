@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmActEvaluate));
             MCharting.Selection selection1 = new MCharting.Selection();
-            this.splitContainer1 = new MetaboliteLevels.Controls.CtlSplitter();
+            this.splitContainer1 = new MGui.Controls.CtlSplitter();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this._lstClusters = new System.Windows.Forms.ListView();
@@ -839,7 +839,7 @@
 
         #endregion
 
-        private MetaboliteLevels.Controls.CtlSplitter splitContainer1;
+        private MGui.Controls.CtlSplitter splitContainer1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.ListView _lstParams;
         private System.Windows.Forms.Panel panel2;

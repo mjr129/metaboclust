@@ -4,6 +4,7 @@ using System.Text;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {

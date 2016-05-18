@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditPeakFilterCondition));
             this._lstIsStatistic = new System.Windows.Forms.ComboBox();
             this._lstStatisticComparator = new System.Windows.Forms.ComboBox();
-            this._txtStatisticValue = new Controls.CtlTextBox();
+            this._txtStatisticValue = new MGui.Controls.CtlTextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
@@ -46,11 +46,11 @@
             this._chkIsFlaggedWith = new System.Windows.Forms.RadioButton();
             this._chkIsInCluster = new System.Windows.Forms.RadioButton();
             this._chkIsInSet = new System.Windows.Forms.RadioButton();
-            this._txtIsInSet = new Controls.CtlTextBox();
+            this._txtIsInSet = new MGui.Controls.CtlTextBox();
             this._btnIsInSet = new Controls.CtlButton();
-            this._txtIsInCluster = new Controls.CtlTextBox();
+            this._txtIsInCluster = new MGui.Controls.CtlTextBox();
             this._btnIsInCluster = new Controls.CtlButton();
-            this._txtIsFlaggedWith = new Controls.CtlTextBox();
+            this._txtIsFlaggedWith = new MGui.Controls.CtlTextBox();
             this._btnIsFlaggedWith = new Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._radAnd = new System.Windows.Forms.RadioButton();
@@ -560,7 +560,7 @@
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.ComboBox _lstIsStatistic;
         private System.Windows.Forms.ComboBox _lstStatisticComparator;
-        private Controls.CtlTextBox _txtStatisticValue;
+        private MGui.Controls.CtlTextBox _txtStatisticValue;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
         private MetaboliteLevels.Controls.CtlButton _btnOk;
@@ -573,11 +573,11 @@
         private System.Windows.Forms.RadioButton _chkIsFlaggedWith;
         private System.Windows.Forms.RadioButton _chkIsInCluster;
         private System.Windows.Forms.RadioButton _chkIsInSet;
-        private Controls.CtlTextBox _txtIsInSet;
+        private MGui.Controls.CtlTextBox _txtIsInSet;
         private Controls.CtlButton _btnIsInSet;
-        private Controls.CtlTextBox _txtIsInCluster;
+        private MGui.Controls.CtlTextBox _txtIsInCluster;
         private Controls.CtlButton _btnIsInCluster;
-        private Controls.CtlTextBox _txtIsFlaggedWith;
+        private MGui.Controls.CtlTextBox _txtIsFlaggedWith;
         private Controls.CtlButton _btnIsFlaggedWith;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.RadioButton _radAnd;

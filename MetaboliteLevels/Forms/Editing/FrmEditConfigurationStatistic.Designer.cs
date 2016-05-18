@@ -54,7 +54,7 @@
             this._btnTrend = new MetaboliteLevels.Controls.CtlButton();
             this._btnNewStatistic = new MetaboliteLevels.Controls.CtlButton();
             this.label4 = new System.Windows.Forms.Label();
-            this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtName = new MGui.Controls.CtlTextBox();
             this._btnComment = new MetaboliteLevels.Controls.CtlButton();
             this._btnFilter1 = new MetaboliteLevels.Controls.CtlButton();
             this._lblBVec = new System.Windows.Forms.Label();
@@ -70,11 +70,11 @@
             this._radBCorTime = new System.Windows.Forms.RadioButton();
             this._lstFilter2 = new System.Windows.Forms.ComboBox();
             this._lstFilter1 = new System.Windows.Forms.ComboBox();
-            this._txtParams = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtParams = new MGui.Controls.CtlTextBox();
             this._btnEditParameters = new MetaboliteLevels.Controls.CtlButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
+            this._checker = new MGui.Controls.CtlError(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreivew.SuspendLayout();
             this._flpPreviewButtons.SuspendLayout();
@@ -218,7 +218,7 @@
             this._tlpPreivew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this._tlpPreivew.ColumnCount = 2;
             this.tableLayoutPanel1.SetColumnSpan(this._tlpPreivew, 3);
-            this._tlpPreivew.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            this._tlpPreivew.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this._tlpPreivew.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpPreivew.Controls.Add(this._lblPreviewTitle, 0, 0);
             this._tlpPreivew.Controls.Add(this._flpPreviewButtons, 1, 0);
@@ -236,6 +236,7 @@
             // _lblPreviewTitle
             // 
             this._lblPreviewTitle.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._lblPreviewTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this._lblPreviewTitle.Font = new System.Drawing.Font("Segoe UI Light", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lblPreviewTitle.ForeColor = System.Drawing.Color.Black;
             this._lblPreviewTitle.Location = new System.Drawing.Point(0, 0);
@@ -687,7 +688,7 @@
             this.ctlTitleBar1.Text = "Select Statistic";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // FrmAlgoStatistic
+            // FrmEditConfigurationStatistic
             // 
             this.AcceptButton = this._btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -698,7 +699,7 @@
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FrmAlgoStatistic";
+            this.Name = "FrmEditConfigurationStatistic";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Statistics";
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -730,7 +731,7 @@
         private Controls.CtlButton _btnFilter2;
         private Controls.CtlButton _btnNewStatistic;
         private System.Windows.Forms.Label label4;
-        private Controls.CtlTextBox _txtName;
+        private MGui.Controls.CtlTextBox _txtName;
         private Controls.CtlButton _btnComment;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label _lblBVec;
@@ -749,7 +750,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.ComboBox _lstFilter2;
         private System.Windows.Forms.ComboBox _lstFilter1;
-        private Controls.CtlTextBox _txtParams;
+        private MGui.Controls.CtlTextBox _txtParams;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnCancel;
         private Controls.CtlButton _btnOk;
@@ -762,6 +763,6 @@
         private Controls.CtlButton ctlButton3;
         private Controls.CtlButton _btnObs;
         private Controls.CtlButton _btnTrend;
-        private Controls.CtlError _checker;
+        private MGui.Controls.CtlError _checker;
     }
 }

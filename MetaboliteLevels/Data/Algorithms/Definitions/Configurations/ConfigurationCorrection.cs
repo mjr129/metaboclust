@@ -13,6 +13,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {

@@ -58,11 +58,11 @@
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.label3 = new System.Windows.Forms.Label();
-            this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtName = new MGui.Controls.CtlTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this._lblCorrector = new System.Windows.Forms.Label();
             this._lblParams = new System.Windows.Forms.Label();
-            this._txtParameters = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtParameters = new MGui.Controls.CtlTextBox();
             this._lblCorrector2 = new System.Windows.Forms.Label();
             this._radSubtract = new System.Windows.Forms.RadioButton();
             this._radDivide = new System.Windows.Forms.RadioButton();
@@ -72,7 +72,7 @@
             this._lblSepFilter = new System.Windows.Forms.Label();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
+            this._checker = new MGui.Controls.CtlError(this.components);
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -403,8 +403,7 @@
             this._btnEditTypes.Name = "_btnEditTypes";
             this._btnEditTypes.Size = new System.Drawing.Size(28, 28);
             this._btnEditTypes.TabIndex = 17;
-            this._btnEditTypes.UseVisualStyleBackColor = true;
-            this._btnEditTypes.Click += new System.EventHandler(this._btnEditTypes_Click);
+            this._btnEditTypes.UseVisualStyleBackColor = true;                            
             // 
             // _radBatch
             // 
@@ -762,9 +761,9 @@
         private System.Windows.Forms.RadioButton _radBatch;
         private System.Windows.Forms.ComboBox _lstTypes;
         private System.Windows.Forms.Label label3;
-        private Controls.CtlTextBox _txtName;
+        private MGui.Controls.CtlTextBox _txtName;
         private System.Windows.Forms.Label _lblParams;
-        private Controls.CtlTextBox _txtParameters;
+        private MGui.Controls.CtlTextBox _txtParameters;
         private Controls.CtlButton _btnComment;
         private System.Windows.Forms.Label label5;
         private Controls.CtlButton _btnNewStatistic;
@@ -785,7 +784,7 @@
         private System.Windows.Forms.Panel panel2;
         private Controls.CtlButton _btnEditTypes;
         private Controls.CtlButton _btnBatchInfo2;
-        private Controls.CtlError _checker;
+        private MGui.Controls.CtlError _checker;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;

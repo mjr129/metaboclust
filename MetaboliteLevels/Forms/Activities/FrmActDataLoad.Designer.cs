@@ -32,7 +32,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new MetaboliteLevels.Controls.CtlTableLayoutPanel(this.components);
+            this.tableLayoutPanel1 = new MGui.Controls.CtlTableLayoutPanel(this.components);
             this._lblInfo = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -160,7 +160,7 @@
         #endregion
 
         private System.Windows.Forms.Label _lblInfo;
-        private Controls.CtlTableLayoutPanel tableLayoutPanel1;
+        private MGui.Controls.CtlTableLayoutPanel tableLayoutPanel1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.LinkLabel linkLabel1;

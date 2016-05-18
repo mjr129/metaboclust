@@ -57,16 +57,16 @@
             this._btnPeakFilter = new MetaboliteLevels.Controls.CtlButton();
             this.label10 = new System.Windows.Forms.Label();
             this._btnDistanceParams = new MetaboliteLevels.Controls.CtlButton();
-            this._txtDistanceParams = new Controls.CtlTextBox();
+            this._txtDistanceParams = new MGui.Controls.CtlTextBox();
             this._lstDistanceMeasure = new System.Windows.Forms.ComboBox();
             this._btnDistanceMeasure = new MetaboliteLevels.Controls.CtlButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this._txtStopD = new Controls.CtlTextBox();
+            this._txtStopD = new MGui.Controls.CtlTextBox();
             this._radStopN = new System.Windows.Forms.RadioButton();
             this._radStopD = new System.Windows.Forms.RadioButton();
-            this._txtStopN = new Controls.CtlTextBox();
+            this._txtStopN = new MGui.Controls.CtlTextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
@@ -778,8 +778,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
-        private Controls.CtlTextBox _txtStopD;
-        private Controls.CtlTextBox _txtStopN;
+        private MGui.Controls.CtlTextBox _txtStopD;
+        private MGui.Controls.CtlTextBox _txtStopN;
         private System.Windows.Forms.RadioButton _radStopD;
         private System.Windows.Forms.RadioButton _radStopN;
         private System.Windows.Forms.Label label3;
@@ -811,7 +811,7 @@
         private Controls.CtlButton _btnPeakFilter;
         private System.Windows.Forms.Label label10;
         private Controls.CtlButton _btnDistanceParams;
-        private Controls.CtlTextBox _txtDistanceParams;
+        private MGui.Controls.CtlTextBox _txtDistanceParams;
         private System.Windows.Forms.ComboBox _lstDistanceMeasure;
         private Controls.CtlButton _btnDistanceMeasure;
     }

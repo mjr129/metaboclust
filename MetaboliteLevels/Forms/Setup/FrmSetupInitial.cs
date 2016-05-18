@@ -6,6 +6,8 @@ using MetaboliteLevels.Utilities;
 using System.Diagnostics;
 using MetaboliteLevels.Forms.Generic;
 using System.Runtime.InteropServices;
+using MGui.Helpers;
+using MGui.Controls;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -56,7 +58,7 @@ namespace MetaboliteLevels.Forms.Startup
             this._txtDataSetData.Text = MainSettings.Instance.General.RBinPath;
             this._txtPathwayTools.Text = MainSettings.Instance.General.PathwayToolsDatabasesPath;
 
-            UiControls.EnumerateControls<Label>(this, z => z.Text = z.Text.Replace("{ProductName}", UiControls.Title));
+            FormHelper.EnumerateControls<Label>(this, z => z.Text = z.Text.Replace("{ProductName}", UiControls.Title));
             this.defaultToolStripMenuItem.Text = UiControls.GetOrCreateFixedFolder(UiControls.EInitialFolder.CompondDatabases);
 
             TestFolder(@"C:\Program Files\R");
@@ -152,10 +154,10 @@ namespace MetaboliteLevels.Forms.Startup
             bool validRPath = File.Exists(Path.Combine(_txtDataSetData.Text, "R.dll"));
             bool validPTPath = Directory.Exists(_txtPathwayTools.Text);
 
-            errorProvider1.ShowError(_txtDataSetData, validRPath, "A valid path to R is mandatory.");
-            errorProvider1.ShowError(_txtPathwayTools, validPTPath, "The folder must exist.");
+            errorProvider1.Check(_txtDataSetData, validRPath, "A valid path to R is mandatory.");
+            errorProvider1.Check( _txtPathwayTools, validPTPath, "The folder must exist.");
 
-            _btnOk.Enabled = validRPath;
+            _btnOk.Enabled = !errorProvider1.HasErrors;
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)

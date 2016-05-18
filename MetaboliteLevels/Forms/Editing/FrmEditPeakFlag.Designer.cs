@@ -33,9 +33,9 @@
             this._btnColour = new MGui.Controls.CtlColourEditor();
             this._btnComment = new MetaboliteLevels.Controls.CtlButton();
             this.label1 = new System.Windows.Forms.Label();
-            this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtName = new MGui.Controls.CtlTextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this._txtKey = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtKey = new MGui.Controls.CtlTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -47,7 +47,7 @@
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this.ctlError1 = new MetaboliteLevels.Controls.CtlError(this.components);
+            this.ctlError1 = new MGui.Controls.CtlError(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._numFrequency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numDuration)).BeginInit();
@@ -320,9 +320,9 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
-        private Controls.CtlTextBox _txtName;
+        private MGui.Controls.CtlTextBox _txtName;
         private System.Windows.Forms.Label label2;
-        private Controls.CtlTextBox _txtKey;
+        private MGui.Controls.CtlTextBox _txtKey;
         private System.Windows.Forms.Label label3;
         private Controls.CtlTitleBar ctlTitleBar1;
         private Controls.CtlButton _btnComment;
@@ -335,7 +335,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnOk;
         private Controls.CtlButton _btnCancel;
-        private Controls.CtlError ctlError1;
+        private MGui.Controls.CtlError ctlError1;
         private MGui.Controls.CtlColourEditor _btnColour;
     }
 }

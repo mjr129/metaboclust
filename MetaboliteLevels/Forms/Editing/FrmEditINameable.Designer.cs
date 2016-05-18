@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._txtInput = new Controls.CtlTextBox();
+            this._txtInput = new MGui.Controls.CtlTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new MetaboliteLevels.Controls.CtlTextBox();
+            this.textBox1 = new MGui.Controls.CtlTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -209,13 +209,13 @@
 
         #endregion
 
-        private Controls.CtlTextBox _txtInput;
+        private MGui.Controls.CtlTextBox _txtInput;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnOk;
         private Controls.CtlButton _btnCancel;
         private Controls.CtlTitleBar ctlTitleBar1;
-        private Controls.CtlTextBox textBox1;
+        private MGui.Controls.CtlTextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label6;

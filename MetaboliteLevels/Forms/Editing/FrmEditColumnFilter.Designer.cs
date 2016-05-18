@@ -34,10 +34,10 @@
             this.button2 = new MetaboliteLevels.Controls.CtlButton();
             this.button1 = new MetaboliteLevels.Controls.CtlButton();
             this._lstNumComp = new System.Windows.Forms.ComboBox();
-            this._txtNumComp = new Controls.CtlTextBox();
+            this._txtNumComp = new MGui.Controls.CtlTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
+            this._checker = new MGui.Controls.CtlError(this.components);
             this.flowLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -169,8 +169,8 @@
         private MetaboliteLevels.Controls.CtlButton button2;
         private MetaboliteLevels.Controls.CtlButton button1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private Controls.CtlTextBox _txtNumComp;
+        private MGui.Controls.CtlTextBox _txtNumComp;
         private System.Windows.Forms.ComboBox _lstNumComp;
-        private Controls.CtlError _checker;
+        private MGui.Controls.CtlError _checker;
     }
 }

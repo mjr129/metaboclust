@@ -43,7 +43,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this._lstMethod = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this._txtName = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtName = new MGui.Controls.CtlTextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -54,10 +54,10 @@
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnEditParameters = new MetaboliteLevels.Controls.CtlButton();
-            this._txtMeasureParams = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtMeasureParams = new MGui.Controls.CtlTextBox();
             this._chkSepGroups = new System.Windows.Forms.CheckBox();
             this.label15 = new System.Windows.Forms.Label();
-            this._txtParams = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtParams = new MGui.Controls.CtlTextBox();
             this.label7 = new System.Windows.Forms.Label();
             this._lblPeaks = new System.Windows.Forms.Label();
             this._btnPeakFilter = new MetaboliteLevels.Controls.CtlButton();
@@ -69,12 +69,12 @@
             this._lblMeasure2 = new System.Windows.Forms.Label();
             this._lblMeasureParams = new System.Windows.Forms.Label();
             this._lblParams = new System.Windows.Forms.Label();
-            this._txtStatistics = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtStatistics = new MGui.Controls.CtlTextBox();
             this._btnSetStatistics = new MetaboliteLevels.Controls.CtlButton();
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._checker = new MetaboliteLevels.Controls.CtlError(this.components);
+            this._checker = new MGui.Controls.CtlError(this.components);
             this._btnObs = new MetaboliteLevels.Controls.CtlButton();
             this._btnTrend = new MetaboliteLevels.Controls.CtlButton();
             this._btnExperimentalGroups = new MetaboliteLevels.Controls.CtlButton();
@@ -722,11 +722,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox _lstMethod;
         private System.Windows.Forms.Label label4;
-        private Controls.CtlTextBox _txtName;
+        private MGui.Controls.CtlTextBox _txtName;
         private Controls.CtlButton _btnObsFilter;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label _lblParams;
-        private Controls.CtlTextBox _txtParams;
+        private MGui.Controls.CtlTextBox _txtParams;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label _lblPeaks;
         private Controls.CtlButton _btnPeakFilter;
@@ -734,7 +734,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox _lstMeasure;
         private System.Windows.Forms.Label _lblMeasureParams;
-        private Controls.CtlTextBox _txtMeasureParams;
+        private MGui.Controls.CtlTextBox _txtMeasureParams;
         private System.Windows.Forms.ComboBox _lstObsFilter;
         private System.Windows.Forms.ComboBox _lstPeakFilter;
         private System.Windows.Forms.CheckBox _chkSepGroups;
@@ -743,7 +743,7 @@
         private Controls.CtlButton _btnNewDistance;
         private System.Windows.Forms.ToolTip toolTip1;
         private Controls.CtlButton _btnParameterOptimiser;
-        private Controls.CtlTextBox _txtStatistics;
+        private MGui.Controls.CtlTextBox _txtStatistics;
         private Controls.CtlButton _btnSetStatistics;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -752,7 +752,7 @@
         private Controls.CtlButton _btnCancel;
         private Controls.CtlButton _btnOk;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private Controls.CtlError _checker;
+        private MGui.Controls.CtlError _checker;
         private Controls.CtlButton _btnObs;
         private Controls.CtlButton _btnTrend;
         private Controls.CtlButton _btnExperimentalGroups;

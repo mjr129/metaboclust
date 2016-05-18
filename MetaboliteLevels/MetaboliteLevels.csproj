@@ -143,6 +143,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\PagerControl.cs" />
     <Compile Include="Data\Algorithms\General\Algo.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameter.cs" />
     <Compile Include="Data\Algorithms\General\DistanceMatrix.cs" />
@@ -168,21 +169,6 @@
     <Compile Include="Data\Algorithms\Definitions\Trends\ResultTrend.cs" />
     <Compile Include="Data\Algorithms\General\ValueMatrix.cs" />
     <Compile Include="Data\Algorithms\General\Vector.cs" />
-    <Compile Include="Controls\CtlError.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\CtlError.Designer.cs">
-      <DependentUpon>CtlError.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\CtlSplitter.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\CtlTableLayoutPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\CtlTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\EditableComboBox.cs" />
     <Compile Include="Data\Session\General\CompoundLibrary.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\SecondaryStatistic.cs" />
@@ -334,7 +320,6 @@
     <Compile Include="Utilities\MetaInfoCollection.cs" />
     <Compile Include="Utilities\ParseElementCollectionExtensions.cs" />
     <Compile Include="Utilities\PathwayToolsReader.cs" />
-    <Compile Include="Utilities\SwitchException.cs" />
     <Compile Include="Utilities\Arr.cs" />
     <Compile Include="Data\Session\Collections\AssignmentList.cs" />
     <Compile Include="Controls\CaptionBar.cs" />
@@ -434,7 +419,6 @@
     <Compile Include="Forms\Activities\FrmActOldData.Designer.cs">
       <DependentUpon>FrmActOldData.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PagerControl.cs" />
     <Compile Include="Forms\Editing\FrmEditSession.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -551,9 +535,6 @@
     <Compile Include="Controls\Lists\ShowContextMenuEventArgs.cs" />
     <Compile Include="Controls\Lists\ListViewHelper%28T%29.SortByColumn.cs" />
     <Compile Include="Utilities\XmlSettings.cs" />
-    <EmbeddedResource Include="Controls\CtlError.resx">
-      <DependentUpon>CtlError.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CtlTitleBar.resx">
       <DependentUpon>CtlTitleBar.cs</DependentUpon>
     </EmbeddedResource>

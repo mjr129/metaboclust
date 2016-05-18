@@ -318,7 +318,9 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
         /// </summary>            
         private void ApplyArgs(RScript script, object[] args)
         {
-            UiControls.Assert((args != null) == script.RequiredParameters.HasCustomisableParams, "No arguments provided when algorithm has customisable parameters, or arguments provided when the algorithm has no customisable parameters." );
+            args = args ?? new object[0]; // Todo: Necessary for legacy only
+
+            UiControls.Assert((args.Length != 0) == script.RequiredParameters.HasCustomisableParams, "No arguments provided when algorithm has customisable parameters, or arguments provided when the algorithm has no customisable parameters." );
 
             if (script.RequiredParameters.HasCustomisableParams)
             {

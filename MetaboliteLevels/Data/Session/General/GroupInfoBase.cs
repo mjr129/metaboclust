@@ -91,7 +91,7 @@ namespace MetaboliteLevels.Data.DataInfo
 
         public static Color GetLightVersionOfColour(Color color)
         {
-            return UiControls.Blend(Color.White, color, 0.5);
+            return ColourHelper.Blend(Color.White, color, 0.5);
         }
 
         public static int GroupOrderBy(GroupInfoBase a)

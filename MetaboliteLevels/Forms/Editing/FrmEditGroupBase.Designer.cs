@@ -33,16 +33,16 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this._txtId = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtId = new MGui.Controls.CtlTextBox();
             this._lblTimeRange = new System.Windows.Forms.Label();
-            this._txtTimeRange = new MetaboliteLevels.Controls.CtlTextBox();
-            this._txtDisplayOrder = new MetaboliteLevels.Controls.CtlTextBox();
-            this._txtTitle = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtTimeRange = new MGui.Controls.CtlTextBox();
+            this._txtDisplayOrder = new MGui.Controls.CtlTextBox();
+            this._txtTitle = new MGui.Controls.CtlTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this._txtAbvTitle = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtAbvTitle = new MGui.Controls.CtlTextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this._txtComments = new MetaboliteLevels.Controls.CtlTextBox();
+            this._txtComments = new MGui.Controls.CtlTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this._btnColour = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -369,24 +369,24 @@
 
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private Controls.CtlTextBox _txtTitle;
+        private MGui.Controls.CtlTextBox _txtTitle;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnOk;
         private Controls.CtlButton _btnCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private Controls.CtlTextBox _txtAbvTitle;
+        private MGui.Controls.CtlTextBox _txtAbvTitle;
         private System.Windows.Forms.Label label3;
-        private Controls.CtlTextBox _txtComments;
+        private MGui.Controls.CtlTextBox _txtComments;
         private System.Windows.Forms.Label label4;
         private MetaboliteLevels.Controls.CtlButton _btnColour;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label _lblTimeRange;
-        private Controls.CtlTextBox _txtId;
-        private Controls.CtlTextBox _txtTimeRange;
+        private MGui.Controls.CtlTextBox _txtId;
+        private MGui.Controls.CtlTextBox _txtTimeRange;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label6;
-        private Controls.CtlTextBox _txtDisplayOrder;
+        private MGui.Controls.CtlTextBox _txtDisplayOrder;
         private Controls.CtlButton _btnEditId;
     }
 }

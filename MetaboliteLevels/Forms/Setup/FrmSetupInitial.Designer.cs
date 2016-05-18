@@ -44,10 +44,10 @@
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
-            this._txtDataSetData = new Controls.CtlTextBox();
+            this._txtDataSetData = new MGui.Controls.CtlTextBox();
             this._btnDataSetData = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._txtPathwayTools = new Controls.CtlTextBox();
+            this._txtPathwayTools = new MGui.Controls.CtlTextBox();
             this._btnPathwayTools = new MetaboliteLevels.Controls.CtlButton();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -61,7 +61,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.ctlButton5 = new MetaboliteLevels.Controls.CtlButton();
             this.label10 = new System.Windows.Forms.Label();
-            this._txtWorkingDirectory = new Controls.CtlTextBox();
+            this._txtWorkingDirectory = new MGui.Controls.CtlTextBox();
             this._btnSetWorkingDirectory = new MetaboliteLevels.Controls.CtlButton();
             this._cmsR = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.browseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,7 +70,7 @@
             this.browseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProvider1 = new MGui.Controls.CtlError( this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -79,8 +79,7 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
             this._cmsR.SuspendLayout();
-            this._cmsPathwayTools.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this._cmsPathwayTools.SuspendLayout();                                        
             this.SuspendLayout();
             // 
             // label1
@@ -306,6 +305,7 @@
             this._txtDataSetData.Name = "_txtDataSetData";
             this._txtDataSetData.Size = new System.Drawing.Size(814, 29);
             this._txtDataSetData.TabIndex = 8;
+            this._txtDataSetData.Watermark = null;
             this._txtDataSetData.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnDataSetData
@@ -349,6 +349,7 @@
             this._txtPathwayTools.Name = "_txtPathwayTools";
             this._txtPathwayTools.Size = new System.Drawing.Size(814, 29);
             this._txtPathwayTools.TabIndex = 8;
+            this._txtPathwayTools.Watermark = null;
             this._txtPathwayTools.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnPathwayTools
@@ -532,6 +533,7 @@
             this._txtWorkingDirectory.ReadOnly = true;
             this._txtWorkingDirectory.Size = new System.Drawing.Size(814, 29);
             this._txtWorkingDirectory.TabIndex = 8;
+            this._txtWorkingDirectory.Watermark = null;
             this._txtWorkingDirectory.TextChanged += new System.EventHandler(this.something_Changed);
             // 
             // _btnSetWorkingDirectory
@@ -596,11 +598,6 @@
             this.defaultToolStripMenuItem.Text = "{Default}";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
             // 
-            // errorProvider1
-            // 
-            this.errorProvider1.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
-            this.errorProvider1.ContainerControl = this;
-            // 
             // FrmInitialSetup
             // 
             this.AcceptButton = this._btnOk;
@@ -628,8 +625,7 @@
             this.flowLayoutPanel5.ResumeLayout(false);
             this.flowLayoutPanel5.PerformLayout();
             this._cmsR.ResumeLayout(false);
-            this._cmsPathwayTools.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this._cmsPathwayTools.ResumeLayout(false);                                  
             this.ResumeLayout(false);
 
         }
@@ -639,7 +635,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private MetaboliteLevels.Controls.CtlButton _btnDataSetData;
-        private Controls.CtlTextBox _txtDataSetData;
+        private MGui.Controls.CtlTextBox _txtDataSetData;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private MetaboliteLevels.Controls.CtlButton _btnOk;
         private MetaboliteLevels.Controls.CtlButton _btnCancel;
@@ -648,7 +644,7 @@
         private System.Windows.Forms.ToolStripMenuItem browseToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.Label label2;
-        private Controls.CtlTextBox _txtPathwayTools;
+        private MGui.Controls.CtlTextBox _txtPathwayTools;
         private Controls.CtlButton _btnPathwayTools;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -674,8 +670,8 @@
         private System.Windows.Forms.Label label9;
         private Controls.CtlButton ctlButton5;
         private System.Windows.Forms.Label label10;
-        private Controls.CtlTextBox _txtWorkingDirectory;
+        private MGui.Controls.CtlTextBox _txtWorkingDirectory;
         private Controls.CtlButton _btnSetWorkingDirectory;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private MGui.Controls.CtlError errorProvider1;
     }
 }
