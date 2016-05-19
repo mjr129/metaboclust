@@ -390,8 +390,8 @@ namespace MetaboliteLevels.Forms.Generic
         {
             InitializeComponent();
 
-            _flpSelectAll.BackColor = UiControls.BackColour;
-            _flpSelectAll.ForeColor = UiControls.ForeColour;
+            _flpSelectAll.BackColor = UiControls.TitleBackColour;
+            _flpSelectAll.ForeColor = UiControls.TitleForeColour;
 
             UiControls.SetIcon(this);
         }

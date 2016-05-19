@@ -32,6 +32,7 @@ using MGui.Datatypes;
 using MGui.Helpers;
 using MetaboliteLevels.Forms.Startup;
 using MGui.Controls;
+using System.Drawing.Drawing2D;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -58,8 +59,8 @@ namespace MetaboliteLevels.Utilities
         private static string __startupPath;
         private static EStartupPath __startupPathMode;
 
-        public static readonly Color BackColour = Color.White; // Color.FromKnownColor(KnownColor.ActiveCaption);
-        public static readonly Color ForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
+        public static readonly Color TitleBackColour = Color.White; // Color.FromKnownColor(KnownColor.ActiveCaption);
+        public static readonly Color TitleForeColour = Color.Purple; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
         public static readonly Color PreviewBackColour = Color.LightSteelBlue; // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color PreviewForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
 
@@ -267,7 +268,18 @@ namespace MetaboliteLevels.Utilities
             }
 
             return result;
-        }          
+        }
+
+        internal static void DrawHBar( Graphics graphics, Control control )
+        {
+            const int h = 3;
+            Rectangle r = new Rectangle( 0, control.Height - h, control.Width, h );
+
+            using (Brush b = new LinearGradientBrush( r, UiControls.TitleBackColour, UiControls.TitleForeColour,180, true ))
+            {
+                graphics.FillRectangle( b, r );
+            }
+        }
 
         /// <summary>
         /// Sets the properties of an object to their [DefaultAttribute] value.

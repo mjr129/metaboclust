@@ -46,16 +46,19 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         {
             double[] r = new double[outputOrder.Count];
 
+            // Iterate the groups
             foreach (GroupInfo g in groups)
             {
-                // Get indices for this TYPE
+                // Get indices corresponding to this group
                 IEnumerable<int> xI = inputOrder.Which(z => z.Group == g);
                 IEnumerable<int> xOutI = outputOrder.Which(z => z.Group == g);
 
-                // Get obs/cond/values for this TYPE
+                // Get the input vectors
                 IEnumerable<int> x = inputOrder.At( xI).Select(z => z.Time);
+                IEnumerable<double> y = raw.At( xI );
+                
+                // Get the output order
                 IEnumerable<int> xOut = outputOrder.At( xOutI).Select(z => z.Time);
-                IEnumerable<double> y = raw.At( xI);
 
                 // Smooth this line
                 double[] yOut = Smooth(y, x, xOut, args);

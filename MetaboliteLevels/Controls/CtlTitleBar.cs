@@ -25,8 +25,48 @@ namespace MetaboliteLevels.Controls
             InitializeComponent();
             Dock = DockStyle.Top;
 
-            tableLayoutPanel1.BackColor = UiControls.BackColour;
-            tableLayoutPanel1.ForeColor = UiControls.ForeColour;
+            tableLayoutPanel1.BackColor = UiControls.TitleBackColour;
+            tableLayoutPanel1.ForeColor = UiControls.TitleForeColour;
+        }
+
+        protected override void OnLoad( EventArgs e )
+        {
+            base.OnLoad( e );
+        }
+
+        protected override void WndProc( ref Message m )
+        {
+            base.WndProc( ref m );
+
+            const int WM_PAINT = 0xF;
+
+            switch (m.Msg)
+            {
+                case WM_PAINT:
+                    RedrawControlAsBitmap( this.Handle );
+                    break;
+            }
+        }
+
+        protected override void OnPaint( PaintEventArgs e )
+        {
+            base.OnPaint( e );
+
+            e.Graphics.DrawLine( Pens.Red, 0, 0, 32, 32 );
+        }
+
+        void RedrawControlAsBitmap( IntPtr hwnd )
+        {
+            Control c = Control.FromHandle( hwnd );
+
+            Bitmap bm = new Bitmap( c.Width, c.Height );
+            c.DrawToBitmap( bm, c.ClientRectangle );
+
+            Graphics g = c.CreateGraphics(); // c.CreateGraphics();
+
+            g.DrawImage( bm, new Point( -1, -1 ) );
+
+            g.DrawLine( Pens.Red, 0, 0, 32, 32 );
         }
 
         [EditorBrowsable(EditorBrowsableState.Always), Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -125,5 +165,16 @@ namespace MetaboliteLevels.Controls
         {
             _btnWarning.Text = string.Empty;
         }
+
+        private void tableLayoutPanel1_Paint( object sender, PaintEventArgs e )
+        {
+            if (DrawHBar)
+            {
+                UiControls.DrawHBar( e.Graphics, tableLayoutPanel1 );
+            }
+        }
+
+        [DefaultValue( true )]
+        public bool DrawHBar { get; set; } = true;
     }
 }

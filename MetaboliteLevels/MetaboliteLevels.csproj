@@ -143,6 +143,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CtlLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\PagerControl.cs" />
     <Compile Include="Data\Algorithms\General\Algo.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameter.cs" />

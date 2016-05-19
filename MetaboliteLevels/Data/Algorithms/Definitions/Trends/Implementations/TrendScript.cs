@@ -9,18 +9,24 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
     /// </summary>
     sealed class TrendScript : TrendBase
     {
-        public const string INPUTS = "time=t1,value=x,result.time=t2";
+        public const string INPUT_TABLE =
+@"y,        y,      Numeric vector of length n. The Y values (intensity) of the input
+  x,        x,      Numeric vector of length n. The X values (time or acquisition index) of the input  
+  x.out,    x.out,  Numeric vector of length m. The X values of the output
+  RETURNS,  ,       Numeric vector of length m. The Y values of the output
+  SUMMARY,  ,       Smooths a set of values across time or acquisition order";
+
         public readonly RScript _script;
 
         public TrendScript(string script, string id, string name, string fileName)
             : base(id, name )
         {
-            this._script = new RScript(script, INPUTS, fileName);
+            this._script = new RScript(script, INPUT_TABLE, fileName);
         }
 
-        protected override double[] Smooth(IEnumerable<double> vIn, IEnumerable<int> o, IEnumerable<int> c, object[] args)
+        protected override double[] Smooth(IEnumerable<double> yIn, IEnumerable<int> xIn, IEnumerable<int> xOut, object[] args)
         {
-            object[] inputs = { vIn, o, c };
+            object[] inputs = { yIn, xIn, xOut };
             double[] r = Arr.Instance.RunScriptDoubleV(_script, inputs, args).ToArray();
             return r;
         }

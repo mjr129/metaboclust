@@ -41,7 +41,7 @@
             this._tipSideBar = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this._tabWelcome = new System.Windows.Forms.TabPage();
-            this.label15 = new System.Windows.Forms.Label();
+            this.label15 = new MetaboliteLevels.Controls.CtlLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -59,41 +59,41 @@
             this.button1 = new MetaboliteLevels.Controls.CtlButton();
             this._btnDeleteWorkspace = new MetaboliteLevels.Controls.CtlButton();
             this._txtTitle = new MGui.Controls.CtlTextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new MetaboliteLevels.Controls.CtlLabel();
+            this.label1 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabSelectData = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._btnCondInfo = new MetaboliteLevels.Controls.CtlButton();
             this._txtCondInfo = new MGui.Controls.CtlTextBox();
             this._lstLcmsMode = new System.Windows.Forms.ComboBox();
             this._chkCondInfo = new System.Windows.Forms.CheckBox();
-            this._lblLcmsMode = new System.Windows.Forms.Label();
+            this._lblLcmsMode = new MetaboliteLevels.Controls.CtlLabel();
             this._btnDataSetVar = new MetaboliteLevels.Controls.CtlButton();
             this._btnDataSetObs = new MetaboliteLevels.Controls.CtlButton();
             this._btnDataSetData = new MetaboliteLevels.Controls.CtlButton();
             this._txtDataSetData = new MGui.Controls.CtlTextBox();
             this._txtDataSetObs = new MGui.Controls.CtlTextBox();
-            this._lblDataSetData = new System.Windows.Forms.Label();
-            this._lblDataSetObs = new System.Windows.Forms.Label();
-            this._lblDataSetVar = new System.Windows.Forms.Label();
+            this._lblDataSetData = new MetaboliteLevels.Controls.CtlLabel();
+            this._lblDataSetObs = new MetaboliteLevels.Controls.CtlLabel();
+            this._lblDataSetVar = new MetaboliteLevels.Controls.CtlLabel();
             this._txtDataSetVar = new MGui.Controls.CtlTextBox();
             this._chkAltVals = new System.Windows.Forms.CheckBox();
             this._txtAltVals = new MGui.Controls.CtlTextBox();
             this._btnAltVals = new MetaboliteLevels.Controls.CtlButton();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.label7 = new MetaboliteLevels.Controls.CtlLabel();
+            this.label10 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabStatistics = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.label14 = new System.Windows.Forms.Label();
+            this.label14 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabConditions = new System.Windows.Forms.TableLayoutPanel();
-            this.label5 = new System.Windows.Forms.Label();
-            this._lblConditions = new System.Windows.Forms.Label();
+            this.label5 = new MetaboliteLevels.Controls.CtlLabel();
+            this._lblConditions = new MetaboliteLevels.Controls.CtlLabel();
             this._btnBrowseContCond = new MetaboliteLevels.Controls.CtlButton();
             this._txtControls = new MGui.Controls.CtlTextBox();
             this._btnBrowseExpCond = new MetaboliteLevels.Controls.CtlButton();
             this._txtExps = new MGui.Controls.CtlTextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new MetaboliteLevels.Controls.CtlLabel();
+            this.label4 = new MetaboliteLevels.Controls.CtlLabel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._chkStatT = new System.Windows.Forms.CheckBox();
             this._chkStatP = new System.Windows.Forms.CheckBox();
@@ -103,7 +103,7 @@
             this._btnAddAdduct = new MetaboliteLevels.Controls.CtlButton();
             this._btnBrowseAdducts = new MetaboliteLevels.Controls.CtlButton();
             this._btnDelAdduct = new MetaboliteLevels.Controls.CtlButton();
-            this.label9 = new System.Windows.Forms.Label();
+            this.label9 = new MetaboliteLevels.Controls.CtlLabel();
             this._lstAdducts = new System.Windows.Forms.ListBox();
             this._lstAvailableAdducts = new System.Windows.Forms.ListBox();
             this._lstCompounds = new System.Windows.Forms.ListBox();
@@ -113,29 +113,29 @@
             this._btnAddCompoundLibrary = new MetaboliteLevels.Controls.CtlButton();
             this._btnRemoveLibrary = new MetaboliteLevels.Controls.CtlButton();
             this._lstAvailCompounds = new System.Windows.Forms.ListBox();
-            this._lblAdducts = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this._lblAdducts = new MetaboliteLevels.Controls.CtlLabel();
+            this.label6 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabAnnotations = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this.label11 = new System.Windows.Forms.Label();
+            this.label11 = new MetaboliteLevels.Controls.CtlLabel();
             this._btnIdentifications = new MetaboliteLevels.Controls.CtlButton();
             this._chkAutoIdentify = new System.Windows.Forms.CheckBox();
             this._txtIdentifications = new MGui.Controls.CtlTextBox();
             this._chkIdentifications = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this._lblTolerance = new System.Windows.Forms.Label();
+            this._lblTolerance = new MetaboliteLevels.Controls.CtlLabel();
             this._numTolerance = new System.Windows.Forms.NumericUpDown();
             this._lstTolerance = new System.Windows.Forms.ComboBox();
             this._tabReady = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this._chkAlarm = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
+            this.label12 = new MetaboliteLevels.Controls.CtlLabel();
             this._txtHelp = new MGui.Controls.CtlTextBox();
             this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new MGui.Controls.CtlSplitter();
-            this._lblOrder = new System.Windows.Forms.Label();
+            this._lblOrder = new MetaboliteLevels.Controls.CtlLabel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MGui.Controls.CtlError(this.components);
             this._mnuDebug.SuspendLayout();
@@ -273,8 +273,6 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.Color.Lime;
-            this.label15.ForeColor = System.Drawing.Color.Black;
             this.label15.Location = new System.Drawing.Point(536, 9);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(106, 21);
@@ -307,7 +305,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3643, 491);
+            this.pictureBox1.Location = new System.Drawing.Point(3733, 491);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -453,10 +451,8 @@
             // 
             // _lblProgramDescription
             // 
-            this._lblProgramDescription.BackColor = System.Drawing.Color.LightSteelBlue;
             this._lblProgramDescription.Dock = System.Windows.Forms.DockStyle.Top;
             this._lblProgramDescription.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblProgramDescription.ForeColor = System.Drawing.Color.Black;
             this._lblProgramDescription.Location = new System.Drawing.Point(0, 0);
             this._lblProgramDescription.Margin = new System.Windows.Forms.Padding(0);
             this._lblProgramDescription.Name = "_lblProgramDescription";
@@ -580,19 +576,18 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label2.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
             this.label2.Location = new System.Drawing.Point(14, 17);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(315, 21);
+            this.label2.Size = new System.Drawing.Size(337, 21);
             this.label2.TabIndex = 13;
-            this.label2.Text = "Provide a descriptive name for your session.";
+            this.label2.Text = "^^Provide a descriptive name for your session.";
             this._tipSideBar.SetToolTip(this.label2, global::MetaboliteLevels.Manual.Session);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.label1.Location = new System.Drawing.Point(14, 588);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this.label1.Name = "label1";
@@ -885,14 +880,14 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label7.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
             this.label7.Location = new System.Drawing.Point(14, 17);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(504, 42);
             this.label7.TabIndex = 16;
-            this.label7.Text = "Select the data files you want to work with.\r\nInformation about supported file fo" +
-    "rmats can be found by viewing help.";
+            this.label7.Text = "^^Select the data files you want to work with.\r\nInformation about supported file " +
+    "formats can be found by viewing help.";
             // 
             // label10
             // 
@@ -943,14 +938,14 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label14.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
             this.label14.Location = new System.Drawing.Point(14, 17);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(522, 42);
             this.label14.TabIndex = 28;
-            this.label14.Text = "Univariate statistics can be calculated for each peak.\r\nSelect which ones to crea" +
-    "te by default - you can always change these later.";
+            this.label14.Text = "^^Univariate statistics can be calculated for each peak.\r\nSelect which ones to cr" +
+    "eate by default - you can always change these later.";
             // 
             // _tabConditions
             // 
@@ -1214,13 +1209,13 @@
             // 
             this.label9.AutoSize = true;
             this.tableLayoutPanel7.SetColumnSpan(this.label9, 3);
-            this.label9.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label9.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
             this.label9.Location = new System.Drawing.Point(8, 8);
             this.label9.Margin = new System.Windows.Forms.Padding(8);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(216, 21);
+            this.label9.Size = new System.Drawing.Size(238, 21);
             this.label9.TabIndex = 3;
-            this.label9.Text = "Select the compound libraries";
+            this.label9.Text = "^^Select the compound libraries";
             // 
             // _lstAdducts
             // 
@@ -1417,13 +1412,13 @@
             // 
             this.label11.AutoSize = true;
             this.tableLayoutPanel9.SetColumnSpan(this.label11, 2);
-            this.label11.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label11.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
             this.label11.Location = new System.Drawing.Point(18, 18);
             this.label11.Margin = new System.Windows.Forms.Padding(8);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(299, 21);
+            this.label11.Size = new System.Drawing.Size(321, 21);
             this.label11.TabIndex = 4;
-            this.label11.Text = "Select methods of annotating compounds";
+            this.label11.Text = "^^Select methods of annotating compounds";
             // 
             // _btnIdentifications
             // 
@@ -1543,7 +1538,7 @@
             this._tabReady.Location = new System.Drawing.Point(4, 4);
             this._tabReady.Name = "_tabReady";
             this._tabReady.Padding = new System.Windows.Forms.Padding(3);
-            this._tabReady.Size = new System.Drawing.Size(642, 690);
+            this._tabReady.Size = new System.Drawing.Size(633, 690);
             this._tabReady.TabIndex = 7;
             this._tabReady.Text = "Ready";
             this._tabReady.UseVisualStyleBackColor = true;
@@ -1560,7 +1555,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(636, 684);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(627, 684);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // _chkAlarm
@@ -1571,9 +1566,10 @@
             this._chkAlarm.Location = new System.Drawing.Point(3, 641);
             this._chkAlarm.Name = "_chkAlarm";
             this._chkAlarm.Padding = new System.Windows.Forms.Padding(4);
-            this._chkAlarm.Size = new System.Drawing.Size(71, 40);
+            this._chkAlarm.Size = new System.Drawing.Size(427, 40);
             this._chkAlarm.TabIndex = 5;
-            this._chkAlarm.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this._chkAlarm.Text = "Make a sound when the data has finished loading";
+            this._chkAlarm.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this._tipSideBar.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Windows only).");
             this._tipPopup.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Windows only).");
             this._chkAlarm.UseVisualStyleBackColor = true;
@@ -1582,15 +1578,15 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label12.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label12.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
             this.label12.Location = new System.Drawing.Point(48, 48);
             this.label12.Margin = new System.Windows.Forms.Padding(48);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(8);
-            this.label12.Size = new System.Drawing.Size(540, 121);
+            this.label12.Size = new System.Drawing.Size(531, 121);
             this.label12.TabIndex = 4;
-            this.label12.Text = "Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSaving " +
-    "your session from the main menu will allow it to be loaded quickly in future.";
+            this.label12.Text = "^^Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSavin" +
+    "g your session from the main menu will allow it to be loaded quickly in future.";
             // 
             // _txtHelp
             // 
@@ -1636,9 +1632,10 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.BackColor = System.Drawing.Color.White;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.ForeColor = System.Drawing.Color.Black;
             this.splitContainer1.Location = new System.Drawing.Point(16, 16);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(16);
             this.splitContainer1.Name = "splitContainer1";
@@ -1658,9 +1655,7 @@
             // 
             // _lblOrder
             // 
-            this._lblOrder.BackColor = System.Drawing.Color.LightSteelBlue;
             this._lblOrder.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lblOrder.ForeColor = System.Drawing.Color.Black;
             this._lblOrder.Location = new System.Drawing.Point(0, 66);
             this._lblOrder.Margin = new System.Windows.Forms.Padding(0);
             this._lblOrder.Name = "_lblOrder";
@@ -1699,6 +1694,7 @@
             this.Name = "FrmEditDataFileNames";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Load Session";
+            this.TransparencyKey = System.Drawing.Color.Red;
             this._mnuDebug.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this._tabWelcome.ResumeLayout(false);
@@ -1755,11 +1751,11 @@
         private MGui.Controls.CtlTextBox _txtDataSetVar;
         private MetaboliteLevels.Controls.CtlButton _btnDataSetObs;
         private MetaboliteLevels.Controls.CtlButton _btnDataSetVar;
-        private System.Windows.Forms.Label _lblDataSetData;
-        private System.Windows.Forms.Label _lblDataSetObs;
-        private System.Windows.Forms.Label _lblDataSetVar;
+        private MetaboliteLevels.Controls.CtlLabel _lblDataSetData;
+        private MetaboliteLevels.Controls.CtlLabel _lblDataSetObs;
+        private MetaboliteLevels.Controls.CtlLabel _lblDataSetVar;
         private System.Windows.Forms.ComboBox _lstLcmsMode;
-        private System.Windows.Forms.Label _lblLcmsMode;
+        private MetaboliteLevels.Controls.CtlLabel _lblLcmsMode;
         private System.Windows.Forms.ContextMenuStrip _cmsRecentWorkspaces;
         private MGui.Controls.CtlTextBox _txtTitle;
         private System.Windows.Forms.CheckBox _chkAltVals;
@@ -1768,15 +1764,15 @@
         private MGui.Controls.CtlTextBox _txtCondInfo;
         private MetaboliteLevels.Controls.CtlButton _btnAltVals;
         private MetaboliteLevels.Controls.CtlButton _btnCondInfo;
-        private System.Windows.Forms.Label _lblConditions;
+        private MetaboliteLevels.Controls.CtlLabel _lblConditions;
         private MGui.Controls.CtlTextBox _txtExps;
         private MGui.Controls.CtlTextBox _txtControls;
-        private System.Windows.Forms.Label label3;
+        private MetaboliteLevels.Controls.CtlLabel label3;
         private MetaboliteLevels.Controls.CtlButton _btnDeleteWorkspace;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage _tabSelectData;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label5;
+        private MetaboliteLevels.Controls.CtlLabel label5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.TabPage _tabSessionName;
         private System.Windows.Forms.TabPage _tabCompounds;
@@ -1788,11 +1784,11 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Controls.CtlButton _btnNewSession;
         private Controls.CtlButton _btnReturnToSession;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
+        private MetaboliteLevels.Controls.CtlLabel label9;
+        private MetaboliteLevels.Controls.CtlLabel label10;
         private System.Windows.Forms.ContextMenuStrip _mnuDebug;
         private System.Windows.Forms.ToolStripMenuItem exploreToolStripMenuItem;
-        private System.Windows.Forms.Label label7;
+        private MetaboliteLevels.Controls.CtlLabel label7;
         private System.Windows.Forms.ToolStripMenuItem clearRPathrequiresRestartToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip _cmsRecentSessions;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -1802,14 +1798,14 @@
         private MetaboliteLevels.Controls.CtlButton _btnBrowseContCond;
         private System.Windows.Forms.TabPage _tabStatistics;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.Label label14;
+        private MetaboliteLevels.Controls.CtlLabel label14;
         private System.Windows.Forms.ToolTip _tipPopup;
-        private System.Windows.Forms.Label label4;
+        private MetaboliteLevels.Controls.CtlLabel label4;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.CheckBox _chkStatT;
         private System.Windows.Forms.CheckBox _chkStatP;
         private System.Windows.Forms.TabPage _tabReady;
-        private System.Windows.Forms.Label label12;
+        private MetaboliteLevels.Controls.CtlLabel label12;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.ToolStripMenuItem restartToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel _tabConditions;
@@ -1818,9 +1814,9 @@
         private System.Windows.Forms.CheckBox _chkAlarm;
         private System.Windows.Forms.ToolStripMenuItem resetdoNotShowAgainMessagesToolStripMenuItem;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label6;
+        private MetaboliteLevels.Controls.CtlLabel label2;
+        private MetaboliteLevels.Controls.CtlLabel label1;
+        private MetaboliteLevels.Controls.CtlLabel label6;
         private System.Windows.Forms.ListBox _lstCompounds;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private Controls.CtlButton _btnAddCompound;
@@ -1834,10 +1830,10 @@
         private Controls.CtlButton _btnAddAdduct;
         private Controls.CtlButton _btnDelAdduct;
         private System.Windows.Forms.ListBox _lstAvailableAdducts;
-        private System.Windows.Forms.Label _lblAdducts;
+        private MetaboliteLevels.Controls.CtlLabel _lblAdducts;
         private System.Windows.Forms.TabPage _tabAnnotations;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
-        private System.Windows.Forms.Label label11;
+        private MetaboliteLevels.Controls.CtlLabel label11;
         private Controls.CtlButton _btnIdentifications;
         private System.Windows.Forms.CheckBox _chkAutoIdentify;
         private MGui.Controls.CtlTextBox _txtIdentifications;
@@ -1847,15 +1843,15 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private Controls.CtlButton _btnAddAllCompounds;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Label label15;
+        private MetaboliteLevels.Controls.CtlLabel label15;
         private System.Windows.Forms.Label _lblProgramDescription;
         private System.Windows.Forms.Label _lbl32BitWarning;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
-        private System.Windows.Forms.Label _lblTolerance;
+        private MetaboliteLevels.Controls.CtlLabel _lblTolerance;
         private System.Windows.Forms.NumericUpDown _numTolerance;
         private System.Windows.Forms.ComboBox _lstTolerance;
         private MGui.Controls.CtlError _checker;
         private Controls.CtlTitleBar ctlTitleBar1;
-        private System.Windows.Forms.Label _lblOrder;
+        private MetaboliteLevels.Controls.CtlLabel _lblOrder;
     }
 }

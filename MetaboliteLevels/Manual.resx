@@ -309,22 +309,40 @@ OPTIONAL: Required only for the PCA-MANOVA statistic. If not specified PCA-MANOV
 EXPECTS: This should be a comma-delimited list of replicate numbers (e.g. 1, 2, 3).</value>
   </data>
   <data name="RScript" xml:space="preserve">
-    <value>Specify the code for your algorithm.
+    <value>SCRIPTING:
 
-You can use "##" to give names to script parameters, for example the number of clusters "k" in k-means might be specified as:
+Enter your R script into the window. You should follow the outline above to use the inputs to generate the necessary output.
 
-## k = integer
+RENAMING INPUTS:
 
-The available parameter types are: integer, double
+Script input parameters can be renamed as by entering a special line starting "##" at the start of the document, such as:
 
-Standard inputs are also provided, for instance clustering requires a value matrix
+    ## my.x = value.matrix
 
-## x = value.matrix
+Here "value.matrix" is the ID of the parameter (as listed above) and "my.x" is the new name you wish to assign to it.
 
-The available inputs for the type of algorithm you are editing are shown in the caption below the title bar.
-If you don't specify an input they will be given the names shown in the title bar.
+DEFAULT INPUTS:
 
-Some inputs are optional since they and are represented by a dash "-" by default, meaning unused. Give these inputs a name to use them in your code. For instance your clustering algorithm might not need the value matrix to be created, so it can choose use the distance matrix directly instead.</value>
+If you don't rename any inputs they will be given the default names specified above. Some of these may be "-", indicating they are not present by default.
+
+REMOVING INPUTS:
+
+If you name an input "-" yourself it will be removed from the list of inputs. For instance:
+    
+    ## - = value.matrix
+
+This can be used to increase performance if the input is costly to calculate and you don't make use of it.
+
+CREATING CUSTOM PARAMETERS:
+
+Sometimes your algorithm may require additional parameters to be set by the user. You can do this as follows:
+
+    ## k = integer
+
+Here "k" is your name of the input, and "integer" is the type of parameter you are asking the user for.
+
+The available parameter types are: "integer" and "double".
+You can specify as many of these as you like.</value>
   </data>
   <data name="RScriptEditor" xml:space="preserve">
     <value>Specify the code for your algorithm.

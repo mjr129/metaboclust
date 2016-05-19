@@ -12,12 +12,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Corrections
     class CorrectionScript : CorrectionBase
     {
         public readonly RScript _script;
-        public const string INPUTS = "intensity=y";
+        public const string INPUT_TABLE =
+@"y,        y,  Numeric vector of length n. The source values (intensities).
+  RETURNS,  ,   Numeric vector of length n. The corrected values (replacement intensities).
+  SUMMARY,  ,   Performs data correction based on intensity data alone. This is performed on a per-peak basis.";
 
         public CorrectionScript(string script, string id, string name, string fileName)
             : base(id, name  )
         {
-            this._script = new RScript(script, INPUTS, fileName);
+            this._script = new RScript(script, INPUT_TABLE, fileName);
         }
 
         public override double[] Calculate(double[] raw, ArgsCorrection args)

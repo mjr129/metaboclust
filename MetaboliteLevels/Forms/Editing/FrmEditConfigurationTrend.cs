@@ -102,11 +102,18 @@ namespace MetaboliteLevels.Forms.Algorithms
             title = string.IsNullOrWhiteSpace(_txtName.Text) ? null : _txtName.Text;
 
             // Parameters
-            if (sel !=null && sel.Parameters.HasCustomisableParams)
+            if (sel !=null)
             {
-                args = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
+                if (sel.Parameters.HasCustomisableParams)
+                {
+                    args = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
 
-                _checker.Check( _txtParams, args!=null, "Specify valid parameters for the method" );
+                    _checker.Check( _txtParams, args != null, "Specify valid parameters for the method" );
+                }
+                else
+                {
+                    args = null;
+                }
             }
             else
             {
@@ -149,7 +156,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             bool valid = sel != null;
             _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
 
-            _lblError.Visible = false;
+            _lnkError.Visible = false;
 
             if (sel != null)
             {
@@ -164,9 +171,10 @@ namespace MetaboliteLevels.Forms.Algorithms
                     }
                     catch (Exception ex)
                     {
-                        _lblError.Text = ex.Message;
-                        _lblError.Visible = true;
-                        _chart1.ClearPlot();
+                        _lnkError.Visible = true;
+                        _lnkError.Tag = ex.ToString();
+                        sPeak.ForceObservations = null;
+                        _chart1.Plot( sPeak );
                     }
                 }
             }
@@ -249,6 +257,11 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void ctlButton3_Click( object sender, EventArgs e )
         {
             PagePreview( 1 );
+        }
+
+        private void _lnkError_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        {
+            FrmMsgBox.ShowInfo( this, "Error", _lnkError.Tag as string );
         }
     }
 }

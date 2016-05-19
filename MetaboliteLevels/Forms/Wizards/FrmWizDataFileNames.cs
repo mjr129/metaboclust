@@ -59,19 +59,19 @@ namespace MetaboliteLevels.Forms.Startup
             _btnNewSession.BackColor = _btnNewSession.FlatAppearance.BorderColor
                 = _btnReturnToSession.BackColor = _btnReturnToSession.FlatAppearance.BorderColor
                 = _btnMostRecent.BackColor = _btnMostRecent.FlatAppearance.BorderColor
-                = UiControls.BackColour;
+                = UiControls.TitleBackColour;
 
             _btnNewSession.FlatAppearance.MouseOverBackColor
                 = _btnReturnToSession.FlatAppearance.MouseOverBackColor
                 = _btnMostRecent.FlatAppearance.MouseOverBackColor
-                = ColourHelper.Blend( UiControls.BackColour, Color.Black, 0.1 );
+                = ColourHelper.Blend( UiControls.TitleBackColour, Color.Black, 0.1 );
 
             _fileLoadInfo = XmlSettings.LoadAndResave<FileLoadInfo>( FileId.FileLoadInfo, ProgressReporter.GetEmpty(), null );
 
             // Match program description to title bar
-            _lblProgramDescription.BackColor = UiControls.BackColour;
-            _lblProgramDescription.ForeColor = UiControls.ForeColour;
-            _lblOrder.BackColor = UiControls.BackColour;
+            _lblProgramDescription.BackColor = UiControls.TitleBackColour;
+            _lblProgramDescription.ForeColor = UiControls.TitleForeColour;
+            _lblOrder.BackColor = UiControls.TitleBackColour;
 
             // Set texts
             Text = UiControls.Title + " - Load data";

@@ -25,8 +25,8 @@ namespace MetaboliteLevels.Controls
             {
                 InitializeComponent();
 
-                _lblOrder.BackColor = UiControls.BackColour;
-                _lblOrder.ForeColor = UiControls.ForeColour;      
+                _lblOrder.BackColor = UiControls.TitleBackColour;
+                _lblOrder.ForeColor = UiControls.TitleForeColour;      
             }
         }
 
@@ -143,6 +143,7 @@ namespace MetaboliteLevels.Controls
 
             _lblOrder.Text = sb.ToString();
             _lblOrder.Visible = !Pager.PageFlag.Contains("[NOBAR]");
+            this.ctlTitleBar1.DrawHBar = !_lblOrder.Visible;
 
             Revalidate();
         }
@@ -315,6 +316,11 @@ namespace MetaboliteLevels.Controls
             _btnBack.Visible = _options.HasFlag(CtlWizardOptions.ShowCancel) && !Pager.IsOnFirstPage;
             _btnCancel.Visible = _options.HasFlag(CtlWizardOptions.ShowBack) && Pager.IsOnFirstPage;
             _btnOk.Visible = Pager.IsOnLastPage;
+        }
+
+        private void _lblOrder_Paint( object sender, PaintEventArgs e )
+        {
+            UiControls.DrawHBar( e.Graphics, _lblOrder );
         }
     }
 

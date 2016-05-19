@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics
@@ -35,7 +36,59 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// </summary>
         public readonly string[] InputNames;
 
-        public readonly string FileName;               
+        public readonly string FileName;
+
+        public class RScriptMarkup
+        {
+            public readonly string Summary;
+            public readonly string ReturnValue;
+            public readonly List<RScriptMarkupElement> Inputs;
+
+            public RScriptMarkup( string inputs )
+            {
+                Inputs = new List<RScriptMarkupElement>();
+
+                SpreadsheetReader reader = new SpreadsheetReader()
+                {
+                    HasColNames = false,
+                    HasRowNames = false,
+                };
+
+                Spreadsheet<string> data = reader.ReadText<string>( inputs );
+
+                foreach (Spreadsheet<string>.Row row in data.Rows)
+                {
+                    string key = row[0].ToUpper();
+
+                    if (key == "SUMMARY")
+                    {
+                        Summary = row[2];
+                    }
+                    else if (key == "RETURNS")
+                    {
+                        ReturnValue = row[2];
+                    }
+                    else
+                    {
+                        Inputs.Add( new RScriptMarkupElement( key, row[1], row[2] ) ); // ID, DefaultName
+                    }
+                }
+            }
+        }
+
+        public class RScriptMarkupElement
+        {
+            public readonly string Comment;
+            public readonly string Key;
+            public string Name;
+
+            public RScriptMarkupElement( string key, string value, string comment )
+            {
+                this.Key = key;
+                this.Name = value;
+                this.Comment = comment;
+            }
+        }
 
         /// <summary>
         /// Constructor.
@@ -50,14 +103,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             int lpos;
             this.FileName = fileName;
 
-            string[] ie = inputs.Split(",".ToCharArray());
-            List<Tuple<string, string>> inputNames = new List<Tuple<string, string>>(); // ID, Name
-
-            foreach (string iee in ie)
-            {
-                string[] ieee = iee.Split("=".ToCharArray());
-                inputNames.Add(new Tuple<string, string>(ieee[0].ToUpper(), ieee[1])); // ID, DefaultName
-            }
+            RScriptMarkup markup = new RScriptMarkup( inputs );
 
             List<AlgoParameter> Parameters = new List<AlgoParameter>();
 
@@ -88,11 +134,11 @@ namespace MetaboliteLevels.Algorithms.Statistics
                             }
                             else
                             {
-                                int ssi = inputNames.FindIndex(z => z.Item1 == type);
+                                int ssi = markup.Inputs.FindIndex(z => z.Key == type);
 
                                 if (ssi != -1)
                                 {
-                                    inputNames[ssi] = new Tuple<string, string>(inputNames[ssi].Item1, name);
+                                    markup.Inputs[ssi].Name= name;
                                 }
                                 else
                                 {
@@ -108,11 +154,9 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 }
             }
 
-            string[] inputNamesA = inputNames.Select(z => z.Item2 == "-" ? null : z.Item2).ToArray();
+            string[] inputNamesA = markup.Inputs.Select(z => z.Name == "-" ? null : z.Name).ToArray();
 
-
-            Script = text.Substring(lpos);
-
+            this.Script = text;
             this.InputNames = inputNamesA;     
 
             RequiredParameters = new AlgoParameterCollection(Parameters.ToArray());

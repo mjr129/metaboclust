@@ -31,8 +31,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._lblTitle = new System.Windows.Forms.Label();
             this._lblSubTitle = new System.Windows.Forms.Label();
-            this._btnHelp = new Controls.CtlButton();
-            this._btnWarning = new Controls.CtlButton();
+            this._btnHelp = new MetaboliteLevels.Controls.CtlButton();
+            this._btnWarning = new MetaboliteLevels.Controls.CtlButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,8 +41,8 @@
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this._lblTitle, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this._lblSubTitle, 0, 1);
@@ -57,16 +57,18 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(256, 77);
             this.tableLayoutPanel1.TabIndex = 24;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // _lblTitle
             // 
             this._lblTitle.AutoSize = true;
+            this._lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this._lblTitle.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._lblTitle.Location = new System.Drawing.Point(11, 8);
             this._lblTitle.Name = "_lblTitle";
-            this._lblTitle.Size = new System.Drawing.Size(138, 40);
+            this._lblTitle.Size = new System.Drawing.Size(423, 40);
             this._lblTitle.TabIndex = 1;
-            this._lblTitle.Text = "Main title";
+            this._lblTitle.Text = "Main titleaaaaaaaaaaaaaaaaaaa";
             // 
             // _lblSubTitle
             // 
@@ -112,11 +114,10 @@
             this._btnWarning.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnWarning.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._btnWarning.Image = global::MetaboliteLevels.Properties.Resources.IcoWarning;
-            this._btnWarning.Location = new System.Drawing.Point(195, 11);
+            this._btnWarning.Location = new System.Drawing.Point(440, 11);
             this._btnWarning.Name = "_btnWarning";
-            this._btnWarning.Size = new System.Drawing.Size(22, 22);
+            this._btnWarning.Size = new System.Drawing.Size(1, 22);
             this._btnWarning.TabIndex = 2;
-            this._btnWarning.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this._btnWarning.UseVisualStyleBackColor = false;
             this._btnWarning.Visible = false;
             this._btnWarning.Click += new System.EventHandler(this._btnWarning_Click);
@@ -147,6 +148,5 @@
         private System.Windows.Forms.Label _lblSubTitle;
         private Controls.CtlButton _btnHelp;
         private Controls.CtlButton _btnWarning;
-
     }
 }

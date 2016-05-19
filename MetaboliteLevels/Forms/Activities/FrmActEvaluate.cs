@@ -150,11 +150,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (config == null)
             {
                 this.Text = "Evaluate Clustering";
-                toolStripTextBox1.Text = string.Empty;
+                ctlTitleBar1.SubText = string.Empty;
                 return;
             }
 
-            toolStripTextBox1.Text = config.ToString();
+            ctlTitleBar1.SubText = config.ToString();
             this.Text = "Evaluate Clustering - " + fileName;
             _lvhConfigs.DivertList(config.Results);
 

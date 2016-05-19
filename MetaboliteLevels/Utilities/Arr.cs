@@ -303,6 +303,18 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
                     {
                         sym = R.CreateNumericVector((IEnumerable<double>)obj);
                     }
+                    else if (obj is int[])
+                    {
+                        sym = R.CreateIntegerVector( (int[])obj );
+                    }
+                    else if (obj is int[,])
+                    {
+                        sym = R.CreateIntegerMatrix( (int[,])obj );
+                    }
+                    else if (obj is IEnumerable<int>)
+                    {
+                        sym = R.CreateIntegerVector( (IEnumerable<int>)obj );
+                    }
                     else
                     {
                         throw new InvalidOperationException("Cannot create R object for obj: " + obj);

@@ -41,7 +41,6 @@
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._lblError = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._lstMethod = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -56,6 +55,7 @@
             this._lblPreviewTitle = new System.Windows.Forms.Label();
             this._flpPreviewButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._lnkError = new System.Windows.Forms.LinkLabel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MGui.Controls.CtlError(this.components);
             this.contextMenuStrip1.SuspendLayout();
@@ -160,7 +160,7 @@
             this._btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this._btnCancel.Location = new System.Drawing.Point(336, 5);
+            this._btnCancel.Location = new System.Drawing.Point(137, 5);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
@@ -175,7 +175,7 @@
             this._btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._btnOk.Enabled = false;
             this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this._btnOk.Location = new System.Drawing.Point(202, 5);
+            this._btnOk.Location = new System.Drawing.Point(3, 5);
             this._btnOk.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this._btnOk.Name = "_btnOk";
             this._btnOk.Size = new System.Drawing.Size(128, 40);
@@ -192,28 +192,12 @@
             this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel1, 4);
             this.flowLayoutPanel1.Controls.Add(this._btnCancel);
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
-            this.flowLayoutPanel1.Controls.Add(this._lblError);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(592, 667);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(791, 667);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(467, 50);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(268, 50);
             this.flowLayoutPanel1.TabIndex = 13;
             this.flowLayoutPanel1.WrapContents = false;
-            // 
-            // _lblError
-            // 
-            this._lblError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._lblError.AutoSize = true;
-            this._lblError.BackColor = System.Drawing.Color.White;
-            this._lblError.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._lblError.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblError.ForeColor = System.Drawing.Color.Red;
-            this._lblError.Location = new System.Drawing.Point(8, 19);
-            this._lblError.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
-            this._lblError.Name = "_lblError";
-            this._lblError.Size = new System.Drawing.Size(183, 23);
-            this._lblError.TabIndex = 4;
-            this._lblError.Text = "###################";
             // 
             // label1
             // 
@@ -362,14 +346,16 @@
             this._tlpPreview.Controls.Add(this._lblPreviewTitle, 0, 0);
             this._tlpPreview.Controls.Add(this._flpPreviewButtons, 1, 0);
             this._tlpPreview.Controls.Add(this.panel1, 0, 1);
+            this._tlpPreview.Controls.Add(this._lnkError, 0, 2);
             this._tlpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tlpPreview.ForeColor = System.Drawing.Color.Black;
             this._tlpPreview.Location = new System.Drawing.Point(8, 180);
             this._tlpPreview.Margin = new System.Windows.Forms.Padding(8);
             this._tlpPreview.Name = "_tlpPreview";
-            this._tlpPreview.RowCount = 2;
+            this._tlpPreview.RowCount = 3;
             this._tlpPreview.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tlpPreview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tlpPreview.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tlpPreview.Size = new System.Drawing.Size(1046, 439);
             this._tlpPreview.TabIndex = 15;
             // 
@@ -412,8 +398,22 @@
             this.panel1.Location = new System.Drawing.Point(0, 33);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1046, 406);
+            this.panel1.Size = new System.Drawing.Size(1046, 385);
             this.panel1.TabIndex = 20;
+            // 
+            // _lnkError
+            // 
+            this._lnkError.AutoSize = true;
+            this._lnkError.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this._lnkError.LinkColor = System.Drawing.Color.Red;
+            this._lnkError.Location = new System.Drawing.Point(3, 418);
+            this._lnkError.Name = "_lnkError";
+            this._lnkError.Size = new System.Drawing.Size(487, 21);
+            this._lnkError.TabIndex = 21;
+            this._lnkError.TabStop = true;
+            this._lnkError.Text = "An error occured whilst generating the preview. Click here for details.";
+            this._lnkError.Visible = false;
+            this._lnkError.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._lnkError_LinkClicked);
             // 
             // ctlTitleBar1
             // 
@@ -433,7 +433,7 @@
             this.ctlTitleBar1.Text = "Select Smoothing Algorithm";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // FrmAlgoTrend
+            // FrmEditConfigurationTrend
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -442,12 +442,11 @@
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FrmAlgoTrend";
+            this.Name = "FrmEditConfigurationTrend";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Smoothing";
             this.contextMenuStrip1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this._tlpPreview.ResumeLayout(false);
@@ -479,7 +478,6 @@
         private System.Windows.Forms.Label _lblParams;
         private MGui.Controls.CtlTextBox _txtParams;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label _lblError;
         private Controls.CtlButton _btnEditParameters;
         private System.Windows.Forms.TableLayoutPanel _tlpPreview;
         private System.Windows.Forms.Label _lblPreviewTitle;
@@ -489,5 +487,6 @@
         private Controls.CtlButton ctlButton3;
         private System.Windows.Forms.Panel panel1;
         private MGui.Controls.CtlError _checker;
+        private System.Windows.Forms.LinkLabel _lnkError;
     }
 }

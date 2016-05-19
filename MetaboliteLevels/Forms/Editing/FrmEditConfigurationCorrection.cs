@@ -281,6 +281,8 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// </summary>
         private void GeneratePreview(ConfigurationCorrection sel)
         {
+            _lnkError.Visible = false;
+
             if (sel == null)
             {
                 return;
@@ -308,10 +310,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                 trend = sel.ExtractTrend(_core, _selectedPeak.Observations.Raw, out trendOrder);
                 corrected = sel.Calculate(_core, _selectedPeak.Observations.Raw);
             }
-            catch
+            catch (Exception ex)
             {
                 _chartOrig.Plot(null);
-                _chartChanged.Plot(null);
+                _chartChanged.Plot(null);                                    
+                _lnkError.Tag = ex.ToString();
+                _lnkError.Visible = true;
                 return;
             }
 
@@ -539,6 +543,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             anything_SomethingChanged( sender, e );
-        }    
+        }
+
+        private void _lnkError_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        {
+            FrmMsgBox.ShowInfo( this, "Error details", _lnkError.Tag as string );
+        }
     }
 }

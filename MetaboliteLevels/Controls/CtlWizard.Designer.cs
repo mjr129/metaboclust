@@ -31,13 +31,13 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._lblOrder = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._btnShowHelp = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnBack = new MetaboliteLevels.Controls.CtlButton();
             this._btnNext = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
@@ -64,16 +64,17 @@
             // 
             // _lblOrder
             // 
-            this._lblOrder.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._lblOrder.BackColor = System.Drawing.Color.White;
             this._lblOrder.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lblOrder.ForeColor = System.Drawing.Color.Black;
-            this._lblOrder.Location = new System.Drawing.Point(0, 56);
+            this._lblOrder.ForeColor = System.Drawing.Color.Purple;
+            this._lblOrder.Location = new System.Drawing.Point(0, 66);
             this._lblOrder.Margin = new System.Windows.Forms.Padding(0);
             this._lblOrder.Name = "_lblOrder";
             this._lblOrder.Size = new System.Drawing.Size(756, 28);
             this._lblOrder.TabIndex = 3;
             this._lblOrder.Text = "Order ➜ [Order] ➜ Order";
             this._lblOrder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblOrder.Paint += new System.Windows.Forms.PaintEventHandler(this._lblOrder_Paint);
             // 
             // flowLayoutPanel3
             // 
@@ -91,31 +92,6 @@
             this.flowLayoutPanel3.Size = new System.Drawing.Size(680, 56);
             this.flowLayoutPanel3.TabIndex = 18;
             this.flowLayoutPanel3.WrapContents = false;
-            // 
-            // panel1
-            // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 84);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(756, 255);
-            this.panel1.TabIndex = 21;
-            // 
-            // ctlTitleBar1
-            // 
-            this.ctlTitleBar1.AutoSize = true;
-            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
-            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
-            this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(0);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
-            this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(756, 56);
-            this.ctlTitleBar1.SubText = "";
-            this.ctlTitleBar1.TabIndex = 22;
-            this.ctlTitleBar1.Text = "Title";
-            this.ctlTitleBar1.WarningText = null;
             // 
             // _btnShowHelp
             // 
@@ -180,6 +156,31 @@
             this._btnOk.UseDefaultSize = true;
             this._btnOk.UseVisualStyleBackColor = true;
             this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 94);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(756, 245);
+            this.panel1.TabIndex = 21;
+            // 
+            // ctlTitleBar1
+            // 
+            this.ctlTitleBar1.AutoSize = true;
+            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlTitleBar1.HelpText = "";
+            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
+            this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
+            this.ctlTitleBar1.Name = "ctlTitleBar1";
+            this.ctlTitleBar1.Size = new System.Drawing.Size(756, 66);
+            this.ctlTitleBar1.SubText = "";
+            this.ctlTitleBar1.TabIndex = 22;
+            this.ctlTitleBar1.Text = "Title";
+            this.ctlTitleBar1.WarningText = null;
             // 
             // CtlWizard
             // 

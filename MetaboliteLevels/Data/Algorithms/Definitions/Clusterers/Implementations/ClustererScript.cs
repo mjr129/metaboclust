@@ -15,14 +15,19 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
     /// </summary>
     class ClustererScript : ClustererBase
     {
-        public const string INPUTS = @"value.matrix=x,distance.matrix=-";
+        public const string INPUT_TABLE
+= @"value.matrix,       x,  ""Numeric matrix of size n*m. The intensity matrix of the n input vectors, each of length m.""
+    distance.matrix,    -,  Numeric matrix of size n*n. The distance matrix corresponding the value matrix calculated using the user's chosen distance metric. Requesting this parameter will incur an additional performance cost to calculate the distance matrix.
+    RETURNS,            ,   Numeric vector of size n. The assigned clusters of the input vectors.
+    SUMMARY,            ,   Clusters a set of input vectors.";
+
         public readonly RScript _script;
         private readonly bool _usesDistanceMatrix;
 
         public ClustererScript(string script, string id, string name, string fileName)
             : base(id, name)
         {
-            this._script = new RScript(script, INPUTS, fileName);
+            this._script = new RScript(script, INPUT_TABLE, fileName);
 
             UiControls.Assert(_script.IsInputPresent(0) || _script.IsInputPresent(1), "ClustererScript must take at least one of value matrix or distance matrix");
 

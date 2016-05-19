@@ -309,20 +309,21 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specify the code for your algorithm.
+        ///   Looks up a localized string similar to SCRIPTING:
         ///
-        ///You can use &quot;##&quot; to give names to script parameters, for example the number of clusters &quot;k&quot; in k-means might be specified as:
+        ///Enter your R script into the window. You should follow the outline above to use the inputs to generate the necessary output.
         ///
-        ///## k = integer
+        ///RENAMING INPUTS:
         ///
-        ///The available parameter types are: integer, double
+        ///Script input parameters can be renamed as by entering a special line starting &quot;##&quot; at the start of the document, such as:
         ///
-        ///Standard inputs are also provided, for instance clustering requires a value matrix
+        ///    ## my.x = value.matrix
         ///
-        ///## x = value.matrix
+        ///Here &quot;value.matrix&quot; is the ID of the parameter (as listed above) and &quot;my.x&quot; is the new name you wish to assign to it.
         ///
-        ///The available inputs for the type of algorithm you are editing are shown in the caption below the title bar.
-        ///If you don&apos;t specify an input they will be given the [rest of string was truncated]&quot;;.
+        ///DEFAULT INPUTS:
+        ///
+        ///If you don&apos;t rename any inputs they will be given the d [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string RScript {
             get {

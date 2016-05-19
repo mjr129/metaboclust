@@ -9,13 +9,21 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
     /// </summary>
     sealed class StatisticScript : StatisticBase
     {
-        public const string INPUTS = "input=x,intensity=-,group=-,time=-,rep=-";
+        public const string INPUT_TABLE =
+@"input,    x,  Numeric vector of length n. The input vector to calculate the statistic for (the source depends on the user's choice)
+  intensity,-,  Numeric vector of length n. The intensities corresponding to the input vector
+  group,    -,  Numeric vector of length n. The experimental groups corresponding to the input vector
+  time,     -,  Numeric vector of length n. The times corresponding the the input vector
+  rep,      -,  Numeric vector of length n. The replicates corresponding the input vector
+  SUMMARY,   ,  Calculates a statistic for the user's chosen input
+  RETURNS,   ,  Numeric. The statistic calculated for the specified vectors.";
+
         public readonly RScript _script;                
 
         public StatisticScript(string script, string id, string name, string fileName)
             : base(id, name )
         {
-            this._script = new RScript(script, INPUTS, fileName);
+            this._script = new RScript(script, INPUT_TABLE, fileName);
             // this._script.CheckInputMask("10000");
         }
 

@@ -513,7 +513,7 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<AlgoBase>()
             {
                 Core = core,
-                Title = "Trend algorithms",
+                Title = "Correction algorithms",
                 Source = Algo.Instance.Trends.Cast<AlgoBase>().Concat(Algo.Instance.Corrections),
                 ItemEditor = z => _ShowScriptEditor(z, UiControls.EInitialFolder.FOLDER_TRENDS, UiControls.EInitialFolder.FOLDER_CORRECTIONS ),
                 ListChangesOnEdit = true,
@@ -805,7 +805,7 @@ namespace MetaboliteLevels.Forms.Generic
 
             if (find.Script == null)
             {
-                FrmMsgBox.ShowError(owner, "This algorithm is inbuilt and cannot be removed.");
+                FrmMsgBox.ShowInfo(owner, "Unavailable", "This algorithm is inbuilt and cannot be removed.");
                 return;
             }
 
@@ -815,10 +815,13 @@ namespace MetaboliteLevels.Forms.Generic
                 return;
             }
 
-            if (FrmMsgBox.ShowYesNo(owner, "Delete script file?", find.Script.FileName, Resources.MsgWarning))
+            if (replace == null) // Direct delete
             {
-                File.Delete(find.Script.FileName);
-                Algo.Instance.Rebuild();
+                if (FrmMsgBox.ShowYesNo( owner, "Delete script file?", find.Script.FileName, Resources.MsgWarning ))
+                {
+                    File.Delete( find.Script.FileName );
+                    Algo.Instance.Rebuild();
+                }
             }
         }
 
@@ -836,7 +839,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 if (z.DefaultValue.Script == null)
                 {
-                    FrmMsgBox.ShowError(z.Owner, "This algorithm is inbuilt and cannot be viewed or edited.");
+                    FrmMsgBox.ShowInfo( z.Owner, "Unavailable", "This algorithm is inbuilt and cannot be removed." );
                     return null;
                 }
 
@@ -895,40 +898,40 @@ namespace MetaboliteLevels.Forms.Generic
                 }
             }
 
-            string title, inputs;
+            string title, inputTable;
 
             switch (folder)
             {
                 case UiControls.EInitialFolder.FOLDER_CLUSTERERS:
                     title = "Clustering Algorithm";
-                    inputs = ClustererScript.INPUTS;
+                    inputTable = ClustererScript.INPUT_TABLE;
                     break;
 
                 case UiControls.EInitialFolder.FOLDER_CORRECTIONS:
                     title = "Correction";
-                    inputs = ClustererScript.INPUTS;
+                    inputTable = CorrectionScript.INPUT_TABLE;
                     break;
 
                 case UiControls.EInitialFolder.FOLDER_METRICS:
                     title = "Metric";
-                    inputs = ClustererScript.INPUTS;
+                    inputTable = MetricScript.INPUT_TABLE;
                     break;
 
                 case UiControls.EInitialFolder.FOLDER_STATISTICS:
                     title = "Statistic";
-                    inputs = ClustererScript.INPUTS;
+                    inputTable = StatisticScript.INPUT_TABLE;
                     break;
 
                 case UiControls.EInitialFolder.FOLDER_TRENDS:
                     title = "Smoothing Algorithm";
-                    inputs = ClustererScript.INPUTS;
+                    inputTable = TrendScript.INPUT_TABLE;
                     break;
 
                 default:
                     throw new SwitchException( folder );
             }
 
-            string newFile = FrmInputScript.Show(z.Owner, title, inputs, folder, fileName, z.WorkOnCopy, defaultContent, z.ReadOnly);
+            string newFile = FrmInputScript.Show(z.Owner, title, inputTable, folder, fileName, z.WorkOnCopy, defaultContent, z.ReadOnly);
 
             if (newFile == null)
             {

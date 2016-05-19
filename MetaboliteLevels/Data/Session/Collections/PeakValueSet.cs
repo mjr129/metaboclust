@@ -80,7 +80,7 @@ namespace MetaboliteLevels.Data.General
             // Calculate { raw } for each OBSERVATION
             this.Raw = raw;
 
-            this.Trend = avgSmoother.CreateTrend(obsInfo, condInfo, typeInfo, raw);
+            this.Trend = avgSmoother.CreateTrend( obsInfo, condInfo, typeInfo, raw );
             this.Min = minSmoother.CreateTrend(obsInfo, condInfo, typeInfo, raw);
             this.Max = maxSmoother.CreateTrend(obsInfo, condInfo, typeInfo, raw);
 

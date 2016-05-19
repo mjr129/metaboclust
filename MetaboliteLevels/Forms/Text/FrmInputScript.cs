@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Algorithms.Statistics;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
@@ -13,9 +14,9 @@ namespace MetaboliteLevels.Forms.Generic
         private UiControls.EInitialFolder _saveFolder;
         private string _fileName;
 
-        internal static string Show(Form owner, string title, string inputs, UiControls.EInitialFolder folder, string fileName, bool workOnCopy, string defaultContent, bool readOnly)
+        internal static string Show(Form owner, string title, string inputTable, UiControls.EInitialFolder folder, string fileName, bool workOnCopy, string defaultContent, bool readOnly)
         {
-            using (FrmInputScript frm = new FrmInputScript(title, inputs, folder, fileName, workOnCopy, defaultContent, readOnly))
+            using (FrmInputScript frm = new FrmInputScript(title, inputTable, folder, fileName, workOnCopy, defaultContent, readOnly))
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
@@ -29,46 +30,58 @@ namespace MetaboliteLevels.Forms.Generic
         public FrmInputScript()
         {
             InitializeComponent();
-            _mnuStrip.BackColor = UiControls.BackColour;
-            this._mnuFile.ForeColor = UiControls.ForeColour;
+            _mnuStrip.BackColor = UiControls.TitleBackColour;
+            this._mnuFile.ForeColor = UiControls.TitleForeColour;
 
             UiControls.SetIcon(this);
         }
 
-        public FrmInputScript(string title, string inputs, UiControls.EInitialFolder saveFolder, string fileName, bool workOnCopy, string defaultContent, bool readOnly)
+        public FrmInputScript(string title, string inputTable, UiControls.EInitialFolder saveFolder, string fileName, bool workOnCopy, string defaultContent, bool readOnly)
             : this()
         {
             this.Text = "Script Editor";
             this._titleBar.Text = title;
-            this._titleBar.HelpText = Manual.RScript;
             this._saveFolder = saveFolder;
 
-            string[] e = inputs.Split(",".ToCharArray());
-            StringBuilder sb = new StringBuilder();
-            StringBuilder sb2 = new StringBuilder();
+            RScript.RScriptMarkup markup = new RScript.RScriptMarkup( inputTable );
 
-            foreach (string ee in e)
-            {
-                string[] eee = ee.Split("=".ToCharArray());
+            StringBuilder defaultCode = new StringBuilder();
+            StringBuilder helpText = new StringBuilder();
 
-                if (sb.Length != 0)
+            helpText.AppendLine( title.ToUpper() + " OUTLINE" );
+            helpText.AppendLine( markup.Summary );
+            helpText.AppendLine();
+
+            foreach (RScript.RScriptMarkupElement element in markup.Inputs)
+            {                
+                defaultCode.AppendLine("## " + element.Name + " = " + element.Key);
+
+                helpText.AppendLine( element.Key.PadRight( 16 ) + ": " + element.Comment );
+
+                if (element.Name == "-")
                 {
-                    sb.AppendLine();
-                    sb2.Append(", ");
+                    helpText.AppendLine( new string( ' ', 16 ) + "  Not available by default." );
+                }
+                else
+                {
+                    helpText.AppendLine( new string( ' ', 16 ) + "  Default name: " + element.Name );
                 }
 
-                sb.Append("## " + eee[1] + " = " + eee[0]);
-                sb2.Append(eee[0] + " (" + (eee[1] != "-" ? eee[1] : "optional") + ")");
+                helpText.AppendLine();
             }
 
-            sb.AppendLine();
-            sb.AppendLine();
+            helpText.AppendLine( "EXPECTED RESULT".PadRight( 16 ) + ": " + markup.ReturnValue );
+            helpText.AppendLine();
+            helpText.AppendLine(Manual.RScript);
+            this._titleBar.HelpText = helpText.ToString();
 
-            this._titleBar.SubText = "Enter an R script. The following variables are available: " + sb2.ToString();
+            defaultCode.AppendLine(); 
+
+            this._titleBar.SubText = "Enter an R script. Click the help button to see the available inputs.";
 
             if (string.IsNullOrEmpty(defaultContent))
             {
-                this.textBox1.Text = sb.ToString();
+                this.textBox1.Text = defaultCode.ToString();
             }
             else
             {

@@ -11,13 +11,26 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
     class MetricScript : MetricBase
     {
         public readonly RScript _script;
-        public const string INPUTS = "value.a=a,value.b=b,intensity.a=-,intensity.b=-,group.a=-,group.b=-,time.a=-,time.b=-,rep.a=-,rep.b=-";
+        public const string INPUT_TABLE =
+@"value.a,      a,  ""Numeric vector of length n. The first input vector, corresponding to the user's chosen criteria.""
+  value.b,      b,  ""Numeric vector of length m. The second input vector, corresponding to the user's chosen criteria.""
+  intensity.a,  -,  Numeric vector of length n. The intensities corresponding to the first input vector.
+  intensity.b,  -,  Numeric vector of length m. The intensities corresponding to the second input vector.
+  group.a,      -,  Numeric vector of length n. The experimental groups corresponding to the first input vector.
+  group.b,      -,  Numeric vector of length m. The experimental groups corresponding to the second input vector.
+  time.a,       -,  Numeric vector of length n. The times corresponding to the first input vector.
+  time.b,       -,  Numeric vector of length m. The times corresponding to the second input vector.
+  rep.a,        -,  Numeric vector of length n. The replicate indices corresponding to the first input vector.
+  rep.b,        -,  Numeric vector of length m. The replicate indices corresponding to the second input vector.
+  SUMMARY,      ,   Calculates a statistic comparing two vectors.
+  RETURNS,      ,   Numeric. The result of the calculation.";
+
         private readonly bool _supportsQuickCalculate;
 
         public MetricScript(string script, string id, string name, string fileName)
             : base(id, name  )
         {
-            this._script = new RScript(script, INPUTS, fileName);
+            this._script = new RScript(script, INPUT_TABLE, fileName);
 
             _supportsQuickCalculate = _script.CheckInputMask("1100000000");   
         }
