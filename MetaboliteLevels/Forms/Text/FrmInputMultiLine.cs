@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Forms.Generic
@@ -25,6 +26,8 @@ namespace MetaboliteLevels.Forms.Generic
                 frm._txtInput.SelectionStart = 0;
                 frm._txtInput.SelectionLength = 0;
                 frm._txtInput.ReadOnly = true;
+                frm._txtInput.ForeColor = Color.Black;
+                frm._txtInput.BackColor = Color.White;
 
                 frm._btnCancel.Visible = false;
                 frm.ctlTitleBar1.Text = mainTitle;

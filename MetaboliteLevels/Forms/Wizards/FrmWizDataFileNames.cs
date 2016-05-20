@@ -909,7 +909,7 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (FrmMsgBox.ShowYesNo( this, "Restore Settings", "Restore settings to defaults and restart program?", Resources.MsgWarning ))
             {
-                UiControls.RestartProgram();
+                UiControls.RestartProgram(this);
             }
         }
 
@@ -941,7 +941,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void restartToolStripMenuItem_Click( object sender, EventArgs e )
         {
-            UiControls.RestartProgram();
+            UiControls.RestartProgram(this);
         }
 
         public void UpdateCacheOfTypes()
@@ -1091,7 +1091,7 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 MainSettings.Instance.DoNotShowAgain.Clear();
                 MainSettings.Instance.Save();
-                UiControls.RestartProgram();
+                UiControls.RestartProgram(this);
             }
         }
 
@@ -1166,7 +1166,7 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (FrmInitialSetup.Show( this, true ))
             {
-                UiControls.RestartProgram();
+                UiControls.RestartProgram(this);
             }
         }
 
@@ -1195,6 +1195,11 @@ namespace MetaboliteLevels.Forms.Startup
         private void _btnShowFf_Click( object sender, EventArgs e )
         {
             FrmViewSpreadsheet.Show( this, _btnShowFf.Tag as string, _fileLoadInfo );
+        }
+
+        private void cSVManipulatorToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            UiControls.StartProcess( this, Path.Combine( Application.StartupPath, "ConvertGPDataFormat.exe" ) );
         }
     }
 }

@@ -199,7 +199,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             try
             {
-                Process.Start(ll.Text);
+                UiControls.StartProcess(this,ll.Text);
             }
             catch (Exception ex)
             {

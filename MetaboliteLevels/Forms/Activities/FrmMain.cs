@@ -1393,7 +1393,7 @@ namespace MetaboliteLevels.Forms
 
             if (!string.IsNullOrEmpty( url ))
             {
-                Process.Start( url );
+                UiControls.StartProcess(this, url );
             }
             else
             {

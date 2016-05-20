@@ -87,7 +87,7 @@ namespace MetaboliteLevels.Forms.Startup
                 : UiControls.EStartupPath.None;
 
             UiControls.SetStartupPath(_txtDataFolder.Text, mode);
-            UiControls.RestartProgram();
+            UiControls.RestartProgram(this);
         }        
 
         private void ctlButton4_Click(object sender, EventArgs e)

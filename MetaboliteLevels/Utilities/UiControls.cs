@@ -768,10 +768,11 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Restarts the program.
         /// </summary>           
-        internal static void RestartProgram()
+        internal static void RestartProgram(Form owner)
         {
-            Process.Start(Application.ExecutablePath);
+            StartProcess( owner, Application.ExecutablePath );
             Application.Exit();
+            
         }
 
         /// <summary>
@@ -1249,7 +1250,21 @@ namespace MetaboliteLevels.Utilities
                 string txt = core.CoreGuid.ToString() + "\r\n" + core.FileNames.Title + "\r\n" + watermark;
                 g.DrawString(txt.ToUpper(), FontHelper.TinyRegularFont, Brushes.Silver, 0, 0);
             }
-        }        
+        }
+
+        internal static bool StartProcess( Form owner, string path )
+        {
+            try
+            {
+                Process.Start( path );
+                return true;
+            }
+            catch (Exception ex)
+            {
+                FrmMsgBox.ShowError( owner, path, ex );
+                return false;
+            }
+        }
     }
 
     /// <summary>

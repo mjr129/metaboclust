@@ -21,6 +21,7 @@ namespace MetaboliteLevels
 
             try
             {
+                // Wait a little while in case we are restarting
                 if (!mutex.WaitOne(2000, true))
                 {
                     MessageBox.Show("Application already running.");

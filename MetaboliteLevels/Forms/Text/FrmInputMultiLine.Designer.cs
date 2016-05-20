@@ -31,8 +31,8 @@
             this._txtInput = new MGui.Controls.CtlTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnOk = new Controls.CtlButton();
-            this._btnCancel = new Controls.CtlButton();
+            this._btnOk = new MetaboliteLevels.Controls.CtlButton();
+            this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -43,13 +43,14 @@
             this.tableLayoutPanel2.SetColumnSpan(this._txtInput, 2);
             this._txtInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this._txtInput.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._txtInput.Location = new System.Drawing.Point(8, 8);
-            this._txtInput.Margin = new System.Windows.Forms.Padding(8);
+            this._txtInput.Location = new System.Drawing.Point(0, 0);
+            this._txtInput.Margin = new System.Windows.Forms.Padding(0);
             this._txtInput.Multiline = true;
             this._txtInput.Name = "_txtInput";
             this._txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this._txtInput.Size = new System.Drawing.Size(883, 470);
+            this._txtInput.Size = new System.Drawing.Size(899, 486);
             this._txtInput.TabIndex = 0;
+            this._txtInput.Watermark = null;
             // 
             // tableLayoutPanel2
             // 
@@ -85,16 +86,12 @@
             this._btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._btnOk.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this._btnOk.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnOk.Location = new System.Drawing.Point(8, 8);
             this._btnOk.Margin = new System.Windows.Forms.Padding(8);
             this._btnOk.Name = "_btnOk";
-            this._btnOk.Padding = new System.Windows.Forms.Padding(4);
             this._btnOk.Size = new System.Drawing.Size(128, 40);
             this._btnOk.TabIndex = 2;
             this._btnOk.Text = "    OK";
-            this._btnOk.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this._btnOk.UseVisualStyleBackColor = true;
             // 
             // _btnCancel
@@ -102,16 +99,12 @@
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this._btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnCancel.Location = new System.Drawing.Point(152, 8);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(8);
             this._btnCancel.Name = "_btnCancel";
-            this._btnCancel.Padding = new System.Windows.Forms.Padding(4);
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
             this._btnCancel.TabIndex = 3;
             this._btnCancel.Text = "    Cancel";
-            this._btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this._btnCancel.UseVisualStyleBackColor = true;
             // 
             // ctlTitleBar1
@@ -127,8 +120,9 @@
             this.ctlTitleBar1.SubText = "Subtitle";
             this.ctlTitleBar1.TabIndex = 3;
             this.ctlTitleBar1.Text = "ctlTitleBar1";
+            this.ctlTitleBar1.WarningText = null;
             // 
-            // FrmInputLarge
+            // FrmInputMultiLine
             // 
             this.AcceptButton = this._btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -137,7 +131,7 @@
             this.ClientSize = new System.Drawing.Size(899, 619);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.ctlTitleBar1);
-            this.Name = "FrmInputLarge";
+            this.Name = "FrmInputMultiLine";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FrmBigInput";
             this.tableLayoutPanel2.ResumeLayout(false);

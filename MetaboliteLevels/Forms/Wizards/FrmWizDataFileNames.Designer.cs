@@ -36,7 +36,6 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exploreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearRPathrequiresRestartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetdoNotShowAgainMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._tipSideBar = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -139,6 +138,8 @@
             this.label12 = new MetaboliteLevels.Controls.CtlLabel();
             this._lblOrder = new MetaboliteLevels.Controls.CtlLabel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cSVManipulatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._mnuDebug.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this._tabWelcome.SuspendLayout();
@@ -182,52 +183,45 @@
             // 
             this._mnuDebug.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editPathsAndLibrariesToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.toolStripMenuItem1,
             this.exploreToolStripMenuItem,
             this.clearRPathrequiresRestartToolStripMenuItem,
-            this.resetdoNotShowAgainMessagesToolStripMenuItem,
             this.restartToolStripMenuItem});
             this._mnuDebug.Name = "_mnuDebug";
-            this._mnuDebug.Size = new System.Drawing.Size(268, 120);
+            this._mnuDebug.Size = new System.Drawing.Size(209, 142);
             // 
             // editPathsAndLibrariesToolStripMenuItem
             // 
             this.editPathsAndLibrariesToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuSessionInfo;
             this.editPathsAndLibrariesToolStripMenuItem.Name = "editPathsAndLibrariesToolStripMenuItem";
-            this.editPathsAndLibrariesToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.editPathsAndLibrariesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.editPathsAndLibrariesToolStripMenuItem.Text = "&Edit paths and libraries...";
             this.editPathsAndLibrariesToolStripMenuItem.Click += new System.EventHandler(this.editPathsAndLibrariesToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(264, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(205, 6);
             // 
             // exploreToolStripMenuItem
             // 
             this.exploreToolStripMenuItem.Name = "exploreToolStripMenuItem";
-            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.exploreToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.exploreToolStripMenuItem.Text = "&Explore application folder";
             this.exploreToolStripMenuItem.Click += new System.EventHandler(this.exploreToolStripMenuItem_Click);
             // 
             // clearRPathrequiresRestartToolStripMenuItem
             // 
             this.clearRPathrequiresRestartToolStripMenuItem.Name = "clearRPathrequiresRestartToolStripMenuItem";
-            this.clearRPathrequiresRestartToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.clearRPathrequiresRestartToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.clearRPathrequiresRestartToolStripMenuItem.Text = "&Restore default settings";
             this.clearRPathrequiresRestartToolStripMenuItem.Click += new System.EventHandler(this.clearRPathrequiresRestartToolStripMenuItem_Click);
-            // 
-            // resetdoNotShowAgainMessagesToolStripMenuItem
-            // 
-            this.resetdoNotShowAgainMessagesToolStripMenuItem.Name = "resetdoNotShowAgainMessagesToolStripMenuItem";
-            this.resetdoNotShowAgainMessagesToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.resetdoNotShowAgainMessagesToolStripMenuItem.Text = "Reset \"do not show again\" messages";
-            this.resetdoNotShowAgainMessagesToolStripMenuItem.Click += new System.EventHandler(this.resetdoNotShowAgainMessagesToolStripMenuItem_Click);
             // 
             // restartToolStripMenuItem
             // 
             this.restartToolStripMenuItem.Name = "restartToolStripMenuItem";
-            this.restartToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.restartToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.restartToolStripMenuItem.Text = "&Restart application";
             this.restartToolStripMenuItem.Click += new System.EventHandler(this.restartToolStripMenuItem_Click);
             // 
@@ -298,7 +292,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3796, 491);
+            this.pictureBox1.Location = new System.Drawing.Point(3769, 491);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -1704,6 +1698,21 @@
             this.ctlTitleBar1.Text = "Help";
             this.ctlTitleBar1.WarningText = null;
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cSVManipulatorToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // cSVManipulatorToolStripMenuItem
+            // 
+            this.cSVManipulatorToolStripMenuItem.Name = "cSVManipulatorToolStripMenuItem";
+            this.cSVManipulatorToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.cSVManipulatorToolStripMenuItem.Text = "&CSV manipulator";
+            this.cSVManipulatorToolStripMenuItem.Click += new System.EventHandler(this.cSVManipulatorToolStripMenuItem_Click);
+            // 
             // FrmEditDataFileNames
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -1835,7 +1844,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private MetaboliteLevels.Controls.CtlButton button1;
         private System.Windows.Forms.CheckBox _chkAlarm;
-        private System.Windows.Forms.ToolStripMenuItem resetdoNotShowAgainMessagesToolStripMenuItem;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private MetaboliteLevels.Controls.CtlLabel label2;
         private MetaboliteLevels.Controls.CtlLabel label1;
@@ -1877,5 +1885,7 @@
         private Controls.CtlTitleBar ctlTitleBar1;
         private MetaboliteLevels.Controls.CtlLabel _lblOrder;
         private System.Windows.Forms.Button _btnShowFf;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cSVManipulatorToolStripMenuItem;
     }
 }
