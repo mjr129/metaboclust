@@ -43,6 +43,10 @@ namespace MetaboliteLevels.Controls
                 case ELabelStyle.Caption:
                     base.ForeColor = Color.Purple;
                     break;
+
+                case ELabelStyle.Highlight:
+                    base.ForeColor = Color.Blue;
+                    break;
             }
         }
 
@@ -77,5 +81,6 @@ namespace MetaboliteLevels.Controls
     {
         Normal,
         Caption,
+        Highlight,
     }
 }

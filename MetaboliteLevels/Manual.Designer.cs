@@ -61,22 +61,28 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies adduct information.
+        ///   Looks up a localized string similar to FILEFORMAT
+        ///
+        ///Specifies adduct information.
         ///
         ///OPTIONAL: If not specified then no automatic identifications will be performed.
         ///
         ///EXPECTS: Name of a file.
         ///
-        ///FILE LAYOUT: Standard CSV format file with row and header names.
+        ///{}
+        ///Text. Row names. Ignored. Mandatory.
         ///
-        ///Rows:
-        ///    * Row 0 / column headers:   Column names. Ignored. Mandatory.
-        ///    * One adduct per row
+        ///{ADDUCTFILE_NAME_HEADER}
+        ///Text. The name of the adduct. Optional.
         ///
-        ///Columns:
-        ///    * Column 0 / row headers:   Row names. Ignored. Mandatory.
-        ///    * &quot;name&quot;                    The name of the adduct. Optional.
-        ///    * &quot;charge&quot;                  The charge of the adduct  [rest of string was truncated]&quot;;.
+        ///{ADDUCTFILE_CHARGE_HEADER}
+        ///Numeric. The charge of the adduct (-1 = negative mode LC-MS, 1 = positive mode LS-MS). Required.
+        ///
+        ///{ADDUCTFILE_MASS_DIFFERENCE_HEADER}
+        ///The mass of the adduct. Required.
+        ///
+        ///{META}
+        ///Any additional data the user wi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Adducts {
             get {
@@ -85,21 +91,19 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An alternative dataset which may be viewed by the user (for instance unscaled or raw data).
+        ///   Looks up a localized string similar to FILEFORMAT
+        ///
+        ///An alternative dataset which may be viewed by the user (for instance unscaled or raw data). Only peaks also occurring in the standard dataset are read, these may appear in any order.
         ///
         ///OPTIONAL: If not specified no alternative data will be available.
         ///
-        ///EXPCETS: Intensity data in CSV format.
+        ///{}
+        ///Text. Observation names. Must be unique. Mandatory
         ///
-        ///FILE LAYOUT:
-        ///
-        ///Rows:
-        ///    * Row 0 / Header: Variable names
-        ///    * One row per observation. Only observations also occurring in the standard dataset are read, these may appear in any order.
-        ///
-        ///Columns:
-        ///    * Column 0 / Header: Observation names
-        ///    * One row per variable. Only variables also occurring i [rest of string was truncated]&quot;;.
+        ///{=Text. Peak names. Must be unique. Mandatory.}
+        ///One row per observation.
+        ///One column per peak.
+        ///.
         /// </summary>
         internal static string AlternativeValues {
             get {
@@ -127,16 +131,16 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies the compounds available for identification. 
+        ///   Looks up a localized string similar to FILEFORMAT
+        ///
+        ///Specifies the compounds available for identification. 
         ///
         ///OPTIONAL: If not specified then no automatic identifications will be performed. Note that you can use &quot;identifications&quot; field to specify known identifications.
         ///
-        ///EXPECTS: One or more compound libraries. Either a PathwayTools database folder or a CSV file.
+        ///EXPECTS: One or more compound libraries. Either a PathwayTools database folder OR a CSV file.
         ///A list of available libraries will be displayed if the library folder has been configured, otherwise the source must be specified manually.
         ///
-        ///DATABASE LAYOUT: PathwayTools database folder.
-        ///
-        ///A l [rest of string was truncated]&quot;;.
+        ///DATABASE LAYOUT: PathwayTools database  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Compounds {
             get {
@@ -145,22 +149,20 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Names of the experimental conditions.
+        ///   Looks up a localized string similar to FILEFORMAT
+        ///
+        ///Names of the experimental conditions.
         ///
         ///OPTIONAL: If not specified conditions will be referred to by their index.
         ///
-        ///EXPECTS: File in CSV format.
+        ///{}
+        ///Text. Row names. Ignored. Mandatory.
         ///
-        ///FILE LAYOUT:
+        ///{CONDITIONFILE_ID_HEADER}
+        ///Text. The ID corresponding to the &quot;type&quot; column of the observation info file.
         ///
-        ///Rows:
-        ///    * Row 0 / Header: Column names
-        ///    * One row per experimental condition.
-        ///
-        ///Columns:
-        ///    * Column 0 / Header: Row names (ignored)
-        ///    * id (integer values) - Corresponding to the &quot;type&quot; column of the observation info file.
-        ///    * name - The name of the experimental condition.
+        ///{CONDITIONFILE_NAME_HEADER}
+        ///The name of the experimental condition.
         /// </summary>
         internal static string ConditionNames {
             get {
@@ -219,17 +221,20 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies potential identifications for the peaks.
+        ///   Looks up a localized string similar to FILEFORMAT
+        ///
+        ///Specifies potential identifications for the peaks.
         ///
         ///OPTIONAL: Use only to specify identifications manually if required. You can use the &quot;compounds&quot; field to request automated identifications.
         ///
         ///EXPECTS: One or more adduct library files.
         ///A list of available libraries will be displayed if the library folder has been configured, otherwise the source must be specified manually.
         ///
-        ///FILE LAYOUT: Standard CSV format file with row and header names.
+        ///{}
+        ///Text. Name of the identification (arbitrary. Must be unique. Mandatory.
         ///
-        ///Rows:
-        ///    * Row 0 / column headers:   Column names. Ignored [rest of string was truncated]&quot;;.
+        ///{IDFILE_PEAK_HEADER}   
+        ///Text. The  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Identifications {
             get {
@@ -238,19 +243,24 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies the intentisities for each peak (row) and observation (column).
+        ///   Looks up a localized string similar to FILEFORMAT
+        ///
+        ///Specifies the intentisities for each peak (row) and observation (column).
         ///
         ///EXPECTS: Name of a file.
         ///
-        ///FILE LAYOUT: Standard CSV format file with row and header names.
+        ///Column names indicate the field.
+        ///The following fields (columns) are read:
         ///
-        ///Rows:
-        ///    * Row 0 / column headers:   Peak names (must not be duplicated). Required.
-        ///    * All further rows:         One row per observation, defining the matrix of intensities. Required.
+        ///	AlternativeValues
         ///
-        ///Columns:
-        ///    * Column 0 / row headers:   Observation names (must not be duplicated). Required.
-        ///    * All further columns:      One column per pe [rest of string was truncated]&quot;;.
+        ///
+        ///{}
+        ///Text. Observation names. Must be unique. Mandatory
+        ///
+        ///{=Text. Peak names. Must be unique. Mandatory.}
+        ///One row per observation.
+        ///One column per peak..
         /// </summary>
         internal static string Intensities {
             get {
@@ -275,36 +285,32 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies information about the observations (columns) in the values matrix.
+        ///   Looks up a localized string similar to FILEFORMAT
         ///
-        ///EXPECTS: Name of a file.
+        ///{}
+        ///Text. The name of the observation. Must be unique. Mandatory.
         ///
-        ///FILE LAYOUT: Standard CSV format file with row and header names.
+        ///{OBSFILE_TIME_HEADER}
+        ///Integer. The timestep of the obervation. Optional.
         ///
-        ///Rows:
-        ///    * Row 0 / column headers:   Column names. Required.
-        ///    * All further rows:         One row per observation. Required.
+        ///{OBSFILE_REPLICATE_HEADER}
+        ///Integer. The replicate index of the observation. Optional.
         ///
-        ///Columns:
-        ///    * Column 0 / row headers:   Observation name - these must appear in the same order as in, and have names corresponding to those in the intensities/values file. Required.
-        ///    * &quot;type&quot;:     [rest of string was truncated]&quot;;.
+        ///{OBSFILE_GROUP_HEADER}
+        ///Text. The experimental group of the observation. Optional.
+        ///
+        ///{OBSFILE_BATCH_HEADER}
+        ///Integer. Batch. Optional.
+        ///
+        ///{OBSFILE_ACQUISITION_HEADER}
+        ///Integer. Acquisition order index. Must be unique. Optional.
+        ///
+        ///{META}
+        ///Any additional data th [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Observations {
             get {
                 return ResourceManager.GetString("Observations", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The replicates to expect for each condition and time (used for statistical tests).
-        ///
-        ///OPTIONAL: Required only for the PCA-MANOVA statistic. If not specified PCA-MANOVA calculation will fail.
-        ///
-        ///EXPECTS: This should be a comma-delimited list of replicate numbers (e.g. 1, 2, 3)..
-        /// </summary>
-        internal static string Replicates {
-            get {
-                return ResourceManager.GetString("Replicates", resourceCulture);
             }
         }
         
@@ -428,19 +434,19 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specifies information about the peaks in the data matrix.
+        ///   Looks up a localized string similar to FILEFORMAT
+        ///
+        ///Specifies information about the peaks in the data matrix.
         ///Note: To avoid ambiguity the software refers to the dependent variables as &quot;peaks&quot; and their values for a particular observation as &quot;intensities&quot;, in reality these can represent any dependent variable.
         ///
-        ///EXPECTS: Name of a file.
-        ///
-        ///FILE LAYOUT: Standard CSV format file with row and header names.
-        ///
-        ///Rows:
-        ///    * Row 0 / column headers:   Column names
-        ///    * All further rows:         One row per variable. 
+        ///{}
+        ///Text. The name of the variable. Must be unique. Mandatory.
         ///    
-        ///Columns:
-        ///    * Column 0 / row header [rest of string was truncated]&quot;;.
+        ///{VARFILE_MZ_HEADER}
+        ///Numeric. m/z value for the peak. Optional.
+        ///
+        ///{VARFILE_MODE_HEADER}
+        ///Numeric. LC-MS mode for the peak (-1, 1). Required when MODE = Mixed Mode  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Variables {
             get {

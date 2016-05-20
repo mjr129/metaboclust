@@ -13,6 +13,7 @@ namespace MetaboliteLevels.Utilities
     static class FontHelper
     {                     
         public static Font RegularFont;
+        public static Font UnderlinedFont;
         public static Font BoldFont;
         public static Font ItalicFont;
         public static Font StrikeFont;
@@ -21,12 +22,14 @@ namespace MetaboliteLevels.Utilities
         public static Font LargeBoldFont;
 
         public static Font SmallRegularFont;
+        public static Font SmallBoldFont;
 
         public static Font TinyRegularFont;
 
         internal static void Initialise(Font font)
         {
             RegularFont = new Font("Segoe UI", 12, FontStyle.Regular);
+            UnderlinedFont = new Font( "Segoe UI", 12, FontStyle.Underline );
             BoldFont = new Font("Segoe UI", 12, FontStyle.Bold);
             ItalicFont = new Font("Segoe UI", 12, FontStyle.Italic);
             StrikeFont = new Font("Segoe UI", 12, FontStyle.Strikeout);
@@ -37,6 +40,8 @@ namespace MetaboliteLevels.Utilities
             SmallRegularFont = new Font("Segoe UI", 8, FontStyle.Regular);
 
             TinyRegularFont = new Font("Small Fonts", 5, FontStyle.Regular);
+
+            SmallBoldFont = new Font( "Segoe UI", 8, FontStyle.Bold );
         }
     }
 }

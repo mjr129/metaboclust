@@ -20,6 +20,7 @@ using MGui.Datatypes;
 using MGui.Helpers;
 using MGui.Controls;
 using MGui;
+using MetaboliteLevels.Forms.Wizards;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -96,7 +97,6 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Setup help
             splitContainer1.Panel2Collapsed = true;
-            SetFocusTooltips( this );
 
             // Setup captions
             linkLabel1.Text = UiControls.Title + " " + UiControls.VersionString.ToString();
@@ -237,15 +237,52 @@ namespace MetaboliteLevels.Forms.Startup
                     }
                 }
             }
-        }
 
-        private void SetToolTip( string text, params Control[] controls )
-        {
-            foreach (var control in controls)
+            foreach (Control control in FormHelper.EnumerateControls<Control>( this ))
             {
-                _tipSideBar.SetToolTip( control, text );
+                if (!string.IsNullOrWhiteSpace( _tipSideBar.GetToolTip( control ) ))
+                {
+                    if (control is CtlLabel)
+                    {
+                        control.MouseEnter += Control_MouseEnter;
+                        control.MouseLeave += Control_MouseLeave;
+                        control.Cursor = Cursors.Help;
+                    }
+
+                    control.GotFocus += Control_Click;
+                    control.MouseDown += Control_Click;
+                }
             }
         }
+
+        private void Control_Click( object sender, EventArgs e )
+        {
+            if (sender is Label)
+            {
+                if (splitContainer1.Panel2Collapsed)
+                {
+                    ToggleHelp();
+                }
+            }
+
+            ShowControlHelp( (Control)sender );
+        }
+
+        private void Control_MouseLeave( object sender, EventArgs e )
+        {
+            CtlLabel label = (CtlLabel)sender;
+
+            label.LabelStyle = ELabelStyle.Normal;
+            label.Font = FontHelper.RegularFont;
+        }
+
+        private void Control_MouseEnter( object sender, EventArgs e )
+        {
+            CtlLabel label = (CtlLabel)sender;
+
+            label.LabelStyle = ELabelStyle.Highlight;
+            label.Font = FontHelper.UnderlinedFont;
+        }       
 
         private void FrmDataLoadQuery_Click( object sender, EventArgs e )
         {
@@ -369,35 +406,7 @@ namespace MetaboliteLevels.Forms.Startup
             }
 
             return _checker.NoErrors;
-        }
-
-        /// <summary>
-        /// Sets the "tooltip" to show in the sidebar when the the specified control (and its descendants) get focus.
-        /// </summary>              
-        private void SetFocusTooltips( Control t )
-        {
-            foreach (Control c in t.Controls)
-            {
-                SetFocusTooltips( c );
-            }
-
-            string tt = _tipSideBar.GetToolTip( t );
-
-            if (string.IsNullOrWhiteSpace( tt ))
-            {
-                _tipSideBar.SetToolTip( t, "*" );
-            }
-
-            t.GotFocus += something_GotFocus;
-        }
-
-        /// <summary>
-        /// Handles gotfocus, showing the tooltip in the sidebar.
-        /// </summary>                                           
-        void something_GotFocus( object sender, EventArgs e )
-        {
-            ShowControlHelp( (Control)sender );
-        }
+        }   
 
         /// <summary>
         /// Loads a session configuration.
@@ -775,6 +784,11 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void _wizard_HelpClicked( object sender, EventArgs e )
         {
+            ToggleHelp();
+        }
+
+        private void ToggleHelp()
+        {
             splitContainer1.Panel2Collapsed = !splitContainer1.Panel2Collapsed;
             _wizard.HelpText = splitContainer1.Panel2Collapsed ? "Show help" : "Hide help";
         }
@@ -807,10 +821,20 @@ namespace MetaboliteLevels.Forms.Startup
             // We use "*" to signify "nothing" or we don't get the Popup event saying when a control has lost focus.
             if (string.IsNullOrEmpty( text ) || text=="*")
             {          
-                text = "Hover the mouse over a control for help";
+                text = "Click a control for help";
             }
 
-            _txtHelp.Text = text;
+            if (text.StartsWith("FILEFORMAT"))
+            {
+                _txtHelp.Text = text.After( "FILEFORMAT\r\n" ).Before( "{" );
+                _btnShowFf.Visible = true;
+                _btnShowFf.Tag = text;
+            }
+            else
+            {
+                _txtHelp.Text = text;
+                _btnShowFf.Visible = false;
+            }
         }
 
         private void button2_Click( object sender, EventArgs e )
@@ -1156,6 +1180,21 @@ namespace MetaboliteLevels.Forms.Startup
         private void _chkAutoIdentify_CheckedChanged( object sender, EventArgs e )
         {
             _numTolerance.Enabled = _lblTolerance.Enabled = _lstTolerance.Enabled = _chkAutoIdentify.Checked;
+        }
+
+        private void _txtDataSetData_TextChanged( object sender, EventArgs e )
+        {
+
+        }
+
+        private void _lblDataSetData_Click( object sender, EventArgs e )
+        {
+
+        }
+
+        private void _btnShowFf_Click( object sender, EventArgs e )
+        {
+            FrmViewSpreadsheet.Show( this, _btnShowFf.Tag as string, _fileLoadInfo );
         }
     }
 }

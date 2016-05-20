@@ -20,7 +20,8 @@
     <AssemblyFileVersionSettings>
     </AssemblyFileVersionSettings>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\MJR\Desktop\MLPub\</PublishUrl>
+    <TargetFrameworkProfile />
+    <PublishUrl>E:\MetaboliteLevels\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -30,13 +31,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -143,6 +142,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CtlHelpfulLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlHelpfulLabel.Designer.cs">
+      <DependentUpon>CtlHelpfulLabel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CtlLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -179,6 +184,12 @@
     <Compile Include="Data\Evaluation\ClusterEvaluationParameterResult.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationPointer.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationResults.cs" />
+    <Compile Include="Forms\Wizards\FrmViewSpreadsheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Wizards\FrmViewSpreadsheet.Designer.cs">
+      <DependentUpon>FrmViewSpreadsheet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -538,6 +549,9 @@
     <Compile Include="Controls\Lists\ShowContextMenuEventArgs.cs" />
     <Compile Include="Controls\Lists\ListViewHelper%28T%29.SortByColumn.cs" />
     <Compile Include="Utilities\XmlSettings.cs" />
+    <EmbeddedResource Include="Controls\CtlHelpfulLabel.resx">
+      <DependentUpon>CtlHelpfulLabel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CtlTitleBar.resx">
       <DependentUpon>CtlTitleBar.cs</DependentUpon>
     </EmbeddedResource>
@@ -646,6 +660,9 @@
     <EmbeddedResource Include="Forms\Text\FrmInputMultiLine.resx">
       <DependentUpon>FrmInputMultiLine.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Wizards\FrmViewSpreadsheet.resx">
+      <DependentUpon>FrmViewSpreadsheet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Wizards\FrmWizDataFileNames.resx">
       <DependentUpon>FrmWizDataFileNames.cs</DependentUpon>
     </EmbeddedResource>
@@ -664,6 +681,7 @@
     <EmbeddedResource Include="Manual.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Manual.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

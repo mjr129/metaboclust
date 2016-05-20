@@ -987,7 +987,9 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 // Feedback
                 prog.SetProgress(peakIndex, data.NumCols);
-                UiControls.Assert(data.ColNames[peakIndex] == varInfo.RowNames[peakIndex], "Data order mismatch error. The data file contains observation \"" + data.ColNames[peakIndex] + "\" on row " + peakIndex + " but the peak information file has observation \"" + varInfo.RowNames[peakIndex] + "\" on row " + peakIndex + ".");
+                UiControls.Assert(
+                    data.ColNames[peakIndex] == varInfo.RowNames[peakIndex],
+                    $"Data order mismatch error. The data file '{data.Title}' contains observation '{data.ColNames[peakIndex]}' in column {peakIndex} but the peak information file '{varInfo.Title}' has observation '{varInfo.RowNames[peakIndex]}' on row {peakIndex}.");
 
                 // --------------------
                 // - PEAK INFO FIELDS -
@@ -1341,11 +1343,7 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (e.Error != null)
             {
-                if (FrmMsgBox.ShowOkCancel(this, "Error", e.Error.Message + "\nDo you want to view the full error details?"))
-                {
-                    FrmInputMultiLine.ShowFixed(this, "View error details", "Error report", e.Error.Message, e.Error.ToString());
-                }
-
+                FrmMsgBox.ShowError( this, e.Error.Message );
                 DialogResult = DialogResult.Cancel;
             }
             else
@@ -1371,7 +1369,7 @@ namespace MetaboliteLevels.Forms.Startup
         public readonly string[] OBSFILE_REPLICATE_HEADER          = { "rep", "replicate" };
         public readonly string[] OBSFILE_GROUP_HEADER              = { "type", "group", "condition", "conditions" };
         public readonly string[] OBSFILE_BATCH_HEADER              = { "batch" };
-        public readonly string[] OBSFILE_ACQUISITION_HEADER        = { "acquisition", "order", "file", "index" };
+        public readonly string[] OBSFILE_ACQUISITION_HEADER        = { "acquisition", "order", "file", "index", "acquisition order" };
         public readonly string[] IDFILE_PEAK_HEADER                = { "name", "peak", "variable" };
         public readonly string[] IDFILE_COMPOUNDS_HEADER           = { "id", "annotation", "ids", "annotations", "compounds", "compound" };
         public readonly string[] ADDUCTFILE_NAME_HEADER            = { "name" };

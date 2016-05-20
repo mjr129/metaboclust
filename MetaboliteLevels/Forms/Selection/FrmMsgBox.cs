@@ -129,6 +129,11 @@ namespace MetaboliteLevels.Forms.Generic
             Show(owner, "Error", null, message, Resources.MsgError, buttons);
         }
 
+        internal static void ShowError( Form owner, Exception ex )
+        {
+            ShowError( owner, "An error occured", ex );
+        }
+
         internal static void ShowError(Form owner, string subTitle, Exception ex)
         {
             ButtonSet[] buttons = { new ButtonSet("Abort", Resources.MnuAccept, DialogResult.No) ,
@@ -142,11 +147,6 @@ namespace MetaboliteLevels.Forms.Generic
 
         List<CtlButton> _buttons = new List<CtlButton>();
         private readonly DialogResult? _notAgainConstraint;
-
-        internal static void ShowError(Form owner, Exception ex)
-        {
-            ShowError(owner, "An error occured", ex);
-        }
 
         /// <summary>
         /// Constructor. See Show method for parameter descriptions.
