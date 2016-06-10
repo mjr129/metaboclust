@@ -13,6 +13,7 @@ using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Forms;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -128,7 +129,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     AddToPlot(plot, peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2);
                 }
 
-                DrawLabels(plot, opts.ConditionsSideBySide, order);
+                DrawLabels(plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels);
                 CompleteNewPlot(plot);
                 return;
             }
@@ -167,7 +168,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // --- RANGE (lines) ---
-            if (opts.ShowRanges)
+            if (opts.ShowMinMax)
             {
                 MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Range min/max";
@@ -203,7 +204,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // --- LABELS ---
-            DrawLabels(plot, opts.ConditionsSideBySide, order);
+            DrawLabels(plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels);
 
             CompleteNewPlot(plot);
         }
@@ -241,7 +242,7 @@ namespace MetaboliteLevels.Viewers.Charts
                         Color c = cond.Group.ColourLight;
                         c = Color.FromArgb(0x80, c.R, c.G, c.B);
                         series.Tag = peak;
-                        series.Style.DrawVBands = new SolidBrush(c);
+                        series.Style.DrawVBands =  cond.Group.CreateBrush( c );
                         series.ApplicableLegends.Add(groupLegends[cond.Group]);
                         series.ApplicableLegends.Add(legendEntry);
                         seriesNames.Add(name, series);
@@ -472,7 +473,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     seriesNames.Add(name, series);
                     series.Tag = peak;
 
-                    Color colour = (draw.HasFlag(EPlot.DrawBold) | draw.HasFlag(EPlot.ByBatch)) ? seriesUsing.Colour : seriesUsing.ColourLight;
+                    Color colour = (draw.HasFlag(EPlot.DrawBold) || draw.HasFlag(EPlot.ByBatch) || !o.ShowTrend ) ? seriesUsing.Colour : seriesUsing.ColourLight;
 
                     if (draw.HasFlag(EPlot.DrawLine))
                     {
@@ -481,8 +482,9 @@ namespace MetaboliteLevels.Viewers.Charts
                     }
                     else
                     {
-                        series.Style.DrawPoints = new SolidBrush(colour);
+                        series.Style.DrawPoints = new SolidBrush( colour );
                         series.Style.DrawPointsSize = 8;
+                        series.Style.DrawPointsShape =  seriesUsing.CreateIcon();
                     }
                 }
                 else

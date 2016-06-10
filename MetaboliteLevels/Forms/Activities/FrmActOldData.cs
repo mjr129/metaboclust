@@ -50,7 +50,7 @@ namespace MetaboliteLevels.Forms.Startup
         {
             StringBuilder breakingChanges = new StringBuilder();
 
-            foreach (KeyValuePair<Version, string> v in UiControls.BreakingVersions)
+            foreach (KeyValuePair<Version, string> v in UiControls.VersionHistory)
             {
                 if (dfn.AppVersion <= v.Key)
                 {

@@ -70,7 +70,7 @@ namespace MetaboliteLevels.Settings
             string fnu = core.FileNames.Session.ToUpper();
             RecentSessions.RemoveAll(λ => λ.FileName.ToUpper() == fnu);
             RecentSession e = new RecentSession(core);
-            RecentSessions.Add(e);
+            RecentSessions.Insert(0, e);
             ArrayHelper.TrimList(RecentSessions, MAX_RECENT_SESSIONS);
         }
 
@@ -93,6 +93,11 @@ namespace MetaboliteLevels.Settings
                 this.FileName = core.FileNames.Session;
                 this.Title = core.FileNames.Title;
                 this.Guid = core.CoreGuid;
+            }
+
+            public override string ToString()
+            {
+                return Title + " - " + FileName;
             }
         }
     }

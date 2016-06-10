@@ -93,7 +93,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\MainIcon.ico</ApplicationIcon>
+    <ApplicationIcon>M.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -184,6 +184,19 @@
     <Compile Include="Data\Evaluation\ClusterEvaluationParameterResult.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationPointer.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationResults.cs" />
+    <Compile Include="Data\Session\General\VisualisableWrapper.cs" />
+    <Compile Include="Forms\Activities\FrmActExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Activities\FrmActExport.Designer.cs">
+      <DependentUpon>FrmActExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Activities\FrmActHeatMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Activities\FrmActHeatMap.Designer.cs">
+      <DependentUpon>FrmActHeatMap.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Wizards\FrmViewSpreadsheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,6 +257,7 @@
     <Compile Include="Forms\Activities\FrmPopoutPlot.Designer.cs">
       <DependentUpon>FrmPopoutPlot.cs</DependentUpon>
     </Compile>
+    <Compile Include="Types\UI\EGraphIcon.cs" />
     <Compile Include="Types\UI\IDataSet.cs" />
     <Compile Include="Utilities\ISelectionHolder.cs" />
     <Compile Include="Forms\Editing\FrmEditGroupBase.cs">
@@ -561,6 +575,12 @@
     <EmbeddedResource Include="Forms\Activities\FrmActEvaluate.resx">
       <DependentUpon>FrmActEvaluate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Activities\FrmActExport.resx">
+      <DependentUpon>FrmActExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Activities\FrmActHeatMap.resx">
+      <DependentUpon>FrmActHeatMap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmEditClusterEvaluationPointer.resx">
       <DependentUpon>FrmEditClusterEvaluationPointer.cs</DependentUpon>
     </EmbeddedResource>
@@ -703,241 +723,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Binary.png" />
-    <None Include="Resources\MathNet.png" />
-    <None Include="Resources\Arrow_UndoRevertRestore_16xLG.png" />
-    <None Include="Resources\Open_6296.png" />
-    <None Include="Resources\arrow_Forward_16xLG.png" />
-    <None Include="Resources\glasses_16xLG.png" />
-    <None Include="Resources\CommentHS1.png" />
-    <None Include="Resources\ListMembers_2407.png" />
-    <None Include="Resources\database_16xLG.png" />
-    <None Include="Resources\arrow.ico" />
-    <None Include="Resources\Arrow2.ico" />
-    <None Include="Resources\arrow.bmp" />
-    <None Include="Resources\1385_Disable_16x16_72.png" />
-    <None Include="Resources\109_AllAnnotations_Default_16x16_72.png" />
-    <None Include="Resources\OverlayCross.png" />
     <None Include="Resources\MnuNew.png" />
-    <None Include="Resources\filter_16xLG.png" />
-    <None Include="Resources\Filter2HS.png" />
-    <None Include="Resources\112_UpArrowShort_Grey_16x16_72.png" />
-    <None Include="Resources\112_DownArrowShort_Grey_16x16_72.png" />
-    <None Include="Resources\Seperator.png" />
-    <None Include="Resources\Icons_7951.png" />
-    <None Include="Resources\SaveSelection_5630.png" />
-    <None Include="Resources\FolderOpen_16x16_72.png" />
     <None Include="Resources\TabUnsel.png" />
     <None Include="Resources\TabSel.png" />
-    <None Include="Resources\7BFF94D7-CE09-4B45-B86F-D588D4DAA95E.png" />
-    <None Include="Resources\ObjLSeries.png" />
-    <None Include="Resources\ObjLTime.png" />
-    <None Include="Resources\ObjLReplicate.png" />
-    <None Include="Resources\ObjLIntensity.png" />
     <None Include="Resources\TeaAlarm.png" />
-    <None Include="Resources\ObjInfo.png" />
-    <None Include="Resources\delete.ico" />
-    <None Include="Resources\ErrorPointerIcon.ico" />
-    <None Include="Resources\Saveall_6518.png" />
-    <None Include="Resources\NewPerformanceSession_8866.png" />
-    <None Include="Resources\Copy_6524.png" />
-    <None Include="Resources\ErrorBarIcon.ico" />
-    <None Include="Resources\ErrorBar.png" />
-    <None Include="Resources\ObjLPca.png" />
-    <None Include="Resources\ObjScriptError.png" />
-    <None Include="Resources\ObjScriptDone.png" />
-    <None Include="Resources\ObjScript.png" />
-    <None Include="Resources\ObjLScript.png" />
-    <None Include="Resources\ObjSave.png" />
-    <None Include="Resources\ObjPrefs.png" />
-    <None Include="Resources\ObjLGroups.png" />
-    <None Include="Resources\ObjScriptTrend.png" />
-    <None Include="Resources\ObjScriptStatistic.png" />
-    <None Include="Resources\ObjScriptCorrect.png" />
-    <None Include="Resources\ObjScriptClusterer.png" />
-    <None Include="Resources\ObjLScriptTrend.png" />
-    <None Include="Resources\ObjLScriptStatistic.png" />
-    <None Include="Resources\ObjLScriptCorrect.png" />
-    <None Include="Resources\ObjLScriptCluster.png" />
-    <None Include="Resources\FilteredObject_13400_16x.png" />
-    <None Include="Resources\ObjLInfoU.png" />
-    <None Include="Resources\ObjInfoU.png" />
-    <None Include="Resources\ObjAssignment.png" />
-    <None Include="Resources\ObjLAssignment.png" />
-    <None Include="Resources\verified9.png" />
-    <None Include="Resources\task2.png" />
-    <None Include="Resources\script1.png" />
-    <None Include="Resources\browser93.png" />
-    <None Include="Resources\browser11.png" />
-    <None Include="Resources\add10.png" />
-    <None Include="Resources\blog1.png" />
-    <None Include="Resources\arrowhead9-flipped.png" />
-    <None Include="Resources\arrowhead9.png" />
-    <None Include="Resources\square2.png" />
-    <None Include="Resources\ObjPoint.png" />
-    <None Include="Resources\ObjLVariableU.png" />
-    <None Include="Resources\ObjLVariable.png" />
-    <None Include="Resources\ObjLStatistics.png" />
-    <None Include="Resources\ObjLPatternU.png" />
-    <None Include="Resources\ObjLPattern.png" />
-    <None Include="Resources\ObjLPathway.png" />
-    <None Include="Resources\ObjLInfo.png" />
-    <None Include="Resources\ObjLGraph.png" />
-    <None Include="Resources\ObjLCore.png" />
-    <None Include="Resources\ObjLCompoundU.png" />
-    <None Include="Resources\ObjLCompound.png" />
-    <None Include="Resources\ObjLAdduct.png" />
-    <None Include="Resources\ObjVariableU.png" />
-    <None Include="Resources\ObjVariable.png" />
-    <None Include="Resources\ObjStatistics.png" />
-    <None Include="Resources\ObjPatternU.png" />
-    <None Include="Resources\ObjPattern.png" />
-    <None Include="Resources\ObjPathway.png" />
-    <None Include="Resources\ObjCompoundU.png" />
-    <None Include="Resources\ObjCompound.png" />
-    <None Include="Resources\ObjAdduct.png" />
-    <None Include="Resources\None.png" />
-    <None Include="Resources\List.png" />
-    <None Include="Resources\Line.png" />
-    <None Include="Resources\Info.png" />
-    <None Include="Resources\Graph.png" />
-    <None Include="Resources\Core.png" />
-    <None Include="Resources\ObjNone.png" />
-    <None Include="Resources\PatternD.png" />
-    <None Include="Resources\Pattern.png" />
-    <None Include="Resources\ObjVariableId.png" />
-    <None Include="Resources\ObjList.png" />
-    <None Include="Resources\ObjCore.png" />
-    <None Include="Resources\ObjCompoundId.png" />
-    <None Include="Resources\graph_performanceChart_5171_16x_LG.png" />
-    <None Include="Resources\112_Plus_Blue_16x16_72.png" />
-    <None Include="Resources\Tests.png" />
-    <None Include="Resources\MovePrevious_7195.png" />
-    <None Include="Resources\CheckBoxList_727.png" />
-    <None Include="Resources\type_16xLG.png" />
-    <None Include="Resources\112_RightArrowShort_Grey_16x16_72.png" />
-    <None Include="Resources\Bubble_16xLG.png" />
-    <None Include="Resources\lock_16xLG - Copy.png" />
-    <None Include="Resources\TestWizard.png" />
-    <None Include="Resources\TestUnivariate2.png" />
-    <None Include="Resources\TestUnivariate.png" />
-    <None Include="Resources\TestTrend.png" />
-    <None Include="Resources\TestMultivariate2.png" />
-    <None Include="Resources\TestMultivariate.png" />
-    <None Include="Resources\TestFull.png" />
-    <None Include="Resources\TestEmpty.png" />
-    <None Include="Resources\TestCorrect.png" />
-    <None Include="Resources\TestCluster.png" />
-    <None Include="Resources\lock_16xLG.png" />
-    <None Include="Resources\pane_appearance_16x16_on.png" />
-    <None Include="Resources\eye_16xLG.png" />
-    <None Include="Resources\Warning_grey_7315_16x16.png" />
-    <None Include="Resources\TestCluster1.png" />
-    <None Include="Resources\109_AllAnnotations_Warning_16x16_72.png" />
-    <None Include="Resources\wizard_16xLG.png" />
-    <None Include="Resources\test_16xLG.png" />
-    <None Include="Resources\action_add_16xLG.png" />
-    <None Include="Resources\arrow_Down_16xLG.png" />
-    <None Include="Resources\arrow_Up_16xLG.png" />
-    <None Include="Resources\PreviousPageHS.png" />
-    <None Include="Resources\NextPageHS.png" />
-    <None Include="Resources\Nextrequest_10302.png" />
-    <None Include="Resources\MainIcon1.ico" />
     <None Include="Resources\MainIcon.ico" />
     <None Include="Resources\Transparent.ico" />
-    <None Include="Resources\Task-Inspector-Warning.png" />
-    <None Include="Resources\StatusAnnotations_Warning_32xMD_color.png" />
-    <None Include="Resources\Clearwindowcontent_6304.png" />
-    <None Include="Resources\History_13251.png" />
-    <None Include="Resources\109_AllAnnotations_Warning_48x48_72.png" />
-    <None Include="Resources\109_AllAnnotations_Info_48x48_72.png" />
-    <None Include="Resources\109_AllAnnotations_Help_48x48_72.png" />
-    <None Include="Resources\109_AllAnnotations_Error_48x48_72.png" />
-    <None Include="Resources\109_AllAnnotations_Default_48x48_72.png" />
-    <None Include="Resources\Rename_6779.png" />
-    <None Include="Resources\OpenFileDialog_692.png" />
-    <None Include="Resources\DeleteHS1.png" />
-    <None Include="Resources\pencil_32.png" />
-    <None Include="Resources\112_UpArrowShort_Blue_16x16_72.png" />
-    <None Include="Resources\112_DownArrowShort_Blue_16x16_721.png" />
-    <None Include="Resources\112_DownArrowLong_Blue_16x16_72.png" />
-    <None Include="Resources\112_DownArrowShort_Blue_16x16_72.png" />
-    <None Include="Resources\112_UpArrowLong_Blue_16x16_72.png" />
-    <None Include="Resources\112_Minus_Orange_16x16_72.png" />
-    <None Include="Resources\CommentHS.png" />
-    <None Include="Resources\Proline2.png" />
-    <None Include="Resources\FindHS.png" />
-    <None Include="Resources\Help %283%29.png" />
-    <None Include="Resources\Help_65221.png" />
-    <None Include="Resources\Proline.png" />
-    <None Include="Resources\128x128.png" />
-    <None Include="Resources\Files_7954.png" />
-    <None Include="Resources\StartLogoBw.png" />
-    <None Include="Resources\pencil_003_16xMD.png" />
-    <None Include="Resources\Preview%28Thumbnail%29.png" />
-    <None Include="Resources\CustomActionsEditor_5850.png" />
-    <None Include="Resources\StartLogo21.png" />
     <None Include="Resources\StartLogo2.png" />
     <None Include="Resources\StartLogo.png" />
-    <None Include="Resources\Textfile_818_16x.png" />
-    <None Include="Resources\RLogo.png" />
-    <None Include="Resources\Help_6522.png" />
-    <None Include="Resources\DeleteHS.png" />
-    <None Include="Resources\database_32xSM.png" />
-    <None Include="Resources\Constant_495.png" />
-    <None Include="Resources\TreeView_713.png" />
-    <None Include="Resources\PC16b.png" />
-    <None Include="Resources\arrow_back_16xLG.png" />
-    <None Include="Resources\MetaboliteExplorer1.ico" />
-    <None Include="Resources\refresh_16xLG.png" />
-    <None Include="Resources\StatusAnnotations_Critical_16xLG.png" />
-    <None Include="Resources\StatusAnnotations_Complete_and_ok_16xLG.png" />
-    <None Include="Resources\SortDescending_276.png" />
-    <None Include="Resources\SortAscending_275.png" />
-    <None Include="Resources\SelectColumn_361.png" />
-    <None Include="Resources\ViewBox_10697.png" />
-    <None Include="Resources\Print_11009.png" />
-    <None Include="Resources\Open_6529.png" />
-    <None Include="Resources\save_16xLG.png" />
-    <None Include="Resources\Image1.png" />
-    <None Include="Resources\MetaboliteExplorer.ico" />
-    <None Include="Resources\package_32xLG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Adduct.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Compound.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CompoundU.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Pathway.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PatternI.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Variable.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\VariableE.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\VariableI.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\VariableIE.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OpenFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DeleteWorkspace.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ClearWorkspace.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -1299,7 +1092,8 @@
     <None Include="Resources\ErrorSignifier.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MainIcon2.ico" />
+    <Content Include="M.ico" />
+    <EmbeddedResource Include="VersionHistory.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

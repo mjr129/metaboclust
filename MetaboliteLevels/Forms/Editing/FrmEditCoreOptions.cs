@@ -102,12 +102,15 @@ namespace MetaboliteLevels.Forms.Editing
             binder1.Bind(_chkPeakTrend, λ => λ.ShowTrend);
             binder1.Bind(_chkPeakMean, λ => λ.ShowVariableMean);
             binder1.Bind(_chkPeakRanges, λ => λ.ShowVariableRanges);
+            binder1.Bind( _chkPeakMinMax, λ => λ.ShowVariableMinMax );
 
             binder1.Bind(_numThumbnail, λ => λ.ThumbnailSize);
 
             binder1.Bind(_lstPeakOrder, λ => λ.ViewAcquisition);
 
             binder1.Bind(_lstPeakData, λ => λ.ViewAlternativeObservations);
+
+            binder1.Bind( _chkGroupNames, λ => λ.DrawExperimentalGroupAxisLabels );
 
             binder1.Read(_target);
 

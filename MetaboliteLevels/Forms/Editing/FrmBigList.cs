@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Forms.Algorithms;
 using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
@@ -68,59 +69,6 @@ namespace MetaboliteLevels.Forms.Editing
             /// </summary>
             Acceptor
         }                   
-
-        class Wrapper : IVisualisable
-        {
-            private IDataSet _set;
-            private object _x;
-
-            public Wrapper(IDataSet set, object x)
-            {
-                _set = set;
-                _x = x;
-            }
-
-            public string Comment
-            {
-                get { return null; }
-                set {/*NA*/}
-            }
-
-            public string DefaultDisplayName => _set.UntypedName(_x);
-
-            public string DisplayName => DefaultDisplayName;
-
-            public bool Enabled
-            {
-                get { return true; }
-                set {/*NA*/}
-            }
-
-            public string OverrideDisplayName
-            {
-                get { return null; }
-                set {/*NA*/}
-            }
-
-            public VisualClass VisualClass => VisualClass.None;
-
-            public IEnumerable<Column> GetColumns(Core core)
-            {
-                List<Column<Wrapper>> columns = new List<Column<Wrapper>>();
-
-                columns.Add("Name", EColumn.Visible, z => z._set.UntypedName(z._x));
-                columns.Add("Description", EColumn.Visible, z => z._set.UntypedDescription(z._x));
-
-                return columns;
-            }
-
-            public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Info;
-
-            public void RequestContents(ContentsRequest list)
-            {
-                // NA
-            }
-        }
 
         private FrmBigList(Core core, IDataSet config, EShow show, object automaticAddTemplate)
         {
@@ -194,7 +142,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
             catch
             {
-                _list = new List<IVisualisable>(_config.UntypedGetList(false).Cast<object>().Select(z => new Wrapper(_config, z)));
+                _list = new List<IVisualisable>(_config.UntypedGetList(false).Cast<object>().Select(z => new VisualisableWrapper(_config, z)));
             }
 
             _listViewHelper.DivertList(_list);
@@ -258,7 +206,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnAdd_Click(object sender, EventArgs e)
         {
-            IVisualisable o = (IVisualisable)_config.UntypedEdit(this, null, false, false);
+            IVisualisable o = (IVisualisable)(_config.UntypedEdit( this, null, false, false ));
 
             if (o != null)
             {

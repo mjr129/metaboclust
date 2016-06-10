@@ -234,6 +234,24 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
         }
 
         /// <summary>
+        /// Does PLSR.
+        /// </summary>
+        public void Plsr( double[,] m, double[] r, out double[,] scores, out double[,] loadings )
+        {
+            using (var v1 = R.CreateNumericMatrix( m ))
+            using (var v2 = R.CreateNumericVector( r ))
+            {
+                R.SetSymbol( "a", v1 );
+                R.SetSymbol( "b", v2 );
+
+                R.Evaluate( "library(pls)\r\np = plsr(b ~ a)" );
+
+                scores = R.Evaluate( @"p$scores" ).AsNumericMatrix().ToArray();
+                loadings = R.Evaluate( @"p$loadings" ).AsNumericMatrix().ToArray();
+            }
+        }
+
+        /// <summary>
         /// Evaluates the expression.
         /// </summary>               
 
@@ -360,120 +378,6 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Exports core data in R format.
-        /// </summary>
-        internal void Export(Core core, string fileName)
-        {
-            int np = core.Peaks.Count;
-
-            var stats = IVisualisableExtensions.WhereEnabled(core.AllStatistics).ToArray();
-            string[] metas = core._peakMeta.Headers;
-
-            double[][] mat_raw = new double[np][];
-            double[][] mat_pat = new double[np][];
-            double[][] mat_avg = new double[np][];
-            double[][] mat_stats = new double[np][];
-            string[][] mat_meta = new string[np][];
-
-            int[][] mat_obs = new int[core.Observations.Count][];
-            int[][] mat_con = new int[core.Conditions.Count][];
-
-            for (int i = 0; i < core.Peaks.Count; i++)
-            {
-                Peak p = core.Peaks[i];
-
-                mat_raw[i] = p.Observations.Raw;
-                mat_avg[i] = p.Observations.Trend;
-
-                mat_stats[i] = new double[stats.Length];
-                for (int ki = 0; ki < stats.Length; ki++)
-                {
-                    ConfigurationStatistic k = stats[ki];
-                    mat_stats[i][ki] = p.Statistics[k];
-                }
-
-                mat_meta[i] = new string[metas.Length];
-                for (int ki = 0; ki < metas.Length; ki++)
-                {
-                    mat_meta[i][ki] = StringHelper.ArrayToString(p.MetaInfo.Read(ki));
-                }
-
-                mat_pat[i] = new double[core.Clusters.Count];
-                for (int ki = 0; ki < core.Clusters.Count; ki++)
-                {
-                    Cluster k = core.Clusters[ki];
-
-                    if (p.Assignments.IsInCluster(k))
-                    {
-                        double d = p.Assignments.Get(k).Score;
-                        mat_pat[i][ki] = double.IsNaN(d) ? 0d : d;
-                    }
-                    else
-                    {
-                        mat_pat[i][ki] = double.NaN;
-                    }
-                }
-            }
-
-            for (int i = 0; i < core.Observations.Count; i++)
-            {
-                ObservationInfo o = core.Observations[i];
-
-                mat_obs[i] = new int[3];
-                mat_obs[i][0] = o.Group.Order;
-                mat_obs[i][1] = o.Time;
-                mat_obs[i][2] = o.Rep;
-            }
-
-            for (int i = 0; i < core.Conditions.Count; i++)
-            {
-                ConditionInfo o = core.Conditions[i];
-
-                mat_con[i] = new int[2];
-                mat_con[i][0] = o.Group.Order;
-                mat_con[i][1] = o.Time;
-            }
-
-            string[] peakNames = core.Peaks.Select(z => z.DisplayName).ToArray();
-            string[] patNames = core.Clusters.Select(z => z.DisplayName).ToArray();
-            string[] obsNames = core.Observations.Select(z => z.ToString()).ToArray();
-            string[] conNames = core.Conditions.Select(z => z.ToString()).ToArray();
-            string[] statsNames = stats.Select(z => z.ToString()).ToArray();
-            string[] metaNames = metas;
-            string[] obsCols = { "type", "day", "rep" };
-            string[] conCols = { "type", "day" };
-
-            R.ClearGlobalEnvironment();
-
-            string[] desc = "raw = Raw data as loaded|avg = Averaged data|vavg = Averaged data (used for clusters)|stats = Statistics|meta = Meta data|obs = Observation data (for raw)|con = Condition data (for avg)|vcon = Condition data (for vavg)|pat = Cluster assignment scores".Split('|');
-
-            var rmat_raw = R.CreateDataFrame(mat_raw, peakNames, obsNames);
-            var rmat_avg = R.CreateDataFrame(mat_avg, peakNames, conNames);
-            var rmat_stats = R.CreateDataFrame(mat_stats, peakNames, statsNames);
-            var rmat_meta = R.CreateDataFrame(mat_meta, peakNames, metaNames);
-            var rmat_obs = R.CreateDataFrame(mat_obs, obsNames, obsCols);
-            var rmat_con = R.CreateDataFrame(mat_con, conNames, conCols);
-            var rmat_pat = R.CreateDataFrame(mat_pat, peakNames, patNames);
-            var rmat_desc = R.CreateCharacterVector(desc);
-
-            R.SetSymbol("x.desc", rmat_desc);
-            R.SetSymbol("x.raw", rmat_raw);
-            R.SetSymbol("x.avg", rmat_avg);
-            R.SetSymbol("x.stats", rmat_stats);
-            R.SetSymbol("x.meta", rmat_meta);
-            R.SetSymbol("x.obs", rmat_obs);
-            R.SetSymbol("x.con", rmat_con);
-            R.SetSymbol("x.pat", rmat_pat);
-
-            string cmd = "x = list(description = x.desc, raw = x.raw, avg = x.avg, stats = x.stats, meta = x.meta, obs = x.obs, con = x.con, pat = x.pat)\r\n"
-                + string.Format(@"save(x, file = ""{0}"")", fileName.Replace(@"\", @"\\"));
-
-            R.Evaluate(cmd);
-
-            R.ClearGlobalEnvironment();
-        }
+        }     
     }
 }

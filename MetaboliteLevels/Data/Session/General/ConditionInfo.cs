@@ -78,7 +78,7 @@ namespace MetaboliteLevels.Data.DataInfo
             List<Column<ConditionInfo>> columns = new List<Column<ConditionInfo>>();
 
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
+            columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group, z => z.Group.Colour);
             columns.Add("Time", EColumn.None, z => z.Time);
             columns.Add("Comment", EColumn.None, z => z.Comment);
             columns.Add("Enabled", EColumn.None, z => z.Enabled);

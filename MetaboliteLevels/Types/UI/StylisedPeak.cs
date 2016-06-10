@@ -74,10 +74,12 @@ namespace MetaboliteLevels.Data
         public IEnumerable<BatchInfo> ViewBatches;          // Like ViewTypes for batches (only if ShowAcqisition == true)
         public bool ConditionsSideBySide;                   // See CoreVisualOptions
         public bool ShowRanges;                             // See CoreVisualOptions
+        public bool ShowMinMax;                             // See CoreVisualOptions
         public bool ShowPoints;                             // See CoreVisualOptions
         public bool ShowTrend;                              // See CoreVisualOptions
         public bool ShowAcqisition;                         // See CoreVisualOptions
         public bool ShowVariableMean;                       // See CoreVisualOptions
+        public bool DrawExperimentalGroupAxisLabels;
 
         public StylisedPeakOptions(Core core)
         {
@@ -85,6 +87,7 @@ namespace MetaboliteLevels.Data
 
             ViewAlternativeObservations = visualOptions.ViewAlternativeObservations;
             ShowRanges = visualOptions.ShowVariableRanges;
+            ShowMinMax = visualOptions.ShowVariableMinMax;
             ViewTypes = visualOptions.ViewTypes;
             ViewBatches = core.Batches;
             ConditionsSideBySide = visualOptions.ConditionsSideBySide;
@@ -92,11 +95,13 @@ namespace MetaboliteLevels.Data
             ShowTrend = visualOptions.ShowTrend;
             ShowAcqisition = visualOptions.ViewAcquisition;
             ShowVariableMean = visualOptions.ShowVariableMean;
+            DrawExperimentalGroupAxisLabels = visualOptions.DrawExperimentalGroupAxisLabels;
         }
 
         public StylisedPeakOptions(StylisedPeakOptions copyFrom)
         {
             ViewAlternativeObservations = copyFrom.ViewAlternativeObservations;
+            ShowRanges = copyFrom.ShowRanges;
             ShowRanges = copyFrom.ShowRanges;
             ViewTypes = copyFrom.ViewTypes;
             ViewBatches = copyFrom.ViewBatches;
@@ -104,6 +109,7 @@ namespace MetaboliteLevels.Data
             ShowPoints = copyFrom.ShowPoints;
             ShowTrend = copyFrom.ShowTrend;
             ShowAcqisition = copyFrom.ShowAcqisition;
+            DrawExperimentalGroupAxisLabels = copyFrom.DrawExperimentalGroupAxisLabels;
         }
     }
 }

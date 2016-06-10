@@ -42,7 +42,7 @@ namespace MetaboliteLevels.Utilities
     internal static class UiControls
     {
         // Dictionaries
-        public static Dictionary<Version, string> BreakingVersions;
+        public static Dictionary<Version, string> VersionHistory;
         public static int ColourIndex;
 
         // Random numbers
@@ -94,8 +94,48 @@ namespace MetaboliteLevels.Utilities
         internal static void Initialise(Font font)
         {
             FontHelper.Initialise(font);
-            BreakingVersions = new Dictionary<Version, string>();
-            BreakingVersions.Add(new Version(1, 0, 0, 4203), "Refactoring.");
+            VersionHistory = new Dictionary<Version, string>();
+            Version currentVersion = null;
+            StringBuilder sb = new StringBuilder();
+
+            string mrsn = "MetaboliteLevels.VersionHistory.txt";
+            var mrs = Assembly.GetCallingAssembly().GetManifestResourceStream(mrsn );
+
+            if (mrs == null)
+            {
+                throw new InvalidOperationException( "Failed to retrieve the manifest resource stream: " + mrsn + "." );
+            }
+
+            using (StreamReader sr = new StreamReader( mrs ))
+            {
+                while (!sr.EndOfStream)
+                {
+                    string l = sr.ReadLine();
+
+                    if (l.StartsWith( "VERSION " ))
+                    {
+                        if (currentVersion != null)
+                        {
+                            VersionHistory.Add( currentVersion, sb.ToString().Trim() );
+                            sb.Clear();
+                        }
+
+                        string[] e = l.Substring( 8 ).Split( '.', ',' );
+                        currentVersion = new Version( int.Parse( e[0] ), int.Parse( e[1] ), int.Parse( e[2] ), int.Parse( e[3] ) );
+                    }
+                    else
+                    {
+                        sb.AppendLine( l );
+                    }
+                }
+
+                if (currentVersion != null)
+                {
+                    VersionHistory.Add( currentVersion, sb.ToString().Trim() );
+                    sb.Clear();
+                }
+            }
+                
             Random = new Random();
         }   
 
@@ -542,7 +582,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>                  
         internal static void SetIcon(Form frm)
         {
-            frm.Icon = (frm is FrmMain) ? Resources.MainIcon : Resources.MainIcon2;
+            frm.Icon = Resources.MainIcon;
         }      
 
         /// <summary>

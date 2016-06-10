@@ -31,6 +31,7 @@ using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MGui.Helpers;
 using MGui.Controls;
 using System.Reflection;
+using MetaboliteLevels.Forms.Activities;
 
 namespace MetaboliteLevels.Forms
 {
@@ -187,7 +188,7 @@ namespace MetaboliteLevels.Forms
             Dictionary<string, ToolStripMenuItem> dict = new Dictionary<string, ToolStripMenuItem>();
 
             // Database menu
-            foreach (EDataManager dm in Enum.GetValues( typeof( EDataManager ) ))
+            foreach (EDataSet dm in Enum.GetValues( typeof( EDataSet ) ))
             {
                 string[] text = dm.ToUiString().Split('\\');
 
@@ -206,7 +207,7 @@ namespace MetaboliteLevels.Forms
         private void dataManagerMenuItem( object sender, EventArgs e )
         {
             ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
-            EDataManager tag = (EDataManager)tsmi.Tag;
+            EDataSet tag = (EDataSet)tsmi.Tag;
             ShowEditor( tag );
         }
 
@@ -1136,42 +1137,10 @@ namespace MetaboliteLevels.Forms
 
             e.HasMorePages = false;
         }
-
-        /// <summary>
-        /// Menu: Export clusters as CSV
-        /// </summary>
+           
         private void exportClustersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string fileName = this.BrowseForFile(null, UiControls.EFileExtension.Csv, FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
-
-            if (fileName != null)
-            {
-                using (StreamWriter sw = new StreamWriter(fileName))
-                {
-                    sw.WriteLine(",name,clusters,clusterindices,mz,rt,compounds");
-
-                    foreach (Peak v in _core.Peaks)
-                    {
-                        IEnumerable<string> rta = _core._peakMeta.GetValue(v.MetaInfo, "rt");
-
-                        string rt = StringHelper.ArrayToString(rta);
-
-                        StringBuilder sb = new StringBuilder();
-                        foreach (var pc in v.Annotations)
-                        {
-                            if (sb.Length != 0)
-                            {
-                                sb.Append(", ");
-                            }
-                            sb.Append(pc.Compound.DefaultDisplayName + " [" + pc.Adduct.DefaultDisplayName + "]");
-                        }
-
-                        string patNames = StringHelper.ArrayToString(v.Assignments.Clusters, "; ");
-                        string patIndices = StringHelper.ArrayToString(v.Assignments.Clusters, z => _core.Clusters.IndexOf(z).ToString(), "; ");
-                        sw.WriteLine(v.DisplayName + "," + v.DisplayName + ",\"" + patNames + "\",\"" + patIndices + "\"," + v.Mz + "," + rt + ",\"" + sb.ToString() + "\"");
-                    }
-                }
-            }
+           // RM
         }
 
         /// <summary>
@@ -1447,20 +1416,7 @@ namespace MetaboliteLevels.Forms
             }
 
             items[0].Font = new Font(items[0].Font, FontStyle.Bold);
-        }
-
-        /// <summary>
-        /// Menu: Export data in R format
-        /// </summary>
-        private void dataInRFormatToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string fn = this.BrowseForFile(null, UiControls.EFileExtension.RData, FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
-
-            if (fn != null)
-            {
-                Arr.Instance.Export(_core, fn);
-            }
-        }
+        }        
 
         /// <summary>
         /// Menu: Debug
@@ -1519,7 +1475,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void edittrendToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowEditor(EDataManager.Trends);
+            ShowEditor( EDataSet.Trends);
         }
 
         /// <summary>
@@ -1527,7 +1483,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void createclustersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowEditor(EDataManager.Clusterers);
+            ShowEditor( EDataSet.Clusterers);
         }
 
         /// <summary>
@@ -1535,7 +1491,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void editCorrectionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowEditor(EDataManager.Corrections);
+            ShowEditor( EDataSet.Corrections);
         }
 
         /// <summary>
@@ -1543,7 +1499,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void editStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowEditor(EDataManager.Statistics);
+            ShowEditor( EDataSet.Statistics);
         }
 
         /// <summary>
@@ -1551,7 +1507,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void experimentalGroupsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowEditor(EDataManager.Groups);
+            ShowEditor( EDataSet.Groups);
         }
 
         /// <summary>
@@ -1625,7 +1581,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void peakFiltersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowEditor(EDataManager.PeakFilters);
+            ShowEditor( EDataSet.PeakFilters);
         }
 
         /// <summary>
@@ -1633,7 +1589,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void observationFiltersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowEditor(EDataManager.ObservationFilters);
+            ShowEditor( EDataSet.ObservationFilters);
         }
 
         /// <summary>
@@ -1660,194 +1616,44 @@ namespace MetaboliteLevels.Forms
         {
             _selectionMenuOpenedFromList = Selection.Secondary;
             PopulateMenu(_btnSelectionExterior.DropDownItems);
-        }
+        }                              
 
-        enum EDataManager
-        {      
-            [Name("Data\\Peaks")]
-            Peaks,
-
-            [Name("Data\\Clusters")]
-            Clusters,
-
-            [Name("Data\\Acquisition indices")]
-            Acquisitions,
-
-            [Name("Data\\Batches")]
-            Batches,
-
-            [Name("Data\\Experimental conditions")]
-            Conditions,
-
-            [Name("Data\\Timepoints")]
-            Times,
-
-            [Name("Data\\Replicate indices")]
-            Replicates,
-
-            [Name("Data\\Peak flags")]
-            PeakFlags,
-
-            [Name("Data\\Experimental observations")]
-            Observations,
-
-            [Name("Data\\Experimental groups")]
-            Groups,
-
-            [Name("Workflow\\Peak filters")]
-            PeakFilters,
-
-            [Name("Workflow\\Observation filters")]
-            ObservationFilters,
-
-            [Name("Workflow\\Corrections")]
-            Corrections,
-
-            [Name("Workflow\\Trends")]
-            Trends,
-
-            [Name("Workflow\\Statistics")]
-            Statistics,
-
-            [Name("Workflow\\Clusterers")]
-            Clusterers,
-
-            [Name("Workflow\\Clustering evaluations")]
-            Evaluations,
-
-            [Name("Algorithms\\Trends and corrections")]
-            TrendAndCorrectionAlgorithms,
-
-            [Name("Algorithms\\Trends")]
-            TrendAlgorithms,
-
-            [Name("Algorithms\\Statistics")]
-            StatisticsAlgorithms,
-
-            [Name("Algorithms\\Metrics")]
-            MetricAlgorithms,
-
-            [Name("Algorithms\\Clustering")]
-            ClusteringAlgorithms,
-
-            [Name( "Algorithms\\All" )]
-            AllAlgorithms,
-        }                                 
-
-        private void ShowEditor(EDataManager which)
+        private void ShowEditor( EDataSet dataSetId)
         {
-            switch (which)
-            {                  
-                case EDataManager.Acquisitions:
-                    DataSet.ForAcquisitions(_core).ShowListEditor(this);
-                    break;
+            IDataSet dataSet = DataSet.For( dataSetId, _core );
 
-                case EDataManager.Batches:
-                    DataSet.ForBatches(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.Clusterers:
-                    if (DataSet.ForClusterers(_core).ShowListEditor(this))
-                    {
-                        UpdateAll("Clusters changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
-                    }
-                    break;
-
-                case EDataManager.Clusters:
-                    DataSet.ForClusters(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.Conditions:
-                    DataSet.ForConditions(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.Groups:
-                    if (DataSet.ForGroups(_core).ShowListEditor(this))
-                    {
+            if (dataSet.ShowListEditor( this ))
+            {
+                switch (dataSetId)
+                {
+                    case EDataSet.Groups:
                         UpdateVisualOptions();
-                        UpdateAll("Experimental groups changed", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.None);
-                    }
-                    break;
+                        UpdateAll( "Experimental groups changed",
+                            peak:           EListInvalids.ValuesChanged, 
+                            cluster:        EListInvalids.ValuesChanged,
+                            assignments:    EListInvalids.ValuesChanged,
+                            compounds:      EListInvalids.None );
+                        break;
 
-                case EDataManager.Observations:
-                    DataSet.ForObservations(_core).ShowListEditor(this);
-                    break;
+                    case EDataSet.Statistics:
+                        UpdateAll( "Statistics changed", 
+                            peak:           EListInvalids.SourceChanged, 
+                            cluster:        EListInvalids.ContentsChanged, 
+                            assignments:    EListInvalids.ContentsChanged,
+                            compounds:      EListInvalids.None );
+                        break;
 
-                case EDataManager.ObservationFilters:
-                    DataSet.ForObsFilter(_core).ShowListEditor(this);
-                    break;
 
-                case EDataManager.PeakFilters:
-                    DataSet.ForPeakFilter(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.PeakFlags:
-                    DataSet.ForPeakFlags(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.Peaks:
-                    DataSet.ForPeaks(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.Replicates:
-                    DataSet.ForReplicates(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.Statistics:
-                    if (DataSet.ForStatistics(_core).ShowListEditor(this))
-                    {
-                        UpdateAll("Statistics changed", EListInvalids.SourceChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
-                    }
-                    break;
-
-                case EDataManager.Evaluations:
-                    DataSet.ForTests(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.Times:
-                    DataSet.ForTimes(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.Trends:
-                    if (DataSet.ForTrends(_core).ShowListEditor(this))
-                    {
-                        UpdateAll("Trends changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
-                    }
-                    break;
-
-                case EDataManager.Corrections:
-                    if (DataSet.ForCorrections(_core).ShowListEditor(this))
-                    {
-                        UpdateAll("Statistics changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
-                    }
-                    break;
-
-                case EDataManager.ClusteringAlgorithms:
-                    DataSet.ForClustererAlgorithms(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.MetricAlgorithms:
-                    DataSet.ForMetricAlgorithms(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.StatisticsAlgorithms:
-                    DataSet.ForStatisticsAlgorithms(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.TrendAlgorithms:
-                    DataSet.ForTrendAlgorithms(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.TrendAndCorrectionAlgorithms:
-                    DataSet.ForTrendAndCorrectionAlgorithms(_core).ShowListEditor(this);
-                    break;
-
-                case EDataManager.AllAlgorithms:
-                    DataSet.ForAllAlgorithms( _core ).ShowListEditor( this );
-                    break;
-
-                default:
-                    break;
+                    case EDataSet.Clusterers:
+                    case EDataSet.Trends:
+                    case EDataSet.Corrections:
+                        UpdateAll( "Database changes",
+                            peak:           EListInvalids.ValuesChanged, 
+                            cluster:        EListInvalids.ContentsChanged, 
+                            assignments:    EListInvalids.ContentsChanged, 
+                            compounds:      EListInvalids.None );
+                        break;
+                }
             }
         }
 
@@ -1859,6 +1665,11 @@ namespace MetaboliteLevels.Forms
         private void _btnExterior_Click(object sender, EventArgs e)
         {
             CommitSelection(new VisualisableSelection(_selection.Secondary, _selection.Primary));
+        }
+
+        private void dataToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            FrmActExport.Show( this, _core );
         }
     }
 }

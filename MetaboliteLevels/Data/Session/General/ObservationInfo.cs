@@ -157,7 +157,7 @@ namespace MetaboliteLevels.Data.DataInfo
             List<Column<ObservationInfo>> columns = new List<Column<ObservationInfo>>();
 
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group.DisplayName, z => z.Group.Colour);
+            columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group, z => z.Group.Colour);
             columns.Add("Replicate", EColumn.None, z => z.Rep);
             columns.Add("Time", EColumn.None, z => z.Time);
             columns.Add("Acquisition", EColumn.None, z => z.Acquisition);

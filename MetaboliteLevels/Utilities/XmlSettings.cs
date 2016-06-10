@@ -366,7 +366,8 @@ namespace MetaboliteLevels.Settings
                     return typeof( ParseElement );
                 }
 
-                typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement, MetaboliteLevels, Version=1.0.0.4669, Culture=neutral, PublicKeyToken=null", typeof( ParseElement ).AssemblyQualifiedName );
+                typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement, MetaboliteLevels", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name + ", MGui" );
+                //typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name );
 
                 Type result =  Type.GetType( string.Format( "{0}, {1}", typeName, assemblyName ) );
 

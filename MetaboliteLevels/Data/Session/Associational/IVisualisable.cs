@@ -166,6 +166,23 @@ namespace MetaboliteLevels.Data.Visualisables
                 return null;
             }
 
+            string propertyUpperCase = property.ToUpper();
+
+            switch (propertyUpperCase)
+            {
+                case "\\N":
+                    return "\r\n";
+
+                case "\\T":
+                    return "\t";
+
+                case "\\(":
+                    return "{";
+
+                case "\\)":
+                    return "}";
+            }
+
             bool isProperty = property.StartsWith(SYMBOL_PROPERTY);
 
             if (isProperty)
@@ -190,7 +207,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 }
             }
 
-            Column column = ColumnManager.GetColumns(core, self).FirstOrDefault(z => z.Id.ToUpper() == property.ToUpper());
+            Column column = ColumnManager.GetColumns(core, self).FirstOrDefault(z => z.Id.ToUpper() == propertyUpperCase);
 
             if (column != null)
             {

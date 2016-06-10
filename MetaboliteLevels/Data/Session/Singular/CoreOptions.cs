@@ -58,6 +58,11 @@ namespace MetaboliteLevels.Settings
         [DefaultValue(true)]
         public bool ShowVariableRanges { get; set; }
 
+        [DisplayName( "Draw lines around min/max area" )]
+        [Category( "Peaks" )]
+        [DefaultValue( true )]
+        public bool ShowVariableMinMax { get; set; }
+
         [DisplayName("Show mean and std. dev.")]
         [Category("Peaks")]
         [DefaultValue(true)]
@@ -120,7 +125,7 @@ namespace MetaboliteLevels.Settings
         {
             [DisplayName("Information bar")]
             [Description("The text to display in the toolbar above the plot. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
-            [DefaultValue("m/z = {m/z}, rt = {meta\\rt}")]
+            [DefaultValue("")]
             public ParseElementCollection Information { get; set; }
 
             [DisplayName("Plot title")]
@@ -192,6 +197,12 @@ namespace MetaboliteLevels.Settings
         [DefaultValue(true)]
         public bool DisplayAllGroupsInClusterPlot { get; set; }
 
+        [DisplayName( "Experimental group axis labels" )]
+        [Description( "When set labels will be drawn on the X axis indicating the experimental groups." )]
+        [Category( "Peaks" )]
+        [DefaultValue( true )]
+        public bool DrawExperimentalGroupAxisLabels { get; set; }
+
         public readonly Dictionary<string, ColumnDetails> _columnDisplayStatuses = new Dictionary<string, ColumnDetails>();
         public readonly Dictionary<string, object> _defaultValues = new Dictionary<string, object>();
 
@@ -210,7 +221,7 @@ namespace MetaboliteLevels.Settings
             CompoundDisplay = new PlotSetup();
             PathwayDisplay  = new PlotSetup();
 
-            PeakDisplay.Information = new ParseElementCollection("m/z = {m/z}, rt = {meta\rt}");
+            PeakDisplay.Information = new ParseElementCollection("m/z = {m/z}, rt = {meta\\rt}");
         }
 
         [OnDeserializing]

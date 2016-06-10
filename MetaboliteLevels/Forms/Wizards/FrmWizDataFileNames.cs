@@ -29,22 +29,68 @@ namespace MetaboliteLevels.Forms.Startup
     /// </summary>
     public partial class FrmEditDataFileNames : Form
     {
+        /// <summary>
+        /// The result is stored here
+        /// </summary>
         private Core _result;
-        private bool _ignoreChanges; // feedback loop prevention 
+
+        /// <summary>
+        /// Feedback loop prevention 
+        /// </summary>
+        private bool _ignoreChanges;
+
+        /// <summary>
+        /// Wizard manager
+        /// </summary>
         private readonly CtlWizard _wizard;
-        private bool _historyDelete; // Why the context menu is being shown (load | delete)
+
+        /// <summary>
+        /// Designates Why the context menu is being shown (load or delete)
+        /// </summary>
+        private bool _historyDelete;
+
+        /// <summary>
+        /// Retrieves the current filename of the experimental groups file, or null if there isn't one
+        /// (Used to manage the experimental groups dialogue)
+        /// </summary>
         private string CondInfoFileName { get { return _chkCondInfo.Checked ? _txtCondInfo.Text : null; } }
+
+        /// <summary>
+        /// The file the current list of experimental groups originates from
+        /// (The list is kept until this mismatches with <see cref="CondInfoFileName"/>.)
+        /// </summary>
         private string _experimentalGroupCacheSource;
 
+        /// <summary>
+        /// Experimental conditions editor (for interesting)
+        /// </summary>
         private readonly ConditionBox<string> _cbExp;
+
+        /// <summary>
+        /// Experimental conditions editor (for control)
+        /// </summary>
         private readonly ConditionBox<string> _cbControl;
 
+        /// <summary>
+        /// List of ALL compound libraries
+        /// </summary>
         private readonly List<CompoundLibrary> _compoundLibraries;
+
+        /// <summary>
+        /// List of ALL adduct libraries
+        /// </summary>
         private readonly List<NamedItem<string>> _adductLibraries;
-
-
+                
+        /// <summary>
+        /// Cached names of the experimental types (as a dictionary)
+        /// </summary>
         private Dictionary<string, string> _typeCacheNames = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Cached names of the experimental types (as a hashset)
+        /// </summary>
         private readonly HashSet<string> _experimentalGroupCache = new HashSet<string>();
+
         private readonly ToolStripMenuItem _mnuBrowseWorkspace;
         private readonly ToolStripSeparator _mnuBrowseWorkspaceSep;
         private readonly FileLoadInfo _fileLoadInfo;
@@ -176,7 +222,7 @@ namespace MetaboliteLevels.Forms.Startup
             HashSet<string> itemsExist = new HashSet<string>();
             index = 0;
 
-            foreach (MainSettings.RecentSession entry in recentSessions.Reverse<MainSettings.RecentSession>())
+            foreach (MainSettings.RecentSession entry in recentSessions)
             {
                 if (itemsExist.Contains( entry.FileName ))
                 {

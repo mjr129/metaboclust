@@ -20,7 +20,8 @@ namespace MetaboliteLevels.Forms.Generic
             IMPORT_RESULTS_DETAILS_NOTICE,
             CHANGE_EXPERIMENTAL_GROUP_ID,
             EDIT_WITH_RESULTS,
-            EXPORT_DATA_NOTICE
+            EXPORT_DATA_NOTICE,
+            PLSR_MODE
         }
 
         public class ButtonSet

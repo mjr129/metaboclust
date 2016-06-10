@@ -90,6 +90,7 @@
             this._lstPeakPlotting = new System.Windows.Forms.ComboBox();
             this.label35 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
+            this._chkPeakMinMax = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label22 = new System.Windows.Forms.Label();
@@ -145,6 +146,7 @@
             this.coreOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.resetToDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._chkGroupNames = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._numSizeLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numClusterMaxPlot)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -252,12 +254,12 @@
             // _chkPeakRanges
             // 
             this._chkPeakRanges.AutoSize = true;
-            this._chkPeakRanges.Location = new System.Drawing.Point(116, 368);
+            this._chkPeakRanges.Location = new System.Drawing.Point(314, 368);
             this._chkPeakRanges.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakRanges.Name = "_chkPeakRanges";
-            this._chkPeakRanges.Size = new System.Drawing.Size(80, 25);
+            this._chkPeakRanges.Size = new System.Drawing.Size(132, 25);
             this._chkPeakRanges.TabIndex = 2;
-            this._chkPeakRanges.Text = "Ranges";
+            this._chkPeakRanges.Text = "Range shading";
             this._chkPeakRanges.UseVisualStyleBackColor = true;
             // 
             // _chkPeakMean
@@ -266,15 +268,15 @@
             this._chkPeakMean.Location = new System.Drawing.Point(116, 409);
             this._chkPeakMean.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakMean.Name = "_chkPeakMean";
-            this._chkPeakMean.Size = new System.Drawing.Size(231, 25);
+            this._chkPeakMean.Size = new System.Drawing.Size(158, 25);
             this._chkPeakMean.TabIndex = 2;
-            this._chkPeakMean.Text = "Mean and standard deviation";
+            this._chkPeakMean.Text = "Mean and SD lines";
             this._chkPeakMean.UseVisualStyleBackColor = true;
             // 
             // _chkPeakData
             // 
             this._chkPeakData.AutoSize = true;
-            this._chkPeakData.Location = new System.Drawing.Point(363, 368);
+            this._chkPeakData.Location = new System.Drawing.Point(116, 368);
             this._chkPeakData.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakData.Name = "_chkPeakData";
             this._chkPeakData.Size = new System.Drawing.Size(104, 25);
@@ -285,12 +287,12 @@
             // _chkPeakTrend
             // 
             this._chkPeakTrend.AutoSize = true;
-            this._chkPeakTrend.Location = new System.Drawing.Point(363, 409);
+            this._chkPeakTrend.Location = new System.Drawing.Point(314, 409);
             this._chkPeakTrend.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakTrend.Name = "_chkPeakTrend";
-            this._chkPeakTrend.Size = new System.Drawing.Size(69, 25);
+            this._chkPeakTrend.Size = new System.Drawing.Size(105, 25);
             this._chkPeakTrend.TabIndex = 2;
-            this._chkPeakTrend.Text = "Trend";
+            this._chkPeakTrend.Text = "Trend lines";
             this._chkPeakTrend.UseVisualStyleBackColor = true;
             // 
             // _chkPeakFlag
@@ -340,10 +342,10 @@
             // 
             // _btnColourCentre
             // 
-            this._btnColourCentre.BackColor = System.Drawing.Color.White;
             this._btnColourCentre.Location = new System.Drawing.Point(176, 8);
             this._btnColourCentre.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourCentre.Name = "_btnColourCentre";
+            this._btnColourCentre.SelectedColor = System.Drawing.Color.White;
             this._btnColourCentre.TabIndex = 4;
             this._btnColourCentre.UseVisualStyleBackColor = false;
             // 
@@ -369,10 +371,10 @@
             // 
             // _btnColourSeries
             // 
-            this._btnColourSeries.BackColor = System.Drawing.Color.White;
             this._btnColourSeries.Location = new System.Drawing.Point(176, 98);
             this._btnColourSeries.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourSeries.Name = "_btnColourSeries";
+            this._btnColourSeries.SelectedColor = System.Drawing.Color.White;
             this._btnColourSeries.TabIndex = 4;
             this._btnColourSeries.UseVisualStyleBackColor = false;
             // 
@@ -388,10 +390,10 @@
             // 
             // _btnColourHighlight
             // 
-            this._btnColourHighlight.BackColor = System.Drawing.Color.White;
             this._btnColourHighlight.Location = new System.Drawing.Point(176, 53);
             this._btnColourHighlight.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourHighlight.Name = "_btnColourHighlight";
+            this._btnColourHighlight.SelectedColor = System.Drawing.Color.White;
             this._btnColourHighlight.TabIndex = 4;
             this._btnColourHighlight.UseVisualStyleBackColor = false;
             // 
@@ -407,10 +409,10 @@
             // 
             // _btnColourMinorGrid
             // 
-            this._btnColourMinorGrid.BackColor = System.Drawing.Color.White;
             this._btnColourMinorGrid.Location = new System.Drawing.Point(176, 143);
             this._btnColourMinorGrid.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourMinorGrid.Name = "_btnColourMinorGrid";
+            this._btnColourMinorGrid.SelectedColor = System.Drawing.Color.White;
             this._btnColourMinorGrid.TabIndex = 4;
             this._btnColourMinorGrid.UseVisualStyleBackColor = false;
             // 
@@ -426,10 +428,10 @@
             // 
             // _btnColourMajorGrid
             // 
-            this._btnColourMajorGrid.BackColor = System.Drawing.Color.White;
             this._btnColourMajorGrid.Location = new System.Drawing.Point(176, 188);
             this._btnColourMajorGrid.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourMajorGrid.Name = "_btnColourMajorGrid";
+            this._btnColourMajorGrid.SelectedColor = System.Drawing.Color.White;
             this._btnColourMajorGrid.TabIndex = 4;
             this._btnColourMajorGrid.UseVisualStyleBackColor = false;
             // 
@@ -445,10 +447,10 @@
             // 
             // _btnColourAxisTitle
             // 
-            this._btnColourAxisTitle.BackColor = System.Drawing.Color.White;
             this._btnColourAxisTitle.Location = new System.Drawing.Point(176, 233);
             this._btnColourAxisTitle.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourAxisTitle.Name = "_btnColourAxisTitle";
+            this._btnColourAxisTitle.SelectedColor = System.Drawing.Color.White;
             this._btnColourAxisTitle.TabIndex = 4;
             this._btnColourAxisTitle.UseVisualStyleBackColor = false;
             // 
@@ -643,7 +645,8 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnCount = 5;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -666,12 +669,14 @@
             this.tableLayoutPanel2.Controls.Add(this._lstPeakOrder, 1, 6);
             this.tableLayoutPanel2.Controls.Add(this._chkPeakMean, 1, 9);
             this.tableLayoutPanel2.Controls.Add(this.label34, 0, 7);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakRanges, 1, 8);
             this.tableLayoutPanel2.Controls.Add(this._lstPeakPlotting, 1, 7);
             this.tableLayoutPanel2.Controls.Add(this.label35, 0, 8);
             this.tableLayoutPanel2.Controls.Add(this.label36, 0, 10);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakData, 2, 8);
             this.tableLayoutPanel2.Controls.Add(this._chkPeakTrend, 2, 9);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakMinMax, 3, 8);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakRanges, 2, 8);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakData, 1, 8);
+            this.tableLayoutPanel2.Controls.Add(this._chkGroupNames, 3, 9);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -703,7 +708,7 @@
             // 
             // _txtPeakYAxis
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakYAxis, 2);
+            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakYAxis, 3);
             this._txtPeakYAxis.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtPeakYAxis.Location = new System.Drawing.Point(116, 188);
             this._txtPeakYAxis.Margin = new System.Windows.Forms.Padding(8);
@@ -714,7 +719,7 @@
             // 
             // _txtPeakInfo
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakInfo, 2);
+            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakInfo, 3);
             this._txtPeakInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtPeakInfo.Location = new System.Drawing.Point(116, 8);
             this._txtPeakInfo.Margin = new System.Windows.Forms.Padding(8);
@@ -725,7 +730,7 @@
             // 
             // _txtPeakXAxis
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakXAxis, 2);
+            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakXAxis, 3);
             this._txtPeakXAxis.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtPeakXAxis.Location = new System.Drawing.Point(116, 143);
             this._txtPeakXAxis.Margin = new System.Windows.Forms.Padding(8);
@@ -746,7 +751,7 @@
             // 
             // _txtPeakSubtitle
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakSubtitle, 2);
+            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakSubtitle, 3);
             this._txtPeakSubtitle.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtPeakSubtitle.Location = new System.Drawing.Point(116, 98);
             this._txtPeakSubtitle.Margin = new System.Windows.Forms.Padding(8);
@@ -767,7 +772,7 @@
             // 
             // _txtPeakTitle
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakTitle, 2);
+            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakTitle, 3);
             this._txtPeakTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtPeakTitle.Location = new System.Drawing.Point(116, 53);
             this._txtPeakTitle.Margin = new System.Windows.Forms.Padding(8);
@@ -808,7 +813,7 @@
             // 
             // _lstPeakData
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._lstPeakData, 2);
+            this.tableLayoutPanel2.SetColumnSpan(this._lstPeakData, 3);
             this._lstPeakData.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstPeakData.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstPeakData.FormattingEnabled = true;
@@ -833,7 +838,7 @@
             // 
             // _lstPeakOrder
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._lstPeakOrder, 2);
+            this.tableLayoutPanel2.SetColumnSpan(this._lstPeakOrder, 3);
             this._lstPeakOrder.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstPeakOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstPeakOrder.FormattingEnabled = true;
@@ -858,7 +863,7 @@
             // 
             // _lstPeakPlotting
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this._lstPeakPlotting, 2);
+            this.tableLayoutPanel2.SetColumnSpan(this._lstPeakPlotting, 3);
             this._lstPeakPlotting.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstPeakPlotting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstPeakPlotting.FormattingEnabled = true;
@@ -890,6 +895,17 @@
             this.label36.Size = new System.Drawing.Size(46, 21);
             this.label36.TabIndex = 0;
             this.label36.Text = "Flags";
+            // 
+            // _chkPeakMinMax
+            // 
+            this._chkPeakMinMax.AutoSize = true;
+            this._chkPeakMinMax.Location = new System.Drawing.Point(462, 368);
+            this._chkPeakMinMax.Margin = new System.Windows.Forms.Padding(8);
+            this._chkPeakMinMax.Name = "_chkPeakMinMax";
+            this._chkPeakMinMax.Size = new System.Drawing.Size(127, 25);
+            this._chkPeakMinMax.TabIndex = 2;
+            this._chkPeakMinMax.Text = "Min/max lines";
+            this._chkPeakMinMax.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -1285,28 +1301,28 @@
             // 
             // _btnColourBackground
             // 
-            this._btnColourBackground.BackColor = System.Drawing.Color.White;
             this._btnColourBackground.Location = new System.Drawing.Point(176, 278);
             this._btnColourBackground.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourBackground.Name = "_btnColourBackground";
+            this._btnColourBackground.SelectedColor = System.Drawing.Color.White;
             this._btnColourBackground.TabIndex = 6;
             this._btnColourBackground.UseVisualStyleBackColor = false;
             // 
             // _btnColourPreviewBackground
             // 
-            this._btnColourPreviewBackground.BackColor = System.Drawing.Color.White;
             this._btnColourPreviewBackground.Location = new System.Drawing.Point(176, 323);
             this._btnColourPreviewBackground.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourPreviewBackground.Name = "_btnColourPreviewBackground";
+            this._btnColourPreviewBackground.SelectedColor = System.Drawing.Color.White;
             this._btnColourPreviewBackground.TabIndex = 8;
             this._btnColourPreviewBackground.UseVisualStyleBackColor = false;
             // 
             // _btnColourUntypedElements
             // 
-            this._btnColourUntypedElements.BackColor = System.Drawing.Color.White;
             this._btnColourUntypedElements.Location = new System.Drawing.Point(176, 368);
             this._btnColourUntypedElements.Margin = new System.Windows.Forms.Padding(8);
             this._btnColourUntypedElements.Name = "_btnColourUntypedElements";
+            this._btnColourUntypedElements.SelectedColor = System.Drawing.Color.White;
             this._btnColourUntypedElements.TabIndex = 10;
             this._btnColourUntypedElements.UseVisualStyleBackColor = false;
             // 
@@ -1541,7 +1557,18 @@
             this.resetToDefaultToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.resetToDefaultToolStripMenuItem.Text = "&Reset to default";
             // 
-            // FrmOptions2
+            // _chkGroupNames
+            // 
+            this._chkGroupNames.AutoSize = true;
+            this._chkGroupNames.Location = new System.Drawing.Point(462, 409);
+            this._chkGroupNames.Margin = new System.Windows.Forms.Padding(8);
+            this._chkGroupNames.Name = "_chkGroupNames";
+            this._chkGroupNames.Size = new System.Drawing.Size(215, 25);
+            this._chkGroupNames.TabIndex = 2;
+            this._chkGroupNames.Text = "Experimental group names";
+            this._chkGroupNames.UseVisualStyleBackColor = true;
+            // 
+            // FrmEditCoreOptions
             // 
             this.AcceptButton = this._btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -1553,7 +1580,7 @@
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FrmOptions2";
+            this.Name = "FrmEditCoreOptions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Session Preferences";
             ((System.ComponentModel.ISupportInitialize)(this._numSizeLimit)).EndInit();
@@ -1708,5 +1735,7 @@
         private Controls.CtlButton _btnEditColumns;
         private Controls.CtlButton _btnEditDefaults;
         private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.CheckBox _chkPeakMinMax;
+        private System.Windows.Forms.CheckBox _chkGroupNames;
     }
 }

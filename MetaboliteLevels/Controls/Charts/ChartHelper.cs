@@ -523,7 +523,7 @@ namespace MetaboliteLevels.Viewers.Charts
             return result;
         }
 
-        protected void DrawLabels( MCharting.Plot plot, bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups)
+        protected void DrawLabels( MCharting.Plot plot, bool bConditionsSideBySide, IEnumerable<GroupInfoBase> orderOfGroups, bool includeText)
         {
             if (bConditionsSideBySide)
             {
@@ -542,7 +542,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
                     int minX    = ti.Range.Min;
                     int maxX    = ti.Range.Max;
-                    string text = ti.DisplayName;
+                    string text = includeText ? ti.DisplayName : string.Empty;
 
                     DrawAxisBar(plot, x, minX, maxX, text);
                 }
@@ -552,7 +552,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 int minX = _core.TimeRange.Min;
                 int maxX = _core.TimeRange.Max;
                 int x = 0;
-                string text = StringHelper.ArrayToString(orderOfGroups, z => z.DisplayName, ", ");
+                string text = includeText ? StringHelper.ArrayToString( orderOfGroups, z => z.DisplayName, ", " ) : string.Empty;
 
                 DrawAxisBar(plot, x, minX, maxX, text);
             }

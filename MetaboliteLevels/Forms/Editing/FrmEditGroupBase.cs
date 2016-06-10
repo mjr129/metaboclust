@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MGui;
+using MetaboliteLevels.Controls;
+using MetaboliteLevels.Types.UI;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -18,6 +20,8 @@ namespace MetaboliteLevels.Forms.Editing
     {
         private readonly GroupInfoBase _group;
         private Color _colour;
+        private readonly EnumComboBox<EGraphIcon> _ecbIcon;
+        private readonly EnumComboBox<EHatchStyle> _ecbFill;
 
         internal static bool Show(Form owner, GroupInfoBase group, bool readOnly)
         {
@@ -46,6 +50,10 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtId.Text = group.StringId.ToString();
             this._txtDisplayOrder.Text = group.DisplayPriority.ToString();
             this._txtTimeRange.Text = group.Range.ToString();
+
+            _ecbIcon= EnumComboBox.Create( _lstIcon, group.GraphIcon );
+            _ecbFill = EnumComboBox.Create( _lstStyle, group.HatchStyle );
+
             _colour = group.Colour;
 
             UpdateButtonImage();
@@ -91,6 +99,8 @@ namespace MetaboliteLevels.Forms.Editing
             _group.Comment = this._txtComments.Text;
             _group.SetColour(_colour);
             _group.StringId = _txtId.Text;
+            _group.GraphIcon = _ecbIcon.SelectedItemOrDefault;
+            _group.HatchStyle = _ecbFill.SelectedItemOrDefault;
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 

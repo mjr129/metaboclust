@@ -10,6 +10,9 @@ using MSerialisers;
 using System.Runtime.Serialization;
 using System.Diagnostics;
 using MGui;
+using MetaboliteLevels.Types.UI;
+using System.Drawing.Drawing2D;
+using MCharting;
 
 namespace MetaboliteLevels.Data.DataInfo
 {
@@ -18,7 +21,7 @@ namespace MetaboliteLevels.Data.DataInfo
     /// </summary>
     [Serializable]
     internal abstract class GroupInfoBase : IVisualisable
-    {                    
+    {       
         private string _id;
         public readonly int Order;          // This program's internal index (Core.Groups[this.Order] / Core.Batches[this.Order]). This is arbitrary but MUST NOT BE CHANGED.
         public readonly Range Range;        // Range covered (days / acquisition-order)
@@ -40,6 +43,9 @@ namespace MetaboliteLevels.Data.DataInfo
         public string Comment { get; set; }
 
         bool INameable.Enabled { get { return true; } set { /* NA*/} }
+
+        public EHatchStyle HatchStyle { get; set; } = EHatchStyle.Solid;
+        public EGraphIcon GraphIcon { get; set; }
 
         public int DisplayPriority;
 
@@ -78,7 +84,7 @@ namespace MetaboliteLevels.Data.DataInfo
                 DisplayPriority = Id;
                 Id = -1;
             }
-#pragma warning restore CS0618
+#pragma warning restore CS0618   
         }
 
         #endregion
@@ -115,6 +121,8 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("Light colour", z => ColourHelper.ColourToName(z.ColourLight), z => z.ColourLight);
             columns.Add("Comment", z => z.Comment);
             columns.Add("Display priority", z => z.DisplayPriority);
+            columns.Add( "Graph icon", z => z.GraphIcon );
+            columns.Add( "Graph brush", z => z.HatchStyle );
 
             return columns;
         }
@@ -135,7 +143,41 @@ namespace MetaboliteLevels.Data.DataInfo
             set
             {
                 _id = value;
-            }               
+            }
+        }
+
+        internal GraphicsPath CreateIcon()
+        {
+            switch (this.GraphIcon)
+            {
+                case EGraphIcon.Default: return null;
+                case EGraphIcon.Circle: return SeriesStyle.DrawPointsShapes.Circle;
+                case EGraphIcon.Cross: return SeriesStyle.DrawPointsShapes.Cross;
+                case EGraphIcon.Diamond: return SeriesStyle.DrawPointsShapes.Diamond;
+                case EGraphIcon.HLine: return SeriesStyle.DrawPointsShapes.HLine;
+                case EGraphIcon.Plus: return SeriesStyle.DrawPointsShapes.Plus;
+                case EGraphIcon.Square: return SeriesStyle.DrawPointsShapes.Square;
+                case EGraphIcon.Asterisk: return SeriesStyle.DrawPointsShapes.Asterisk;
+                case EGraphIcon.Triangle: return SeriesStyle.DrawPointsShapes.Triangle;
+                case EGraphIcon.InvertedTriangle: return SeriesStyle.DrawPointsShapes.InvertedTriangle;
+                case EGraphIcon.VLine: return SeriesStyle.DrawPointsShapes.VLine;
+                default: return null;
+            }
+        }
+
+        internal Brush CreateBrush( Color colour )
+        {
+            switch (this.HatchStyle)
+            {
+                case EHatchStyle.Solid:
+                    return new SolidBrush( colour );
+
+                case EHatchStyle.None:
+                    return null;
+
+                default:
+                    return new HatchBrush( (HatchStyle)this.HatchStyle, colour, Color.Transparent );
+            }
         }
     }
 

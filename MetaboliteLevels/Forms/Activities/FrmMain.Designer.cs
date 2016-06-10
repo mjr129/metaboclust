@@ -48,8 +48,7 @@ namespace MetaboliteLevels.Forms
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.peakidentificationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataInRFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportClustersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveClusterImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.printClusterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -298,33 +297,24 @@ namespace MetaboliteLevels.Forms
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dataInRFormatToolStripMenuItem,
-            this.exportClustersToolStripMenuItem,
+            this.dataToolStripMenuItem,
             this.saveClusterImageToolStripMenuItem});
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.exportToolStripMenuItem.Text = "&Export";
             // 
-            // dataInRFormatToolStripMenuItem
+            // dataToolStripMenuItem
             // 
-            this.dataInRFormatToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.IconR;
-            this.dataInRFormatToolStripMenuItem.Name = "dataInRFormatToolStripMenuItem";
-            this.dataInRFormatToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.dataInRFormatToolStripMenuItem.Text = "&RData (all data)...";
-            this.dataInRFormatToolStripMenuItem.Click += new System.EventHandler(this.dataInRFormatToolStripMenuItem_Click);
-            // 
-            // exportClustersToolStripMenuItem
-            // 
-            this.exportClustersToolStripMenuItem.Name = "exportClustersToolStripMenuItem";
-            this.exportClustersToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.exportClustersToolStripMenuItem.Text = "&CSV (cluster assignments)...";
-            this.exportClustersToolStripMenuItem.Click += new System.EventHandler(this.exportClustersToolStripMenuItem_Click);
+            this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
+            this.dataToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.dataToolStripMenuItem.Text = "&Data...";
+            this.dataToolStripMenuItem.Click += new System.EventHandler(this.dataToolStripMenuItem_Click);
             // 
             // saveClusterImageToolStripMenuItem
             // 
             this.saveClusterImageToolStripMenuItem.Name = "saveClusterImageToolStripMenuItem";
-            this.saveClusterImageToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.saveClusterImageToolStripMenuItem.Text = "&PNG (all cluster plots)...";
+            this.saveClusterImageToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.saveClusterImageToolStripMenuItem.Text = "&Image (all cluster plots)...";
             this.saveClusterImageToolStripMenuItem.Click += new System.EventHandler(this.saveClusterImageToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
@@ -1868,7 +1858,6 @@ namespace MetaboliteLevels.Forms
         private MGui.Controls.CtlSplitter splitContainer3;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripMenuItem printClusterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportClustersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveClusterImageToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -1930,7 +1919,6 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ImageList _imgListClusters;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip _cmsSelectionButton;
-        private System.Windows.Forms.ToolStripMenuItem dataInRFormatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem experimentalOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem editStatisticsToolStripMenuItem;
@@ -1992,6 +1980,7 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripStatusLabel _txtGuid;
         private System.Windows.Forms.ToolStripMenuItem pLACEHOLDERToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
     }
 }
 

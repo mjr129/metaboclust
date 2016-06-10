@@ -197,6 +197,8 @@ namespace MetaboliteLevels.Viewers.Lists
 
         public abstract object GetRow(IVisualisable line);
 
+        public abstract Type GetTemplateType();
+
         public abstract bool IsAlwaysEmpty { get; }
 
         internal abstract Color GetColour(IVisualisable line);
@@ -247,6 +249,11 @@ namespace MetaboliteLevels.Viewers.Lists
             Colour = colour;
         }
 
+        public override Type GetTemplateType()
+        {
+            return typeof( T );
+        }
+
         public override object GetRow(IVisualisable line)
         {
             T x = line as T;
@@ -256,7 +263,14 @@ namespace MetaboliteLevels.Viewers.Lists
                 return null;
             }
 
-            return Provider(x);
+            try
+            {
+                return Provider( x );
+            }
+            catch (Exception)
+            {
+                return "?MISSING?";
+            }
         }
 
         public override bool IsAlwaysEmpty

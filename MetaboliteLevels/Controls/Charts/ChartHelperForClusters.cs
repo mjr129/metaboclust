@@ -359,7 +359,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // --- LABELS ---
-            DrawLabels(plot, !isMultiGroup, groupOrder);
+            DrawLabels(plot, !isMultiGroup, groupOrder, true);
 
             // --- COMPLETE ---
             CompleteNewPlot(plot);

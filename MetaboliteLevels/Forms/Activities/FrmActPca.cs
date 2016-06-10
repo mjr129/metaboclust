@@ -25,6 +25,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.General;
 using MGui.Helpers;
 using MGui.Datatypes;
+using MetaboliteLevels.Viewers.Charts;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -43,33 +44,43 @@ namespace MetaboliteLevels.Forms.Editing
         private int _component;
 
         private double[,] _scores;
-        private Column _colourByPeak;
+        
 
         private EPlotSource _plotSource;
         private double[,] _loadings;
         private ReadOnlyCollection<Peak> _pcaPeaks;
         private IEnumerable _pcaObservations;
         private ConfigurationCorrection _selectedCorrection;
-        private Column _colourByObervation;
-        private Column _colourByCondition;
-        private string _errorMessage;
 
-        internal static void Show(Form owner, Core core)
+
+        SourceSet _colourBy = new SourceSet();
+        SourceSet _regressAgainst = new SourceSet();
+
+
+        private string _errorMessage;
+        private EMethod _method;
+        private readonly ISelectionHolder _frmMain;
+
+        class SourceSet
         {
-            using (FrmPca frm = new FrmPca(core))
-            {
-                UiControls.ShowWithDim(owner, frm);
-            }
+            public  Column _colourByPeak;
+            public  Column _colourByObervation;
+            public  Column _colourByCondition;
         }
 
-        private FrmPca()
+        internal static void Show(FrmMain owner, Core core)
+        {
+            using (FrmPca frm = new FrmPca(core, owner))
+            {
+                frm.Show( owner );
+            }
+        }    
+
+        private FrmPca(Core core, FrmMain frmMain)
         {
             InitializeComponent();
-        }
 
-        private FrmPca(Core core)
-            : this()
-        {
+            this._frmMain = frmMain;
             this._core = core;
 
             _peakFilter = PeakFilter.Empty;
@@ -77,47 +88,92 @@ namespace MetaboliteLevels.Forms.Editing
 
             this._selectedCorrection = IVisualisableExtensions.WhereEnabled(core.AllCorrections).Any() ? IVisualisableExtensions.WhereEnabled(core.AllCorrections).Last() : null;
 
-            _colourByPeak = ColumnManager.GetColumns<Peak>(_core).First(z => z.Id == Peak.ID_COLUMN_CLUSTERCOMBINATION);
-            _colourByCondition = ColumnManager.GetColumns<ConditionInfo>(_core).First(z => z.Id == ConditionInfo.ID_COLNAME_GROUP);
-            _colourByObervation = ColumnManager.GetColumns<ObservationInfo>(_core).First(z => z.Id == ObservationInfo.ID_COLNAME_GROUP);
+            _colourBy._colourByPeak = ColumnManager.GetColumns<Peak>(_core).First(z => z.Id == Peak.ID_COLUMN_CLUSTERCOMBINATION);
+            _colourBy._colourByCondition = ColumnManager.GetColumns<ConditionInfo>(_core).First(z => z.Id == ConditionInfo.ID_COLNAME_GROUP);
+            _colourBy._colourByObervation = ColumnManager.GetColumns<ObservationInfo>(_core).First(z => z.Id == ObservationInfo.ID_COLNAME_GROUP);
+            _regressAgainst._colourByPeak = _colourBy._colourByPeak;
+            _regressAgainst._colourByCondition = _colourBy._colourByCondition;
+            _regressAgainst._colourByObervation = _colourBy._colourByObervation;
+
+            this._chart.AddControls( this.toolStripDropDownButton1);
 
             UpdateScores();
+        }
+
+        class Factoriser
+        {
+            readonly Dictionary<object, int> _factors = new Dictionary<object, int>();
+
+            internal double Factor( object row )
+            {
+                if (row == null)
+                {
+                    return -1;
+                }
+
+                if (!(row is string) && (row is IConvertible))
+                {
+                    return ((IConvertible)row).ToDouble( null );
+                }
+
+                int f;
+
+                if (_factors.TryGetValue( row, out f ))
+                {
+                    return f;
+                }
+
+                f = _factors.Count;
+                _factors.Add( row, f );
+                return f;
+            }
         }
 
         private void UpdateScores()
         {
             StringBuilder ft = new StringBuilder();
 
-            var peaks = _peakFilter.Test(_core.Peaks).Passed;
+            var peaks = _peakFilter.Test( _core.Peaks ).Passed;
 
             double[,] valueMatrix = null;
+            double[] plsrResponseMatrix = null;             
 
-            _mnuTranspose.Text = _transposeToShowPeaks ? "Peaks" : "Observations";
+            _lblPcaSource.Text = _transposeToShowPeaks ? "Peaks" : "Observations";
             transposeToShowObservationsToolStripMenuItem.Checked = !_transposeToShowPeaks;
             transposeToShowPeaksToolStripMenuItem.Checked = _transposeToShowPeaks;
 
-            _mnuTrend.Text = _trend ? "Trend" : "Full data";
+            _lblAspect.Text = _trend ? "Trend" : "Full data";
+
             usetrendLineToolStripMenuItem.Checked = _trend;
             useAllobservationsToolStripMenuItem.Checked = !_trend;
 
-            _mnuObsFilter.Text = _obsFilter.ToString();
-            _mnuPeakFilter.Text = _peakFilter.ToString();
-            _mnuCorrections.Text = _selectedCorrection != null ? _selectedCorrection.DisplayName : "Original data";
+            _lblObs.Text = _obsFilter.ToString();
+            _lblPeaks.Text = _peakFilter.ToString();
+            _lblCorrections.Text = _selectedCorrection != null ? _selectedCorrection.DisplayName : "Original data";
 
-            int corIndex = IVisualisableExtensions.WhereEnabled(this._core.AllCorrections).IndexOf(this._selectedCorrection);
+            _lblMethod.Text = _method.ToString().ToUpper();
+            ctlTitleBar1.Text = _method.ToUiString();
+
+            int corIndex = IVisualisableExtensions.WhereEnabled( this._core.AllCorrections ).IndexOf( this._selectedCorrection );
+                                  
+            Column plsrColumn;
+            GetSource( _regressAgainst,  out plsrColumn );
+
+            _lblPlsrSource.Text = plsrColumn.DisplayName;
+
 
             IEnumerable conds;
             IEnumerable<int> which;
 
             if (_trend)
             {
-                which = _core.Conditions.Which(_obsFilter.Test);
-                conds = _core.Conditions.At(which);
+                which = _core.Conditions.Which( _obsFilter.Test );
+                conds = _core.Conditions.At( which );
             }
             else
             {
-                which = _core.Observations.Which(_obsFilter.Test);
-                conds = _core.Observations.At(which);
+                which = _core.Observations.Which( _obsFilter.Test );
+                conds = _core.Observations.At( which );
             }
 
             for (int peakIndex = 0; peakIndex < peaks.Count; peakIndex++)
@@ -126,7 +182,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 PeakValueSet src = corIndex == -1 ? peak.OriginalObservations : peak.CorrectionChain[corIndex];
 
-                IEnumerable<double> vals = _trend ? src.Trend.At(which) : src.Raw.At(which);
+                IEnumerable<double> vals = _trend ? src.Trend.At( which ) : src.Raw.At( which );
 
                 if (valueMatrix == null)
                 {
@@ -153,9 +209,50 @@ namespace MetaboliteLevels.Forms.Editing
             this._pcaPeaks = peaks;
             this._pcaObservations = conds;
 
+            if (_method == EMethod.Plsr)
+            {
+                plsrResponseMatrix = new double[valueMatrix.GetLength( 0 )];
+
+                IEnumerable rows;
+
+                if (_transposeToShowPeaks)
+                {
+                    rows = peaks;
+                }
+                else
+                {
+                    rows = conds;
+                }
+
+                IEnumerator en= rows.GetEnumerator();
+                Factoriser fac = new Factoriser();
+
+                for (int n = 0; n < plsrResponseMatrix.Length; n++)
+                {
+                    en.MoveNext();
+                    object row = plsrColumn.GetRow((IVisualisable) en.Current );
+                    plsrResponseMatrix[n] = fac.Factor( row );
+                }
+            }
+
             try
             {
-                Arr.Instance.Pca(valueMatrix, out this._scores, out this._loadings);
+                switch (_method)
+                {
+                    case EMethod.Pca:
+                        FrmWait.Show( this, "PCA", "Updating scores", () =>
+                            Arr.Instance.Pca( valueMatrix, out this._scores, out this._loadings ) );
+                        break;
+
+                    case EMethod.Plsr:
+                        FrmWait.Show( this, "PLSR", "Updating scores", () =>
+                            Arr.Instance.Plsr( valueMatrix, plsrResponseMatrix, out this._scores, out this._loadings ) );
+                        break;
+
+                    default:
+                        throw new SwitchException( _method );
+                }
+                
                 this._errorMessage = null;
             }
             catch (Exception ex)
@@ -185,27 +282,7 @@ namespace MetaboliteLevels.Forms.Editing
             // Get the "rows"
             IEnumerator enSources;
             Column column;
-
-            switch (WhatPlotting)
-            {
-                case EPlotting.Peaks:
-                    enSources = this._pcaPeaks.GetEnumerator();
-                    column = _colourByPeak;
-                    break;
-
-                case EPlotting.Conditions:
-                    enSources = this._pcaObservations.GetEnumerator();
-                    column = _colourByCondition;
-                    break;
-
-                case EPlotting.Observations:
-                    enSources = this._pcaObservations.GetEnumerator();
-                    column = _colourByObervation;
-                    break;
-
-                default:
-                    throw new SwitchException(WhatPlotting);
-            }
+            GetSource( _colourBy, out enSources, out column );
 
             // Get the "columns"
             double[,] plotPoints;
@@ -225,61 +302,92 @@ namespace MetaboliteLevels.Forms.Editing
                 _component = 0;
             }
 
-            if (_component >= plotPoints.GetLength(1))
+            if (_component >= plotPoints.GetLength( 1 ))
             {
-                _component = plotPoints.GetLength(1) - 1;
+                _component = plotPoints.GetLength( 1 ) - 1;
             }
 
             _btnPrevPc.Enabled = _component != 0;
-            _btnNextPc.Enabled = _component != plotPoints.GetLength(1) - 1;
+            _btnNextPc.Enabled = _component != plotPoints.GetLength( 1 ) - 1;
 
-            _btnScoresOrLoadings.Text = _plotSource == EPlotSource.Loadings ? "Loadings" : "Scores";
+            _lblPlotView.Text = _plotSource == EPlotSource.Loadings ? "Loadings" : "Scores";
             _btnScores.Checked = _plotSource == EPlotSource.Scores;
             _btnLoadings.Checked = _plotSource == EPlotSource.Loadings;
 
-            _lblPcNumber.Text = "PC" + (_component + 1).ToString() + " / " + plotPoints.GetLength(1);
+            _lblPcNumber.Text = "PC" + (_component + 1).ToString() + " / " + plotPoints.GetLength( 1 );
 
-            switch (WhatPlotting)
-            {
-                case EPlotting.Peaks:
-                    _btnColour.Text = _colourByPeak.DisplayName;
-                    break;
-
-                case EPlotting.Observations:
-                    _btnColour.Text = _colourByObervation.DisplayName;
-                    break;
-
-                case EPlotting.Conditions:
-                    _btnColour.Text = _colourByCondition.DisplayName;
-                    break;
-            }
+            _lblLegend.Text = column.DisplayName;
 
             // Iterate scores
-            for (int r = 0; r < plotPoints.GetLength(0); r++)
+            for (int r = 0; r < plotPoints.GetLength( 0 ); r++)
             {
                 enSources.MoveNext();
 
-                MCharting.Series series = GetOrCreateSeriesForValue(plot, column, (IVisualisable)enSources.Current);
+                MCharting.Series series = GetOrCreateSeriesForValue( plot, column, (IVisualisable)enSources.Current );
 
-                var coord = new MCharting.DataPoint(plotPoints[r, _component], plotPoints[r, _component + 1]);
+                var coord = new MCharting.DataPoint( plotPoints[r, _component], plotPoints[r, _component + 1] );
                 coord.Tag = enSources.Current;
 
-                series.Points.Add(coord);
+                series.Points.Add( coord );
             }
 
             // Assign colours     
             if (!column.HasColourSupport)
             {
-                foreach (var colour in PlotCreator.AutoColour(plot.Series))
+                foreach (var colour in PlotCreator.AutoColour( plot.Series ))
                 {
-                    colour.Key.Style.DrawPoints = new SolidBrush(colour.Value);
+                    colour.Key.Style.DrawPoints = new SolidBrush( colour.Value );
                 }
             }
 
             _chart.Style.Animate = true;
             _chart.Style.SelectionColour = Color.Yellow;
 
-            _chart.SetPlot(plot);
+            _chart.SetPlot( plot );
+        }
+
+        private void GetSource( SourceSet ss, out Column column )
+        {
+            switch (WhatPlotting)
+            {
+                case EPlotting.Peaks:                              
+                    column = ss._colourByPeak;
+                    break;
+
+                case EPlotting.Conditions:                              
+                    column = ss._colourByCondition;
+                    break;
+
+                case EPlotting.Observations:                            
+                    column = ss._colourByObervation;
+                    break;
+
+                default:
+                    throw new SwitchException( WhatPlotting );
+            }
+        }
+
+        private void GetSource( SourceSet ss, out IEnumerator enSources, out Column column )
+        {
+            GetSource( ss, out column );
+
+            switch (WhatPlotting)
+            {
+                case EPlotting.Peaks:
+                    enSources = this._pcaPeaks.GetEnumerator();
+                    break;
+
+                case EPlotting.Conditions:
+                    enSources = this._pcaObservations.GetEnumerator();
+                    break;
+
+                case EPlotting.Observations:
+                    enSources = this._pcaObservations.GetEnumerator();
+                    break;
+
+                default:
+                    throw new SwitchException( WhatPlotting );
+            }
         }
 
         private static MCharting.Series GetOrCreateSeriesForValue( MCharting.Plot plot, Column column, IVisualisable vis)
@@ -296,6 +404,12 @@ namespace MetaboliteLevels.Forms.Editing
                 if (column.HasColourSupport)
                 {
                     series.Style.DrawPoints = new SolidBrush(column.GetColour(vis));
+                }
+
+                if (value is GroupInfoBase)
+                {
+                    GroupInfoBase group = (GroupInfoBase)value;
+                    series.Style.DrawPointsShape = group.CreateIcon( );
                 }
 
                 plot.Series.Add(series);
@@ -387,14 +501,16 @@ namespace MetaboliteLevels.Forms.Editing
             if (sel.SelectedSeries == null || sel.DataPoint == null)
             {
                 _lblSelection.Text = "No selection";
-                _btnMarkAsOutlier.Text = "Mark as outlier";
+                _lblOutlier.Text = "(no selection)";
                 _btnMarkAsOutlier.Enabled = false;
+                _btnNavigate.Enabled = false;
             }
             else
             {
                 _lblSelection.Text = sel.SelectedSeries.Name.ToString() + ": " + sel.DataPoint.Tag + " = (" + sel.X + ", " + sel.Y + ")";
-                _btnMarkAsOutlier.Text = sel.SelectedSeries.Name.ToString() + ": " + sel.DataPoint.Tag;
+                _lblOutlier.Text = sel.SelectedSeries.Name.ToString() + ": " + sel.DataPoint.Tag;
                 _btnMarkAsOutlier.Enabled = true;
+                _btnNavigate.Enabled = true;
             }
         }
 
@@ -681,65 +797,129 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnColour_DropDownOpening(object sender, EventArgs e)
         {
-            _btnColour.DropDownItems.Clear();
+            ToolStripDropDownButton tsddb = (ToolStripDropDownButton)sender;
+
+            tsddb.DropDownItems.Clear();
 
             IEnumerable<Column> columns;
             Column selected;
+
+            bool isColour = tsddb == _btnColour;
+
+            SourceSet ss = isColour ? _colourBy : _regressAgainst;
 
             switch (WhatPlotting)
             {
                 case EPlotting.Peaks:
                     columns = ColumnManager.GetColumns<Peak>(_core);
-                    selected = _colourByPeak;
+                    selected = ss._colourByPeak;
                     break;
 
                 case EPlotting.Observations:
                     columns = ColumnManager.GetColumns<ObservationInfo>(_core);
-                    selected = _colourByObervation;
+                    selected = ss._colourByObervation;
                     break;
 
                 case EPlotting.Conditions:
                     columns = ColumnManager.GetColumns<ConditionInfo>(_core);
-                    selected = _colourByCondition;
+                    selected = ss._colourByCondition;
                     break;
 
                 default:
                     throw new SwitchException(WhatPlotting);
-            }
+            }   
 
             foreach (Column column in columns)
             {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem(column.Id) { Tag = column };
-                tsmi.Click += _btnColour_column_Click;
+                if (isColour)
+                {
+                    tsmi.Click += _btnColour_column_Click;
+                }
+                else
+                {
+                    tsmi.Click += Tsmi_Click;
+                }
+
                 tsmi.Checked = column == selected;
 
-                _btnColour.DropDownItems.Add(tsmi);
+                tsddb.DropDownItems.Add(tsmi);
             }
         }
 
         private void _btnColour_column_Click(object sender, EventArgs e)
         {
             Column selected = (Column)((ToolStripMenuItem)sender).Tag;
+            ColourBy( _colourBy, selected );
+            UpdatePlot();
+        }
 
+        private void ColourBy( SourceSet ss, Column selected )
+        {
             switch (WhatPlotting)
             {
                 case EPlotting.Peaks:
-                    _colourByPeak = selected;
+                    ss._colourByPeak = selected;
                     break;
 
                 case EPlotting.Observations:
-                    _colourByObervation = selected;
+                    ss._colourByObervation = selected;
                     break;
 
                 case EPlotting.Conditions:
-                    _colourByCondition = selected;
+                    ss._colourByCondition = selected;
                     break;
 
                 default:
-                    throw new SwitchException(WhatPlotting);
-            }
+                    throw new SwitchException( WhatPlotting );
+            }  
+        }
 
-            UpdatePlot();
+        enum EMethod
+        {
+            [Name("Principal components analysis")]
+            Pca,
+
+            [Name( "Partial least squares regression" )]
+            Plsr,
+        }
+
+        private void toolStripMenuItem1_Click( object sender, EventArgs e )
+        {
+            _method = EMethod.Pca;
+            UpdateScores();
+        }
+
+        private void toolStripMenuItem2_Click( object sender, EventArgs e )
+        {
+            FrmMsgBox.ShowOkCancel( this, Text, "Note: PLSR requires the R library \"pls\" to function.", FrmMsgBox.EDontShowAgainId.PLSR_MODE, DialogResult.OK );
+
+            _method = EMethod.Plsr;
+            UpdateScores();
+        }
+
+        private void _mnuPlsrSource_DropDownOpening( object sender, EventArgs e )
+        {
+
+        }
+
+        private void Tsmi_Click( object sender, EventArgs e )
+        {
+            Column selected = (Column)((ToolStripMenuItem)sender).Tag;
+
+            ColourBy( _regressAgainst, selected );
+            ColourBy( _colourBy, selected );
+            UpdateScores();
+        }
+
+        private void _mnuPlsrSource_Click( object sender, EventArgs e )
+        {
+
+        }
+
+        private void _btnNavigate_Click( object sender, EventArgs e )
+        {
+            _frmMain.Selection = new VisualisableSelection( _chart.SelectedItem.DataPoint.Tag as IVisualisable );
         }
     }
 }

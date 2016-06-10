@@ -53,7 +53,7 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemDescriptionProvider = z => EnumHelper.ToDescription((Enum)(object)z),
                 StringComparator = _EnumComparator<T>,
             };
-        }
+        }      
 
         /// <summary>
         /// An arbitrary list of strings
@@ -825,6 +825,104 @@ namespace MetaboliteLevels.Forms.Generic
             }
         }
 
+        public static IDataSet For( EDataSet dataSet, Core core )
+        {
+            switch (dataSet)
+            {
+                case EDataSet.Acquisitions:
+                    return DataSet.ForAcquisitions( core );
+                    
+
+                case EDataSet.Batches:
+                    return DataSet.ForBatches( core );
+                    
+
+                case EDataSet.Clusterers:
+                    return DataSet.ForClusterers( core );
+
+                case EDataSet.Clusters:
+                    return DataSet.ForClusters( core );
+                    
+
+                case EDataSet.Conditions:
+                    return DataSet.ForConditions( core );
+                    
+
+                case EDataSet.Groups:
+                    return DataSet.ForGroups( core );
+
+                case EDataSet.Observations:
+                    return DataSet.ForObservations( core );
+                    
+
+                case EDataSet.ObservationFilters:
+                    return DataSet.ForObsFilter( core );
+                    
+
+                case EDataSet.PeakFilters:
+                    return DataSet.ForPeakFilter( core );
+                    
+
+                case EDataSet.PeakFlags:
+                    return DataSet.ForPeakFlags( core );
+                    
+
+                case EDataSet.Peaks:
+                    return DataSet.ForPeaks( core );
+                    
+
+                case EDataSet.Replicates:
+                    return DataSet.ForReplicates( core );
+                    
+
+                case EDataSet.Statistics:
+                    return DataSet.ForStatistics( core );
+                    
+
+                case EDataSet.Evaluations:
+                    return DataSet.ForTests( core );
+                    
+
+                case EDataSet.Times:
+                    return DataSet.ForTimes( core );
+                    
+
+                case EDataSet.Trends:
+                    return DataSet.ForTrends( core );
+                    
+
+                case EDataSet.Corrections:
+                    return DataSet.ForCorrections( core );
+
+                case EDataSet.ClusteringAlgorithms:
+                    return DataSet.ForClustererAlgorithms( core );
+                    
+
+                case EDataSet.MetricAlgorithms:
+                    return DataSet.ForMetricAlgorithms( core );
+                    
+
+                case EDataSet.StatisticsAlgorithms:
+                    return DataSet.ForStatisticsAlgorithms( core );
+                    
+
+                case EDataSet.TrendAlgorithms:
+                    return DataSet.ForTrendAlgorithms( core );
+                    
+
+                case EDataSet.TrendAndCorrectionAlgorithms:
+                    return DataSet.ForTrendAndCorrectionAlgorithms( core );
+                    
+
+                case EDataSet.AllAlgorithms:
+                    return DataSet.ForAllAlgorithms( core );
+                    
+
+                default:
+                    throw new SwitchException( dataSet );
+            }
+        }
+
         /// <summary>
         /// Private helper method: Shows the script editor.
         /// </summary>    
@@ -942,5 +1040,80 @@ namespace MetaboliteLevels.Forms.Generic
             string id = Algo.GetId(folder, newFile);
             return (T)Algo.Instance.All.First(zz => zz.Id == id);
         }
+    }
+
+    /// <summary>
+    /// Datasets as an enum
+    /// </summary>
+    public enum EDataSet
+    {          
+        [Name( "Data\\Peaks" )]
+        Peaks,
+
+        [Name( "Data\\Clusters" )]
+        Clusters,
+
+        [Name( "Data\\Acquisition indices" )]
+        Acquisitions,
+
+        [Name( "Data\\Batches" )]
+        Batches,
+
+        [Name( "Data\\Experimental conditions" )]
+        Conditions,
+
+        [Name( "Data\\Timepoints" )]
+        Times,
+
+        [Name( "Data\\Replicate indices" )]
+        Replicates,
+
+        [Name( "Data\\Peak flags" )]
+        PeakFlags,
+
+        [Name( "Data\\Experimental observations" )]
+        Observations,
+
+        [Name( "Data\\Experimental groups" )]
+        Groups,
+
+        [Name( "Workflow\\Peak filters" )]
+        PeakFilters,
+
+        [Name( "Workflow\\Observation filters" )]
+        ObservationFilters,
+
+        [Name( "Workflow\\Corrections" )]
+        Corrections,
+
+        [Name( "Workflow\\Trends" )]
+        Trends,
+
+        [Name( "Workflow\\Statistics" )]
+        Statistics,
+
+        [Name( "Workflow\\Clusterers" )]
+        Clusterers,
+
+        [Name( "Workflow\\Clustering evaluations" )]
+        Evaluations,
+
+        [Name( "Algorithms\\Trends and corrections" )]
+        TrendAndCorrectionAlgorithms,
+
+        [Name( "Algorithms\\Trends" )]
+        TrendAlgorithms,
+
+        [Name( "Algorithms\\Statistics" )]
+        StatisticsAlgorithms,
+
+        [Name( "Algorithms\\Metrics" )]
+        MetricAlgorithms,
+
+        [Name( "Algorithms\\Clustering" )]
+        ClusteringAlgorithms,
+
+        [Name( "Algorithms\\All" )]
+        AllAlgorithms,
     }
 }
