@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 using MGui.Datatypes;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Settings
 {
@@ -205,6 +206,26 @@ namespace MetaboliteLevels.Settings
 
         public readonly Dictionary<string, ColumnDetails> _columnDisplayStatuses = new Dictionary<string, ColumnDetails>();
         public readonly Dictionary<string, object> _defaultValues = new Dictionary<string, object>();
+
+        [DisplayName( "Maximum values" )]
+        [Category( "Heat map" )]
+        [DefaultValue( typeof( Color ), "0xFFFF00" )]
+        public Color HeatMapMaxColour { get; set; }
+
+        [DisplayName( "Minimum values" )]
+        [Category( "Heat map" )]
+        [DefaultValue( typeof( Color ), "0x000000" )]
+        public Color HeatMapMinColour { get; set; }
+
+        [DisplayName( "Not-a-number" )]
+        [Category( "Heat map" )]
+        [DefaultValue( typeof( Color )," 0xFF00FF" )]
+        public Color HeatMapNanColour { get; set; }
+
+        [DisplayName( "Out of range" )]
+        [Category( "Heat map" )]
+        [DefaultValue( typeof( Color ), "0xC0C0C0" )]
+        public Color HeatMapOorColour { get; set; }
 
         public CoreOptions()
         {

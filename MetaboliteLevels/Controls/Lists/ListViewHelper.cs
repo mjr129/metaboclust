@@ -15,6 +15,7 @@ using System.Linq;
 using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Settings;
 using MGui.Helpers;
+using MetaboliteLevels.Forms.Activities;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
@@ -63,6 +64,7 @@ namespace MetaboliteLevels.Viewers.Lists
         private readonly ToolStripMenuItem _tsThumbNails;
         private Type _knownColumnType;
         private string _listViewOptionsKey;
+        private readonly ToolStripMenuItem _mnuViewAsHeatMap;
 
         /// <summary>
         /// Constructor
@@ -159,7 +161,8 @@ namespace MetaboliteLevels.Viewers.Lists
                 tsView.DropDownItems.Add(_tsThumbNails);
             }
 
-            // Create column menu
+            ////////////////////////
+            // CREATE COLUMN MENU
             _cmsColumns = new ContextMenuStrip();
             _mnuSortAscending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort ascending", Resources.MnuSortAscending, sortAscendingDescending_Click);
             _mnuSortDescending = (ToolStripMenuItem)_cmsColumns.Items.Add("Sort descending", Resources.MnuSortDescending, sortAscendingDescending_Click);
@@ -169,6 +172,7 @@ namespace MetaboliteLevels.Viewers.Lists
             _mnuRenameColumn = (ToolStripMenuItem)_cmsColumns.Items.Add("Rename column", null, _mnuRenameColumn_Click);
             _mnuDisplayColumn = (ToolStripMenuItem)_cmsColumns.Items.Add(@"=DISPLAY MODE");
             _mnuColumnHelp = (ToolStripMenuItem)_cmsColumns.Items.Add("Help on this column...", Resources.MnuHelp, _descm_Click);
+            _mnuViewAsHeatMap = (ToolStripMenuItem)_cmsColumns.Items.Add( "View as heatmap", Resources.MnuView, _mnuViewAsHeatMap_Click );
 
             // Display mode buttons
             foreach (EListDisplayMode displayMode in EnumHelper.GetEnumValues<EListDisplayMode>())
@@ -182,6 +186,14 @@ namespace MetaboliteLevels.Viewers.Lists
             _lblFilter.ForeColor = Color.Red;
             _lblFilter.Visible = false;
             _lblFilter.Click += _filterm_Click;
+        }
+
+        /// <summary>
+        /// Column menu: View as heatmap
+        /// </summary>                  
+        private void _mnuViewAsHeatMap_Click( object sender, EventArgs e )
+        {
+            FrmActHeatMap.Show( _core, this, _clickedColumn );
         }
 
         /// <summary>
@@ -925,6 +937,12 @@ namespace MetaboliteLevels.Viewers.Lists
             lvi.Tag = tag;
             lvi.UseItemStyleForSubItems = false;
             return lvi;
+        }
+
+        public void ActivateItem( IVisualisable item )
+        {
+            Selection = item;
+            OnActivate( item );
         }
 
         public IVisualisable Selection

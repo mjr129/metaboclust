@@ -112,6 +112,12 @@ namespace MetaboliteLevels.Forms.Editing
 
             binder1.Bind( _chkGroupNames, λ => λ.DrawExperimentalGroupAxisLabels );
 
+
+            binder1.Bind( _btnHhMax, λ => λ.HeatMapMaxColour );
+            binder1.Bind( _btnHhMin, λ => λ.HeatMapMinColour );
+            binder1.Bind( _btnHhNan, λ => λ.HeatMapNanColour );
+            binder1.Bind( _btnHhOor, λ => λ.HeatMapOorColour );
+
             binder1.Read(_target);
 
             if (readOnly)

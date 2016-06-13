@@ -606,41 +606,40 @@ namespace MetaboliteLevels.Forms.Startup
             return null;
         }
 
-        internal static bool Browse( TextBox textBox, string filter = "Comma separated value (*.csv)|*.csv|All files (*.*)|*.*", bool useDirectory = false )
+        internal static bool Browse( TextBox textBox, string dFilter =null )
         {
+            string filter = dFilter ?? "Data files (*.csv, *.dat, *.jgf)|*.csv;*.dat;*.jgf|Comma separated value (*.csv)|*.csv|JGF files (*.jgf)|*.jgf|Space delimited (*.dat)|*.dat|All files (*.*)|*.*";
+
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                if (useDirectory)
-                {
-                    ofd.FileName = Path.Combine( textBox.Text, "SELECT DIRECTORY" );
+                ofd.FileName = textBox.Text;
 
-                    if (!string.IsNullOrEmpty( textBox.Text ) && Directory.Exists( textBox.Text ))
-                    {
-                        ofd.InitialDirectory = Path.GetDirectoryName( textBox.Text );
-                    }
-                }
-                else
+                if (!string.IsNullOrEmpty( textBox.Text ) && Directory.Exists( Path.GetDirectoryName( textBox.Text ) ))
                 {
-                    ofd.FileName = textBox.Text;
-
-                    if (!string.IsNullOrEmpty( textBox.Text ) && Directory.Exists( Path.GetDirectoryName( textBox.Text ) ))
-                    {
-                        ofd.InitialDirectory = Path.GetDirectoryName( textBox.Text );
-                    }
+                    ofd.InitialDirectory = Path.GetDirectoryName( textBox.Text );
                 }
 
                 ofd.Filter = filter;
 
                 if (UiControls.ShowWithDim( textBox.FindForm(), ofd ) == DialogResult.OK)
                 {
-                    if (useDirectory)
+                    if (dFilter == null)
                     {
-                        textBox.Text = Path.GetDirectoryName( ofd.FileName );
+                        string fileName = ofd.FileName;
+                        string ext = Path.GetExtension( fileName ).ToUpper();
+
+                        if (ext != ".CSV")
+                        {
+                            if (FrmMsgBox.ShowYesNo( textBox.FindForm(), ext, ext + " files are not natively supported. Please use Excel or similar to convert to CSV and make sure your file has both column and row headers (the cell at (0, 0) should be empty). Would you like to open \"" + Path.GetFileName( fileName ) + "\" now?" ))
+                            {
+                                UiControls.StartProcess( textBox.FindForm(), fileName );
+                            }
+
+                            return false;
+                        }
                     }
-                    else
-                    {
-                        textBox.Text = ofd.FileName;
-                    }
+
+                    textBox.Text = ofd.FileName;
 
                     return true;
                 }
@@ -1246,6 +1245,11 @@ namespace MetaboliteLevels.Forms.Startup
         private void cSVManipulatorToolStripMenuItem_Click( object sender, EventArgs e )
         {
             UiControls.StartProcess( this, Path.Combine( Application.StartupPath, "ConvertGPDataFormat.exe" ) );
+        }
+
+        private void _txtDataSetObs_TextChanged( object sender, EventArgs e )
+        {
+
         }
     }
 }

@@ -1002,7 +1002,7 @@ namespace MetaboliteLevels.Utilities
                     g.FillRectangle(b, 4, 4, bmp.Width - 8, bmp.Height - 8);
                 }
 
-                if (text.Length != 0)
+                if (!string.IsNullOrEmpty(text))
                 {
                     string txt = text.Substring(0, 1);
                     var sz = g.MeasureString(txt, FontHelper.BoldFont);

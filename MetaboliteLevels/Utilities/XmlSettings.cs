@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
@@ -356,23 +357,36 @@ namespace MetaboliteLevels.Settings
             public override Type BindToType( string assemblyName, string typeName )
             {
                 // Changed library
-                if (typeName == "MetaboliteLevels.Utilities.ParseElementCollection")
-                {
-                    return typeof( ParseElementCollection );
-                }
+                //if (typeName == "MetaboliteLevels.Utilities.ParseElementCollection")
+                //{
+                //    return typeof( ParseElementCollection );
+                //}
 
-                if (typeName == "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement")
-                {
-                    return typeof( ParseElement );
-                }
+                //if (typeName == "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement")
+                //{
+                //    return typeof( ParseElement );
+                //}  
 
-                typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement, MetaboliteLevels", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name + ", MGui" );
+                //typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement, MetaboliteLevels", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name + ", MGui" );
                 //typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name );
 
                 Type result =  Type.GetType( string.Format( "{0}, {1}", typeName, assemblyName ) );
 
                 if (result == null)
                 {
+                    Debug.WriteLine( "Problem getting type (will search instead): " + assemblyName + " " + typeName );
+
+                    int index = typeName.LastIndexOf( '.' );
+                    string lastPart = typeName.Substring( index + 1 );
+
+                    foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
+                    {
+                        if (t.Name == lastPart)
+                        {
+                            return t;
+                        }            
+                    }                
+
                     Debug.WriteLine( "Could not get type: "+ assemblyName+" " + typeName );
                     Debugger.Break();
                 }

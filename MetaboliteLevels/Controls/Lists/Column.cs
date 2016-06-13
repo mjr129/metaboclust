@@ -107,6 +107,62 @@ namespace MetaboliteLevels.Viewers.Lists
             return AsString(result, EListDisplayMode.Smart);
         }
 
+        public static double AsDouble( object result )
+        {
+            if (result == null)
+            {
+                return double.NaN;
+            }
+
+            if (result is string)
+            {
+                double r;
+
+                if (!double.TryParse( (string)result, out r ))
+                {
+                    r = double.NaN;
+                }
+
+                return r;
+            }
+
+            if (result is IEnumerable)
+            {
+                int count = ((IEnumerable)result).Cast<object>().Count();
+
+                if (count == 1)
+                {
+                    return AsDouble( ((IEnumerable)result).FirstOrDefault2() );
+                }
+
+                return count;
+            }   
+
+            if (result is double)
+            {
+                return (double)result;
+            }
+
+            if (result is int)
+            {
+                return (int)result;
+            }
+
+            if (result is IConvertible)
+            {
+                try
+                {
+                    return ((IConvertible)result).ToDouble(null);
+                }
+                catch
+                {
+                    return double.NaN;
+                }
+            }
+
+            return double.NaN;
+        }
+
         public static string AsString(object result, EListDisplayMode listDisplayMode)
         {
             if (result == null)
@@ -258,13 +314,13 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             T x = line as T;
 
-            if (x == null)
+            if (x == null || Provider == null)
             {
                 return null;
-            }
+            }    
 
             try
-            {
+            {   
                 return Provider( x );
             }
             catch (Exception)

@@ -21,7 +21,8 @@ namespace MetaboliteLevels.Forms.Generic
             CHANGE_EXPERIMENTAL_GROUP_ID,
             EDIT_WITH_RESULTS,
             EXPORT_DATA_NOTICE,
-            PLSR_MODE
+            PLSR_MODE,
+            HEATMAP_COLUMN_NOT_NUMERICAL
         }
 
         public class ButtonSet
