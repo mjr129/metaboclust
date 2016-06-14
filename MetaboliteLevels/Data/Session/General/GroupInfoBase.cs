@@ -127,7 +127,7 @@ namespace MetaboliteLevels.Data.DataInfo
             return columns;
         }
 
-        UiControls.ImageListOrder IVisualisable.GetIcon() => UiControls.ImageListOrder.Point;       
+        UiControls.ImageListOrder IVisualisable.GetIcon() => UiControls.ImageListOrder.Group;       
 
         public override string ToString()
         {

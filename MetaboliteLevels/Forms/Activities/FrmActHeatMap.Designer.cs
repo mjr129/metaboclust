@@ -31,6 +31,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +64,7 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
@@ -70,6 +72,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel2,
+            this.toolStripStatusLabel3,
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 180);
             this.statusStrip1.Name = "statusStrip1";
@@ -88,6 +91,18 @@
             this.toolStripStatusLabel2.Text = "(selection)";
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.AutoSize = false;
+            this.toolStripStatusLabel3.BackColor = System.Drawing.Color.Black;
+            this.toolStripStatusLabel3.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.toolStripStatusLabel3.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(19, 19);
+            this.toolStripStatusLabel3.Visible = false;
+            // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
@@ -98,6 +113,7 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(66, 19);
             this.toolStripStatusLabel1.Text = "(selection)";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripStatusLabel1.Visible = false;
             // 
             // menuStrip1
             // 
@@ -125,14 +141,14 @@
             // defaultToolStripMenuItem
             // 
             this.defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.defaultToolStripMenuItem.Text = "&Default";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
             // 
             // zoomInToolStripMenuItem1
             // 
             this.zoomInToolStripMenuItem1.Name = "zoomInToolStripMenuItem1";
-            this.zoomInToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.zoomInToolStripMenuItem1.Size = new System.Drawing.Size(119, 22);
             this.zoomInToolStripMenuItem1.Text = "&Zoom in";
             this.zoomInToolStripMenuItem1.Click += new System.EventHandler(this.zoomInToolStripMenuItem1_Click);
             // 
@@ -149,14 +165,14 @@
             // sameAsListToolStripMenuItem
             // 
             this.sameAsListToolStripMenuItem.Name = "sameAsListToolStripMenuItem";
-            this.sameAsListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sameAsListToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.sameAsListToolStripMenuItem.Text = "&Same as list";
             this.sameAsListToolStripMenuItem.Click += new System.EventHandler(this.sameAsListToolStripMenuItem_Click);
             // 
             // orderedToolStripMenuItem
             // 
             this.orderedToolStripMenuItem.Name = "orderedToolStripMenuItem";
-            this.orderedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.orderedToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.orderedToolStripMenuItem.Text = "&Ordered";
             this.orderedToolStripMenuItem.Click += new System.EventHandler(this.orderedToolStripMenuItem_Click);
             // 
@@ -279,5 +295,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem notANumberToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem outOfRangeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
     }
 }

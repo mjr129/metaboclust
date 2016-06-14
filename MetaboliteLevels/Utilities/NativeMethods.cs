@@ -17,6 +17,9 @@ namespace MetaboliteLevels.Utilities
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool Beep(uint dwFreq, uint dwDuration);
 
+        [System.Runtime.InteropServices.DllImport( "user32.dll", CharSet = CharSet.Auto )]
+        public extern static bool DestroyIcon( IntPtr handle );
+
         //[DllImport("shlwapi.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
         //public static extern int StrCmpLogicalW(string x, string y);
 

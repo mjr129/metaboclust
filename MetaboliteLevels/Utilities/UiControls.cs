@@ -33,6 +33,8 @@ using MGui.Helpers;
 using MetaboliteLevels.Forms.Startup;
 using MGui.Controls;
 using System.Drawing.Drawing2D;
+using System.Runtime.InteropServices;
+using MetaboliteLevels.Data.Visualisables;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -176,6 +178,53 @@ namespace MetaboliteLevels.Utilities
 
             destination.Items.Add(tsl);
             return tsl;
+        }
+
+        public static Bitmap RecolourImage( Image source )
+        {
+            return RecolourImage( source, TitleForeColour );
+        }
+
+        public static Bitmap RecolourImage( Image source, Color colour )
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            Bitmap result = new Bitmap( source );
+            Rectangle entirity = new Rectangle( 0, 0, result.Width, result.Height );
+
+            BitmapData bmpData = result.LockBits( entirity, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb );
+
+            int strideInInts = bmpData.Stride / sizeof( UInt32 );
+            int sizeInInts = bmpData.Height * strideInInts;
+            Int32[] data = new Int32[sizeInInts];
+
+            // Marshal to avoid unsafe code...
+            Marshal.Copy( bmpData.Scan0, data, 0, sizeInInts );
+
+            int dc = colour.ToArgb() & 0x00FFFFFF;
+
+            for (int y = 0; y < bmpData.Height; y++)
+            {
+                for (int x = 0; x < bmpData.Width; x++)
+                {
+                    int i = x + (y * strideInInts);
+
+                    int c = data[i];
+
+                    c |= dc;
+
+                    data[i] = c;
+                }
+            }
+            
+            Marshal.Copy( data, 0, bmpData.Scan0, data.Length );
+
+            result.UnlockBits( bmpData );
+
+            return result;
         }
 
         private static void Tsl_MouseLeave(object sender, EventArgs e)
@@ -502,6 +551,7 @@ namespace MetaboliteLevels.Utilities
                 case ImageListOrder.ScriptInbuilt: return bold ? Resources.IconBinary : Resources.IconBinary;
                 case ImageListOrder.ScriptFile: return bold ? Resources.IconR : Resources.IconR;
                 case ImageListOrder.ScriptMathDotNet: return bold ? Resources.IconMathNet : Resources.IconMathNet;
+                case ImageListOrder.Group: return bold ? Resources.MnuGroup : Resources.MnuGroup;
                 default: throw new SwitchException(v);
             }
         }
@@ -536,7 +586,8 @@ namespace MetaboliteLevels.Utilities
             ListFilter,
             ScriptInbuilt,
             ScriptFile,
-            ScriptMathDotNet
+            ScriptMathDotNet,
+            Group,
         }
 
         /// <summary>
@@ -582,8 +633,8 @@ namespace MetaboliteLevels.Utilities
         /// </summary>                  
         internal static void SetIcon(Form frm)
         {
-            frm.Icon = Resources.MainIcon;
-        }      
+            frm.Icon = Resources.MainIcon;   
+        }
 
         /// <summary>
         /// Disposes [d] if not null.
@@ -967,7 +1018,7 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Creates a color1 image with a color2 border.
         /// </summary>
-        internal static Image CreateSolidColourImage(bool isChecked, GroupInfoBase ti)
+        internal static Image CreateExperimentalGroupImage(bool isChecked, GroupInfoBase ti, bool large)
         {
             var color1 = ti.Colour;
             var color2 = ti.ColourLight;
@@ -978,7 +1029,46 @@ namespace MetaboliteLevels.Utilities
                 color2 = Color.FromArgb(32, color1.R, color1.G, color1.B);
             }
 
-            return CreateSolidColourImage(ti.DisplayShortName, color2, color1);
+            Color colour = ti.Colour;
+            Color colourLight = ti.ColourLight;
+
+            if (!isChecked)
+            {
+                colour = ColourHelper.Blend( colour, Color.Transparent, 0.75 );
+                colourLight = ColourHelper.Blend( colourLight, Color.Transparent, 0.75 );
+            }
+
+            Bitmap result = RecolourImage( large ? Resources.IconGroups : Resources.MnuGroup, colour );
+
+            string text = ti.DisplayShortName;
+            if (!string.IsNullOrEmpty( text ) || !isChecked)
+            {
+                using (Graphics g = Graphics.FromImage( result ))
+                {
+                    if (!string.IsNullOrEmpty( text ))
+                    {
+                        string txt = text.Substring( 0, 1 );
+                        var sz = g.MeasureString( txt, FontHelper.SmallBoldFont );
+
+                        using (Brush b = new SolidBrush( colourLight ))
+                        {
+                            g.DrawString( txt, FontHelper.SmallBoldFont, Brushes.White, result.Width / 2 - sz.Width / 2, result.Height / 2 );
+                        }
+                    }
+
+                    if (!isChecked)
+                    {
+                        using (Pen p = new Pen( TitleForeColour, 2.5f ))
+                        {
+                            g.SmoothingMode = SmoothingMode.HighQuality;
+                            g.DrawLine( p, 0, 0, result.Width, result.Height );
+                            g.DrawLine( p, result.Width, 0, 0, result.Height );
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
         /// <summary>

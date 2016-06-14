@@ -183,7 +183,7 @@ namespace MetaboliteLevels {
         ///   Looks up a localized string similar to {productname} version {version}.
         ///Martin Rusilowicz.
         ///
-        ///Additional icons made by Freepik, Google, Appzgear, Vectorgraphit from www.flaticon.com are licensed by CC BY 3.0.
+        ///Additional icons made by Freepik, Google, Appzgear, Vectorgraphit, Icomoon from www.flaticon.com are licensed by CC BY 3.0.
         ///
         ///Download the latest version and source code: https://bitbucket.org/mjr129/metabolitelevels.
         /// </summary>

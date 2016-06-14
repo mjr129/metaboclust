@@ -455,7 +455,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 vis = vBatches.Contains(b);
             }
 
-            btn.Image = UiControls.CreateSolidColourImage(vis, (GroupInfoBase)btn.Tag);
+            btn.Image = UiControls.CreateExperimentalGroupImage(vis, (GroupInfoBase)btn.Tag, false);
         }
 
         private void _btnOk_Click(object sender, EventArgs e)

@@ -464,7 +464,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     if (dataPoint.Group != null && _chkShowGroup.Checked)
                     {
                         _mnuSelectedGroup.Text    = dataPoint.Group.DisplayName;
-                        _mnuSelectedGroup.Image   = UiControls.CreateSolidColourImage(true, dataPoint.Group);
+                        _mnuSelectedGroup.Image   = UiControls.CreateExperimentalGroupImage(true, dataPoint.Group, false);
                         _mnuSelectedGroup.Visible = true;
                     }
                     else

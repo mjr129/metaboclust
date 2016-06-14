@@ -256,7 +256,7 @@ namespace MetaboliteLevels.Forms.Startup
             }
             else
             {
-                var mostRecent = recentSessions[recentSessions.Count - 1];
+                var mostRecent = recentSessions[0];
 
                 _btnMostRecent.Text = "    " + mostRecent.Title;
                 _tipSideBar.SetToolTip( _btnMostRecent, mostRecent.FileName );

@@ -1093,6 +1093,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\MnuGroup.png" />
     <None Include="Resources\zoom_16xLG.png" />
     <EmbeddedResource Include="VersionHistory.txt" />
   </ItemGroup>

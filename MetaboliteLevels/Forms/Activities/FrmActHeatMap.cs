@@ -192,12 +192,16 @@ namespace MetaboliteLevels.Forms.Activities
 
             if (index >= src.Length)
             {
-                toolStripStatusLabel1.Text = "";
+                toolStripStatusLabel1.Visible = false;
+                toolStripStatusLabel3.Visible = false;
                 return;
             }
 
             var h = src[ index];
             toolStripStatusLabel1.Text = h.Source.DisplayName + " = (" + index + ", " + h.Value + ")";
+            toolStripStatusLabel3.BackColor = h.Colour;
+            toolStripStatusLabel1.Visible = true;
+            toolStripStatusLabel3.Visible = true;
         }
 
         private void pictureBox1_MouseUp( object sender, MouseEventArgs e )
@@ -322,6 +326,12 @@ namespace MetaboliteLevels.Forms.Activities
                 core.Options.HeatMapOorColour = _oorColour;
                 GenerateHeat();
             }
+        }
+
+        private void pictureBox1_MouseLeave( object sender, EventArgs e )
+        {
+            toolStripStatusLabel1.Visible = false;
+            toolStripStatusLabel3.Visible = false;
         }
     }
 }

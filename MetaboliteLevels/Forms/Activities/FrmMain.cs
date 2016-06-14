@@ -133,6 +133,17 @@ namespace MetaboliteLevels.Forms
             // Load image list
             UiControls.PopulateImageList(_imgList);
 
+            // Main menu colours
+            _mnuMain.BackColor = UiControls.TitleBackColour;
+            toolStrip1.BackColor = UiControls.TitleBackColour;
+
+            foreach (ToolStripItem tsi in _mnuMain.Items.Cast<ToolStripItem>().Concat( toolStrip1.Items.Cast<ToolStripItem>() ))
+            {
+                tsi.Image = UiControls.RecolourImage( tsi.Image );
+                tsi.ForeColor = UiControls.TitleForeColour;
+                tsi.Text = tsi.Text.ToUpper();
+            } 
+
             // Charts
             _chartPeak = new ChartHelperForPeaks(this, _core, splitContainer3.Panel1);
             _chartCluster = new ChartHelperForClusters(this, _core, splitContainer3.Panel2);
@@ -722,18 +733,20 @@ namespace MetaboliteLevels.Forms
                 var tsmi = new ToolStripMenuItem("Display " + ti.DisplayName)
                 {
                     Tag = ti,
-                    Image = UiControls.CreateSolidColourImage(e, ti)
+                    Image = UiControls.CreateExperimentalGroupImage(e, ti, false)
                 };
 
-                var tsmi2 = new ToolStripButton(ti.DisplayName)
+                var tsmi2 = new ToolStripButton( ti.DisplayName.ToUpper() )
                 {
                     Tag = ti,
-                    Image = UiControls.CreateSolidColourImage(e, ti),
-                    TextImageRelation = TextImageRelation.ImageAboveText
+                    Image = UiControls.CreateExperimentalGroupImage( e, ti, true ),
+                    TextImageRelation = TextImageRelation.ImageAboveText,
+                    ForeColor = ti.Colour
                 };
 
                 tsmi.Click += experimentTypeMenuItem_Click;
                 tsmi2.Click += experimentTypeMenuItem_Click;
+                tsmi2.MouseDown += experimentTypeMenuItem_MouseDown;
 
                 viewToolStripMenuItem.DropDownItems.Add(tsmi);
                 toolStrip1.Items.Insert(index2++, tsmi2);
@@ -749,29 +762,43 @@ namespace MetaboliteLevels.Forms
             ToolStripItem senderr = (ToolStripItem)sender;
             GroupInfo type = (GroupInfo)senderr.Tag;
 
-            ToolStripButton tsb = toolStrip1.Items.OfType<ToolStripButton>().First(z => z.Tag == type);
-            ToolStripMenuItem tsmi = viewToolStripMenuItem.DropDownItems.OfType<ToolStripMenuItem>().First(z => z.Tag == type);
-
-            bool @checked;
-
-            if (core.Options.ViewTypes.Contains(type))
+            if (core.Options.ViewTypes.Contains( type ))
             {
-                core.Options.ViewTypes.Remove(type);
-                @checked = false;
+                core.Options.ViewTypes.Remove( type );
             }
             else
             {
-                core.Options.ViewTypes.Add(type);
-                core.Options.ViewTypes.Sort((x, y) => x.DisplayPriority.CompareTo(y.DisplayPriority));
-                @checked = true;
+                core.Options.ViewTypes.Add( type );
+                core.Options.ViewTypes.Sort( ( x, y ) => x.DisplayPriority.CompareTo( y.DisplayPriority ) );
             }
 
-            tsb.Image.Dispose();
-            tsb.Image = UiControls.CreateSolidColourImage(@checked, type);
-            tsmi.Image.Dispose();
-            tsmi.Image = UiControls.CreateSolidColourImage(@checked, type);
+            RegenerateExperimentalGroupIcon( type );
+        }
 
+        private void RegenerateExperimentalGroupIcon( GroupInfo type )
+        {
+            bool @checked = _core.Options.ViewTypes.Contains( type );
+            ToolStripButton tsb = toolStrip1.Items.OfType<ToolStripButton>().First( z => z.Tag == type );
+            ToolStripMenuItem tsmi = viewToolStripMenuItem.DropDownItems.OfType<ToolStripMenuItem>().First( z => z.Tag == type );
+            tsb.Image.Dispose();
+            tsb.Image = UiControls.CreateExperimentalGroupImage( @checked, type, true );
+            tsmi.Image.Dispose();
+            tsmi.Image = UiControls.CreateExperimentalGroupImage( @checked, type, false );
             Replot();
+        }
+
+        private void experimentTypeMenuItem_MouseDown( object sender, MouseEventArgs e )
+        {
+            ToolStripItem senderr = (ToolStripItem)sender;
+            GroupInfo type = (GroupInfo)senderr.Tag;
+
+            if (e.Button == MouseButtons.Right)
+            {
+                if (FrmEditGroupBase.Show( this, type, false ))
+                {
+                    RegenerateExperimentalGroupIcon( type );
+                }
+            }
         }
 
         /// <summary>

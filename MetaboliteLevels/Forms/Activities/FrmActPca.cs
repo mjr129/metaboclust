@@ -70,15 +70,17 @@ namespace MetaboliteLevels.Forms.Editing
 
         internal static void Show(FrmMain owner, Core core)
         {
-            using (FrmPca frm = new FrmPca(core, owner))
-            {
-                frm.Show( owner );
-            }
+            //using (FrmPca frm = new FrmPca(core, owner))
+            //{
+            FrmPca frm = new FrmPca( core, owner );
+            frm.Show( owner );
+            //}
         }    
 
         private FrmPca(Core core, FrmMain frmMain)
         {
             InitializeComponent();
+            UiControls.SetIcon( this );
 
             this._frmMain = frmMain;
             this._core = core;
