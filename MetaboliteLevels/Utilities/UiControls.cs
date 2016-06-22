@@ -1040,7 +1040,7 @@ namespace MetaboliteLevels.Utilities
 
             Bitmap result = RecolourImage( large ? Resources.IconGroups : Resources.MnuGroup, colour );
 
-            string text = ti.DisplayShortName;
+            string text = ti.DefaultShortName; // todo: change!
             if (!string.IsNullOrEmpty( text ) || !isChecked)
             {
                 using (Graphics g = Graphics.FromImage( result ))
@@ -1049,11 +1049,25 @@ namespace MetaboliteLevels.Utilities
                     {
                         string txt = text.Substring( 0, 1 );
                         var sz = g.MeasureString( txt, FontHelper.SmallBoldFont );
+                        float x = result.Width / 2 - sz.Width / 2;
+                        float y = result.Height - sz.Height;
 
-                        using (Brush b = new SolidBrush( colourLight ))
+                        if (!large)
+                        {
+                            g.DrawString( txt, FontHelper.SmallBoldFont, Brushes.Black, x-1, y );
+                            g.DrawString( txt, FontHelper.SmallBoldFont, Brushes.Black, x + 1, y );
+                            g.DrawString( txt, FontHelper.SmallBoldFont, Brushes.Black, x , y-1 );
+                            g.DrawString( txt, FontHelper.SmallBoldFont, Brushes.Black, x, y + 1 );
+                        }
+                                  
+                        if (large)
                         {
                             g.DrawString( txt, FontHelper.SmallBoldFont, Brushes.White, result.Width / 2 - sz.Width / 2, result.Height / 2 );
                         }
+                        else
+                        {   
+                            g.DrawString( txt, FontHelper.SmallBoldFont, Brushes.White, x,y );
+                        }     
                     }
 
                     if (!isChecked)

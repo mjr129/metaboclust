@@ -59,6 +59,7 @@ namespace MetaboliteLevels.Forms
             this.visualOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalGroupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.experimentalOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.correlationMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.databaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clusteringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -350,6 +351,7 @@ namespace MetaboliteLevels.Forms
             this.visualOptionsToolStripMenuItem,
             this.experimentalGroupsToolStripMenuItem,
             this.experimentalOptionsToolStripMenuItem,
+            this.correlationMapToolStripMenuItem,
             this.toolStripMenuItem6});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
@@ -388,6 +390,13 @@ namespace MetaboliteLevels.Forms
             this.experimentalOptionsToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.experimentalOptionsToolStripMenuItem.Text = "&Miscellaneous functions...";
             this.experimentalOptionsToolStripMenuItem.Click += new System.EventHandler(this.experimentalOptionsToolStripMenuItem_Click);
+            // 
+            // correlationMapToolStripMenuItem
+            // 
+            this.correlationMapToolStripMenuItem.Name = "correlationMapToolStripMenuItem";
+            this.correlationMapToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.correlationMapToolStripMenuItem.Text = "&View peaks as map";
+            this.correlationMapToolStripMenuItem.Click += new System.EventHandler(this.correlationMapToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
@@ -1981,6 +1990,7 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripMenuItem pLACEHOLDERToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem correlationMapToolStripMenuItem;
     }
 }
 

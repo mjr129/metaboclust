@@ -39,7 +39,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Metrics
         {
             UiControls.Assert(SupportsQuickCalculate, "Quick calculate called on a non quick-calculate script.");
 
-            object[] inputs = { a, b };
+            object[] inputs = { a, b, null, null, null, null, null, null, null, null };
             return Arr.Instance.RunScriptDouble(_script, inputs, args);
         }
 

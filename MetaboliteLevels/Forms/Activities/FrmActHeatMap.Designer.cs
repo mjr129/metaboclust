@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.components = new System.ComponentModel.Container();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -48,25 +48,15 @@
             this.outOfRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pictureBox1 = new MGui.Controls.CtlBuffer();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.alphaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.betaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Blue;
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 80);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(618, 100);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // statusStrip1
             // 
@@ -74,7 +64,7 @@
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 180);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 188);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(618, 24);
             this.statusStrip1.TabIndex = 2;
@@ -141,15 +131,15 @@
             // defaultToolStripMenuItem
             // 
             this.defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-            this.defaultToolStripMenuItem.Text = "&Default";
+            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.defaultToolStripMenuItem.Text = "&Default (×1)";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
             // 
             // zoomInToolStripMenuItem1
             // 
             this.zoomInToolStripMenuItem1.Name = "zoomInToolStripMenuItem1";
-            this.zoomInToolStripMenuItem1.Size = new System.Drawing.Size(119, 22);
-            this.zoomInToolStripMenuItem1.Text = "&Zoom in";
+            this.zoomInToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
+            this.zoomInToolStripMenuItem1.Text = "&Zoom in (+1)";
             this.zoomInToolStripMenuItem1.Click += new System.EventHandler(this.zoomInToolStripMenuItem1_Click);
             // 
             // sortToolStripMenuItem
@@ -226,7 +216,7 @@
             // hScrollBar1
             // 
             this.hScrollBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 163);
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 171);
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(618, 17);
             this.hScrollBar1.TabIndex = 4;
@@ -248,11 +238,59 @@
             this.ctlTitleBar1.Text = "Heatmap";
             this.ctlTitleBar1.WarningText = null;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Blue;
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 80);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(618, 108);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.DrawBuffer += new System.EventHandler<MGui.Controls.DrawBufferEventArgs>(this.pictureBox1_DrawBuffer);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBar1.Location = new System.Drawing.Point(601, 80);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 91);
+            this.vScrollBar1.TabIndex = 5;
+            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.alphaToolStripMenuItem,
+            this.betaToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(106, 48);
+            // 
+            // alphaToolStripMenuItem
+            // 
+            this.alphaToolStripMenuItem.Name = "alphaToolStripMenuItem";
+            this.alphaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.alphaToolStripMenuItem.Text = "&Alpha";
+            this.alphaToolStripMenuItem.Click += new System.EventHandler(this.alphaToolStripMenuItem_Click);
+            // 
+            // betaToolStripMenuItem
+            // 
+            this.betaToolStripMenuItem.Name = "betaToolStripMenuItem";
+            this.betaToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.betaToolStripMenuItem.Text = "&Beta";
+            this.betaToolStripMenuItem.Click += new System.EventHandler(this.alphaToolStripMenuItem_Click);
+            // 
             // FrmActHeatMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 204);
+            this.ClientSize = new System.Drawing.Size(618, 212);
+            this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.statusStrip1);
@@ -264,19 +302,17 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Heatmap";
             this.Resize += new System.EventHandler(this.FrmActHeatMap_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pictureBox1;
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
@@ -296,5 +332,10 @@
         private System.Windows.Forms.ToolStripMenuItem notANumberToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem outOfRangeToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private MGui.Controls.CtlBuffer pictureBox1;
+        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem alphaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem betaToolStripMenuItem;
     }
 }

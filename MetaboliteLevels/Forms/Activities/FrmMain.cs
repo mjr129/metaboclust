@@ -1698,5 +1698,19 @@ namespace MetaboliteLevels.Forms
         {
             FrmActExport.Show( this, _core );
         }
+
+        private void correlationMapToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            ValueMatrix vm = FrmWait.Show( this, "Creating value matrix", null,
+                z => ValueMatrix.Create( _peakList.GetVisible().Cast<Peak>().ToArray(), false, _core, null, false, z ) );
+
+            ArgsMetric args = new ArgsMetric(new object[0]  );
+            ConfigurationMetric metric = new ConfigurationMetric( "Temporary", null, Algo.ID_METRIC_PEARSONDISTANCE, args );
+
+            DistanceMatrix dm = FrmWait.Show( this, "Creating value matrix", null,
+                z => DistanceMatrix.Create( _core, vm, metric, z ) );
+
+            FrmActHeatMap.Show( _core, _peakList, dm );
+        }
     }
 }
