@@ -13,6 +13,7 @@ using System.Collections;
 using MetaboliteLevels.Settings;
 using System.Reflection;
 using MGui.Helpers;
+using MetaboliteLevels.Types.UI;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
@@ -257,7 +258,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
         public abstract bool IsAlwaysEmpty { get; }
 
-        internal abstract Color GetColour(IVisualisable line);
+        public abstract Color GetColour(IVisualisable line);          
 
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
@@ -294,15 +295,16 @@ namespace MetaboliteLevels.Viewers.Lists
         where T : class, IVisualisable
     {
         public delegate object ColumnProvider(T item);
-        public delegate Color ColourProvider(T item);
-        public readonly ColumnProvider Provider;
-        public ColourProvider Colour;
+        public delegate Color ColourProvider(T item);                
 
-        public Column(string name, EColumn special, string description, ColumnProvider provider, ColourProvider colour = null)
+        public readonly ColumnProvider Provider;
+        public ColourProvider Colour;        
+
+        public Column(string name, EColumn special, string description, ColumnProvider provider, ColourProvider colour)
             : base(name, special, description)
         {
             Provider = provider;
-            Colour = colour;
+            Colour = colour;             
         }
 
         public override Type GetTemplateType()
@@ -334,7 +336,7 @@ namespace MetaboliteLevels.Viewers.Lists
             get { return Provider == null; }
         }
 
-        internal override Color GetColour(IVisualisable line)
+        public override Color GetColour(IVisualisable line)
         {
             T x = line as T;
 
@@ -346,7 +348,7 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 return Color.Black;
             }
-        }
+        }          
 
         public override bool HasColourSupport
         {
@@ -399,7 +401,7 @@ namespace MetaboliteLevels.Viewers.Lists
             self.Add(new Column<T>(name, special, null, provider, colour));
         }
 
-        public static void Add<T>(this List<Column<T>> self, string name, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null)
+        public static void Add<T>(this List<Column<T>> self, string name, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null )
           where T : class, IVisualisable
         {
             self.Add(new Column<T>(name, EColumn.None, null, provider, colour));
@@ -426,8 +428,8 @@ namespace MetaboliteLevels.Viewers.Lists
                             {
                                 var x = convertor(z);
                                 return x != null ? column.GetColour(x) : Color.Black;
-                            }
-                    ));
+                            }  
+                    ) );
             }
         }
     }

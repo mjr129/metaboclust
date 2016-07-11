@@ -81,6 +81,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             InitializeComponent();
             UiControls.SetIcon( this );
+            UiControls.ColourMenuButtons( this.toolStrip1 );
 
             this._frmMain = frmMain;
             this._core = core;
@@ -133,7 +134,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void UpdateScores()
         {
-            StringBuilder ft = new StringBuilder();
+            StringBuilder title = new StringBuilder();
 
             var peaks = _peakFilter.Test( _core.Peaks ).Passed;
 
@@ -156,13 +157,14 @@ namespace MetaboliteLevels.Forms.Editing
             _lblMethod.Text = _method.ToString().ToUpper();
             ctlTitleBar1.Text = _method.ToUiString();
 
+            _lblPlsrSource.Visible = _mnuPlsrSource.Visible = _method == EMethod.Plsr;
+
             int corIndex = IVisualisableExtensions.WhereEnabled( this._core.AllCorrections ).IndexOf( this._selectedCorrection );
                                   
             Column plsrColumn;
             GetSource( _regressAgainst,  out plsrColumn );
 
-            _lblPlsrSource.Text = plsrColumn.DisplayName;
-
+            _lblPlsrSource.Text = plsrColumn.DisplayName;    
 
             IEnumerable conds;
             IEnumerable<int> which;
@@ -280,6 +282,26 @@ namespace MetaboliteLevels.Forms.Editing
             _lblSelection.Text = "";
 
             MCharting.Plot plot = new MCharting.Plot();
+
+            plot.Title = $"{_lblMethod.Text} of {_core.FileNames.Title}";
+            plot.SubTitle = $"Source: {_lblPcaSource.Text}, View: {_lblPlotView.Text}, Legend: {_lblLegend.Text}, Corrections: {_lblCorrections.Text}, Aspect: {_lblAspect.Text}, Observations: {_lblObs.Text}, Peaks: {_lblPeaks.Text}";
+
+            switch (_method)
+            {
+                case EMethod.Pca:
+                    plot.XLabel = $"PC{_component + 1}";
+                    plot.YLabel = $"PC{_component + 2}";
+                    break;
+
+                case EMethod.Plsr:
+                    plot.XLabel = $"Component {_component + 1}";
+                    plot.YLabel = $"Component {_component + 2}";
+                    plot.SubTitle += ", PLSR Response: " + _lblPlsrSource.Text;
+                    break;
+            }
+
+            this._chart.Style.Margin = new Padding( 48, 48, 48, 48 );
+            plot.Style.GridStyle = new Pen( Color.FromArgb( 224, 224, 224 ) );
 
             // Get the "rows"
             IEnumerator enSources;
@@ -401,17 +423,39 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 series = new MCharting.Series();
                 series.Name = Column.AsString(value, column.DisplayMode);
-                series.Tag = value;
-
-                if (column.HasColourSupport)
-                {
-                    series.Style.DrawPoints = new SolidBrush(column.GetColour(vis));
-                }
+                series.Tag = value; 
 
                 if (value is GroupInfoBase)
                 {
                     GroupInfoBase group = (GroupInfoBase)value;
-                    series.Style.DrawPointsShape = group.CreateIcon( );
+                    series.Style.DrawPointsShape = UiControls.CreateIcon( group.GraphIcon );
+
+                    switch (group.GraphIcon)
+                    {
+                        case Types.UI.EGraphIcon.Circle:
+                        case Types.UI.EGraphIcon.Default:
+                        case Types.UI.EGraphIcon.Diamond:
+                        case Types.UI.EGraphIcon.InvertedTriangle:
+                        case Types.UI.EGraphIcon.Square:
+                        case Types.UI.EGraphIcon.Triangle:
+                            series.Style.DrawPoints = new SolidBrush( group.Colour );
+                            break;
+
+                        case Types.UI.EGraphIcon.Asterisk:        
+                        case Types.UI.EGraphIcon.Cross:           
+                        case Types.UI.EGraphIcon.HLine:           
+                        case Types.UI.EGraphIcon.Plus:            
+                        case Types.UI.EGraphIcon.VLine:
+                            series.Style.DrawPointsLine = new Pen( group.Colour, 3 );
+                            break;
+
+                        default:
+                            throw new SwitchException( group.GraphIcon );
+                    }                                                    
+                }
+                else
+                {
+                    series.Style.DrawPoints = new SolidBrush( column.GetColour( vis ) );
                 }
 
                 plot.Series.Add(series);

@@ -60,6 +60,8 @@
             this._lblObs = new System.Windows.Forms.ToolStripLabel();
             this._mnuPeakFilter = new System.Windows.Forms.ToolStripDropDownButton();
             this._lblPeaks = new System.Windows.Forms.ToolStripLabel();
+            this._btnNavigate = new System.Windows.Forms.ToolStripButton();
+            this._lblNavigate = new System.Windows.Forms.ToolStripLabel();
             this._btnMarkAsOutlier = new System.Windows.Forms.ToolStripButton();
             this._lblOutlier = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -74,8 +76,6 @@
             this._chart = new MCharting.MChart();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._btnNavigate = new System.Windows.Forms.ToolStripButton();
-            this._lblNavigate = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -121,7 +121,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 66);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(156, 755);
+            this.toolStrip1.Size = new System.Drawing.Size(155, 755);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "Flag as outlier";
             // 
@@ -136,7 +136,7 @@
             this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
             this.toolStripDropDownButton2.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.toolStripDropDownButton2.Size = new System.Drawing.Size(153, 36);
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(152, 36);
             this.toolStripDropDownButton2.Text = "Method";
             // 
             // toolStripMenuItem1
@@ -159,11 +159,14 @@
             // 
             // _lblMethod
             // 
-            this._lblMethod.ForeColor = System.Drawing.Color.Black;
+            this._lblMethod.BackColor = System.Drawing.Color.Transparent;
+            this._lblMethod.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblMethod.ForeColor = System.Drawing.Color.Teal;
+            this._lblMethod.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblMethod.Name = "_lblMethod";
-            this._lblMethod.Size = new System.Drawing.Size(153, 15);
+            this._lblMethod.Size = new System.Drawing.Size(104, 15);
             this._lblMethod.Text = "(value)";
-            this._lblMethod.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblMethod.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _mnuPlsrSource
             // 
@@ -173,19 +176,22 @@
             this._mnuPlsrSource.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._mnuPlsrSource.Name = "_mnuPlsrSource";
             this._mnuPlsrSource.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._mnuPlsrSource.Size = new System.Drawing.Size(153, 36);
-            this._mnuPlsrSource.Text = "&Response (PLSR)";
+            this._mnuPlsrSource.Size = new System.Drawing.Size(152, 36);
+            this._mnuPlsrSource.Text = "&Response";
             this._mnuPlsrSource.ToolTipText = "Select PCA input";
             this._mnuPlsrSource.DropDownOpening += new System.EventHandler(this._btnColour_DropDownOpening);
             this._mnuPlsrSource.Click += new System.EventHandler(this._mnuPlsrSource_Click);
             // 
             // _lblPlsrSource
             // 
-            this._lblPlsrSource.ForeColor = System.Drawing.Color.Black;
+            this._lblPlsrSource.BackColor = System.Drawing.Color.Transparent;
+            this._lblPlsrSource.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPlsrSource.ForeColor = System.Drawing.Color.Teal;
+            this._lblPlsrSource.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblPlsrSource.Name = "_lblPlsrSource";
-            this._lblPlsrSource.Size = new System.Drawing.Size(153, 15);
+            this._lblPlsrSource.Size = new System.Drawing.Size(104, 15);
             this._lblPlsrSource.Text = "(value)";
-            this._lblPlsrSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblPlsrSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _mnuTranspose
             // 
@@ -198,7 +204,7 @@
             this._mnuTranspose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._mnuTranspose.Name = "_mnuTranspose";
             this._mnuTranspose.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._mnuTranspose.Size = new System.Drawing.Size(153, 36);
+            this._mnuTranspose.Size = new System.Drawing.Size(152, 36);
             this._mnuTranspose.Text = "&Source";
             this._mnuTranspose.ToolTipText = "Select PCA input";
             // 
@@ -222,11 +228,14 @@
             // 
             // _lblPcaSource
             // 
-            this._lblPcaSource.ForeColor = System.Drawing.Color.Black;
+            this._lblPcaSource.BackColor = System.Drawing.Color.Transparent;
+            this._lblPcaSource.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPcaSource.ForeColor = System.Drawing.Color.Teal;
+            this._lblPcaSource.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblPcaSource.Name = "_lblPcaSource";
-            this._lblPcaSource.Size = new System.Drawing.Size(153, 15);
+            this._lblPcaSource.Size = new System.Drawing.Size(104, 15);
             this._lblPcaSource.Text = "(value)";
-            this._lblPcaSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblPcaSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _btnScoresOrLoadings
             // 
@@ -239,7 +248,7 @@
             this._btnScoresOrLoadings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnScoresOrLoadings.Name = "_btnScoresOrLoadings";
             this._btnScoresOrLoadings.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._btnScoresOrLoadings.Size = new System.Drawing.Size(153, 36);
+            this._btnScoresOrLoadings.Size = new System.Drawing.Size(152, 36);
             this._btnScoresOrLoadings.Text = "&View";
             this._btnScoresOrLoadings.ToolTipText = "Select plot mode";
             // 
@@ -263,11 +272,14 @@
             // 
             // _lblPlotView
             // 
-            this._lblPlotView.ForeColor = System.Drawing.Color.Black;
+            this._lblPlotView.BackColor = System.Drawing.Color.Transparent;
+            this._lblPlotView.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPlotView.ForeColor = System.Drawing.Color.Teal;
+            this._lblPlotView.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblPlotView.Name = "_lblPlotView";
-            this._lblPlotView.Size = new System.Drawing.Size(153, 15);
+            this._lblPlotView.Size = new System.Drawing.Size(104, 15);
             this._lblPlotView.Text = "(value)";
-            this._lblPlotView.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblPlotView.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _btnColour
             // 
@@ -277,23 +289,26 @@
             this._btnColour.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnColour.Name = "_btnColour";
             this._btnColour.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._btnColour.Size = new System.Drawing.Size(153, 36);
+            this._btnColour.Size = new System.Drawing.Size(152, 36);
             this._btnColour.Text = "Legend";
             this._btnColour.ToolTipText = "Select peak filter";
             this._btnColour.DropDownOpening += new System.EventHandler(this._btnColour_DropDownOpening);
             // 
             // _lblLegend
             // 
-            this._lblLegend.ForeColor = System.Drawing.Color.Black;
+            this._lblLegend.BackColor = System.Drawing.Color.Transparent;
+            this._lblLegend.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblLegend.ForeColor = System.Drawing.Color.Teal;
+            this._lblLegend.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblLegend.Name = "_lblLegend";
-            this._lblLegend.Size = new System.Drawing.Size(153, 15);
+            this._lblLegend.Size = new System.Drawing.Size(104, 15);
             this._lblLegend.Text = "(value)";
-            this._lblLegend.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblLegend.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(153, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
             // 
             // _mnuCorrections
             // 
@@ -303,18 +318,21 @@
             this._mnuCorrections.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._mnuCorrections.Name = "_mnuCorrections";
             this._mnuCorrections.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._mnuCorrections.Size = new System.Drawing.Size(153, 36);
+            this._mnuCorrections.Size = new System.Drawing.Size(152, 36);
             this._mnuCorrections.Text = "Corrections";
             this._mnuCorrections.ToolTipText = "Select source data";
             this._mnuCorrections.DropDownOpening += new System.EventHandler(this._mnuCorrections_DropDownOpening);
             // 
             // _lblCorrections
             // 
-            this._lblCorrections.ForeColor = System.Drawing.Color.Black;
+            this._lblCorrections.BackColor = System.Drawing.Color.Transparent;
+            this._lblCorrections.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblCorrections.ForeColor = System.Drawing.Color.Teal;
+            this._lblCorrections.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblCorrections.Name = "_lblCorrections";
-            this._lblCorrections.Size = new System.Drawing.Size(153, 15);
+            this._lblCorrections.Size = new System.Drawing.Size(104, 15);
             this._lblCorrections.Text = "(value)";
-            this._lblCorrections.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblCorrections.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _mnuTrend
             // 
@@ -327,7 +345,7 @@
             this._mnuTrend.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._mnuTrend.Name = "_mnuTrend";
             this._mnuTrend.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._mnuTrend.Size = new System.Drawing.Size(153, 36);
+            this._mnuTrend.Size = new System.Drawing.Size(152, 36);
             this._mnuTrend.Text = "Input";
             this._mnuTrend.ToolTipText = "Select source data";
             this._mnuTrend.DropDownOpening += new System.EventHandler(this._mnuTrend_DropDownOpening);
@@ -352,16 +370,19 @@
             // 
             // _lblAspect
             // 
-            this._lblAspect.ForeColor = System.Drawing.Color.Black;
+            this._lblAspect.BackColor = System.Drawing.Color.Transparent;
+            this._lblAspect.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblAspect.ForeColor = System.Drawing.Color.Teal;
+            this._lblAspect.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblAspect.Name = "_lblAspect";
-            this._lblAspect.Size = new System.Drawing.Size(153, 15);
+            this._lblAspect.Size = new System.Drawing.Size(104, 15);
             this._lblAspect.Text = "(value)";
-            this._lblAspect.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblAspect.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(153, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
             // 
             // _mnuObsFilter
             // 
@@ -371,18 +392,21 @@
             this._mnuObsFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._mnuObsFilter.Name = "_mnuObsFilter";
             this._mnuObsFilter.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._mnuObsFilter.Size = new System.Drawing.Size(153, 36);
+            this._mnuObsFilter.Size = new System.Drawing.Size(152, 36);
             this._mnuObsFilter.Text = "Observations";
             this._mnuObsFilter.ToolTipText = "Select observation filter";
             this._mnuObsFilter.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton3_DropDownOpening);
             // 
             // _lblObs
             // 
-            this._lblObs.ForeColor = System.Drawing.Color.Black;
+            this._lblObs.BackColor = System.Drawing.Color.Transparent;
+            this._lblObs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblObs.ForeColor = System.Drawing.Color.Teal;
+            this._lblObs.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblObs.Name = "_lblObs";
-            this._lblObs.Size = new System.Drawing.Size(153, 15);
+            this._lblObs.Size = new System.Drawing.Size(104, 15);
             this._lblObs.Text = "(value)";
-            this._lblObs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblObs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _mnuPeakFilter
             // 
@@ -392,18 +416,44 @@
             this._mnuPeakFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._mnuPeakFilter.Name = "_mnuPeakFilter";
             this._mnuPeakFilter.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._mnuPeakFilter.Size = new System.Drawing.Size(153, 36);
+            this._mnuPeakFilter.Size = new System.Drawing.Size(152, 36);
             this._mnuPeakFilter.Text = "Peaks";
             this._mnuPeakFilter.ToolTipText = "Select peak filter";
             this._mnuPeakFilter.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton1_DropDownOpening);
             // 
             // _lblPeaks
             // 
-            this._lblPeaks.ForeColor = System.Drawing.Color.Black;
+            this._lblPeaks.BackColor = System.Drawing.Color.Transparent;
+            this._lblPeaks.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPeaks.ForeColor = System.Drawing.Color.Teal;
+            this._lblPeaks.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblPeaks.Name = "_lblPeaks";
-            this._lblPeaks.Size = new System.Drawing.Size(153, 15);
+            this._lblPeaks.Size = new System.Drawing.Size(104, 15);
             this._lblPeaks.Text = "(value)";
-            this._lblPeaks.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblPeaks.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _btnNavigate
+            // 
+            this._btnNavigate.ForeColor = System.Drawing.Color.Purple;
+            this._btnNavigate.Image = ((System.Drawing.Image)(resources.GetObject("_btnNavigate.Image")));
+            this._btnNavigate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._btnNavigate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnNavigate.Name = "_btnNavigate";
+            this._btnNavigate.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this._btnNavigate.Size = new System.Drawing.Size(152, 36);
+            this._btnNavigate.Text = "View on main";
+            this._btnNavigate.Click += new System.EventHandler(this._btnNavigate_Click);
+            // 
+            // _lblNavigate
+            // 
+            this._lblNavigate.BackColor = System.Drawing.Color.Transparent;
+            this._lblNavigate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblNavigate.ForeColor = System.Drawing.Color.Teal;
+            this._lblNavigate.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
+            this._lblNavigate.Name = "_lblNavigate";
+            this._lblNavigate.Size = new System.Drawing.Size(104, 15);
+            this._lblNavigate.Text = "(value)";
+            this._lblNavigate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _btnMarkAsOutlier
             // 
@@ -413,22 +463,25 @@
             this._btnMarkAsOutlier.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMarkAsOutlier.Name = "_btnMarkAsOutlier";
             this._btnMarkAsOutlier.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._btnMarkAsOutlier.Size = new System.Drawing.Size(153, 36);
-            this._btnMarkAsOutlier.Text = "Mark outlier";
+            this._btnMarkAsOutlier.Size = new System.Drawing.Size(152, 36);
+            this._btnMarkAsOutlier.Text = "Mark as outlier";
             this._btnMarkAsOutlier.Click += new System.EventHandler(this._btnMarkAsOutlier_Click);
             // 
             // _lblOutlier
             // 
-            this._lblOutlier.ForeColor = System.Drawing.Color.Black;
+            this._lblOutlier.BackColor = System.Drawing.Color.Transparent;
+            this._lblOutlier.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblOutlier.ForeColor = System.Drawing.Color.Teal;
+            this._lblOutlier.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
             this._lblOutlier.Name = "_lblOutlier";
-            this._lblOutlier.Size = new System.Drawing.Size(153, 15);
+            this._lblOutlier.Size = new System.Drawing.Size(104, 15);
             this._lblOutlier.Text = "(value)";
-            this._lblOutlier.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblOutlier.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(153, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(152, 6);
             // 
             // _btnNextPc
             // 
@@ -437,18 +490,21 @@
             this._btnNextPc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnNextPc.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnNextPc.Name = "_btnNextPc";
-            this._btnNextPc.Size = new System.Drawing.Size(153, 36);
+            this._btnNextPc.Size = new System.Drawing.Size(152, 36);
             this._btnNextPc.Text = "Next component";
             this._btnNextPc.Click += new System.EventHandler(this._btnNextPc_Click);
             // 
             // _lblPcNumber
             // 
-            this._lblPcNumber.Margin = new System.Windows.Forms.Padding(28, -10, 0, 2);
+            this._lblPcNumber.BackColor = System.Drawing.Color.Transparent;
+            this._lblPcNumber.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPcNumber.ForeColor = System.Drawing.Color.Teal;
+            this._lblPcNumber.Margin = new System.Windows.Forms.Padding(48, -10, 0, 0);
             this._lblPcNumber.Name = "_lblPcNumber";
             this._lblPcNumber.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this._lblPcNumber.Size = new System.Drawing.Size(125, 15);
+            this._lblPcNumber.Size = new System.Drawing.Size(104, 15);
             this._lblPcNumber.Text = "(value)";
-            this._lblPcNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._lblPcNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _btnPrevPc
             // 
@@ -456,16 +512,16 @@
             this._btnPrevPc.Image = ((System.Drawing.Image)(resources.GetObject("_btnPrevPc.Image")));
             this._btnPrevPc.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._btnPrevPc.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnPrevPc.Margin = new System.Windows.Forms.Padding(0, -9, 0, 2);
+            this._btnPrevPc.Margin = new System.Windows.Forms.Padding(1, -9, 0, 2);
             this._btnPrevPc.Name = "_btnPrevPc";
-            this._btnPrevPc.Size = new System.Drawing.Size(153, 36);
+            this._btnPrevPc.Size = new System.Drawing.Size(151, 36);
             this._btnPrevPc.Text = "Previous component";
             this._btnPrevPc.Click += new System.EventHandler(this._btnPrevPc_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(153, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(152, 6);
             // 
             // toolStripDropDownButton1
             // 
@@ -475,7 +531,7 @@
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(132, 36);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(152, 36);
             this.toolStripDropDownButton1.Text = "Plot options";
             // 
             // statusStrip1
@@ -503,11 +559,11 @@
             // _chart
             // 
             this._chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._chart.Location = new System.Drawing.Point(156, 66);
+            this._chart.Location = new System.Drawing.Point(155, 66);
             this._chart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._chart.Name = "_chart";
             this._chart.SelectedItem = selection1;
-            this._chart.Size = new System.Drawing.Size(968, 755);
+            this._chart.Size = new System.Drawing.Size(969, 755);
             this._chart.TabIndex = 0;
             this._chart.SelectionChanged += new System.EventHandler(this._chart_SelectionChanged);
             // 
@@ -515,7 +571,7 @@
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(156, 66);
+            this.panel1.Location = new System.Drawing.Point(155, 66);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(4, 755);
             this.panel1.TabIndex = 4;
@@ -535,26 +591,6 @@
             this.ctlTitleBar1.TabIndex = 1;
             this.ctlTitleBar1.Text = "#method name";
             this.ctlTitleBar1.WarningText = null;
-            // 
-            // _btnNavigate
-            // 
-            this._btnNavigate.ForeColor = System.Drawing.Color.Purple;
-            this._btnNavigate.Image = ((System.Drawing.Image)(resources.GetObject("_btnNavigate.Image")));
-            this._btnNavigate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._btnNavigate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnNavigate.Name = "_btnNavigate";
-            this._btnNavigate.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._btnNavigate.Size = new System.Drawing.Size(153, 36);
-            this._btnNavigate.Text = "View on main";
-            this._btnNavigate.Click += new System.EventHandler(this._btnNavigate_Click);
-            // 
-            // _lblNavigate
-            // 
-            this._lblNavigate.ForeColor = System.Drawing.Color.Black;
-            this._lblNavigate.Name = "_lblNavigate";
-            this._lblNavigate.Size = new System.Drawing.Size(153, 15);
-            this._lblNavigate.Text = "(value)";
-            this._lblNavigate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FrmPca
             // 

@@ -46,13 +46,11 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.notANumberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outOfRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this.pictureBox1 = new MGui.Controls.CtlBuffer();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.alphaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.betaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new MGui.Controls.CtlImageViewer();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -132,15 +130,13 @@
             // 
             this.defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
             this.defaultToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.defaultToolStripMenuItem.Text = "&Default (×1)";
-            this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
+            this.defaultToolStripMenuItem.Text = "&Default (×1)";                                                       
             // 
             // zoomInToolStripMenuItem1
             // 
             this.zoomInToolStripMenuItem1.Name = "zoomInToolStripMenuItem1";
             this.zoomInToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
-            this.zoomInToolStripMenuItem1.Text = "&Zoom in (+1)";
-            this.zoomInToolStripMenuItem1.Click += new System.EventHandler(this.zoomInToolStripMenuItem1_Click);
+            this.zoomInToolStripMenuItem1.Text = "&Zoom in (+1)";                                                   
             // 
             // sortToolStripMenuItem
             // 
@@ -213,16 +209,6 @@
             this.outOfRangeToolStripMenuItem.Text = "&Out of range";
             this.outOfRangeToolStripMenuItem.Click += new System.EventHandler(this.outOfRangeToolStripMenuItem_Click);
             // 
-            // hScrollBar1
-            // 
-            this.hScrollBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 171);
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(618, 17);
-            this.hScrollBar1.TabIndex = 4;
-            this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
-            this.hScrollBar1.ValueChanged += new System.EventHandler(this.hScrollBar1_ValueChanged);
-            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -238,31 +224,6 @@
             this.ctlTitleBar1.Text = "Heatmap";
             this.ctlTitleBar1.WarningText = null;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Blue;
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 80);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(618, 108);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.DrawBuffer += new System.EventHandler<MGui.Controls.DrawBufferEventArgs>(this.pictureBox1_DrawBuffer);
-            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
-            // 
-            // vScrollBar1
-            // 
-            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.vScrollBar1.Location = new System.Drawing.Point(601, 80);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 91);
-            this.vScrollBar1.TabIndex = 5;
-            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -274,7 +235,7 @@
             // alphaToolStripMenuItem
             // 
             this.alphaToolStripMenuItem.Name = "alphaToolStripMenuItem";
-            this.alphaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.alphaToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.alphaToolStripMenuItem.Text = "&Alpha";
             this.alphaToolStripMenuItem.Click += new System.EventHandler(this.alphaToolStripMenuItem_Click);
             // 
@@ -285,13 +246,32 @@
             this.betaToolStripMenuItem.Text = "&Beta";
             this.betaToolStripMenuItem.Click += new System.EventHandler(this.alphaToolStripMenuItem_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.AnimateMouseZoom = true;
+            this.pictureBox1.BackColor = System.Drawing.Color.Blue;
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = null;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 80);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Offset = new System.Drawing.Point(0, 0);
+            this.pictureBox1.PickPoint = null;
+            this.pictureBox1.Size = new System.Drawing.Size(618, 108);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.TransparentImage = null;
+            this.pictureBox1.Zoom = 1F;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            // 
             // FrmActHeatMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 212);
-            this.Controls.Add(this.vScrollBar1);
-            this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -323,7 +303,6 @@
         private System.Windows.Forms.ToolStripMenuItem sortToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sameAsListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem orderedToolStripMenuItem;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripMenuItem legendToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
@@ -332,10 +311,9 @@
         private System.Windows.Forms.ToolStripMenuItem notANumberToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem outOfRangeToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-        private MGui.Controls.CtlBuffer pictureBox1;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem alphaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem betaToolStripMenuItem;
+        private MGui.Controls.CtlImageViewer pictureBox1;
     }
 }

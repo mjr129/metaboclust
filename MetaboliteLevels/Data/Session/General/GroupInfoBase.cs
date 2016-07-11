@@ -13,6 +13,7 @@ using MGui;
 using MetaboliteLevels.Types.UI;
 using System.Drawing.Drawing2D;
 using MCharting;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Data.DataInfo
 {
@@ -49,7 +50,7 @@ namespace MetaboliteLevels.Data.DataInfo
 
         public int DisplayPriority;
 
-        protected GroupInfoBase(string groupId, int order, Range xRange, string name, string shortName, Color colorLight, Color color, int displayPriority)
+        protected GroupInfoBase( string groupId, int order, Range xRange, string name, string shortName, int displayPriority )
         {
             Debug.Assert( !string.IsNullOrEmpty( groupId ) );
 
@@ -61,9 +62,55 @@ namespace MetaboliteLevels.Data.DataInfo
             this.Range = xRange;
             this.OverrideDisplayName = name;
             this.OverrideShortName = shortName;
-            this.ColourLight = colorLight;
-            this.Colour = color;
             this.DisplayPriority = displayPriority;
+
+            switch (Order % 7)
+            {
+                case 0:
+                    Colour = Color.FromArgb( 0, 0, 255 );
+                    ColourLight = Color.FromArgb( 128, 128, 255 ); // blue
+                    GraphIcon = EGraphIcon.Circle;
+                    break;
+
+                case 1:
+                    Colour =  Color.FromArgb( 255, 0, 0 ) ;
+                    ColourLight = Color.FromArgb( 255, 128, 128 ); // red
+                    GraphIcon = EGraphIcon.Square;
+                    break;
+
+                case 2:
+                    Colour =  Color.FromArgb( 0, 128, 0 ) ;
+                    ColourLight = Color.FromArgb( 64, 128, 64 ); // green
+                    GraphIcon = EGraphIcon.Triangle;
+                    break;
+
+                case 3:
+                    Colour =  Color.FromArgb( 128, 128, 0 ) ;
+                    ColourLight = Color.FromArgb( 128, 128, 6 ); // yellow
+                    GraphIcon = EGraphIcon.Diamond;
+                    break;
+
+                case 4:
+                    Colour =  Color.FromArgb( 255, 0, 255 ) ;
+                    ColourLight = Color.FromArgb( 255, 128, 255 ); // magenta
+                    GraphIcon = EGraphIcon.InvertedTriangle;
+                    break;
+
+                case 5:
+                    Colour =  Color.FromArgb( 0, 128, 128 );
+                    ColourLight = Color.FromArgb( 64, 128, 128 ); // cyan
+                    GraphIcon = EGraphIcon.Cross;
+                    break;
+
+                case 6:
+                    Colour =  Color.FromArgb( 128, 128, 128 ) ;
+                    ColourLight = Color.FromArgb( 192, 192, 192 ); // gray
+                    GraphIcon = EGraphIcon.Plus;
+                    break;
+
+                default:
+                    throw new SwitchException( _id.ToString() );
+            }
         }
 
         #region Obsolete
@@ -121,7 +168,7 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("Light colour", z => ColourHelper.ColourToName(z.ColourLight), z => z.ColourLight);
             columns.Add("Comment", z => z.Comment);
             columns.Add("Display priority", z => z.DisplayPriority);
-            columns.Add( "Graph icon", z => z.GraphIcon );
+            columns.Add( "Graph icon", z => z.GraphIcon, z=> z.Colour );
             columns.Add( "Graph brush", z => z.HatchStyle );
 
             return columns;
@@ -144,26 +191,7 @@ namespace MetaboliteLevels.Data.DataInfo
             {
                 _id = value;
             }
-        }
-
-        internal GraphicsPath CreateIcon()
-        {
-            switch (this.GraphIcon)
-            {
-                case EGraphIcon.Default: return null;
-                case EGraphIcon.Circle: return SeriesStyle.DrawPointsShapes.Circle;
-                case EGraphIcon.Cross: return SeriesStyle.DrawPointsShapes.Cross;
-                case EGraphIcon.Diamond: return SeriesStyle.DrawPointsShapes.Diamond;
-                case EGraphIcon.HLine: return SeriesStyle.DrawPointsShapes.HLine;
-                case EGraphIcon.Plus: return SeriesStyle.DrawPointsShapes.Plus;
-                case EGraphIcon.Square: return SeriesStyle.DrawPointsShapes.Square;
-                case EGraphIcon.Asterisk: return SeriesStyle.DrawPointsShapes.Asterisk;
-                case EGraphIcon.Triangle: return SeriesStyle.DrawPointsShapes.Triangle;
-                case EGraphIcon.InvertedTriangle: return SeriesStyle.DrawPointsShapes.InvertedTriangle;
-                case EGraphIcon.VLine: return SeriesStyle.DrawPointsShapes.VLine;
-                default: return null;
-            }
-        }
+        }    
 
         internal Brush CreateBrush( Color colour )
         {
@@ -179,49 +207,5 @@ namespace MetaboliteLevels.Data.DataInfo
                     return new HatchBrush( (HatchStyle)this.HatchStyle, colour, Color.Transparent );
             }
         }
-    }
-
-    /// <summary>
-    /// Experimental group information.
-    /// </summary>
-    [Serializable]
-    [DeferSerialisation]
-    internal sealed class GroupInfo : GroupInfoBase
-    {
-        public GroupInfo(string groupId, int order, Range timeRange, string name, string shortName, Color colorLight, Color color, int displayPriority)
-            : base(groupId, order, timeRange, name, shortName, colorLight, color, displayPriority)
-        {
-            // NA
-        }
-
-        public override string DefaultDisplayName
-        {
-            get
-            {
-                return StringId;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Batch information
-    /// </summary>
-    [Serializable]
-    [DeferSerialisation]
-    internal sealed class BatchInfo : GroupInfoBase
-    {
-        public BatchInfo(string batchId, int order, Range acqusitionRange, string name, string shortName, int displayPriority)
-            : base(batchId, order, acqusitionRange, name, shortName, Color.DarkGray, Color.Black, displayPriority)
-        {
-            // NA
-        }
-
-        public override string DefaultDisplayName
-        {
-            get
-            {
-                return StringId;
-            }
-        }
-    }
+    }    
 }

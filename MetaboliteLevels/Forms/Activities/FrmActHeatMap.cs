@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,7 +26,6 @@ namespace MetaboliteLevels.Forms.Activities
     {                                  
         private Column _source1D;
         private DistanceMatrix _source2D;
-        private int _zoom = 1;
         private readonly ListViewHelper _sourceList;
         private HeatPoint[,] _heatMap;
         private bool _ignoreScrollBarChanges;
@@ -68,7 +69,15 @@ namespace MetaboliteLevels.Forms.Activities
             this._source1D = source1D;
             this._source2D = source2D;
 
-            this.Text = UiControls.GetFileName( source1D.DisplayName );
+            if (source1D != null)
+            {
+                this.Text = UiControls.GetFileName( source1D.DisplayName );
+            }
+            else
+            {
+                this.Text = UiControls.GetFileName( "Distance matrix" );
+            }
+
             this.ctlTitleBar1.Text = this.Text;
 
             GenerateHeat();
@@ -95,7 +104,14 @@ namespace MetaboliteLevels.Forms.Activities
             this.notANumberToolStripMenuItem.Image = UiControls.CreateSolidColourImage( null, _nanColour, _nanColour );
             this.outOfRangeToolStripMenuItem.Image = UiControls.CreateSolidColourImage( null, _oorColour, _oorColour );
 
-            Generate1DHeatMap();
+            if (_source1D != null)
+            {
+                Generate1DHeatMap();
+            }
+            else
+            {
+                Generate2DHeatMap();
+            }
 
             // Calculate min/max
             double min = double.MaxValue;
@@ -165,6 +181,8 @@ namespace MetaboliteLevels.Forms.Activities
                     hp.YSource = _source2D.ValueMatrix.Vectors[y].Peak;
 
                     hp.ZValue = _source2D.Values[x, y];
+
+                    _heatMap[x, y] = hp;
                 }
             }
         }
@@ -193,11 +211,11 @@ namespace MetaboliteLevels.Forms.Activities
                 tsrc = tsrc.OrderBy( z => z.ZValue ).ToArray();
             }
 
-            _heatMap = new HeatPoint[1, tsrc.Length];
+            _heatMap = new HeatPoint[tsrc.Length,1];
 
             for (int n = 0; n < tsrc.Length; n++)
             {
-                _heatMap[1, n] = tsrc[n];
+                _heatMap[n, 0] = tsrc[n];
             }
         }
 
@@ -205,28 +223,51 @@ namespace MetaboliteLevels.Forms.Activities
         {
             // Set checks
             this.sameAsListToolStripMenuItem.Checked = !_sort;
-            this.orderedToolStripMenuItem.Checked = _sort;
-            this.defaultToolStripMenuItem.Checked = _zoom == 1;
+            this.orderedToolStripMenuItem.Checked = _sort;                  
 
-            _ignoreScrollBarChanges = true;
-            hScrollBar1.Minimum = 0;
-            hScrollBar1.Maximum = _heatMap.Length - (pictureBox1.ClientSize.Width / _zoom);
-            hScrollBar1.Visible = hScrollBar1.Maximum > 0;
-            _ignoreScrollBarChanges = false;
-            toolStripStatusLabel2.Text = "(" + (XToIndex( 0 ) + 1) + "-" + (XToIndex( pictureBox1.ClientSize.Width - 1 ) + 1) + ")/" + _heatMap.Length + ". Zoom = " + _zoom + "x";
+            int w = _heatMap.GetLength( 0 );
+            int h = _heatMap.GetLength( 1 );
+            Bitmap bmp = new Bitmap( w, h );
+            Rectangle all = new Rectangle( 0, 0, w, h );
 
-            pictureBox1.Rerender(); 
+            BitmapData bdata = bmp.LockBits( all, ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb );
+            int size = bdata.Height * bdata.Stride;
+            byte[] data = new byte[size];
+
+            // Marshal to avoid unsafe code...
+            Marshal.Copy( bdata.Scan0, data, 0, size );
+
+            for (int y = 0; y < h; y++)
+            {
+                for (int x = 0; x < w; x++)
+                {
+                    int i = (x * 3) + (y * bdata.Stride);
+
+                    Color c = _heatMap[x, y].ZColour;
+
+                    data[i + 0] = c.B;
+                    data[i + 1] = c.G;
+                    data[i + 2] = c.R;
+                }
+            }
+
+            Marshal.Copy( data, 0, bdata.Scan0, data.Length );
+
+            bmp.UnlockBits( bdata );
+
+            pictureBox1.LoadImage( bmp, CtlImageViewer.ZoomMode.ZoomAndStretch );
+            pictureBox1.AnimateMouseZoom = false;
         }       
 
-        private int XToIndex( int x )
-        {
-            return (x / _zoom) + Math.Max( 0, hScrollBar1.Value );
-        }
+        //private int XToIndex( int x )
+        //{
+        //    return (x / _zoom) + Math.Max( 0, hScrollBar1.Value );
+        //}
 
-        private int YToIndex( int y )
-        {
-            return (y / _zoom) + Math.Max( 0, vScrollBar1.Value );
-        }
+        //private int YToIndex( int y )
+        //{
+        //    return (y / _zoom) + Math.Max( 0, vScrollBar1.Value );
+        //}
 
         private double GetRow( IVisualisable arg )
         {
@@ -236,10 +277,11 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void pictureBox1_MouseMove( object sender, MouseEventArgs e )
         {
-            int xIndex = XToIndex( e.X );
-            int yIndex = YToIndex( e.Y );
+            Point p = pictureBox1.ScreenToImage( e.Location );
+            int xIndex = p.X;
+            int yIndex = p.Y;   
 
-            if (xIndex >= _heatMap.GetLength(0)||yIndex>_heatMap.GetLength(1))
+            if (xIndex < 0 || yIndex < 0|| xIndex >= _heatMap.GetLength(0)||yIndex>=_heatMap.GetLength(1))
             {
                 toolStripStatusLabel1.Visible = false;
                 toolStripStatusLabel3.Visible = false;
@@ -264,10 +306,11 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void pictureBox1_MouseUp( object sender, MouseEventArgs e )
         {
-            int xIndex = XToIndex( e.X );
-            int yIndex = YToIndex( e.Y );
+            Point p = pictureBox1.ScreenToImage( e.Location );
+            int xIndex = p.X;
+            int yIndex = p.Y;
 
-            if (xIndex >= _heatMap.GetLength( 0 ) || yIndex > _heatMap.GetLength( 1 ))
+            if (xIndex < 0 || yIndex < 0 || xIndex >= _heatMap.GetLength( 0 ) || yIndex >= _heatMap.GetLength( 1 ))
             {
                 toolStripStatusLabel1.Visible = false;
                 toolStripStatusLabel3.Visible = false;
@@ -291,38 +334,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void pictureBox1_MouseDown( object sender, MouseEventArgs e )
         {
 
-        }
-
-        private void xToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            Zoom( 1 );
-        }
-
-        private void Zoom( int v )
-        {
-            _zoom = v;
-            GenerateBitmap();
-        }
-
-        private void xToolStripMenuItem1_Click( object sender, EventArgs e )
-        {
-            Zoom( 2 );
-        }
-
-        private void zoomInToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            Zoom( _zoom + 1 );
-        }
-
-        private void defaultToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            Zoom( 1 );
-        }
-
-        private void zoomInToolStripMenuItem1_Click( object sender, EventArgs e )
-        {
-            Zoom( _zoom + 1 );
-        }
+        }  
 
         private void sameAsListToolStripMenuItem_Click( object sender, EventArgs e )
         {
@@ -351,9 +363,7 @@ namespace MetaboliteLevels.Forms.Activities
             if (_ignoreScrollBarChanges)
             {
                 return;
-            }
-
-            GenerateBitmap();
+            }               
         }
 
         private void legendToolStripMenuItem_DropDownOpening( object sender, EventArgs e )
@@ -402,41 +412,7 @@ namespace MetaboliteLevels.Forms.Activities
         {
             toolStripStatusLabel1.Visible = false;
             toolStripStatusLabel3.Visible = false;
-        }
-
-        private void pictureBox1_DrawBuffer( object sender, DrawBufferEventArgs e )
-        {
-            Graphics g = e.Graphics;
-
-            g.Clear( _oorColour );
-
-            for (int y = 0; y < e.Bitmap.Height; y += _zoom)
-            {
-                int yIndex = YToIndex( y );
-
-                if (yIndex >= _heatMap.GetLength(1))
-                {
-                    break;
-                }
-
-                for (int x = 0; x < e.Bitmap.Width; x += _zoom)
-                {
-                    int xIndex = XToIndex( x );
-
-                    if (xIndex >= _heatMap.GetLength( 0 ))
-                    {
-                        break;
-                    }
-
-                    Color c = _heatMap[xIndex, yIndex].ZColour;
-
-                    using (SolidBrush b = new SolidBrush( c ))
-                    {
-                        g.FillRectangle( b, x, 0, _zoom, e.Bitmap.Height );
-                    }
-                }
-            }
-        }
+        }       
 
         private void alphaToolStripMenuItem_Click( object sender, EventArgs e )
         {

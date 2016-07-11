@@ -247,6 +247,7 @@ namespace MetaboliteLevels.Forms
             this.printClusterToolStripMenuItem,
             this.toolStripMenuItem4,
             this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.Purple;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 19);
             this.fileToolStripMenuItem.Text = "&File";
@@ -353,6 +354,7 @@ namespace MetaboliteLevels.Forms
             this.experimentalOptionsToolStripMenuItem,
             this.correlationMapToolStripMenuItem,
             this.toolStripMenuItem6});
+            this.viewToolStripMenuItem.ForeColor = System.Drawing.Color.Purple;
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
             this.viewToolStripMenuItem.Text = "&View";
@@ -405,6 +407,7 @@ namespace MetaboliteLevels.Forms
             // 
             // databaseToolStripMenuItem
             // 
+            this.databaseToolStripMenuItem.ForeColor = System.Drawing.Color.Purple;
             this.databaseToolStripMenuItem.Name = "databaseToolStripMenuItem";
             this.databaseToolStripMenuItem.Size = new System.Drawing.Size(67, 19);
             this.databaseToolStripMenuItem.Text = "&Database";
@@ -424,6 +427,7 @@ namespace MetaboliteLevels.Forms
             this.toolStripMenuItem2,
             this.clusterParameterOptimiserToolStripMenuItem,
             this.autogenerateToolStripMenuItem});
+            this.clusteringToolStripMenuItem.ForeColor = System.Drawing.Color.Purple;
             this.clusteringToolStripMenuItem.Name = "clusteringToolStripMenuItem";
             this.clusteringToolStripMenuItem.Size = new System.Drawing.Size(70, 19);
             this.clusteringToolStripMenuItem.Text = "&Workflow";
@@ -532,6 +536,7 @@ namespace MetaboliteLevels.Forms
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem,
             this.aboutToolStripMenuItem1});
+            this.helpToolStripMenuItem.ForeColor = System.Drawing.Color.Purple;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
             this.helpToolStripMenuItem.Text = "&Help";
@@ -663,6 +668,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton1
             // 
+            this.toolStripButton1.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton1.Image = global::MetaboliteLevels.Properties.Resources.IconSave;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
@@ -680,6 +686,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton5
             // 
+            this.toolStripButton5.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton5.Image = global::MetaboliteLevels.Properties.Resources.IconPreferences;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
@@ -690,6 +697,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton8
             // 
+            this.toolStripButton8.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton8.Image = global::MetaboliteLevels.Properties.Resources.IconGroups;
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
@@ -700,6 +708,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton7
             // 
+            this.toolStripButton7.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton7.Image = global::MetaboliteLevels.Properties.Resources.IconPca;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
@@ -716,6 +725,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton2
             // 
+            this.toolStripButton2.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton2.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCorrect;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
@@ -727,12 +737,14 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel2
             // 
             this.toolStripLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripLabel2.ForeColor = System.Drawing.Color.Purple;
             this.toolStripLabel2.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
             this.toolStripLabel2.Name = "toolStripLabel2";
             this.toolStripLabel2.Size = new System.Drawing.Size(24, 43);
             // 
             // toolStripButton3
             // 
+            this.toolStripButton3.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton3.Image = global::MetaboliteLevels.Properties.Resources.IconScriptTrend;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
@@ -744,12 +756,14 @@ namespace MetaboliteLevels.Forms
             // toolStripLabel3
             // 
             this.toolStripLabel3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripLabel3.ForeColor = System.Drawing.Color.Purple;
             this.toolStripLabel3.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
             this.toolStripLabel3.Name = "toolStripLabel3";
             this.toolStripLabel3.Size = new System.Drawing.Size(24, 43);
             // 
             // toolStripButton4
             // 
+            this.toolStripButton4.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton4.Image = global::MetaboliteLevels.Properties.Resources.IconScriptStatistic;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
@@ -767,6 +781,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton6
             // 
+            this.toolStripButton6.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton6.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
@@ -783,6 +798,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton9
             // 
+            this.toolStripButton9.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton9.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton9.Name = "toolStripButton9";
@@ -794,6 +810,7 @@ namespace MetaboliteLevels.Forms
             // 
             // toolStripButton10
             // 
+            this.toolStripButton10.ForeColor = System.Drawing.Color.Purple;
             this.toolStripButton10.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
             this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton10.Name = "toolStripButton10";

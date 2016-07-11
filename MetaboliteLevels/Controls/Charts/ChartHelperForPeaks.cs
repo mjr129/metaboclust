@@ -484,7 +484,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     {
                         series.Style.DrawPoints = new SolidBrush( colour );
                         series.Style.DrawPointsSize = 8;
-                        series.Style.DrawPointsShape =  seriesUsing.CreateIcon();
+                        series.Style.DrawPointsShape = UiControls.CreateIcon( seriesUsing.GraphIcon );
                     }
                 }
                 else

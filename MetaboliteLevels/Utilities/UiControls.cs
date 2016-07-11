@@ -35,6 +35,8 @@ using MGui.Controls;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Types.UI;
+using MCharting;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -139,7 +141,41 @@ namespace MetaboliteLevels.Utilities
             }
                 
             Random = new Random();
-        }   
+        }
+
+        public static void ColourMenuButtons( ToolStrip target)
+        {
+            foreach (var o in target.Items)
+            {
+                ToolStripItem tsi = o as ToolStripItem;
+
+                if (tsi != null && tsi.ForeColor == Color.Purple)
+                {
+                    tsi.Image = UiControls.RecolourImage( tsi.Image );
+                    tsi.ForeColor = UiControls.TitleForeColour;
+                    tsi.Text = tsi.Text.ToUpper();
+                }
+            }
+        }
+
+        public static GraphicsPath CreateIcon(EGraphIcon icon)
+        {
+            switch (icon)
+            {
+                case EGraphIcon.Default: return null;
+                case EGraphIcon.Circle: return SeriesStyle.DrawPointsShapes.Circle;
+                case EGraphIcon.Cross: return SeriesStyle.DrawPointsShapes.Cross;
+                case EGraphIcon.Diamond: return SeriesStyle.DrawPointsShapes.Diamond;
+                case EGraphIcon.HLine: return SeriesStyle.DrawPointsShapes.HLine;
+                case EGraphIcon.Plus: return SeriesStyle.DrawPointsShapes.Plus;
+                case EGraphIcon.Square: return SeriesStyle.DrawPointsShapes.Square;
+                case EGraphIcon.Asterisk: return SeriesStyle.DrawPointsShapes.Asterisk;
+                case EGraphIcon.Triangle: return SeriesStyle.DrawPointsShapes.Triangle;
+                case EGraphIcon.InvertedTriangle: return SeriesStyle.DrawPointsShapes.InvertedTriangle;
+                case EGraphIcon.VLine: return SeriesStyle.DrawPointsShapes.VLine;
+                default: return null;
+            }
+        }
 
         /// <summary>
         /// Adds a caption after the last item in the menu.

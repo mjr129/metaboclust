@@ -939,8 +939,8 @@ namespace MetaboliteLevels.Forms.Startup
                 }
 
 
-                ConvertType(conditionNames, types, typesById, typeIds, (index, stringId, displayPriority, name, shortName) => new GroupInfo(stringId, index, typeRanges[stringId], name, shortName, GetTypeColor(index, false), GetTypeColor(index, true), displayPriority));
-                ConvertType(null, batches, batchesById, batchIds, (index, stringId, displayPriority, name, shortName) => new BatchInfo(stringId, index, batchRanges[stringId], name, shortName, displayPriority));
+                ConvertType("Condition","C", conditionNames, types, typesById, typeIds, (index, stringId, displayPriority, name, shortName) => new GroupInfo(stringId, index, typeRanges[stringId], name, shortName, displayPriority));
+                ConvertType("Batch", "B", null, batches, batchesById, batchIds, (index, stringId, displayPriority, name, shortName) => new BatchInfo(stringId, index, batchRanges[stringId], name, shortName, displayPriority));
             }
 
             // Create our arrays of { observations, conditions, types }
@@ -1058,7 +1058,7 @@ namespace MetaboliteLevels.Forms.Startup
             return result;
         }
 
-        private static void ConvertType<T>(Dictionary<string, string> conditionNames, List<T> types, Dictionary<string, T> byId, List<string> typeIds, Func<int, string, int, string, string, T> result)
+        private static void ConvertType<T>(string longNamePrefix, string shortNamePrefix, Dictionary<string, string> conditionNames, List<T> types, Dictionary<string, T> byId, List<string> typeIds, Func<int, string, int, string, string, T> result)
             where T : GroupInfoBase
         {
             for (int index = 0; index < typeIds.Count; index++)
@@ -1088,8 +1088,8 @@ namespace MetaboliteLevels.Forms.Startup
 
                     if (int.TryParse(stringId, out intId))
                     {
-                        name = "Type " + stringId;
-                        shortName = "T" + stringId;
+                        name = longNamePrefix+" " + stringId;
+                        shortName = shortNamePrefix + stringId;
                         displayPriority = intId;
                     }
                     else
@@ -1109,29 +1109,6 @@ namespace MetaboliteLevels.Forms.Startup
                 T r = result(index, stringId, displayPriority, name, shortName);
                 types.Add(r);
                 byId.Add(stringId, r);
-            }
-        }
-
-        private static Color GetTypeColor(int n, bool bold)
-        {
-            switch (n % 7)
-            {
-                case 0:
-                    return bold ? Color.FromArgb(0, 0, 255) : Color.FromArgb(128, 128, 255); // blue
-                case 1:
-                    return bold ? Color.FromArgb(255, 0, 0) : Color.FromArgb(255, 128, 128); // red
-                case 2:
-                    return bold ? Color.FromArgb(0, 128, 0) : Color.FromArgb(64, 128, 64); // green
-                case 3:
-                    return bold ? Color.FromArgb(128, 128, 0) : Color.FromArgb(128, 128, 6); // yellow
-                case 4:
-                    return bold ? Color.FromArgb(255, 0, 255) : Color.FromArgb(255, 128, 255); // magenta
-                case 5:
-                    return bold ? Color.FromArgb(0, 128, 128) : Color.FromArgb(64, 128, 128); // cyan
-                case 6:
-                    return bold ? Color.FromArgb(128, 128, 128) : Color.FromArgb(192, 192, 192); // gray
-                default:
-                    throw new SwitchException(n);
             }
         }
 

@@ -999,7 +999,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
 
             // Get the icon column
-            var iconColumn = new Column<IVisualisable>("", EColumn.Visible, "This column contains the object icon", null);
+            var iconColumn = new Column<IVisualisable>("", EColumn.Visible, "This column contains the object icon", null, null);
             iconColumn.Width = 32;
             iconColumn.DisableMenu = true;
 

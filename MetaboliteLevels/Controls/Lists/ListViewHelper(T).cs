@@ -66,7 +66,7 @@ namespace MetaboliteLevels.Viewers.Lists
                     var h = _sourceOption2.ExtraColumns[n];
                     int closure = n;
                     string description = string.Format(h.Description, _sourceOption2.Owner.SafeGetDisplayName());
-                    var col = new Column<IVisualisable>(colFolder + "\\" + h.Name, EColumn.Visible, description, λ => GetDiversionColumnContent(λ, closure));
+                    var col = new Column<IVisualisable>(colFolder + "\\" + h.Name, EColumn.Visible, description, λ => GetDiversionColumnContent(λ, closure), null);
                     availableColumns.Add(col);
                 }
             }

@@ -178,12 +178,14 @@
     <Compile Include="Data\Algorithms\General\ValueMatrix.cs" />
     <Compile Include="Data\Algorithms\General\Vector.cs" />
     <Compile Include="Controls\EditableComboBox.cs" />
+    <Compile Include="Data\Session\General\BatchInfo.cs" />
     <Compile Include="Data\Session\General\CompoundLibrary.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\SecondaryStatistic.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationConfiguration.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationParameterResult.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationPointer.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationResults.cs" />
+    <Compile Include="Data\Session\General\GroupInfo.cs" />
     <Compile Include="Data\Session\General\VisualisableWrapper.cs" />
     <Compile Include="Forms\Activities\FrmActExport.cs">
       <SubType>Form</SubType>

@@ -161,7 +161,7 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("Replicate", EColumn.None, z => z.Rep);
             columns.Add("Time", EColumn.None, z => z.Time);
             columns.Add("Acquisition", EColumn.None, z => z.Acquisition);
-            columns.Add("Batch", EColumn.None, z => z.Batch.DisplayName, z => z.Batch.Colour);
+            columns.Add("Batch", EColumn.None, z => z.Batch, z => z.Batch.Colour);
             columns.Add("Comment", EColumn.None, z => z.Comment);
             columns.Add("Enabled", EColumn.None, z => z.Enabled);
 

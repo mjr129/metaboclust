@@ -137,12 +137,8 @@ namespace MetaboliteLevels.Forms
             _mnuMain.BackColor = UiControls.TitleBackColour;
             toolStrip1.BackColor = UiControls.TitleBackColour;
 
-            foreach (ToolStripItem tsi in _mnuMain.Items.Cast<ToolStripItem>().Concat( toolStrip1.Items.Cast<ToolStripItem>() ))
-            {
-                tsi.Image = UiControls.RecolourImage( tsi.Image );
-                tsi.ForeColor = UiControls.TitleForeColour;
-                tsi.Text = tsi.Text.ToUpper();
-            } 
+            UiControls.ColourMenuButtons(_mnuMain);
+            UiControls.ColourMenuButtons( toolStrip1 );
 
             // Charts
             _chartPeak = new ChartHelperForPeaks(this, _core, splitContainer3.Panel1);
