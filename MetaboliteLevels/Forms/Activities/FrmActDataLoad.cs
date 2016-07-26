@@ -42,7 +42,8 @@ namespace MetaboliteLevels.Forms.Startup
         private const string FALLBACK_ALL_BATCH_ID = "B";
         private ProgressReporter _prog;
 
-        FileLoadInfo _dataInfo; 
+        FileLoadInfo _dataInfo;
+        private List<string> _warnings;
 
         /// <summary>
         /// Constructor
@@ -125,7 +126,9 @@ namespace MetaboliteLevels.Forms.Startup
                 _result = Core.Load(_sessionFileName, _prog);
                 _prog.Leave();
                 return;
-            }                                                                             
+            }
+
+            _warnings = new List<string>();
 
             // CREATE A NEW CORE
             List <Compound> compounds         = new List<Compound>();
@@ -146,15 +149,12 @@ namespace MetaboliteLevels.Forms.Startup
             Load_3_Adducts( _dataInfo, adducts, _fileNames.AdductLibraries, adductsHeader, _prog);
 
             // M/Zs
-            if (_fileNames.AutomaticIdentifications)
-            {
-                Load_4_MatchMzs( data.Peaks, adducts, compounds, _fileNames.AutomaticIdentificationsToleranceValue, _fileNames.AutomaticIdentificationsToleranceUnit, _prog );
-            }
+            Load_4_MatchMzs( _fileNames.AutomaticIdentifications, _fileNames.PeakPeakMatching, data.Peaks, adducts, compounds, _fileNames.AutomaticIdentificationsToleranceValue, _fileNames.AutomaticIdentificationsToleranceUnit, _fileNames.AutomaticIdentificationsStatus, _prog );
 
             // IDENTIFICATIONS
             if (!string.IsNullOrEmpty(_fileNames.Identifications))
             {
-                Load_5_UserIdentifications( _dataInfo, annotationsHeader, data.Peaks, compounds, adducts, _fileNames.Identifications, _prog);
+                Load_5_UserIdentifications( _dataInfo, annotationsHeader, data.Peaks, compounds, adducts, _fileNames.Identifications, _fileNames.ManualIdentificationsStatus, _warnings, _prog );
             }
 
             // Set result
@@ -167,7 +167,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Loads identifications.
         /// </summary>
-        private static void Load_5_UserIdentifications( FileLoadInfo dataInfo, MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, ProgressReporter prog)
+        private static void Load_5_UserIdentifications( FileLoadInfo dataInfo, MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, EAnnotation status, List<string> warnings, ProgressReporter prog)
         {
             SpreadsheetReader reader = new SpreadsheetReader()
             {
@@ -181,30 +181,74 @@ namespace MetaboliteLevels.Forms.Startup
             prog.Enter("Interpreting identifications");
             int peakCol      = mat.TryFindColumn( dataInfo.IDFILE_PEAK_HEADER );
             int mzCol        = mat.TryFindColumn( dataInfo.VARFILE_MZ_HEADER );
+            int rtCol        = mat.TryFindColumn( dataInfo.VARFILE_RT_HEADER );
+            int statusCol    = mat.TryFindColumn( dataInfo.IDFILE_STATUS_HEADER );
             int compoundsCol = mat.FindColumn( dataInfo.IDFILE_COMPOUNDS_HEADER );
+
+            if (peakCol == -1 && (mzCol == -1 || rtCol == -1))
+            {
+                throw new InvalidOperationException( $"The manual identifications file \"{fileName}\" contains neither a \"peak\" column nor a combination of \"mz\" and \"rt\" columns. Peak names or a combination of m/z and retention time (LC-MS only) are required to correlate annotations in the file with those in the database. Please fix this in the file and try again." );
+            }
+
+            List<string> errors = new List<string>();
 
             for (int row = 0; row < mat.NumRows; row++)
             {
                 prog.SetProgress(row, mat.NumRows);
 
-                string peakName;
-                decimal mz = decimal.Zero;
+                string peakName = null;
+                string mz = null;
+                string rt = null;
+                EAnnotation annotationStatus = status;
 
                 if (peakCol != -1)
                 {
                     peakName = mat[row, peakCol];
-                }
-                else
-                {
-                    peakName = mat.RowNames[row];
-                }
+                }      
 
                 if (mzCol != -1)
                 {
-                    mz = decimal.Parse(mat[row, mzCol]);
+                    mz = mat[row, mzCol];
                 }
 
-                Peak peak = peaks.First(z => z.DefaultDisplayName == peakName);
+                if (rtCol != -1)
+                {
+                    rt = mat[row, rtCol];
+                }
+
+                if (statusCol != -1)
+                {
+                    annotationStatus = EnumHelper.Parse<EAnnotation>( mat[row, statusCol] );
+                }
+
+                Peak peak ;
+
+                if (peakName != null)
+                {
+                    peak = peaks.FirstOrDefault( z => z.DefaultDisplayName == peakName );
+
+                    if (peak == null)
+                    {
+                        warnings.Add( $"Could not find the peak named \"{peakName}\" as referenced in \"{fileName}\"." );
+                        continue;
+                    }
+                }
+                else
+                {
+                    decimal dmz = decimal.Parse( mz );
+                    decimal drt = decimal.Parse( rt );
+                    int pmz = StringHelper.GetDecimalPlaces( mz );
+                    int prt = StringHelper.GetDecimalPlaces( rt );
+                                                                                           
+                    peak = peaks.FirstOrDefault( z => decimal.Round( z.Mz, pmz ) == dmz && decimal.Round( z.Rt, prt ) == drt );
+
+                    if (peak == null)
+                    {
+                        Peak closestMz = peaks.FindLowest( z => (Math.Abs( z.Mz - dmz ) / dmz) + (Math.Abs( z.Rt - drt ) / drt) );
+                        warnings.Add( $"Could not find the peak with m/z = {mz} and r.t. = {rt} as referenced in \"{fileName}\". Check that you have specified the identification values correctly and that your peak table has loaded correctly. The closest match is {closestMz.Id} (m/z = {closestMz.Mz}, r.t = {closestMz.Rt})." );
+                        continue;
+                    }
+                }
 
                 string[] compounds = mat[row, compoundsCol].Split(",".ToCharArray());
 
@@ -216,16 +260,16 @@ namespace MetaboliteLevels.Forms.Startup
                     {
                         if (compound.Id == compoundName || compound.DefaultDisplayName == compoundName)
                         {
-                            annotation = new Annotation(peak, compound, CreateOrGetEmpty(adducts));
+                            annotation = new Annotation(peak, compound, CreateOrGetEmpty(adducts), annotationStatus);
                             break;
                         }
                     }
 
                     if (annotation == null)
                     {
-                        Compound newCompound = new Compound(null, compoundName, compoundName, mz);
+                        Compound newCompound = new Compound(null, compoundName, compoundName, 0);
                         ccompounds.Add(newCompound);
-                        annotation = new Annotation(peak, newCompound, CreateOrGetEmpty(adducts));
+                        annotation = new Annotation(peak, newCompound, CreateOrGetEmpty(adducts), annotationStatus );
                     }
 
                     WriteMeta( mat, row, annotation.Meta, annotationMeta);
@@ -236,7 +280,7 @@ namespace MetaboliteLevels.Forms.Startup
                 }
             }
 
-            prog.Leave();
+            prog.Leave();       
         }
 
         private static void WriteMeta( Spreadsheet<string> data, int row, MetaInfoCollection collection, MetaInfoHeader headers )
@@ -295,93 +339,100 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        private static void Load_4_MatchMzs(List<Peak> peaks, List<Adduct> adducts, List<Compound> compounds, decimal toleranceValue, ETolerance toleranceUnit, ProgressReporter progress)
+        private static void Load_4_MatchMzs( bool matchPeaksToCompounds, bool matchPeaksToPeaks, List<Peak> peaks, List<Adduct> adducts, List<Compound> compounds, decimal toleranceValue, ETolerance toleranceUnit, EAnnotation status, ProgressReporter progress )
         {
-            progress.Enter("Matching peaks to compounds");
-
-            decimal tolerance;
-
-            switch (toleranceUnit)
+            if (matchPeaksToCompounds)
             {
-                case ETolerance.Absolute:
-                    tolerance = toleranceValue;
-                    break;
+                progress.Enter( "Matching peaks to compounds" );
 
-                case ETolerance.PartsPerMillion:
-                    tolerance = toleranceValue / 1000000m;
-                    break;
+                decimal tolerance;
 
-                case ETolerance.Percent:
-                    tolerance = toleranceValue / 100m;
-                    break;
-
-                default:
-                    throw new SwitchException( toleranceUnit );
-            }
-
-            UiControls.Assert( tolerance > 0, "m/z matching tolerance cannot be 0 or less." );
-
-
-            for (int i = 0; i < peaks.Count; i++)
-            {
-                progress.SetProgress( i, peaks.Count );
-
-                Peak pᵢ = peaks[i];
-                
-
-                foreach (Adduct aᵢ in adducts)
+                switch (toleranceUnit)
                 {
-                    if ((int)pᵢ.LcmsMode == Math.Sign(aᵢ.Charge))
+                    case ETolerance.Absolute:
+                        tolerance = toleranceValue;
+                        break;
+
+                    case ETolerance.PartsPerMillion:
+                        tolerance = toleranceValue / 1000000m;
+                        break;
+
+                    case ETolerance.Percent:
+                        tolerance = toleranceValue / 100m;
+                        break;
+
+                    default:
+                        throw new SwitchException( toleranceUnit );
+                }
+
+                UiControls.Assert( tolerance > 0, "m/z matching tolerance cannot be 0 or less." );
+
+
+                for (int i = 0; i < peaks.Count; i++)
+                {
+                    progress.SetProgress( i, peaks.Count );
+
+                    Peak pᵢ = peaks[i];
+
+
+                    foreach (Adduct aᵢ in adducts)
                     {
-                        decimal tol = pᵢ.Mz * tolerance;
-                        decimal tmz = pᵢ.Mz - (aᵢ.Mz * Math.Abs(aᵢ.Charge));
-
-                        foreach (Compound cᵢ in compounds)
+                        if ((int)pᵢ.LcmsMode == Math.Sign( aᵢ.Charge ))
                         {
-                            if (cᵢ.Mass != 0)
-                            {
-                                if (cᵢ.Mass >= tmz - tol && cᵢ.Mass <= tmz + tol)
-                                {
-                                    Annotation annotation = new Annotation(pᵢ, cᵢ, aᵢ);
+                            decimal tol = pᵢ.Mz * tolerance;
+                            decimal tmz = pᵢ.Mz - (aᵢ.Mz * Math.Abs( aᵢ.Charge ));
 
-                                    pᵢ.Annotations.Add(annotation);
-                                    cᵢ.Annotations.Add(annotation);
-                                    aᵢ.Annotations.Add(annotation);
+                            foreach (Compound cᵢ in compounds)
+                            {
+                                if (cᵢ.Mass != 0)
+                                {
+                                    if (cᵢ.Mass >= tmz - tol && cᵢ.Mass <= tmz + tol)
+                                    {
+                                        Annotation annotation = new Annotation( pᵢ, cᵢ, aᵢ, status );
+
+                                        pᵢ.Annotations.Add( annotation );
+                                        cᵢ.Annotations.Add( annotation );
+                                        aᵢ.Annotations.Add( annotation );
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+                progress.Leave();
             }
 
-            progress.Leave();
-
-            progress.Enter("Matching peaks to peaks");
-
-            for (int pi = 0; pi < peaks.Count; pi++)
+            if (matchPeaksToPeaks)
             {
-                progress.SetProgress(pi, peaks.Count);
 
-                Peak p = peaks[pi];
+                progress.Enter( "Matching peaks to peaks" );
 
-                if (p.Annotations.Count == 0)
+                for (int pi = 0; pi < peaks.Count; pi++)
                 {
-                    foreach (Peak p2 in peaks)
-                    {
-                        if (p2 != p)
-                        {
-                            decimal tol = (p2.Mz / 1000000) * 5;
+                    progress.SetProgress( pi, peaks.Count );
 
-                            if (p.Mz >= p2.Mz - tol && p.Mz <= p2.Mz + tol)
+                    Peak p = peaks[pi];
+
+                    if (p.Annotations.Count == 0)
+                    {
+                        foreach (Peak p2 in peaks)
+                        {
+                            if (p2 != p)
                             {
-                                p.SimilarPeaks.Add(p2);
+                                decimal tol = (p2.Mz / 1000000) * 5;
+
+                                if (p.Mz >= p2.Mz - tol && p.Mz <= p2.Mz + tol)
+                                {
+                                    p.SimilarPeaks.Add( p2 );
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            progress.Leave();
+                progress.Leave();
+            }
         }
 
         internal static void GetCompoundLibraries(out List<CompoundLibrary> compounds, out List<NamedItem<string>> adducts)
@@ -876,23 +927,26 @@ namespace MetaboliteLevels.Forms.Startup
             int acquisitionCol = info.TryFindColumn( dataInfo.OBSFILE_ACQUISITION_HEADER );
 
             // Get "peakinfo" columns specific to LCMS mode
-            int mzCol;
-            int lcmsModeCol;
+            int mzCol, rtCol, lcmsModeCol;
+
             switch (files.LcmsMode)
             {
                 case ELcmsMode.None:
                     mzCol = -1;
+                    rtCol = -1;
                     lcmsModeCol = -1;
                     break;
 
                 case ELcmsMode.Positive:
                 case ELcmsMode.Negative:
                     mzCol = varInfo.FindColumn( dataInfo.VARFILE_MZ_HEADER );
+                    rtCol = varInfo.FindColumn( dataInfo.VARFILE_RT_HEADER );
                     lcmsModeCol = -1;
                     break;
 
                 case ELcmsMode.Mixed:
                     mzCol = varInfo.FindColumn( dataInfo.VARFILE_MZ_HEADER );
+                    rtCol = varInfo.FindColumn( dataInfo.VARFILE_RT_HEADER );
                     lcmsModeCol = varInfo.FindColumn( dataInfo.VARFILE_MODE_HEADER );
                     break;
 
@@ -1009,7 +1063,8 @@ namespace MetaboliteLevels.Forms.Startup
                 }
 
                 // Field: m/z
-                decimal mz = mzCol != -1 ? decimal.Parse(varInfo[peakIndex, mzCol]) : 0;
+                decimal mz = mzCol != -1 ? decimal.Parse( varInfo[peakIndex, mzCol]) : 0;
+                decimal rt = rtCol != -1 ? decimal.Parse( varInfo[peakIndex, rtCol] ) : 0;
 
                 // ---------------
                 // - INTENSITIES -
@@ -1042,13 +1097,10 @@ namespace MetaboliteLevels.Forms.Startup
                     }
 
                     altValues = new PeakValueSet(result.Observations, result.Conditions, result.Types, altIntensities, result.AvgSmoother, result.MinSmoother, result.MaxSmoother);
-                }
-
-                // Computation values
-                IEnumerable<double> cvalues = values.ExtractValues(result.Conditions, IdsToTypes(result.Types, files.ConditionsOfInterestString));
+                }                                                                                                                                 
 
                 // Create the variable
-                Peak peak = new Peak(peakIndex, data.ColNames[peakIndex], values, altValues, lcmsMode, mz);
+                Peak peak = new Peak(peakIndex, data.ColNames[peakIndex], values, altValues, lcmsMode, mz, rt);
                 WriteMeta( varInfo, peakIndex, peak.MetaInfo, result.PeakMetaHeader);
                 result.Peaks.Add(peak);
             }
@@ -1325,6 +1377,11 @@ namespace MetaboliteLevels.Forms.Startup
             }
             else
             {
+                if (_warnings != null && _warnings.Count != 0)
+                {
+                    FrmInputMultiLine.ShowFixed( this, "Load data", "Warnings", "One or more warnings occured whilst loading the data", string.Join( "\r\n\r\n", _warnings ) );
+                }
+
                 DialogResult = DialogResult.OK;
             }
         }
@@ -1348,6 +1405,7 @@ namespace MetaboliteLevels.Forms.Startup
         public readonly string[] OBSFILE_BATCH_HEADER              = { "batch" };
         public readonly string[] OBSFILE_ACQUISITION_HEADER        = { "acquisition", "order", "file", "index", "acquisition order" };
         public readonly string[] IDFILE_PEAK_HEADER                = { "name", "peak", "variable" };
+        public readonly string[] IDFILE_STATUS_HEADER              = { "status", "confirmation" };
         public readonly string[] IDFILE_COMPOUNDS_HEADER           = { "id", "annotation", "ids", "annotations", "compounds", "compound" };
         public readonly string[] ADDUCTFILE_NAME_HEADER            = { "name" };
         public readonly string[] ADDUCTFILE_CHARGE_HEADER          = { "charge", "z" };
@@ -1360,7 +1418,8 @@ namespace MetaboliteLevels.Forms.Startup
         public readonly string[] COMPOUNDFILE_PATHWAYS_HEADER      = { "pathways", "pathway", "pathway.ids", "pathway.id" };
         public readonly string[] CONDITIONFILE_ID_HEADER           = { "id", "frame.id" };
         public readonly string[] CONDITIONFILE_NAME_HEADER         = { "name" };
-        public readonly string[] VARFILE_MZ_HEADER                 = { "mz" };
+        public readonly string[] VARFILE_MZ_HEADER                 = { "mz", "m/z" };
+        public readonly string[] VARFILE_RT_HEADER                 = { "rt", "r.t.", "r.t", "rt.", "ret. time", "retention", "retention time" };
         public readonly string[] VARFILE_MODE_HEADER               = { "mode", "lcmsmode", "lcms", "lcms.mode" };
         public readonly string[] AUTOFILE_OBSERVATIONS             = { "Info.csv", "ObsInfo.csv", "ObservationInfo.csv", "Observations.csv", "*.jgf" };
         public readonly string[] AUTOFILE_PEAKS                    = { "VarInfo.csv", "PeakInfo.csv", "FeatureInfo.csv", "Peaks.csv", "Variables.csv", "Features.csv" };

@@ -247,26 +247,34 @@ Download the latest version and source code: https://bitbucket.org/mjr129/metabo
   <data name="Identifications" xml:space="preserve">
     <value>FILEFORMAT
 
-Specifies potential identifications for the peaks.
+Specifies potential annotations for the peaks.
 
-OPTIONAL: Use only to specify identifications manually if required. You can use the "compounds" field to request automated identifications.
+OPTIONAL: Use to specify annotations manually. You can use the "automatic annotations" checkbox to request automated identifications.
 
-EXPECTS: One or more adduct library files.
-A list of available libraries will be displayed if the library folder has been configured, otherwise the source must be specified manually.
+EXPECTS: Comma separated value file.
 
 {}
-Text. Name of the identification (arbitrary. Must be unique. Mandatory.
+Text. Row names. (Ignored. Mandatory.)
 
 {IDFILE_PEAK_HEADER}   
-Text. The name of the peak. Mandatory.
+Text. The name of the peak. Optional. Must specify m/z and r.t. if not set.
+
+{VARFILE_MZ_HEADER}   
+Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.
+	
+{VARFILE_RT_HEADER}   
+Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.
 
 {ID_COMPOUNDS_HEADER}
-Text. Comma separated list of compounds. These should correspond to the "id" or "name" of loaded compounds.
+List of text values. Comma delmited list of compounds. These should correspond to the "id" or "name" of loaded compounds.
 
-If compounds are not loaded or IDs cannot be found, no extra information (such as mass or potential pathways) be available for the compound. NOTE: CSV files use commas as their internal delimiter, enclosed this list in quotes to avoid confusion. Required for pathway analysis. 
+NOTE: CSV files use commas as their internal delimiter, enclose this list in quotes to avoid confusion. 
+
+{VARFILE_STATUS_HEADER}   
+Enumeration. The status of the annotation. This can be one of "confirmed", "affirmed" or "tentative". If this column is not present the default specified by the user when loading the file is used.
 
 {META}
-Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
+All other columns are discarded.</value>
   </data>
   <data name="Intensities" xml:space="preserve">
     <value>FILEFORMAT
@@ -455,5 +463,56 @@ Please recreate the session from the original files.</value>
   </data>
   <data name="DataLoadQueryHelp" xml:space="preserve">
     <value>Select the data you'd like to load into the application. Select the "help" button at the bottom to show the side-bar, describing the data you need to provide for each input.</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>FILEFORMAT</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Specifies potential annotations for the peaks.</value>
+  </data>
+  <data name="String10" xml:space="preserve">
+    <value>{VARFILE_RT_HEADER}</value>
+  </data>
+  <data name="String11" xml:space="preserve">
+    <value>Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.</value>
+  </data>
+  <data name="String12" xml:space="preserve">
+    <value>{ID_COMPOUNDS_HEADER}</value>
+  </data>
+  <data name="String13" xml:space="preserve">
+    <value>Text. Comma delmited list of compounds. These should correspond to the "id" or "name" of loaded compounds.</value>
+  </data>
+  <data name="String14" xml:space="preserve">
+    <value>NOTE: CSV files use commas as their internal delimiter, enclose this list in quotes to avoid confusion.</value>
+  </data>
+  <data name="String15" xml:space="preserve">
+    <value>{META}</value>
+  </data>
+  <data name="String16" xml:space="preserve">
+    <value>All other columns are discarded.</value>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value>OPTIONAL: Use to specify annotations manually. You can use the "automatic annotations" checkbox to request automated identifications.</value>
+  </data>
+  <data name="String3" xml:space="preserve">
+    <value>EXPECTS: Comma separated value file.</value>
+  </data>
+  <data name="String4" xml:space="preserve">
+    <value>{}</value>
+  </data>
+  <data name="String5" xml:space="preserve">
+    <value>Text. Row names. (Ignored. Mandatory.)</value>
+  </data>
+  <data name="String6" xml:space="preserve">
+    <value>{IDFILE_PEAK_HEADER}</value>
+  </data>
+  <data name="String7" xml:space="preserve">
+    <value>Text. The name of the peak. Optional. Must specify m/z and r.t. if not set.</value>
+  </data>
+  <data name="String8" xml:space="preserve">
+    <value>{VARFILE_MZ_HEADER}</value>
+  </data>
+  <data name="String9" xml:space="preserve">
+    <value>Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.</value>
   </data>
 </root>

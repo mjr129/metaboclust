@@ -23,7 +23,7 @@ namespace MetaboliteLevels.Viewers.Lists
         Visible,
         Meta,
         Statistic,
-        Advanced = None,
+        Advanced,
     }
 
     enum EListDisplayMode
@@ -381,12 +381,12 @@ namespace MetaboliteLevels.Viewers.Lists
 
             foreach (PropertyInfo prop in t.GetProperties( bf ))
             {
-                columns.Add( "Properties\\" + prop.Name, EColumn.Advanced, prop.GetValue);
+                columns.Add( "IData\\" + prop.Name, EColumn.Advanced, prop.GetValue);
             }
 
             foreach (FieldInfo field in t.GetFields( bf ))
             {
-                columns.Add( "Fields\\" + field.Name, EColumn.Advanced, field.GetValue );
+                columns.Add( "IData\\" + field.Name, EColumn.Advanced, field.GetValue );
             }
 
             return def.Concat( columns );

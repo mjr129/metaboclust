@@ -123,7 +123,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// Retrieves an item with the specified name.
         /// NOTE: This is only for cases where the item is not in the source list and therefore
         /// allows users to specify new entries.
-        ///       x.ToString(), Namer(x) and StringComparator are always checked regardless.
+        ///       x.ToString(), Namer(x) and StringComparator are NOT checked.
         /// </summary>
         public RetrieverDelegate DynamicItemRetriever { get; set; }
 

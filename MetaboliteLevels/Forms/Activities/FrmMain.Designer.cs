@@ -1203,7 +1203,7 @@ namespace MetaboliteLevels.Forms
             this._btnMainAnnots.AutoSize = false;
             this._btnMainAnnots.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnMainAnnots.ForeColor = System.Drawing.Color.Black;
-            this._btnMainAnnots.Image = global::MetaboliteLevels.Properties.Resources.IconCompound;
+            this._btnMainAnnots.Image = global::MetaboliteLevels.Properties.Resources.IconAnnotation;
             this._btnMainAnnots.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnMainAnnots.Margin = new System.Windows.Forms.Padding(0);
             this._btnMainAnnots.Name = "_btnMainAnnots";
@@ -1668,7 +1668,7 @@ namespace MetaboliteLevels.Forms
             this._btnSubAnnot.AutoSize = false;
             this._btnSubAnnot.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSubAnnot.ForeColor = System.Drawing.Color.Black;
-            this._btnSubAnnot.Image = global::MetaboliteLevels.Properties.Resources.IconCompound;
+            this._btnSubAnnot.Image = global::MetaboliteLevels.Properties.Resources.IconAnnotation;
             this._btnSubAnnot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._btnSubAnnot.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubAnnot.Name = "_btnSubAnnot";

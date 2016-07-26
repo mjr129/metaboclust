@@ -475,8 +475,8 @@ namespace MetaboliteLevels.Viewers.Lists
         }    
 
         private void EditColumnsAsList_Click(object sender, EventArgs e)
-        {
-            IEnumerable<Column> selected = DataSet.ForColumns(_availableColumns).ShowCheckList(this.ListView.FindForm(), _availableColumns.Where(z => !z.IsAlwaysEmpty && z.Visible ) );
+        {                                                                                                                            
+            IEnumerable<Column> selected = FrmEditColumns.Show( ListView.FindForm(), _availableColumns, _availableColumns.Where( z => z.Visible ) );
 
             if (selected != null)
             {

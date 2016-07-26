@@ -535,27 +535,27 @@ namespace MetaboliteLevels.Data.Visualisables
             var result = new List<Column<Cluster>>();
 
             result.Add("Method Name", EColumn.None, λ => λ.Method.ToString());
-            result.Add("Method №", EColumn.None, λ => 1 + core.AllClusterers.WhereEnabled().IndexOf(λ.Method));
+            result.Add("Method №", EColumn.Advanced, λ => 1 + core.AllClusterers.WhereEnabled().IndexOf(λ.Method));
             result.Add("Name", EColumn.Visible, λ => λ.DisplayName);
             result.Add("Comments", EColumn.None, λ => λ.Comment);
             result.Add("Assignments\\All", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
-            result.Add("Assignments\\All (scores)", EColumn.None, λ => λ.Assignments.Scores.ToArray());
+            result.Add("Assignments\\All (scores)", EColumn.Advanced, λ => λ.Assignments.Scores.ToArray());
 
             foreach (GroupInfo group in core.Groups)
             {
                 GroupInfo closure = group;
-                result.Add("Assignments\\" + UiControls.ZEROSPACE + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
+                result.Add("Assignments\\" + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
                 result[result.Count - 1].Colour = z => closure.Colour;
             }
 
             result.Add("Exemplars", EColumn.None, λ => λ.Exemplars);
-            result.Add("State", EColumn.None, λ => λ.States.ToUiString());
+            result.Add("State", EColumn.Advanced, λ => λ.States.ToUiString());
             result.Add("Comment", EColumn.None, λ => λ.Comment);
 
             foreach (PeakFlag flag in core.Options.PeakFlags)
             {
                 PeakFlag closure = flag;
-                result.Add("Flag\\" + flag, EColumn.None, λ => λ.CommentFlags.ContainsKey(closure) ? λ.CommentFlags[closure] : 0);
+                result.Add("Flag\\" + flag, EColumn.Advanced, λ => λ.CommentFlags.ContainsKey(closure) ? λ.CommentFlags[closure] : 0);
                 result[result.Count - 1].Colour = z => closure.Colour;
             }
 
@@ -574,7 +574,7 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             result.Add("№ centres", EColumn.None, λ => λ.Centres.Count);
-            result.Add("Related clusters", EColumn.None, λ => λ.Related);
+            result.Add("Related clusters", EColumn.Advanced, λ => λ.Related);
             result.Add("Short name", EColumn.None, λ => λ.ShortName);
 
             return result;

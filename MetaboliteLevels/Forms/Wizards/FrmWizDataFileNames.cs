@@ -15,6 +15,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.Collections;
+using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.DataLoader;
 using MGui.Datatypes;
 using MGui.Helpers;
@@ -79,21 +80,18 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// List of ALL adduct libraries
         /// </summary>
-        private readonly List<NamedItem<string>> _adductLibraries;
-                
-        /// <summary>
-        /// Cached names of the experimental types (as a dictionary)
-        /// </summary>
-        private Dictionary<string, string> _typeCacheNames = new Dictionary<string, string>();
+        private readonly List<NamedItem<string>> _adductLibraries;                            
 
         /// <summary>
         /// Cached names of the experimental types (as a hashset)
         /// </summary>
-        private readonly HashSet<string> _experimentalGroupCache = new HashSet<string>();
+        private readonly List<ExpCond> _experimentalGroupCache = new List<ExpCond>();
 
         private readonly ToolStripMenuItem _mnuBrowseWorkspace;
         private readonly ToolStripSeparator _mnuBrowseWorkspaceSep;
         private readonly FileLoadInfo _fileLoadInfo;
+        private EditableComboBox<EAnnotation> _cbAutomaticFlag;
+        private EditableComboBox<EAnnotation> _cbManualFlag;
 
         /// <summary>
         /// Constructor.
@@ -140,6 +138,10 @@ namespace MetaboliteLevels.Forms.Startup
             // Setup the experimental group boxes
             _cbControl = CreateExpConditionBox( _txtControls, _btnBrowseContCond );
             _cbExp = CreateExpConditionBox( _txtExps, _btnBrowseExpCond );
+
+            // Setup annotations
+            _cbAutomaticFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox(_automaticFlag, null, ENullItemName.NoNullItem);
+            _cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox( _manualFlag, null, ENullItemName.NoNullItem );
 
             // Setup help
             splitContainer1.Panel2Collapsed = true;
@@ -439,8 +441,9 @@ namespace MetaboliteLevels.Forms.Startup
                     break;
 
                 case 5: // Annotations
-                    _checker.Check( _numTolerance, !_chkAutoIdentify.Checked || _numTolerance.Value != 0, "A tolerance of zero is probably a mistake." );
-                    _checker.Check( _lstTolerance, !_chkAutoIdentify.Checked || _lstTolerance.SelectedIndex != -1, "A unit must be specified." );
+                    bool doesntNeedTol = !_chkAutoIdentify.Checked && !_chkPeakPeakMatch.Checked;
+                    _checker.Check( _numTolerance, doesntNeedTol || _numTolerance.Value != 0, "A tolerance of zero is probably a mistake." );
+                    _checker.Check( _lstTolerance, doesntNeedTol || _lstTolerance.SelectedIndex != -1, "A unit must be specified." );
                     _checker.Check( _txtIdentifications, !_chkIdentifications.Checked || File.Exists( _txtIdentifications.Text ), "Filename not provided or file not found." );
                     break;
 
@@ -505,8 +508,11 @@ namespace MetaboliteLevels.Forms.Startup
             SetCheck( _chkStatP, lfn.StandardStatisticalMethods, EStatisticalMethods.Pearson );
 
             _chkAutoIdentify.Checked = lfn.AutomaticIdentifications;
+            _chkPeakPeakMatch.Checked = lfn.PeakPeakMatching;
+            _cbAutomaticFlag.SelectedItem = lfn.AutomaticIdentificationsStatus;
+            _cbManualFlag.SelectedItem = lfn.ManualIdentificationsStatus;
 
-            if (lfn.AutomaticIdentifications)
+            if (lfn.AutomaticIdentifications || lfn.PeakPeakMatching)
             {
                 _numTolerance.Value = lfn.AutomaticIdentificationsToleranceValue;
                 EnumComboBox.Set( _lstTolerance, lfn.AutomaticIdentificationsToleranceUnit, false );
@@ -514,7 +520,7 @@ namespace MetaboliteLevels.Forms.Startup
             else
             {
                 _numTolerance.Value = 0.0m;
-                EnumComboBox.Set<ETolerance>( _lstTolerance, null);
+                EnumComboBox.Set<ETolerance>( _lstTolerance, ETolerance.PartsPerMillion);
             }
 
 
@@ -522,8 +528,8 @@ namespace MetaboliteLevels.Forms.Startup
             {
                 EnumComboBox.Set( _lstLcmsMode, lfn.LcmsMode, true );
 
-                _cbExp.SelectedItems = (lfn.ConditionsOfInterestString);
-                _cbControl.SelectedItems = (lfn.ControlConditionsString);
+                _cbExp.SelectedItems = lfn.ConditionsOfInterestString.Where( z => z != null ); // deal with legacy invalid data
+                _cbControl.SelectedItems = lfn.ControlConditionsString.Where( z => z != null );
             }
             else
             {
@@ -663,6 +669,9 @@ namespace MetaboliteLevels.Forms.Startup
                 fileNames.Identifications            = _chkIdentifications.Checked ? _txtIdentifications.Text : null;
                 fileNames.AdductLibraries            = _lstAdducts.Items.Cast<NamedItem<string>>().Select( z => z.Value ).ToList();
                 fileNames.AutomaticIdentifications   = _chkAutoIdentify.Checked;
+                fileNames.AutomaticIdentificationsStatus = _cbAutomaticFlag.SelectedItem;
+                fileNames.ManualIdentificationsStatus = _cbManualFlag.SelectedItem;
+                fileNames.PeakPeakMatching           = _chkPeakPeakMatch.Checked;
                 fileNames.Session                    = null;
                 fileNames.AltData                    = _chkAltVals.Checked ? _txtAltVals.Text : null;
                 fileNames.ConditionInfo              = CondInfoFileName;
@@ -808,6 +817,7 @@ namespace MetaboliteLevels.Forms.Startup
         private void _chkIdentifications_CheckedChanged( object sender, EventArgs e )
         {
             CheckTheBox( _chkIdentifications, _txtIdentifications, _btnIdentifications );
+            _cbManualFlag.Enabled = ctlLabel3.Enabled = _chkIdentifications.Checked;
         }
 
         private void UpdateAutoIdentifyButton()
@@ -815,6 +825,8 @@ namespace MetaboliteLevels.Forms.Startup
             var e = EnumComboBox.Get( _lstLcmsMode, ELcmsMode.None );
             _chkAutoIdentify.Enabled = _lstCompounds.Items.Count != 0 && _lstAdducts.Items.Count != 0 && e != ELcmsMode.None;
             _chkAutoIdentify.Checked = _chkAutoIdentify.Enabled;
+            _chkPeakPeakMatch.Enabled = e != ELcmsMode.None;
+            _chkPeakPeakMatch.Checked = _chkPeakPeakMatch.Checked && _chkPeakPeakMatch.Enabled;
         }
 
         private void _chkAltVals_CheckedChanged( object sender, EventArgs e )
@@ -996,16 +1008,16 @@ namespace MetaboliteLevels.Forms.Startup
                 return;
             }
 
-            string conditionFile = _txtCondInfo.Text;
+            string conditionFile = _chkCondInfo.Checked ? _txtCondInfo.Text : null;
             string observationFile = _txtDataSetObs.Text;
-            bool useObsFile = string.IsNullOrWhiteSpace( conditionFile );
+            bool useObsFile = string.IsNullOrWhiteSpace( conditionFile) || !File.Exists( conditionFile );
             string sourceDescription = useObsFile ? ("O" + observationFile) : ("C" + conditionFile);
 
             if (_experimentalGroupCacheSource != sourceDescription)
             {
                 _experimentalGroupCacheSource = sourceDescription;
                 
-                _typeCacheNames.Clear();
+                _experimentalGroupCache.Clear();
 
                 try
                 {
@@ -1020,25 +1032,25 @@ namespace MetaboliteLevels.Forms.Startup
                         {
                             if (File.Exists( observationFile ))
                             {
-                                Spreadsheet<string> info = reader.Read<string>( observationFile  );
+                                Spreadsheet<string> info = reader.Read<string>( observationFile );
                                 int typeCol = info.TryFindColumn( _fileLoadInfo.OBSFILE_GROUP_HEADER );
 
                                 for (int row = 0; row < info.NumRows; row++)
                                 {
                                     string id = typeCol == -1 ? "A" : info[row, typeCol];
-                                                          
-                                    if (!_typeCacheNames.ContainsKey( id ))
+
+                                    if (!_experimentalGroupCache.Any( z=> z.Id.ToUpper() == id.ToUpper() ))
                                     {
-                                        _typeCacheNames.Add( id, id );
+                                        _experimentalGroupCache.Add( new ExpCond( id, "Type " + id ) );
                                     }
                                 }
                             }
-                            else
+                        }
+                        else
+                        {
+                            foreach (var kvp in FrmActDataLoad.LoadConditionInfo( _fileLoadInfo, conditionFile, progress ))
                             {
-                                if (File.Exists( conditionFile ))
-                                {
-                                    _typeCacheNames = FrmActDataLoad.LoadConditionInfo( _fileLoadInfo, conditionFile, progress );
-                                }
+                                _experimentalGroupCache.Add( new ExpCond( kvp.Key, kvp.Value ) );
                             }
                         }
                     } );
@@ -1046,10 +1058,7 @@ namespace MetaboliteLevels.Forms.Startup
                 catch
                 {
                    // NA
-                }
-
-                _experimentalGroupCache.Clear();
-                _experimentalGroupCache.AddRange( _typeCacheNames.Keys );
+                }                                                        
             }
         }
 
@@ -1058,11 +1067,28 @@ namespace MetaboliteLevels.Forms.Startup
             return new DataSet<string>()
             {
                 Title = "Experimental Conditions",
-                Source = new TypeCacheIdsWrapper( this ),
-                ItemNameProvider = ConditionBox_Namer,
-                ItemDescriptionProvider = ConditionBox_Describer,
-                DynamicItemRetriever = ConditionBox_Retriever,
+                Source = new TypeCacheIdsWrapper( this ),        
+                ItemNameProvider = ConditionBox_ItemNameProvider,
+                ItemDescriptionProvider = ConditionBox_ItemDescriptionProvider,
+                DynamicItemRetriever = ConditionBox_DynamicItemRetriever,
             }.CreateConditionBox( textBox, button );
+        }
+
+        class ExpCond
+        {
+            public readonly string Id;
+            public readonly string Name;
+
+            public ExpCond( string id, string name )
+            {
+                Id = id;
+                Name = name;
+            }
+
+            public override string ToString()
+            {
+                return Name;
+            }
         }
 
         /// <summary>
@@ -1081,7 +1107,7 @@ namespace MetaboliteLevels.Forms.Startup
             public IEnumerator<string> GetEnumerator()
             {
                 _owner.UpdateCacheOfTypes();
-                return _owner._experimentalGroupCache.GetEnumerator();
+                return _owner._experimentalGroupCache.Select( z => z.Id ).GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -1090,35 +1116,43 @@ namespace MetaboliteLevels.Forms.Startup
             }
         }
 
-        private bool ConditionBox_Retriever( string name, out string item )
+        private bool ConditionBox_DynamicItemRetriever( string entry, out string item )
         {
-            item = name;
+            var expCond = this._experimentalGroupCache.FirstOrDefault( z => z.Id == entry.ToUpper() || z.Name.ToUpper() == entry.ToUpper() );
+
+            if (expCond == null)
+            {
+                item = entry;
+                return true;
+            }
+
+            item = expCond.Id;
             return true;
         }
 
-        private string ConditionBox_Describer( string item )
+        private string ConditionBox_ItemNameProvider( string item )
         {
-            string name;
+            var expCond = this._experimentalGroupCache.FirstOrDefault( z => z.Id == item );
 
-            if (_typeCacheNames.TryGetValue( item, out name ))
+            if (expCond == null)
             {
-                return "Name: " + name + ", ID = " + item;
+                return item;
             }
 
-            return "Type: Unnamed, ID = " + item;
+            return expCond.Name;
         }
 
-        private string ConditionBox_Namer( string item )
+        private string ConditionBox_ItemDescriptionProvider( string item )
         {
-            string name;
+            var expCond = this._experimentalGroupCache.FirstOrDefault( z => z.Id == item );
 
-            if (_typeCacheNames.TryGetValue( item, out name ))
+            if (expCond == null)
             {
-                return name;
+                return "No details available";
             }
 
-            return item;
-        }
+            return expCond.Id + " = \"" + expCond.Name + "\"";
+        }    
 
         private void _chkStatT_CheckedChanged( object sender, EventArgs e )
         {
@@ -1224,7 +1258,8 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void _chkAutoIdentify_CheckedChanged( object sender, EventArgs e )
         {
-            _numTolerance.Enabled = _lblTolerance.Enabled = _lstTolerance.Enabled = _chkAutoIdentify.Checked;
+            _numTolerance.Enabled = _lblTolerance.Enabled = _lstTolerance.Enabled = (_chkAutoIdentify.Checked || _chkPeakPeakMatch.Checked);
+            _cbAutomaticFlag.Enabled = ctlLabel1.Enabled = _chkAutoIdentify.Checked;
         }
 
         private void _txtDataSetData_TextChanged( object sender, EventArgs e )
@@ -1250,6 +1285,11 @@ namespace MetaboliteLevels.Forms.Startup
         private void _txtDataSetObs_TextChanged( object sender, EventArgs e )
         {
 
+        }
+
+        private void _btnIdentifications_Click_1( object sender, EventArgs e )
+        {
+            Browse( _txtIdentifications );
         }
     }
 }

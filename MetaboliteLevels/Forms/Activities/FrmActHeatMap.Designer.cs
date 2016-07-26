@@ -32,7 +32,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this._lblSelection = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,11 +46,14 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.notANumberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.outOfRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.alphaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.betaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new MGui.Controls.CtlImageViewer();
+            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this.pictureBox1 = new MGui.Controls.CtlImageBuffer();
+            this.zoomout1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -61,8 +64,8 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 188);
+            this._lblSelection});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 199);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(618, 24);
             this.statusStrip1.TabIndex = 2;
@@ -91,17 +94,17 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(19, 19);
             this.toolStripStatusLabel3.Visible = false;
             // 
-            // toolStripStatusLabel1
+            // _lblSelection
             // 
-            this.toolStripStatusLabel1.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            this._lblSelection.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(66, 19);
-            this.toolStripStatusLabel1.Text = "(selection)";
-            this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripStatusLabel1.Visible = false;
+            this._lblSelection.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this._lblSelection.Name = "_lblSelection";
+            this._lblSelection.Size = new System.Drawing.Size(66, 19);
+            this._lblSelection.Text = "(selection)";
+            this._lblSelection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblSelection.Visible = false;
             // 
             // menuStrip1
             // 
@@ -120,7 +123,8 @@
             // 
             this.zoomToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.defaultToolStripMenuItem,
-            this.zoomInToolStripMenuItem1});
+            this.zoomInToolStripMenuItem1,
+            this.zoomout1ToolStripMenuItem});
             this.zoomToolStripMenuItem.ForeColor = System.Drawing.Color.Purple;
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
             this.zoomToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
@@ -129,14 +133,16 @@
             // defaultToolStripMenuItem
             // 
             this.defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
-            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.defaultToolStripMenuItem.Text = "&Default (×1)";                                                       
+            this.defaultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.defaultToolStripMenuItem.Text = "&Default (×1)";
+            this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
             // 
             // zoomInToolStripMenuItem1
             // 
             this.zoomInToolStripMenuItem1.Name = "zoomInToolStripMenuItem1";
-            this.zoomInToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
-            this.zoomInToolStripMenuItem1.Text = "&Zoom in (+1)";                                                   
+            this.zoomInToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.zoomInToolStripMenuItem1.Text = "&Zoom in (+1)";
+            this.zoomInToolStripMenuItem1.Click += new System.EventHandler(this.zoomInToolStripMenuItem1_Click);
             // 
             // sortToolStripMenuItem
             // 
@@ -209,21 +215,6 @@
             this.outOfRangeToolStripMenuItem.Text = "&Out of range";
             this.outOfRangeToolStripMenuItem.Click += new System.EventHandler(this.outOfRangeToolStripMenuItem_Click);
             // 
-            // ctlTitleBar1
-            // 
-            this.ctlTitleBar1.AutoSize = true;
-            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
-            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
-            this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(618, 56);
-            this.ctlTitleBar1.SubText = "";
-            this.ctlTitleBar1.TabIndex = 1;
-            this.ctlTitleBar1.Text = "Heatmap";
-            this.ctlTitleBar1.WarningText = null;
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -246,36 +237,73 @@
             this.betaToolStripMenuItem.Text = "&Beta";
             this.betaToolStripMenuItem.Click += new System.EventHandler(this.alphaToolStripMenuItem_Click);
             // 
+            // hScrollBar1
+            // 
+            this.hScrollBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 182);
+            this.hScrollBar1.Name = "hScrollBar1";
+            this.hScrollBar1.Size = new System.Drawing.Size(618, 17);
+            this.hScrollBar1.TabIndex = 4;
+            this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.eitherScrollBar_Scroll);
+            // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.vScrollBar1.Location = new System.Drawing.Point(601, 80);
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 102);
+            this.vScrollBar1.TabIndex = 5;
+            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.eitherScrollBar_Scroll);
+            // 
+            // ctlTitleBar1
+            // 
+            this.ctlTitleBar1.AutoSize = true;
+            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
+            this.ctlTitleBar1.Name = "ctlTitleBar1";
+            this.ctlTitleBar1.Size = new System.Drawing.Size(618, 56);
+            this.ctlTitleBar1.SubText = "";
+            this.ctlTitleBar1.TabIndex = 1;
+            this.ctlTitleBar1.Text = "Heatmap";
+            this.ctlTitleBar1.WarningText = null;
+            // 
             // pictureBox1
             // 
-            this.pictureBox1.AnimateMouseZoom = true;
             this.pictureBox1.BackColor = System.Drawing.Color.Blue;
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = null;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 80);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Offset = new System.Drawing.Point(0, 0);
-            this.pictureBox1.PickPoint = null;
-            this.pictureBox1.Size = new System.Drawing.Size(618, 108);
+            this.pictureBox1.Size = new System.Drawing.Size(618, 223);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.TransparentImage = null;
-            this.pictureBox1.Zoom = 1F;
+            this.pictureBox1.Render += new MGui.Controls.RenderEventHandler(this.pictureBox1_Render);
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
+            // zoomout1ToolStripMenuItem
+            // 
+            this.zoomout1ToolStripMenuItem.Name = "zoomout1ToolStripMenuItem";
+            this.zoomout1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoomout1ToolStripMenuItem.Text = "Zoom &out (-1)";
+            this.zoomout1ToolStripMenuItem.Click += new System.EventHandler(this.zoomout1ToolStripMenuItem_Click);
+            // 
             // FrmActHeatMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 212);
-            this.Controls.Add(this.pictureBox1);
+            this.ClientSize = new System.Drawing.Size(618, 223);
+            this.Controls.Add(this.vScrollBar1);
+            this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.ctlTitleBar1);
+            this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FrmActHeatMap";
@@ -295,7 +323,7 @@
         #endregion
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel _lblSelection;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem defaultToolStripMenuItem;
@@ -314,6 +342,9 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem alphaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem betaToolStripMenuItem;
-        private MGui.Controls.CtlImageViewer pictureBox1;
+        private MGui.Controls.CtlImageBuffer pictureBox1;
+        private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.ToolStripMenuItem zoomout1ToolStripMenuItem;
     }
 }

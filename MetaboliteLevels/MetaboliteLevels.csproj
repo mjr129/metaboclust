@@ -199,6 +199,12 @@
     <Compile Include="Forms\Activities\FrmActHeatMap.Designer.cs">
       <DependentUpon>FrmActHeatMap.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Editing\FrmEditColumns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Editing\FrmEditColumns.Designer.cs">
+      <DependentUpon>FrmEditColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Wizards\FrmViewSpreadsheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -585,6 +591,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmEditClusterEvaluationPointer.resx">
       <DependentUpon>FrmEditClusterEvaluationPointer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Editing\FrmEditColumns.resx">
+      <DependentUpon>FrmEditColumns.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmEditGroupBase.resx">
       <DependentUpon>FrmEditGroupBase.cs</DependentUpon>
@@ -1095,6 +1104,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\IconAnnotation.png" />
+    <None Include="Resources\IconAnnotationTentative.png" />
+    <None Include="Resources\IconAnnotationConfirmed.png" />
+    <None Include="Resources\IconAnnotationAffirmed.png" />
+    <None Include="Resources\ListIconPeakTentative.png" />
+    <None Include="Resources\ListIconPeakConfirmed.png" />
+    <None Include="Resources\ListIconPeakAffirmed.png" />
+    <None Include="Resources\IconPeakTentative.png" />
+    <None Include="Resources\IconPeakConfirmed.png" />
+    <None Include="Resources\IconPeakAffirmed.png" />
+    <None Include="Resources\ListIconCompoundTentative.png" />
+    <None Include="Resources\ListIconCompoundConfirmed.png" />
+    <None Include="Resources\ListIconCompoundAffirmed.png" />
+    <None Include="Resources\IconCompoundTentative.png" />
+    <None Include="Resources\IconCompoundConfirmed.png" />
+    <None Include="Resources\IconCompoundAffirmed.png" />
     <None Include="Resources\MnuGroup.png" />
     <None Include="Resources\zoom_16xLG.png" />
     <EmbeddedResource Include="VersionHistory.txt" />

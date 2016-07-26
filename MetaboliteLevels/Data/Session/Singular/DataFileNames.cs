@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Utilities;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using MetaboliteLevels.Data.Visualisables;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Settings
@@ -30,6 +31,9 @@ namespace MetaboliteLevels.Settings
         // modes
         public ELcmsMode LcmsMode;               // lc-ms mode
         public bool AutomaticIdentifications;   // for annotations - whether to auto-id
+        public EAnnotation AutomaticIdentificationsStatus;   // for annotations - initial status
+        public EAnnotation ManualIdentificationsStatus;   // for annotations - default status
+        public bool PeakPeakMatching;   // for annotations - whether to compare peaks to peaks
         public decimal AutomaticIdentificationsToleranceValue; // for annotations - m/z tolerance
         public ETolerance AutomaticIdentificationsToleranceUnit; // for annotations - m/z tolerance unit
 

@@ -120,7 +120,11 @@ namespace MetaboliteLevels.Controls
             set
             {
                 ComboBox.Enabled = value;
-                _button.Enabled = value;
+
+                if (_button != null)
+                {
+                    _button.Enabled = value;
+                }
             }
         }
 
@@ -133,7 +137,11 @@ namespace MetaboliteLevels.Controls
             set
             {
                 ComboBox.Visible = value;
-                _button.Visible = value;
+
+                if (_button != null)
+                {
+                    _button.Visible = value;
+                }
             }
         }
     }

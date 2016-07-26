@@ -562,16 +562,23 @@ namespace MetaboliteLevels.Utilities
             switch (v)
             {
                 case ImageListOrder.Adduct: return bold ? Resources.IconAdduct : Resources.ListIconAdduct;
-                case ImageListOrder.Compound: return bold ? Resources.IconCompound : Resources.ListIconCompoundWithAnnotation;
-                case ImageListOrder.CompoundU: return bold ? Resources.IconCompound : Resources.ListIconCompound;
+                case ImageListOrder.AnnotationT: return bold ? Resources.IconAnnotationTentative : Resources.IconAnnotationTentative;
+                case ImageListOrder.AnnotationA: return bold ? Resources.IconAnnotationAffirmed : Resources.IconAnnotationAffirmed;
+                case ImageListOrder.AnnotationC: return bold ? Resources.IconAnnotationConfirmed : Resources.IconAnnotationConfirmed;
+                case ImageListOrder.Compound0: return bold ? Resources.IconCompound : Resources.ListIconCompound;
+                case ImageListOrder.CompoundT: return bold ? Resources.IconCompoundTentative : Resources.ListIconCompoundTentative;
+                case ImageListOrder.CompoundA: return bold ? Resources.IconCompoundAffirmed : Resources.ListIconCompoundAffirmed;
+                case ImageListOrder.CompoundC: return bold ? Resources.IconCompoundConfirmed : Resources.ListIconCompoundConfirmed;
                 case ImageListOrder.Info: return bold ? Resources.IconInformation : Resources.ListIconInformation;
                 case ImageListOrder.InfoU: return bold ? Resources.ListIconInformation : Resources.ListIconInformationMeta; // No large
                 case ImageListOrder.List: return bold ? Resources.IconList : Resources.IconList; // No large
                 case ImageListOrder.Pathway: return bold ? Resources.IconPathway : Resources.ListIconPathway;
                 case ImageListOrder.Cluster: return bold ? Resources.IconCluster : Resources.ListIconCluster;
                 case ImageListOrder.ClusterU: return bold ? Resources.ListIconCluster : Resources.ListIconClusterInsignificant; // No large
-                case ImageListOrder.Variable: return bold ? Resources.ListIconPeakWithAnnotation : Resources.ListIconPeakWithAnnotation;
-                case ImageListOrder.VariableU: return bold ? Resources.IconPeak : Resources.ListIconPeak;
+                case ImageListOrder.Variable0: return bold ? Resources.IconPeak : Resources.ListIconPeak;
+                case ImageListOrder.VariableT: return bold ? Resources.IconPeakTentative : Resources.ListIconPeakTentative;
+                case ImageListOrder.VariableA: return bold ? Resources.IconPeakAffirmed : Resources.ListIconPeakAffirmed;
+                case ImageListOrder.VariableC: return bold ? Resources.IconPeakConfirmed : Resources.ListIconPeakConfirmed;
                 case ImageListOrder.Line: return bold ? Resources.IconLine : Resources.IconLine; // No large
                 case ImageListOrder.Assignment: return bold ? Resources.IconVector : Resources.ListIconVector;
                 case ImageListOrder.Warning: return bold ? Resources.MnuWarning : Resources.MnuWarning;
@@ -597,17 +604,24 @@ namespace MetaboliteLevels.Utilities
         /// </summary>
         public enum ImageListOrder : int
         {
-            Adduct,
-            Compound,
-            CompoundU,
+            Adduct,     
+            AnnotationT,
+            AnnotationA,
+            AnnotationC,
+            Compound0,
+            CompoundT,
+            CompoundA,
+            CompoundC,
             Info,
             InfoU,
             List,
             Pathway,
             Cluster,
             ClusterU,
-            Variable,
-            VariableU,
+            Variable0,
+            VariableT,
+            VariableA,
+            VariableC,
             Line,
             Assignment,
             Warning,

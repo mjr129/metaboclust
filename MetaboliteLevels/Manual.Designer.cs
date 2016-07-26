@@ -82,7 +82,7 @@ namespace MetaboliteLevels {
         ///The mass of the adduct. Required.
         ///
         ///{META}
-        ///Any additional data the user wi [rest of string was truncated]&quot;;.
+        ///Any additional data the user wishes to provide, unus [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Adducts {
             get {
@@ -140,7 +140,9 @@ namespace MetaboliteLevels {
         ///EXPECTS: One or more compound libraries. Either a PathwayTools database folder OR a CSV file.
         ///A list of available libraries will be displayed if the library folder has been configured, otherwise the source must be specified manually.
         ///
-        ///DATABASE LAYOUT: PathwayTools database  [rest of string was truncated]&quot;;.
+        ///DATABASE LAYOUT: PathwayTools database folder.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Compounds {
             get {
@@ -223,18 +225,22 @@ namespace MetaboliteLevels {
         /// <summary>
         ///   Looks up a localized string similar to FILEFORMAT
         ///
-        ///Specifies potential identifications for the peaks.
+        ///Specifies potential annotations for the peaks.
         ///
-        ///OPTIONAL: Use only to specify identifications manually if required. You can use the &quot;compounds&quot; field to request automated identifications.
+        ///OPTIONAL: Use to specify annotations manually. You can use the &quot;automatic annotations&quot; checkbox to request automated identifications.
         ///
-        ///EXPECTS: One or more adduct library files.
-        ///A list of available libraries will be displayed if the library folder has been configured, otherwise the source must be specified manually.
+        ///EXPECTS: Comma separated value file.
         ///
         ///{}
-        ///Text. Name of the identification (arbitrary. Must be unique. Mandatory.
+        ///Text. Row names. (Ignored. Mandatory.)
         ///
         ///{IDFILE_PEAK_HEADER}   
-        ///Text. The  [rest of string was truncated]&quot;;.
+        ///Text. The name of the peak. Optional. Must specify m/z and r.t. if not set.
+        ///
+        ///{VARFILE_MZ_HEADER}   
+        ///Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.
+        ///	
+        ///{VAR [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Identifications {
             get {
@@ -306,7 +312,7 @@ namespace MetaboliteLevels {
         ///Integer. Acquisition order index. Must be unique. Optional.
         ///
         ///{META}
-        ///Any additional data th [rest of string was truncated]&quot;;.
+        ///Any additional data the user wishes to prov [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Observations {
             get {
@@ -329,7 +335,7 @@ namespace MetaboliteLevels {
         ///
         ///DEFAULT INPUTS:
         ///
-        ///If you don&apos;t rename any inputs they will be given the d [rest of string was truncated]&quot;;.
+        ///If you don&apos;t rename any inputs they will be given the default names s [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string RScript {
             get {
@@ -351,7 +357,7 @@ namespace MetaboliteLevels {
         ///## x = value.matrix
         ///
         ///The available inputs for the type of algorithm you are editing are shown in the caption below the title bar.
-        ///If you don&apos;t specify an input they will be given the [rest of string was truncated]&quot;;.
+        ///If you don&apos;t specify an input they will be given the names shown  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string RScriptEditor {
             get {
@@ -363,7 +369,7 @@ namespace MetaboliteLevels {
         ///   Looks up a localized string similar to Data can be saved in sereral formats.
         ///MS-NRFB is the fastest and most compact format and is recommended for speed and reliability, however this format is unfortunately unable to cope with large object graph sizes (i.e. datasets with lots of discrete objects), the MJR-SBF format provides a fallback in this case.
         ///MJR-SBF also provides a higher degree of backwards compatibility, making it useful for migrating data between software versions.
-        ///The MJR-STF format is identical to MJR-SBF but stores the data as t [rest of string was truncated]&quot;;.
+        ///The MJR-STF format is identical to MJR-SBF but stores the data as text [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SaveData {
             get {
@@ -420,6 +426,159 @@ namespace MetaboliteLevels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FILEFORMAT.
+        /// </summary>
+        internal static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specifies potential annotations for the peaks..
+        /// </summary>
+        internal static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {VARFILE_RT_HEADER}.
+        /// </summary>
+        internal static string String10 {
+            get {
+                return ResourceManager.GetString("String10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set..
+        /// </summary>
+        internal static string String11 {
+            get {
+                return ResourceManager.GetString("String11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {ID_COMPOUNDS_HEADER}.
+        /// </summary>
+        internal static string String12 {
+            get {
+                return ResourceManager.GetString("String12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text. Comma delmited list of compounds. These should correspond to the &quot;id&quot; or &quot;name&quot; of loaded compounds..
+        /// </summary>
+        internal static string String13 {
+            get {
+                return ResourceManager.GetString("String13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NOTE: CSV files use commas as their internal delimiter, enclose this list in quotes to avoid confusion..
+        /// </summary>
+        internal static string String14 {
+            get {
+                return ResourceManager.GetString("String14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {META}.
+        /// </summary>
+        internal static string String15 {
+            get {
+                return ResourceManager.GetString("String15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All other columns are discarded..
+        /// </summary>
+        internal static string String16 {
+            get {
+                return ResourceManager.GetString("String16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OPTIONAL: Use to specify annotations manually. You can use the &quot;automatic annotations&quot; checkbox to request automated identifications..
+        /// </summary>
+        internal static string String2 {
+            get {
+                return ResourceManager.GetString("String2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EXPECTS: Comma separated value file..
+        /// </summary>
+        internal static string String3 {
+            get {
+                return ResourceManager.GetString("String3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {}.
+        /// </summary>
+        internal static string String4 {
+            get {
+                return ResourceManager.GetString("String4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text. Row names. (Ignored. Mandatory.).
+        /// </summary>
+        internal static string String5 {
+            get {
+                return ResourceManager.GetString("String5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {IDFILE_PEAK_HEADER}.
+        /// </summary>
+        internal static string String6 {
+            get {
+                return ResourceManager.GetString("String6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text. The name of the peak. Optional. Must specify m/z and r.t. if not set..
+        /// </summary>
+        internal static string String7 {
+            get {
+                return ResourceManager.GetString("String7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {VARFILE_MZ_HEADER}.
+        /// </summary>
+        internal static string String8 {
+            get {
+                return ResourceManager.GetString("String8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set..
+        /// </summary>
+        internal static string String9 {
+            get {
+                return ResourceManager.GetString("String9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The selected session could not be loaded.
         ///
         ///* The file may be missing or corrupt.
@@ -446,7 +605,9 @@ namespace MetaboliteLevels {
         ///Numeric. m/z value for the peak. Optional.
         ///
         ///{VARFILE_MODE_HEADER}
-        ///Numeric. LC-MS mode for the peak (-1, 1). Required when MODE = Mixed Mode  [rest of string was truncated]&quot;;.
+        ///Numeric. LC-MS mode for the peak (-1, 1). Required when MODE = Mixed Mode LC-MS.
+        ///
+        ///{MET [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Variables {
             get {

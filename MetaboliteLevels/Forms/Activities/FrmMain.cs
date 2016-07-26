@@ -745,7 +745,8 @@ namespace MetaboliteLevels.Forms
                 tsmi2.MouseDown += experimentTypeMenuItem_MouseDown;
 
                 viewToolStripMenuItem.DropDownItems.Add(tsmi);
-                toolStrip1.Items.Insert(index2++, tsmi2);
+                toolStrip1.Items.Insert(index2, tsmi2);
+                index2++;
             }
         }
 
