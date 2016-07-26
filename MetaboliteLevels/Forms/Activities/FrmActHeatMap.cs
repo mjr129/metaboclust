@@ -165,7 +165,7 @@ namespace MetaboliteLevels.Forms.Activities
             }
 
             // Generate bitmap
-            pictureBox1.Rerender();
+            GenerateBitmap();
         }
 
         private void Generate2DHeatMap()
@@ -233,8 +233,11 @@ namespace MetaboliteLevels.Forms.Activities
             vScrollBar1.Value = 0;
             _ignoreScrollBarChanges = false;
 
-            hScrollBar1.Maximum = _heatMap.GetLength( 0 );
-            vScrollBar1.Maximum = _heatMap.GetLength( 1 );
+            hScrollBar1.Maximum = _heatMap.GetLength( 0 ) - 1;
+            vScrollBar1.Maximum = _heatMap.GetLength( 1 ) - 1;
+
+            hScrollBar1.Visible = hScrollBar1.Maximum != 0;
+            vScrollBar1.Visible = vScrollBar1.Maximum != 0;
 
             pictureBox1.Rerender();
         }             
@@ -250,8 +253,8 @@ namespace MetaboliteLevels.Forms.Activities
             int x = p.X / _zoom;
             int y = p.Y / _zoom;
 
-            x -= hScrollBar1.Value;
-            y -= vScrollBar1.Value;
+            x += hScrollBar1.Value;
+            y += vScrollBar1.Value;
 
             if (_heatMap.GetLength( 1 ) == 1)
             {
@@ -336,7 +339,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void FrmActHeatMap_Resize( object sender, EventArgs e )
         {
-            GenerateBitmap();
+            //GenerateBitmap();
         }           
 
         private void eitherScrollBar_Scroll( object sender, ScrollEventArgs e )
@@ -403,7 +406,7 @@ namespace MetaboliteLevels.Forms.Activities
         }
 
         private void pictureBox1_Render( object sender, RenderEventArgs e )
-        {
+        {   
             int w = _heatMap.GetLength( 0 );
             int h = _heatMap.GetLength( 1 );
             Bitmap bmp = e.Bitmap;
@@ -411,10 +414,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             BitmapData bdata = bmp.LockBits( all, ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb );
             int size = bdata.Height * bdata.Stride;
-            byte[] data = new byte[size];
-
-            // Marshal to avoid unsafe code...
-            Marshal.Copy( bdata.Scan0, data, 0, size );
+            byte[] data = new byte[size];              
 
             for (int y = 0; y < bmp.Height; y++)
             {
@@ -424,7 +424,7 @@ namespace MetaboliteLevels.Forms.Activities
 
                     HeatPoint hm = ScreenToHeatMap( new Point( x, y ) );
 
-                    Color c = hm.IsEmpty ? hm.ZColour : _oorColour;
+                    Color c = !hm.IsEmpty ? hm.ZColour : _oorColour;
 
                     data[i + 0] = c.B;
                     data[i + 1] = c.G;
@@ -432,6 +432,7 @@ namespace MetaboliteLevels.Forms.Activities
                 }
             }
 
+            // Marshal to avoid unsafe code...
             Marshal.Copy( data, 0, bdata.Scan0, data.Length );
 
             bmp.UnlockBits( bdata );             
