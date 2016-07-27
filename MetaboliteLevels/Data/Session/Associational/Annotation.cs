@@ -5,9 +5,17 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
+    enum EAnnotation
+    {
+        Tentative = 0,
+        Affirmative = 1,
+        Confirmed=2,
+    }
+
     /// <summary>
     /// An annotation;
     /// </summary>
@@ -23,6 +31,8 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly MetaInfoCollection Meta = new MetaInfoCollection();
 
+        public readonly EAnnotation Status;
+
         /// <summary>
         /// User modifiable comment
         /// </summary>
@@ -36,11 +46,12 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Constructor
         /// </summary> 
-        public Annotation(Peak peak, Compound compound, Adduct adduct)
+        public Annotation(Peak peak, Compound compound, Adduct adduct, EAnnotation attributes)
         {
             this.Peak = peak;
             this.Compound = compound;
             this.Adduct = adduct;
+            this.Status = attributes;
         }
 
         /// <summary>
@@ -74,60 +85,74 @@ namespace MetaboliteLevels.Data.Visualisables
 
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
-            return UiControls.ImageListOrder.Compound;
-        }          
+            switch (this.Status)
+            {
+                case EAnnotation.Tentative:
+                    return UiControls.ImageListOrder.AnnotationT;
 
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+                case EAnnotation.Affirmative:
+                    return UiControls.ImageListOrder.AnnotationA;
+
+                case EAnnotation.Confirmed:
+                    return UiControls.ImageListOrder.AnnotationC;
+
+                default:
+                    throw new SwitchException( this.Status );
+            }                                                
+        }
+
+        IEnumerable<Column> IVisualisable.GetColumns( Core core )
         {
             List<Column<Annotation>> columns = new List<Column<Annotation>>();
 
-            columns.Add("Name", EColumn.Visible, z => z.DisplayName);
+            columns.Add( "Name", EColumn.Visible, z => z.DisplayName );
 
-            columns.AddSubObject(core, "Peak", z => z.Peak);
-            columns.AddSubObject(core, "Compound", z => z.Compound);
-            columns.AddSubObject(core, "Adduct", z => z.Adduct);
+            columns.AddSubObject( core, "Peak", z => z.Peak );
+            columns.AddSubObject( core, "Compound", z => z.Compound );
+            columns.AddSubObject( core, "Adduct", z => z.Adduct );
+            columns.Add( "Confirmation", z => z.Status );
 
-            core._annotationsMeta.ReadAllColumns<Annotation>(z => z.Meta, columns);
+            core._annotationsMeta.ReadAllColumns<Annotation>( z => z.Meta, columns );
 
             return columns;
         }
 
-        void IAssociational.RequestContents(ContentsRequest list)
+        void IAssociational.RequestContents( ContentsRequest list )
         {
             switch (list.Type)
             {
                 case VisualClass.Adduct:
                     list.Text = "Adduct for annotation {0}";
-                    list.Add(Adduct);
+                    list.Add( Adduct );
                     break;
 
                 case VisualClass.Annotation:
-                    ((IAssociational)Peak).RequestContents(list);
-                    ((IAssociational)Compound).RequestContents(list);
+                    ((IAssociational)Peak).RequestContents( list );
+                    ((IAssociational)Compound).RequestContents( list );
                     list.Text = "Annotations with same peaks/compounds to {0}";
                     break;
 
                 case VisualClass.Assignment:
-                    ((IAssociational)Peak).RequestContents(list);
+                    ((IAssociational)Peak).RequestContents( list );
                     break;
 
                 case VisualClass.Cluster:
-                    ((IAssociational)Peak).RequestContents(list);
+                    ((IAssociational)Peak).RequestContents( list );
                     break;
 
                 case VisualClass.Compound:
                     list.Text = "Compound for annotation {0}";
-                    list.Add(Compound);
+                    list.Add( Compound );
                     break;
 
                 case VisualClass.Pathway:
-                    ((IAssociational)Peak).RequestContents(list);
-                    ((IAssociational)Compound).RequestContents(list);
+                    ((IAssociational)Peak).RequestContents( list );
+                    ((IAssociational)Compound).RequestContents( list );
                     break;
 
                 case VisualClass.Peak:
                     list.Text = "Peak for annotation {0}";
-                    list.Add(Peak);
+                    list.Add( Peak );
                     break;
             }
         }

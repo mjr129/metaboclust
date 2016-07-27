@@ -118,15 +118,19 @@
             this.label6 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabAnnotations = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this.label11 = new MetaboliteLevels.Controls.CtlLabel();
+            this._automaticFlag = new System.Windows.Forms.ComboBox();
+            this.ctlLabel1 = new MetaboliteLevels.Controls.CtlLabel();
+            this._manualFlag = new System.Windows.Forms.ComboBox();
+            this.ctlLabel3 = new MetaboliteLevels.Controls.CtlLabel();
             this._btnIdentifications = new MetaboliteLevels.Controls.CtlButton();
+            this.label11 = new MetaboliteLevels.Controls.CtlLabel();
             this._chkAutoIdentify = new System.Windows.Forms.CheckBox();
-            this._txtIdentifications = new MGui.Controls.CtlTextBox();
+            this._chkPeakPeakMatch = new System.Windows.Forms.CheckBox();
             this._chkIdentifications = new System.Windows.Forms.CheckBox();
-            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this._lblTolerance = new MetaboliteLevels.Controls.CtlLabel();
-            this._numTolerance = new System.Windows.Forms.NumericUpDown();
+            this._txtIdentifications = new MGui.Controls.CtlTextBox();
             this._lstTolerance = new System.Windows.Forms.ComboBox();
+            this._numTolerance = new System.Windows.Forms.NumericUpDown();
+            this._lblTolerance = new MetaboliteLevels.Controls.CtlLabel();
             this._tabReady = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this._chkAlarm = new System.Windows.Forms.CheckBox();
@@ -161,7 +165,6 @@
             this.flowLayoutPanel3.SuspendLayout();
             this._tabAnnotations.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
-            this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._numTolerance)).BeginInit();
             this._tabReady.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -316,7 +319,7 @@
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3805, 491);
+            this.pictureBox1.Location = new System.Drawing.Point(3841, 491);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(167, 210);
@@ -1393,40 +1396,113 @@
             this._tabAnnotations.Location = new System.Drawing.Point(4, 4);
             this._tabAnnotations.Name = "_tabAnnotations";
             this._tabAnnotations.Padding = new System.Windows.Forms.Padding(3);
-            this._tabAnnotations.Size = new System.Drawing.Size(642, 690);
+            this._tabAnnotations.Size = new System.Drawing.Size(633, 690);
             this._tabAnnotations.TabIndex = 8;
             this._tabAnnotations.Text = "Annotations";
             this._tabAnnotations.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel9
             // 
-            this.tableLayoutPanel9.ColumnCount = 2;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.ColumnCount = 5;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.Controls.Add(this._automaticFlag, 2, 4);
+            this.tableLayoutPanel9.Controls.Add(this.ctlLabel1, 1, 4);
+            this.tableLayoutPanel9.Controls.Add(this._manualFlag, 2, 7);
+            this.tableLayoutPanel9.Controls.Add(this.ctlLabel3, 1, 7);
+            this.tableLayoutPanel9.Controls.Add(this._btnIdentifications, 4, 6);
             this.tableLayoutPanel9.Controls.Add(this.label11, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this._btnIdentifications, 1, 4);
             this.tableLayoutPanel9.Controls.Add(this._chkAutoIdentify, 0, 1);
-            this.tableLayoutPanel9.Controls.Add(this._txtIdentifications, 0, 4);
-            this.tableLayoutPanel9.Controls.Add(this._chkIdentifications, 0, 3);
-            this.tableLayoutPanel9.Controls.Add(this.tableLayoutPanel8, 0, 2);
+            this.tableLayoutPanel9.Controls.Add(this._chkPeakPeakMatch, 0, 2);
+            this.tableLayoutPanel9.Controls.Add(this._chkIdentifications, 0, 5);
+            this.tableLayoutPanel9.Controls.Add(this._txtIdentifications, 1, 6);
+            this.tableLayoutPanel9.Controls.Add(this._lstTolerance, 3, 3);
+            this.tableLayoutPanel9.Controls.Add(this._numTolerance, 2, 3);
+            this.tableLayoutPanel9.Controls.Add(this._lblTolerance, 1, 3);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.Padding = new System.Windows.Forms.Padding(10);
-            this.tableLayoutPanel9.RowCount = 5;
+            this.tableLayoutPanel9.RowCount = 8;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(636, 684);
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(627, 684);
             this.tableLayoutPanel9.TabIndex = 0;
+            // 
+            // _automaticFlag
+            // 
+            this._automaticFlag.Dock = System.Windows.Forms.DockStyle.Top;
+            this._automaticFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._automaticFlag.Enabled = false;
+            this._automaticFlag.FormattingEnabled = true;
+            this._automaticFlag.Location = new System.Drawing.Point(151, 182);
+            this._automaticFlag.Margin = new System.Windows.Forms.Padding(8);
+            this._automaticFlag.Name = "_automaticFlag";
+            this._automaticFlag.Size = new System.Drawing.Size(199, 29);
+            this._automaticFlag.TabIndex = 2;
+            // 
+            // ctlLabel1
+            // 
+            this.ctlLabel1.AutoSize = true;
+            this.ctlLabel1.Enabled = false;
+            this.ctlLabel1.Location = new System.Drawing.Point(58, 182);
+            this.ctlLabel1.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
+            this.ctlLabel1.Name = "ctlLabel1";
+            this.ctlLabel1.Size = new System.Drawing.Size(58, 21);
+            this.ctlLabel1.TabIndex = 0;
+            this.ctlLabel1.Text = "Flag as";
+            // 
+            // _manualFlag
+            // 
+            this._manualFlag.Dock = System.Windows.Forms.DockStyle.Top;
+            this._manualFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._manualFlag.Enabled = false;
+            this._manualFlag.FormattingEnabled = true;
+            this._manualFlag.Location = new System.Drawing.Point(151, 313);
+            this._manualFlag.Margin = new System.Windows.Forms.Padding(8);
+            this._manualFlag.Name = "_manualFlag";
+            this._manualFlag.Size = new System.Drawing.Size(199, 29);
+            this._manualFlag.TabIndex = 2;
+            // 
+            // ctlLabel3
+            // 
+            this.ctlLabel3.AutoSize = true;
+            this.ctlLabel3.Enabled = false;
+            this.ctlLabel3.Location = new System.Drawing.Point(58, 313);
+            this.ctlLabel3.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
+            this.ctlLabel3.Name = "ctlLabel3";
+            this.ctlLabel3.Size = new System.Drawing.Size(68, 42);
+            this.ctlLabel3.TabIndex = 0;
+            this.ctlLabel3.Text = "Flag as\r\n(default)";
+            // 
+            // _btnIdentifications
+            // 
+            this._btnIdentifications.Enabled = false;
+            this._btnIdentifications.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnIdentifications.Location = new System.Drawing.Point(581, 268);
+            this._btnIdentifications.Margin = new System.Windows.Forms.Padding(8);
+            this._btnIdentifications.Name = "_btnIdentifications";
+            this._btnIdentifications.Size = new System.Drawing.Size(28, 29);
+            this._btnIdentifications.TabIndex = 6;
+            this._tipSideBar.SetToolTip(this._btnIdentifications, global::MetaboliteLevels.Manual.Identifications);
+            this._tipPopup.SetToolTip(this._btnIdentifications, "Browse for file");
+            this._btnIdentifications.UseVisualStyleBackColor = true;
+            this._btnIdentifications.Click += new System.EventHandler(this._btnIdentifications_Click_1);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.tableLayoutPanel9.SetColumnSpan(this.label11, 2);
+            this.tableLayoutPanel9.SetColumnSpan(this.label11, 5);
             this.label11.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
             this.label11.Location = new System.Drawing.Point(18, 18);
             this.label11.Margin = new System.Windows.Forms.Padding(8);
@@ -1435,23 +1511,10 @@
             this.label11.TabIndex = 4;
             this.label11.Text = "^^Select methods of annotating compounds";
             // 
-            // _btnIdentifications
-            // 
-            this._btnIdentifications.Enabled = false;
-            this._btnIdentifications.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnIdentifications.Location = new System.Drawing.Point(590, 182);
-            this._btnIdentifications.Margin = new System.Windows.Forms.Padding(8);
-            this._btnIdentifications.Name = "_btnIdentifications";
-            this._btnIdentifications.Size = new System.Drawing.Size(28, 29);
-            this._btnIdentifications.TabIndex = 6;
-            this._tipSideBar.SetToolTip(this._btnIdentifications, global::MetaboliteLevels.Manual.Identifications);
-            this._tipPopup.SetToolTip(this._btnIdentifications, "Browse for file");
-            this._btnIdentifications.UseVisualStyleBackColor = true;
-            this._btnIdentifications.Click += new System.EventHandler(this._btnIdentifications_Click);
-            // 
             // _chkAutoIdentify
             // 
             this._chkAutoIdentify.AutoSize = true;
+            this.tableLayoutPanel9.SetColumnSpan(this._chkAutoIdentify, 5);
             this._chkAutoIdentify.Location = new System.Drawing.Point(18, 55);
             this._chkAutoIdentify.Margin = new System.Windows.Forms.Padding(8);
             this._chkAutoIdentify.Name = "_chkAutoIdentify";
@@ -1463,23 +1526,26 @@
             this._chkAutoIdentify.UseVisualStyleBackColor = true;
             this._chkAutoIdentify.CheckedChanged += new System.EventHandler(this._chkAutoIdentify_CheckedChanged);
             // 
-            // _txtIdentifications
+            // _chkPeakPeakMatch
             // 
-            this._txtIdentifications.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtIdentifications.Enabled = false;
-            this._txtIdentifications.ForeColor = System.Drawing.Color.Blue;
-            this._txtIdentifications.Location = new System.Drawing.Point(34, 182);
-            this._txtIdentifications.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
-            this._txtIdentifications.Name = "_txtIdentifications";
-            this._txtIdentifications.Size = new System.Drawing.Size(540, 29);
-            this._txtIdentifications.TabIndex = 5;
-            this._tipSideBar.SetToolTip(this._txtIdentifications, global::MetaboliteLevels.Manual.Identifications);
-            this._txtIdentifications.Watermark = null;
+            this._chkPeakPeakMatch.AutoSize = true;
+            this.tableLayoutPanel9.SetColumnSpan(this._chkPeakPeakMatch, 5);
+            this._chkPeakPeakMatch.Location = new System.Drawing.Point(18, 96);
+            this._chkPeakPeakMatch.Margin = new System.Windows.Forms.Padding(8);
+            this._chkPeakPeakMatch.Name = "_chkPeakPeakMatch";
+            this._chkPeakPeakMatch.Size = new System.Drawing.Size(231, 25);
+            this._chkPeakPeakMatch.TabIndex = 3;
+            this._chkPeakPeakMatch.Text = "Perform peak-peak matching";
+            this._tipSideBar.SetToolTip(this._chkPeakPeakMatch, "Select this option to automatically annotate peaks with similar peaks.\r\n\r\nThis wi" +
+        "ll only function if the requisite information has been selected.\r\n");
+            this._chkPeakPeakMatch.UseVisualStyleBackColor = true;
+            this._chkPeakPeakMatch.CheckedChanged += new System.EventHandler(this._chkAutoIdentify_CheckedChanged);
             // 
             // _chkIdentifications
             // 
             this._chkIdentifications.AutoSize = true;
-            this._chkIdentifications.Location = new System.Drawing.Point(18, 141);
+            this.tableLayoutPanel9.SetColumnSpan(this._chkIdentifications, 5);
+            this._chkIdentifications.Location = new System.Drawing.Point(18, 227);
             this._chkIdentifications.Margin = new System.Windows.Forms.Padding(8);
             this._chkIdentifications.Name = "_chkIdentifications";
             this._chkIdentifications.Size = new System.Drawing.Size(205, 25);
@@ -1487,44 +1553,40 @@
             this._chkIdentifications.Text = "Load manual annotations";
             this._tipSideBar.SetToolTip(this._chkIdentifications, global::MetaboliteLevels.Manual.Identifications);
             this._chkIdentifications.UseVisualStyleBackColor = true;
-            this._chkIdentifications.Click += new System.EventHandler(this._chkIdentifications_CheckedChanged);
+            this._chkIdentifications.CheckedChanged += new System.EventHandler(this._chkIdentifications_CheckedChanged);
             // 
-            // tableLayoutPanel8
+            // _txtIdentifications
             // 
-            this.tableLayoutPanel8.AutoSize = true;
-            this.tableLayoutPanel8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel8.ColumnCount = 3;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.Controls.Add(this._lblTolerance, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this._numTolerance, 1, 0);
-            this.tableLayoutPanel8.Controls.Add(this._lstTolerance, 2, 0);
-            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(10, 88);
-            this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 1;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(572, 45);
-            this.tableLayoutPanel8.TabIndex = 7;
+            this.tableLayoutPanel9.SetColumnSpan(this._txtIdentifications, 3);
+            this._txtIdentifications.Dock = System.Windows.Forms.DockStyle.Top;
+            this._txtIdentifications.Enabled = false;
+            this._txtIdentifications.ForeColor = System.Drawing.Color.Blue;
+            this._txtIdentifications.Location = new System.Drawing.Point(58, 268);
+            this._txtIdentifications.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
+            this._txtIdentifications.Name = "_txtIdentifications";
+            this._txtIdentifications.Size = new System.Drawing.Size(507, 29);
+            this._txtIdentifications.TabIndex = 5;
+            this._tipSideBar.SetToolTip(this._txtIdentifications, global::MetaboliteLevels.Manual.Identifications);
+            this._txtIdentifications.Watermark = null;
             // 
-            // _lblTolerance
+            // _lstTolerance
             // 
-            this._lblTolerance.AutoSize = true;
-            this._lblTolerance.Enabled = false;
-            this._lblTolerance.Location = new System.Drawing.Point(32, 8);
-            this._lblTolerance.Margin = new System.Windows.Forms.Padding(32, 8, 8, 8);
-            this._lblTolerance.Name = "_lblTolerance";
-            this._lblTolerance.Size = new System.Drawing.Size(77, 21);
-            this._lblTolerance.TabIndex = 0;
-            this._lblTolerance.Text = "Tolerance";
+            this._lstTolerance.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstTolerance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstTolerance.Enabled = false;
+            this._lstTolerance.FormattingEnabled = true;
+            this._lstTolerance.Location = new System.Drawing.Point(366, 137);
+            this._lstTolerance.Margin = new System.Windows.Forms.Padding(8);
+            this._lstTolerance.Name = "_lstTolerance";
+            this._lstTolerance.Size = new System.Drawing.Size(199, 29);
+            this._lstTolerance.TabIndex = 2;
+            this._tipPopup.SetToolTip(this._lstTolerance, "Select units");
             // 
             // _numTolerance
             // 
             this._numTolerance.Dock = System.Windows.Forms.DockStyle.Top;
             this._numTolerance.Enabled = false;
-            this._numTolerance.Location = new System.Drawing.Point(125, 8);
+            this._numTolerance.Location = new System.Drawing.Point(151, 137);
             this._numTolerance.Margin = new System.Windows.Forms.Padding(8);
             this._numTolerance.Maximum = new decimal(new int[] {
             276447232,
@@ -1532,20 +1594,19 @@
             0,
             0});
             this._numTolerance.Name = "_numTolerance";
-            this._numTolerance.Size = new System.Drawing.Size(302, 29);
+            this._numTolerance.Size = new System.Drawing.Size(199, 29);
             this._numTolerance.TabIndex = 1;
             // 
-            // _lstTolerance
+            // _lblTolerance
             // 
-            this._lstTolerance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstTolerance.Enabled = false;
-            this._lstTolerance.FormattingEnabled = true;
-            this._lstTolerance.Location = new System.Drawing.Point(443, 8);
-            this._lstTolerance.Margin = new System.Windows.Forms.Padding(8);
-            this._lstTolerance.Name = "_lstTolerance";
-            this._lstTolerance.Size = new System.Drawing.Size(121, 29);
-            this._lstTolerance.TabIndex = 2;
-            this._tipPopup.SetToolTip(this._lstTolerance, "Select units");
+            this._lblTolerance.AutoSize = true;
+            this._lblTolerance.Enabled = false;
+            this._lblTolerance.Location = new System.Drawing.Point(58, 137);
+            this._lblTolerance.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
+            this._lblTolerance.Name = "_lblTolerance";
+            this._lblTolerance.Size = new System.Drawing.Size(77, 21);
+            this._lblTolerance.TabIndex = 0;
+            this._lblTolerance.Text = "Tolerance";
             // 
             // _tabReady
             // 
@@ -1760,8 +1821,6 @@
             this._tabAnnotations.ResumeLayout(false);
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
-            this.tableLayoutPanel8.ResumeLayout(false);
-            this.tableLayoutPanel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._numTolerance)).EndInit();
             this._tabReady.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -1878,7 +1937,6 @@
         private MetaboliteLevels.Controls.CtlLabel label15;
         private System.Windows.Forms.Label _lblProgramDescription;
         private System.Windows.Forms.Label _lbl32BitWarning;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private MetaboliteLevels.Controls.CtlLabel _lblTolerance;
         private System.Windows.Forms.NumericUpDown _numTolerance;
         private System.Windows.Forms.ComboBox _lstTolerance;
@@ -1888,5 +1946,10 @@
         private System.Windows.Forms.Button _btnShowFf;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cSVManipulatorToolStripMenuItem;
+        private System.Windows.Forms.CheckBox _chkPeakPeakMatch;
+        private Controls.CtlLabel ctlLabel1;
+        private System.Windows.Forms.ComboBox _automaticFlag;
+        private System.Windows.Forms.ComboBox _manualFlag;
+        private Controls.CtlLabel ctlLabel3;
     }
 }

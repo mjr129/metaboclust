@@ -10,6 +10,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 using System.Drawing;
 using MetaboliteLevels.Data.DataInfo;
+using MGui.Datatypes;
 using MSerialisers;
 using MGui.Helpers;
 
@@ -89,6 +90,11 @@ namespace MetaboliteLevels.Data.Visualisables
         public readonly decimal Mz;
 
         /// <summary>
+        /// Retention time
+        /// </summary>
+        public readonly decimal Rt;
+
+        /// <summary>
         /// Other information the user loaded and may want to view in but the program doesn't actually need.
         /// </summary>
         public readonly MetaInfoCollection MetaInfo = new MetaInfoCollection();
@@ -111,7 +117,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Peak(int index, string id, PeakValueSet observations, PeakValueSet altObservations, ELcmsMode lcmsmode, decimal mz)
+        public Peak(int index, string id, PeakValueSet observations, PeakValueSet altObservations, ELcmsMode lcmsmode, decimal mz, decimal rt)
         {
             this.Index = index;
             this.Id = id;
@@ -119,6 +125,7 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Observations = observations;
             this.AltObservations = altObservations;
             this.Mz = mz;
+            this.Rt = rt;
             this.LcmsMode = lcmsmode;
         }
 
@@ -297,35 +304,35 @@ namespace MetaboliteLevels.Data.Visualisables
 
             columns.Add("Name", EColumn.Visible, λ => λ.DisplayName);
             columns.Add("Comment", EColumn.None, λ => λ.Comment);
-            columns.Add("№ corrections", EColumn.None, λ => λ.CorrectionChain.Count);
-            columns.Add("Index", EColumn.None, λ => λ.Index);
+            columns.Add("№ corrections", EColumn.Advanced, λ => λ.CorrectionChain.Count);
+            columns.Add("Index", EColumn.Advanced, λ => λ.Index);
             columns.Add("LC-MS mode", EColumn.None, λ => λ.LcmsMode);
             columns.Add("m/z", EColumn.None, λ => λ.Mz);
-            columns.Add("Observations (all)", EColumn.None, λ => λ.Observations.Raw);
-            columns.Add("Observations (trend)", EColumn.None, λ => λ.Observations.Trend);
+            columns.Add("Observations (all)", EColumn.Advanced, λ => λ.Observations.Raw);
+            columns.Add("Observations (trend)", EColumn.Advanced, λ => λ.Observations.Trend);
 
             columns.Add("Clusters\\All", EColumn.None, λ => λ.Assignments.Clusters);
-            columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.None, z => StringHelper.ArrayToString(z.Assignments.Clusters));
-            columns.Add("Clusters\\All (scores)", EColumn.None, λ => λ.Assignments.Scores);
+            columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.Advanced, z => StringHelper.ArrayToString(z.Assignments.Clusters));
+            columns.Add("Clusters\\All (scores)", EColumn.Advanced, λ => λ.Assignments.Scores);
 
-            columns.Add("Clusters\\Unique", EColumn.None, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
-            columns.Add("Clusters\\Grouped", EColumn.None, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.DisplayPriority).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
+            columns.Add("Clusters\\Unique", EColumn.Advanced, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
+            columns.Add("Clusters\\Grouped", EColumn.Advanced, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.DisplayPriority).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
 
             foreach (GroupInfo group in core.Groups)
             {
                 var closure = group;
-                columns.Add("Clusters\\" + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray(), z => closure.Colour);
-                columns.Add("Clusters\\" + group.DisplayName + " (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray(), z => closure.Colour);
+                columns.Add("Clusters\\" + group.DisplayName, EColumn.Advanced, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray(), z => closure.Colour);
+                columns.Add("Clusters\\" + group.DisplayName + " (scores)", EColumn.Advanced, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray(), z => closure.Colour);
             }
 
             foreach (PeakFlag flag in core.Options.PeakFlags)
             {
                 var closure = flag;
-                columns.Add("Flags\\" + UiControls.ZEROSPACE + flag, EColumn.None, λ => λ.CommentFlags.Contains(closure) ? closure.DisplayName : string.Empty, z => closure.Colour);
+                columns.Add("Flags\\" + flag, EColumn.Advanced, λ => λ.CommentFlags.Contains(closure) ? closure.DisplayName : string.Empty, z => closure.Colour);
             }
 
-            columns.Add("Clusters\\Groupless", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
-            columns.Add("Clusters\\Groupless (scores)", EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
+            columns.Add("Clusters\\Groupless", EColumn.Advanced, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
+            columns.Add("Clusters\\Groupless (scores)", EColumn.Advanced, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
 
             columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.CommentFlags), z=> z.CommentFlags.Count == 1 ? z.CommentFlags[0].Colour : Color.Black );
 
@@ -349,13 +356,13 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 int i = ti.Order;
                 columns.Add("Mean\\" + ti.DisplayName, EColumn.None, λ => λ.Observations.Mean[i]);
-                columns.Add("Std.Dev\\" + ti.DisplayName, EColumn.None, λ => λ.Observations.StdDev[i]);
+                columns.Add("Std. Dev\\" + ti.DisplayName, EColumn.Advanced, λ => λ.Observations.StdDev[i]);
             }
 
             foreach (PeakFilter fi in core.AllPeakFilters)
             {
                 var closure = fi;
-                columns.Add("Filter\\" + fi.ToString(), EColumn.None, z => fi.Test(z) ? "✔" : "✘");
+                columns.Add("Filter\\" + fi.ToString(), EColumn.Advanced, z => fi.Test(z) ? "✔" : "✘");
             }
 
             return columns;
@@ -366,7 +373,28 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>              
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
-            return this.Annotations.Count == 0 ? UiControls.ImageListOrder.VariableU : UiControls.ImageListOrder.Variable;
+            // IMAGE
+            if (this.Annotations.Count == 0)
+            {
+                return UiControls.ImageListOrder.Variable0;
+            }
+            else
+            {
+                switch (this.Annotations.Max( z => z.Status ))
+                {
+                    case EAnnotation.Tentative:
+                        return UiControls.ImageListOrder.VariableT;
+
+                    case EAnnotation.Affirmative:
+                        return UiControls.ImageListOrder.VariableA;
+
+                    case EAnnotation.Confirmed:
+                        return UiControls.ImageListOrder.VariableC;
+
+                    default:
+                        throw new SwitchException();
+                }
+            }
         }
     }
 }

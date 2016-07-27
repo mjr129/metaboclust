@@ -17,22 +17,25 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 using MGui;
-using MGui.Controls;      
+using MGui.Controls;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Activities
-{
+{                    
     internal partial class FrmActHeatMap : Form
     {                                  
-        private Column _source1D;
-        private DistanceMatrix _source2D;
+        private readonly Column _source1D;
+        private readonly DistanceMatrix _source2D;
         private readonly ListViewHelper _sourceList;
-        private HeatPoint[,] _heatMap;       
+        private HeatPoint[,] _heatMap;
+        private bool _ignoreScrollBarChanges;
         private Color _oorColour;
         private Color _nanColour;
         private Color _minColour;
         private Color _maxColour;
         private bool _sort;
-        private Core _core;               
+        private readonly Core _core;
+        private int _zoom = 1;
 
         /// <summary>
         /// Shows a 1D heatmap
@@ -92,6 +95,8 @@ namespace MetaboliteLevels.Forms.Activities
             public double ZFraction;
             public double ZValue;
             public Color ZColour;
+
+            public bool IsEmpty => XSource == null && YSource == null;
         }
 
         private void GenerateHeat()
@@ -217,55 +222,25 @@ namespace MetaboliteLevels.Forms.Activities
             }
         }
 
-        private void GenerateBitmap(  )
+        private void GenerateBitmap()
         {
             // Set checks
             this.sameAsListToolStripMenuItem.Checked = !_sort;
-            this.orderedToolStripMenuItem.Checked = _sort;                  
+            this.orderedToolStripMenuItem.Checked = _sort;
 
-            int w = _heatMap.GetLength( 0 );
-            int h = _heatMap.GetLength( 1 );
-            Bitmap bmp = new Bitmap( w, h );
-            Rectangle all = new Rectangle( 0, 0, w, h );
+            _ignoreScrollBarChanges = true;
+            hScrollBar1.Value = 0;
+            vScrollBar1.Value = 0;
+            _ignoreScrollBarChanges = false;
 
-            BitmapData bdata = bmp.LockBits( all, ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb );
-            int size = bdata.Height * bdata.Stride;
-            byte[] data = new byte[size];
+            hScrollBar1.Maximum = _heatMap.GetLength( 0 ) - 1;
+            vScrollBar1.Maximum = _heatMap.GetLength( 1 ) - 1;
 
-            // Marshal to avoid unsafe code...
-            Marshal.Copy( bdata.Scan0, data, 0, size );
+            hScrollBar1.Visible = hScrollBar1.Maximum != 0;
+            vScrollBar1.Visible = vScrollBar1.Maximum != 0;
 
-            for (int y = 0; y < h; y++)
-            {
-                for (int x = 0; x < w; x++)
-                {
-                    int i = (x * 3) + (y * bdata.Stride);
-
-                    Color c = _heatMap[x, y].ZColour;
-
-                    data[i + 0] = c.B;
-                    data[i + 1] = c.G;
-                    data[i + 2] = c.R;
-                }
-            }
-
-            Marshal.Copy( data, 0, bdata.Scan0, data.Length );
-
-            bmp.UnlockBits( bdata );
-
-            pictureBox1.LoadImage( bmp, CtlImageViewer.ZoomMode.ZoomAndStretch );
-            pictureBox1.AnimateMouseZoom = false;
-        }       
-
-        //private int XToIndex( int x )
-        //{
-        //    return (x / _zoom) + Math.Max( 0, hScrollBar1.Value );
-        //}
-
-        //private int YToIndex( int y )
-        //{
-        //    return (y / _zoom) + Math.Max( 0, vScrollBar1.Value );
-        //}
+            pictureBox1.Rerender();
+        }             
 
         private double GetRow( IVisualisable arg )
         {
@@ -273,58 +248,74 @@ namespace MetaboliteLevels.Forms.Activities
             return Column.AsDouble( r );
         }
 
+        HeatPoint ScreenToHeatMap( Point p )
+        {
+            int x = p.X / _zoom;
+            int y = p.Y / _zoom;
+
+            x += hScrollBar1.Value;
+            y += vScrollBar1.Value;
+
+            if (_heatMap.GetLength( 1 ) == 1)
+            {
+                y = 0;
+            }
+
+            if (x < 0 || x >= _heatMap.GetLength( 0 )
+                || y < 0 || y >= _heatMap.GetLength(1))
+            {
+                return new HeatPoint();
+            }
+
+            return _heatMap[x, y];
+        }
+
         private void pictureBox1_MouseMove( object sender, MouseEventArgs e )
         {
-            Point p = pictureBox1.ScreenToImage( e.Location );
-            int xIndex = p.X;
-            int yIndex = p.Y;   
+            HeatPoint h = ScreenToHeatMap( e.Location );
 
-            if (xIndex < 0 || yIndex < 0|| xIndex >= _heatMap.GetLength(0)||yIndex>=_heatMap.GetLength(1))
+            if (h.IsEmpty)
             {
-                toolStripStatusLabel1.Visible = false;
+                _lblSelection.Visible = false;
                 toolStripStatusLabel3.Visible = false;
                 return;
             }
 
-            HeatPoint h = _heatMap[ xIndex, yIndex];
-
             if (h.YSource == null)
             {
-                toolStripStatusLabel1.Text = h.XSource.DisplayName + " = (" + xIndex + ", " + h.ZValue + ")";
+                _lblSelection.Text = h.XSource.DisplayName + " = (" + h.XIndex + ", " + h.ZValue + ")";
             }
             else
             {
-                toolStripStatusLabel1.Text = "{" + h.XSource.DisplayName + ", " + h.YSource.DisplayName + "} ( {" + xIndex + ", " + yIndex + " }, " + h.ZValue + ")";
+                _lblSelection.Text = "{" + h.XSource.DisplayName + ", " + h.YSource.DisplayName + "} ( {" + h.XIndex + ", " + h.YIndex + " }, " + h.ZValue + ")";
             }
 
             toolStripStatusLabel3.BackColor = h.ZColour;
-            toolStripStatusLabel1.Visible = true;
+            _lblSelection.Visible = true;
             toolStripStatusLabel3.Visible = true;
         }
 
         private void pictureBox1_MouseUp( object sender, MouseEventArgs e )
         {
-            Point p = pictureBox1.ScreenToImage( e.Location );
-            int xIndex = p.X;
-            int yIndex = p.Y;
+            HeatPoint h = ScreenToHeatMap( e.Location );
 
-            if (xIndex < 0 || yIndex < 0 || xIndex >= _heatMap.GetLength( 0 ) || yIndex >= _heatMap.GetLength( 1 ))
+            if (h.IsEmpty)
             {
-                toolStripStatusLabel1.Visible = false;
+                _lblSelection.Visible = false;
                 toolStripStatusLabel3.Visible = false;
                 return;
             }
 
-            if (_heatMap[xIndex, yIndex].YSource == null || _heatMap[xIndex, yIndex].YSource== _heatMap[xIndex, yIndex].XSource)
+            if (h.YSource == null || h.YSource== h.XSource)
             {
-                _sourceList.ActivateItem( _heatMap[xIndex, yIndex].XSource );
+                _sourceList.ActivateItem( h.XSource );
             }
             else
             {
-                alphaToolStripMenuItem.Text = _heatMap[xIndex, yIndex].XSource.DisplayName;
-                alphaToolStripMenuItem.Tag = _heatMap[xIndex, yIndex].XSource;
-                betaToolStripMenuItem.Text = _heatMap[xIndex, yIndex].YSource.DisplayName;
-                betaToolStripMenuItem.Tag = _heatMap[xIndex, yIndex].YSource;
+                alphaToolStripMenuItem.Text = h.XSource.DisplayName;
+                alphaToolStripMenuItem.Tag = h.XSource;
+                betaToolStripMenuItem.Text = h.YSource.DisplayName;
+                betaToolStripMenuItem.Tag = h.YSource;
                 contextMenuStrip1.Show( pictureBox1, e.Location );
             }
         }
@@ -348,17 +339,15 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void FrmActHeatMap_Resize( object sender, EventArgs e )
         {
-            GenerateBitmap();
-        }
+            //GenerateBitmap();
+        }           
 
-        private void hScrollBar1_ValueChanged( object sender, EventArgs e )
+        private void eitherScrollBar_Scroll( object sender, ScrollEventArgs e )
         {
-         
-        }
-
-        private void hScrollBar1_Scroll( object sender, ScrollEventArgs e )
-        {
-               
+            if (!_ignoreScrollBarChanges)
+            {
+                pictureBox1.Rerender();
+            }               
         }
 
         private void legendToolStripMenuItem_DropDownOpening( object sender, EventArgs e )
@@ -405,7 +394,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void pictureBox1_MouseLeave( object sender, EventArgs e )
         {
-            toolStripStatusLabel1.Visible = false;
+            _lblSelection.Visible = false;
             toolStripStatusLabel3.Visible = false;
         }       
 
@@ -414,6 +403,63 @@ namespace MetaboliteLevels.Forms.Activities
             ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
             IVisualisable vis = (IVisualisable)tsmi.Tag;
             _sourceList.ActivateItem( vis );
+        }
+
+        private void pictureBox1_Render( object sender, RenderEventArgs e )
+        {   
+            int w = _heatMap.GetLength( 0 );
+            int h = _heatMap.GetLength( 1 );
+            Bitmap bmp = e.Bitmap;
+            Rectangle all = new Rectangle( 0, 0, bmp.Width, bmp.Height);
+
+            BitmapData bdata = bmp.LockBits( all, ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb );
+            int size = bdata.Height * bdata.Stride;
+            byte[] data = new byte[size];              
+
+            for (int y = 0; y < bmp.Height; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    int i = (x * 3) + (y * bdata.Stride);
+
+                    HeatPoint hm = ScreenToHeatMap( new Point( x, y ) );
+
+                    Color c = !hm.IsEmpty ? hm.ZColour : _oorColour;
+
+                    data[i + 0] = c.B;
+                    data[i + 1] = c.G;
+                    data[i + 2] = c.R;
+                }
+            }
+
+            // Marshal to avoid unsafe code...
+            Marshal.Copy( data, 0, bdata.Scan0, data.Length );
+
+            bmp.UnlockBits( bdata );             
+        }
+
+        private void defaultToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            _zoom = 1;
+            pictureBox1.Rerender();
+        }
+
+        private void zoomInToolStripMenuItem1_Click( object sender, EventArgs e )
+        {
+            _zoom += 1;
+            pictureBox1.Rerender();
+        }
+
+        private void zoomout1ToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            _zoom -= 1;
+
+            if (_zoom < 1)
+            {
+                _zoom = 1;
+            }
+
+            pictureBox1.Rerender();
         }
     }
 }

@@ -14,6 +14,7 @@ using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Settings;
 using MSerialisers;
 using System.Drawing.Drawing2D;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
@@ -250,7 +251,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     request.Text = "Clusters representing potential peaks of {0}";
                     request.AddExtraColumn("Num. in compound", "Number of peaks in {0} in this cluster");
 
-                    Counter<Cluster> counts = new Counter<Cluster>();
+                    Utilities.Counter<Cluster> counts = new Utilities.Counter<Cluster>();
 
                     foreach (Annotation p in Annotations)
                     {
@@ -311,7 +312,6 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Annotations", EColumn.Visible, λ => λ.Annotations);
             columns.Add("ID", EColumn.None, λ => λ.Id);
             columns.Add("Comment", EColumn.None, λ => λ.Comment);
-            columns.Add("Mass", EColumn.None, λ => λ.Mass);
             columns.Add("URL", EColumn.None, λ => λ.Url);
 
             core._compoundsMeta.ReadAllColumns(z => z.MetaInfo, columns);
@@ -324,14 +324,26 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>               
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
-            // IMAGE
             if (this.Annotations.Count == 0)
             {
-                return UiControls.ImageListOrder.CompoundU;
+                return UiControls.ImageListOrder.Compound0;
             }
             else
             {
-                return UiControls.ImageListOrder.Compound;
+                switch (this.Annotations.Max( z => z.Status ))
+                {
+                    case EAnnotation.Tentative:
+                        return UiControls.ImageListOrder.CompoundT;
+
+                    case EAnnotation.Affirmative:
+                        return UiControls.ImageListOrder.CompoundA;
+
+                    case EAnnotation.Confirmed:
+                        return UiControls.ImageListOrder.CompoundC;
+
+                    default:
+                        throw new SwitchException();
+                }
             }
         }
     }

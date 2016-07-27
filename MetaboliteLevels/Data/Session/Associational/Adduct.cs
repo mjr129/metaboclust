@@ -77,7 +77,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             get
             {
-                return DefaultDisplayName == null;
+                return _defaultName == null;
             }
         }
 
