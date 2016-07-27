@@ -17,8 +17,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 using MGui;
-using MGui.Controls;
-using MGui.Helpers;
+using MGui.Controls;   
 
 namespace MetaboliteLevels.Forms.Activities
 {                    
