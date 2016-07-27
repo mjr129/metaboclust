@@ -428,30 +428,7 @@ namespace MetaboliteLevels.Forms.Editing
                 if (value is GroupInfoBase)
                 {
                     GroupInfoBase group = (GroupInfoBase)value;
-                    series.Style.DrawPointsShape = UiControls.CreateIcon( group.GraphIcon );
-
-                    switch (group.GraphIcon)
-                    {
-                        case Types.UI.EGraphIcon.Circle:
-                        case Types.UI.EGraphIcon.Default:
-                        case Types.UI.EGraphIcon.Diamond:
-                        case Types.UI.EGraphIcon.InvertedTriangle:
-                        case Types.UI.EGraphIcon.Square:
-                        case Types.UI.EGraphIcon.Triangle:
-                            series.Style.DrawPoints = new SolidBrush( group.Colour );
-                            break;
-
-                        case Types.UI.EGraphIcon.Asterisk:        
-                        case Types.UI.EGraphIcon.Cross:           
-                        case Types.UI.EGraphIcon.HLine:           
-                        case Types.UI.EGraphIcon.Plus:            
-                        case Types.UI.EGraphIcon.VLine:
-                            series.Style.DrawPointsLine = new Pen( group.Colour, 3 );
-                            break;
-
-                        default:
-                            throw new SwitchException( group.GraphIcon );
-                    }                                                    
+                    UiControls.CreateIcon(  series, group );                                                
                 }
                 else
                 {

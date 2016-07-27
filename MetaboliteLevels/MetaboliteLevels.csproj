@@ -1095,6 +1095,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\ListIconCondition.png" />
+    <None Include="Resources\IconCondition.png" />
+    <None Include="Resources\ListIconObservation.png" />
+    <None Include="Resources\IconObservation.png" />
+    <None Include="Resources\IconData.png" />
+    <None Include="Resources\IconOpen.png" />
     <None Include="Resources\MnuGroup.png" />
     <None Include="Resources\zoom_16xLG.png" />
     <EmbeddedResource Include="VersionHistory.txt" />

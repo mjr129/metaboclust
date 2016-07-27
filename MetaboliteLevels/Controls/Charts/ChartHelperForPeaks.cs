@@ -481,10 +481,8 @@ namespace MetaboliteLevels.Viewers.Charts
                         series.Style.DrawLines.Width = draw.HasFlag(EPlot.DrawBold) ? _core.Options.LineWidth * 4 : _core.Options.LineWidth;
                     }
                     else
-                    {
-                        series.Style.DrawPoints = new SolidBrush( colour );
-                        series.Style.DrawPointsSize = 8;
-                        series.Style.DrawPointsShape = UiControls.CreateIcon( seriesUsing.GraphIcon );
+                    {                                   
+                        UiControls.CreateIcon( series, seriesUsing );
                     }
                 }
                 else

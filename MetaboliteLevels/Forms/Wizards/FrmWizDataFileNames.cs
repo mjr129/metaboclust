@@ -101,7 +101,7 @@ namespace MetaboliteLevels.Forms.Startup
         private FrmEditDataFileNames()
         {
             InitializeComponent();
-            UiControls.SetIcon( this );
+            UiControls.SetIcon( this );                                              
 
             _btnNewSession.BackColor = _btnNewSession.FlatAppearance.BorderColor
                 = _btnReturnToSession.BackColor = _btnReturnToSession.FlatAppearance.BorderColor

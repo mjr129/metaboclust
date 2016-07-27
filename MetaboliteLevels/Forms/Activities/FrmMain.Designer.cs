@@ -90,6 +90,7 @@ namespace MetaboliteLevels.Forms
             this._txtGuid = new System.Windows.Forms.ToolStripStatusLabel();
             this._toolTipMain = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this._btnOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
@@ -178,6 +179,7 @@ namespace MetaboliteLevels.Forms
             this._btnExterior = new System.Windows.Forms.ToolStripButton();
             this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer3 = new MGui.Controls.CtlSplitter();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._mnuMain.SuspendLayout();
             this._cmsSelectionButton.SuspendLayout();
             this._statusMain.SuspendLayout();
@@ -237,6 +239,7 @@ namespace MetaboliteLevels.Forms
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
             this.loadDataSetToolStripMenuItem,
             this.toolStripMenuItem5,
             this.saveExemplarsToolStripMenuItem,
@@ -640,6 +643,7 @@ namespace MetaboliteLevels.Forms
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._btnOpen,
             this.toolStripButton1,
             this.toolStripSeparator4,
             this.toolStripButton5,
@@ -665,6 +669,18 @@ namespace MetaboliteLevels.Forms
             this.toolStrip1.Size = new System.Drawing.Size(1185, 46);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // _btnOpen
+            // 
+            this._btnOpen.ForeColor = System.Drawing.Color.Purple;
+            this._btnOpen.Image = global::MetaboliteLevels.Properties.Resources.IconOpen;
+            this._btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnOpen.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
+            this._btnOpen.Name = "_btnOpen";
+            this._btnOpen.Size = new System.Drawing.Size(40, 43);
+            this._btnOpen.Text = "Open";
+            this._btnOpen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._btnOpen.Click += new System.EventHandler(this.loadDataSetToolStripMenuItem_Click);
             // 
             // toolStripButton1
             // 
@@ -1797,6 +1813,14 @@ namespace MetaboliteLevels.Forms
             this.splitContainer3.SplitterDistance = 349;
             this.splitContainer3.TabIndex = 10;
             // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.loadDataSetToolStripMenuItem_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -2008,6 +2032,8 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripMenuItem databaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem correlationMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton _btnOpen;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
     }
 }
 

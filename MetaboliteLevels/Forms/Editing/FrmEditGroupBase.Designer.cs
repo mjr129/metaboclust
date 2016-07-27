@@ -36,7 +36,7 @@
             this._txtId = new MGui.Controls.CtlTextBox();
             this._lblTimeRange = new System.Windows.Forms.Label();
             this._txtTimeRange = new MGui.Controls.CtlTextBox();
-            this._txtDisplayOrder = new MGui.Controls.CtlTextBox();
+            this._txtDisplayOrder = new System.Windows.Forms.NumericUpDown();
             this._btnEditId = new MetaboliteLevels.Controls.CtlButton();
             this._txtTitle = new MGui.Controls.CtlTextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -55,6 +55,7 @@
             this._lstStyle = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._txtDisplayOrder)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -203,11 +204,8 @@
             this._txtDisplayOrder.Location = new System.Drawing.Point(395, 8);
             this._txtDisplayOrder.Margin = new System.Windows.Forms.Padding(8);
             this._txtDisplayOrder.Name = "_txtDisplayOrder";
-            this._txtDisplayOrder.ReadOnly = true;
-            this._txtDisplayOrder.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this._txtDisplayOrder.Size = new System.Drawing.Size(174, 29);
             this._txtDisplayOrder.TabIndex = 0;
-            this._txtDisplayOrder.Watermark = null;
             this._txtDisplayOrder.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // _btnEditId
@@ -310,7 +308,7 @@
             this._btnColour.Location = new System.Drawing.Point(8, 209);
             this._btnColour.Margin = new System.Windows.Forms.Padding(8);
             this._btnColour.Name = "_btnColour";
-            this._btnColour.Size = new System.Drawing.Size(296, 29);
+            this._btnColour.Size = new System.Drawing.Size(297, 29);
             this._btnColour.TabIndex = 2;
             this._btnColour.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -360,7 +358,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(320, 172);
+            this.label7.Location = new System.Drawing.Point(321, 172);
             this.label7.Margin = new System.Windows.Forms.Padding(8);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(39, 21);
@@ -372,16 +370,16 @@
             this._lstIcon.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstIcon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstIcon.FormattingEnabled = true;
-            this._lstIcon.Location = new System.Drawing.Point(320, 209);
+            this._lstIcon.Location = new System.Drawing.Point(321, 209);
             this._lstIcon.Margin = new System.Windows.Forms.Padding(8);
             this._lstIcon.Name = "_lstIcon";
-            this._lstIcon.Size = new System.Drawing.Size(296, 29);
+            this._lstIcon.Size = new System.Drawing.Size(297, 29);
             this._lstIcon.TabIndex = 7;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(632, 172);
+            this.label8.Location = new System.Drawing.Point(634, 172);
             this.label8.Margin = new System.Windows.Forms.Padding(8);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(30, 21);
@@ -393,10 +391,10 @@
             this._lstStyle.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstStyle.FormattingEnabled = true;
-            this._lstStyle.Location = new System.Drawing.Point(632, 209);
+            this._lstStyle.Location = new System.Drawing.Point(634, 209);
             this._lstStyle.Margin = new System.Windows.Forms.Padding(8);
             this._lstStyle.Name = "_lstStyle";
-            this._lstStyle.Size = new System.Drawing.Size(299, 29);
+            this._lstStyle.Size = new System.Drawing.Size(297, 29);
             this._lstStyle.TabIndex = 7;
             // 
             // FrmEditGroupBase
@@ -417,6 +415,7 @@
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._txtDisplayOrder)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -444,7 +443,7 @@
         private MGui.Controls.CtlTextBox _txtTimeRange;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label6;
-        private MGui.Controls.CtlTextBox _txtDisplayOrder;
+        private System.Windows.Forms.NumericUpDown _txtDisplayOrder;
         private Controls.CtlButton _btnEditId;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox _lstIcon;

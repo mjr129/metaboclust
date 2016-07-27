@@ -367,8 +367,8 @@ namespace MetaboliteLevels.Settings
                 //    return typeof( ParseElement );
                 //}  
 
-                //typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement, MetaboliteLevels", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name + ", MGui" );
-                //typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name );
+                typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement, MetaboliteLevels", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name + ", MGui" );
+                typeName = typeName.Replace( "MetaboliteLevels.Utilities.ParseElementCollection+ParseElement", typeof( ParseElement ).Namespace + "." + typeof( ParseElement ).Name );
 
                 Type result =  Type.GetType( string.Format( "{0}, {1}", typeName, assemblyName ) );
 
@@ -379,13 +379,16 @@ namespace MetaboliteLevels.Settings
                     int index = typeName.LastIndexOf( '.' );
                     string lastPart = typeName.Substring( index + 1 );
 
-                    foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
+                    foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
                     {
-                        if (t.Name == lastPart)
+                        foreach (Type t in a.GetTypes())
                         {
-                            return t;
-                        }            
-                    }                
+                            if (t.Name == lastPart)
+                            {
+                                return t;
+                            }
+                        }
+                    }        
 
                     Debug.WriteLine( "Could not get type: "+ assemblyName+" " + typeName );
                     Debugger.Break();

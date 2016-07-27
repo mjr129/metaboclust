@@ -122,7 +122,8 @@ namespace MetaboliteLevels.Viewers.Charts
 
             // USER DETAILS BUTTON
             _mnuCustomText = new ToolStripDropDownButton(Resources.IconInformation);
-            _mnuCustomText.DropDownItems.Add("Configure...", null, _userDetailsButton_Clicked);
+            _mnuCustomText.DropDownItems.Add("Copy", Resources.MnuCopy, _userDetailsCopyButton_Clicked);
+            _mnuCustomText.DropDownItems.Add( "Configure...", null, _userDetailsButton_Clicked );
             _mnuCustomText.ShowDropDownArrow = false;
             _mnuCustomText.Visible           = false;
             _mnuCustomText.AutoSize          = true;
@@ -197,6 +198,11 @@ namespace MetaboliteLevels.Viewers.Charts
         private void _chart_SelectionChanged(object sender, EventArgs e)
         {
             PerformSelectionActions();
+        }
+
+        private void _userDetailsCopyButton_Clicked( object sender, EventArgs e )
+        {                            
+            Clipboard.SetText( _mnuCustomText.Text );
         }
 
         private void _userDetailsButton_Clicked(object sender, EventArgs e)

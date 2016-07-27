@@ -49,9 +49,9 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Title = title,
                 Source = EnumHelper.GetEnumFlags<T>(),
-                ItemNameProvider = z => EnumHelper.ToUiString((Enum)(object)z),
-                ItemDescriptionProvider = z => EnumHelper.ToDescription((Enum)(object)z),
-                StringComparator = _EnumComparator<T>,
+                ItemNameProvider = z => EnumHelper.ToUiString( (Enum)(object)z ),
+                ItemDescriptionProvider = z => EnumHelper.ToDescription( (Enum)(object)z ),
+                StringComparator = _EnumComparator<T>,    
             };
         }      
 
@@ -95,7 +95,8 @@ namespace MetaboliteLevels.Forms.Generic
                 Core = core,
                 Title = "Observations",
                 Source = core.Observations,
-                ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition
+                ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition,
+                Icon = Resources.IconObservation,
             };
         }
 
@@ -110,6 +111,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Conditions",
                 Source = core.Conditions,
                 ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time,
+                Icon = Resources.IconCondition,
             };
         }
 
@@ -173,7 +175,8 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = z => z.DisplayShortName + ": " + z.DisplayName,
                 StringComparator = _TypeNameComparator,
-                ItemEditor = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; }
+                ItemEditor = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
+                Icon = Resources.IconGroups,
             };
         }
 
@@ -191,7 +194,8 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = z => z.DisplayShortName + z.Comment.FormatIf("\r\nComment: "),
                 StringComparator = _TypeNameComparator,
-                ItemEditor = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; }
+                ItemEditor = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
+                Icon = Resources.IconGroups,
             };
         }
 
@@ -207,6 +211,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Source = core.Times,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
+                Icon = Resources.IconTime,
             };
         }
 
@@ -222,6 +227,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Source = core.Reps,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
+                Icon = Resources.IconReplicate,
             };
         }
 
@@ -234,6 +240,7 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 Title = "Headers",
                 Source = headerCollection.Headers,
+                Icon = Resources.IconInformation,
             };
         }
 
@@ -264,7 +271,8 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Clusters",
                 Source = core.Clusters,
                 ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = _GetComment
+                ItemDescriptionProvider = _GetComment,
+                Icon = Resources.IconCluster,
             };
         }
 
@@ -279,7 +287,8 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Peaks",
                 Source = core.Peaks,
                 ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = _GetComment
+                ItemDescriptionProvider = _GetComment,
+                Icon = Resources.IconPeak,
             };
         }
 
@@ -316,7 +325,8 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "All items",
                 Source = all,
                 ItemNameProvider = z => z.GetType().Name.ToSmallCaps() + ": " + z.ToString(),
-                ItemDescriptionProvider = z => (z is IVisualisable) ? "Selectable" : "Not selectable"
+                ItemDescriptionProvider = z => (z is IVisualisable) ? "Selectable" : "Not selectable",
+                Icon = Resources.IconCore,
             };
         }
 
@@ -332,6 +342,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Source = core.AllTrends,
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
+                Icon = Resources.IconScriptTrend,
                 BeforeListChangesApplied = z =>
                 {
                     int numEnabledX = z.List.Count(zz => zz.Enabled);
@@ -383,6 +394,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Source = core.AllCorrections,
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
+                Icon = Resources.IconScriptCorrect,
                 BeforeListChangesApplied = z =>
                 {
                     var ch = FrmSelectUpdate.ShowCorrectionsChanged(z.Owner);
@@ -427,6 +439,7 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
                 ListChangeApplicator = z => core.SetClusterers(z.List, false, z.Progress),
+                Icon = Resources.IconScriptCluster,
                 ItemEditor = z =>
                 {
                     if (!_ShowEditPreamble(z.Cast<ConfigurationBase>() ))
@@ -550,6 +563,7 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemDescriptionProvider = _GetComment,
                 ListChangeApplicator = z => core.SetStatistics(z.List, false, z.Progress),
                 ListSupportsReorder = true,
+                Icon = Resources.IconScriptStatistic,
                 ItemEditor = z =>
                 {
                     if (!_ShowEditPreamble(z.Cast< ConfigurationBase >()))
@@ -775,22 +789,7 @@ namespace MetaboliteLevels.Forms.Generic
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Private helper method: Gets icons for clusting evaluations
-        /// </summary>         
-        private static UiControls.ImageListOrder _GetIcon(ClusterEvaluationPointer input)
-        {
-            if (input.HasResults)
-            {
-                return UiControls.ImageListOrder.TestFull;
-            }
-            else
-            {
-                return UiControls.ImageListOrder.TestEmpty;
-            }
-        }
+        }          
 
         /// <summary>
         /// Private helper method: Checks script editability

@@ -639,7 +639,7 @@ namespace MetaboliteLevels.Data.Session
                         Peak x = Peaks[peakIndex];
                         double value = stat.Calculate(this, x);
                         max = Math.Max(max, value);
-                        min = Math.Max(min, value);
+                        min = Math.Min(min, value);
                         x.Statistics[stat] = value;
                     }
 

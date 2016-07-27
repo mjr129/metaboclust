@@ -1281,7 +1281,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// </summary>
         private static ConfigurationStatistic CreatePearsonStatistic(string name, ObsFilter typeOfInterest)
         {
-            ArgsStatistic argsPearson = new ArgsStatistic(EAlgoSourceMode.Trend, typeOfInterest, EAlgoInputBSource.Time, null, null, null);
+            ArgsStatistic argsPearson = new ArgsStatistic(EAlgoSourceMode.Full, typeOfInterest, EAlgoInputBSource.Time, null, null, null);
             var statPearson = new ConfigurationStatistic("PEARSON: " + name, "Pearson correlation of the trend-line for " + name + " against time.", Algo.ID_METRIC_PEARSON, argsPearson);
             return statPearson;
         }

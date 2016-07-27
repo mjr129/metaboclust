@@ -12,6 +12,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Settings;
 using MGui.Controls;
+using System.Drawing;
 
 namespace MetaboliteLevels.Forms.Generic
 {
@@ -33,6 +34,11 @@ namespace MetaboliteLevels.Forms.Generic
         /// (MANDATORY) Title of the dataset
         /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// (OPTIONAL) Image of the dataset
+        /// </summary>
+        public Image Icon { get; set; }
 
         /// <summary>
         /// (OPTIONAL) Subtitle of the dataset

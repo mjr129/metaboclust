@@ -158,23 +158,52 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        public static GraphicsPath CreateIcon(EGraphIcon icon)
+        public static void CreateIcon(Series series, GroupInfoBase group)
         {
-            switch (icon)
+            GraphicsPath gp;
+
+            series.Style.DrawPointsSize = 8;
+
+            switch (group.GraphIcon)
             {
-                case EGraphIcon.Default: return null;
-                case EGraphIcon.Circle: return SeriesStyle.DrawPointsShapes.Circle;
-                case EGraphIcon.Cross: return SeriesStyle.DrawPointsShapes.Cross;
-                case EGraphIcon.Diamond: return SeriesStyle.DrawPointsShapes.Diamond;
-                case EGraphIcon.HLine: return SeriesStyle.DrawPointsShapes.HLine;
-                case EGraphIcon.Plus: return SeriesStyle.DrawPointsShapes.Plus;
-                case EGraphIcon.Square: return SeriesStyle.DrawPointsShapes.Square;
-                case EGraphIcon.Asterisk: return SeriesStyle.DrawPointsShapes.Asterisk;
-                case EGraphIcon.Triangle: return SeriesStyle.DrawPointsShapes.Triangle;
-                case EGraphIcon.InvertedTriangle: return SeriesStyle.DrawPointsShapes.InvertedTriangle;
-                case EGraphIcon.VLine: return SeriesStyle.DrawPointsShapes.VLine;
-                default: return null;
+                case EGraphIcon.Default: gp = null; break;                              
+                case EGraphIcon.Circle: gp = SeriesStyle.DrawPointsShapes.Circle; break;
+                case EGraphIcon.Cross: gp = SeriesStyle.DrawPointsShapes.Cross; break;
+                case EGraphIcon.Diamond: gp = SeriesStyle.DrawPointsShapes.Diamond; break;
+                case EGraphIcon.HLine: gp = SeriesStyle.DrawPointsShapes.HLine; break;
+                case EGraphIcon.Plus: gp = SeriesStyle.DrawPointsShapes.Plus; break;
+                case EGraphIcon.Square: gp = SeriesStyle.DrawPointsShapes.Square; break;
+                case EGraphIcon.Asterisk: gp = SeriesStyle.DrawPointsShapes.Asterisk; break;
+                case EGraphIcon.Triangle: gp = SeriesStyle.DrawPointsShapes.Triangle; break;
+                case EGraphIcon.InvertedTriangle: gp = SeriesStyle.DrawPointsShapes.InvertedTriangle; break;
+                case EGraphIcon.VLine: gp = SeriesStyle.DrawPointsShapes.VLine; break;
+                default: gp = null; break;
             }
+
+            series.Style.DrawPointsShape = gp;
+
+            switch (group.GraphIcon)
+            {
+                case Types.UI.EGraphIcon.Circle:
+                case Types.UI.EGraphIcon.Default:
+                case Types.UI.EGraphIcon.Diamond:
+                case Types.UI.EGraphIcon.InvertedTriangle:
+                case Types.UI.EGraphIcon.Square:
+                case Types.UI.EGraphIcon.Triangle:
+                    series.Style.DrawPoints = new SolidBrush( group.Colour );
+                    break;
+
+                case Types.UI.EGraphIcon.Asterisk:
+                case Types.UI.EGraphIcon.Cross:
+                case Types.UI.EGraphIcon.HLine:
+                case Types.UI.EGraphIcon.Plus:
+                case Types.UI.EGraphIcon.VLine:
+                    series.Style.DrawPointsLine = new Pen( group.Colour, 3 );
+                    break;
+
+                default:
+                    throw new SwitchException( group.GraphIcon );
+            } 
         }
 
         /// <summary>

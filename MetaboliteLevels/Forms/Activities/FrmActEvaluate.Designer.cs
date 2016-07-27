@@ -175,7 +175,7 @@
             // 
             this._tlpHeaderClusters.AutoSize = true;
             this._tlpHeaderClusters.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._tlpHeaderClusters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._tlpHeaderClusters.BackColor = System.Drawing.Color.White;
             this._tlpHeaderClusters.ColumnCount = 3;
             this._tlpHeaderClusters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpHeaderClusters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -184,7 +184,7 @@
             this._tlpHeaderClusters.Controls.Add(this.button2, 2, 0);
             this._tlpHeaderClusters.Controls.Add(this.label2, 0, 0);
             this._tlpHeaderClusters.Dock = System.Windows.Forms.DockStyle.Top;
-            this._tlpHeaderClusters.ForeColor = System.Drawing.Color.Black;
+            this._tlpHeaderClusters.ForeColor = System.Drawing.Color.Purple;
             this._tlpHeaderClusters.Location = new System.Drawing.Point(0, 0);
             this._tlpHeaderClusters.Margin = new System.Windows.Forms.Padding(0);
             this._tlpHeaderClusters.Name = "_tlpHeaderClusters";
@@ -260,7 +260,7 @@
             // 
             this._tlpHeaderParams.AutoSize = true;
             this._tlpHeaderParams.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._tlpHeaderParams.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._tlpHeaderParams.BackColor = System.Drawing.Color.White;
             this._tlpHeaderParams.ColumnCount = 3;
             this._tlpHeaderParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpHeaderParams.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -269,7 +269,7 @@
             this._tlpHeaderParams.Controls.Add(this.label5, 1, 0);
             this._tlpHeaderParams.Controls.Add(this._btnViewScript, 0, 0);
             this._tlpHeaderParams.Dock = System.Windows.Forms.DockStyle.Top;
-            this._tlpHeaderParams.ForeColor = System.Drawing.Color.Black;
+            this._tlpHeaderParams.ForeColor = System.Drawing.Color.Purple;
             this._tlpHeaderParams.Location = new System.Drawing.Point(0, 0);
             this._tlpHeaderParams.Margin = new System.Windows.Forms.Padding(0);
             this._tlpHeaderParams.Name = "_tlpHeaderParams";
@@ -361,7 +361,7 @@
             // 
             this._tlpHeaderStatistics.AutoSize = true;
             this._tlpHeaderStatistics.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._tlpHeaderStatistics.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._tlpHeaderStatistics.BackColor = System.Drawing.Color.White;
             this._tlpHeaderStatistics.ColumnCount = 3;
             this._tlpHeaderStatistics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpHeaderStatistics.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -370,7 +370,7 @@
             this._tlpHeaderStatistics.Controls.Add(this.label3, 1, 0);
             this._tlpHeaderStatistics.Controls.Add(this.button6, 0, 0);
             this._tlpHeaderStatistics.Dock = System.Windows.Forms.DockStyle.Top;
-            this._tlpHeaderStatistics.ForeColor = System.Drawing.Color.Black;
+            this._tlpHeaderStatistics.ForeColor = System.Drawing.Color.Purple;
             this._tlpHeaderStatistics.Location = new System.Drawing.Point(0, 0);
             this._tlpHeaderStatistics.Margin = new System.Windows.Forms.Padding(0);
             this._tlpHeaderStatistics.Name = "_tlpHeaderStatistics";
@@ -462,7 +462,7 @@
             // 
             this._tlpHeaderPlot.AutoSize = true;
             this._tlpHeaderPlot.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._tlpHeaderPlot.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._tlpHeaderPlot.BackColor = System.Drawing.Color.White;
             this._tlpHeaderPlot.ColumnCount = 3;
             this._tlpHeaderPlot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpHeaderPlot.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -471,7 +471,7 @@
             this._tlpHeaderPlot.Controls.Add(this._lblPlot, 1, 0);
             this._tlpHeaderPlot.Controls.Add(this.button7, 0, 0);
             this._tlpHeaderPlot.Dock = System.Windows.Forms.DockStyle.Top;
-            this._tlpHeaderPlot.ForeColor = System.Drawing.Color.Black;
+            this._tlpHeaderPlot.ForeColor = System.Drawing.Color.Purple;
             this._tlpHeaderPlot.Location = new System.Drawing.Point(0, 0);
             this._tlpHeaderPlot.Margin = new System.Windows.Forms.Padding(0);
             this._tlpHeaderPlot.Name = "_tlpHeaderPlot";
@@ -545,7 +545,7 @@
             // 
             this._tlpHeaderCluster.AutoSize = true;
             this._tlpHeaderCluster.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._tlpHeaderCluster.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this._tlpHeaderCluster.BackColor = System.Drawing.Color.White;
             this._tlpHeaderCluster.ColumnCount = 3;
             this._tlpHeaderCluster.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this._tlpHeaderCluster.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -554,7 +554,7 @@
             this._tlpHeaderCluster.Controls.Add(this.button5, 2, 0);
             this._tlpHeaderCluster.Controls.Add(this.button1, 0, 0);
             this._tlpHeaderCluster.Dock = System.Windows.Forms.DockStyle.Top;
-            this._tlpHeaderCluster.ForeColor = System.Drawing.Color.Black;
+            this._tlpHeaderCluster.ForeColor = System.Drawing.Color.Purple;
             this._tlpHeaderCluster.Location = new System.Drawing.Point(0, 0);
             this._tlpHeaderCluster.Margin = new System.Windows.Forms.Padding(0);
             this._tlpHeaderCluster.Name = "_tlpHeaderCluster";
@@ -609,10 +609,6 @@
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStrip1.GripMargin = new System.Windows.Forms.Padding(0);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._btnNew,
-            this._btnLoad,
-            this.toolStripDropDownButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 87);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 8);
@@ -735,9 +731,6 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._infoLabel,
-            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 867);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(996, 22);

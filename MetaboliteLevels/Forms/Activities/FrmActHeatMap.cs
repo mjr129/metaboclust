@@ -17,8 +17,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 using MGui;
-using MGui.Controls;
-using MGui.Helpers;
+using MGui.Controls;      
 
 namespace MetaboliteLevels.Forms.Activities
 {
@@ -27,8 +26,7 @@ namespace MetaboliteLevels.Forms.Activities
         private Column _source1D;
         private DistanceMatrix _source2D;
         private readonly ListViewHelper _sourceList;
-        private HeatPoint[,] _heatMap;
-        private bool _ignoreScrollBarChanges;
+        private HeatPoint[,] _heatMap;       
         private Color _oorColour;
         private Color _nanColour;
         private Color _minColour;
@@ -360,10 +358,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void hScrollBar1_Scroll( object sender, ScrollEventArgs e )
         {
-            if (_ignoreScrollBarChanges)
-            {
-                return;
-            }               
+               
         }
 
         private void legendToolStripMenuItem_DropDownOpening( object sender, EventArgs e )
