@@ -226,9 +226,9 @@ namespace MetaboliteLevels.Data.Session
         public IReadOnlyList<BatchInfo> Batches { get { return _batches; } }
         public IReadOnlyList<Cluster> Clusters { get { return _clusters; } }
         public IReadOnlyList<Peak> Peaks { get { return _peaks; } }
-        public IReadOnlyList<Compound> Compounds { get { return _compounds; } }
+        public List<Compound> Compounds { get { return _compounds; } }
         public IReadOnlyList<Pathway> Pathways { get { return _pathways; } }
-        public IReadOnlyList<Adduct> Adducts { get { return _adducts; } }
+        public List<Adduct> Adducts { get { return _adducts; } }
         public IReadOnlyList<ObservationInfo> Observations { get { return _observations; } }
         public IReadOnlyList<ConditionInfo> Conditions { get { return _conditions; } }
 

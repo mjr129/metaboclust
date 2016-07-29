@@ -1709,5 +1709,43 @@ namespace MetaboliteLevels.Forms
 
             FrmActHeatMap.Show( _core, _peakList, dm );
         }
+
+        private void peakidentificationsToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            EAnnotation annotation = DataSet.ForDiscreteEnum<EAnnotation>( "Default annotation status", (EAnnotation)( - 1) ).ShowRadio( this, EAnnotation.Confirmed );
+
+            if (annotation == (EAnnotation) (- 1))
+            {
+                return;
+            }
+
+            string idFile = UiControls.BrowseForFile( this, null, UiControls.EFileExtension.Csv, FileDialogMode.Open, UiControls.EInitialFolder.None );
+
+            if (idFile == null)
+            {
+                return;
+            }
+
+            FileLoadInfo fileLoadInfo = XmlSettings.LoadAndResave<FileLoadInfo>( FileId.FileLoadInfo, ProgressReporter.GetEmpty(), null );
+
+            List<string> warnings = new List<string>();
+
+            try
+            {
+                FrmWait.Show( this, "Loading identifications", null, z => FrmActDataLoad.Load_5_UserIdentifications( fileLoadInfo, _core._annotationsMeta, _core.Peaks, _core.Compounds, _core.Adducts, idFile, annotation, warnings, z ) );
+            }
+            catch (Exception ex)
+            {
+                FrmMsgBox.ShowError( this, ex );
+                return;
+            }
+
+            if (warnings.Count != 0)
+            {
+                FrmInputMultiLine.ShowFixed( this, "Load identifications", "Warnings", "One or more warnings were reported", warnings.JoinAsString( "\r\n" ) );
+            }
+
+            UpdateAll( "Identifications loaded", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged );
+        }
     }
 }

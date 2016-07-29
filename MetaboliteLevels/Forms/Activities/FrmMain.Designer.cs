@@ -41,6 +41,7 @@ namespace MetaboliteLevels.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this._mnuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDataSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.saveExemplarsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -179,7 +180,6 @@ namespace MetaboliteLevels.Forms
             this._btnExterior = new System.Windows.Forms.ToolStripButton();
             this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer3 = new MGui.Controls.CtlSplitter();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._mnuMain.SuspendLayout();
             this._cmsSelectionButton.SuspendLayout();
             this._statusMain.SuspendLayout();
@@ -255,6 +255,14 @@ namespace MetaboliteLevels.Forms
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 19);
             this.fileToolStripMenuItem.Text = "&File";
             // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.loadDataSetToolStripMenuItem_Click);
+            // 
             // loadDataSetToolStripMenuItem
             // 
             this.loadDataSetToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
@@ -298,6 +306,7 @@ namespace MetaboliteLevels.Forms
             this.peakidentificationsToolStripMenuItem.Name = "peakidentificationsToolStripMenuItem";
             this.peakidentificationsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
             this.peakidentificationsToolStripMenuItem.Text = "Peak &identifications...";
+            this.peakidentificationsToolStripMenuItem.Click += new System.EventHandler(this.peakidentificationsToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -1812,14 +1821,6 @@ namespace MetaboliteLevels.Forms
             this.splitContainer3.Size = new System.Drawing.Size(722, 711);
             this.splitContainer3.SplitterDistance = 349;
             this.splitContainer3.TabIndex = 10;
-            // 
-            // newToolStripMenuItem
-            // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.newToolStripMenuItem.Text = "New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.loadDataSetToolStripMenuItem_Click);
             // 
             // FrmMain
             // 

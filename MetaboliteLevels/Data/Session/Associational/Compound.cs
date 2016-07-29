@@ -309,7 +309,11 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Libraries", EColumn.None, λ => λ.Libraries);
             columns.Add("Mass", EColumn.None, λ => λ.Mass);
             columns.Add("Pathways", EColumn.None, λ => λ.Pathways);
-            columns.Add("Annotations", EColumn.Visible, λ => λ.Annotations);
+            columns.Add( "Annotation status", EColumn.Visible, λ => λ.GetAnnotationStatus() );
+            columns.Add( "Annotations\\Peaks", EColumn.Visible, λ => λ.Annotations.Select( z => z.Peak ) );
+            columns.Add( "Annotations\\Status", EColumn.None, λ => λ.Annotations.Select( z => z.Status ) );
+            columns.Add( "Annotations\\Compounds", EColumn.None, λ => λ.Annotations.Select( z => z.Compound ) );
+            columns.Add( "Annotations\\Annotations", EColumn.None, λ => λ.Annotations );
             columns.Add("ID", EColumn.None, λ => λ.Id);
             columns.Add("Comment", EColumn.None, λ => λ.Comment);
             columns.Add("URL", EColumn.None, λ => λ.Url);
@@ -317,6 +321,19 @@ namespace MetaboliteLevels.Data.Visualisables
             core._compoundsMeta.ReadAllColumns(z => z.MetaInfo, columns);
 
             return columns;
+        }               
+
+        public EAnnotation GetAnnotationStatus()
+        {
+            // IMAGE
+            if (this.Annotations.Count == 0)
+            {
+                return (EAnnotation)(-1);
+            }
+            else
+            {
+                return this.Annotations.Max( z => z.Status );
+            }
         }
 
         /// <summary>

@@ -53,5 +53,12 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// </summary>
         [Name("ConfigurationClusterer")]
         WeakRefConfigurationClusterer,
+
+        /// <summary>
+        /// Clusterers
+        /// (as WeakReference&lt;ConfigurationClusterer&gt;)
+        /// </summary>
+        [Name( "ClusterArray" )]
+        WeakRefClusterArray,
     }
 }

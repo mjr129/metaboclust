@@ -182,6 +182,24 @@ namespace MetaboliteLevels.Algorithms.Statistics
                                                         "; ") + "}";
                 }
             }
+            else if (param is WeakReference<Cluster>)
+            {
+                WeakReference<Cluster> p = (WeakReference<Cluster>)param;
+                Cluster c = p.GetTarget();
+
+                if (c == null)
+                {
+                    return ("?");
+                }
+                else if (reversable)
+                {
+                    return core.Clusters.IndexOf( c ).ToString();
+                }
+                else
+                {
+                    return (c.ToString());
+                }
+            }
             else if (param is WeakReference<ConfigurationClusterer>)
             {
                 WeakReference<ConfigurationClusterer> p = (WeakReference<ConfigurationClusterer>)param;
@@ -450,6 +468,25 @@ namespace MetaboliteLevels.Algorithms.Statistics
                     {
                         string el = element.Trim();
                         return core.Groups.FirstOrDefault(z => z.StringId == el);
+                    }
+
+                case EAlgoParameterType.WeakRefClusterArray:
+                    {
+                        int ival;
+
+                        if (!int.TryParse( element, out ival ))
+                        {
+                            return null;
+                        }
+
+                        IReadOnlyList<Cluster> opts = core.Clusters;
+
+                        if (ival < 0 || ival >= opts.Count)
+                        {
+                            return null;
+                        }
+
+                        return new WeakReference<Cluster>( opts[ival] );
                     }
 
                 default:

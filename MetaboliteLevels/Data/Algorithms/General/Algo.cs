@@ -34,7 +34,9 @@ namespace MetaboliteLevels.Algorithms
         public const string ID_METRIC_TTEST = @"T_TEST";
         public const string ID_METRIC_PEARSON = @"PEARSON";
         public const string ID_METRIC_PEARSONDISTANCE = @"PEARSON_DISTANCE";
+        public const string ID_TREND_NAN = @"TREND_NAN";
         public const string ID_TREND_FLAT_MEAN = @"FLAT_MEAN";
+        public const string ID_TREND_MOVING_MEAN = @"MOVING_MEAN";
         public const string ID_TREND_MOVING_MEDIAN = @"MOVING_MEDIAN";
         public const string ID_TREND_MOVING_MINIMUM = @"MOVING_MIN";
         public const string ID_TREND_MOVING_MAXIMUM = @"MOVING_MAX";
@@ -140,11 +142,12 @@ namespace MetaboliteLevels.Algorithms
             Statistics.Add(new StatisticConsumer(Maths.NegSum, "STATS_NEGSUM", "-Sum:"));
 
             // Trends
+            Trends.Add( new TrendFlatLine( z => double.NaN, ID_TREND_NAN, "No trend" ) );
             Trends.Add(new TrendFlatLine(Maths.Mean, ID_TREND_FLAT_MEAN, "Straight line across mean"));
             Trends.Add(new TrendFlatLine(Maths.Median, "FLAT_MEDIAN", "Straight line across median"));
 
             Trends.Add(new TrendAverage(Maths.Median, ID_TREND_MOVING_MEDIAN, "Moving median"));
-            Trends.Add(new TrendAverage(Maths.Mean, @"MOVING_MEAN", "Moving mean"));
+            Trends.Add(new TrendAverage(Maths.Mean, ID_TREND_MOVING_MEAN, "Moving mean"));
             Trends.Add(new TrendAverage(Maths.Min, ID_TREND_MOVING_MINIMUM, "Moving minimum"));
             Trends.Add(new TrendAverage(Maths.Max, ID_TREND_MOVING_MAXIMUM, "Moving maximum"));
 

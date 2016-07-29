@@ -42,6 +42,8 @@ namespace MetaboliteLevels.Settings
         public List<string> ControlConditionsString;  // for stats - conditions of interest
         public EStatisticalMethods StandardStatisticalMethods;  // for stats - what methods to apply
 
+        public EDefaultTrendGenerator DefaultTrendGenerator; // ID of default trend generator
+
         // session info
         public string Title;                    // session title
         public string ShortTitle;               // session short title (optional)
@@ -164,5 +166,17 @@ namespace MetaboliteLevels.Settings
                 return Title.Substring(0, 24);
             }
         }
+    }
+
+    enum EDefaultTrendGenerator
+    {
+        [Name("None (recommended)")]
+        None,
+
+        [Name( "Median of replicates" )]
+        MedianOfReplicates,
+
+        [Name( "Mean of replicates" )]
+        MeanOfReplicates,
     }
 }

@@ -129,6 +129,21 @@ namespace MetaboliteLevels.Forms.Editing
 
             switch (param.Type)
             {
+                case EAlgoParameterType.WeakRefClusterArray:
+
+                    {
+                        Cluster def = ((WeakReference<Cluster>)value).GetTarget();
+                        var sel = Generic.DataSet.ForClusters( _core ).ShowList( this, def );
+
+                        if (sel == null)
+                        {
+                            return;
+                        }
+
+                        value = new WeakReference<Cluster>( sel );
+                    }
+                    break;
+
                 case EAlgoParameterType.WeakRefConfigurationClusterer:
                     {
                         ConfigurationClusterer def = ((WeakReference<ConfigurationClusterer>)value).GetTarget();

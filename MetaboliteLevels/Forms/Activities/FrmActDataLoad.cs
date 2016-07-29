@@ -77,7 +77,7 @@ namespace MetaboliteLevels.Forms.Startup
         internal static Core Show(Form owner, string sessionFileName )
         {
             return Show(owner, null, sessionFileName, null );
-        }
+        }   
 
         /// <summary>
         /// Loads data from file or session
@@ -167,7 +167,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Loads identifications.
         /// </summary>
-        private static void Load_5_UserIdentifications( FileLoadInfo dataInfo, MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, EAnnotation status, List<string> warnings, ProgressReporter prog)
+        public static void Load_5_UserIdentifications( FileLoadInfo dataInfo, MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, EAnnotation status, List<string> warnings, ProgressReporter prog)
         {
             SpreadsheetReader reader = new SpreadsheetReader()
             {
@@ -1030,7 +1030,24 @@ namespace MetaboliteLevels.Forms.Startup
             result.Batches = batches;
 
             // Create smoothers
-            result.AvgSmoother = new ConfigurationTrend(null, null, Algo.ID_TREND_FLAT_MEAN, new ArgsTrend(new object[0]));
+            switch (files.DefaultTrendGenerator)
+            {
+                case EDefaultTrendGenerator.MeanOfReplicates:
+                    result.AvgSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_FLAT_MEAN, new ArgsTrend( new object[] { 1 } ) );
+                    break;
+
+                case EDefaultTrendGenerator.MedianOfReplicates:
+                    result.AvgSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MEDIAN, new ArgsTrend( new object[] { 1 } ) );
+                    break;
+
+                case EDefaultTrendGenerator.None:
+                    result.AvgSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_NAN, new ArgsTrend( new object[0] ) );
+                    break;
+
+                default:
+                    throw new SwitchException( files.DefaultTrendGenerator );
+            }
+            
             result.MinSmoother = new ConfigurationTrend(null, null, Algo.ID_TREND_MOVING_MINIMUM, new ArgsTrend(new object[] { 0 }));
             result.MaxSmoother = new ConfigurationTrend(null, null, Algo.ID_TREND_MOVING_MAXIMUM, new ArgsTrend(new object[] { 0 }));
 

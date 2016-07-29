@@ -152,6 +152,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\PagerControl.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererMerge.cs" />
     <Compile Include="Data\Algorithms\General\Algo.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameter.cs" />
     <Compile Include="Data\Algorithms\General\DistanceMatrix.cs" />

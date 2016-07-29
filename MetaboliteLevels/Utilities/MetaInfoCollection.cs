@@ -73,6 +73,18 @@ namespace MetaboliteLevels.Utilities
             return index;
         }
 
+        internal int GetIndex( string key )
+        {
+            int index;
+
+            if (!_indices.TryGetValue( key, out index ))
+            {
+                return -1;
+            }
+
+            return index;
+        }
+
         public string[] Headers
         {
             get { return _headers; }

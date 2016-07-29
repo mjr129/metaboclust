@@ -70,16 +70,16 @@ namespace MetaboliteLevels.Forms.Editing
         }
 
 
-        private void BeginWait(string p, bool pb = false)
+        private void BeginWait(string message, bool showProgBar = false)
         {
             _waitCounter++;
-            toolStripStatusLabel2.Text = p;
+            toolStripStatusLabel2.Text = message;
             toolStripStatusLabel2.Visible = true;
             _lastProgressFlash.Restart();
             _statusMain.BackColor = Color.Red;
             _statusMain.Refresh();
 
-            if (pb)
+            if (showProgBar)
             {
                 toolStripProgressBar1.Visible = true;
             }
@@ -144,6 +144,27 @@ namespace MetaboliteLevels.Forms.Editing
             lvi.SubItems[1].ForeColor = Color.Gray;
 
             listView1.Items.Add(lvi);
+        }
+
+        [InList]
+        [Description( "Sets RT values from meta data (required for old file versions when RTs are needed)." )]             
+        void update_rt_from_old_version()
+        {
+            BeginWait( "Update RT from old version", false );
+                                              
+            int rtIndex = DataSet.ForString( "Set RT from...", _core._peakMeta.Headers ).ShowRadio( this, 0 );
+
+            if (rtIndex == -1)
+            {
+                return;
+            }
+
+            foreach (Peak peak in _core.Peaks)
+            {
+                peak.Rt = decimal.Parse( peak.MetaInfo.Read( rtIndex ).First() );
+            }
+
+            EndWait();
         }
 
         [InList]

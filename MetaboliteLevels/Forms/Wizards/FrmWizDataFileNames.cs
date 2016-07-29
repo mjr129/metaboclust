@@ -22,6 +22,7 @@ using MGui.Helpers;
 using MGui.Controls;
 using MGui;
 using MetaboliteLevels.Forms.Wizards;
+using MetaboliteLevels.Algorithms;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -70,7 +71,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Experimental conditions editor (for control)
         /// </summary>
-        private readonly ConditionBox<string> _cbControl;
+        private readonly ConditionBox<string> _cbControl;    
 
         /// <summary>
         /// List of ALL compound libraries
@@ -92,6 +93,7 @@ namespace MetaboliteLevels.Forms.Startup
         private readonly FileLoadInfo _fileLoadInfo;
         private EditableComboBox<EAnnotation> _cbAutomaticFlag;
         private EditableComboBox<EAnnotation> _cbManualFlag;
+        private readonly EditableComboBox<EDefaultTrendGenerator> _cbTrend;
 
         /// <summary>
         /// Constructor.
@@ -142,6 +144,7 @@ namespace MetaboliteLevels.Forms.Startup
             // Setup annotations
             _cbAutomaticFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox(_automaticFlag, null, ENullItemName.NoNullItem);
             _cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox( _manualFlag, null, ENullItemName.NoNullItem );
+            _cbTrend = DataSet.ForDiscreteEnum<EDefaultTrendGenerator>( "Trend", (EDefaultTrendGenerator)(-1) ).CreateComboBox( _lstDefaultTrend, null, ENullItemName.NoNullItem );
 
             // Setup help
             splitContainer1.Panel2Collapsed = true;
@@ -511,6 +514,7 @@ namespace MetaboliteLevels.Forms.Startup
             _chkPeakPeakMatch.Checked = lfn.PeakPeakMatching;
             _cbAutomaticFlag.SelectedItem = lfn.AutomaticIdentificationsStatus;
             _cbManualFlag.SelectedItem = lfn.ManualIdentificationsStatus;
+            _cbTrend.SelectedItem = lfn.DefaultTrendGenerator;
 
             if (lfn.AutomaticIdentifications || lfn.PeakPeakMatching)
             {
@@ -682,6 +686,7 @@ namespace MetaboliteLevels.Forms.Startup
                 fileNames.StandardStatisticalMethods = GetCheck( _chkStatP, fileNames.StandardStatisticalMethods, EStatisticalMethods.Pearson );
                 fileNames.AutomaticIdentificationsToleranceUnit  = EnumComboBox.Get<ETolerance>( _lstTolerance, ETolerance.PartsPerMillion );
                 fileNames.AutomaticIdentificationsToleranceValue = _numTolerance.Value;
+                fileNames.DefaultTrendGenerator      = _cbTrend.SelectedItem;
             }
             catch (Exception ex)
             {

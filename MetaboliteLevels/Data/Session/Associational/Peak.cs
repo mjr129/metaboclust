@@ -92,7 +92,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Retention time
         /// </summary>
-        public readonly decimal Rt;
+        public decimal Rt;
 
         /// <summary>
         /// Other information the user loaded and may want to view in but the program doesn't actually need.
@@ -308,6 +308,7 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Index", EColumn.Advanced, λ => λ.Index);
             columns.Add("LC-MS mode", EColumn.None, λ => λ.LcmsMode);
             columns.Add("m/z", EColumn.None, λ => λ.Mz);
+            columns.Add( "rt", EColumn.None, λ => λ.Rt );
             columns.Add("Observations (all)", EColumn.Advanced, λ => λ.Observations.Raw);
             columns.Add("Observations (trend)", EColumn.Advanced, λ => λ.Observations.Trend);
 
@@ -346,8 +347,11 @@ namespace MetaboliteLevels.Data.Visualisables
                 columns[columns.Count - 1].Colour = z => UiControls.StatisticColour(closure, z.Statistics);
             }
 
-            columns.Add("Compounds", EColumn.None, λ => λ.Annotations.Select(λλ => λλ.Compound));
-            columns.Add("Adducts", EColumn.None, λ => λ.Annotations.Select(λλ => λλ.Adduct));
+            columns.Add( "Annotations", EColumn.None, λ => λ.Annotations );
+            columns.Add( "Annotation status", EColumn.None, λ => λ.GetAnnotationStatus() );
+            columns.Add( "Annotations\\Compounds", EColumn.Advanced, λ => λ.Annotations.Select(λλ => λλ.Compound));
+            columns.Add( "Annotations\\Adducts", EColumn.Advanced, λ => λ.Annotations.Select(λλ => λλ.Adduct));
+            columns.Add( "Annotations\\Statuses", EColumn.Advanced, λ => λ.Annotations.Select( λλ => λλ.Status ) );
             columns.Add("Similar peaks", EColumn.None, λ => λ.SimilarPeaks);
 
             core._peakMeta.ReadAllColumns(z => z.MetaInfo, columns);
@@ -366,6 +370,19 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             return columns;
+        }
+
+        public EAnnotation GetAnnotationStatus()
+        {
+            // IMAGE
+            if (this.Annotations.Count == 0)
+            {
+                return (EAnnotation)(-1);
+            }
+            else
+            {
+                return this.Annotations.Max( z => z.Status );
+            }
         }
 
         /// <summary>
