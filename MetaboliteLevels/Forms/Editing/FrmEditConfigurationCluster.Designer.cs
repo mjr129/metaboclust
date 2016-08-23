@@ -48,6 +48,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this._lstMeasure = new System.Windows.Forms.ComboBox();
+            this._btnObs = new MetaboliteLevels.Controls.CtlButton();
+            this._btnTrend = new MetaboliteLevels.Controls.CtlButton();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this._btnParameterOptimiser = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -72,12 +74,10 @@
             this._txtStatistics = new MGui.Controls.CtlTextBox();
             this._btnSetStatistics = new MetaboliteLevels.Controls.CtlButton();
             this.label2 = new System.Windows.Forms.Label();
+            this._btnExperimentalGroups = new MetaboliteLevels.Controls.CtlButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MGui.Controls.CtlError(this.components);
-            this._btnObs = new MetaboliteLevels.Controls.CtlButton();
-            this._btnTrend = new MetaboliteLevels.Controls.CtlButton();
-            this._btnExperimentalGroups = new MetaboliteLevels.Controls.CtlButton();
             this.contextMenuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -97,9 +97,12 @@
             this._lblApply.Location = new System.Drawing.Point(8, 397);
             this._lblApply.Margin = new System.Windows.Forms.Padding(8);
             this._lblApply.Name = "_lblApply";
-            this._lblApply.Size = new System.Drawing.Size(58, 21);
+            this.tableLayoutPanel1.SetRowSpan(this._lblApply, 2);
+            this._lblApply.Size = new System.Drawing.Size(105, 21);
             this._lblApply.TabIndex = 2;
-            this._lblApply.Text = "Source";
+            this._lblApply.Text = "Vector source";
+            this.toolTip1.SetToolTip(this._lblApply, "Select the source for the clustering vectors - either all observations or just th" +
+        "e trendline.\r\nUse the buttons to the right to view the data source.");
             // 
             // newStatisticToolStripMenuItem
             // 
@@ -124,6 +127,9 @@
             this._lblAVec.Size = new System.Drawing.Size(102, 21);
             this._lblAVec.TabIndex = 4;
             this._lblAVec.Text = "Observations";
+            this.toolTip1.SetToolTip(this._lblAVec, "Select the set of observations (or conditions for a trend) to enter into the clus" +
+        "tering vectors.\r\nUse the button to the right to add or edit the sets of observat" +
+        "ions.");
             // 
             // _btnNewStatistic
             // 
@@ -133,6 +139,8 @@
             this._btnNewStatistic.Name = "_btnNewStatistic";
             this._btnNewStatistic.Size = new System.Drawing.Size(29, 29);
             this._btnNewStatistic.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnNewStatistic, "Select the clustering algorithm.\r\nUse the button to the right to open the databas" +
+        "e and add new algorithms.");
             this._btnNewStatistic.UseDefaultSize = true;
             this._btnNewStatistic.UseVisualStyleBackColor = true;
             // 
@@ -144,6 +152,9 @@
             this._btnComment.Name = "_btnComment";
             this._btnComment.Size = new System.Drawing.Size(29, 29);
             this._btnComment.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnComment, "Enter the title of the algorithm (this will also be the title of the resultant cl" +
+        "usters).\r\nIf you don\'t enter a title one will be chosen for you.\r\nUse the button" +
+        " to the right to add comments.");
             this._btnComment.UseDefaultSize = true;
             this._btnComment.UseVisualStyleBackColor = true;
             this._btnComment.Click += new System.EventHandler(this._btnComment_Click);
@@ -151,24 +162,28 @@
             // _radObs
             // 
             this._radObs.AutoSize = true;
-            this._radObs.Location = new System.Drawing.Point(126, 397);
+            this._radObs.Location = new System.Drawing.Point(129, 397);
             this._radObs.Margin = new System.Windows.Forms.Padding(8);
             this._radObs.Name = "_radObs";
             this._radObs.Size = new System.Drawing.Size(120, 25);
             this._radObs.TabIndex = 3;
             this._radObs.Text = "Observations";
+            this.toolTip1.SetToolTip(this._radObs, "Select the source for the clustering vectors - either all observations or just th" +
+        "e trendline.\r\nUse the buttons to the right to view the data source.");
             this._radObs.UseVisualStyleBackColor = true;
             this._radObs.CheckedChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // _radTrend
             // 
             this._radTrend.AutoSize = true;
-            this._radTrend.Location = new System.Drawing.Point(126, 442);
+            this._radTrend.Location = new System.Drawing.Point(129, 442);
             this._radTrend.Margin = new System.Windows.Forms.Padding(8);
             this._radTrend.Name = "_radTrend";
             this._radTrend.Size = new System.Drawing.Size(68, 25);
             this._radTrend.TabIndex = 3;
             this._radTrend.Text = "Trend";
+            this.toolTip1.SetToolTip(this._radTrend, "Select the source for the clustering vectors - either all observations or just th" +
+        "e trendline.\r\nUse the buttons to the right to view the data source.");
             this._radTrend.UseVisualStyleBackColor = true;
             this._radTrend.CheckedChanged += new System.EventHandler(this.CheckAndChange);
             // 
@@ -180,6 +195,9 @@
             this._btnObsFilter.Name = "_btnObsFilter";
             this._btnObsFilter.Size = new System.Drawing.Size(29, 29);
             this._btnObsFilter.TabIndex = 14;
+            this.toolTip1.SetToolTip(this._btnObsFilter, "Select the set of observations (or conditions for a trend) to enter into the clus" +
+        "tering vectors.\r\nUse the button to the right to add or edit the sets of observat" +
+        "ions.");
             this._btnObsFilter.UseDefaultSize = true;
             this._btnObsFilter.UseVisualStyleBackColor = true;
             // 
@@ -192,17 +210,21 @@
             this.label1.Size = new System.Drawing.Size(64, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Method";
+            this.toolTip1.SetToolTip(this.label1, "Select the clustering algorithm.\r\nUse the button to the right to open the databas" +
+        "e and add new algorithms.");
             // 
             // _lstMethod
             // 
             this._lstMethod.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstMethod.FormattingEnabled = true;
-            this._lstMethod.Location = new System.Drawing.Point(126, 53);
+            this._lstMethod.Location = new System.Drawing.Point(129, 53);
             this._lstMethod.Margin = new System.Windows.Forms.Padding(8);
             this._lstMethod.Name = "_lstMethod";
-            this._lstMethod.Size = new System.Drawing.Size(789, 29);
+            this._lstMethod.Size = new System.Drawing.Size(786, 29);
             this._lstMethod.TabIndex = 1;
+            this.toolTip1.SetToolTip(this._lstMethod, "Select the clustering algorithm.\r\nUse the button to the right to open the databas" +
+        "e and add new algorithms.");
             this._lstMethod.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // label4
@@ -214,16 +236,22 @@
             this.label4.Size = new System.Drawing.Size(39, 21);
             this.label4.TabIndex = 0;
             this.label4.Text = "Title";
+            this.toolTip1.SetToolTip(this.label4, "Enter the title of the algorithm (this will also be the title of the resultant cl" +
+        "usters).\r\nIf you don\'t enter a title one will be chosen for you.\r\nUse the button" +
+        " to the right to add comments.");
             // 
             // _txtName
             // 
             this._txtName.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtName.ForeColor = System.Drawing.Color.Blue;
-            this._txtName.Location = new System.Drawing.Point(126, 8);
+            this._txtName.Location = new System.Drawing.Point(129, 8);
             this._txtName.Margin = new System.Windows.Forms.Padding(8);
             this._txtName.Name = "_txtName";
-            this._txtName.Size = new System.Drawing.Size(789, 29);
+            this._txtName.Size = new System.Drawing.Size(786, 29);
             this._txtName.TabIndex = 6;
+            this.toolTip1.SetToolTip(this._txtName, "Enter the title of the algorithm (this will also be the title of the resultant cl" +
+        "usters).\r\nIf you don\'t enter a title one will be chosen for you.\r\nUse the button" +
+        " to the right to add comments.");
             this._txtName.Watermark = "Default";
             this._txtName.TextChanged += new System.EventHandler(this.Check);
             // 
@@ -300,12 +328,12 @@
             this.tableLayoutPanel2.Controls.Add(this.linkLabel1, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this._lstMeasure, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(118, 217);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(121, 217);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(805, 45);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(802, 45);
             this.tableLayoutPanel2.TabIndex = 15;
             // 
             // linkLabel1
@@ -317,7 +345,7 @@
             this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(39, 4);
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(544, 10);
+            this.linkLabel1.Location = new System.Drawing.Point(541, 10);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(8, 10, 8, 8);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(253, 20);
@@ -325,6 +353,8 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "       Distance metric not used, click here for details.";
             this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip1.SetToolTip(this.linkLabel1, "Select the distance metric algorithm.\r\nUse the button to the right to add or edit" +
+        " the distance metric algorithms.");
             this.linkLabel1.UseCompatibleTextRendering = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
@@ -336,9 +366,39 @@
             this._lstMeasure.Location = new System.Drawing.Point(8, 8);
             this._lstMeasure.Margin = new System.Windows.Forms.Padding(8);
             this._lstMeasure.Name = "_lstMeasure";
-            this._lstMeasure.Size = new System.Drawing.Size(520, 29);
+            this._lstMeasure.Size = new System.Drawing.Size(517, 29);
             this._lstMeasure.TabIndex = 1;
+            this.toolTip1.SetToolTip(this._lstMeasure, "Select the distance metric algorithm.\r\nUse the button to the right to add or edit" +
+        " the distance metric algorithms.");
             this._lstMeasure.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
+            // 
+            // _btnObs
+            // 
+            this._btnObs.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnObs.Location = new System.Drawing.Point(931, 397);
+            this._btnObs.Margin = new System.Windows.Forms.Padding(8);
+            this._btnObs.Name = "_btnObs";
+            this._btnObs.Size = new System.Drawing.Size(29, 29);
+            this._btnObs.TabIndex = 33;
+            this.toolTip1.SetToolTip(this._btnObs, "Select the source for the clustering vectors - either all observations or just th" +
+        "e trendline.\r\nUse the buttons to the right to view the data source.");
+            this._btnObs.UseDefaultSize = true;
+            this._btnObs.UseVisualStyleBackColor = true;
+            this._btnObs.Click += new System.EventHandler(this._btnObs_Click);
+            // 
+            // _btnTrend
+            // 
+            this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnTrend.Location = new System.Drawing.Point(931, 442);
+            this._btnTrend.Margin = new System.Windows.Forms.Padding(8);
+            this._btnTrend.Name = "_btnTrend";
+            this._btnTrend.Size = new System.Drawing.Size(29, 29);
+            this._btnTrend.TabIndex = 34;
+            this.toolTip1.SetToolTip(this._btnTrend, "Select the source for the clustering vectors - either all observations or just th" +
+        "e trendline.\r\nUse the buttons to the right to view the data source.");
+            this._btnTrend.UseDefaultSize = true;
+            this._btnTrend.UseVisualStyleBackColor = true;
+            this._btnTrend.Click += new System.EventHandler(this._btnTrend_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -370,7 +430,7 @@
             this._btnParameterOptimiser.Size = new System.Drawing.Size(203, 39);
             this._btnParameterOptimiser.TabIndex = 3;
             this._btnParameterOptimiser.Text = "Parameter optimiser...";
-            this.toolTip1.SetToolTip(this._btnParameterOptimiser, "Test multiple parameters");
+            this.toolTip1.SetToolTip(this._btnParameterOptimiser, "Click to test the effects of multiple parameters on your clustering algorithm.");
             this._btnParameterOptimiser.UseVisualStyleBackColor = false;
             this._btnParameterOptimiser.Click += new System.EventHandler(this.ctlButton1_Click);
             // 
@@ -400,6 +460,7 @@
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
             this._btnCancel.TabIndex = 19;
             this._btnCancel.Text = "  Cancel";
+            this.toolTip1.SetToolTip(this._btnCancel, "Go back, discarding any changes you have made.");
             this._btnCancel.UseDefaultSize = true;
             this._btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -415,6 +476,8 @@
             this._btnOk.Size = new System.Drawing.Size(128, 40);
             this._btnOk.TabIndex = 18;
             this._btnOk.Text = "  OK";
+            this.toolTip1.SetToolTip(this._btnOk, "Click to apply your changes.\r\nYou will have a chance to make changes before your " +
+        "algorithhm is run.");
             this._btnOk.UseDefaultSize = true;
             this._btnOk.UseVisualStyleBackColor = true;
             // 
@@ -426,6 +489,8 @@
             this._btnEditParameters.Name = "_btnEditParameters";
             this._btnEditParameters.Size = new System.Drawing.Size(29, 29);
             this._btnEditParameters.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnEditParameters, "Select the parameters (if required) for the clustering algorithm.\r\nUse the button" +
+        " to the right to open up the parameter editor.");
             this._btnEditParameters.UseDefaultSize = true;
             this._btnEditParameters.UseVisualStyleBackColor = true;
             this._btnEditParameters.Click += new System.EventHandler(this._btnEditParameters_Click);
@@ -434,24 +499,29 @@
             // 
             this._txtMeasureParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtMeasureParams.ForeColor = System.Drawing.Color.Blue;
-            this._txtMeasureParams.Location = new System.Drawing.Point(126, 270);
+            this._txtMeasureParams.Location = new System.Drawing.Point(129, 270);
             this._txtMeasureParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtMeasureParams.Name = "_txtMeasureParams";
-            this._txtMeasureParams.Size = new System.Drawing.Size(789, 29);
+            this._txtMeasureParams.Size = new System.Drawing.Size(786, 29);
             this._txtMeasureParams.TabIndex = 6;
+            this.toolTip1.SetToolTip(this._txtMeasureParams, "Select the parameters for the distance metric (if required).\r\nSeparate your param" +
+        "eters with commas.\r\nUse the button to the right to open the parameter editor.");
             this._txtMeasureParams.Watermark = null;
             this._txtMeasureParams.TextChanged += new System.EventHandler(this.Check);
             // 
             // _chkSepGroups
             // 
             this._chkSepGroups.AutoSize = true;
-            this._chkSepGroups.Location = new System.Drawing.Point(126, 569);
+            this._chkSepGroups.Location = new System.Drawing.Point(129, 569);
             this._chkSepGroups.Margin = new System.Windows.Forms.Padding(8);
             this._chkSepGroups.Name = "_chkSepGroups";
             this._chkSepGroups.Padding = new System.Windows.Forms.Padding(4);
             this._chkSepGroups.Size = new System.Drawing.Size(280, 33);
             this._chkSepGroups.TabIndex = 15;
             this._chkSepGroups.Text = "One vector per experimental group";
+            this.toolTip1.SetToolTip(this._chkSepGroups, "Select this option to generate one clustering vector per experimental group, per " +
+        "peak.\r\nIf not selected one vector will be created per peak, comprising all exper" +
+        "imental groups.");
             this._chkSepGroups.UseVisualStyleBackColor = false;
             this._chkSepGroups.CheckedChanged += new System.EventHandler(this.CheckAndChange);
             // 
@@ -469,11 +539,14 @@
             // 
             this._txtParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtParams.ForeColor = System.Drawing.Color.Blue;
-            this._txtParams.Location = new System.Drawing.Point(126, 98);
+            this._txtParams.Location = new System.Drawing.Point(129, 98);
             this._txtParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtParams.Name = "_txtParams";
-            this._txtParams.Size = new System.Drawing.Size(789, 29);
+            this._txtParams.Size = new System.Drawing.Size(786, 29);
             this._txtParams.TabIndex = 6;
+            this.toolTip1.SetToolTip(this._txtParams, "Select the parameters (if required) for the clustering algorithm.\r\nSeparate your " +
+        "parameters with commas.\r\nUse the button to the right to open up the parameter ed" +
+        "itor.");
             this._txtParams.Watermark = null;
             this._txtParams.TextChanged += new System.EventHandler(this.CheckAndChange);
             // 
@@ -496,6 +569,8 @@
             this._lblPeaks.Size = new System.Drawing.Size(50, 21);
             this._lblPeaks.TabIndex = 2;
             this._lblPeaks.Text = "Peaks";
+            this.toolTip1.SetToolTip(this._lblPeaks, "Select the filter to generate the set of peaks you\'d like to cluster.\r\nSelect the" +
+        " button to the right to add or edit peak filters.");
             // 
             // _btnPeakFilter
             // 
@@ -505,6 +580,8 @@
             this._btnPeakFilter.Name = "_btnPeakFilter";
             this._btnPeakFilter.Size = new System.Drawing.Size(29, 29);
             this._btnPeakFilter.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnPeakFilter, "Select the filter to generate the set of peaks you\'d like to cluster.\r\nSelect the" +
+        " button to the right to add or edit peak filters.");
             this._btnPeakFilter.UseDefaultSize = true;
             this._btnPeakFilter.UseVisualStyleBackColor = true;
             // 
@@ -523,11 +600,14 @@
             this._lstObsFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstObsFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstObsFilter.FormattingEnabled = true;
-            this._lstObsFilter.Location = new System.Drawing.Point(126, 524);
+            this._lstObsFilter.Location = new System.Drawing.Point(129, 524);
             this._lstObsFilter.Margin = new System.Windows.Forms.Padding(8);
             this._lstObsFilter.Name = "_lstObsFilter";
-            this._lstObsFilter.Size = new System.Drawing.Size(789, 29);
+            this._lstObsFilter.Size = new System.Drawing.Size(786, 29);
             this._lstObsFilter.TabIndex = 1;
+            this.toolTip1.SetToolTip(this._lstObsFilter, "Select the set of observations (or conditions for a trend) to enter into the clus" +
+        "tering vectors.\r\nUse the button to the right to add or edit the sets of observat" +
+        "ions.");
             this._lstObsFilter.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // _lstPeakFilter
@@ -535,11 +615,13 @@
             this._lstPeakFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstPeakFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstPeakFilter.FormattingEnabled = true;
-            this._lstPeakFilter.Location = new System.Drawing.Point(126, 180);
+            this._lstPeakFilter.Location = new System.Drawing.Point(129, 180);
             this._lstPeakFilter.Margin = new System.Windows.Forms.Padding(8);
             this._lstPeakFilter.Name = "_lstPeakFilter";
-            this._lstPeakFilter.Size = new System.Drawing.Size(789, 29);
+            this._lstPeakFilter.Size = new System.Drawing.Size(786, 29);
             this._lstPeakFilter.TabIndex = 1;
+            this.toolTip1.SetToolTip(this._lstPeakFilter, "Select the filter to generate the set of peaks you\'d like to cluster.\r\nSelect the" +
+        " button to the right to add or edit peak filters.");
             this._lstPeakFilter.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // _btnNewDistance
@@ -550,6 +632,8 @@
             this._btnNewDistance.Name = "_btnNewDistance";
             this._btnNewDistance.Size = new System.Drawing.Size(29, 29);
             this._btnNewDistance.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnNewDistance, "Select the distance metric algorithm.\r\nUse the button to the right to add or edit" +
+        " the distance metric algorithms.");
             this._btnNewDistance.UseDefaultSize = true;
             this._btnNewDistance.UseVisualStyleBackColor = true;
             // 
@@ -561,6 +645,8 @@
             this._btnEditDistanceParameters.Name = "_btnEditDistanceParameters";
             this._btnEditDistanceParameters.Size = new System.Drawing.Size(29, 29);
             this._btnEditDistanceParameters.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnEditDistanceParameters, "Select the parameters for the distance metric (if required).\r\nSeparate your param" +
+        "eters with commas.\r\nUse the button to the right to open the parameter editor.");
             this._btnEditDistanceParameters.UseDefaultSize = true;
             this._btnEditDistanceParameters.UseVisualStyleBackColor = true;
             this._btnEditDistanceParameters.Click += new System.EventHandler(this._btnEditDistanceParameters_Click);
@@ -574,6 +660,8 @@
             this._lblMeasure2.Size = new System.Drawing.Size(69, 21);
             this._lblMeasure2.TabIndex = 2;
             this._lblMeasure2.Text = "Distance";
+            this.toolTip1.SetToolTip(this._lblMeasure2, "Select the distance metric algorithm.\r\nUse the button to the right to add or edit" +
+        " the distance metric algorithms.");
             // 
             // _lblMeasureParams
             // 
@@ -584,6 +672,8 @@
             this._lblMeasureParams.Size = new System.Drawing.Size(83, 21);
             this._lblMeasureParams.TabIndex = 0;
             this._lblMeasureParams.Text = "Where k =";
+            this.toolTip1.SetToolTip(this._lblMeasureParams, "Select the parameters for the distance metric (if required).\r\nSeparate your param" +
+        "eters with commas.\r\nUse the button to the right to open the parameter editor.");
             // 
             // _lblParams
             // 
@@ -594,16 +684,20 @@
             this._lblParams.Size = new System.Drawing.Size(83, 21);
             this._lblParams.TabIndex = 0;
             this._lblParams.Text = "Where k =";
+            this.toolTip1.SetToolTip(this._lblParams, "Select the parameters (if required) for the clustering algorithm.\r\nUse the button" +
+        " to the right to open up the parameter editor.");
             // 
             // _txtStatistics
             // 
             this._txtStatistics.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtStatistics.ForeColor = System.Drawing.Color.Blue;
-            this._txtStatistics.Location = new System.Drawing.Point(126, 315);
+            this._txtStatistics.Location = new System.Drawing.Point(129, 315);
             this._txtStatistics.Margin = new System.Windows.Forms.Padding(8);
             this._txtStatistics.Name = "_txtStatistics";
-            this._txtStatistics.Size = new System.Drawing.Size(789, 29);
+            this._txtStatistics.Size = new System.Drawing.Size(786, 29);
             this._txtStatistics.TabIndex = 6;
+            this.toolTip1.SetToolTip(this._txtStatistics, "Select the set of statistics to generate on the clusters.\r\nEnter the values as a " +
+        "comma delimited list.\r\nUse the button to the right to show the list editor.");
             this._txtStatistics.Watermark = null;
             this._txtStatistics.TextChanged += new System.EventHandler(this.Check);
             // 
@@ -615,6 +709,8 @@
             this._btnSetStatistics.Name = "_btnSetStatistics";
             this._btnSetStatistics.Size = new System.Drawing.Size(29, 29);
             this._btnSetStatistics.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnSetStatistics, "Select the set of statistics to generate on the clusters.\r\nEnter the values as a " +
+        "comma delimited list.\r\nUse the button to the right to show the list editor.");
             this._btnSetStatistics.UseDefaultSize = true;
             this._btnSetStatistics.UseVisualStyleBackColor = true;
             // 
@@ -627,6 +723,24 @@
             this.label2.Size = new System.Drawing.Size(71, 21);
             this.label2.TabIndex = 0;
             this.label2.Text = "Statistics";
+            this.toolTip1.SetToolTip(this.label2, "Select the set of statistics to generate on the clusters.\r\nEnter the values as a " +
+        "comma delimited list.\r\nUse the button to the right to show the list editor.");
+            // 
+            // _btnExperimentalGroups
+            // 
+            this._btnExperimentalGroups.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnExperimentalGroups.Location = new System.Drawing.Point(931, 569);
+            this._btnExperimentalGroups.Margin = new System.Windows.Forms.Padding(8);
+            this._btnExperimentalGroups.Name = "_btnExperimentalGroups";
+            this._btnExperimentalGroups.Size = new System.Drawing.Size(29, 29);
+            this._btnExperimentalGroups.TabIndex = 34;
+            this._btnExperimentalGroups.UseDefaultSize = true;
+            this._btnExperimentalGroups.UseVisualStyleBackColor = true;
+            this._btnExperimentalGroups.Click += new System.EventHandler(this._btnExperimentalGroups_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
             // 
             // ctlTitleBar1
             // 
@@ -643,45 +757,10 @@
             this.ctlTitleBar1.SubText = "Select the options for your clustering algorithm";
             this.ctlTitleBar1.TabIndex = 13;
             this.ctlTitleBar1.Text = "Text goes here";
+            this.toolTip1.SetToolTip(this.ctlTitleBar1, "Click the ? button for more help.");
             this.ctlTitleBar1.WarningText = null;
             // 
-            // _btnObs
-            // 
-            this._btnObs.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnObs.Location = new System.Drawing.Point(931, 397);
-            this._btnObs.Margin = new System.Windows.Forms.Padding(8);
-            this._btnObs.Name = "_btnObs";
-            this._btnObs.Size = new System.Drawing.Size(29, 29);
-            this._btnObs.TabIndex = 33;
-            this._btnObs.UseDefaultSize = true;
-            this._btnObs.UseVisualStyleBackColor = true;
-            this._btnObs.Click += new System.EventHandler(this._btnObs_Click);
-            // 
-            // _btnTrend
-            // 
-            this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnTrend.Location = new System.Drawing.Point(931, 442);
-            this._btnTrend.Margin = new System.Windows.Forms.Padding(8);
-            this._btnTrend.Name = "_btnTrend";
-            this._btnTrend.Size = new System.Drawing.Size(29, 29);
-            this._btnTrend.TabIndex = 34;
-            this._btnTrend.UseDefaultSize = true;
-            this._btnTrend.UseVisualStyleBackColor = true;
-            this._btnTrend.Click += new System.EventHandler(this._btnTrend_Click);
-            // 
-            // _btnExperimentalGroups
-            // 
-            this._btnExperimentalGroups.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnExperimentalGroups.Location = new System.Drawing.Point(931, 569);
-            this._btnExperimentalGroups.Margin = new System.Windows.Forms.Padding(8);
-            this._btnExperimentalGroups.Name = "_btnExperimentalGroups";
-            this._btnExperimentalGroups.Size = new System.Drawing.Size(29, 29);
-            this._btnExperimentalGroups.TabIndex = 34;
-            this._btnExperimentalGroups.UseDefaultSize = true;
-            this._btnExperimentalGroups.UseVisualStyleBackColor = true;
-            this._btnExperimentalGroups.Click += new System.EventHandler(this._btnExperimentalGroups_Click);
-            // 
-            // FrmAlgoCluster
+            // FrmEditConfigurationCluster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -690,7 +769,7 @@
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FrmAlgoCluster";
+            this.Name = "FrmEditConfigurationCluster";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Clustering";
             this.contextMenuStrip1.ResumeLayout(false);

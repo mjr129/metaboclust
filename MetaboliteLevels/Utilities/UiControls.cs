@@ -590,40 +590,40 @@ namespace MetaboliteLevels.Utilities
         {
             switch (v)
             {
-                case ImageListOrder.Adduct: return bold ? Resources.IconAdduct : Resources.ListIconAdduct;
-                case ImageListOrder.AnnotationT: return bold ? Resources.IconAnnotationTentative : Resources.IconAnnotationTentative;
-                case ImageListOrder.AnnotationA: return bold ? Resources.IconAnnotationAffirmed : Resources.IconAnnotationAffirmed;
-                case ImageListOrder.AnnotationC: return bold ? Resources.IconAnnotationConfirmed : Resources.IconAnnotationConfirmed;
-                case ImageListOrder.Compound0: return bold ? Resources.IconCompound : Resources.ListIconCompound;
-                case ImageListOrder.CompoundT: return bold ? Resources.IconCompoundTentative : Resources.ListIconCompoundTentative;
-                case ImageListOrder.CompoundA: return bold ? Resources.IconCompoundAffirmed : Resources.ListIconCompoundAffirmed;
-                case ImageListOrder.CompoundC: return bold ? Resources.IconCompoundConfirmed : Resources.ListIconCompoundConfirmed;
-                case ImageListOrder.Info: return bold ? Resources.IconInformation : Resources.ListIconInformation;
-                case ImageListOrder.InfoU: return bold ? Resources.ListIconInformation : Resources.ListIconInformationMeta; // No large
-                case ImageListOrder.List: return bold ? Resources.IconList : Resources.IconList; // No large
-                case ImageListOrder.Pathway: return bold ? Resources.IconPathway : Resources.ListIconPathway;
-                case ImageListOrder.Cluster: return bold ? Resources.IconCluster : Resources.ListIconCluster;
-                case ImageListOrder.ClusterU: return bold ? Resources.ListIconCluster : Resources.ListIconClusterInsignificant; // No large
-                case ImageListOrder.Variable0: return bold ? Resources.IconPeak : Resources.ListIconPeak;
-                case ImageListOrder.VariableT: return bold ? Resources.IconPeakTentative : Resources.ListIconPeakTentative;
-                case ImageListOrder.VariableA: return bold ? Resources.IconPeakAffirmed : Resources.ListIconPeakAffirmed;
-                case ImageListOrder.VariableC: return bold ? Resources.IconPeakConfirmed : Resources.ListIconPeakConfirmed;
-                case ImageListOrder.Line: return bold ? Resources.IconLine : Resources.IconLine; // No large
-                case ImageListOrder.Assignment: return bold ? Resources.IconVector : Resources.ListIconVector;
-                case ImageListOrder.Warning: return bold ? Resources.MnuWarning : Resources.MnuWarning;
-                case ImageListOrder.TestFull: return bold ? Resources.ListIconTestFull : Resources.ListIconTestFull;
-                case ImageListOrder.TestEmpty: return bold ? Resources.ListIconTestEmpty : Resources.ListIconTestEmpty;
-                case ImageListOrder.Filter: return bold ? Resources.MnuFilter : Resources.MnuFilter;
-                case ImageListOrder.Statistic: return bold ? Resources.IconStatistics : Resources.ListIconStatistics;
-                case ImageListOrder.Point: return bold ? Resources.IconPoint : Resources.IconPoint; // No large
-                case ImageListOrder.File: return bold ? Resources.MnuFile : Resources.MnuFile;
-                case ImageListOrder.ListSortUp: return bold ? Resources.ListIconSortUp : Resources.ListIconSortUp;
-                case ImageListOrder.ListSortDown: return bold ? Resources.ListIconSortDown : Resources.ListIconSortDown;
-                case ImageListOrder.ListFilter: return bold ? Resources.ListIconFilter : Resources.ListIconFilter;
-                case ImageListOrder.ScriptInbuilt: return bold ? Resources.IconBinary : Resources.IconBinary;
-                case ImageListOrder.ScriptFile: return bold ? Resources.IconR : Resources.IconR;
+                case ImageListOrder.Adduct          : return bold ? Resources.IconAdduct : Resources.ListIconAdduct;
+                case ImageListOrder.AnnotationT     : return bold ? Resources.IconAnnotationTentative : Resources.IconAnnotationTentative;
+                case ImageListOrder.AnnotationA     : return bold ? Resources.IconAnnotationAffirmed : Resources.IconAnnotationAffirmed;
+                case ImageListOrder.AnnotationC     : return bold ? Resources.IconAnnotationConfirmed : Resources.IconAnnotationConfirmed;
+                case ImageListOrder.Compound0       : return bold ? Resources.IconCompound : Resources.ListIconCompound;
+                case ImageListOrder.CompoundT       : return bold ? Resources.IconCompoundTentative : Resources.ListIconCompoundTentative;
+                case ImageListOrder.CompoundA       : return bold ? Resources.IconCompoundAffirmed : Resources.ListIconCompoundAffirmed;
+                case ImageListOrder.CompoundC       : return bold ? Resources.IconCompoundConfirmed : Resources.ListIconCompoundConfirmed;
+                case ImageListOrder.Info            : return bold ? Resources.IconInformation : Resources.ListIconInformation;
+                case ImageListOrder.InfoU           : return bold ? Resources.ListIconInformation : Resources.ListIconInformationMeta; // No large
+                case ImageListOrder.List            : return bold ? Resources.IconList : Resources.IconList; // No large
+                case ImageListOrder.Pathway         : return bold ? Resources.IconPathway : Resources.ListIconPathway;
+                case ImageListOrder.Cluster         : return bold ? Resources.IconCluster : Resources.ListIconCluster;
+                case ImageListOrder.ClusterU        : return bold ? Resources.ListIconCluster : Resources.ListIconClusterInsignificant; // No large
+                case ImageListOrder.Variable0       : return bold ? Resources.IconPeak : Resources.ListIconPeak;
+                case ImageListOrder.VariableT       : return bold ? Resources.IconPeakTentative : Resources.ListIconPeakTentative;
+                case ImageListOrder.VariableA       : return bold ? Resources.IconPeakAffirmed : Resources.ListIconPeakAffirmed;
+                case ImageListOrder.VariableC       : return bold ? Resources.IconPeakConfirmed : Resources.ListIconPeakConfirmed;
+                case ImageListOrder.Line            : return bold ? Resources.IconLine : Resources.IconLine; // No large
+                case ImageListOrder.Assignment      : return bold ? Resources.IconVector : Resources.ListIconVector;
+                case ImageListOrder.Warning         : return bold ? Resources.MnuWarning : Resources.MnuWarning;
+                case ImageListOrder.TestFull        : return bold ? Resources.ListIconTestFull : Resources.ListIconTestFull;
+                case ImageListOrder.TestEmpty       : return bold ? Resources.ListIconTestEmpty : Resources.ListIconTestEmpty;
+                case ImageListOrder.Filter          : return bold ? Resources.MnuFilter : Resources.MnuFilter;
+                case ImageListOrder.Statistic       : return bold ? Resources.IconStatistics : Resources.ListIconStatistics;
+                case ImageListOrder.Point           : return bold ? Resources.IconPoint : Resources.IconPoint; // No large
+                case ImageListOrder.File            : return bold ? Resources.MnuFile : Resources.MnuFile;
+                case ImageListOrder.ListSortUp      : return bold ? Resources.ListIconSortUp : Resources.ListIconSortUp;
+                case ImageListOrder.ListSortDown    : return bold ? Resources.ListIconSortDown : Resources.ListIconSortDown;
+                case ImageListOrder.ListFilter      : return bold ? Resources.ListIconFilter : Resources.ListIconFilter;
+                case ImageListOrder.ScriptInbuilt   : return bold ? Resources.IconBinary : Resources.IconBinary;
+                case ImageListOrder.ScriptFile      : return bold ? Resources.IconR : Resources.IconR;
                 case ImageListOrder.ScriptMathDotNet: return bold ? Resources.IconMathNet : Resources.IconMathNet;
-                case ImageListOrder.Group: return bold ? Resources.MnuGroup : Resources.MnuGroup;
+                case ImageListOrder.Group           : return bold ? Resources.MnuGroup : Resources.MnuGroup;
                 default: throw new SwitchException(v);
             }
         }

@@ -417,6 +417,8 @@ namespace MetaboliteLevels.Forms.Startup
         /// <returns></returns>
         bool _wizard_PermitAdvance( int input )
         {
+            _checker.Clear();
+
             switch (input)
             {
                 case 0: // Welcome
@@ -1295,6 +1297,16 @@ namespace MetaboliteLevels.Forms.Startup
         private void _btnIdentifications_Click_1( object sender, EventArgs e )
         {
             Browse( _txtIdentifications );
+        }
+
+        private void ctlLabel4_Click( object sender, EventArgs e )
+        {
+            
+        }
+
+        private void ctlLabel4_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        {
+            ctlLabel4.Visible = false;
         }
     }
 }

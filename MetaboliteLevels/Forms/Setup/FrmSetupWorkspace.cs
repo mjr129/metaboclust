@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
 
@@ -80,12 +81,30 @@ namespace MetaboliteLevels.Forms.Startup
         }
 
         private void _btnOk_Click(object sender, EventArgs e)
-        {
+        {   
+            // Get the pointer mode
             UiControls.EStartupPath mode = _radLocal.Checked ? UiControls.EStartupPath.Local
                 : _radUser.Checked ? UiControls.EStartupPath.User
                 : _radMachine.Checked ? UiControls.EStartupPath.Machine
                 : UiControls.EStartupPath.None;
 
+            // The file browser should have already checked for write-access, but check again just to make sure
+            string text = "This is a test file and should have been automatically deleted by " + Path.GetFileName( Application.ExecutablePath ) + ". This file is safe to remove.";
+            string dir = mode == UiControls.EStartupPath.None ? Application.StartupPath : _txtDataFolder.Text;
+            string testFile = Path.Combine( dir, "delete-me (822FBADE-2869-4D82-8E1D-56D8D2A22D11).txt" );
+
+            try
+            {
+                File.WriteAllText( testFile, text );
+                File.Delete( testFile );
+            }
+            catch (Exception ex)
+            {
+                FrmMsgBox.ShowError( this, ex );
+                return;
+            }
+
+            // Set the path and restart
             UiControls.SetStartupPath(_txtDataFolder.Text, mode);
             UiControls.RestartProgram(this);
         }        
