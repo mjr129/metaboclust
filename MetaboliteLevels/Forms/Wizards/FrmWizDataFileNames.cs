@@ -15,6 +15,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.Collections;
+using System.Text.RegularExpressions;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.DataLoader;
 using MGui.Datatypes;
@@ -175,8 +176,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Add recent entries menu
             var recentWorkspaces = MainSettings.Instance.RecentWorkspaces;
-            var lfn = recentWorkspaces.Count != 0 ? recentWorkspaces.Last() : new DataFileNames();
-            LoadDataFileNames( lfn );
+            LoadWorkspace( new DataFileNames() );
 
             // Workspaces
             ToolStripMenuItem tsmi;
@@ -192,12 +192,12 @@ namespace MetaboliteLevels.Forms.Startup
                     Tag = recentWorkspace
                 };
 
-                tsmi.Click += tsmi_Click;
+                tsmi.Click += _recentWorkspace_Click;
 
                 _cmsRecentWorkspaces.Items.Add( tsmi );
                 var x = UiControls.AddMenuCaption( _cmsRecentWorkspaces, "Details..." );
                 x.Tag = recentWorkspace;
-                x.Click += FrmDataLoadQuery_Click;
+                x.Click += _recentWorkspaceDetails_Clicked;
             }
 
             _mnuBrowseWorkspaceSep      = new ToolStripSeparator();
@@ -335,10 +335,9 @@ namespace MetaboliteLevels.Forms.Startup
             label.Font = FontHelper.UnderlinedFont;
         }       
 
-        private void FrmDataLoadQuery_Click( object sender, EventArgs e )
+        private void _recentWorkspaceDetails_Clicked( object sender, EventArgs e )
         {
             DataFileNames recentWorkspace = (DataFileNames)((ToolStripLabel)sender).Tag;
-
             UiControls.ShowSessionInfo( this, recentWorkspace );
         }
 
@@ -382,7 +381,7 @@ namespace MetaboliteLevels.Forms.Startup
                     return;
                 }
 
-                LoadDataFileNames( core.FileNames );
+                LoadWorkspace( core.FileNames );
             }
         }
 
@@ -421,14 +420,15 @@ namespace MetaboliteLevels.Forms.Startup
 
             switch (input)
             {
-                case 0: // Welcome
+                case 0: // Template
+                case 1: // Welcome
                     break;
 
-                case 1: // Session name                                           
+                case 2: // Session name                                           
                     _checker.Check( _txtTitle, _txtTitle.Text.Length != 0, "A session title must be provided." );
                     break;
 
-                case 2: // Select data
+                case 3: // Select data
                     _checker.Check( _lstLcmsMode, _lstLcmsMode.SelectedIndex != -1, "A LC-MS mode must be provided (use \"other\" for non-LC-MS data)." );
                     _checker.Check( _txtDataSetData, File.Exists( _txtDataSetData.Text ), "Filename not provided or file not found." );
                     _checker.Check( _txtDataSetObs, File.Exists( _txtDataSetObs.Text ), "Filename not provided or file not found." );
@@ -437,22 +437,22 @@ namespace MetaboliteLevels.Forms.Startup
                     _checker.Check( _chkCondInfo, !_chkCondInfo.Checked || File.Exists( _txtCondInfo.Text ), "Filename not provided or file not found." );
                     break;
 
-                case 3: // Statistics
+                case 4: // Statistics
                     _checker.Check( _cbExp.TextBox, !_chkStatT.Checked || _cbExp.SelectedItems != null, "Experimental conditions must be provided to conduct t-tests." );
                     _checker.Check( _cbControl.TextBox, !_chkStatT.Checked || _cbControl.SelectedItems != null, "Control conditions must be provided to conduct t-tests." );
                     break;
 
-                case 4: // Compounds
+                case 5: // Compounds
                     break;
 
-                case 5: // Annotations
+                case 6: // Annotations
                     bool doesntNeedTol = !_chkAutoIdentify.Checked && !_chkPeakPeakMatch.Checked;
                     _checker.Check( _numTolerance, doesntNeedTol || _numTolerance.Value != 0, "A tolerance of zero is probably a mistake." );
                     _checker.Check( _lstTolerance, doesntNeedTol || _lstTolerance.SelectedIndex != -1, "A unit must be specified." );
                     _checker.Check( _txtIdentifications, !_chkIdentifications.Checked || File.Exists( _txtIdentifications.Text ), "Filename not provided or file not found." );
                     break;
 
-                case 6: // Ready
+                case 7: // Ready
                     break;
 
                 default: // ???
@@ -465,7 +465,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Loads a session configuration.
         /// </summary>                    
-        private void LoadDataFileNames( DataFileNames lfn )
+        private void LoadWorkspace( DataFileNames lfn )
         {
             _txtTitle.Text = lfn.Title;
 
@@ -546,6 +546,10 @@ namespace MetaboliteLevels.Forms.Startup
 
             UpdateAvailableCompoundsList();
             UpdateAvailableAdductsList();
+
+            _radEmptyWorkspace.Checked = lfn.Title == null;
+            _radRecentWorkspace.Checked = lfn.Title != null;
+            _txtPreviousConfig.Text = lfn.Title;
         }
 
         private void SetCheck( CheckBox cb, EStatisticalMethods current, EStatisticalMethods toCheck )
@@ -553,10 +557,10 @@ namespace MetaboliteLevels.Forms.Startup
             cb.Checked = current.HasFlag( toCheck );
         }
 
-        void tsmi_Click( object sender, EventArgs e )
+        void _recentWorkspace_Click( object sender, EventArgs e )
         {
-            var s = (ToolStripMenuItem)sender;
-            var fn = (DataFileNames)s.Tag;
+            ToolStripMenuItem s = (ToolStripMenuItem)sender;
+            DataFileNames fn = (DataFileNames)s.Tag;
 
             if (_historyDelete)
             {
@@ -570,7 +574,7 @@ namespace MetaboliteLevels.Forms.Startup
             }
             else
             {
-                LoadDataFileNames( fn );
+                LoadWorkspace( fn );
             }
         }
 
@@ -584,7 +588,7 @@ namespace MetaboliteLevels.Forms.Startup
                 return;
             }
 
-            LoadSession( rs == null ? null : rs.FileName );
+            LoadSession( rs?.FileName );
         }
 
         private void SetText( TextBox txt, CheckBox chk, string current )
@@ -859,14 +863,12 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void _btnDeleteWorkspace_Click( object sender, EventArgs e )
         {
-            _historyDelete = true;
-            _cmsRecentWorkspaces.Show( _btnDeleteWorkspace, 0, _btnDeleteWorkspace.Height );
+           
         }
 
         private void _btnRecent_Click( object sender, EventArgs e )
         {
-            _historyDelete = false;
-            _cmsRecentWorkspaces.Show( _btnRecent, 0, _btnRecent.Height );
+            
         }
 
         private void toolTip1_Popup( object sender, PopupEventArgs e )
@@ -882,6 +884,8 @@ namespace MetaboliteLevels.Forms.Startup
         {                    
             string text = _tipSideBar.GetToolTip( c );
 
+            text = Regex.Replace(text, "(?<!\r)\n", "\r\n" );
+
             // We use "*" to signify "nothing" or we don't get the Popup event saying when a control has lost focus.
             if (string.IsNullOrEmpty( text ) || text=="*")
             {          
@@ -890,7 +894,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (text.StartsWith("FILEFORMAT"))
             {
-                _txtHelp.Text = text.After( "FILEFORMAT\r\n" ).Before( "{" );
+                _txtHelp.Text = text.After( "FILEFORMAT\r\n" ).Before( "{" ).Replace( "CSVFILE", "The name of a CSV (spreadsheet) file. Click the button below to shown specific details on the data expected." );
                 _btnShowFf.Visible = true;
                 _btnShowFf.Tag = text;
             }
@@ -991,6 +995,7 @@ namespace MetaboliteLevels.Forms.Startup
         private void button1_Click( object sender, EventArgs e )
         {
             _wizard.Page += 1;
+            FrmMsgBox.ShowInfo( this, "Hint", "Select the help button to display the help side-bar describing file-format details, etc.", FrmMsgBox.EDontShowAgainId.HELP_SIDE_BAR );
         }
 
         private void _lstLcmsMode_SelectedIndexChanged( object sender, EventArgs e )
@@ -1168,7 +1173,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void button1_Click_1( object sender, EventArgs e )
         {
-            LoadDataFileNames( new DataFileNames() );
+            
         }
 
         private void resetdoNotShowAgainMessagesToolStripMenuItem_Click( object sender, EventArgs e )
@@ -1297,16 +1302,29 @@ namespace MetaboliteLevels.Forms.Startup
         private void _btnIdentifications_Click_1( object sender, EventArgs e )
         {
             Browse( _txtIdentifications );
+        }    
+
+        private void radioButton2_Click( object sender, EventArgs e )
+        {
+            Control control = (Control)sender;
+            _historyDelete = false;
+            _cmsRecentWorkspaces.Show( control, 0, control.Height );
         }
 
-        private void ctlLabel4_Click( object sender, EventArgs e )
+        private void radioButton1_CheckedChanged( object sender, EventArgs e )
         {
-            
+            LoadWorkspace( new DataFileNames() );
         }
 
-        private void ctlLabel4_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        private void ctlButton3_Click_1( object sender, EventArgs e )
         {
-            ctlLabel4.Visible = false;
+            _historyDelete = true;
+            _cmsRecentWorkspaces.Show( _btnDeleteWorkspace, 0, _btnDeleteWorkspace.Height );
+        }
+
+        private void _radRecentWorkspace_CheckedChanged( object sender, EventArgs e )
+        {
+
         }
     }
 }

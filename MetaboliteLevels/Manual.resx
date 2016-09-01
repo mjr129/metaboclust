@@ -120,11 +120,11 @@
   <data name="Adducts" xml:space="preserve">
     <value>FILEFORMAT
 
-Specifies adduct information.
+Specify information on LC-MS adducts.
 
 OPTIONAL: If not specified then no automatic identifications will be performed.
 
-EXPECTS: Name of a file.
+EXPECTS: CSVFILE
 
 {}
 Text. Row names. Ignored. Mandatory.
@@ -144,9 +144,14 @@ Any additional data the user wishes to provide, unused but will be available for
   <data name="AlternativeValues" xml:space="preserve">
     <value>FILEFORMAT
 
-An alternative dataset which may be viewed by the user (for instance unscaled or raw data). Only peaks also occurring in the standard dataset are read, these may appear in any order.
+Specify an alternative dataset.
+
+This may be accessed later for quick viewing, for instance to view unprocessed or raw data.
+Only peaks also occurring in the standard dataset are read, these may appear in any order.
 
 OPTIONAL: If not specified no alternative data will be available.
+
+EXPECTS: CSVFILE
 
 {}
 Text. Observation names. Must be unique. Mandatory
@@ -174,8 +179,7 @@ EXPECTS: One or more compound libraries. Either a PathwayTools database folder O
 A list of available libraries will be displayed if the library folder has been configured, otherwise the source must be specified manually.
 
 DATABASE LAYOUT: PathwayTools database folder.
-
-A link to the description of this format is given when defining the library folder.
+CSV FILE LAYOUT: Click the button below for specific details.
 
 {=Compound file fomat}
 
@@ -218,6 +222,8 @@ Names of the experimental conditions.
 
 OPTIONAL: If not specified conditions will be referred to by their index.
 
+EXPECTS: CSVFILE
+
 {}
 Text. Row names. Ignored. Mandatory.
 
@@ -247,11 +253,15 @@ Download the latest version and source code: https://bitbucket.org/mjr129/metabo
   <data name="Identifications" xml:space="preserve">
     <value>FILEFORMAT
 
-Specifies potential annotations for the peaks.
+Use to specify peak-compound annotations manually.
 
-OPTIONAL: Use to specify annotations manually. You can use the "automatic annotations" checkbox to request automated identifications.
+OPTIONAL: This information is not required.
 
-EXPECTS: Comma separated value file.
+NOTE: Purely textual or numeric annotations can be added to the peaks by including this information as extra columns in the peak-info file. See the "𝚂𝚎𝚕𝚎𝚌𝚝 𝙳𝚊𝚝𝚊" page for more details.
+
+NOTEL Automatic identifications can be performed by selecting the "𝙿𝚎𝚛𝚏𝚘𝚛𝚖 𝚖/𝚣 𝚋𝚊𝚜𝚎𝚍 𝚊𝚞𝚝𝚘𝚖𝚊𝚝𝚒𝚌 𝚒𝚍𝚎𝚗𝚝𝚒𝚏𝚒𝚌𝚊𝚝𝚒𝚘𝚗" option.
+
+EXPECTS: CSVFILE
 
 {}
 Text. Row names. (Ignored. Mandatory.)
@@ -279,15 +289,11 @@ All other columns are discarded.</value>
   <data name="Intensities" xml:space="preserve">
     <value>FILEFORMAT
 
-Specifies the intentisities for each peak (row) and observation (column).
+Specify the intentisities for each peak (row) and observation (column).
 
-EXPECTS: Name of a file.
+MANDATORY: An intensity matrix must be provided.
 
-Column names indicate the field.
-The following fields (columns) are read:
-
-	AlternativeValues
-
+EXPECTS: CSVFILE
 
 {}
 Text. Observation names. Must be unique. Mandatory
@@ -308,6 +314,12 @@ EXPECTS: "positive", "negative", "mixed" OR "none".</value>
   </data>
   <data name="Observations" xml:space="preserve">
     <value>FILEFORMAT
+    
+Specify information about the experimental observations.
+
+MANDATORY: A file must be provided to describe the observations
+
+EXPECTS: CSVFILE
 
 {}
 Text. The name of the observation. Must be unique. Mandatory.
@@ -387,42 +399,23 @@ Some inputs are optional since they and are represented by a dash "-" by default
   <data name="SaveData" xml:space="preserve">
     <value>Data can be saved in sereral formats.
 MS-NRFB is the fastest and most compact format and is recommended for speed and reliability, however this format is unfortunately unable to cope with large object graph sizes (i.e. datasets with lots of discrete objects), the MJR-SBF format provides a fallback in this case.
-MJR-SBF also provides a higher degree of backwards compatibility, making it useful for migrating data between software versions.
-The MJR-STF format is identical to MJR-SBF but stores the data as text. Due to the memory and speed overhead of the text format MJR-STF is only recommended as a version comatible text backup.
-XML and Data contract formats have been removed and are no longer supported.
-Other formats, including RData and CSV (text) are available as export only options from the Export menu.
-
-                    MS-NRFB                             XML
-                    |           MJR-SBF                 |           Data contract 
-                    |           |           MJR-STF     |           |
-                    |           |           |           |           |
-Speed               Fast        Slow        Very slow   Slow        Slow
-Back-compatible     No          Yes         Yes         No          No
-Human-readable      No          No          Yes         Yes         Yes
-Data-size           Limited     Unlimited   Unlimited   Limited     Limited
-Use                 Normally    When        Migrating   Don't       Don't
-                                 MS-NRFB     data
-                                  fails       between
-                                               versions</value>
+</value>
   </data>
   <data name="SavedSession" xml:space="preserve">
     <value>Use to restore cluster assignments.
 
-OPTIONAL: No clusters will be assigned if this is not specified.
-
-EXPECTS: Cluster assignments in XML format.
-
-FILE LAYOUT:
-These files can be created from the File--&gt;Save menu and are only used in this program.</value>
+NO-TEXT please report bug in Manual.resx::SavedSession! </value>
   </data>
   <data name="Session" xml:space="preserve">
-    <value>Name your session here.
+    <value>Give your session a descriptive name to identify it.
 
-Try to be descriptve, the software will allow you to display a shorter name and add comments to your session later, but this is the name you will see when loading your data.
+You can always change the name later.
 
-Your name also acts as a unique identifier the software uses to remember which files and settings you used to create the session, in case you want to create new, similar sessions later (Use the HISTORY button on this screen to access this feature).
+MANDATORY: This information is required
 
-DETAILS: Accepts any text</value>
+EXPECTS: Any text
+
+    </value>
   </data>
   <data name="StatisticsRScriptExample" xml:space="preserve">
     <value>kmeans(v, 3)$cluster
@@ -438,8 +431,11 @@ Please recreate the session from the original files.</value>
   <data name="Variables" xml:space="preserve">
     <value>FILEFORMAT
 
-Specifies information about the peaks in the data matrix.
-Note: To avoid ambiguity the software refers to the dependent variables as "peaks" and their values for a particular observation as "intensities", in reality these can represent any dependent variable.
+Specify information about the dependent variables in the data matrix.
+
+NOTE: To avoid ambiguity the software refers to the dependent variables as "peaks" and their values for a particular observation as "intensities", in reality these can represent any dependent variable.
+
+MANDATORY: Peak information must be provided.
 
 {}
 Text. The name of the variable. Must be unique. Mandatory.
@@ -464,55 +460,7 @@ Please recreate the session from the original files.</value>
   <data name="DataLoadQueryHelp" xml:space="preserve">
     <value>Select the data you'd like to load into the application. Select the "help" button at the bottom to show the side-bar, describing the data you need to provide for each input.</value>
   </data>
-  <data name="String" xml:space="preserve">
-    <value>FILEFORMAT</value>
-  </data>
-  <data name="String1" xml:space="preserve">
-    <value>Specifies potential annotations for the peaks.</value>
-  </data>
-  <data name="String10" xml:space="preserve">
-    <value>{VARFILE_RT_HEADER}</value>
-  </data>
-  <data name="String11" xml:space="preserve">
-    <value>Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.</value>
-  </data>
-  <data name="String12" xml:space="preserve">
-    <value>{ID_COMPOUNDS_HEADER}</value>
-  </data>
-  <data name="String13" xml:space="preserve">
-    <value>Text. Comma delmited list of compounds. These should correspond to the "id" or "name" of loaded compounds.</value>
-  </data>
-  <data name="String14" xml:space="preserve">
-    <value>NOTE: CSV files use commas as their internal delimiter, enclose this list in quotes to avoid confusion.</value>
-  </data>
-  <data name="String15" xml:space="preserve">
-    <value>{META}</value>
-  </data>
-  <data name="String16" xml:space="preserve">
-    <value>All other columns are discarded.</value>
-  </data>
-  <data name="String2" xml:space="preserve">
-    <value>OPTIONAL: Use to specify annotations manually. You can use the "automatic annotations" checkbox to request automated identifications.</value>
-  </data>
-  <data name="String3" xml:space="preserve">
-    <value>EXPECTS: Comma separated value file.</value>
-  </data>
-  <data name="String4" xml:space="preserve">
-    <value>{}</value>
-  </data>
-  <data name="String5" xml:space="preserve">
-    <value>Text. Row names. (Ignored. Mandatory.)</value>
-  </data>
-  <data name="String6" xml:space="preserve">
-    <value>{IDFILE_PEAK_HEADER}</value>
-  </data>
-  <data name="String7" xml:space="preserve">
-    <value>Text. The name of the peak. Optional. Must specify m/z and r.t. if not set.</value>
-  </data>
-  <data name="String8" xml:space="preserve">
-    <value>{VARFILE_MZ_HEADER}</value>
-  </data>
-  <data name="String9" xml:space="preserve">
-    <value>Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.</value>
+  <data name="RecentSessions" xml:space="preserve">
+    <value>If your new session has a very similar setup to a previous session you can select that as your template here. Select your old session from the drop-down list or browse for it to use it as the template. Alternatively start with a clean setup by selecting the blank template.</value>
   </data>
 </root>

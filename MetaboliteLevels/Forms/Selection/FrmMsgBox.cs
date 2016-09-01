@@ -22,7 +22,8 @@ namespace MetaboliteLevels.Forms.Generic
             EDIT_WITH_RESULTS,
             EXPORT_DATA_NOTICE,
             PLSR_MODE,
-            HEATMAP_COLUMN_NOT_NUMERICAL
+            HEATMAP_COLUMN_NOT_NUMERICAL,
+            HELP_SIDE_BAR
         }
 
         public class ButtonSet

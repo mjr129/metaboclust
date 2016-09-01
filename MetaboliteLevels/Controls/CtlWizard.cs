@@ -267,6 +267,11 @@ namespace MetaboliteLevels.Controls
             set { ctlTitleBar1.HelpText = value; }
         }
 
+        public Control HelpControl
+        {
+        get { return this._btnShowHelp; }
+        }
+
         public string HelpText
         {
             get
