@@ -1105,6 +1105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\Busy.gif" />
     <None Include="Resources\IconAnnotation.png" />
     <None Include="Resources\IconAnnotationTentative.png" />
     <None Include="Resources\IconAnnotationConfirmed.png" />

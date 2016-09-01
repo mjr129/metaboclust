@@ -1366,13 +1366,11 @@ namespace MetaboliteLevels.Forms.Startup
 
             if (info.Percent >= 0)
             {
-                progressBar1.Value = info.Percent;
-                progressBar1.Maximum = 100;
-                progressBar1.Style = ProgressBarStyle.Continuous;
+                label3.Text = info.Percent + "%";
             }
             else
             {
-                progressBar1.Style = ProgressBarStyle.Marquee;
+                label3.Text = "";
             }
 
             if (info.CText != null)

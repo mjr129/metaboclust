@@ -427,22 +427,22 @@ namespace MetaboliteLevels.Forms
         {
             try
             {
-                BeginWait("Updating displays");
+                BeginWait( "Updating displays" );
 
                 // Add to history
-                AddToHistory(selection);
+                AddToHistory( selection );
 
                 // Set the selected object
                 _selection = selection;
 
                 // Update the lists
-                _subDisplay.Activate(selection.Primary as IAssociational);
+                _subDisplay.Activate( selection.Primary as IAssociational );
 
                 // Icons
                 if (selection.Primary != null)
                 {
                     _btnSelection.Text = selection.Primary.DisplayName;
-                    _btnSelection.Image = UiControls.GetImage(selection.Primary.GetIcon(), true);
+                    _btnSelection.Image = UiControls.GetImage( selection.Primary.GetIcon(), true );
                     _btnSelection.Visible = true;
                 }
                 else
@@ -453,7 +453,7 @@ namespace MetaboliteLevels.Forms
                 if (selection.Secondary != null)
                 {
                     _btnSelectionExterior.Text = selection.Secondary.DisplayName;
-                    _btnSelectionExterior.Image = UiControls.GetImage(selection.Secondary.GetIcon(), true);
+                    _btnSelectionExterior.Image = UiControls.GetImage( selection.Secondary.GetIcon(), true );
                     _btnSelectionExterior.Visible = true;
                     _btnExterior.Visible = true;
                 }
@@ -466,8 +466,8 @@ namespace MetaboliteLevels.Forms
                 // Null selection?
                 if (selection.Primary == null)
                 {
-                    PlotPeak(null);
-                    PlotCluster(null);
+                    PlotPeak( null );
+                    PlotCluster( null );
                     return;
                 }
 
@@ -492,19 +492,19 @@ namespace MetaboliteLevels.Forms
                     switch (cluster.VisualClass)
                     {
                         case VisualClass.Assignment:
-                            sCluster = ((Assignment)cluster).CreateStylisedCluster(_core, selection.Secondary as IAssociational);
+                            sCluster = ((Assignment)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
                             break;
 
                         case VisualClass.Cluster:
-                            sCluster = ((Cluster)cluster).CreateStylisedCluster(_core, selection.Secondary as IAssociational );
+                            sCluster = ((Cluster)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
                             break;
 
                         case VisualClass.Compound:
-                            sCluster = ((Compound)cluster).CreateStylisedCluster(_core, selection.Secondary as IAssociational );
+                            sCluster = ((Compound)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
                             break;
 
                         case VisualClass.Pathway:
-                            sCluster = ((Pathway)cluster).CreateStylisedCluster(_core, selection.Secondary as IAssociational );
+                            sCluster = ((Pathway)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
                             break;
 
                         default:
@@ -514,21 +514,28 @@ namespace MetaboliteLevels.Forms
                 }
 
                 // Plot stuffs
-                PlotPeak(peak);
-                PlotCluster(sCluster);
+                PlotPeak( peak );
+                PlotCluster( sCluster );
 
                 if (sCluster != null)
                 {
                     // Make sure the current peak is selected in that cluster
                     _autoChangingSelection = true;
-                    _chartCluster.SelectSeries(peak);
+                    _chartCluster.SelectSeries( peak );
                     _autoChangingSelection = false;
                 }
-            }
-            finally
-            {
+
                 EndWait();
             }
+            catch (Exception ex)
+            {
+                EndWait();
+
+                // Error: Normal case is the target has been deleted, but it could be anything, either way there is no need to crash
+                CommitSelection( null );
+
+                _lblChanges.Text = "Error: " + ex.Message;
+            }             
         }
 
         /// <summary>
