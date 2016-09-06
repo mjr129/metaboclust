@@ -160,7 +160,7 @@ namespace MetaboliteLevels.Forms.Activities
             // Low valid count warning
             if (numberOfValids <= (_heatMap.Length / 2))
             {
-                FrmMsgBox.ShowInfo( this, Text, "The majority of information in this column is not numeric, the heatmap may be missing information.", FrmMsgBox.EDontShowAgainId.HEATMAP_COLUMN_NOT_NUMERICAL );
+                FrmMsgBox.ShowInfo( this, Text, "The majority of information in this column is not numeric, the heatmap may be missing information.", FrmMsgBox.EDontShowAgainId.HeatmapColumnNotNumerical );
             }
 
             // Generate bitmap

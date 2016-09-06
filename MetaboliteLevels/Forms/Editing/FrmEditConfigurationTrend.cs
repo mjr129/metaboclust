@@ -15,6 +15,7 @@ using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Controls;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {
@@ -166,7 +167,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 {
                     try
                     {
-                        sPeak.ForceObservations = new PeakValueSet(_core, _previewPeak.Observations.Raw, sel);
+                        sPeak.ForceObservations = new PeakValueSet(_core, _previewPeak.Get_Observations_Raw(_core), sel);
                         _chart1.Plot(sPeak);
                     }
                     catch (Exception ex)

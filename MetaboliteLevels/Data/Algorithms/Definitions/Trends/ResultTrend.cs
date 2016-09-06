@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Results
 {
     [Serializable]
     class ResultTrend : ResultBase
     {
-        private int NumPeaks;
+        public IntensityMatrix Matrix;
 
-        public ResultTrend(int numPeaks)
+        public ResultTrend( IntensityMatrix result )
         {
-            this.NumPeaks = numPeaks;
+            this.Matrix = result;
         }
     }
 }

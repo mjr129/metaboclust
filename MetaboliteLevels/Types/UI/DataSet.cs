@@ -774,7 +774,7 @@ namespace MetaboliteLevels.Forms.Generic
                     FrmMsgBox.ButtonSet[] btns = {  new FrmMsgBox.ButtonSet( "Replace", Resources.MnuAccept, DialogResult.No),
                                                         new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
-                    switch (FrmMsgBox.Show(args.Owner, args.Owner.Text, text1, text2, Resources.MsgHelp, btns, FrmMsgBox.EDontShowAgainId.EDIT_WITH_RESULTS, DialogResult.No))
+                    switch (FrmMsgBox.Show(args.Owner, args.Owner.Text, text1, text2, Resources.MsgHelp, btns, FrmMsgBox.EDontShowAgainId.EditWithResults, DialogResult.No))
                     {
                         case DialogResult.No:
                             break;
@@ -804,19 +804,19 @@ namespace MetaboliteLevels.Forms.Generic
 
             if (find.Script == null)
             {
-                FrmMsgBox.ShowInfo(owner, "Unavailable", "This algorithm is inbuilt and cannot be removed.");
+                FrmMsgBox.ShowInfo(owner, "Unavailable", "This algorithm is stored in binary format and cannot be viewed or modified." );
                 return;
             }
 
             if (find.Script.FileName == null)
             {
-                FrmMsgBox.ShowError(owner, "This script is locked for editing, consider working on a copy instead.");
+                FrmMsgBox.ShowInfo( owner, "Unavailable", "This script is inbuilt. Make a copy if you wish to modify it." );
                 return;
             }
 
             if (replace == null) // Direct delete
             {
-                if (FrmMsgBox.ShowYesNo( owner, "Delete script file?", find.Script.FileName, Resources.MsgWarning ))
+                if (FrmMsgBox.ShowYesNo( owner, "Delete script file from disk?", find.Script.FileName, Resources.MsgWarning ))
                 {
                     File.Delete( find.Script.FileName );
                     Algo.Instance.Rebuild();
@@ -1036,7 +1036,7 @@ namespace MetaboliteLevels.Forms.Generic
             }
 
             Algo.Instance.Rebuild();
-            string id = Algo.GetId(folder, newFile);
+            string id = Algo.GetId(folder, newFile, false);
             return (T)Algo.Instance.All.First(zz => zz.Id == id);
         }
     }

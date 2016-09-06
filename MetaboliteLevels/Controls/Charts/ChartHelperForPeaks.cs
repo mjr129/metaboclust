@@ -11,6 +11,7 @@ using MetaboliteLevels.Data;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Forms;
 using MetaboliteLevels.Types.UI;
@@ -85,11 +86,11 @@ namespace MetaboliteLevels.Viewers.Charts
             }
             else if (opts.ViewAlternativeObservations)
             {
-                observations = peak.AltObservations;
+                observations = LegacyHelper.Get_AltObservations( peak, _core );
             }
             else
             {
-                observations = peak.Observations;
+                observations = LegacyHelper.Get_Observations( peak, _core );
             }
 
             if (observations == null)

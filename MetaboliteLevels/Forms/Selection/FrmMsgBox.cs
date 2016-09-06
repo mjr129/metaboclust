@@ -12,18 +12,22 @@ namespace MetaboliteLevels.Forms.Generic
 {
     public partial class FrmMsgBox : Form
     {
+        /// <summary>
+        /// Don't show again IDs
+        /// These are saved as TEXT, their numerical values are not used.
+        /// </summary>
         public enum EDontShowAgainId
         {
             None,
-            SAVE_BETWEEN_EVALUATIONS,
-            IMPORT_RESULTS_NOTICE,
-            IMPORT_RESULTS_DETAILS_NOTICE,
-            CHANGE_EXPERIMENTAL_GROUP_ID,
-            EDIT_WITH_RESULTS,
-            EXPORT_DATA_NOTICE,
-            PLSR_MODE,
-            HEATMAP_COLUMN_NOT_NUMERICAL,
-            HELP_SIDE_BAR
+            SaveBetweenEvaluations,
+            ImportResultsNotice,
+            ImportResultsDetailNotice,
+            ChangeExperimentalGroupsId,
+            EditWithResults,
+            ExportDataNotice,
+            PlsrMode,
+            HeatmapColumnNotNumerical,
+            HelpSideBar
         }
 
         public class ButtonSet
@@ -274,9 +278,30 @@ namespace MetaboliteLevels.Forms.Generic
         {
             if (_notAgainConstraint.HasValue)
             {
+                CtlButton firstButton = null;
+                int enabledCount = 0;
+
                 foreach (CtlButton button in _buttons)
                 {
                     button.Enabled = (button.DialogResult == _notAgainConstraint.Value) || (!_chkNotAgain.Checked);
+
+                    if (button.Enabled)
+                    {
+                        firstButton = button;
+                        enabledCount++;
+                    }
+                }
+
+                if (_chkNotAgain.Checked && enabledCount == 1)
+                {
+                    firstButton.PerformClick();
+                }
+            }
+            else
+            {
+                if (_chkNotAgain.Checked && _buttons.Count == 1)
+                {
+                    _buttons[0].PerformClick();
                 }
             }
         }

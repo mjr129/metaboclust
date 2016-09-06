@@ -13,6 +13,7 @@ using MetaboliteLevels.Data.DataInfo;
 using MGui.Datatypes;
 using MSerialisers;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
@@ -67,22 +68,22 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Corrected variable data (index ≘ Core.Correction)
         /// </summary>
-        public readonly List<PeakValueSet> CorrectionChain = new List<PeakValueSet>();
+        //public readonly List<PeakValueSet> CorrectionChain = new List<PeakValueSet>();
 
         /// <summary>
         /// Visible data (a pointer to OriginalObservations or the last item in CorrectionChain).
         /// </summary>
-        public PeakValueSet Observations;
+        //public PeakValueSet Observations;
 
         /// <summary>
         /// Original variable data
         /// </summary>
-        public PeakValueSet OriginalObservations;
+        //public PeakValueSet OriginalObservations;
 
         /// <summary>
         /// Alternative variable data
         /// </summary>
-        public PeakValueSet AltObservations;      
+        //public PeakValueSet AltObservations;      
 
         /// <summary>
         /// M/Z
@@ -117,13 +118,10 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Peak(int index, string id, PeakValueSet observations, PeakValueSet altObservations, ELcmsMode lcmsmode, decimal mz, decimal rt)
+        public Peak(int index, string id, ELcmsMode lcmsmode, decimal mz, decimal rt)
         {
             this.Index = index;
-            this.Id = id;
-            this.OriginalObservations = observations;
-            this.Observations = observations;
-            this.AltObservations = altObservations;
+            this.Id = id;                               
             this.Mz = mz;
             this.Rt = rt;
             this.LcmsMode = lcmsmode;
@@ -304,13 +302,13 @@ namespace MetaboliteLevels.Data.Visualisables
 
             columns.Add("Name", EColumn.Visible, λ => λ.DisplayName);
             columns.Add("Comment", EColumn.None, λ => λ.Comment);
-            columns.Add("№ corrections", EColumn.Advanced, λ => λ.CorrectionChain.Count);
+            columns.Add("№ corrections", EColumn.Advanced, λ => core.AllCorrections.WhereEnabled());
             columns.Add("Index", EColumn.Advanced, λ => λ.Index);
             columns.Add("LC-MS mode", EColumn.None, λ => λ.LcmsMode);
             columns.Add("m/z", EColumn.None, λ => λ.Mz);
             columns.Add( "rt", EColumn.None, λ => λ.Rt );
-            columns.Add("Observations (all)", EColumn.Advanced, λ => λ.Observations.Raw);
-            columns.Add("Observations (trend)", EColumn.Advanced, λ => λ.Observations.Trend);
+            columns.Add("Observations (all)", EColumn.Advanced, λ => λ.Get_Observations_Raw(core));
+            columns.Add("Observations (trend)", EColumn.Advanced, λ => λ.Get_Observations_Trend( core ) );
 
             columns.Add("Clusters\\All", EColumn.None, λ => λ.Assignments.Clusters);
             columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.Advanced, z => StringHelper.ArrayToString(z.Assignments.Clusters));
@@ -359,8 +357,8 @@ namespace MetaboliteLevels.Data.Visualisables
             foreach (GroupInfo ti in core.Groups)
             {
                 int i = ti.Order;
-                columns.Add("Mean\\" + ti.DisplayName, EColumn.None, λ => λ.Observations.Mean[i]);
-                columns.Add("Std. Dev\\" + ti.DisplayName, EColumn.Advanced, λ => λ.Observations.StdDev[i]);
+                columns.Add("Mean\\" + ti.DisplayName, EColumn.None, λ => λ.Get_Observations(core).Mean[i]);
+                columns.Add("Std. Dev\\" + ti.DisplayName, EColumn.Advanced, λ => λ.Get_Observations(core).StdDev[i]);
             }
 
             foreach (PeakFilter fi in core.AllPeakFilters)

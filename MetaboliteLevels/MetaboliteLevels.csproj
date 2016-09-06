@@ -179,6 +179,8 @@
     <Compile Include="Data\Algorithms\General\ValueMatrix.cs" />
     <Compile Include="Data\Algorithms\General\Vector.cs" />
     <Compile Include="Controls\EditableComboBox.cs" />
+    <Compile Include="Data\Session\Associational\IntensityMatrix.cs" />
+    <Compile Include="Data\Session\Associational\LegacyHelper.cs" />
     <Compile Include="Data\Session\General\BatchInfo.cs" />
     <Compile Include="Data\Session\General\CompoundLibrary.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\SecondaryStatistic.cs" />
@@ -216,6 +218,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Scripts.resx</DependentUpon>
     </Compile>
     <Compile Include="Types\General\ETolerance.cs" />
     <Compile Include="Forms\Activities\FrmActEvaluate.cs">
@@ -735,7 +742,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\LOESS.r" />
     <None Include="Resources\MnuNew.png" />
+    <None Include="Resources\scripts~clusterers~k-means %28Hartigan-Wong algorithm%29.r" />
+    <None Include="Resources\scripts~empty file.r" />
+    <None Include="Resources\scripts~trends~LOESS.r" />
+    <None Include="Resources\scripts~trends~Moving mean.r" />
+    <None Include="Resources\scripts~trends~Polynomial.r" />
+    <None Include="Resources\scripts~trends~Smoothing spline.r" />
     <None Include="Resources\TabUnsel.png" />
     <None Include="Resources\TabSel.png" />
     <None Include="Resources\TeaAlarm.png" />
@@ -1124,6 +1138,11 @@
     <None Include="Resources\IconCompoundAffirmed.png" />
     <None Include="Resources\MnuGroup.png" />
     <None Include="Resources\zoom_16xLG.png" />
+    <EmbeddedResource Include="Scripts.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Scripts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="VersionHistory.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

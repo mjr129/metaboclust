@@ -22,6 +22,7 @@ using MSerialisers;
 using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
 using MSerialisers.Serialisers;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Data.Session
 {
@@ -336,72 +337,15 @@ namespace MetaboliteLevels.Data.Session
         }
 
         /// <summary>
-        /// Rates the current assignments based on SUM( |x - c(x)|)^2 (the k-means function).
-        /// </summary>
-        internal void QuantifyAssignments(out bool warning, out double sumPeakClusterScore, out int numPeaks, out double sumPeakClusterScoreSigsOnly, out int numSigPeaks, out double sumWorstTen, out double sumHighestTen, out int numTen, List<Tuple<Peak, double>> allScores)
-        {
-            sumPeakClusterScore = 0;
-            numPeaks = 0;
-            sumPeakClusterScoreSigsOnly = 0;
-            numSigPeaks = 0;
-            sumHighestTen = 0;
-            sumWorstTen = 0;
-            numTen = 0;
-            warning = false;
-
-            ArgsMetric args = new ArgsMetric(null);
-            ConfigurationMetric metric = new ConfigurationMetric("temp", null, Algo.ID_METRIC_EUCLIDEAN, args);
-
-            // Iterate clusters
-            foreach (Cluster pat in this.Clusters)
-            {
-                // Get scores in this cluster
-                List<double> scoresInThisCluster = new List<double>();
-
-                // Iterate assignments
-                foreach (Assignment assignment in pat.Assignments.List)
-                {
-                    // Get score for PEAK-CLUSTER
-                    if (pat.Centres.Count == 0)
-                    {
-                        pat.SetCentre(ECentreMode.Average, ECandidateMode.Assignments);
-                        warning = true;
-                    }
-
-                    double peakClusterScore = pat.CalculateScore(assignment.Vector.Values, EDistanceMode.ClosestCentre, metric);
-                    peakClusterScore = peakClusterScore * peakClusterScore;
-                    sumPeakClusterScore += peakClusterScore;
-                    numPeaks++;
-
-                    allScores.Add(new Tuple<Peak, double>(assignment.Peak, peakClusterScore));
-
-                    if (pat.States != Cluster.EStates.None)
-                    {
-                        scoresInThisCluster.Add(peakClusterScore);
-                        sumPeakClusterScoreSigsOnly += peakClusterScore;
-                        numSigPeaks++;
-                    }
-                }
-
-                scoresInThisCluster.Sort();
-
-                for (int n = 0; n < scoresInThisCluster.Count / 10; n++)
-                {
-                    sumHighestTen += scoresInThisCluster[n];
-                    sumWorstTen += scoresInThisCluster[scoresInThisCluster.Count - n - 1];
-                    numTen++;
-                }
-            }
-        }
-
-        /// <summary>
         /// Sets the correction methods
-        /// 
-        /// Trend         : automatically applied to new correction data
-        /// Statistics    : updated
-        /// Cluster stats : updated
-        /// Clustering    : not changed - must be manually reperformed
         /// </summary>
+        /// <param name="newList">New list of corrections</param>
+        /// <param name="refreshAll">Update ALL corrections, not just those which have changed</param>
+        /// <param name="updateStatistics">Update statistics afterwards</param>
+        /// <param name="updateTrends">Update trends afterwards</param>
+        /// <param name="updateClusters">Update clusters afterwards</param>
+        /// <param name="reportProgress">Progress reporter</param>
+        /// <returns>true unless any correction failed</returns>
         internal bool SetCorrections(IEnumerable<ConfigurationCorrection> newList, bool refreshAll, bool updateStatistics, bool updateTrends, bool updateClusters, ProgressReporter reportProgress)
         {
             bool result = true;

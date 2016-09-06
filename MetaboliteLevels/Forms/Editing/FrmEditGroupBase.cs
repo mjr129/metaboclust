@@ -107,7 +107,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnEditId_Click( object sender, EventArgs e )
         {
-            FrmMsgBox.ShowWarning( this, "Edit ID", "The ID represents the identifier used when the data was first loaded. It must be unique. Changing the ID may have unintended consequences.", FrmMsgBox.EDontShowAgainId.CHANGE_EXPERIMENTAL_GROUP_ID );
+            FrmMsgBox.ShowWarning( this, "Edit ID", "The ID represents the identifier used when the data was first loaded. It must be unique. Changing the ID may have unintended consequences.", FrmMsgBox.EDontShowAgainId.ChangeExperimentalGroupsId );
 
             string newId = FrmInputSingleLine.Show( this, Text, "Edit ID", _group.DisplayName, _txtId.Text );
 

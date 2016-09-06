@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Forms.Editing;
@@ -25,6 +26,7 @@ namespace MetaboliteLevels.Forms.Activities
     {
         List<OtherExportInfo> _otherExports = new List<OtherExportInfo>();
         private Core _core;
+        UniqueTable _uniqueTable = new UniqueTable();
 
         public static void Show( Form owner, Core core )
         {
@@ -244,7 +246,16 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void _btnOk_Click( object sender, EventArgs e )
         {
+            _uniqueTable.Reset();
+
             FrmWait.Show( this, "Exporting data", "Your data is being exported", ExportSelected );
+
+            if (_uniqueTable.Renamed.Count != 0)
+            {
+                string allRenames = string.Join( "\r\n", _uniqueTable.Renamed.Select( z => z.DisplayName + " --> " + _uniqueTable.Name( z ) ).ToArray() );
+                FrmInputMultiLine.ShowFixed( this, Text, "Name clashes", null, "There are some objects with the same DisplayName. To avoid conflicts the objects were temporarily renamed. The new names are guaranteed to match for all tables exported in this instance, but may not match exports made at a later time.\r\n\r\n" + allRenames );
+            }
+
             DialogResult = DialogResult.OK;
         }
 
@@ -309,13 +320,13 @@ namespace MetaboliteLevels.Forms.Activities
 
             for (int nClust = 0; nClust < _core.Clusters.Count; ++nClust)
             {
-                ss.ColNames[nClust] = _core.Clusters[nClust].DisplayName;
+                ss.ColNames[nClust] = _uniqueTable.Name( _core.Clusters[nClust]);
             }
 
             for (int nPeak = 0; nPeak < _core.Peaks.Count; ++nPeak)
             {
                 Peak peak = _core.Peaks[nPeak];
-                ss.RowNames[nPeak] = peak.DisplayName;
+                ss.RowNames[nPeak] = _uniqueTable.Name( peak);
 
                 for (int nClust = 0; nClust < _core.Clusters.Count; ++nClust)
                 {
@@ -331,31 +342,90 @@ namespace MetaboliteLevels.Forms.Activities
         {
             if (arg.Vector.Group == null)
             {
-                return arg.Cluster.DisplayName;
+                return _uniqueTable.Name( arg.Cluster);
             }
             else
             {
-                return arg.Cluster.DisplayName + ":" + arg.Vector.Group.DisplayShortName;
+                return _uniqueTable.Name( arg.Cluster) + ":" + arg.Vector.Group.DisplayShortName;
             }
         }
 
+        /// <summary>
+        /// Ensures every object of a particular type has a unique name (for export to R)
+        /// Names are guarenteed to match up for each export session only
+        /// </summary>
+        class UniqueTable
+        {
+            Dictionary<INameable, string> _names = new Dictionary<INameable, string>();
+            public readonly HashSet<INameable> Renamed = new HashSet<INameable>();
+            HashSet<string> _used = new HashSet<string>();
+
+            /// <summary>
+            /// Generates a unique name
+            /// </summary>             
+            public string Name(INameable x)
+            {
+                string name;
+
+                if (_names.TryGetValue( x, out name ))
+                {
+                    return name;
+                }
+
+                name = x.DefaultDisplayName;
+                int index = 0;
+                string type = x.GetType().Name + ".";
+                bool renamed = false;
+
+                while (_used.Contains( type + name ))
+                {
+                    renamed = true;
+                    name = x.DefaultDisplayName + "." + ++index;
+                }
+
+                _used.Add( type + name );
+                _names.Add( x, name );
+
+                if (renamed)
+                {
+                    Renamed.Add( x );
+                }
+
+                return name;
+            }
+
+            /// <summary>
+            /// Clears the names for a new export.
+            /// </summary>
+            internal void Reset()
+            {
+                _names.Clear();
+                Renamed.Clear();
+                _used.Clear();
+            }
+        }
+
+        /// <summary>
+        /// INTENSITIES
+        /// </summary>                           
         private void ExportData( string fileName )
         {
+            // nPeaks x nObs
             Spreadsheet<double> ss = new Spreadsheet<double>( _core.Peaks.Count, _core.Observations.Count );
 
             for (int nObs = 0; nObs < _core.Observations.Count; ++nObs)
             {
-                ss.ColNames[nObs] = _core.Observations[nObs].DisplayName;
+                ss.ColNames[nObs] = _uniqueTable.Name( _core.Observations[nObs]);
             }
 
             for (int nPeak = 0; nPeak < _core.Peaks.Count; ++nPeak)
             {
                 Peak peak = _core.Peaks[nPeak];
-                ss.RowNames[nPeak] = peak.DisplayName;
+                ss.RowNames[nPeak] = _uniqueTable.Name( peak );
 
                 for (int nObs = 0; nObs < _core.Observations.Count; ++nObs)
                 {
-                    ss[nPeak, nObs] = peak.Observations.Raw[nObs];
+                    ss[nPeak, nObs] = peak.Get_Observations_Raw(_core)[nObs];
                 }
             }
 
@@ -368,17 +438,17 @@ namespace MetaboliteLevels.Forms.Activities
 
             for (int nObs = 0; nObs < _core.Conditions.Count; ++nObs)
             {
-                ss.ColNames[nObs] = _core.Conditions[nObs].DisplayName;
+                ss.ColNames[nObs] = _uniqueTable.Name( _core.Conditions[nObs]);
             }
 
             for (int nPeak = 0; nPeak < _core.Peaks.Count; ++nPeak)
             {
                 Peak peak = _core.Peaks[nPeak];
-                ss.RowNames[nPeak] = peak.DisplayName;
+                ss.RowNames[nPeak] = _uniqueTable.Name( peak );
 
                 for (int nObs = 0; nObs < _core.Conditions.Count; ++nObs)
                 {
-                    ss[nPeak, nObs] = peak.Observations.Trend[nObs];
+                    ss[nPeak, nObs] = peak.Get_Observations_Trend(_core)[nObs];
                 }
             }
 
@@ -406,7 +476,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             Column[] columns = ColumnManager.GetColumns( _core, list[0] ).Where( z => z.Special != EColumn.Advanced ).ToArray();
 
-            Spreadsheet<string> ss = new Spreadsheet<string>( _core.Peaks.Count, columns.Length );
+            Spreadsheet<string> ss = new Spreadsheet<string>( list.Length, columns.Length );
 
             for (int nObs = 0; nObs < columns.Length; ++nObs)
             {
@@ -416,7 +486,7 @@ namespace MetaboliteLevels.Forms.Activities
             for (int nPeak = 0; nPeak < list.Length; ++nPeak)
             {
                 IVisualisable peak = list[nPeak];
-                ss.RowNames[nPeak] = peak.DisplayName;
+                ss.RowNames[nPeak] = _uniqueTable.Name( peak);
 
                 for (int nObs = 0; nObs < columns.Length; ++nObs)
                 {

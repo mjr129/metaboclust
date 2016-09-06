@@ -26,6 +26,7 @@ using MetaboliteLevels.Data.General;
 using MGui.Helpers;
 using MGui.Datatypes;
 using MetaboliteLevels.Viewers.Charts;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -184,7 +185,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 Peak peak = peaks[peakIndex];
 
-                PeakValueSet src = corIndex == -1 ? peak.OriginalObservations : peak.CorrectionChain[corIndex];
+                PeakValueSet src = corIndex == -1 ? peak.Get_OriginalObservations(_core) : peak.Get_CorrectionChain(_core, corIndex);
 
                 IEnumerable<double> vals = _trend ? src.Trend.At( which ) : src.Raw.At( which );
 
@@ -915,7 +916,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void toolStripMenuItem2_Click( object sender, EventArgs e )
         {
-            FrmMsgBox.ShowOkCancel( this, Text, "Note: PLSR requires the R library \"pls\" to function.", FrmMsgBox.EDontShowAgainId.PLSR_MODE, DialogResult.OK );
+            FrmMsgBox.ShowOkCancel( this, Text, "Note: PLSR requires the R library \"pls\" to function.", FrmMsgBox.EDontShowAgainId.PlsrMode, DialogResult.OK );
 
             _method = EMethod.Plsr;
             UpdateScores();

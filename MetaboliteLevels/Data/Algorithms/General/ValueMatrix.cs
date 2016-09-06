@@ -12,6 +12,7 @@ using MetaboliteLevels.Utilities;
 using System.IO;
 using System.Diagnostics;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms
 {
@@ -185,7 +186,7 @@ namespace MetaboliteLevels.Algorithms
 
                         for (int j = 0; j < y; j++)
                         {
-                            s[j] = peaks[i].Observations.Trend[which[j]];
+                            s[j] = peaks[i].Get_Observations_Trend(core)[which[j]];
                         }
 
                         vectors[groupOffset + i] = new Vector(peaks[i], group, conditions, null, s, groupOffset + i);
@@ -221,7 +222,7 @@ namespace MetaboliteLevels.Algorithms
 
                         for (int j = 0; j < y; j++)
                         {
-                            s[j] = peaks[i].Observations.Raw[which[j]];
+                            s[j] = peaks[i].Get_Observations_Raw(core)[which[j]];
                         }
 
                         vectors[groupOffset + i] = new Vector(peaks[i], group, null, observations, s, groupOffset + i);

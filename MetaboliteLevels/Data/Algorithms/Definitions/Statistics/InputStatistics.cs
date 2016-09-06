@@ -8,6 +8,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Settings;
 using MGui.Helpers;
 using MGui.Datatypes;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Inputs
 {
@@ -98,7 +99,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Inputs
                 case EAlgoSourceMode.Trend:
                     {
                         IEnumerable<int> indices = con != null ? Core.Conditions.Which(λ => con.Test(λ)) : Core.Conditions.Indices();
-                        IEnumerable<double> srcV = peak.Observations.Trend.At(indices);
+                        IEnumerable<double> srcV = peak.Get_Observations_Trend( Core ).At(indices);
                         IEnumerable<ConditionInfo> srcC = Core.Conditions.At(indices);
 
                         if (getIntensity)
@@ -127,7 +128,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Inputs
                 default:
                     {
                         IEnumerable<int> indices = con != null ? Core.Observations.Which(λ => con.Test(λ)) : Core.Conditions.Indices();
-                        IEnumerable<double> srcV = peak.Observations.Raw.At(indices);
+                        IEnumerable<double> srcV = peak.Get_Observations_Raw(Core).At(indices);
                         IEnumerable<ObservationInfo> srcC = Core.Observations.At( indices);
 
                         if (getIntensity)

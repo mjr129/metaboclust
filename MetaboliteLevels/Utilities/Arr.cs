@@ -7,6 +7,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MGui;
 using MGui.Helpers;
@@ -157,7 +158,7 @@ namespace MetaboliteLevels.Utilities
 
                     int row = typeIndex * replicates.Count + repIndex;
                     UiControls.Assert(double.IsNaN(matrix[row, timeIndex]), "Duplicate day/time/rep observations in dataset are not allowed.");
-                    matrix[row, timeIndex] = peak.Observations.Raw[i];
+                    matrix[row, timeIndex] = peak.Get_Observations_Raw(core)[i];
                 }
             }
 

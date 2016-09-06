@@ -18,6 +18,7 @@ using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MGui;
 using MGui.Helpers;
 using MGui.Datatypes;
+using MetaboliteLevels.Data.Session.Associational;
 
 // ReSharper disable UnusedMember.Local
 
@@ -295,19 +296,19 @@ namespace MetaboliteLevels.Forms.Editing
         [Description("View peak raw intensity data")]
         void view_variable_full()
         {
-            Peak v = PickVariable();
+            Peak peak = PickVariable();
 
-            if (v != null)
+            if (peak != null)
             {
                 StringBuilder sb = new StringBuilder();
 
                 for (int i = 0; i < _core.Observations.Count; i++)
                 {
                     ObservationInfo obs = _core.Observations[i];
-                    sb.AppendLine(obs.Time + obs.Group.DisplayShortName + obs.Rep + " = " + v.Observations.Raw[i]);
+                    sb.AppendLine(obs.Time + obs.Group.DisplayShortName + obs.Rep + " = " + peak.Get_Observations_Raw(_core)[i]);
                 }
 
-                FrmInputMultiLine.ShowFixed(this, "View full variable", v.DisplayName, "Full variable information", sb.ToString());
+                FrmInputMultiLine.ShowFixed(this, "View full variable", peak.DisplayName, "Full variable information", sb.ToString());
             }
         }
 
@@ -324,7 +325,7 @@ namespace MetaboliteLevels.Forms.Editing
                 for (int i = 0; i < _core.Conditions.Count; i++)
                 {
                     ConditionInfo cond = _core.Conditions[i];
-                    sb.AppendLine(cond.Time + cond.Group.DisplayShortName + " = " + v.Observations.Trend[i]);
+                    sb.AppendLine(cond.Time + cond.Group.DisplayShortName + " = " + v.Get_Observations_Trend(_core)[i]);
                 }
 
                 FrmInputMultiLine.ShowFixed(this, "View variable averages", v.DisplayName, "Variable averages", sb.ToString());
@@ -344,7 +345,7 @@ namespace MetaboliteLevels.Forms.Editing
             double worst;
             int bwcount;
             List<Tuple<Peak, double>> all = new List<Tuple<Peak, double>>();
-            _core.QuantifyAssignments(out warning, out d, out di, out dz, out dzi, out worst, out best, out bwcount, all);
+            QuantifyAssignments(_core, out warning, out d, out di, out dz, out dzi, out worst, out best, out bwcount, all);
             var all2 = all.Where(λ => λ.Item1.Assignments.Clusters.All(z => z.States == Cluster.EStates.None));
 
             StringBuilder sb = new StringBuilder();
@@ -607,8 +608,8 @@ namespace MetaboliteLevels.Forms.Editing
                     sa.Append(p.DisplayName + ", ");
                     sb.Append(p.DisplayName + ", ");
 
-                    sa.AppendLine(StringHelper.ArrayToString(p.Observations.Raw));
-                    sb.AppendLine(StringHelper.ArrayToString(p.Observations.Trend));
+                    sa.AppendLine(StringHelper.ArrayToString(p.Get_Observations_Raw(_core)));
+                    sb.AppendLine(StringHelper.ArrayToString(p.Get_Observations_Trend(_core)));
                 }
             }
 
@@ -850,6 +851,65 @@ namespace MetaboliteLevels.Forms.Editing
                 string mi = (string)args[1];
 
                 textBox1.Text = mi;
+            }
+        }
+
+        /// <summary>
+        /// Rates the current assignments based on SUM( |x - c(x)|)^2 (the k-means function).
+        /// </summary>
+        private static void QuantifyAssignments( Core core, out bool warning, out double sumPeakClusterScore, out int numPeaks, out double sumPeakClusterScoreSigsOnly, out int numSigPeaks, out double sumWorstTen, out double sumHighestTen, out int numTen, List<Tuple<Peak, double>> allScores )
+        {
+            sumPeakClusterScore = 0;
+            numPeaks = 0;
+            sumPeakClusterScoreSigsOnly = 0;
+            numSigPeaks = 0;
+            sumHighestTen = 0;
+            sumWorstTen = 0;
+            numTen = 0;
+            warning = false;
+
+            ArgsMetric args = new ArgsMetric( null );
+            ConfigurationMetric metric = new ConfigurationMetric( "temp", null, Algo.ID_METRIC_EUCLIDEAN, args );
+
+            // Iterate clusters
+            foreach (Cluster pat in core.Clusters)
+            {
+                // Get scores in this cluster
+                List<double> scoresInThisCluster = new List<double>();
+
+                // Iterate assignments
+                foreach (Assignment assignment in pat.Assignments.List)
+                {
+                    // Get score for PEAK-CLUSTER
+                    if (pat.Centres.Count == 0)
+                    {
+                        pat.SetCentre( ECentreMode.Average, ECandidateMode.Assignments );
+                        warning = true;
+                    }
+
+                    double peakClusterScore = pat.CalculateScore( assignment.Vector.Values, EDistanceMode.ClosestCentre, metric );
+                    peakClusterScore = peakClusterScore * peakClusterScore;
+                    sumPeakClusterScore += peakClusterScore;
+                    numPeaks++;
+
+                    allScores.Add( new Tuple<Peak, double>( assignment.Peak, peakClusterScore ) );
+
+                    if (pat.States != Cluster.EStates.None)
+                    {
+                        scoresInThisCluster.Add( peakClusterScore );
+                        sumPeakClusterScoreSigsOnly += peakClusterScore;
+                        numSigPeaks++;
+                    }
+                }
+
+                scoresInThisCluster.Sort();
+
+                for (int n = 0; n < scoresInThisCluster.Count / 10; n++)
+                {
+                    sumHighestTen += scoresInThisCluster[n];
+                    sumWorstTen += scoresInThisCluster[scoresInThisCluster.Count - n - 1];
+                    numTen++;
+                }
             }
         }
     }

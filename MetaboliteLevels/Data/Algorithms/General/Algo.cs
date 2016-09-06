@@ -19,6 +19,9 @@ using MetaboliteLevels.Algorithms.Statistics.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Trends;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using System.Resources;
+using System.Globalization;
+using System.Collections;
 
 namespace MetaboliteLevels.Algorithms
 {
@@ -43,7 +46,6 @@ namespace MetaboliteLevels.Algorithms
         public const string ID_STATS_MIN = @"STATS_MIN";
         public const string ID_STATS_MAX = @"STATS_MAX";
         public const string ID_STATS_ABSMAX = @"STATS_ABSMAX";
-        public const string ID_KMEANS = @"KMEANS";
         public const string ID_KMEANSWIZ = @"KMEANSWIZ";
         public const string ID_DKMEANSPPWIZ = @"DKMEANSPPWIZ";
         public const string ID_PATFROMPATH = @"PATFROMPATH";
@@ -51,7 +53,6 @@ namespace MetaboliteLevels.Algorithms
         // R scripts for some tests
         private const string SCRIPT_TTEST = @"t.test(a, b)$p.value";
         private const string SCRIPT_PEARSON = @"cor(a, b)";
-        private const string SCRIPT_KMEANS = "## k = integer\r\nkmeans(x, k)$cluster";
 
         // Delegates
         private delegate T Delegate_Constructor<T>(string scriptText, string id, string name, string fileName);
@@ -157,8 +158,7 @@ namespace MetaboliteLevels.Algorithms
             Corrections.Add(new CorrectionScript(@"scale(y, scale = FALSE)", @"CENTRE_NO_S", "Center", null));
             Corrections.Add(new CorrectionDirtyRectify(@"ZERO_MISSING", "Zero invalid values"));
 
-            // Clusterers
-            Clusterers.Add(new ClustererScript(SCRIPT_KMEANS, ID_KMEANS, "k-means (Hartigan–Wong algorithm)", null));
+            // Clusterers                                                           
             Clusterers.Add(new LegacyKMeansClusterer(ID_KMEANSWIZ, "k-means (LLoyd algorithm, using random starting centroids)"));
             Clusterers.Add(new LegacyDKMeansPPClusterer(ID_DKMEANSPPWIZ, "k-means (LLoyd algorithm, using d-means++ starting centroids)" ) );
             Clusterers.Add( new ClustererReclusterer( "RECLUSTERER", "k-means (LLoyd algorithm, starting with existing cluster centroids)" ) );
@@ -183,16 +183,35 @@ namespace MetaboliteLevels.Algorithms
         }
 
         /// <summary>
-        /// Adds the algorithms stored on disk.
+        /// Adds the algorithms stored on disk and in the SCRIPTS.RESX file.
         /// </summary>                         
         private static void PopulateFiles<T>(StatCollection<T> targetCollection, UiControls.EInitialFolder searchFolder, Delegate_Constructor<T> constructorMethod)
                     where T : AlgoBase
         {
-            foreach (string fn in Directory.GetFiles(UiControls.GetOrCreateFixedFolder(searchFolder), "*.r"))
+            string folder = UiControls.GetOrCreateFixedFolder( searchFolder );
+            string resourcePrefix = "scripts~" + Path.GetFileName( folder ).ToLower() + "~";
+                                                                                                                
+            ResourceSet resources = Scripts.ResourceManager.GetResourceSet( CultureInfo.CurrentUICulture, true, true );
+
+            // Search Scripts.resx
+            foreach (DictionaryEntry resource in resources)
             {
-                string id = GetId(searchFolder, fn);
-                string name = Path.GetFileName(fn);
-                targetCollection.Add(constructorMethod(File.ReadAllText(fn), id, name, fn));
+                string key = (string)resource.Key;
+
+                if (key.StartsWith( resourcePrefix ))
+                {
+                    string subPart = key.Substring( resourcePrefix.Length );
+                    string id = GetId( searchFolder, subPart, true );
+                    targetCollection.Add( constructorMethod( Encoding.UTF8.GetString( (byte[])resource.Value ), id, subPart.Replace( "_", " " ), null ) );
+                }
+            }
+
+            // Search folder
+            foreach (string fileName in Directory.GetFiles(folder, "*.r"))
+            {
+                string id = GetId(searchFolder, fileName, false);
+                string name = Path.GetFileName(fileName);
+                targetCollection.Add(constructorMethod(File.ReadAllText(fileName), id, name, fileName));
             }
         }
 
@@ -201,11 +220,18 @@ namespace MetaboliteLevels.Algorithms
         /// </summary>
         /// <param name="folder">Folder the script is in (one of the FOLDER_* constants)</param>
         /// <param name="fileName">Full or partial filename of the script</param>
+        /// <param name="isInternal">Is internal (part of Scripts.resx)</param>
         /// <returns>The ID</returns>
-        public static string GetId(UiControls.EInitialFolder folder, string fileName)
+        public static string GetId(UiControls.EInitialFolder folder, string fileName, bool isInternal)
         {
-            string id = "SCRIPT:" + folder.ToUiString().ToUpper() + "\\" + Path.GetFileNameWithoutExtension(fileName);
-            return id;
+            if (isInternal)
+            {
+                return "RES:" + folder.ToUiString().ToUpper() + "\\" + Path.GetFileNameWithoutExtension( fileName );
+            }
+            else
+            {
+                return "FILE:" + folder.ToUiString().ToUpper() + "\\" + Path.GetFileNameWithoutExtension( fileName );
+            }
         }
 
         /// <summary>
@@ -213,7 +239,7 @@ namespace MetaboliteLevels.Algorithms
         /// </summary>                 
         public static string GetFileName(string id)
         {
-            if (id.StartsWith("SCRIPT:"))
+            if (id.StartsWith( "FILE:" ))
             {
                 return Path.Combine(UiControls.StartupPath, id.Substring(7) + ".r");
             }

@@ -21,6 +21,7 @@ using MetaboliteLevels.Algorithms.Statistics.Corrections;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Forms.Editing;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {
@@ -307,8 +308,8 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             try
             {
-                trend = sel.ExtractTrend(_core, _selectedPeak.Observations.Raw, out trendOrder);
-                corrected = sel.Calculate(_core, _selectedPeak.Observations.Raw);
+                trend = sel.ExtractTrend(_core, _selectedPeak.Get_Observations_Raw(_core), out trendOrder);
+                corrected = sel.Calculate(_core, _selectedPeak.Get_Observations_Raw(_core));
             }
             catch (Exception ex)
             {
