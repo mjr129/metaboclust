@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -35,10 +36,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// <summary>
         /// ACTION!
         /// </summary>
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vm, DistanceMatrix dm, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(IntensityMatrix vm, DistanceMatrix dm, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // Construct similarity matrix
-            int N = vm.NumVectors;
+            int N = vm.NumRows;
             double[,] s; // = new double[N, N];
             double[,] r = new double[N, N];
             double[,] a = new double[N, N];
@@ -174,7 +175,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             // CONVERT TO CLUSTERS
             Dictionary<int, Cluster> dict = new Dictionary<int, Cluster>();
 
-            for (int pInd = 0; pInd < vm.NumVectors; pInd++)
+            for (int pInd = 0; pInd < vm.NumRows; pInd++)
             {
                 Vector vec = vm.Vectors[pInd];
                 int exe = exemplars[pInd];

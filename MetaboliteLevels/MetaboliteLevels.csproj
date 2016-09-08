@@ -152,7 +152,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\PagerControl.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererMerge.cs" />
     <Compile Include="Data\Algorithms\General\Algo.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameter.cs" />
     <Compile Include="Data\Algorithms\General\DistanceMatrix.cs" />
@@ -176,7 +175,6 @@
     <Compile Include="Data\Algorithms\Definitions\Base\ResultBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Statistics\ResultStatistic.cs" />
     <Compile Include="Data\Algorithms\Definitions\Trends\ResultTrend.cs" />
-    <Compile Include="Data\Algorithms\General\ValueMatrix.cs" />
     <Compile Include="Data\Algorithms\General\Vector.cs" />
     <Compile Include="Controls\EditableComboBox.cs" />
     <Compile Include="Data\Session\Associational\IntensityMatrix.cs" />
@@ -386,7 +384,6 @@
     <Compile Include="Controls\EnumComboBox.cs" />
     <Compile Include="Controls\SubListHandler.cs" />
     <Compile Include="Controls\NamedItem.cs" />
-    <Compile Include="Data\Session\General\ConditionInfo.cs" />
     <Compile Include="Types\UI\StylisedPeak.cs" />
     <Compile Include="Data\Session\Associational\IVisualisable.cs" />
     <Compile Include="Types\UI\StylisedCluster.cs" />
@@ -503,7 +500,6 @@
     <Compile Include="Data\Session\Singular\CoreColourSettings.cs" />
     <Compile Include="Types\General\ELcMsMode.cs" />
     <Compile Include="Data\Session\Associational\Annotation.cs" />
-    <Compile Include="Data\Session\Collections\PeakValueSet.cs" />
     <Compile Include="Types\General\Range.cs" />
     <Compile Include="Data\Session\Associational\Adduct.cs" />
     <Compile Include="Forms\Wizards\FrmWizConfigurationCluster.cs">
@@ -1119,6 +1115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\IconMatrix.png" />
     <None Include="Resources\Busy.gif" />
     <None Include="Resources\IconAnnotation.png" />
     <None Include="Resources\IconAnnotationTentative.png" />

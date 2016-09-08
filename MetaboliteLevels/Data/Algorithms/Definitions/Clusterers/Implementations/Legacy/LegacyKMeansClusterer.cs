@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 
@@ -28,7 +29,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// <summary>
         /// 
         /// </summary>
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster( IntensityMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // GET OPTIONS
             int k = (int)args.Parameters[0];

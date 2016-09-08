@@ -58,6 +58,12 @@ namespace MetaboliteLevels.Data.Session
         //
 
         /// <summary>
+        /// Main data - Intensity matrices
+        /// </summary>
+        [UndeferSerialisation( typeof( Peak ) )]
+        private readonly List<IntensityMatrix> _matrices;
+
+        /// <summary>
         /// Main data - the peaks
         /// </summary>
         [UndeferSerialisation(typeof(Peak))]
@@ -90,8 +96,8 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Main data - conditions (observations with replicates accounted for)
         /// </summary>
-        [UndeferSerialisation(typeof(ConditionInfo))]
-        private readonly List<ConditionInfo> _conditions;
+        [UndeferSerialisation(typeof( ObservationInfo ) )]
+        private readonly List<ObservationInfo> _conditions;
 
         /// <summary>
         /// Main data - experimental groups
@@ -223,6 +229,7 @@ namespace MetaboliteLevels.Data.Session
         public IReadOnlyList<GroupInfo> ControlConditions { get { return _cache._controlConditions; } }
         public Range TimeRange { get { return _cache._timeRange; } }
 
+        public IReadOnlyList<IntensityMatrix> Matrices { get { return _matrices; } }
         public IReadOnlyList<GroupInfo> Groups { get { return _groups; } }
         public IReadOnlyList<BatchInfo> Batches { get { return _batches; } }
         public IReadOnlyList<Cluster> Clusters { get { return _clusters; } }
@@ -231,7 +238,7 @@ namespace MetaboliteLevels.Data.Session
         public IReadOnlyList<Pathway> Pathways { get { return _pathways; } }
         public List<Adduct> Adducts { get { return _adducts; } }
         public IReadOnlyList<ObservationInfo> Observations { get { return _observations; } }
-        public IReadOnlyList<ConditionInfo> Conditions { get { return _conditions; } }
+        public IReadOnlyList<ObservationInfo> Conditions { get { return _conditions; } }
 
         public IReadOnlyList<ConfigurationCorrection> AllCorrections { get { return _corrections; } }
         public IReadOnlyList<ConfigurationStatistic> AllStatistics { get { return _statistics; } }
@@ -316,11 +323,12 @@ namespace MetaboliteLevels.Data.Session
             this._conditions = data.Conditions;
             this._groups = data.Types;
             this._batches = data.Batches;
-            _peakMeta = data.PeakMetaHeader;
-            _compoundsMeta = compMeta;
-            _pathwaysMeta = pathMeta;
-            _adductsMeta = adductsHeader;
-            _annotationsMeta = annotationsHeader;
+
+            this._peakMeta = data.PeakMetaHeader;
+            this._compoundsMeta = compMeta;
+            this._pathwaysMeta = pathMeta;
+            this._adductsMeta = adductsHeader;
+            this._annotationsMeta = annotationsHeader;
 
             this.AvgSmoother = data.AvgSmoother;
             this.MinSmoother = data.MinSmoother;
@@ -334,6 +342,14 @@ namespace MetaboliteLevels.Data.Session
             this._obsFilters = new List<ObsFilter>();
 
             this._cache = new CachedData(this);
+
+            this._matrices = new List<IntensityMatrix>();
+            this._matrices.Add( data.IntensityMatrix );
+
+            if (data.AltIntensityMatrix != null)
+            {
+                this._matrices.Add( data.AltIntensityMatrix );
+            }
         }
 
         /// <summary>

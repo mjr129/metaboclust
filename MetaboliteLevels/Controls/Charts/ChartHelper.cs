@@ -5,9 +5,11 @@ using System.Drawing.Imaging;
 using System.Text;
 using System.Windows.Forms;
 using MCharting;
+using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Forms;
 using MetaboliteLevels.Forms.Editing;
@@ -51,6 +53,9 @@ namespace MetaboliteLevels.Viewers.Charts
         private readonly ToolStripMenuItem       _chkShowTime;
         private readonly ToolStripMenuItem       _chkShowCustom;
 
+        protected readonly Func<IntensityMatrix> GetIntensityMatrix;
+        protected readonly Func<ConfigurationTrend> GetTrend;
+
         public virtual IVisualisable CurrentPlot
         {
             get { return null; }
@@ -72,10 +77,12 @@ namespace MetaboliteLevels.Viewers.Charts
             this._core = newCore;
         }
 
-        public ChartHelper(ISelectionHolder selector, Core core, Control targetSite, bool describePeaks)
+        public ChartHelper(ISelectionHolder selector, Core core, Control targetSite, bool describePeaks, Func<IntensityMatrix> getIntensityMatrix, Func<ConfigurationTrend> getTrend )
         {
             this._selector = selector;
             this._core = core;
+            this.GetIntensityMatrix = getIntensityMatrix;
+            this.GetTrend = getTrend;
 
             // CHART
             this._chart      = new MChart();

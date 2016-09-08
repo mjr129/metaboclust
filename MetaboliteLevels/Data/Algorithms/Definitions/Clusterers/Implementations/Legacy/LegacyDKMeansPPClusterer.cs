@@ -10,6 +10,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Data.DataInfo;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
 {
@@ -31,7 +32,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// <summary>
         /// 
         /// </summary>
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster( IntensityMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // Get parameters
             // COUNT LIMIT
@@ -49,7 +50,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             // Create the seed cluster
             Cluster seedCluster = new Cluster("1", tag);
             List<Cluster> seedList = new List<Cluster> { seedCluster };
-            seedCluster.Exemplars.Add(vmatrix.Extract(seedPeak, args.SplitGroups ? groupInfo : null));
+            seedCluster.Exemplars.Add( vmatrix.Values[ vmatrix.FindIndex(new IntensityMatrix.RowHeader( seedPeak, args.SplitGroups ? groupInfo : null))]);
 
             // Autogenerate the clusters
             int? nCountLimit = (countLimit != Int32.MinValue) ? countLimit : (int?)null;
@@ -74,7 +75,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// Ignores insignificant variables.
         /// Returns new clusters (these won't be added to the core so make sure to do so)
         /// </summary>
-        private static List<Cluster> AutogenerateClusters(ValueMatrix vmatrix, List<Cluster> seed, double? stoppingDistance, int? stoppingCount, ConfigurationMetric metric, ConfigurationClusterer tag, ProgressReporter prog)
+        private static List<Cluster> AutogenerateClusters( IntensityMatrix vmatrix, List<Cluster> seed, double? stoppingDistance, int? stoppingCount, ConfigurationMetric metric, ConfigurationClusterer tag, ProgressReporter prog)
         {
             // Make a log of whatever limits have been set
             if (!stoppingCount.HasValue && !stoppingDistance.HasValue)

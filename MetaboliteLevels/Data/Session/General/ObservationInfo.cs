@@ -8,6 +8,14 @@ using MSerialisers;
 
 namespace MetaboliteLevels.Data.DataInfo
 {
+    public class Acquisition
+    {
+        public readonly int Replicate;
+        public readonly BatchInfo Batch;
+        public readonly int Order;
+        public readonly string Id;
+    }
+
     /// <summary>
     /// Observation information.
     /// 
@@ -20,34 +28,26 @@ namespace MetaboliteLevels.Data.DataInfo
     class ObservationInfo : IVisualisable
     {
         public const string ID_COLNAME_GROUP = "Group";
-        public readonly ConditionInfo _conditions;
-        public readonly int Rep;
-        public readonly BatchInfo Batch;
-        public readonly int Acquisition;
+        public readonly Acquisition Acquisition;
+        public readonly GroupInfo Group;
+        private readonly int Time;
 
-        public ObservationInfo(ConditionInfo conditions, int rep, BatchInfo batch, int acquisition)
+        public ObservationInfo( Acquisition acquisition, GroupInfo group, int time)
         {
-            this._conditions = conditions;
-            this.Rep = rep;
-            this.Batch = batch;
             this.Acquisition = acquisition;
-            this.Enabled = true;
+            this.Group = group;
+            this.Time = time;
         }
+
+        public string Id => Acquisition?.Id;
+        public BatchInfo Batch => Acquisition?.BatchInfo;
+        public int Order => Acquisition?.Order ?? 0;
+        public int Rep => Acquisition?.Replicate ?? 0;
 
         public override string ToString()
         {
             return DisplayName;
-        }
-
-        public int Time
-        {
-            get { return _conditions.Time; }
-        }
-
-        public GroupInfo Group
-        {
-            get { return _conditions.Group; }
-        }
+        }      
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
@@ -78,7 +78,7 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             get
             {
-                return _conditions.DisplayName + "r" + Rep;
+                return Acquisition == null ? (Group.ToString() + Time) : Id;
             }
         }
 
@@ -125,7 +125,7 @@ namespace MetaboliteLevels.Data.DataInfo
                 return i;
             }
 
-            return a.Acquisition.CompareTo(b.Acquisition);
+            return a.Order.CompareTo(b.Order);
         }
 
         public static int GroupTimeDisplayOrder(ObservationInfo a, ObservationInfo b)
@@ -157,6 +157,7 @@ namespace MetaboliteLevels.Data.DataInfo
             List<Column<ObservationInfo>> columns = new List<Column<ObservationInfo>>();
 
             columns.Add("Name", EColumn.Visible, z => z.DisplayName);
+            columns.Add( "ID", EColumn.None, z => z.Id );
             columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group, z => z.Group.Colour);
             columns.Add("Replicate", EColumn.None, z => z.Rep);
             columns.Add("Time", EColumn.None, z => z.Time);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.General;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
@@ -28,7 +29,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// <summary>
         /// K-means centering.
         /// </summary>
-        public static void PerformKMeansCentering(ValueMatrix vmatrix, IReadOnlyList<Cluster> toChoose, ConfigurationMetric metric, ProgressReporter prog)
+        public static void PerformKMeansCentering( IntensityMatrix vmatrix, IReadOnlyList<Cluster> toChoose, ConfigurationMetric metric, ProgressReporter prog)
         {
             int n = 0;
 
@@ -49,10 +50,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// Assigns peaks to clusters
         /// A single k-means iteration.
         /// </summary>
-        public static bool Assign(ValueMatrix vmatrix, IReadOnlyList<Cluster> toChoose, ECandidateMode source, ConfigurationMetric distanceMetric, ProgressReporter prog)
+        public static bool Assign( IntensityMatrix vmatrix, IReadOnlyList<Cluster> toChoose, ECandidateMode source, ConfigurationMetric distanceMetric, ProgressReporter prog)
         {
             // Get the current cluster centres
-            prog.SetProgress(0, vmatrix.NumVectors);
+            prog.SetProgress(0, vmatrix.NumRows);
 
             for (int index = 0; index < toChoose.Count; index++)
             {
@@ -73,10 +74,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
             bool somethingChanged = false;
 
             // Assign peaks to centres
-            for (int index = 0; index < vmatrix.NumVectors; index++)
+            for (int index = 0; index < vmatrix.NumRows; index++)
             {
                 Vector vec = vmatrix.Vectors[index];
-                prog.SetProgress(index, vmatrix.NumVectors);
+                prog.SetProgress(index, vmatrix.NumRows);
 
                 ClusterScore best = FindClosestCluster(vec.Values, toChoose, distanceMetric);
 

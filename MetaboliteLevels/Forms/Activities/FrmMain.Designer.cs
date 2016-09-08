@@ -180,6 +180,8 @@ namespace MetaboliteLevels.Forms
             this._btnExterior = new System.Windows.Forms.ToolStripButton();
             this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer3 = new MGui.Controls.CtlSplitter();
+            this._lstMatrix = new System.Windows.Forms.ToolStripButton();
+            this._lstTrend = new System.Windows.Forms.ToolStripButton();
             this._mnuMain.SuspendLayout();
             this._cmsSelectionButton.SuspendLayout();
             this._statusMain.SuspendLayout();
@@ -671,6 +673,8 @@ namespace MetaboliteLevels.Forms
             this.toolStripButton10,
             this.toolStripSeparator3,
             this._tssInsertViews,
+            this._lstTrend,
+            this._lstMatrix,
             this._btnSession});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
@@ -1822,6 +1826,30 @@ namespace MetaboliteLevels.Forms
             this.splitContainer3.SplitterDistance = 349;
             this.splitContainer3.TabIndex = 10;
             // 
+            // _lstMatrix
+            // 
+            this._lstMatrix.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._lstMatrix.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold);
+            this._lstMatrix.Image = global::MetaboliteLevels.Properties.Resources.IconMatrix;
+            this._lstMatrix.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._lstMatrix.Name = "_lstMatrix";
+            this._lstMatrix.Size = new System.Drawing.Size(106, 43);
+            this._lstMatrix.Text = "Dataset";
+            this._lstMatrix.ToolTipText = "Cluster Wizard";
+            this._lstMatrix.Click += new System.EventHandler(this._lstMatrix_Click);
+            // 
+            // _lstTrend
+            // 
+            this._lstTrend.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._lstTrend.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold);
+            this._lstTrend.Image = global::MetaboliteLevels.Properties.Resources.IconMatrix;
+            this._lstTrend.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._lstTrend.Name = "_lstTrend";
+            this._lstTrend.Size = new System.Drawing.Size(89, 43);
+            this._lstTrend.Text = "Trend";
+            this._lstTrend.ToolTipText = "Cluster Wizard";
+            this._lstTrend.Click += new System.EventHandler(this._lstTrend_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -2035,6 +2063,8 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStripMenuItem correlationMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton _btnOpen;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton _lstTrend;
+        private System.Windows.Forms.ToolStripButton _lstMatrix;
     }
 }
 

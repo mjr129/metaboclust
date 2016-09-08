@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 
@@ -24,18 +25,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         /// <summary>
         /// 
         /// </summary>
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster( IntensityMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             Dictionary<Pathway, Cluster> d = new Dictionary<Pathway, Cluster>();
             List<Cluster> result = new List<Cluster>();
 
             prog.Enter("Finding pathways");
 
-            for (int index = 0; index < vmatrix.NumVectors; index++)
+            for (int index = 0; index < vmatrix.NumRows; index++)
             {
                 Vector vec = vmatrix.Vectors[index];
                 Peak peak = vec.Peak;
-                prog.SetProgress(index, vmatrix.NumVectors);
+                prog.SetProgress(index, vmatrix.NumRows);
 
                 foreach (Annotation c in peak.Annotations)
                 {

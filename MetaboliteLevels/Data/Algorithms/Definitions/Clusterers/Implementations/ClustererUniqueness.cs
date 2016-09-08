@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.DataInfo;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -30,21 +31,20 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// <summary>
         /// 
         /// </summary>
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster( IntensityMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             ConfigurationClusterer config = ((WeakReference<ConfigurationClusterer>)args.Parameters[0]).GetTarget();
             List<List<Assignment>> uniqueCombinations = new List<List<Assignment>>();
-            List<Cluster> newClusters = new List<Cluster>();
-            List<ConditionInfo[]> conditions = new List<ConditionInfo[]>();
+            List<Cluster> newClusters = new List<Cluster>();               
             List<ObservationInfo[]> observations = new List<ObservationInfo[]>();
 
             prog.Enter("Finding unique matches");
 
-            for (int vmatIndex = 0; vmatIndex < vmatrix.NumVectors; vmatIndex++)
+            for (int vmatIndex = 0; vmatIndex < vmatrix.NumRows; vmatIndex++)
             {
                 Vector vp = vmatrix.Vectors[vmatIndex];
                 Peak peak = vp.Peak;
-                prog.SetProgress(vmatIndex, vmatrix.NumVectors);
+                prog.SetProgress(vmatIndex, vmatrix.NumRows);
 
                 List<Assignment> assignments = new List<Assignment>(peak.Assignments.List
                                                          .Where(z => config.Results.Clusters.Contains(z.Cluster))
@@ -65,16 +65,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                     IEnumerable<double[]> centres = assignments.Select(z => z.Cluster.Centres.First());
                     pat.Centres.Add(centres.SelectMany(z => z).ToArray());
 
-                    // Vector (merge vectors)
-                    if (assignments[0].Vector.Conditions != null)
-                    {
-                        conditions.Add(assignments.Select(z => z.Vector.Conditions).SelectMany(z => z).ToArray());
-                    }
-                    else
-                    {
-                        conditions.Add(null);
-                    }
-
+                    // Vector (merge vectors)        
                     if (assignments[0].Vector.Observations != null)
                     {
                         observations.Add(assignments.Select(z => z.Vector.Observations).SelectMany(z => z).ToArray());
@@ -103,8 +94,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 pat = newClusters[index];
 
                 double[] values = assignments.Select(z => z.Vector.Values).SelectMany(z => z).ToArray();
-                Vector v = new Vector(peak, null, conditions[index], observations[index], values, vmatIndex);
-                pat.Assignments.Add(new Assignment(v, pat, assignments.Count));
+                pat.Assignments.Add(new Assignment(vp, pat, assignments.Count));
             }
 
             prog.Leave();

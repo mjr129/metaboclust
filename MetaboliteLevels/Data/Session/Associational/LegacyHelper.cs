@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Data.Visualisables;
 
@@ -38,6 +39,11 @@ namespace MetaboliteLevels.Data.Session.Associational
         public static double[] Get_Observations_Raw( this Peak peak, Core core )
         {
             return Get_Observations( peak, core ).Raw;
+        }
+
+        internal static Vector Create_Vector( IntensityMatrix matrix, int rowIndex )
+        {
+            return new MetaboliteLevels.Algorithms.Vector( matrix, rowIndex );
         }
     }
 }

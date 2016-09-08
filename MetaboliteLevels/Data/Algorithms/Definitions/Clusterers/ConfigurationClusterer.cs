@@ -7,6 +7,7 @@ using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
@@ -28,7 +29,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         internal ResultClusterer Cluster(Core core, int isPreview, ProgressReporter prog)
         {
             // Get results
-            ValueMatrix vmatrix;
+            IntensityMatrix vmatrix;
             DistanceMatrix dmatrix;
             ResultClusterer results = this.Cached.ExecuteAlgorithm(core, isPreview, false, this.Args, this, prog, out vmatrix, out dmatrix);
 
@@ -47,7 +48,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             columns.AddSubObject(core, "Arguments\\Observation filter", z => z.Args.ObsFilter);
             columns.AddSubObject(core, "Arguments\\Peak pilter", z => z.Args.PeakFilter);
             columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
-            columns.Add("Arguments\\Source mode", z => z.Args.SourceMode);
+            columns.Add("Arguments\\Source", z => z.Args.Source);
             columns.Add("Arguments\\Split groups", z => z.Args.SplitGroups);
             columns.Add("Arguments\\Statistics", z => z.Args.Statistics);
 

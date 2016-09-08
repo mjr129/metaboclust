@@ -9,6 +9,7 @@ using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.General;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Settings;
+using MetaboliteLevels.Algorithms;
 
 namespace MetaboliteLevels.Data
 {
@@ -30,7 +31,7 @@ namespace MetaboliteLevels.Data
         /// <summary>
         /// The observations to plot (otherwise the default will be plotted - Peak.Observations or Peak.AltObservations)
         /// </summary>
-        public PeakValueSet ForceObservations;
+        public Vector ForceObservations;
 
         /// <summary>
         /// Batch trend line (only if OverrideDefaultOptions.ShowAcqisition == true)
@@ -69,7 +70,6 @@ namespace MetaboliteLevels.Data
     /// </summary>
     internal sealed class StylisedPeakOptions
     {
-        public bool ViewAlternativeObservations;            // See CoreVisualOptions
         public IEnumerable<GroupInfo> ViewTypes;            // See CoreVisualOptions
         public IEnumerable<BatchInfo> ViewBatches;          // Like ViewTypes for batches (only if ShowAcqisition == true)
         public bool ConditionsSideBySide;                   // See CoreVisualOptions

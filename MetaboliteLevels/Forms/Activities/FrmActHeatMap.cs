@@ -169,7 +169,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void Generate2DHeatMap()
         {   
-            int n = _source2D.ValueMatrix.NumVectors;
+            int n = _source2D.ValueMatrix.NumRows;
             _heatMap = new HeatPoint[n, n];
 
             for (int y = 0; y < n; y++)

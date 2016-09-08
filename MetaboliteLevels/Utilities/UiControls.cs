@@ -624,6 +624,7 @@ namespace MetaboliteLevels.Utilities
                 case ImageListOrder.ScriptFile      : return bold ? Resources.IconR : Resources.IconR;
                 case ImageListOrder.ScriptMathDotNet: return bold ? Resources.IconMathNet : Resources.IconMathNet;
                 case ImageListOrder.Group           : return bold ? Resources.MnuGroup : Resources.MnuGroup;
+                case ImageListOrder.Matrix: return Resources.IconMatrix;
                 default: throw new SwitchException(v);
             }
         }
@@ -667,6 +668,7 @@ namespace MetaboliteLevels.Utilities
             ScriptFile,
             ScriptMathDotNet,
             Group,
+            Matrix,
         }
 
         /// <summary>

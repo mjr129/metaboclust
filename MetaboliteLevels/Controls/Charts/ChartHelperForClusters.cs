@@ -150,7 +150,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // Too much to plot
             while (toPlot.Count > core.Options.MaxPlotVariables)
             {
-                toPlot = toPlot.OrderBy(z => z.Peak.Index).ToList();
+                //toPlot = toPlot.OrderBy(z => z.Peak.Index).ToList();
                 toPlot.RemoveRange(core.Options.MaxPlotVariables, toPlot.Count - core.Options.MaxPlotVariables);
             }
 

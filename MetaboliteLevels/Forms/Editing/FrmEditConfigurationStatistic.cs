@@ -17,6 +17,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Forms.Editing;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {
@@ -30,6 +31,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<ObsFilter> _ecbFilter1;
         private EditableComboBox<ObsFilter> _ecbFilter2;
         private EditableComboBox<StatisticBase> _ecbMeasure;
+        private readonly EditableComboBox<IntensityMatrix> _ecbSource;
 
         internal static ConfigurationStatistic Show(Form owner, ConfigurationStatistic def, Core core, bool readOnly)
         {
@@ -62,7 +64,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private ConfigurationStatistic GetSelection()
         {
             StatisticBase sel = this._ecbMeasure.SelectedItem;
-            EAlgoSourceMode src;
+            IntensityMatrix src;
             EAlgoInputBSource bsrc;
             ObsFilter filter1;
             ObsFilter filter2;
@@ -100,27 +102,16 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 filter1 = null;
                 filter2 = null;
-                src = EAlgoSourceMode.None;
+                src = null;
                 bsrc = EAlgoInputBSource.None;
                 bpeak = null;
             }
             else
             {
                 // Obs source
-                if (this._radObs.Checked)
-                {
-                    src = EAlgoSourceMode.Full;
-                }
-                else if (this._radTrend.Checked)
-                {
-                    src = EAlgoSourceMode.Trend;
-                }
-                else
-                {
-                    _checker.Check( _radObs, false, "Select a source" );
-                    _checker.Check( _radTrend, false, "Select a source" );
-                    src = default( EAlgoSourceMode );
-                }
+                src = _ecbSource.SelectedItem;
+
+                _checker.Check( _ecbSource.ComboBox, src!=null, "Select a source" );
 
                 // Vector A
                 filter1 = _ecbFilter1.SelectedItem;
@@ -220,6 +211,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _ecbFilter1 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter1, _btnFilter1,  ENullItemName.All);
             _ecbFilter2 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter2, _btnFilter2,  ENullItemName.All);
+            _ecbSource = DataSet.ForIntensityMatrices( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
             _ecbMeasure = DataSet.ForStatisticsAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
 
             _lstDiffPeak.Items.AddRange(NamedItem.GetRange(_core.Peaks, z => z.DisplayName).ToArray());
@@ -233,8 +225,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _ecbMeasure.SelectedItem = defaultSelection.Cached;
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
 
-                _radObs.Checked = defaultSelection.Args.SourceMode == EAlgoSourceMode.Full;
-                _radTrend.Checked = defaultSelection.Args.SourceMode == EAlgoSourceMode.Trend;
+                _ecbSource.SelectedItem = defaultSelection.Args.Source.GetTarget();
                 _radBCorTime.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.Time;
                 _radBDiffPeak.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.AltPeak;
                 _radSamePeak.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.SamePeak;
@@ -330,12 +321,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             bool s = m && stat.SupportsInputFilters;
 
             _lblApply.Visible = s;
-            _radObs.Visible = s;
-            _radTrend.Visible = s;
-            _btnTrend.Visible = s;
-            _btnObs.Visible = s;
+            _ecbSource.Visible = s;
 
-            bool a = s && (_radObs.Checked || _radTrend.Checked);
+            bool a = s && _ecbSource.HasSelection;
 
             _lblAVec.Visible = a;
             _ecbFilter1.Visible = a;

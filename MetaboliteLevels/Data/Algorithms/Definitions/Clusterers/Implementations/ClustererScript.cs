@@ -7,6 +7,8 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Data.Session;
 using System;
+using MetaboliteLevels.Data.Session.Associational;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 {
@@ -41,11 +43,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         public override bool SupportsObservationFilters { get { return true; } }
         public override RScript Script => _script;
 
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster( IntensityMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             object[] inputs =
             {
-                _script.IsInputPresent(0) ? vmatrix.Flatten() : null,
+                _script.IsInputPresent(0) ? vmatrix.Values.Flatten() : null,
                 _script.IsInputPresent(1) ? dmatrix.Values : null
             };
 

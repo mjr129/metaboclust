@@ -37,8 +37,6 @@
             this._lblAVec = new System.Windows.Forms.Label();
             this._btnNewStatistic = new MetaboliteLevels.Controls.CtlButton();
             this._btnComment = new MetaboliteLevels.Controls.CtlButton();
-            this._radObs = new System.Windows.Forms.RadioButton();
-            this._radTrend = new System.Windows.Forms.RadioButton();
             this._btnObsFilter = new MetaboliteLevels.Controls.CtlButton();
             this.label1 = new System.Windows.Forms.Label();
             this._lstMethod = new System.Windows.Forms.ComboBox();
@@ -48,8 +46,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this._lstMeasure = new System.Windows.Forms.ComboBox();
-            this._btnObs = new MetaboliteLevels.Controls.CtlButton();
-            this._btnTrend = new MetaboliteLevels.Controls.CtlButton();
+            this._btnSource = new MetaboliteLevels.Controls.CtlButton();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this._btnParameterOptimiser = new MetaboliteLevels.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -78,6 +75,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MGui.Controls.CtlError(this.components);
+            this._lstSource = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -97,10 +95,9 @@
             this._lblApply.Location = new System.Drawing.Point(8, 397);
             this._lblApply.Margin = new System.Windows.Forms.Padding(8);
             this._lblApply.Name = "_lblApply";
-            this.tableLayoutPanel1.SetRowSpan(this._lblApply, 2);
-            this._lblApply.Size = new System.Drawing.Size(105, 21);
+            this._lblApply.Size = new System.Drawing.Size(58, 21);
             this._lblApply.TabIndex = 2;
-            this._lblApply.Text = "Vector source";
+            this._lblApply.Text = "Source";
             this.toolTip1.SetToolTip(this._lblApply, "Select the source for the clustering vectors - either all observations or just th" +
         "e trendline.\r\nUse the buttons to the right to view the data source.");
             // 
@@ -121,7 +118,7 @@
             // _lblAVec
             // 
             this._lblAVec.AutoSize = true;
-            this._lblAVec.Location = new System.Drawing.Point(8, 524);
+            this._lblAVec.Location = new System.Drawing.Point(8, 479);
             this._lblAVec.Margin = new System.Windows.Forms.Padding(8);
             this._lblAVec.Name = "_lblAVec";
             this._lblAVec.Size = new System.Drawing.Size(102, 21);
@@ -159,38 +156,10 @@
             this._btnComment.UseVisualStyleBackColor = true;
             this._btnComment.Click += new System.EventHandler(this._btnComment_Click);
             // 
-            // _radObs
-            // 
-            this._radObs.AutoSize = true;
-            this._radObs.Location = new System.Drawing.Point(129, 397);
-            this._radObs.Margin = new System.Windows.Forms.Padding(8);
-            this._radObs.Name = "_radObs";
-            this._radObs.Size = new System.Drawing.Size(120, 25);
-            this._radObs.TabIndex = 3;
-            this._radObs.Text = "Observations";
-            this.toolTip1.SetToolTip(this._radObs, "Select the source for the clustering vectors - either all observations or just th" +
-        "e trendline.\r\nUse the buttons to the right to view the data source.");
-            this._radObs.UseVisualStyleBackColor = true;
-            this._radObs.CheckedChanged += new System.EventHandler(this.CheckAndChange);
-            // 
-            // _radTrend
-            // 
-            this._radTrend.AutoSize = true;
-            this._radTrend.Location = new System.Drawing.Point(129, 442);
-            this._radTrend.Margin = new System.Windows.Forms.Padding(8);
-            this._radTrend.Name = "_radTrend";
-            this._radTrend.Size = new System.Drawing.Size(68, 25);
-            this._radTrend.TabIndex = 3;
-            this._radTrend.Text = "Trend";
-            this.toolTip1.SetToolTip(this._radTrend, "Select the source for the clustering vectors - either all observations or just th" +
-        "e trendline.\r\nUse the buttons to the right to view the data source.");
-            this._radTrend.UseVisualStyleBackColor = true;
-            this._radTrend.CheckedChanged += new System.EventHandler(this.CheckAndChange);
-            // 
             // _btnObsFilter
             // 
             this._btnObsFilter.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnObsFilter.Location = new System.Drawing.Point(931, 524);
+            this._btnObsFilter.Location = new System.Drawing.Point(931, 479);
             this._btnObsFilter.Margin = new System.Windows.Forms.Padding(8);
             this._btnObsFilter.Name = "_btnObsFilter";
             this._btnObsFilter.Size = new System.Drawing.Size(29, 29);
@@ -218,10 +187,10 @@
             this._lstMethod.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstMethod.FormattingEnabled = true;
-            this._lstMethod.Location = new System.Drawing.Point(129, 53);
+            this._lstMethod.Location = new System.Drawing.Point(126, 53);
             this._lstMethod.Margin = new System.Windows.Forms.Padding(8);
             this._lstMethod.Name = "_lstMethod";
-            this._lstMethod.Size = new System.Drawing.Size(786, 29);
+            this._lstMethod.Size = new System.Drawing.Size(789, 29);
             this._lstMethod.TabIndex = 1;
             this.toolTip1.SetToolTip(this._lstMethod, "Select the clustering algorithm.\r\nUse the button to the right to open the databas" +
         "e and add new algorithms.");
@@ -244,10 +213,10 @@
             // 
             this._txtName.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtName.ForeColor = System.Drawing.Color.Blue;
-            this._txtName.Location = new System.Drawing.Point(129, 8);
+            this._txtName.Location = new System.Drawing.Point(126, 8);
             this._txtName.Margin = new System.Windows.Forms.Padding(8);
             this._txtName.Name = "_txtName";
-            this._txtName.Size = new System.Drawing.Size(786, 29);
+            this._txtName.Size = new System.Drawing.Size(789, 29);
             this._txtName.TabIndex = 6;
             this.toolTip1.SetToolTip(this._txtName, "Enter the title of the algorithm (this will also be the title of the resultant cl" +
         "usters).\r\nIf you don\'t enter a title one will be chosen for you.\r\nUse the button" +
@@ -262,29 +231,27 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this._radTrend, 1, 10);
-            this.tableLayoutPanel1.Controls.Add(this._btnObs, 2, 9);
-            this.tableLayoutPanel1.Controls.Add(this._btnTrend, 2, 10);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this._btnSource, 2, 9);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 13);
             this.tableLayoutPanel1.Controls.Add(this._btnEditParameters, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this._txtMeasureParams, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this._chkSepGroups, 1, 13);
+            this.tableLayoutPanel1.Controls.Add(this._chkSepGroups, 1, 12);
             this.tableLayoutPanel1.Controls.Add(this._btnNewStatistic, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this._lblAVec, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this._lblAVec, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this._lstMethod, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this._txtName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this._btnComment, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this._btnObsFilter, 2, 12);
-            this.tableLayoutPanel1.Controls.Add(this.label15, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this._btnObsFilter, 2, 11);
+            this.tableLayoutPanel1.Controls.Add(this.label15, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this._txtParams, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this._lblPeaks, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this._btnPeakFilter, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this._lblApply, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this._lstObsFilter, 1, 12);
+            this.tableLayoutPanel1.Controls.Add(this._lstObsFilter, 1, 11);
             this.tableLayoutPanel1.Controls.Add(this._lstPeakFilter, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this._btnNewDistance, 2, 5);
             this.tableLayoutPanel1.Controls.Add(this._btnEditDistanceParameters, 2, 6);
@@ -294,13 +261,12 @@
             this.tableLayoutPanel1.Controls.Add(this._txtStatistics, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this._btnSetStatistics, 2, 7);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this._radObs, 1, 9);
-            this.tableLayoutPanel1.Controls.Add(this._btnExperimentalGroups, 2, 13);
+            this.tableLayoutPanel1.Controls.Add(this._btnExperimentalGroups, 2, 12);
+            this.tableLayoutPanel1.Controls.Add(this._lstSource, 1, 9);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 87);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 15;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowCount = 14;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -315,6 +281,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(968, 802);
             this.tableLayoutPanel1.TabIndex = 14;
             // 
@@ -328,12 +295,12 @@
             this.tableLayoutPanel2.Controls.Add(this.linkLabel1, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this._lstMeasure, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(121, 217);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(118, 217);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(802, 45);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(805, 45);
             this.tableLayoutPanel2.TabIndex = 15;
             // 
             // linkLabel1
@@ -345,7 +312,7 @@
             this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(39, 4);
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(541, 10);
+            this.linkLabel1.Location = new System.Drawing.Point(544, 10);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(8, 10, 8, 8);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(253, 20);
@@ -366,39 +333,25 @@
             this._lstMeasure.Location = new System.Drawing.Point(8, 8);
             this._lstMeasure.Margin = new System.Windows.Forms.Padding(8);
             this._lstMeasure.Name = "_lstMeasure";
-            this._lstMeasure.Size = new System.Drawing.Size(517, 29);
+            this._lstMeasure.Size = new System.Drawing.Size(520, 29);
             this._lstMeasure.TabIndex = 1;
             this.toolTip1.SetToolTip(this._lstMeasure, "Select the distance metric algorithm.\r\nUse the button to the right to add or edit" +
         " the distance metric algorithms.");
             this._lstMeasure.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
-            // _btnObs
+            // _btnSource
             // 
-            this._btnObs.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnObs.Location = new System.Drawing.Point(931, 397);
-            this._btnObs.Margin = new System.Windows.Forms.Padding(8);
-            this._btnObs.Name = "_btnObs";
-            this._btnObs.Size = new System.Drawing.Size(29, 29);
-            this._btnObs.TabIndex = 33;
-            this.toolTip1.SetToolTip(this._btnObs, "Select the source for the clustering vectors - either all observations or just th" +
+            this._btnSource.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnSource.Location = new System.Drawing.Point(931, 397);
+            this._btnSource.Margin = new System.Windows.Forms.Padding(8);
+            this._btnSource.Name = "_btnSource";
+            this._btnSource.Size = new System.Drawing.Size(29, 29);
+            this._btnSource.TabIndex = 33;
+            this.toolTip1.SetToolTip(this._btnSource, "Select the source for the clustering vectors - either all observations or just th" +
         "e trendline.\r\nUse the buttons to the right to view the data source.");
-            this._btnObs.UseDefaultSize = true;
-            this._btnObs.UseVisualStyleBackColor = true;
-            this._btnObs.Click += new System.EventHandler(this._btnObs_Click);
-            // 
-            // _btnTrend
-            // 
-            this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnTrend.Location = new System.Drawing.Point(931, 442);
-            this._btnTrend.Margin = new System.Windows.Forms.Padding(8);
-            this._btnTrend.Name = "_btnTrend";
-            this._btnTrend.Size = new System.Drawing.Size(29, 29);
-            this._btnTrend.TabIndex = 34;
-            this.toolTip1.SetToolTip(this._btnTrend, "Select the source for the clustering vectors - either all observations or just th" +
-        "e trendline.\r\nUse the buttons to the right to view the data source.");
-            this._btnTrend.UseDefaultSize = true;
-            this._btnTrend.UseVisualStyleBackColor = true;
-            this._btnTrend.Click += new System.EventHandler(this._btnTrend_Click);
+            this._btnSource.UseDefaultSize = true;
+            this._btnSource.UseVisualStyleBackColor = true;
+            this._btnSource.Click += new System.EventHandler(this._btnObs_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -409,12 +362,12 @@
             this.tableLayoutPanel3.Controls.Add(this._btnParameterOptimiser, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel1, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 610);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 565);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(968, 192);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(968, 237);
             this.tableLayoutPanel3.TabIndex = 16;
             // 
             // _btnParameterOptimiser
@@ -424,7 +377,7 @@
             this._btnParameterOptimiser.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this._btnParameterOptimiser.ForeColor = System.Drawing.Color.Black;
             this._btnParameterOptimiser.Image = ((System.Drawing.Image)(resources.GetObject("_btnParameterOptimiser.Image")));
-            this._btnParameterOptimiser.Location = new System.Drawing.Point(8, 145);
+            this._btnParameterOptimiser.Location = new System.Drawing.Point(8, 190);
             this._btnParameterOptimiser.Margin = new System.Windows.Forms.Padding(8);
             this._btnParameterOptimiser.Name = "_btnParameterOptimiser";
             this._btnParameterOptimiser.Size = new System.Drawing.Size(203, 39);
@@ -442,7 +395,7 @@
             this.flowLayoutPanel1.Controls.Add(this._btnCancel);
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(692, 140);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(692, 185);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(272, 48);
@@ -499,10 +452,10 @@
             // 
             this._txtMeasureParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtMeasureParams.ForeColor = System.Drawing.Color.Blue;
-            this._txtMeasureParams.Location = new System.Drawing.Point(129, 270);
+            this._txtMeasureParams.Location = new System.Drawing.Point(126, 270);
             this._txtMeasureParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtMeasureParams.Name = "_txtMeasureParams";
-            this._txtMeasureParams.Size = new System.Drawing.Size(786, 29);
+            this._txtMeasureParams.Size = new System.Drawing.Size(789, 29);
             this._txtMeasureParams.TabIndex = 6;
             this.toolTip1.SetToolTip(this._txtMeasureParams, "Select the parameters for the distance metric (if required).\r\nSeparate your param" +
         "eters with commas.\r\nUse the button to the right to open the parameter editor.");
@@ -512,7 +465,7 @@
             // _chkSepGroups
             // 
             this._chkSepGroups.AutoSize = true;
-            this._chkSepGroups.Location = new System.Drawing.Point(129, 569);
+            this._chkSepGroups.Location = new System.Drawing.Point(126, 524);
             this._chkSepGroups.Margin = new System.Windows.Forms.Padding(8);
             this._chkSepGroups.Name = "_chkSepGroups";
             this._chkSepGroups.Padding = new System.Windows.Forms.Padding(4);
@@ -528,7 +481,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 487);
+            this.label15.Location = new System.Drawing.Point(8, 442);
             this.label15.Margin = new System.Windows.Forms.Padding(8);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(14, 21);
@@ -539,10 +492,10 @@
             // 
             this._txtParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtParams.ForeColor = System.Drawing.Color.Blue;
-            this._txtParams.Location = new System.Drawing.Point(129, 98);
+            this._txtParams.Location = new System.Drawing.Point(126, 98);
             this._txtParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtParams.Name = "_txtParams";
-            this._txtParams.Size = new System.Drawing.Size(786, 29);
+            this._txtParams.Size = new System.Drawing.Size(789, 29);
             this._txtParams.TabIndex = 6;
             this.toolTip1.SetToolTip(this._txtParams, "Select the parameters (if required) for the clustering algorithm.\r\nSeparate your " +
         "parameters with commas.\r\nUse the button to the right to open up the parameter ed" +
@@ -597,10 +550,9 @@
             // 
             // _lstObsFilter
             // 
-            this._lstObsFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstObsFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstObsFilter.FormattingEnabled = true;
-            this._lstObsFilter.Location = new System.Drawing.Point(129, 524);
+            this._lstObsFilter.Location = new System.Drawing.Point(126, 479);
             this._lstObsFilter.Margin = new System.Windows.Forms.Padding(8);
             this._lstObsFilter.Name = "_lstObsFilter";
             this._lstObsFilter.Size = new System.Drawing.Size(786, 29);
@@ -615,10 +567,10 @@
             this._lstPeakFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstPeakFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstPeakFilter.FormattingEnabled = true;
-            this._lstPeakFilter.Location = new System.Drawing.Point(129, 180);
+            this._lstPeakFilter.Location = new System.Drawing.Point(126, 180);
             this._lstPeakFilter.Margin = new System.Windows.Forms.Padding(8);
             this._lstPeakFilter.Name = "_lstPeakFilter";
-            this._lstPeakFilter.Size = new System.Drawing.Size(786, 29);
+            this._lstPeakFilter.Size = new System.Drawing.Size(789, 29);
             this._lstPeakFilter.TabIndex = 1;
             this.toolTip1.SetToolTip(this._lstPeakFilter, "Select the filter to generate the set of peaks you\'d like to cluster.\r\nSelect the" +
         " button to the right to add or edit peak filters.");
@@ -691,10 +643,10 @@
             // 
             this._txtStatistics.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtStatistics.ForeColor = System.Drawing.Color.Blue;
-            this._txtStatistics.Location = new System.Drawing.Point(129, 315);
+            this._txtStatistics.Location = new System.Drawing.Point(126, 315);
             this._txtStatistics.Margin = new System.Windows.Forms.Padding(8);
             this._txtStatistics.Name = "_txtStatistics";
-            this._txtStatistics.Size = new System.Drawing.Size(786, 29);
+            this._txtStatistics.Size = new System.Drawing.Size(789, 29);
             this._txtStatistics.TabIndex = 6;
             this.toolTip1.SetToolTip(this._txtStatistics, "Select the set of statistics to generate on the clusters.\r\nEnter the values as a " +
         "comma delimited list.\r\nUse the button to the right to show the list editor.");
@@ -729,7 +681,7 @@
             // _btnExperimentalGroups
             // 
             this._btnExperimentalGroups.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnExperimentalGroups.Location = new System.Drawing.Point(931, 569);
+            this._btnExperimentalGroups.Location = new System.Drawing.Point(931, 524);
             this._btnExperimentalGroups.Margin = new System.Windows.Forms.Padding(8);
             this._btnExperimentalGroups.Name = "_btnExperimentalGroups";
             this._btnExperimentalGroups.Size = new System.Drawing.Size(29, 29);
@@ -759,6 +711,17 @@
             this.ctlTitleBar1.Text = "Text goes here";
             this.toolTip1.SetToolTip(this.ctlTitleBar1, "Click the ? button for more help.");
             this.ctlTitleBar1.WarningText = null;
+            // 
+            // _lstSource
+            // 
+            this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstSource.FormattingEnabled = true;
+            this._lstSource.Location = new System.Drawing.Point(126, 397);
+            this._lstSource.Margin = new System.Windows.Forms.Padding(8);
+            this._lstSource.Name = "_lstSource";
+            this._lstSource.Size = new System.Drawing.Size(786, 29);
+            this._lstSource.TabIndex = 1;
+            this._lstSource.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // FrmEditConfigurationCluster
             // 
@@ -795,8 +758,6 @@
         private System.Windows.Forms.Label _lblAVec;
         private Controls.CtlButton _btnNewStatistic;
         private Controls.CtlButton _btnComment;
-        private System.Windows.Forms.RadioButton _radObs;
-        private System.Windows.Forms.RadioButton _radTrend;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox _lstMethod;
@@ -832,8 +793,8 @@
         private Controls.CtlButton _btnOk;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private MGui.Controls.CtlError _checker;
-        private Controls.CtlButton _btnObs;
-        private Controls.CtlButton _btnTrend;
+        private Controls.CtlButton _btnSource;
         private Controls.CtlButton _btnExperimentalGroups;
+        private System.Windows.Forms.ComboBox _lstSource;
     }
 }

@@ -5,6 +5,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 using MGui.Datatypes;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -14,16 +15,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsStatistic : ArgsBase
     {
-        public readonly EAlgoSourceMode SourceMode;                 // Where the input vectors come from
+        public readonly WeakReference<IntensityMatrix> Source;                 // Where the input vectors come from
         public readonly EAlgoInputBSource VectorBSource;            // Where the second input vector comes from
         public readonly ObsFilter VectorAConstraint;                // Filter on the first input vector
         public readonly ObsFilter VectorBConstraint;                // Filter on the second input vector (only used if [VectorBSource] is Peak)
         public readonly Peak VectorBPeak;                           // Which peak the second input vector comes from (only used if [VectorBSource] is AltPeak)
 
-        public ArgsStatistic(EAlgoSourceMode src, ObsFilter atypes, EAlgoInputBSource bsrc, ObsFilter btypes, Peak compareTo, object[] parameters)
+        public ArgsStatistic(IntensityMatrix src, ObsFilter atypes, EAlgoInputBSource bsrc, ObsFilter btypes, Peak compareTo, object[] parameters)
             : base(parameters)
         {
-            this.SourceMode = src;
+            this.Source = new WeakReference<IntensityMatrix>( src );
             this.VectorAConstraint = atypes;
             this.VectorBConstraint = btypes;
             this.VectorBSource = bsrc;
@@ -40,12 +41,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             }
 
             sb.Append("; ");
-
-            if (SourceMode != EAlgoSourceMode.Full)
-            {
+                 
                 sb.Append(" of ");
-                sb.Append(SourceMode.ToUiString());
-            }
+                sb.Append(Source.GetTarget());
 
             if (VectorAConstraint != null)
             {

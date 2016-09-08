@@ -75,6 +75,11 @@
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this._lstSource = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this._btnSource = new MetaboliteLevels.Controls.CtlButton();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -88,10 +93,13 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.tabPage7.SuspendLayout();
+            this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
@@ -366,7 +374,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.label7, 3);
             this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label7.Location = new System.Drawing.Point(4, 538);
+            this.label7.Location = new System.Drawing.Point(4, 530);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(8);
@@ -382,7 +390,7 @@
             this._lstGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstGroups.Enabled = false;
             this._lstGroups.FormattingEnabled = true;
-            this._lstGroups.Location = new System.Drawing.Point(19, 587);
+            this._lstGroups.Location = new System.Drawing.Point(19, 579);
             this._lstGroups.Margin = new System.Windows.Forms.Padding(19, 12, 11, 12);
             this._lstGroups.Name = "_lstGroups";
             this._lstGroups.Size = new System.Drawing.Size(842, 29);
@@ -396,7 +404,7 @@
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.tableLayoutPanel1.SetRowSpan(this.panel1, 4);
-            this.panel1.Size = new System.Drawing.Size(681, 448);
+            this.panel1.Size = new System.Drawing.Size(681, 440);
             this.panel1.TabIndex = 5;
             // 
             // tabPage2
@@ -520,6 +528,7 @@
             this._txtDistanceParams.Name = "_txtDistanceParams";
             this._txtDistanceParams.Size = new System.Drawing.Size(690, 29);
             this._txtDistanceParams.TabIndex = 2;
+            this._txtDistanceParams.Watermark = null;
             // 
             // _lstDistanceMeasure
             // 
@@ -596,6 +605,7 @@
             this._txtStopD.Name = "_txtStopD";
             this._txtStopD.Size = new System.Drawing.Size(100, 29);
             this._txtStopD.TabIndex = 5;
+            this._txtStopD.Watermark = null;
             this._txtStopD.TextChanged += new System.EventHandler(this.OptionChanged);
             // 
             // _radStopN
@@ -629,6 +639,7 @@
             this._txtStopN.Name = "_txtStopN";
             this._txtStopN.Size = new System.Drawing.Size(100, 29);
             this._txtStopN.TabIndex = 5;
+            this._txtStopN.Watermark = null;
             this._txtStopN.TextChanged += new System.EventHandler(this.OptionChanged);
             // 
             // tabPage5
@@ -730,7 +741,72 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Click OK to generate the clusters. Any existing clusters will be lost.";
             // 
-            // FrmClusterWizard
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.tableLayoutPanel7);
+            this.tabPage7.Location = new System.Drawing.Point(4, 30);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(880, 630);
+            this.tabPage7.TabIndex = 7;
+            this.tabPage7.Text = "Data";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 2;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel7.Controls.Add(this._lstSource, 0, 1);
+            this.tableLayoutPanel7.Controls.Add(this.label11, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this._btnSource, 1, 1);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel7.MinimumSize = new System.Drawing.Size(8, 8);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.RowCount = 2;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(874, 624);
+            this.tableLayoutPanel7.TabIndex = 1;
+            // 
+            // _lstSource
+            // 
+            this._lstSource.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstSource.FormattingEnabled = true;
+            this._lstSource.Location = new System.Drawing.Point(24, 61);
+            this._lstSource.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
+            this._lstSource.Name = "_lstSource";
+            this._lstSource.Size = new System.Drawing.Size(797, 29);
+            this._lstSource.TabIndex = 1;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label11.Location = new System.Drawing.Point(8, 8);
+            this.label11.Margin = new System.Windows.Forms.Padding(8);
+            this.label11.Name = "label11";
+            this.label11.Padding = new System.Windows.Forms.Padding(8);
+            this.label11.Size = new System.Drawing.Size(339, 37);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Select the data you would like to work with";
+            // 
+            // _btnSource
+            // 
+            this._btnSource.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnSource.Location = new System.Drawing.Point(837, 61);
+            this._btnSource.Margin = new System.Windows.Forms.Padding(8);
+            this._btnSource.Name = "_btnSource";
+            this._btnSource.Size = new System.Drawing.Size(29, 29);
+            this._btnSource.TabIndex = 2;
+            this._btnSource.Text = "";
+            this._btnSource.UseDefaultSize = true;
+            this._btnSource.UseVisualStyleBackColor = true;
+            // 
+            // FrmWizConfigurationCluster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -740,7 +816,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.WindowText;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "FrmClusterWizard";
+            this.Name = "FrmWizConfigurationCluster";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Create Clusters";
             this.tabControl1.ResumeLayout(false);
@@ -761,6 +837,9 @@
             this.tableLayoutPanel4.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
+            this.tabPage7.ResumeLayout(false);
+            this.tableLayoutPanel7.ResumeLayout(false);
+            this.tableLayoutPanel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -814,5 +893,10 @@
         private MGui.Controls.CtlTextBox _txtDistanceParams;
         private System.Windows.Forms.ComboBox _lstDistanceMeasure;
         private Controls.CtlButton _btnDistanceMeasure;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
+        private System.Windows.Forms.ComboBox _lstSource;
+        private System.Windows.Forms.Label label11;
+        private Controls.CtlButton _btnSource;
     }
 }

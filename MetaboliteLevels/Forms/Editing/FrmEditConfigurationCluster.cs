@@ -22,6 +22,7 @@ using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Data.General;
 using MGui;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Algorithms
 {
@@ -35,7 +36,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<MetricBase> _ecbMeasure;
         private ConditionBox<EClustererStatistics> _cbStatistics;
         private readonly bool _readOnly;
-
+        private EditableComboBox<IntensityMatrix> _ecbSource;
 
         internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
         {
@@ -65,6 +66,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _ecbObsFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstObsFilter, _btnObsFilter,  ENullItemName.All);
             _ecbMethod = DataSet.ForClustererAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.None);
             _ecbMeasure = DataSet.ForMetricAlgorithms(core).CreateComboBox(_lstMeasure, _btnNewDistance, ENullItemName.None);
+            _ecbSource = DataSet.ForIntensityMatrices( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
             _cbStatistics = DataSet.ForFlagsEnum<EClustererStatistics>("Cluster Statistics").CreateConditionBox(_txtStatistics, _btnSetStatistics);
             _readOnly = readOnly;
 
@@ -95,8 +97,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _cbStatistics.SelectedItems = EnumHelper.SplitEnum<EClustererStatistics>(def.Args.Statistics);
 
                 // Input vector
-                _radObs.Checked = def.Args.SourceMode == EAlgoSourceMode.Full;
-                _radTrend.Checked = def.Args.SourceMode == EAlgoSourceMode.Trend;
+                _ecbSource.SelectedItem = def.Args.Source.GetTarget();
 
                 // ObsFilter
                 _ecbObsFilter.SelectedItem = def.Args.ObsFilter;
@@ -135,7 +136,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ConfigurationClusterer GetSelection()
         {      
-            EAlgoSourceMode src;
+            IntensityMatrix src;
             PeakFilter peakFilter;
             ObsFilter obsFilter;
             string title;
@@ -199,22 +200,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             // Obs source
-            if (sel == null || !sel.SupportsObservationFilters)
+            src = _ecbSource.SelectedItem;
+
+            if (sel.SupportsObservationFilters)
             {
-                src = EAlgoSourceMode.None;
-            }
-            else if (this._radObs.Checked)
-            {
-                src = EAlgoSourceMode.Full;
-            }
-            else if (this._radTrend.Checked)
-            {
-                src = EAlgoSourceMode.Trend;
-            }
-            else
-            {
-                src = default( EAlgoSourceMode);
-                _checker.Check( _radObs, false, "Select a valid input vector");
+                _checker.Check( _ecbSource.ComboBox, src != null, "Select a valid source" );
             }
 
             // Vector A
@@ -269,8 +259,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Input vector
             bool obsFilterVisible = stat != null && stat.SupportsObservationFilters;
             _lblApply.Visible = obsFilterVisible;
-            _radObs.Enabled = obsFilterVisible;
-            _radTrend.Enabled = obsFilterVisible;
+            _ecbSource.Enabled = obsFilterVisible;
             //_btnTrendHelp.Enabled = obsFilterVisible;                           
             _lblAVec.Enabled = obsFilterVisible;
             _ecbObsFilter.Enabled = obsFilterVisible;

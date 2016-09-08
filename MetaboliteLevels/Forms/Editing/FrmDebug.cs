@@ -174,7 +174,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             BeginWait("Create clusters from pathways", false);
 
-            var args = new ArgsClusterer(null, null, EAlgoSourceMode.None, null, false, EClustererStatistics.None, null);
+            var args = new ArgsClusterer(null, null, _core.Matrices.First(), null, false, EClustererStatistics.None, null);
 
             ConfigurationClusterer config = new ConfigurationClusterer("create_clusters_from_pathways",
                                                                        "create_clusters_from_pathways", Algo.ID_PATFROMPATH, args);
@@ -221,7 +221,7 @@ namespace MetaboliteLevels.Forms.Editing
         }
 
         [InList]
-        [Description("Finds the closest and most different peaks")]
+        [Description("Finds the closest and most different peaks (uses original data)")]
         void find_distance_range()
         {
             ProgressReporter prog = new ProgressReporter(this);
@@ -231,7 +231,13 @@ namespace MetaboliteLevels.Forms.Editing
             Tuple<Peak, Peak> smallestT = null;
             Tuple<Peak, Peak> largestT = null;
             ConfigurationMetric metric = new ConfigurationMetric(null, null, Algo.ID_METRIC_EUCLIDEAN, null);
-            ValueMatrix vmatrix = ValueMatrix.Create(_core.Peaks, true, _core, ObsFilter.Empty, false, prog);
+            IntensityMatrix vmatrix = DataSet.ForIntensityMatrices(_core).ShowList( this, null );
+
+            if (vmatrix == null)
+            {
+                return;
+            }
+
             DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix, metric, prog);
 
             for (int peakIndex1 = 0; peakIndex1 < _core.Peaks.Count; peakIndex1++)
@@ -274,7 +280,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             ProgressReporter prog = new ProgressReporter(this);
             ConfigurationMetric metric = new ConfigurationMetric(null, null, Algo.ID_METRIC_EUCLIDEAN, null);
-            ValueMatrix vmatrix = ValueMatrix.Create(_core.Peaks, true, _core, ObsFilter.Empty, false, prog);
+            IntensityMatrix vmatrix = DataSet.ForIntensityMatrices( _core ).ShowList( this, null );
             DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix, metric, prog);
 
             Peak v1 = PickVariable();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data;
 using MetaboliteLevels.Data.DataInfo;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 
 namespace MetaboliteLevels.Algorithms
@@ -15,21 +16,19 @@ namespace MetaboliteLevels.Algorithms
     [Serializable]
     internal class Vector
     {
-        public readonly Peak Peak;                          // Where I come from
-        public readonly GroupInfo Group;                    // Where I come from (can be null)
-        public readonly ConditionInfo[] Conditions;         // What each of the values represent (only one of Conditions or Observations is set)
-        public readonly ObservationInfo[] Observations;     // What each of the values represent (only one of Conditions or Observations is set)
-        public readonly double[] Values;                    // The values in the vector
-        public readonly int Index;                          // My index in the ValueMatrix
+        public readonly IntensityMatrix Source;
+        public readonly int RowIndex;
 
-        public Vector(Peak peak, GroupInfo group, ConditionInfo[] conditions, ObservationInfo[] observations, double[] values, int index)
+        public Peak Peak => Source.Rows[RowIndex].Peak;
+        public GroupInfo Group => Source.Rows[RowIndex].Group;
+        public ObservationInfo[] Observations => Source.Columns.Select( z => z.Observation ).ToArray();
+        public double[] Values => Source.Values[RowIndex];
+        public int Index => RowIndex;
+
+        public Vector( IntensityMatrix source, int rowIndex )
         {
-            Peak = peak;
-            Group = group;
-            Conditions = conditions;
-            Observations = observations;
-            Values = values;
-            Index = index;
+            Source = source;
+            RowIndex = rowIndex;
         }     
 
         public override string ToString()

@@ -11,6 +11,7 @@ using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 {
@@ -27,7 +28,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             Description = "Performs k-means clustering on vectors starting with the cluster centres at existing cluster assignments.";
         }
 
-        protected override IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster(IntensityMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
         {
             ConfigurationClusterer config = ((WeakReference<ConfigurationClusterer>)args.Parameters[0]).GetTargetOrThrow();
             List<Cluster> myClusters = new List<Cluster>();

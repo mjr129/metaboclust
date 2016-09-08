@@ -637,69 +637,29 @@ namespace MetaboliteLevels.Settings
             }
         }
 
-        [Serializable]
-        public sealed class ConditionCondition : Condition
-        {
-            public readonly ReadOnlyCollection<ConditionInfo> Possibilities;
-            public readonly EElementOperator Operator;
+        //[Serializable]
+        //public sealed class ConditionCondition : Condition
+        //{
+        //    public readonly ReadOnlyCollection<ConditionInfo> Possibilities;
+        //    public readonly EElementOperator Operator;
 
-            public ConditionCondition(ELogicOperator lop, bool negate, EElementOperator op, IEnumerable<ConditionInfo> enu)
-                : base(lop, negate)
-            {
-                Operator = op;
-                Possibilities = enu.ToList().AsReadOnly();
-            }
+        //    public ConditionCondition(ELogicOperator lop, bool negate, EElementOperator op, IEnumerable<ConditionInfo> enu)
+        //        : base(lop, negate)
+        //    {
+        //        Operator = op;
+        //        Possibilities = enu.ToList().AsReadOnly();
+        //    }
 
-            protected override bool Test(ObservationInfo ci)
-            {
-                return CompareElement(Operator, ci._conditions, Possibilities);
-            }
+        //    protected override bool Test(ObservationInfo ci)
+        //    {
+        //        return CompareElement(Operator, ci._conditions, Possibilities);
+        //    }
 
-            public override string ToString()
-            {
-                return "Cᴏɴᴅɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities) + "}";
-            }
-        }
-
-        [Serializable]
-        public sealed class ConditionFilter : Condition
-        {
-            public readonly bool FilterOp;
-            public readonly ObsFilter Filter;
-
-            public ConditionFilter(ELogicOperator op, bool negate, ObsFilter filter, bool filterOp)
-                : base(op, negate)
-            {
-                this.Filter = filter;
-                this.FilterOp = filterOp;
-            }
-
-            protected override bool Test(ObservationInfo p)
-            {
-                return Filter.Test(p) == FilterOp;
-            }
-
-            public override string ToString()
-            {
-                return "Fɪʟᴛᴇʀ {" + Filter + "} = " + FilterOp;
-            }
-        }
-
-        internal bool Test(ConditionInfo arg)
-        {
-            return base.Test(new ObservationInfo(arg, 0, null, 0));
-        }
-
-        internal IEnumerable<ConditionInfo> Test(IEnumerable<ConditionInfo> args)
-        {
-            foreach (var arg in args)
-            {
-                if (base.Test(new ObservationInfo(arg, 0, null, 0)))
-                {
-                    yield return arg;
-                }
-            }
-        }
+        //    public override string ToString()
+        //    {
+        //        return "Cᴏɴᴅɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities) + "}";
+        //    }
+        //}         
     }
 
     /// <summary>

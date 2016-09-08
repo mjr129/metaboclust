@@ -33,8 +33,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this._lstMethod = new System.Windows.Forms.ComboBox();
             this._lblApply = new System.Windows.Forms.Label();
-            this._radObs = new System.Windows.Forms.RadioButton();
-            this._radTrend = new System.Windows.Forms.RadioButton();
             this._lblAVec = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._tlpPreivew = new System.Windows.Forms.TableLayoutPanel();
@@ -49,38 +47,36 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnObs = new MetaboliteLevels.Controls.CtlButton();
-            this._btnTrend = new MetaboliteLevels.Controls.CtlButton();
-            this._btnNewStatistic = new MetaboliteLevels.Controls.CtlButton();
             this.label4 = new System.Windows.Forms.Label();
             this._txtName = new MGui.Controls.CtlTextBox();
-            this._btnComment = new MetaboliteLevels.Controls.CtlButton();
-            this._btnFilter1 = new MetaboliteLevels.Controls.CtlButton();
             this._lblBVec = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this._lblParams = new System.Windows.Forms.Label();
             this._lstDiffPeak = new System.Windows.Forms.ComboBox();
-            this._btnSelectDiffPeak = new MetaboliteLevels.Controls.CtlButton();
             this._radSamePeak = new System.Windows.Forms.RadioButton();
-            this._btnFilter2 = new MetaboliteLevels.Controls.CtlButton();
             this._radBDiffPeak = new System.Windows.Forms.RadioButton();
             this._radBCorTime = new System.Windows.Forms.RadioButton();
             this._lstFilter2 = new System.Windows.Forms.ComboBox();
             this._lstFilter1 = new System.Windows.Forms.ComboBox();
             this._txtParams = new MGui.Controls.CtlTextBox();
-            this._btnEditParameters = new MetaboliteLevels.Controls.CtlButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MGui.Controls.CtlError(this.components);
+            this._btnEditParameters = new MetaboliteLevels.Controls.CtlButton();
+            this._btnFilter2 = new MetaboliteLevels.Controls.CtlButton();
+            this._btnSelectDiffPeak = new MetaboliteLevels.Controls.CtlButton();
+            this._btnFilter1 = new MetaboliteLevels.Controls.CtlButton();
+            this._btnComment = new MetaboliteLevels.Controls.CtlButton();
+            this._btnNewStatistic = new MetaboliteLevels.Controls.CtlButton();
+            this._lstSource = new System.Windows.Forms.ComboBox();
+            this._btnSource = new MetaboliteLevels.Controls.CtlButton();
             this.tableLayoutPanel1.SuspendLayout();
             this._tlpPreivew.SuspendLayout();
             this._flpPreviewButtons.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -100,10 +96,10 @@
             this._lstMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstMethod.ForeColor = System.Drawing.Color.Blue;
             this._lstMethod.FormattingEnabled = true;
-            this._lstMethod.Location = new System.Drawing.Point(108, 53);
+            this._lstMethod.Location = new System.Drawing.Point(98, 53);
             this._lstMethod.Margin = new System.Windows.Forms.Padding(8);
             this._lstMethod.Name = "_lstMethod";
-            this._lstMethod.Size = new System.Drawing.Size(555, 29);
+            this._lstMethod.Size = new System.Drawing.Size(565, 29);
             this._lstMethod.TabIndex = 1;
             this.toolTip1.SetToolTip(this._lstMethod, "Select the algorithm\r\n\r\n⇉ Metric with two input vectors (e.g. t-test)\r\n→ Statisti" +
         "c with one input vector (e.g. mean)\r\n↣ Calculated from other statistics (e.g. mo" +
@@ -116,40 +112,14 @@
             this._lblApply.Location = new System.Drawing.Point(8, 180);
             this._lblApply.Margin = new System.Windows.Forms.Padding(8);
             this._lblApply.Name = "_lblApply";
-            this._lblApply.Size = new System.Drawing.Size(84, 21);
+            this._lblApply.Size = new System.Drawing.Size(54, 21);
             this._lblApply.TabIndex = 2;
-            this._lblApply.Text = "Use peak\'s";
-            // 
-            // _radObs
-            // 
-            this._radObs.AutoSize = true;
-            this._radObs.Location = new System.Drawing.Point(8, 8);
-            this._radObs.Margin = new System.Windows.Forms.Padding(8);
-            this._radObs.Name = "_radObs";
-            this._radObs.Size = new System.Drawing.Size(120, 25);
-            this._radObs.TabIndex = 3;
-            this._radObs.Text = "Observations";
-            this.toolTip1.SetToolTip(this._radObs, "Apply to the observations (original datapoints)");
-            this._radObs.UseVisualStyleBackColor = true;
-            this._radObs.CheckedChanged += new System.EventHandler(this.CheckAndChange);
-            // 
-            // _radTrend
-            // 
-            this._radTrend.AutoSize = true;
-            this._radTrend.Location = new System.Drawing.Point(8, 53);
-            this._radTrend.Margin = new System.Windows.Forms.Padding(8, 8, 0, 8);
-            this._radTrend.Name = "_radTrend";
-            this._radTrend.Size = new System.Drawing.Size(68, 25);
-            this._radTrend.TabIndex = 3;
-            this._radTrend.Text = "Trend";
-            this.toolTip1.SetToolTip(this._radTrend, "Apply to just the trend");
-            this._radTrend.UseVisualStyleBackColor = true;
-            this._radTrend.CheckedChanged += new System.EventHandler(this.CheckAndChange);
+            this._lblApply.Text = "Target";
             // 
             // _lblAVec
             // 
             this._lblAVec.AutoSize = true;
-            this._lblAVec.Location = new System.Drawing.Point(8, 307);
+            this._lblAVec.Location = new System.Drawing.Point(8, 262);
             this._lblAVec.Margin = new System.Windows.Forms.Padding(8);
             this._lblAVec.Name = "_lblAVec";
             this._lblAVec.Size = new System.Drawing.Size(74, 21);
@@ -166,7 +136,6 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this._tlpPreivew, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 3, 11);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this._btnNewStatistic, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this._lblAVec, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this._lblApply, 0, 4);
@@ -191,6 +160,8 @@
             this.tableLayoutPanel1.Controls.Add(this._lstFilter1, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this._txtParams, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this._btnEditParameters, 4, 2);
+            this.tableLayoutPanel1.Controls.Add(this._lstSource, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this._btnSource, 4, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 87);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -207,6 +178,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(716, 743);
             this.tableLayoutPanel1.TabIndex = 12;
             // 
@@ -393,58 +365,6 @@
             this._btnOk.UseDefaultSize = true;
             this._btnOk.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.AutoSize = true;
-            this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel2, 4);
-            this.flowLayoutPanel2.Controls.Add(this._radObs);
-            this.flowLayoutPanel2.Controls.Add(this._btnObs);
-            this.flowLayoutPanel2.Controls.Add(this._radTrend);
-            this.flowLayoutPanel2.Controls.Add(this._btnTrend);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(100, 172);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(181, 90);
-            this.flowLayoutPanel2.TabIndex = 13;
-            // 
-            // _btnObs
-            // 
-            this.flowLayoutPanel2.SetFlowBreak(this._btnObs, true);
-            this._btnObs.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnObs.Location = new System.Drawing.Point(144, 8);
-            this._btnObs.Margin = new System.Windows.Forms.Padding(8);
-            this._btnObs.Name = "_btnObs";
-            this._btnObs.Size = new System.Drawing.Size(29, 29);
-            this._btnObs.TabIndex = 16;
-            this._btnObs.UseDefaultSize = true;
-            this._btnObs.UseVisualStyleBackColor = true;
-            this._btnObs.Click += new System.EventHandler(this._btnObs_Click);
-            // 
-            // _btnTrend
-            // 
-            this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnTrend.Location = new System.Drawing.Point(84, 53);
-            this._btnTrend.Margin = new System.Windows.Forms.Padding(8);
-            this._btnTrend.Name = "_btnTrend";
-            this._btnTrend.Size = new System.Drawing.Size(29, 29);
-            this._btnTrend.TabIndex = 16;
-            this._btnTrend.UseDefaultSize = true;
-            this._btnTrend.UseVisualStyleBackColor = true;
-            this._btnTrend.Click += new System.EventHandler(this._btnTrend_Click);
-            // 
-            // _btnNewStatistic
-            // 
-            this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnNewStatistic.Location = new System.Drawing.Point(679, 53);
-            this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
-            this._btnNewStatistic.Name = "_btnNewStatistic";
-            this._btnNewStatistic.Size = new System.Drawing.Size(29, 29);
-            this._btnNewStatistic.TabIndex = 16;
-            this.toolTip1.SetToolTip(this._btnNewStatistic, "New");
-            this._btnNewStatistic.UseDefaultSize = true;
-            this._btnNewStatistic.UseVisualStyleBackColor = true;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -460,43 +380,18 @@
             this.tableLayoutPanel1.SetColumnSpan(this._txtName, 3);
             this._txtName.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtName.ForeColor = System.Drawing.Color.Blue;
-            this._txtName.Location = new System.Drawing.Point(108, 8);
+            this._txtName.Location = new System.Drawing.Point(98, 8);
             this._txtName.Margin = new System.Windows.Forms.Padding(8);
             this._txtName.Name = "_txtName";
-            this._txtName.Size = new System.Drawing.Size(555, 29);
+            this._txtName.Size = new System.Drawing.Size(565, 29);
             this._txtName.TabIndex = 6;
             this._txtName.Watermark = null;
             this._txtName.TextChanged += new System.EventHandler(this._txtName_TextChanged);
             // 
-            // _btnComment
-            // 
-            this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.MnuComment;
-            this._btnComment.Location = new System.Drawing.Point(679, 8);
-            this._btnComment.Margin = new System.Windows.Forms.Padding(8);
-            this._btnComment.Name = "_btnComment";
-            this._btnComment.Size = new System.Drawing.Size(29, 29);
-            this._btnComment.TabIndex = 16;
-            this.toolTip1.SetToolTip(this._btnComment, "Comments");
-            this._btnComment.UseDefaultSize = true;
-            this._btnComment.UseVisualStyleBackColor = true;
-            this._btnComment.Click += new System.EventHandler(this._btnComment_Click);
-            // 
-            // _btnFilter1
-            // 
-            this._btnFilter1.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnFilter1.Location = new System.Drawing.Point(679, 307);
-            this._btnFilter1.Margin = new System.Windows.Forms.Padding(8);
-            this._btnFilter1.Name = "_btnFilter1";
-            this._btnFilter1.Size = new System.Drawing.Size(29, 29);
-            this._btnFilter1.TabIndex = 14;
-            this.toolTip1.SetToolTip(this._btnFilter1, "Edit");
-            this._btnFilter1.UseDefaultSize = true;
-            this._btnFilter1.UseVisualStyleBackColor = true;
-            // 
             // _lblBVec
             // 
             this._lblBVec.AutoSize = true;
-            this._lblBVec.Location = new System.Drawing.Point(8, 389);
+            this._lblBVec.Location = new System.Drawing.Point(8, 344);
             this._lblBVec.Margin = new System.Windows.Forms.Padding(8);
             this._lblBVec.Name = "_lblBVec";
             this._lblBVec.Size = new System.Drawing.Size(62, 21);
@@ -506,7 +401,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 352);
+            this.label14.Location = new System.Drawing.Point(8, 307);
             this.label14.Margin = new System.Windows.Forms.Padding(8);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(14, 21);
@@ -516,7 +411,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 270);
+            this.label15.Location = new System.Drawing.Point(8, 225);
             this.label15.Margin = new System.Windows.Forms.Padding(8);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(14, 21);
@@ -536,7 +431,7 @@
             // _lblParams
             // 
             this._lblParams.AutoSize = true;
-            this._lblParams.Location = new System.Drawing.Point(108, 98);
+            this._lblParams.Location = new System.Drawing.Point(98, 98);
             this._lblParams.Margin = new System.Windows.Forms.Padding(8);
             this._lblParams.Name = "_lblParams";
             this._lblParams.Size = new System.Drawing.Size(83, 21);
@@ -550,29 +445,17 @@
             this._lstDiffPeak.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstDiffPeak.ForeColor = System.Drawing.Color.Blue;
             this._lstDiffPeak.FormattingEnabled = true;
-            this._lstDiffPeak.Location = new System.Drawing.Point(262, 430);
+            this._lstDiffPeak.Location = new System.Drawing.Point(252, 385);
             this._lstDiffPeak.Margin = new System.Windows.Forms.Padding(8);
             this._lstDiffPeak.Name = "_lstDiffPeak";
-            this._lstDiffPeak.Size = new System.Drawing.Size(401, 29);
+            this._lstDiffPeak.Size = new System.Drawing.Size(411, 29);
             this._lstDiffPeak.TabIndex = 1;
             this._lstDiffPeak.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
-            // 
-            // _btnSelectDiffPeak
-            // 
-            this._btnSelectDiffPeak.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnSelectDiffPeak.Location = new System.Drawing.Point(679, 430);
-            this._btnSelectDiffPeak.Margin = new System.Windows.Forms.Padding(8);
-            this._btnSelectDiffPeak.Name = "_btnSelectDiffPeak";
-            this._btnSelectDiffPeak.Size = new System.Drawing.Size(29, 29);
-            this._btnSelectDiffPeak.TabIndex = 15;
-            this._btnSelectDiffPeak.UseDefaultSize = true;
-            this._btnSelectDiffPeak.UseVisualStyleBackColor = true;
-            this._btnSelectDiffPeak.Click += new System.EventHandler(this._btnSelectDiffPeak_Click);
             // 
             // _radSamePeak
             // 
             this._radSamePeak.AutoSize = true;
-            this._radSamePeak.Location = new System.Drawing.Point(108, 475);
+            this._radSamePeak.Location = new System.Drawing.Point(98, 430);
             this._radSamePeak.Margin = new System.Windows.Forms.Padding(8);
             this._radSamePeak.Name = "_radSamePeak";
             this._radSamePeak.Size = new System.Drawing.Size(131, 25);
@@ -581,22 +464,10 @@
             this._radSamePeak.UseVisualStyleBackColor = true;
             this._radSamePeak.CheckedChanged += new System.EventHandler(this.CheckAndChange);
             // 
-            // _btnFilter2
-            // 
-            this._btnFilter2.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnFilter2.Location = new System.Drawing.Point(679, 475);
-            this._btnFilter2.Margin = new System.Windows.Forms.Padding(8);
-            this._btnFilter2.Name = "_btnFilter2";
-            this._btnFilter2.Size = new System.Drawing.Size(29, 29);
-            this._btnFilter2.TabIndex = 15;
-            this.toolTip1.SetToolTip(this._btnFilter2, "Edit");
-            this._btnFilter2.UseDefaultSize = true;
-            this._btnFilter2.UseVisualStyleBackColor = true;
-            // 
             // _radBDiffPeak
             // 
             this._radBDiffPeak.AutoSize = true;
-            this._radBDiffPeak.Location = new System.Drawing.Point(108, 430);
+            this._radBDiffPeak.Location = new System.Drawing.Point(98, 385);
             this._radBDiffPeak.Margin = new System.Windows.Forms.Padding(8);
             this._radBDiffPeak.Name = "_radBDiffPeak";
             this._radBDiffPeak.Size = new System.Drawing.Size(138, 25);
@@ -609,7 +480,7 @@
             // 
             this._radBCorTime.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this._radBCorTime, 4);
-            this._radBCorTime.Location = new System.Drawing.Point(108, 389);
+            this._radBCorTime.Location = new System.Drawing.Point(98, 344);
             this._radBCorTime.Margin = new System.Windows.Forms.Padding(8);
             this._radBCorTime.Name = "_radBCorTime";
             this._radBCorTime.Size = new System.Drawing.Size(193, 25);
@@ -625,10 +496,10 @@
             this._lstFilter2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstFilter2.ForeColor = System.Drawing.Color.Blue;
             this._lstFilter2.FormattingEnabled = true;
-            this._lstFilter2.Location = new System.Drawing.Point(262, 475);
+            this._lstFilter2.Location = new System.Drawing.Point(252, 430);
             this._lstFilter2.Margin = new System.Windows.Forms.Padding(8);
             this._lstFilter2.Name = "_lstFilter2";
-            this._lstFilter2.Size = new System.Drawing.Size(401, 29);
+            this._lstFilter2.Size = new System.Drawing.Size(411, 29);
             this._lstFilter2.TabIndex = 1;
             this._lstFilter2.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
@@ -639,10 +510,10 @@
             this._lstFilter1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstFilter1.ForeColor = System.Drawing.Color.Blue;
             this._lstFilter1.FormattingEnabled = true;
-            this._lstFilter1.Location = new System.Drawing.Point(108, 307);
+            this._lstFilter1.Location = new System.Drawing.Point(98, 262);
             this._lstFilter1.Margin = new System.Windows.Forms.Padding(8);
             this._lstFilter1.Name = "_lstFilter1";
-            this._lstFilter1.Size = new System.Drawing.Size(555, 29);
+            this._lstFilter1.Size = new System.Drawing.Size(565, 29);
             this._lstFilter1.TabIndex = 1;
             this._lstFilter1.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
@@ -651,25 +522,13 @@
             this.tableLayoutPanel1.SetColumnSpan(this._txtParams, 2);
             this._txtParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtParams.ForeColor = System.Drawing.Color.Blue;
-            this._txtParams.Location = new System.Drawing.Point(262, 98);
+            this._txtParams.Location = new System.Drawing.Point(252, 98);
             this._txtParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtParams.Name = "_txtParams";
-            this._txtParams.Size = new System.Drawing.Size(401, 29);
+            this._txtParams.Size = new System.Drawing.Size(411, 29);
             this._txtParams.TabIndex = 6;
             this._txtParams.Watermark = null;
             this._txtParams.TextChanged += new System.EventHandler(this._txtName_TextChanged);
-            // 
-            // _btnEditParameters
-            // 
-            this._btnEditParameters.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnEditParameters.Location = new System.Drawing.Point(679, 98);
-            this._btnEditParameters.Margin = new System.Windows.Forms.Padding(8);
-            this._btnEditParameters.Name = "_btnEditParameters";
-            this._btnEditParameters.Size = new System.Drawing.Size(29, 29);
-            this._btnEditParameters.TabIndex = 15;
-            this._btnEditParameters.UseDefaultSize = true;
-            this._btnEditParameters.UseVisualStyleBackColor = true;
-            this._btnEditParameters.Click += new System.EventHandler(this._btnEditParameters_Click);
             // 
             // ctlTitleBar1
             // 
@@ -687,6 +546,104 @@
             this.ctlTitleBar1.TabIndex = 11;
             this.ctlTitleBar1.Text = "Select Statistic";
             this.ctlTitleBar1.WarningText = null;
+            // 
+            // _btnEditParameters
+            // 
+            this._btnEditParameters.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
+            this._btnEditParameters.Location = new System.Drawing.Point(679, 98);
+            this._btnEditParameters.Margin = new System.Windows.Forms.Padding(8);
+            this._btnEditParameters.Name = "_btnEditParameters";
+            this._btnEditParameters.Size = new System.Drawing.Size(29, 29);
+            this._btnEditParameters.TabIndex = 15;
+            this._btnEditParameters.UseDefaultSize = true;
+            this._btnEditParameters.UseVisualStyleBackColor = true;
+            this._btnEditParameters.Click += new System.EventHandler(this._btnEditParameters_Click);
+            // 
+            // _btnFilter2
+            // 
+            this._btnFilter2.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnFilter2.Location = new System.Drawing.Point(679, 430);
+            this._btnFilter2.Margin = new System.Windows.Forms.Padding(8);
+            this._btnFilter2.Name = "_btnFilter2";
+            this._btnFilter2.Size = new System.Drawing.Size(29, 29);
+            this._btnFilter2.TabIndex = 15;
+            this.toolTip1.SetToolTip(this._btnFilter2, "Edit");
+            this._btnFilter2.UseDefaultSize = true;
+            this._btnFilter2.UseVisualStyleBackColor = true;
+            // 
+            // _btnSelectDiffPeak
+            // 
+            this._btnSelectDiffPeak.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnSelectDiffPeak.Location = new System.Drawing.Point(679, 385);
+            this._btnSelectDiffPeak.Margin = new System.Windows.Forms.Padding(8);
+            this._btnSelectDiffPeak.Name = "_btnSelectDiffPeak";
+            this._btnSelectDiffPeak.Size = new System.Drawing.Size(29, 29);
+            this._btnSelectDiffPeak.TabIndex = 15;
+            this._btnSelectDiffPeak.UseDefaultSize = true;
+            this._btnSelectDiffPeak.UseVisualStyleBackColor = true;
+            this._btnSelectDiffPeak.Click += new System.EventHandler(this._btnSelectDiffPeak_Click);
+            // 
+            // _btnFilter1
+            // 
+            this._btnFilter1.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnFilter1.Location = new System.Drawing.Point(679, 262);
+            this._btnFilter1.Margin = new System.Windows.Forms.Padding(8);
+            this._btnFilter1.Name = "_btnFilter1";
+            this._btnFilter1.Size = new System.Drawing.Size(29, 29);
+            this._btnFilter1.TabIndex = 14;
+            this.toolTip1.SetToolTip(this._btnFilter1, "Edit");
+            this._btnFilter1.UseDefaultSize = true;
+            this._btnFilter1.UseVisualStyleBackColor = true;
+            // 
+            // _btnComment
+            // 
+            this._btnComment.Image = global::MetaboliteLevels.Properties.Resources.MnuComment;
+            this._btnComment.Location = new System.Drawing.Point(679, 8);
+            this._btnComment.Margin = new System.Windows.Forms.Padding(8);
+            this._btnComment.Name = "_btnComment";
+            this._btnComment.Size = new System.Drawing.Size(29, 29);
+            this._btnComment.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnComment, "Comments");
+            this._btnComment.UseDefaultSize = true;
+            this._btnComment.UseVisualStyleBackColor = true;
+            this._btnComment.Click += new System.EventHandler(this._btnComment_Click);
+            // 
+            // _btnNewStatistic
+            // 
+            this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnNewStatistic.Location = new System.Drawing.Point(679, 53);
+            this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
+            this._btnNewStatistic.Name = "_btnNewStatistic";
+            this._btnNewStatistic.Size = new System.Drawing.Size(29, 29);
+            this._btnNewStatistic.TabIndex = 16;
+            this.toolTip1.SetToolTip(this._btnNewStatistic, "New");
+            this._btnNewStatistic.UseDefaultSize = true;
+            this._btnNewStatistic.UseVisualStyleBackColor = true;
+            // 
+            // _lstSource
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this._lstSource, 3);
+            this._lstSource.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstSource.ForeColor = System.Drawing.Color.Blue;
+            this._lstSource.FormattingEnabled = true;
+            this._lstSource.Location = new System.Drawing.Point(98, 180);
+            this._lstSource.Margin = new System.Windows.Forms.Padding(8);
+            this._lstSource.Name = "_lstSource";
+            this._lstSource.Size = new System.Drawing.Size(565, 29);
+            this._lstSource.TabIndex = 1;
+            this._lstSource.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
+            // 
+            // _btnSource
+            // 
+            this._btnSource.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnSource.Location = new System.Drawing.Point(679, 180);
+            this._btnSource.Margin = new System.Windows.Forms.Padding(8);
+            this._btnSource.Name = "_btnSource";
+            this._btnSource.Size = new System.Drawing.Size(29, 29);
+            this._btnSource.TabIndex = 14;
+            this._btnSource.UseDefaultSize = true;
+            this._btnSource.UseVisualStyleBackColor = true;
             // 
             // FrmEditConfigurationStatistic
             // 
@@ -710,8 +667,6 @@
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -722,17 +677,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox _lstMethod;
         private System.Windows.Forms.Label _lblApply;
-        private System.Windows.Forms.RadioButton _radObs;
-        private System.Windows.Forms.RadioButton _radTrend;
         private System.Windows.Forms.Label _lblAVec;
         private Controls.CtlTitleBar ctlTitleBar1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private Controls.CtlButton _btnFilter1;
-        private Controls.CtlButton _btnFilter2;
-        private Controls.CtlButton _btnNewStatistic;
         private System.Windows.Forms.Label label4;
         private MGui.Controls.CtlTextBox _txtName;
-        private Controls.CtlButton _btnComment;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label _lblBVec;
         private System.Windows.Forms.Label label14;
@@ -740,29 +689,32 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label _lblParams;
         private System.Windows.Forms.ComboBox _lstDiffPeak;
-        private Controls.CtlButton _btnSelectDiffPeak;
         private System.Windows.Forms.RadioButton _radSamePeak;
         private System.Windows.Forms.RadioButton _radBDiffPeak;
         private System.Windows.Forms.RadioButton _radBCorTime;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.Label _lblPreview;
         private System.Windows.Forms.Label _lblPreview2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.ComboBox _lstFilter2;
         private System.Windows.Forms.ComboBox _lstFilter1;
         private MGui.Controls.CtlTextBox _txtParams;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Controls.CtlButton _btnCancel;
         private Controls.CtlButton _btnOk;
-        private Controls.CtlButton _btnEditParameters;
         private System.Windows.Forms.TableLayoutPanel _tlpPreivew;
         private System.Windows.Forms.Label _lblPreviewTitle;
         private System.Windows.Forms.FlowLayoutPanel _flpPreviewButtons;
         private Controls.CtlButton _btnSelectPreview;
         private Controls.CtlButton ctlButton2;
         private Controls.CtlButton ctlButton3;
-        private Controls.CtlButton _btnObs;
-        private Controls.CtlButton _btnTrend;
         private MGui.Controls.CtlError _checker;
+        private Controls.CtlButton _btnNewStatistic;
+        private Controls.CtlButton _btnComment;
+        private Controls.CtlButton _btnFilter1;
+        private Controls.CtlButton _btnSelectDiffPeak;
+        private Controls.CtlButton _btnFilter2;
+        private Controls.CtlButton _btnEditParameters;
+        private System.Windows.Forms.ComboBox _lstSource;
+        private Controls.CtlButton _btnSource;
     }
 }

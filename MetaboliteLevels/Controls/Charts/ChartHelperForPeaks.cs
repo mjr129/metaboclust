@@ -17,6 +17,7 @@ using MetaboliteLevels.Forms;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using MetaboliteLevels.Algorithms;
 
 namespace MetaboliteLevels.Viewers.Charts
 {
@@ -36,8 +37,8 @@ namespace MetaboliteLevels.Viewers.Charts
             }
         }
 
-        public ChartHelperForPeaks(ISelectionHolder selector, Core core, Control targetSite)
-            : base(selector, core, targetSite, false)
+        public ChartHelperForPeaks(ISelectionHolder selector, Core core, Control targetSite, Func<IntensityMatrix> getIntensityMatrix, Func<ConfigurationTrend> getTrend )
+            : base(selector, core, targetSite, false, getIntensityMatrix, getTrend )
         {
         }
 
@@ -69,8 +70,7 @@ namespace MetaboliteLevels.Viewers.Charts
             // Get options
             StylisedPeakOptions opts = stylisedPeak.OverrideDefaultOptions ?? new StylisedPeakOptions(_core);
 
-            // Get order data
-            ConditionInfo[] condOrder = _core.Conditions.ToArray();
+            // Get order data                                      
             ObservationInfo[] obsOrder = _core.Observations.ToArray();
 
             // Group legends
@@ -78,20 +78,16 @@ namespace MetaboliteLevels.Viewers.Charts
             Dictionary<GroupInfoBase, MCharting.Series> groupLegends = DrawLegend(plot, order);
 
             // Get observations
-            PeakValueSet observations;
+            Vector observations;
 
             if (stylisedPeak.ForceObservations != null)
             {
                 observations = stylisedPeak.ForceObservations;
             }
-            else if (opts.ViewAlternativeObservations)
-            {
-                observations = LegacyHelper.Get_AltObservations( peak, _core );
-            }
             else
             {
-                observations = LegacyHelper.Get_Observations( peak, _core );
-            }
+                observations = GetIntensityMatrix().Find( stylisedPeak.Peak );
+            }   
 
             if (observations == null)
             {
@@ -100,7 +96,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // COPY the observations (since we will reorder them)
-            double[] raw = observations.Raw.ToArray();
+            double[] raw = observations.Values.ToArray();
 
             // Show acquisition and batches?
             if (opts.ShowAcqisition)

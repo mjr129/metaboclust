@@ -27,13 +27,7 @@ namespace MetaboliteLevels.Data.Visualisables
     [DeferSerialisation]
     class Peak : IAssociational
     {                                                  
-        public const string ID_COLUMN_CLUSTERCOMBINATION = "Clusters\\Combination (for colours)";
-
-        /// <summary>
-        /// UNIQUE
-        /// Index of this variable.
-        /// </summary>
-        public readonly int Index;
+        public const string ID_COLUMN_CLUSTERCOMBINATION = "Clusters\\Combination (for colours)";                           
 
         /// <summary>
         /// The ID (name) of the peak.
@@ -118,9 +112,8 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Peak(int index, string id, ELcmsMode lcmsmode, decimal mz, decimal rt)
-        {
-            this.Index = index;
+        public Peak(string id, ELcmsMode lcmsmode, decimal mz, decimal rt)
+        {                        
             this.Id = id;                               
             this.Mz = mz;
             this.Rt = rt;
@@ -303,7 +296,7 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Name", EColumn.Visible, λ => λ.DisplayName);
             columns.Add("Comment", EColumn.None, λ => λ.Comment);
             columns.Add("№ corrections", EColumn.Advanced, λ => core.AllCorrections.WhereEnabled());
-            columns.Add("Index", EColumn.Advanced, λ => λ.Index);
+            columns.Add("ID", EColumn.None, λ => λ.Id);
             columns.Add("LC-MS mode", EColumn.None, λ => λ.LcmsMode);
             columns.Add("m/z", EColumn.None, λ => λ.Mz);
             columns.Add( "rt", EColumn.None, λ => λ.Rt );

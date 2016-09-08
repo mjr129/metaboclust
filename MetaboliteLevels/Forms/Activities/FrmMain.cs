@@ -32,6 +32,7 @@ using MGui.Helpers;
 using MGui.Controls;
 using System.Reflection;
 using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms
 {
@@ -89,6 +90,8 @@ namespace MetaboliteLevels.Forms
         private ListViewHelper<Assignment> _assignmentList;
         private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList2;
         private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList;
+        private IntensityMatrix _selectedMatrix;
+        private ConfigurationTrend _selectedTrend;
 
         public VisualisableSelection Selection
         {
@@ -755,6 +758,9 @@ namespace MetaboliteLevels.Forms
                 toolStrip1.Items.Insert(index2, tsmi2);
                 index2++;
             }
+
+            _lstMatrix.Text = _selectedMatrix.ToString();
+            _lstTrend.Text = _selectedTrend.ToString();
         }
 
         /// <summary>
@@ -1589,7 +1595,7 @@ namespace MetaboliteLevels.Forms
                 _core.AddPeakFilter(filter);
             }
 
-            ConfigurationClusterer template = new ConfigurationClusterer(null, null, null, new ArgsClusterer(filter, null, EAlgoSourceMode.None, null, false, EClustererStatistics.None, null));
+            ConfigurationClusterer template = new ConfigurationClusterer(null, null, null, new ArgsClusterer(filter, null, _selectedMatrix, null, false, EClustererStatistics.None, null));
 
             if (DataSet.ForClusterers(_core).ShowListEditor(this, FrmBigList.EShow.Default, template) != null)
             {
@@ -1602,7 +1608,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void compareToThisPeakToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurationStatistic template = new ConfigurationStatistic(null, null, null, new ArgsStatistic(EAlgoSourceMode.None, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null));
+            ConfigurationStatistic template = new ConfigurationStatistic(null, null, null, new ArgsStatistic( _selectedMatrix, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null));
 
             DataSet.ForStatistics(_core).ShowListEditor(this, FrmBigList.EShow.Default, template);
         }
@@ -1704,15 +1710,12 @@ namespace MetaboliteLevels.Forms
         }
 
         private void correlationMapToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            ValueMatrix vm = FrmWait.Show( this, "Creating value matrix", null,
-                z => ValueMatrix.Create( _peakList.GetVisible().Cast<Peak>().ToArray(), false, _core, null, false, z ) );
-
+        {                                
             ArgsMetric args = new ArgsMetric(new object[0]  );
             ConfigurationMetric metric = new ConfigurationMetric( "Temporary", null, Algo.ID_METRIC_PEARSONDISTANCE, args );
 
             DistanceMatrix dm = FrmWait.Show( this, "Creating value matrix", null,
-                z => DistanceMatrix.Create( _core, vm, metric, z ) );
+                z => DistanceMatrix.Create( _core, _selectedMatrix, metric, z ) );
 
             FrmActHeatMap.Show( _core, _peakList, dm );
         }
@@ -1753,6 +1756,34 @@ namespace MetaboliteLevels.Forms
             }
 
             UpdateAll( "Identifications loaded", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged );
+        }
+
+        private void _lstMatrix_Click( object sender, EventArgs e )
+        {
+            var sel = DataSet.ForIntensityMatrices( _core ).ShowList(this, _selectedMatrix);
+
+            if (sel != null)
+            {
+                _selectedMatrix = sel;
+            }
+
+            UpdateAll( "Data matrix changed", EListInvalids.ContentsChanged, EListInvalids.None, EListInvalids.None, EListInvalids.None );
+            UpdateVisualOptions();
+            Replot();
+        }
+
+        private void _lstTrend_Click( object sender, EventArgs e )
+        {
+            var sel = DataSet.ForTrends( _core ).ShowList( this, _selectedTrend );
+
+            if (sel != null)
+            {
+                _selectedTrend = sel;
+            }
+            
+            UpdateVisualOptions();
+
+            Replot();
         }
     }
 }

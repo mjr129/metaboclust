@@ -28,6 +28,7 @@ using System.IO;
 using MGui;
 using MGui.Helpers;
 using MGui.Datatypes;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Generic
 {
@@ -101,16 +102,16 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
-        /// The session's conditions.
+        /// The session's observations.
         /// </summary>
-        public static DataSet<ConditionInfo> ForConditions(Core core)
+        public static DataSet<ObservationInfo> ForConditions( Core core )
         {
-            return new DataSet<ConditionInfo>()
+            return new DataSet<ObservationInfo>()
             {
                 Core = core,
                 Title = "Conditions",
                 Source = core.Conditions,
-                ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time,
+                ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition,
                 Icon = Resources.IconCondition,
             };
         }
@@ -469,6 +470,19 @@ namespace MetaboliteLevels.Forms.Generic
                 BeforeItemChanged = _ScriptReplace,
             };
         }
+
+        /// <summary>
+        /// All intensity matrices
+        /// </summary>            
+        internal static DataSet<IntensityMatrix> ForIntensityMatrices( Core core )
+        {
+            return new DataSet<IntensityMatrix>()
+            {
+                Core = core,
+                Title = "Intensity matrices",
+                Source = core.Matrices,     
+            };
+        }     
 
         /// <summary>
         /// All available trend algorithms (not just those in use)

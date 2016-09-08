@@ -9,6 +9,7 @@ using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 {
@@ -42,7 +43,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// </summary>
         public abstract bool RequiresDistanceMatrix { get; }
 
-        public ResultClusterer ExecuteAlgorithm(Core core, int isPreview, bool doNotCluster, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog, out ValueMatrix vmatrixOut, out DistanceMatrix dmatrixOut)
+        public ResultClusterer ExecuteAlgorithm(Core core, int isPreview, bool doNotCluster, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog, out IntensityMatrix vmatrixOut, out DistanceMatrix dmatrixOut)
         {
             IReadOnlyList<Peak> peaks;
 
@@ -70,6 +71,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             // FILTER PEAKS
             PeakFilter pfilter = args.PeakFilter ?? Settings.PeakFilter.Empty;
 
+            IntensityMatrix src = args.Source.GetTargetOrThrow();
             Filter<Peak>.Results filter = pfilter.Test(peaks);
             Cluster insigs;
 
@@ -83,21 +85,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 insigs.States |= Data.Visualisables.Cluster.EStates.Insignificants;
 
                 // We still need the vmatrix for plotting later
-                ValueMatrix insigvMatrix = ValueMatrix.Create(filter.Failed, args.SourceMode == EAlgoSourceMode.Trend, core, args.ObsFilter, false, prog);
+                IntensityMatrix operational = src.Subset( args.PeakFilter, args.ObsFilter, args.SplitGroups, true );
 
-                for (int index = 0; index < insigvMatrix.NumVectors; index++)
+                for (int index = 0; index < operational.NumRows; index++)
                 {
-                    Vector p = insigvMatrix.Vectors[index];
+                    Vector p = new Vector( operational, index );
                     insigs.Assignments.Add(new Assignment(p, insigs, double.NaN));
                 }
             }
 
             // CREATE VMATRIX AND FILTER OBSERVATIONS
-            bool useTrend = args.SourceMode != EAlgoSourceMode.Full;
-
-            prog.Enter("Creating value matrix");
-            ValueMatrix vmatrix = ValueMatrix.Create(filter.Passed, useTrend, core, args.ObsFilter, args.SplitGroups, prog);
-            prog.Leave();
+            PeakFilter temp = new PeakFilter( "filtered in", null, new[] { new PeakFilter.ConditionPeak( Filter.ELogicOperator.And, false, filter.Failed, Filter.EElementOperator.IsNot ) } );
+            IntensityMatrix vmatrix = src.Subset( args.PeakFilter, args.ObsFilter, args.SplitGroups, false);
 
             prog.Enter("Creating distance matrix");
             DistanceMatrix dmatrix = RequiresDistanceMatrix ? DistanceMatrix.Create(core, vmatrix, args.Distance, prog) : null;
@@ -135,14 +134,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// 
         /// If the cluster does't make use of the distance matrix OR the distance metric it should flag itself with DoesNotSupportDistanceMetrics.
         /// </summary>
-        protected abstract IEnumerable<Cluster> Cluster(ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog);
+        protected abstract IEnumerable<Cluster> Cluster(IntensityMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog);
 
-        protected static IEnumerable<Cluster> CreateClustersFromIntegers(ValueMatrix vmatrix, IList<int> clusters, ConfigurationClusterer tag)
+        protected static IEnumerable<Cluster> CreateClustersFromIntegers(IntensityMatrix vmatrix, IList<int> clusters, ConfigurationClusterer tag)
         {
             Dictionary<int, Cluster> pats = new Dictionary<int, Cluster>();
             List<Cluster> r = new List<Cluster>();
 
-            for (int n = 0; n < vmatrix.NumVectors; n++)
+            for (int n = 0; n < vmatrix.NumRows; n++)
             {
                 Vector p = vmatrix.Vectors[n];
 

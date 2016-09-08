@@ -16,6 +16,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Data;
 using MetaboliteLevels.Algorithms.Statistics.Metrics;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Wizards
 {
@@ -30,6 +31,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private EditableComboBox<MetricBase> _ecbDistance;
         private EditableComboBox<PeakFilter> _ecbPeakFilter;
         private readonly ChartHelperForPeaks _chart;
+        private readonly EditableComboBox<IntensityMatrix> _ecbSource;
 
         internal static bool Show(Form owner, Core core)
         {
@@ -53,6 +55,7 @@ namespace MetaboliteLevels.Forms.Wizards
             _chart = new ChartHelperForPeaks(null, core, panel1);
 
             _ecbFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstFilters, _btnEditFilters, ENullItemName.All);
+            _ecbSource = DataSet.ForIntensityMatrices( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.None );
             _lstGroups.Items.AddRange(NamedItem.GetRange(core.Groups, z => z.DisplayName).ToArray());
             _lstGroups.SelectedIndex = 0;
 
@@ -136,26 +139,29 @@ namespace MetaboliteLevels.Forms.Wizards
             switch (p)
             {
                 case 0:
-                    return _ecbFilter.HasSelection;
+                    return _ecbSource.HasSelection;
 
                 case 1:
+                    return _ecbFilter.HasSelection;
+
+                case 2:
                     return ((_radSeedLowest.Checked || _radSeedHighest.Checked)
                         && (_lstStat.SelectedItem != null) || _radSeedCurrent.Checked)
                         && _lstGroups.SelectedItem != null;
 
-                case 2:
+                case 3:
                     return _ecbPeakFilter.HasSelection &&
                         _ecbDistance.HasSelection
                         && _ecbDistance.SelectedItem.Parameters.TryStringToParams(_core, _txtDistanceParams.Text) != null;
 
-                case 3:
+                case 4:
                     return (_radStopN.Checked && int.TryParse(_txtStopN.Text, out tmpi))
                         || (_radStopD.Checked && double.TryParse(_txtStopD.Text, out tmpd));
 
-                case 4:
+                case 5:
                     return _radFinishK.Checked || _radFinishStop.Checked;
 
-                case 5:
+                case 6:
                     return true;
 
                 default:
@@ -244,7 +250,7 @@ namespace MetaboliteLevels.Forms.Wizards
                                                         null,
                                                         _ecbDistance.SelectedItem.Id,
                                                         new ArgsMetric(_ecbDistance.SelectedItem.Parameters.StringToParams(_core, _txtDistanceParams.Text))),
-                                                    EAlgoSourceMode.Trend,
+                                                    _ecbSource.SelectedItem,
                                                     trueFilter,
                                                     _chkClusterIndividually.Checked,
                                                     EClustererStatistics.None,

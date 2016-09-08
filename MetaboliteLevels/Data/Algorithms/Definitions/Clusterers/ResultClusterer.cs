@@ -11,6 +11,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Data.Session;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Results
 {
@@ -84,7 +85,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         /// <summary>
         /// Action completed - calculate statisstics
         /// </summary>
-        internal void FinalizeResults(Core core, ConfigurationMetric metric, ValueMatrix vmatrix, DistanceMatrix dmatrix, EClustererStatistics statistics, ProgressReporter prog)
+        internal void FinalizeResults(Core core, ConfigurationMetric metric, IntensityMatrix vmatrix, DistanceMatrix dmatrix, EClustererStatistics statistics, ProgressReporter prog)
         {
             UiControls.Assert(Assignments.IsEmpty(), "FinalizeResults on ClusterResults already called.");
 
@@ -106,11 +107,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         /// <param name="prog">Report progress to</param>
         /// <param name="vmatrix">Value matrix</param>
         /// <param name="dmatrix">Distance matrix (optional - if not present will be calculated if necessary)</param>
-        internal void RecalculateStatistics(Core core, ConfigurationMetric metric, ValueMatrix vmatrix, DistanceMatrix dmatrix, EClustererStatistics statistics, ProgressReporter prog)
+        internal void RecalculateStatistics(Core core, ConfigurationMetric metric, IntensityMatrix vmatrix, DistanceMatrix dmatrix, EClustererStatistics statistics, ProgressReporter prog)
         {
             // Add basics
-            ClustererStatistics[STAT_NUM_VECTORS] = vmatrix.NumVectors;
-            ClustererStatistics[STAT_LENGTH_OF_VECTORS] = vmatrix[0].Length;
+            ClustererStatistics[STAT_NUM_VECTORS] = vmatrix.NumRows;
+            ClustererStatistics[STAT_LENGTH_OF_VECTORS] = vmatrix.Values[0].Length;
 
             // Don't calculate metrics?
             if (statistics == EClustererStatistics.None)
@@ -174,11 +175,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         /// <summary>
         /// Determines what needs calculating.
         /// </summary>                        
-        private void Thread_AddFilterToCalculationList([Const]Core core, [Const]ConfigurationMetric metric, [Const]ValueMatrix vmatrix, [Const]DistanceMatrix dmatrix, [Const]EClustererStatistics statistics, [Const]Cluster[] realClusters, [Const]ObsFilter obsFilter, [MutableUnsafe] List<ForStat> needsCalculating, [MutableSafe]ProgressParallelHandler progP)
+        private void Thread_AddFilterToCalculationList([Const]Core core, [Const]ConfigurationMetric metric, [Const]IntensityMatrix vmatrix, [Const]DistanceMatrix dmatrix, [Const]EClustererStatistics statistics, [Const]Cluster[] realClusters, [Const]ObsFilter obsFilter, [MutableUnsafe] List<ForStat> needsCalculating, [MutableSafe]ProgressParallelHandler progP)
         {
             progP.SafeIncrement();
 
-            ValueMatrix vmatFiltered;
+            IntensityMatrix vmatFiltered;
             DistanceMatrix dmatFiltered;
             int[] filteredIndices;
 
@@ -190,7 +191,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             }
             else
             {
-                vmatFiltered = ValueMatrix.Create(vmatrix, obsFilter, out filteredIndices);
+                filteredIndices = vmatrix.Columns.Which(z=>  obsFilter.Test(z.Observation) ).ToArray(); // TODO: Multuple iteration
+                vmatFiltered = vmatrix.Subset(null, obsFilter, false, false);
                 dmatFiltered = null;
             }
 

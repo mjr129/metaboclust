@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -33,7 +34,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         public override bool SupportsObservationFilters => true;
 
         /// <summary>IMPLEMENTS ClustererBase</summary>
-        protected override IEnumerable<Cluster> Cluster( ValueMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog )
+        protected override IEnumerable<Cluster> Cluster( IntensityMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog )
         {
             Dictionary<Cluster, Cluster> result = new Dictionary<Cluster,Cluster>();
             WeakReference<ConfigurationClusterer> wrMethod= (WeakReference < ConfigurationClusterer > )args.Parameters[0];

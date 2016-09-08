@@ -21,6 +21,7 @@ using MetaboliteLevels.Controls;
 using System.Threading;
 using MGui.Helpers;
 using MGui.Datatypes;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Startup
 {
@@ -161,7 +162,7 @@ namespace MetaboliteLevels.Forms.Startup
             _result = new Core(_fileNames, data, compounds, pathways, compoundHeader, pathwayHeader, adducts, adductsHeader, annotationsHeader);
 
             // STATISTICS
-            Load_6_CalculateDefaultStatistics(_result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson), _prog);
+            Load_6_CalculateDefaultStatistics(data.IntensityMatrix, _result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson), _prog);
         }
 
         /// <summary>
@@ -859,8 +860,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         internal class DataSet
         {
-            public List<ObservationInfo> Observations;
-            public List<ConditionInfo> Conditions;
+            public List<ObservationInfo> Observations;    
             public List<GroupInfo> Types;
             public List<BatchInfo> Batches;
             public ConfigurationTrend AvgSmoother;
@@ -868,31 +868,50 @@ namespace MetaboliteLevels.Forms.Startup
             public ConfigurationTrend MaxSmoother;
             public List<Peak> Peaks;
             public MetaInfoHeader PeakMetaHeader;
+            internal IntensityMatrix IntensityMatrix;
+            internal IntensityMatrix AltIntensityMatrix;
         }
 
+        /// <summary>
+        /// Loads the primary datasets into a DataSet object.
+        /// * Condition names
+        /// * Intensities
+        /// * Alt. intensities
+        /// * Observations
+        /// * Peaks
+        /// </summary>
+        /// <param name="dataInfo">Loading parameters</param>
+        /// <param name="files">Names of files to load</param>
+        /// <param name="prog">Progress reporter</param>
+        /// <returns>A DataSet object containing the loaded datasets</returns>
         private static DataSet Load_1_DataSets(FileLoadInfo dataInfo, DataFileNames files, ProgressReporter prog)
         {
+            // Generate a SpreadsheetReader to read the CSV files
             SpreadsheetReader reader = new SpreadsheetReader()
             {
                 Progress = prog.SetProgress,
             };
 
+            // Create the object to hold the result
             DataSet result = new DataSet();
             result.PeakMetaHeader = new MetaInfoHeader();
 
-            // Assertions
-            UiControls.Assert(!string.IsNullOrEmpty(files.Data), "The intensities file has not been specified.");
-            UiControls.Assert(!string.IsNullOrEmpty(files.ObservationInfo), "The observation information file has not been specified.");
-            //UiControls.Assert(!string.IsNullOrEmpty(dfn.PeakInfo), "The peak information file has not been specified.");
-            //UiControls.Assert(dfn.ConditionsOfInterest.Count != 0, "The experimental conditions of interest have not been specified. At least one condition of interest must be specified.");
+            // Check for common problems
+            UiControls.Assert( !string.IsNullOrEmpty( files.Data ), "The intensities file has not been specified." );
+            UiControls.Assert( !string.IsNullOrEmpty( files.ObservationInfo ), "The observation information file has not been specified." );
 
-            // Condition names
+            /////////////////////////////////////////////////////////////
+            // STAGE 1.
+            // First we load the information into spreadsheets
+            /////////////////////////////////////////////////////////////
+
+            // Load the condition names
             Dictionary<string, string> conditionNames;
 
-            if (!string.IsNullOrEmpty(files.ConditionInfo))
+            if (!string.IsNullOrEmpty( files.ConditionInfo ))
             {
-                prog.Enter("Loading conditions");
-                conditionNames = LoadConditionInfo(dataInfo, files.ConditionInfo, prog);
+                prog.Enter( "Loading conditions" );
+                conditionNames = LoadConditionInfo( dataInfo, files.ConditionInfo, prog );
                 prog.Leave();
             }
             else
@@ -901,65 +920,70 @@ namespace MetaboliteLevels.Forms.Startup
             }
 
             // Load data
-            prog.Enter("Loading intensities");
-            Spreadsheet<double> data = reader.Read<double>(files.Data);
+            prog.Enter( "Loading intensities" );
+            Spreadsheet<double> ssIntensities = reader.Read<double>( files.Data );
             prog.Leave();
 
-            prog.Enter("Loading alt. intensities");
-            Spreadsheet<double> altData = !string.IsNullOrWhiteSpace(files.AltData) ? reader.Read<double>(files.AltData) : null;
+            prog.Enter( "Loading alt. intensities" );
+            Spreadsheet<double> ssAltIntensities = !string.IsNullOrWhiteSpace( files.AltData ) ? reader.Read<double>( files.AltData ) : null;
             prog.Leave();
 
-            prog.Enter("Loading observations");
-            Spreadsheet<string> info = reader.Read<string>( files.ObservationInfo );
+            prog.Enter( "Loading observations" );
+            Spreadsheet<string> ssObservations = reader.Read<string>( files.ObservationInfo );
             prog.Leave();
 
-            prog.Enter("Loading peaks");
-            Spreadsheet<string> varInfo = reader.Read<string>( files.PeakInfo );
+            prog.Enter( "Loading peaks" );
+            Spreadsheet<string> ssPeaks = reader.Read<string>( files.PeakInfo );
             prog.Leave();
 
-            prog.Enter("Formatting data");
+            /////////////////////////////////////////////////////
+            // STAGE 2.
+            // We process the spreadsheets into our data format
+            /////////////////////////////////////////////////////
+            prog.Enter( "Formatting data" );
 
-            // Get "obsinfo" columns
-            int dayCol = info.TryFindColumn( dataInfo.OBSFILE_TIME_HEADER );
-            int repCol = info.TryFindColumn( dataInfo.OBSFILE_REPLICATE_HEADER );
-            int typeCol = info.TryFindColumn( dataInfo.OBSFILE_GROUP_HEADER );
-            int batchCol = info.TryFindColumn( dataInfo.OBSFILE_BATCH_HEADER );
-            int acquisitionCol = info.TryFindColumn( dataInfo.OBSFILE_ACQUISITION_HEADER );
+            // Get the columns
+            int ssObsDayCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_TIME_HEADER );
+            int ssObsRepCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_REPLICATE_HEADER );
+            int ssObsTypCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_GROUP_HEADER );
+            int ssObsBatCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_BATCH_HEADER );
+            int ssObsAcqCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_ACQUISITION_HEADER );
 
-            // Get "peakinfo" columns specific to LCMS mode
-            int mzCol, rtCol, lcmsModeCol;
+            int ssPeakMzCol;
+            int ssPeakRtCol;
+            int ssPeakLcmsCol;
 
             switch (files.LcmsMode)
             {
                 case ELcmsMode.None:
-                    mzCol = -1;
-                    rtCol = -1;
-                    lcmsModeCol = -1;
+                    ssPeakMzCol = -1;
+                    ssPeakRtCol = -1;
+                    ssPeakLcmsCol = -1;
                     break;
 
                 case ELcmsMode.Positive:
                 case ELcmsMode.Negative:
-                    mzCol = varInfo.FindColumn( dataInfo.VARFILE_MZ_HEADER );
-                    rtCol = varInfo.FindColumn( dataInfo.VARFILE_RT_HEADER );
-                    lcmsModeCol = -1;
+                    ssPeakMzCol = ssPeaks.FindColumn( dataInfo.VARFILE_MZ_HEADER );
+                    ssPeakRtCol = ssPeaks.FindColumn( dataInfo.VARFILE_RT_HEADER );
+                    ssPeakLcmsCol = -1;
                     break;
 
                 case ELcmsMode.Mixed:
-                    mzCol = varInfo.FindColumn( dataInfo.VARFILE_MZ_HEADER );
-                    rtCol = varInfo.FindColumn( dataInfo.VARFILE_RT_HEADER );
-                    lcmsModeCol = varInfo.FindColumn( dataInfo.VARFILE_MODE_HEADER );
+                    ssPeakMzCol = ssPeaks.FindColumn( dataInfo.VARFILE_MZ_HEADER );
+                    ssPeakRtCol = ssPeaks.FindColumn( dataInfo.VARFILE_RT_HEADER );
+                    ssPeakLcmsCol = ssPeaks.FindColumn( dataInfo.VARFILE_MODE_HEADER );
                     break;
 
                 default:
-                    throw new InvalidOperationException("LC-MS mode hasn't been specified.");
+                    throw new InvalidOperationException( "LC-MS mode hasn't been specified." );
             }
 
-            // Create our TYPE array
-            var types = new List<GroupInfo>();
-            var typesById = new Dictionary<string, GroupInfo>();
+            // Interpret "ssObservations" to create an array of experimental groups 
+            //                                                , batches
+            var expGroups = new List<GroupInfo>();
+            var expGroupsById = new Dictionary<string, GroupInfo>();
             var batches = new List<BatchInfo>();
             var batchesById = new Dictionary<string, BatchInfo>();
-
             {
                 List<string> typeIds = new List<string>();
                 Dictionary<string, Range> typeRanges = new Dictionary<string, Range>();
@@ -967,69 +991,72 @@ namespace MetaboliteLevels.Forms.Startup
                 List<string> batchIds = new List<string>();
                 Dictionary<string, Range> batchRanges = new Dictionary<string, Range>();
 
-                for (int oId = 0; oId < info.NumRows; oId++) // obs info
+                for (int row = 0; row < ssObservations.NumRows; row++) // obs info
                 {
-                    int day = dayCol != -1 ? info.AsInteger(oId, dayCol) : 0;
-                    string typeId = typeCol != -1 ? info[oId, typeCol] : FALLBACK_ALL_TYPE_ID;
-                    int acquis = acquisitionCol != -1 ? info.AsInteger(oId, acquisitionCol) : 0;
-                    string batchId = batchCol != -1 ? info[oId, batchCol] : FALLBACK_ALL_BATCH_ID;
+                    int day = ssObsDayCol != -1 ? ssObservations.AsInteger( row, ssObsDayCol ) : 0;
+                    string typeId = ssObsTypCol != -1 ? ssObservations[row, ssObsTypCol] : FALLBACK_ALL_TYPE_ID;
+                    int acquis = ssObsAcqCol != -1 ? ssObservations.AsInteger( row, ssObsAcqCol ) : 0;
+                    string batchId = ssObsBatCol != -1 ? ssObservations[row, ssObsBatCol] : FALLBACK_ALL_BATCH_ID;
 
                     // Add type (if not already)
-                    if (!typeIds.Contains(typeId))
+                    if (!typeIds.Contains( typeId ))
                     {
-                        typeIds.Add(typeId);
-                        typeRanges.Add(typeId, Range.MaxValue);
+                        typeIds.Add( typeId );
+                        typeRanges.Add( typeId, Range.MaxValue );
                     }
 
                     // Add batch (if not already)
-                    if (!batchIds.Contains(batchId))
+                    if (!batchIds.Contains( batchId ))
                     {
-                        batchIds.Add(batchId);
-                        batchRanges.Add(batchId, Range.MaxValue);
+                        batchIds.Add( batchId );
+                        batchRanges.Add( batchId, Range.MaxValue );
                     }
 
-                    typeRanges[typeId] = typeRanges[typeId].ExpandOrStart(day);
-                    batchRanges[batchId] = batchRanges[batchId].ExpandOrStart(acquis);
+                    typeRanges[typeId] = typeRanges[typeId].ExpandOrStart( day );
+                    batchRanges[batchId] = batchRanges[batchId].ExpandOrStart( acquis );
                 }
 
 
-                ConvertType("Condition","C", conditionNames, types, typesById, typeIds, (index, stringId, displayPriority, name, shortName) => new GroupInfo(stringId, index, typeRanges[stringId], name, shortName, displayPriority));
-                ConvertType("Batch", "B", null, batches, batchesById, batchIds, (index, stringId, displayPriority, name, shortName) => new BatchInfo(stringId, index, batchRanges[stringId], name, shortName, displayPriority));
+                CreateGroupInfo( "Condition", "C", conditionNames, expGroups, expGroupsById, typeIds, ( index, stringId, displayPriority, name, shortName ) => new GroupInfo( stringId, index, typeRanges[stringId], name, shortName, displayPriority ) );
+                CreateGroupInfo( "Batch", "B", null, batches, batchesById, batchIds, ( index, stringId, displayPriority, name, shortName ) => new BatchInfo( stringId, index, batchRanges[stringId], name, shortName, displayPriority ) );
             }
 
-            // Create our arrays of { observations, conditions, types }
+            // Interpret "ssObservations" to create our arrays of observations
+            //                                                  , conditions
+            //                                                  , types
             List<ObservationInfo> observations = new List<ObservationInfo>();
             List<ConditionInfo> conditions = new List<ConditionInfo>();
 
-            for (int oId = 0; oId < info.NumRows; oId++) // obs info
+            for (int row = 0; row < ssObservations.NumRows; row++) // obs info
             {
-                int day = dayCol != -1 ? info.AsInteger(oId, dayCol) : 0;
-                int repId = repCol != -1 ? info.AsInteger(oId, repCol) : 0;
-                string typeId = typeCol != -1 ? info[oId, typeCol] : FALLBACK_ALL_TYPE_ID;
-                string batchId = batchCol != -1 ? info[oId, batchCol] : FALLBACK_ALL_BATCH_ID;
-                int acquisition = acquisitionCol != -1 ? info.AsInteger(oId, acquisitionCol) : 0;
+                int day = ssObsDayCol != -1 ? ssObservations.AsInteger( row, ssObsDayCol ) : 0;
+                int repId = ssObsRepCol != -1 ? ssObservations.AsInteger( row, ssObsRepCol ) : 0;
+                string typeId = ssObsTypCol != -1 ? ssObservations[row, ssObsTypCol] : FALLBACK_ALL_TYPE_ID;
+                string batchId = ssObsBatCol != -1 ? ssObservations[row, ssObsBatCol] : FALLBACK_ALL_BATCH_ID;
+                int acquisition = ssObsAcqCol != -1 ? ssObservations.AsInteger( row, ssObsAcqCol ) : 0;
 
-                GroupInfo groupInfo = typesById[typeId];
+                GroupInfo groupInfo = expGroupsById[typeId];
 
                 // Add condition (if not already)
-                ConditionInfo ci = conditions.FirstOrDefault(λ => λ.Time == day && λ.Group == groupInfo);
+                ConditionInfo condition = conditions.FirstOrDefault( λ => λ.Time == day && λ.Group == groupInfo );
 
-                if (ci == null)
+                if (condition == null)
                 {
-                    ci = new ConditionInfo(day, typesById[typeId]);
-                    conditions.Add(ci); // all conditions
+                    condition = new ConditionInfo( day, expGroupsById[typeId] );
+                    conditions.Add( condition ); // all conditions
                 }
 
                 // Add observation
-                observations.Add(new ObservationInfo(ci, repId, batchesById[batchId], acquisition));
+                observations.Add( new ObservationInfo( ssObservations.RowNames[row], condition, repId, batchesById[batchId], acquisition ) );
             }
 
+            // Add to result
             result.Observations = observations;
             result.Conditions = conditions;
-            result.Types = types;
+            result.Types = expGroups;
             result.Batches = batches;
 
-            // Create smoothers
+            // Apply trend generators
             switch (files.DefaultTrendGenerator)
             {
                 case EDefaultTrendGenerator.MeanOfReplicates:
@@ -1047,79 +1074,43 @@ namespace MetaboliteLevels.Forms.Startup
                 default:
                     throw new SwitchException( files.DefaultTrendGenerator );
             }
-            
-            result.MinSmoother = new ConfigurationTrend(null, null, Algo.ID_TREND_MOVING_MINIMUM, new ArgsTrend(new object[] { 0 }));
-            result.MaxSmoother = new ConfigurationTrend(null, null, Algo.ID_TREND_MOVING_MAXIMUM, new ArgsTrend(new object[] { 0 }));
 
-            // Create our array of peaks
+            result.MinSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MINIMUM, new ArgsTrend( new object[] { 0 } ) );
+            result.MaxSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MAXIMUM, new ArgsTrend( new object[] { 0 } ) );
+
+            // Read in "ssPeaks" to an array of peaks
             result.Peaks = new List<Peak>();
 
-            for (int peakIndex = 0; peakIndex < data.NumCols; peakIndex++)
+            for (int row = 0; row < ssPeaks.NumRows; row++)
             {
-                // Feedback
-                prog.SetProgress(peakIndex, data.NumCols);
-                UiControls.Assert(
-                    data.ColNames[peakIndex] == varInfo.RowNames[peakIndex],
-                    $"Data order mismatch error. The data file '{data.Title}' contains observation '{data.ColNames[peakIndex]}' in column {peakIndex} but the peak information file '{varInfo.Title}' has observation '{varInfo.RowNames[peakIndex]}' on row {peakIndex}.");
-
-                // --------------------
-                // - PEAK INFO FIELDS -
-                // --------------------
-
-                // Field: LC-MS mode
                 ELcmsMode lcmsMode;
 
                 if (files.LcmsMode == ELcmsMode.Mixed)
                 {
-                    lcmsMode = (ELcmsMode)int.Parse(varInfo[peakIndex, lcmsModeCol]);
-                    UiControls.Assert(lcmsMode == ELcmsMode.Negative || lcmsMode == ELcmsMode.Positive, "LC-MS mode for peak " + peakIndex + " is invalid (" + lcmsMode + ")");
+                    lcmsMode = (ELcmsMode)int.Parse( ssPeaks[row, ssPeakLcmsCol] );
+                    UiControls.Assert( lcmsMode == ELcmsMode.Negative || lcmsMode == ELcmsMode.Positive, "LC-MS mode for peak " + row + " is invalid (" + lcmsMode + ")" );
                 }
                 else
                 {
                     lcmsMode = files.LcmsMode;
                 }
 
-                // Field: m/z
-                decimal mz = mzCol != -1 ? decimal.Parse( varInfo[peakIndex, mzCol]) : 0;
-                decimal rt = rtCol != -1 ? decimal.Parse( varInfo[peakIndex, rtCol] ) : 0;
+                decimal mz = ssPeakMzCol != -1 ? decimal.Parse( ssPeaks[row, ssPeakMzCol] ) : 0;
+                decimal rt = ssPeakRtCol != -1 ? decimal.Parse( ssPeaks[row, ssPeakRtCol] ) : 0;
 
-                // ---------------
-                // - INTENSITIES -
-                // ---------------
-                double[] intensities = new double[data.NumRows];
 
-                for (int obsIndex = 0; obsIndex < data.NumRows; obsIndex++)
-                {
-                    intensities[obsIndex] = data[obsIndex, peakIndex];
-                }
+                Peak peak = new Peak( ssPeaks.RowNames[row], lcmsMode, mz, rt );
+                WriteMeta( ssPeaks, row, peak.MetaInfo, result.PeakMetaHeader );
+                result.Peaks.Add( peak );
+            }
 
-                PeakValueSet values = new PeakValueSet(result.Observations, result.Conditions, result.Types, intensities, result.AvgSmoother, result.MinSmoother, result.MaxSmoother);
 
-                // Alternative observations
-                PeakValueSet altValues = null;
+            // Read in "ssIntensities" to an intensity matrix
+            result.IntensityMatrix = InterpretIntensityMatrix( "origin", prog, ssIntensities, result.Peaks, result.Observations );
 
-                if (altData != null)
-                {
-                    // The alt. data might contain more variables or observations than the original data, or be in a
-                    // different order - either way the row/column names must be the same and only those in both sets
-                    // are used currently.
-                    int altV = altData.FindColumn(varInfo.RowNames[peakIndex]);
-                    double[] altIntensities = new double[data.NumRows];
-
-                    for (int origRow = 0; origRow < data.NumRows; origRow++)
-                    {
-                        int altRow = altData.FindRow(data.RowNames[origRow]);
-
-                        altIntensities[origRow] = altData[altRow, altV];
-                    }
-
-                    altValues = new PeakValueSet(result.Observations, result.Conditions, result.Types, altIntensities, result.AvgSmoother, result.MinSmoother, result.MaxSmoother);
-                }                                                                                                                                 
-
-                // Create the variable
-                Peak peak = new Peak(peakIndex, data.ColNames[peakIndex], values, altValues, lcmsMode, mz, rt);
-                WriteMeta( varInfo, peakIndex, peak.MetaInfo, result.PeakMetaHeader);
-                result.Peaks.Add(peak);
+            if (ssAltIntensities != null)
+            {
+                result.AltIntensityMatrix = InterpretIntensityMatrix( "alternate", prog, ssAltIntensities, result.Peaks, result.Observations );
             }
 
             prog.Leave();
@@ -1127,7 +1118,42 @@ namespace MetaboliteLevels.Forms.Startup
             return result;
         }
 
-        private static void ConvertType<T>(string longNamePrefix, string shortNamePrefix, Dictionary<string, string> conditionNames, List<T> types, Dictionary<string, T> byId, List<string> typeIds, Func<int, string, int, string, string, T> result)
+        private static IntensityMatrix InterpretIntensityMatrix( string title, ProgressReporter prog, Spreadsheet<double> ss, List<Peak> availPeaks, List<ObservationInfo> availableObs )
+        {
+            //       PEAKS →
+            // OBS   intensities
+            // ↓ 
+
+            Dictionary<string, Peak> peakFinder = availPeaks.ToDictionary( z => z.Id );
+            Dictionary<string, ObservationInfo> obsFinder = availableObs.ToDictionary( z => z.Id );
+
+            double[][] matrix = new double[ss.NumRows][];
+            Peak[] peaks = new Peak[ss.NumCols];
+            ObservationInfo[] obs = new ObservationInfo[ss.NumRows];
+
+            for (int col = 0; col < ss.NumCols; ++col)
+            {
+                prog.SetProgress( col, ss.NumCols );
+
+                matrix[col] = new double[ss.NumRows];
+
+                for (int obsIndex = 0; obsIndex < ss.NumRows; obsIndex++)
+                {
+                    matrix[col][obsIndex] = ss[obsIndex, col];
+                }
+
+                peaks[col] =  peakFinder[ss.ColNames[col]] ;
+            }
+
+            for (int row = 0; row < ss.NumRows; ++row)
+            {
+                obs[row] = obsFinder[ss.RowNames[row]];
+            }
+
+            return new IntensityMatrix(title, peaks, obs, matrix );                  
+        }
+
+        private static void CreateGroupInfo<T>(string longNamePrefix, string shortNamePrefix, Dictionary<string, string> conditionNames, List<T> types, Dictionary<string, T> byId, List<string> typeIds, Func<int, string, int, string, string, T> result)
             where T : GroupInfoBase
         {
             for (int index = 0; index < typeIds.Count; index++)
@@ -1201,7 +1227,7 @@ namespace MetaboliteLevels.Forms.Startup
             return result;                                                        
         }
 
-        private static void Load_6_CalculateDefaultStatistics(Core core, bool calcT, bool calcP, ProgressReporter prog)
+        private static void Load_6_CalculateDefaultStatistics(IntensityMatrix src, Core core, bool calcT, bool calcP, ProgressReporter prog)
         {
             // Create filters
             List<ObsFilter> allFilters = new List<ObsFilter>();
@@ -1284,25 +1310,25 @@ namespace MetaboliteLevels.Forms.Startup
                 if (calcT)
                 {
                     // Create t-test
-                    allTTests.Add(CreateTTestStatistic(group.DisplayName, filterGroup, filterControl));
+                    allTTests.Add(CreateTTestStatistic(src, group.DisplayName, filterGroup, filterControl));
                 }
 
                 if (calcP)
                 {
                     // Create Pearson
-                    allPearson.Add(CreatePearsonStatistic(group.DisplayName, filterGroup));
+                    allPearson.Add(CreatePearsonStatistic(src, group.DisplayName, filterGroup));
                 }
             }
 
             // Create summary statistics
             if (calcT)
             {
-                allTTests.Add(CreateMinStatistic(allTTests, "MINIMUM: t-tests"));
+                allTTests.Add(CreateMinStatistic(src, allTTests, "MINIMUM: t-tests"));
             }
 
             if (calcP)
             {
-                allPearson.Add(CreateAbsMaxStatistic(allPearson, "MAXIMUM: Abs. correlation"));
+                allPearson.Add(CreateAbsMaxStatistic(src, allPearson, "MAXIMUM: Abs. correlation"));
             }
 
             // Set filters
@@ -1316,10 +1342,10 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Creates an absolute maximum statistic of other statistics.
         /// </summary>
-        private static ConfigurationStatistic CreateAbsMaxStatistic(List<ConfigurationStatistic> pStatOpts, string name)
+        private static ConfigurationStatistic CreateAbsMaxStatistic(IntensityMatrix src, List<ConfigurationStatistic> pStatOpts, string name)
         {
             object pStatMinParam1 = pStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
-            ArgsStatistic pStatMinArgs = new ArgsStatistic(EAlgoSourceMode.Full, null, EAlgoInputBSource.None, null, null, new[] { pStatMinParam1 });
+            ArgsStatistic pStatMinArgs = new ArgsStatistic(src, null, EAlgoInputBSource.None, null, null, new[] { pStatMinParam1 });
             var pStat = new ConfigurationStatistic(name, null, Algo.ID_STATS_ABSMAX, pStatMinArgs);
             return pStat;
         }
@@ -1327,10 +1353,10 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Creates an mathematical minimum statistic of other statistics.
         /// </summary>
-        private static ConfigurationStatistic CreateMinStatistic(List<ConfigurationStatistic> tStatOpts, string name)
+        private static ConfigurationStatistic CreateMinStatistic(IntensityMatrix src, List<ConfigurationStatistic> tStatOpts, string name)
         {
             object tStatMinParam1 = tStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
-            ArgsStatistic tStatMinArgs = new ArgsStatistic(EAlgoSourceMode.Full, null, EAlgoInputBSource.None, null, null, new[] { tStatMinParam1 });
+            ArgsStatistic tStatMinArgs = new ArgsStatistic(src, null, EAlgoInputBSource.None, null, null, new[] { tStatMinParam1 });
             var tStat = new ConfigurationStatistic(name, null, Algo.ID_STATS_MIN, tStatMinArgs);
             return tStat;
         }
@@ -1338,9 +1364,9 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Calculates a default T-test statistic.
         /// </summary>
-        private static ConfigurationStatistic CreateTTestStatistic(string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
+        private static ConfigurationStatistic CreateTTestStatistic(IntensityMatrix src, string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
         {
-            ArgsStatistic args = new ArgsStatistic(EAlgoSourceMode.Full, typeOfInterest, EAlgoInputBSource.SamePeak, controlConditions, null, null);
+            ArgsStatistic args = new ArgsStatistic(src, typeOfInterest, EAlgoInputBSource.SamePeak, controlConditions, null, null);
             var stat = new ConfigurationStatistic("T-TEST: " + name, null, Algo.ID_METRIC_TTEST, args);
             return stat;
         }
@@ -1348,9 +1374,9 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Calculates a default pearson correlation statistic.
         /// </summary>
-        private static ConfigurationStatistic CreatePearsonStatistic(string name, ObsFilter typeOfInterest)
+        private static ConfigurationStatistic CreatePearsonStatistic(IntensityMatrix src, string name, ObsFilter typeOfInterest)
         {
-            ArgsStatistic argsPearson = new ArgsStatistic(EAlgoSourceMode.Full, typeOfInterest, EAlgoInputBSource.Time, null, null, null);
+            ArgsStatistic argsPearson = new ArgsStatistic(src, typeOfInterest, EAlgoInputBSource.Time, null, null, null);
             var statPearson = new ConfigurationStatistic("PEARSON: " + name, "Pearson correlation of the trend-line for " + name + " against time.", Algo.ID_METRIC_PEARSON, argsPearson);
             return statPearson;
         }

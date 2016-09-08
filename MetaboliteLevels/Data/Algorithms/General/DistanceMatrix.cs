@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 
@@ -18,12 +19,12 @@ namespace MetaboliteLevels.Algorithms
     internal class DistanceMatrix
     {
         public readonly double[,] Values;           // Vector-vector distances
-        public readonly ValueMatrix ValueMatrix;    // The original vectors
+        public readonly IntensityMatrix ValueMatrix;    // The original vectors
 
         /// <summary>
         /// Constructor.
         /// </summary>  
-        public DistanceMatrix(double[,] values, ValueMatrix peaks)
+        public DistanceMatrix(double[,] values, IntensityMatrix peaks )
         {
             this.Values = values;
             this.ValueMatrix = peaks;
@@ -32,9 +33,9 @@ namespace MetaboliteLevels.Algorithms
         /// <summary>
         /// Returns the distance matrix for a set of peaks.
         /// </summary>
-        public static DistanceMatrix Create(Core core, ValueMatrix valueMatrix, ConfigurationMetric metric, ProgressReporter prog)
+        public static DistanceMatrix Create(Core core, IntensityMatrix valueMatrix, ConfigurationMetric metric, ProgressReporter prog)
         {
-            int n = valueMatrix.NumVectors;
+            int n = valueMatrix.NumRows;
 
             int bytesRequired = (n * n) * 8;
             int mbRequired = bytesRequired / (1024 * 1024);
@@ -55,7 +56,7 @@ namespace MetaboliteLevels.Algorithms
 
                 for (int j = 0; j < n; j++)
                 {
-                    s[i, j] = metric.Calculate(valueMatrix[i], valueMatrix[j]);
+                    s[i, j] = metric.Calculate(valueMatrix.Values[i], valueMatrix.Values[j]);
                 }
             }
 
@@ -69,8 +70,11 @@ namespace MetaboliteLevels.Algorithms
         /// </summary>                              
         internal double Find(Peak vector1Peak, GroupInfo vector1Group, Peak vector2Peak, GroupInfo vector2Group)
         {
-            int i = ValueMatrix.FindIndex(vector1Peak, vector1Group);
-            int j = ValueMatrix.FindIndex(vector2Peak, vector2Group);
+            IntensityMatrix.RowHeader h1 = new IntensityMatrix.RowHeader( vector1Peak, vector1Group );
+            IntensityMatrix.RowHeader h2 = new IntensityMatrix.RowHeader( vector2Peak, vector2Group );
+
+            int i = ValueMatrix.FindIndex(h1);
+            int j = ValueMatrix.FindIndex(h2);
             return Values[i, j];
         }
     }

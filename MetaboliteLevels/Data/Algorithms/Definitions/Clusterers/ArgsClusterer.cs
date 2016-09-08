@@ -5,6 +5,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Algorithms.Statistics.Results;
 using MGui.Helpers;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -33,7 +34,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// <summary>
         /// Defines where the data comes from.
         /// </summary>
-        public readonly EAlgoSourceMode SourceMode;
+        public readonly WeakReference<IntensityMatrix> Source;
 
         /// <summary>
         /// When set peaks are split into one vecror per group.
@@ -48,12 +49,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// <summary>
         /// Constructor.
         /// </summary>  
-        public ArgsClusterer(PeakFilter sigFilter, ConfigurationMetric distance, EAlgoSourceMode src, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters)
+        public ArgsClusterer(PeakFilter sigFilter, ConfigurationMetric distance, IntensityMatrix src, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters)
             : base(parameters)
         {
             this.PeakFilter = sigFilter;
             this.Distance = distance;
-            this.SourceMode = src;
+            this.Source = new WeakReference<IntensityMatrix>( src );
             this.ObsFilter = atypes;
             this.SplitGroups = splitGroups;
             this.Statistics = suppressMetric;
@@ -68,7 +69,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
                 sb.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm));
             }
 
-            sb.Append("; x = " + SourceMode.ToUiString());
+            sb.Append("; x = " + Source.GetTarget());
 
             if (ObsFilter != null)
             {
