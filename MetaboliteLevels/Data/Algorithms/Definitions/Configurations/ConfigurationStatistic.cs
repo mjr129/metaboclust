@@ -37,7 +37,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             List<Column<ConfigurationStatistic>> columns = new List<Column<ConfigurationStatistic>>();
 
             columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
-            columns.Add("Arguments\\Source", z => z.Args.Source);
+            columns.Add("Arguments\\Source", z => z.Args.SourceProvider);
             columns.AddSubObject(core, "Arguments\\First vector constraint", z => z.Args.VectorAConstraint);
             columns.AddSubObject(core, "Arguments\\Second vector constraint", z => z.Args.VectorBConstraint);
             columns.AddSubObject(core, "Arguments\\Second vector peak", z => z.Args.VectorBPeak);

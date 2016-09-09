@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmActExport));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._txtClusters = new System.Windows.Forms.TextBox();
             this._txtData = new System.Windows.Forms.TextBox();
@@ -54,6 +55,10 @@
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this._lstIntensitySource = new System.Windows.Forms.ComboBox();
+            this._lstTrendSource = new System.Windows.Forms.ComboBox();
+            this._btnIntensitySource = new MetaboliteLevels.Controls.CtlButton();
+            this._btnTrendSource = new MetaboliteLevels.Controls.CtlButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -66,31 +71,35 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this._txtClusters, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this._txtClusters, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this._txtData, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this._txtObservations, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this._txtPeaks, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this._txtObservations, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this._txtPeaks, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this._btnData, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this._btnObs, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this._btnPeaks, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this._btnObs, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this._btnPeaks, 2, 3);
             this.tableLayoutPanel1.Controls.Add(this._chkData, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this._chkObs, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this._chkPeaks, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this._chkClusters, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this._btnClusters, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this._chkTrend, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this._chkConds, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this._txtTrend, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this._txtConds, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this._btnTrend, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this._btnConds, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this._chkOther, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this._txtOther, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this._btnOther, 2, 7);
+            this.tableLayoutPanel1.Controls.Add(this._chkObs, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this._chkPeaks, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this._chkClusters, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this._btnClusters, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this._chkTrend, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this._chkConds, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this._txtTrend, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this._txtConds, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this._btnTrend, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this._btnConds, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this._chkOther, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this._txtOther, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this._btnOther, 2, 9);
+            this.tableLayoutPanel1.Controls.Add(this._lstIntensitySource, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this._lstTrendSource, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this._btnIntensitySource, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this._btnTrendSource, 2, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 87);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowCount = 10;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -99,17 +108,19 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(777, 315);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(879, 405);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // _txtClusters
             // 
             this._txtClusters.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtClusters.Enabled = false;
-            this._txtClusters.Location = new System.Drawing.Point(196, 143);
+            this._txtClusters.Location = new System.Drawing.Point(196, 188);
             this._txtClusters.Margin = new System.Windows.Forms.Padding(8);
             this._txtClusters.Name = "_txtClusters";
-            this._txtClusters.Size = new System.Drawing.Size(528, 29);
+            this._txtClusters.Size = new System.Drawing.Size(630, 29);
             this._txtClusters.TabIndex = 4;
             // 
             // _txtData
@@ -119,34 +130,34 @@
             this._txtData.Location = new System.Drawing.Point(196, 8);
             this._txtData.Margin = new System.Windows.Forms.Padding(8);
             this._txtData.Name = "_txtData";
-            this._txtData.Size = new System.Drawing.Size(528, 29);
+            this._txtData.Size = new System.Drawing.Size(630, 29);
             this._txtData.TabIndex = 1;
             // 
             // _txtObservations
             // 
             this._txtObservations.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtObservations.Enabled = false;
-            this._txtObservations.Location = new System.Drawing.Point(196, 53);
+            this._txtObservations.Location = new System.Drawing.Point(196, 98);
             this._txtObservations.Margin = new System.Windows.Forms.Padding(8);
             this._txtObservations.Name = "_txtObservations";
-            this._txtObservations.Size = new System.Drawing.Size(528, 29);
+            this._txtObservations.Size = new System.Drawing.Size(630, 29);
             this._txtObservations.TabIndex = 1;
             // 
             // _txtPeaks
             // 
             this._txtPeaks.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtPeaks.Enabled = false;
-            this._txtPeaks.Location = new System.Drawing.Point(196, 98);
+            this._txtPeaks.Location = new System.Drawing.Point(196, 143);
             this._txtPeaks.Margin = new System.Windows.Forms.Padding(8);
             this._txtPeaks.Name = "_txtPeaks";
-            this._txtPeaks.Size = new System.Drawing.Size(528, 29);
+            this._txtPeaks.Size = new System.Drawing.Size(630, 29);
             this._txtPeaks.TabIndex = 1;
             // 
             // _btnData
             // 
             this._btnData.Enabled = false;
             this._btnData.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnData.Location = new System.Drawing.Point(740, 8);
+            this._btnData.Location = new System.Drawing.Point(842, 8);
             this._btnData.Margin = new System.Windows.Forms.Padding(8);
             this._btnData.Name = "_btnData";
             this._btnData.Size = new System.Drawing.Size(29, 29);
@@ -160,7 +171,7 @@
             // 
             this._btnObs.Enabled = false;
             this._btnObs.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnObs.Location = new System.Drawing.Point(740, 53);
+            this._btnObs.Location = new System.Drawing.Point(842, 98);
             this._btnObs.Margin = new System.Windows.Forms.Padding(8);
             this._btnObs.Name = "_btnObs";
             this._btnObs.Size = new System.Drawing.Size(29, 29);
@@ -174,7 +185,7 @@
             // 
             this._btnPeaks.Enabled = false;
             this._btnPeaks.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnPeaks.Location = new System.Drawing.Point(740, 98);
+            this._btnPeaks.Location = new System.Drawing.Point(842, 143);
             this._btnPeaks.Margin = new System.Windows.Forms.Padding(8);
             this._btnPeaks.Name = "_btnPeaks";
             this._btnPeaks.Size = new System.Drawing.Size(29, 29);
@@ -199,7 +210,7 @@
             // _chkObs
             // 
             this._chkObs.AutoSize = true;
-            this._chkObs.Location = new System.Drawing.Point(8, 53);
+            this._chkObs.Location = new System.Drawing.Point(8, 98);
             this._chkObs.Margin = new System.Windows.Forms.Padding(8);
             this._chkObs.Name = "_chkObs";
             this._chkObs.Size = new System.Drawing.Size(121, 25);
@@ -211,7 +222,7 @@
             // _chkPeaks
             // 
             this._chkPeaks.AutoSize = true;
-            this._chkPeaks.Location = new System.Drawing.Point(8, 98);
+            this._chkPeaks.Location = new System.Drawing.Point(8, 143);
             this._chkPeaks.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeaks.Name = "_chkPeaks";
             this._chkPeaks.Size = new System.Drawing.Size(69, 25);
@@ -223,7 +234,7 @@
             // _chkClusters
             // 
             this._chkClusters.AutoSize = true;
-            this._chkClusters.Location = new System.Drawing.Point(8, 143);
+            this._chkClusters.Location = new System.Drawing.Point(8, 188);
             this._chkClusters.Margin = new System.Windows.Forms.Padding(8);
             this._chkClusters.Name = "_chkClusters";
             this._chkClusters.Size = new System.Drawing.Size(169, 25);
@@ -236,7 +247,7 @@
             // 
             this._btnClusters.Enabled = false;
             this._btnClusters.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnClusters.Location = new System.Drawing.Point(740, 143);
+            this._btnClusters.Location = new System.Drawing.Point(842, 188);
             this._btnClusters.Margin = new System.Windows.Forms.Padding(8);
             this._btnClusters.Name = "_btnClusters";
             this._btnClusters.Size = new System.Drawing.Size(29, 29);
@@ -249,7 +260,7 @@
             // _chkTrend
             // 
             this._chkTrend.AutoSize = true;
-            this._chkTrend.Location = new System.Drawing.Point(8, 188);
+            this._chkTrend.Location = new System.Drawing.Point(8, 233);
             this._chkTrend.Margin = new System.Windows.Forms.Padding(8);
             this._chkTrend.Name = "_chkTrend";
             this._chkTrend.Size = new System.Drawing.Size(150, 25);
@@ -261,7 +272,7 @@
             // _chkConds
             // 
             this._chkConds.AutoSize = true;
-            this._chkConds.Location = new System.Drawing.Point(8, 233);
+            this._chkConds.Location = new System.Drawing.Point(8, 278);
             this._chkConds.Margin = new System.Windows.Forms.Padding(8);
             this._chkConds.Name = "_chkConds";
             this._chkConds.Size = new System.Drawing.Size(172, 25);
@@ -274,27 +285,27 @@
             // 
             this._txtTrend.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtTrend.Enabled = false;
-            this._txtTrend.Location = new System.Drawing.Point(196, 188);
+            this._txtTrend.Location = new System.Drawing.Point(196, 233);
             this._txtTrend.Margin = new System.Windows.Forms.Padding(8);
             this._txtTrend.Name = "_txtTrend";
-            this._txtTrend.Size = new System.Drawing.Size(528, 29);
+            this._txtTrend.Size = new System.Drawing.Size(630, 29);
             this._txtTrend.TabIndex = 4;
             // 
             // _txtConds
             // 
             this._txtConds.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtConds.Enabled = false;
-            this._txtConds.Location = new System.Drawing.Point(196, 233);
+            this._txtConds.Location = new System.Drawing.Point(196, 278);
             this._txtConds.Margin = new System.Windows.Forms.Padding(8);
             this._txtConds.Name = "_txtConds";
-            this._txtConds.Size = new System.Drawing.Size(528, 29);
+            this._txtConds.Size = new System.Drawing.Size(630, 29);
             this._txtConds.TabIndex = 4;
             // 
             // _btnTrend
             // 
             this._btnTrend.Enabled = false;
             this._btnTrend.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnTrend.Location = new System.Drawing.Point(740, 188);
+            this._btnTrend.Location = new System.Drawing.Point(842, 233);
             this._btnTrend.Margin = new System.Windows.Forms.Padding(8);
             this._btnTrend.Name = "_btnTrend";
             this._btnTrend.Size = new System.Drawing.Size(29, 29);
@@ -308,7 +319,7 @@
             // 
             this._btnConds.Enabled = false;
             this._btnConds.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnConds.Location = new System.Drawing.Point(740, 233);
+            this._btnConds.Location = new System.Drawing.Point(842, 278);
             this._btnConds.Margin = new System.Windows.Forms.Padding(8);
             this._btnConds.Name = "_btnConds";
             this._btnConds.Size = new System.Drawing.Size(29, 29);
@@ -321,7 +332,7 @@
             // _chkOther
             // 
             this._chkOther.AutoSize = true;
-            this._chkOther.Location = new System.Drawing.Point(8, 278);
+            this._chkOther.Location = new System.Drawing.Point(8, 368);
             this._chkOther.Margin = new System.Windows.Forms.Padding(8);
             this._chkOther.Name = "_chkOther";
             this._chkOther.Size = new System.Drawing.Size(92, 25);
@@ -334,18 +345,18 @@
             // 
             this._txtOther.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtOther.Enabled = false;
-            this._txtOther.Location = new System.Drawing.Point(196, 278);
+            this._txtOther.Location = new System.Drawing.Point(196, 368);
             this._txtOther.Margin = new System.Windows.Forms.Padding(8);
             this._txtOther.Name = "_txtOther";
             this._txtOther.ReadOnly = true;
-            this._txtOther.Size = new System.Drawing.Size(528, 29);
+            this._txtOther.Size = new System.Drawing.Size(630, 29);
             this._txtOther.TabIndex = 4;
             // 
             // _btnOther
             // 
             this._btnOther.Enabled = false;
             this._btnOther.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnOther.Location = new System.Drawing.Point(740, 278);
+            this._btnOther.Location = new System.Drawing.Point(842, 368);
             this._btnOther.Margin = new System.Windows.Forms.Padding(8);
             this._btnOther.Name = "_btnOther";
             this._btnOther.Size = new System.Drawing.Size(29, 29);
@@ -363,16 +374,16 @@
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 421);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 549);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(777, 56);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(879, 56);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
             // _btnCancel
             // 
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this._btnCancel.Location = new System.Drawing.Point(641, 8);
+            this._btnCancel.Location = new System.Drawing.Point(743, 8);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(8);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
@@ -384,7 +395,7 @@
             // _btnOk
             // 
             this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this._btnOk.Location = new System.Drawing.Point(497, 8);
+            this._btnOk.Location = new System.Drawing.Point(599, 8);
             this._btnOk.Margin = new System.Windows.Forms.Padding(8);
             this._btnOk.Name = "_btnOk";
             this._btnOk.Size = new System.Drawing.Size(128, 40);
@@ -404,17 +415,65 @@
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(777, 87);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(879, 87);
             this.ctlTitleBar1.SubText = "Select the data you\'d like to export";
             this.ctlTitleBar1.TabIndex = 6;
             this.ctlTitleBar1.Text = "Export";
             this.ctlTitleBar1.WarningText = null;
             // 
+            // _lstIntensitySource
+            // 
+            this._lstIntensitySource.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstIntensitySource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstIntensitySource.FormattingEnabled = true;
+            this._lstIntensitySource.Location = new System.Drawing.Point(196, 53);
+            this._lstIntensitySource.Margin = new System.Windows.Forms.Padding(8);
+            this._lstIntensitySource.Name = "_lstIntensitySource";
+            this._lstIntensitySource.Size = new System.Drawing.Size(630, 29);
+            this._lstIntensitySource.TabIndex = 5;
+            // 
+            // _lstTrendSource
+            // 
+            this._lstTrendSource.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstTrendSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstTrendSource.FormattingEnabled = true;
+            this._lstTrendSource.Location = new System.Drawing.Point(196, 323);
+            this._lstTrendSource.Margin = new System.Windows.Forms.Padding(8);
+            this._lstTrendSource.Name = "_lstTrendSource";
+            this._lstTrendSource.Size = new System.Drawing.Size(630, 29);
+            this._lstTrendSource.TabIndex = 5;
+            // 
+            // _btnIntensitySource
+            // 
+            this._btnIntensitySource.Enabled = false;
+            this._btnIntensitySource.Image = ((System.Drawing.Image)(resources.GetObject("_btnIntensitySource.Image")));
+            this._btnIntensitySource.Location = new System.Drawing.Point(842, 53);
+            this._btnIntensitySource.Margin = new System.Windows.Forms.Padding(8);
+            this._btnIntensitySource.Name = "_btnIntensitySource";
+            this._btnIntensitySource.Size = new System.Drawing.Size(29, 29);
+            this._btnIntensitySource.TabIndex = 2;
+            this._btnIntensitySource.Text = "";
+            this._btnIntensitySource.UseDefaultSize = true;
+            this._btnIntensitySource.UseVisualStyleBackColor = true;
+            // 
+            // _btnTrendSource
+            // 
+            this._btnTrendSource.Enabled = false;
+            this._btnTrendSource.Image = ((System.Drawing.Image)(resources.GetObject("_btnTrendSource.Image")));
+            this._btnTrendSource.Location = new System.Drawing.Point(842, 323);
+            this._btnTrendSource.Margin = new System.Windows.Forms.Padding(8);
+            this._btnTrendSource.Name = "_btnTrendSource";
+            this._btnTrendSource.Size = new System.Drawing.Size(29, 29);
+            this._btnTrendSource.TabIndex = 2;
+            this._btnTrendSource.Text = "";
+            this._btnTrendSource.UseDefaultSize = true;
+            this._btnTrendSource.UseVisualStyleBackColor = true;
+            // 
             // FrmActExport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(777, 477);
+            this.ClientSize = new System.Drawing.Size(879, 605);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.ctlTitleBar1);
@@ -459,5 +518,9 @@
         private System.Windows.Forms.CheckBox _chkOther;
         private System.Windows.Forms.TextBox _txtOther;
         private Controls.CtlButton _btnOther;
+        private System.Windows.Forms.ComboBox _lstIntensitySource;
+        private System.Windows.Forms.ComboBox _lstTrendSource;
+        private Controls.CtlButton _btnIntensitySource;
+        private Controls.CtlButton _btnTrendSource;
     }
 }

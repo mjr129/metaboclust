@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Controls;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Associational;
@@ -27,6 +28,8 @@ namespace MetaboliteLevels.Forms.Activities
         List<OtherExportInfo> _otherExports = new List<OtherExportInfo>();
         private Core _core;
         UniqueTable _uniqueTable = new UniqueTable();
+        private EditableComboBox<IProvider<IntensityMatrix>> _ecbIntensitySource;
+        private EditableComboBox<IProvider<IntensityMatrix>> _ecbTrendSource;
 
         public static void Show( Form owner, Core core )
         {
@@ -41,6 +44,9 @@ namespace MetaboliteLevels.Forms.Activities
             InitializeComponent();
             UiControls.SetIcon( this );
 
+            _ecbIntensitySource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstIntensitySource, _btnIntensitySource, ENullItemName.NoNullItem );
+            _ecbTrendSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstIntensitySource, _btnIntensitySource, ENullItemName.NoNullItem );
+
             _core = core;
         }
 
@@ -50,7 +56,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void _chkData_CheckedChanged( object sender, EventArgs e )
         {
-            Set( _txtData, _btnData, _chkData );
+            Set( _txtData, _btnData, _chkData, _lstIntensitySource, _btnIntensitySource );
         }
 
         private void _chkObs_CheckedChanged( object sender, EventArgs e )
@@ -70,7 +76,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void _chkTrend_CheckedChanged( object sender, EventArgs e )
         {
-            Set( _txtTrend , _btnTrend , _chkTrend);
+            Set( _txtTrend , _btnTrend , _chkTrend, _lstTrendSource, _btnTrendSource);
         }
 
         private void _chkConds_CheckedChanged( object sender, EventArgs e )
@@ -95,6 +101,16 @@ namespace MetaboliteLevels.Forms.Activities
             if (fileName != null)
             {
                 textBox.Text = fileName;
+            }
+        }
+
+        private void Set( TextBox textBox, CtlButton button, CheckBox checkBox, ComboBox comboBox, CtlButton comboButton )
+        {
+            Set( textBox, button, checkBox );
+
+            if (comboBox != null)
+            {
+                comboButton.Enabled = comboBox.Enabled = textBox.Enabled;
             }
         }
 
@@ -263,9 +279,8 @@ namespace MetaboliteLevels.Forms.Activities
         {   
             if (_chkData.Checked)
             {
-                prog.Enter( "Intensities" );
-                IntensityMatrix source = Core.Legacy();
-                ExportData( _txtData.Text, source );
+                prog.Enter( "Intensities" );                 
+                ExportData( _txtData.Text, _ecbIntensitySource.SelectedItem.Provide );
                 prog.Leave();
             }
 
@@ -292,9 +307,8 @@ namespace MetaboliteLevels.Forms.Activities
 
             if (_chkTrend.Checked)
             {
-                prog.Enter( "Trend" );
-                IntensityMatrix source = Core.Legacy();
-                ExportData( _txtTrend.Text, source );
+                prog.Enter( "Trend" );                    
+                ExportData( _txtTrend.Text, _ecbTrendSource.SelectedItem.Provide );
                 prog.Leave();
             }
 

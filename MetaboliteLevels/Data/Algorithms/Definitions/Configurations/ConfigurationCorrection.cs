@@ -20,7 +20,7 @@ using MGui.Datatypes;
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
     [Serializable]
-    internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsBase, ResultCorrection>, IMatrixProducer
+    internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsBase, ResultCorrection>, IProvider<IntensityMatrix>
     {
         public ConfigurationCorrection(string name, string comments, TrendBase trend, ArgsTrendAsCorrection args)
             : base(name, comments, trend.Id, args)
@@ -209,6 +209,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return result;
         }
 
-        public IntensityMatrix Product => Results.Matrix;
+        public IntensityMatrix Provide => Results.Matrix;
     }
 }

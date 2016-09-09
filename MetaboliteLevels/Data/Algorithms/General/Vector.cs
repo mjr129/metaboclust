@@ -41,7 +41,7 @@ namespace MetaboliteLevels.Algorithms
         /// </summary>                                                                     
         public Vector( double[] values, IntensityMatrix.RowHeader row, IntensityMatrix.ColumnHeader[] cols)
         {
-            Source = new IntensityMatrix( "single", null, new[] { row }, cols, new[] { values } );
+            Source = new IntensityMatrix( new[] { row }, cols, new[] { values } );
             RowIndex = 0;
         }
 
@@ -63,7 +63,7 @@ namespace MetaboliteLevels.Algorithms
         /// </summary>                    
         public IntensityMatrix ToIntensityMatrix()
         {
-            return new IntensityMatrix( "Single", null, new[] { Source.Rows[RowIndex] }, Source.Columns, new[] { Values } );
+            return new IntensityMatrix(  new[] { Source.Rows[RowIndex] }, Source.Columns, new[] { Values } );
         }
     }
 }

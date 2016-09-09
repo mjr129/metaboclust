@@ -491,9 +491,9 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All intensity matrices
         /// </summary>            
-        internal static DataSet<MatrixProducer> ForIntensityMatrices( Core core )
+        internal static DataSet<IProvider<IntensityMatrix>> ForMatrixProviders( Core core )
         {
-            return new DataSet<MatrixProducer>()
+            return new DataSet<IProvider<IntensityMatrix>>()
             {
                 Core = core,
                 Title = "Intensity matrices",

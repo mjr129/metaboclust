@@ -32,7 +32,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private EditableComboBox<MetricBase> _ecbDistance;
         private EditableComboBox<PeakFilter> _ecbPeakFilter;
         private readonly ChartHelperForPeaks _chart;
-        private readonly EditableComboBox<MatrixProducer> _ecbSource;
+        private readonly EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
 
         internal static bool Show(Form owner, Core core)
         {
@@ -56,7 +56,7 @@ namespace MetaboliteLevels.Forms.Wizards
             _chart = new ChartHelperForPeaks(null, core, panel1);
 
             _ecbFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstFilters, _btnEditFilters, ENullItemName.All);
-            _ecbSource = DataSet.ForIntensityMatrices( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.None );
+            _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.None );
             _lstGroups.Items.AddRange(NamedItem.GetRange(core.Groups, z => z.DisplayName).ToArray());
             _lstGroups.SelectedIndex = 0;
 
@@ -184,14 +184,14 @@ namespace MetaboliteLevels.Forms.Wizards
             WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>(_radSeedCurrent.Checked ? current : _radSeedHighest.Checked ? _highestPeak : _lowestPeak);
             GroupInfo param4_seedGroup = NamedItem<GroupInfo>.Extract(_lstGroups.SelectedItem);
             int param5_doKMeans = _radFinishK.Checked ? 1 : 0;
-            MatrixProducer source = _ecbSource.SelectedItem;
+            IProvider<IntensityMatrix> source = _ecbSource.SelectedItem;
             object[] parameters = { param1_numClusters, param2_distanceLimit, param3_seedPeak, param4_seedGroup, param5_doKMeans };
             string name = "DK";
 
             // Create a constraint that only allows overlapping timepoints
             HashSet<int> overlappingPoints = new HashSet<int>();
             var fil = _ecbFilter.SelectedItem ?? ObsFilter.Empty;
-            var passed = fil.Test( source.Product.Columns.Select(z=> z.Observation)).Passed;
+            var passed = fil.Test( source.Provide.Columns.Select(z=> z.Observation)).Passed;
             HashSet<GroupInfo> groups = new HashSet<GroupInfo>(passed.Select(z => z.Group));
             bool needsExFilter = false;
 

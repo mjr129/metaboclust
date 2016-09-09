@@ -232,14 +232,14 @@ namespace MetaboliteLevels.Forms.Editing
             Tuple<Peak, Peak> smallestT = null;
             Tuple<Peak, Peak> largestT = null;
             ConfigurationMetric metric = new ConfigurationMetric(null, null, Algo.ID_METRIC_EUCLIDEAN, null);
-            MatrixProducer vmatrix = DataSet.ForIntensityMatrices(_core).ShowList( this, null );
+            IProvider<IntensityMatrix> vmatrix = DataSet.ForMatrixProviders(_core).ShowList( this, null );
 
             if (vmatrix == null)
             {
                 return;
             }
 
-            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix.Product, metric, prog);
+            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix.Provide, metric, prog);
 
             for (int peakIndex1 = 0; peakIndex1 < _core.Peaks.Count; peakIndex1++)
             {
@@ -279,14 +279,14 @@ namespace MetaboliteLevels.Forms.Editing
         [Description("View peak raw intensity data")]
         void view_variable_full()
         {
-            MatrixProducer im = DataSet.ForIntensityMatrices( _core ).ShowList(this, null);
+            IProvider<IntensityMatrix> im = DataSet.ForMatrixProviders( _core ).ShowList(this, null);
 
             if (im == null)
             {
                 return;
             }
 
-            Vector peak = PickVariable(im.Product);
+            Vector peak = PickVariable(im.Provide);
 
             if (peak != null)
             {

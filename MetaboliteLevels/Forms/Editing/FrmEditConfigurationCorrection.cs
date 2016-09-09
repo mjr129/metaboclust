@@ -43,12 +43,13 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<ObsFilter> _ecbFilter;
         private EditableComboBox<AlgoBase> _ecbMethod;
         private EditableComboBox<GroupInfo> _ecbTypes;
+        private EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
 
         private ConfigurationCorrection GetSelection()
         {
             _checker.Clear();
 
-            MatrixProducer source = new MatrixProducer( Core.Legacy() );
+            IProvider<IntensityMatrix> source = _ecbSource.SelectedItem;
 
             // Algo
             AlgoBase algo = _ecbMethod.SelectedItem;
@@ -219,6 +220,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _ecbFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter, _btnFilter,  ENullItemName.All);
             _ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
             _ecbTypes = DataSet.ForGroups(_core).CreateComboBox(_lstTypes, _btnEditTypes, ENullItemName.NoNullItem);
+            _ecbSource = DataSet.ForMatrixProviders( _core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
 
             // Buttons
             GenerateTypeButtons();
@@ -302,7 +304,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _lblPreviewTitle.Text = "Preview (" + _selectedPeak.DisplayName + ")";
 
-            IntensityMatrix source = Core.Legacy();
+            IntensityMatrix source = _ecbSource.SelectedItem.Provide;
 
             var orig = new StylisedPeak(_selectedPeak);
             var changed = new StylisedPeak(_selectedPeak);

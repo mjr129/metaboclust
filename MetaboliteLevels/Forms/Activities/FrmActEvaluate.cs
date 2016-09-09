@@ -618,7 +618,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
                     copyOfParameters[test.ParameterIndex] = value;
                     ArgsClusterer copyOfArgs = new ArgsClusterer(
-                        test.ClustererConfiguration.Args.Source,
+                        test.ClustererConfiguration.Args.SourceProvider,
                         test.ClustererConfiguration.Args.PeakFilter,
                         test.ClustererConfiguration.Args.Distance, 
                         test.ClustererConfiguration.Args.ObsFilter, 

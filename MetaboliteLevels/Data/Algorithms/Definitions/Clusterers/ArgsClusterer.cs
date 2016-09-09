@@ -45,7 +45,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// <summary>
         /// Constructor.
         /// </summary>  
-        public ArgsClusterer( MatrixProducer source, PeakFilter sigFilter, ConfigurationMetric distance, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters)
+        public ArgsClusterer( IProvider<IntensityMatrix> source, PeakFilter sigFilter, ConfigurationMetric distance, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters)
             : base( source, parameters )
         {
             this.PeakFilter = sigFilter;

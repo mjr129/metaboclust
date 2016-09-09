@@ -32,7 +32,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<ObsFilter> _ecbFilter1;
         private EditableComboBox<ObsFilter> _ecbFilter2;
         private EditableComboBox<StatisticBase> _ecbMeasure;
-        private readonly EditableComboBox<MatrixProducer> _ecbSource;
+        private readonly EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
 
         internal static ConfigurationStatistic Show(Form owner, ConfigurationStatistic def, Core core, bool readOnly)
         {
@@ -65,7 +65,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private ConfigurationStatistic GetSelection()
         {
             StatisticBase sel = this._ecbMeasure.SelectedItem;
-            MatrixProducer src;
+            IProvider<IntensityMatrix> src;
             EAlgoInputBSource bsrc;
             ObsFilter filter1;
             ObsFilter filter2;
@@ -212,7 +212,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _ecbFilter1 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter1, _btnFilter1,  ENullItemName.All);
             _ecbFilter2 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter2, _btnFilter2,  ENullItemName.All);
-            _ecbSource = DataSet.ForIntensityMatrices( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
+            _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
             _ecbMeasure = DataSet.ForStatisticsAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
 
             _lstDiffPeak.Items.AddRange(NamedItem.GetRange(_core.Peaks, z => z.DisplayName).ToArray());
@@ -226,7 +226,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _ecbMeasure.SelectedItem = defaultSelection.Cached;
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
 
-                _ecbSource.SelectedItem = defaultSelection.Args.Source;
+                _ecbSource.SelectedItem = defaultSelection.Args.SourceProvider;
                 _radBCorTime.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.Time;
                 _radBDiffPeak.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.AltPeak;
                 _radSamePeak.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.SamePeak;

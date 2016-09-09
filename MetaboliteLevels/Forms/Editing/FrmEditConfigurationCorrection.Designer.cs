@@ -79,7 +79,7 @@
             this._checker = new MGui.Controls.CtlError(this.components);
             this.label7 = new System.Windows.Forms.Label();
             this._lstSource = new System.Windows.Forms.ComboBox();
-            this._source = new MetaboliteLevels.Controls.CtlButton();
+            this._btnSource = new MetaboliteLevels.Controls.CtlButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -120,7 +120,7 @@
             this.tableLayoutPanel1.Controls.Add(this._lblSepFilter, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this._lstSource, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this._source, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this._btnSource, 3, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 87);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -753,13 +753,13 @@
             // 
             // _source
             // 
-            this._source.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._source.Location = new System.Drawing.Point(852, 53);
-            this._source.Margin = new System.Windows.Forms.Padding(8);
-            this._source.Name = "_source";
-            this._source.Size = new System.Drawing.Size(28, 28);
-            this._source.TabIndex = 17;
-            this._source.UseVisualStyleBackColor = true;
+            this._btnSource.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnSource.Location = new System.Drawing.Point(852, 53);
+            this._btnSource.Margin = new System.Windows.Forms.Padding(8);
+            this._btnSource.Name = "_source";
+            this._btnSource.Size = new System.Drawing.Size(28, 28);
+            this._btnSource.TabIndex = 17;
+            this._btnSource.UseVisualStyleBackColor = true;
             // 
             // FrmEditConfigurationCorrection
             // 
@@ -847,6 +847,6 @@
         private System.Windows.Forms.LinkLabel _lnkError;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox _lstSource;
-        private Controls.CtlButton _source;
+        private Controls.CtlButton _btnSource;
     }
 }

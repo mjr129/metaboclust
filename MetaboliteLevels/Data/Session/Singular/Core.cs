@@ -62,7 +62,7 @@ namespace MetaboliteLevels.Data.Session
         /// Main data - Intensity matrices
         /// </summary>
         [UndeferSerialisation( typeof( Peak ) )]
-        private readonly List<IntensityMatrix> _matrices;
+        private readonly List<OriginalData> _originalData;
 
         /// <summary>
         /// Main data - the peaks
@@ -295,7 +295,7 @@ namespace MetaboliteLevels.Data.Session
             this.CoreGuid = Guid.NewGuid();
 
             this.FileNames = fileNames;
-            this.Options = new CoreOptions();
+            this.Options = new CoreOptions(this);
             this.Options.ViewTypes = new List<GroupInfo>( data.Types.OrderBy( z => z.DisplayPriority ) );
 
             this._adducts = adducts;
@@ -323,12 +323,12 @@ namespace MetaboliteLevels.Data.Session
 
             this._cache = new CachedData( this );
 
-            this._matrices = new List<IntensityMatrix>();
-            this._matrices.Add( data.IntensityMatrix );
+            this._originalData = new List<OriginalData>();
+            this._originalData.Add( data.IntensityMatrix );
 
             if (data.AltIntensityMatrix != null)
             {
-                this._matrices.Add( data.AltIntensityMatrix );
+                this._originalData.Add( data.AltIntensityMatrix );
             }
         }
 
@@ -398,7 +398,7 @@ namespace MetaboliteLevels.Data.Session
                         }
                     }
 
-                    IntensityMatrix imresult = new IntensityMatrix( algo.DisplayName, null, source.Rows, source.Columns, results );
+                    IntensityMatrix imresult = new IntensityMatrix( source.Rows, source.Columns, results );
 
                     algo.SetResults( new ResultCorrection( imresult ) );
                 }
@@ -679,7 +679,7 @@ namespace MetaboliteLevels.Data.Session
                 results[index] = trend.CreateTrend( Observations, Conditions, Groups, source.Values[index] ); // obs
             }
 
-            IntensityMatrix result = new IntensityMatrix( trend.DisplayName, null, source.Rows, source.Columns, results );
+            IntensityMatrix result = new IntensityMatrix(  source.Rows, source.Columns, results );
 
             trend.SetResults( new ResultTrend( result ) );
         }
@@ -881,30 +881,30 @@ namespace MetaboliteLevels.Data.Session
             return false;
         }
 
-        public static IntensityMatrix Legacy()
+        public static IntensityMatrix LegacyXXXXXXXXXXXXXXXXXXXXXXXX()
         {
             return null;
         }
 
-        public IEnumerable<MatrixProducer> Matrices
+        public IEnumerable<IProvider<IntensityMatrix>> Matrices
         {
             get
             {
-                List<MatrixProducer> results = new List<MatrixProducer>();
+                List<IProvider<IntensityMatrix>> results = new List<IProvider<IntensityMatrix>>();
 
-                foreach (IntensityMatrix matrix in _matrices)
+                foreach (OriginalData matrix in _originalData)
                 {
-                    results.Add( new MatrixProducer( matrix ) );
+                    results.Add(  matrix  );
                 }
 
                 foreach (ConfigurationTrend trend in _trends)
                 {
-                    results.Add( new MatrixProducer( trend ) );
+                    results.Add(  trend  );
                 }
 
                 foreach (ConfigurationCorrection correction in _corrections)
                 {
-                    results.Add( new MatrixProducer( correction ) );
+                    results.Add( correction );
                 }
 
                 return results;

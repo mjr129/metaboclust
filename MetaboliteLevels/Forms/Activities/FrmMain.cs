@@ -91,8 +91,6 @@ namespace MetaboliteLevels.Forms
         private ListViewHelper<Assignment> _assignmentList;
         private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList2;
         private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList;
-        private MatrixProducer _selectedMatrix;
-        private ConfigurationTrend _selectedTrend;                
 
         public VisualisableSelection Selection
         {
@@ -358,7 +356,7 @@ namespace MetaboliteLevels.Forms
         /// Handle changing of "_core".
         /// </summary>
         private void HandleCoreChange()
-        {
+        {   
             // Update stuff
             _coreWatchers.ForEach(z => z.ChangeCore(_core));
 
@@ -760,8 +758,8 @@ namespace MetaboliteLevels.Forms
                 index2++;
             }
 
-            _lstMatrix.Text = _selectedMatrix.ToString();
-            _lstTrend.Text = _selectedTrend.ToString();
+            _lstMatrix.Text = _core.Options.SelectedMatrixProvider.ToString();
+            _lstTrend.Text = _core.Options.SelectedTrend.ToString();
         }
 
         /// <summary>
@@ -1609,7 +1607,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void compareToThisPeakToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurationStatistic template = new ConfigurationStatistic(null, null, null, new ArgsStatistic( _selectedMatrix, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null));
+            ConfigurationStatistic template = new ConfigurationStatistic(null, null, null, new ArgsStatistic( _core.Options.SelectedMatrixProvider, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null));
 
             DataSet.ForStatistics(_core).ShowListEditor(this, FrmBigList.EShow.Default, template);
         }
@@ -1712,11 +1710,11 @@ namespace MetaboliteLevels.Forms
 
         private void correlationMapToolStripMenuItem_Click( object sender, EventArgs e )
         {                                
-            ArgsMetric args = new ArgsMetric(_selectedMatrix, new object[0]  );
+            ArgsMetric args = new ArgsMetric( _core.Options.SelectedMatrixProvider, new object[0]  );
             ConfigurationMetric metric = new ConfigurationMetric( "Temporary", null, Algo.ID_METRIC_PEARSONDISTANCE, args );
 
             DistanceMatrix dm = FrmWait.Show( this, "Creating value matrix", null,
-                z => DistanceMatrix.Create( _core, _selectedMatrix.Product, metric, z ) );
+                z => DistanceMatrix.Create( _core, _core.Options.SelectedMatrixProvider.Provide, metric, z ) );
 
             FrmActHeatMap.Show( _core, _peakList, dm );
         }
@@ -1761,11 +1759,11 @@ namespace MetaboliteLevels.Forms
 
         private void _lstMatrix_Click( object sender, EventArgs e )
         {
-            var sel = DataSet.ForIntensityMatrices( _core ).ShowList(this, _selectedMatrix);
+            var sel = DataSet.ForMatrixProviders( _core ).ShowList(this, _core.Options.SelectedMatrixProvider );
 
             if (sel != null)
             {
-                _selectedMatrix = sel;
+                _core.Options.SelectedMatrixProvider = sel;
             }
 
             UpdateAll( "Data matrix changed", EListInvalids.ContentsChanged, EListInvalids.None, EListInvalids.None, EListInvalids.None );
@@ -1775,11 +1773,11 @@ namespace MetaboliteLevels.Forms
 
         private void _lstTrend_Click( object sender, EventArgs e )
         {
-            var sel = DataSet.ForTrends( _core ).ShowList( this, _selectedTrend );
+            var sel = DataSet.ForTrends( _core ).ShowList( this, _core.Options.SelectedTrend );
 
             if (sel != null)
             {
-                _selectedTrend = sel;
+                _core.Options.SelectedTrend = sel;
             }
             
             UpdateVisualOptions();
@@ -1787,14 +1785,10 @@ namespace MetaboliteLevels.Forms
             Replot();
         }
 
-        public IntensityMatrix SelectedMatrix
-        {
-            get { return Core.Legacy(); }
-        }
+        // TODO: Obsolete
+        public IntensityMatrix SelectedMatrix => _core.Options.SelectedMatrix;
 
-        public ConfigurationTrend SelectedTrend
-        {
-            get { return (ConfigurationTrend)(object)Core.Legacy(); }
-        }
+        // TODO: Obsolete
+        public ConfigurationTrend SelectedTrend => _core.Options.SelectedTrend;
     }
 }

@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,6 +21,7 @@ using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Properties;
 using System.Collections.ObjectModel;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.General;
 using MGui.Helpers;
 using MGui.Datatypes;
@@ -50,7 +50,7 @@ namespace MetaboliteLevels.Forms.Editing
         private double[,] _loadings;
         private Peak[] _pcaPeaks;
         private ObservationInfo[] _pcaObservations;
-        private ConfigurationCorrection _selectedCorrection;
+        private IProvider<IntensityMatrix> _selectedCorrection;
 
 
         SourceSet _colourBy = new SourceSet();
@@ -133,7 +133,8 @@ namespace MetaboliteLevels.Forms.Editing
         {
             StringBuilder title = new StringBuilder();
 
-            IntensityMatrix source = Core.Legacy().Subset( _peakFilter, _obsFilter );
+            IntensityMatrix sourceMatrix = _selectedCorrection.Provide;
+            IntensityMatrix source = sourceMatrix.Subset( _peakFilter, _obsFilter );
             
             double[] plsrResponseMatrix = null;             
 
@@ -143,7 +144,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             _lblObs.Text = _obsFilter.ToString();
             _lblPeaks.Text = _peakFilter.ToString();
-            _lblCorrections.Text = _selectedCorrection != null ? _selectedCorrection.DisplayName : "Original data";
+            _lblCorrections.Text = _selectedCorrection.ToString();
 
             _lblMethod.Text = _method.ToString().ToUpper();
             ctlTitleBar1.Text = _method.ToUiString();
@@ -693,7 +694,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _mnuCorrections_correction_Click(object sender, EventArgs e)
         {
-            _selectedCorrection = (ConfigurationCorrection)((ToolStripMenuItem)sender).Tag;
+            _selectedCorrection = (IProvider<IntensityMatrix>)((ToolStripMenuItem)sender).Tag;
 
             UpdateScores();
         }
@@ -702,17 +703,12 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _mnuCorrections.DropDownItems.Clear();
 
-            ToolStripMenuItem tsmi = new ToolStripMenuItem("Original data") { Tag = null };
-            tsmi.Click += this._mnuCorrections_correction_Click;
-
-            this._mnuCorrections.DropDownItems.Add(tsmi);
-
-            foreach (ConfigurationCorrection correction in this._core.AllCorrections.WhereEnabled())
+            foreach (IProvider<IntensityMatrix> provider in _core.Matrices)
             {
-                tsmi = new ToolStripMenuItem(correction.ToString()) { Tag = correction };
+                ToolStripMenuItem tsmi = new ToolStripMenuItem( provider.ToString() ) { Tag = provider };
                 tsmi.Click += this._mnuCorrections_correction_Click;
 
-                this._mnuCorrections.DropDownItems.Add(tsmi);
+                this._mnuCorrections.DropDownItems.Add( tsmi );
             }
         }
 

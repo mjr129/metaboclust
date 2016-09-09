@@ -101,7 +101,7 @@ namespace MetaboliteLevels.Forms.Startup
                 owner.Show();
                 return null;
             }
-        }
+        }          
 
         /// <summary>
         /// OVERRIDE
@@ -163,7 +163,7 @@ namespace MetaboliteLevels.Forms.Startup
             _result = new Core(_fileNames, data, compounds, pathways, compoundHeader, pathwayHeader, adducts, adductsHeader, annotationsHeader);
 
             // STATISTICS
-            Load_6_CalculateDefaultStatistics(new MatrixProducer( data.IntensityMatrix), _result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson), _prog);
+            Load_6_CalculateDefaultStatistics( data.IntensityMatrix, _result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson), _prog);
         }
 
         /// <summary>
@@ -867,8 +867,8 @@ namespace MetaboliteLevels.Forms.Startup
             public List<BatchInfo> Batches;
             public List<Peak> Peaks;
             public MetaInfoHeader PeakMetaHeader;
-            internal IntensityMatrix IntensityMatrix;
-            internal IntensityMatrix AltIntensityMatrix;
+            internal OriginalData IntensityMatrix;
+            internal OriginalData AltIntensityMatrix;
         }
 
         /// <summary>
@@ -1095,7 +1095,7 @@ namespace MetaboliteLevels.Forms.Startup
             return result;
         }
 
-        private static IntensityMatrix InterpretIntensityMatrix( string title, ProgressReporter prog, Spreadsheet<double> ss, List<Peak> availPeaks, List<ObservationInfo> availableObs )
+        private static OriginalData InterpretIntensityMatrix( string title, ProgressReporter prog, Spreadsheet<double> ss, List<Peak> availPeaks, List<ObservationInfo> availableObs )
         {
             //       PEAKS →
             // OBS   intensities
@@ -1105,21 +1105,25 @@ namespace MetaboliteLevels.Forms.Startup
             Dictionary<string, ObservationInfo> obsFinder = availableObs.ToDictionary( z => z.Id );
 
             double[][] matrix = new double[ss.NumRows][];
+
+            for (int n = 0; n < matrix.Length; n++)
+            {
+                matrix[n] = new double[ss.NumCols];
+            }
+
             Peak[] peaks = new Peak[ss.NumCols];
             ObservationInfo[] obs = new ObservationInfo[ss.NumRows];
 
-            for (int col = 0; col < ss.NumCols; ++col)
+            for (int peakIndex = 0; peakIndex < ss.NumCols; ++peakIndex)
             {
-                prog.SetProgress( col, ss.NumCols );
-
-                matrix[col] = new double[ss.NumRows];
+                prog.SetProgress( peakIndex, ss.NumCols );
 
                 for (int obsIndex = 0; obsIndex < ss.NumRows; obsIndex++)
                 {
-                    matrix[col][obsIndex] = ss[obsIndex, col];
+                    matrix[obsIndex][peakIndex] = ss[obsIndex, peakIndex];
                 }
 
-                peaks[col] =  peakFinder[ss.ColNames[col]] ;
+                peaks[peakIndex] =  peakFinder[ss.ColNames[peakIndex]] ;
             }
 
             for (int row = 0; row < ss.NumRows; ++row)
@@ -1127,7 +1131,9 @@ namespace MetaboliteLevels.Forms.Startup
                 obs[row] = obsFinder[ss.RowNames[row]];
             }
 
-            return new IntensityMatrix(title, ss.Title, peaks, obs, matrix );                  
+            var x =  new IntensityMatrix(peaks, obs, matrix );
+
+            return new OriginalData( title, ss.Title, x );
         }
 
         private static void CreateGroupInfo<T>(string longNamePrefix, string shortNamePrefix, Dictionary<string, string> conditionNames, List<T> types, Dictionary<string, T> byId, List<string> typeIds, Func<int, string, int, string, string, T> result)
@@ -1204,7 +1210,7 @@ namespace MetaboliteLevels.Forms.Startup
             return result;                                                        
         }
 
-        private static void Load_6_CalculateDefaultStatistics( MatrixProducer src, Core core, bool calcT, bool calcP, ProgressReporter prog)
+        private static void Load_6_CalculateDefaultStatistics( IProvider<IntensityMatrix> src, Core core, bool calcT, bool calcP, ProgressReporter prog)
         {
             // Create filters
             List<ObsFilter> allFilters = new List<ObsFilter>();
@@ -1319,7 +1325,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Creates an absolute maximum statistic of other statistics.
         /// </summary>
-        private static ConfigurationStatistic CreateAbsMaxStatistic( MatrixProducer src, List<ConfigurationStatistic> pStatOpts, string name)
+        private static ConfigurationStatistic CreateAbsMaxStatistic( IProvider<IntensityMatrix> src, List<ConfigurationStatistic> pStatOpts, string name)
         {
             object pStatMinParam1 = pStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
             ArgsStatistic pStatMinArgs = new ArgsStatistic(src, null, EAlgoInputBSource.None, null, null, new[] { pStatMinParam1 });
@@ -1330,7 +1336,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Creates an mathematical minimum statistic of other statistics.
         /// </summary>
-        private static ConfigurationStatistic CreateMinStatistic( MatrixProducer src, List<ConfigurationStatistic> tStatOpts, string name)
+        private static ConfigurationStatistic CreateMinStatistic( IProvider<IntensityMatrix> src, List<ConfigurationStatistic> tStatOpts, string name)
         {
             object tStatMinParam1 = tStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
             ArgsStatistic tStatMinArgs = new ArgsStatistic(src, null, EAlgoInputBSource.None, null, null, new[] { tStatMinParam1 });
@@ -1341,7 +1347,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Calculates a default T-test statistic.
         /// </summary>
-        private static ConfigurationStatistic CreateTTestStatistic( MatrixProducer src, string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
+        private static ConfigurationStatistic CreateTTestStatistic( IProvider<IntensityMatrix> src, string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
         {
             ArgsStatistic args = new ArgsStatistic(src, typeOfInterest, EAlgoInputBSource.SamePeak, controlConditions, null, null);
             var stat = new ConfigurationStatistic("T-TEST: " + name, null, Algo.ID_METRIC_TTEST, args);
@@ -1351,7 +1357,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Calculates a default pearson correlation statistic.
         /// </summary>
-        private static ConfigurationStatistic CreatePearsonStatistic( MatrixProducer src, string name, ObsFilter typeOfInterest)
+        private static ConfigurationStatistic CreatePearsonStatistic( IProvider<IntensityMatrix> src, string name, ObsFilter typeOfInterest)
         {
             ArgsStatistic argsPearson = new ArgsStatistic(src, typeOfInterest, EAlgoInputBSource.Time, null, null, null);
             var statPearson = new ConfigurationStatistic("PEARSON: " + name, "Pearson correlation of the trend-line for " + name + " against time.", Algo.ID_METRIC_PEARSON, argsPearson);
@@ -1390,6 +1396,7 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (e.Error != null)
             {
+                pictureBox1.Visible = false;
                 FrmMsgBox.ShowError( this, e.Error.Message );
                 DialogResult = DialogResult.Cancel;
             }

@@ -16,7 +16,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// Configured trend algorithm (see ConfigurationBase).
     /// </summary>
     [Serializable]
-    sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend>, IMatrixProducer
+    sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend>, IProvider<IntensityMatrix>
     {
         public ConfigurationTrend(string name, string comments, string trendId, ArgsTrend args)
             : base(name, comments, trendId, args)
@@ -27,7 +27,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         public Vector CreateTrend( Core core, Vector vector )
         {
             double[] newValues = CreateTrend( vector.Observations, core.Conditions, core.Groups, vector.Values );
-            IntensityMatrix temporary = new IntensityMatrix( "temp", null, new[] { vector.Peak }, core.Conditions.ToArray(), new[] { newValues } );
+            IntensityMatrix temporary = new IntensityMatrix( new[] { vector.Peak }, core.Conditions.ToArray(), new[] { newValues } );
             return temporary.Vectors[0];
         }
 
@@ -45,6 +45,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return columns;
         }
 
-        public IntensityMatrix Product => Results.Matrix;
+        public IntensityMatrix Provide => Results.Matrix;
     }
 }

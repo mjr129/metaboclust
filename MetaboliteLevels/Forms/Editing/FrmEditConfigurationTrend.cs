@@ -30,6 +30,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private string _comments;
 
         EditableComboBox<TrendBase> _ecbMethod;
+        private EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
 
         internal static ConfigurationTrend Show(Form owner, Core core, ConfigurationTrend def, bool readOnly)
         {
@@ -56,6 +57,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _previewPeak = previewPeak;
 
             _ecbMethod = DataSet.ForTrendAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
+            _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
 
             _chart1 = new ChartHelperForPeaks(null, core, panel1);
 
@@ -123,7 +125,9 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _checker.Check( _ecbMethod.ComboBox, false, "Select a method" );
             }
 
-            var src =new MatrixProducer( Core.Legacy());// _ecbSource.SelectedItem;
+            IProvider<IntensityMatrix> src = _ecbSource.SelectedItem;
+
+            _checker.Check( _ecbSource.ComboBox, src != null, "Select a source" );
 
             if (_checker.HasErrors)
             {
@@ -166,7 +170,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 StylisedPeak sPeak = new StylisedPeak(_previewPeak);
 
-                IntensityMatrix source = Core.Legacy();
+                IntensityMatrix source = _ecbSource.SelectedItem.Provide;
 
                 if (_previewPeak != null)
                 {

@@ -19,37 +19,18 @@ namespace MetaboliteLevels.Data.Session.Associational
 {         
     [Serializable]
     [DeferSerialisation]
-    class IntensityMatrix : IVisualisable, IMatrixProducer
-    {
-        private string _name;
+    class IntensityMatrix : IProvider<IntensityMatrix>
+    {                           
         public readonly double[][] Values;
         public readonly RowHeader[] Rows;
-        public readonly ColumnHeader[] Columns;
-
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
-
-        public string DefaultDisplayName
-        {
-            get
-            {
-                return _name;
-            }
-        }
-
-        public string OverrideDisplayName { get; set; }
-
-        public string Comment { get; set; }
-
-        public bool Enabled { get; set; } = true;
+        public readonly ColumnHeader[] Columns;                 
 
         public int NumRows => Rows.Length;
         public int NumVectors => Rows.Length;
         public int NumCols => Columns.Length;
 
-        public IntensityMatrix( string name, string comment, Peak[] rows, ObservationInfo[] columns, double[][] values )
-            : this( name,
-                  comment,
-                  rows.Select( z => new RowHeader( z, null ) ).ToArray(),
+        public IntensityMatrix( Peak[] rows, ObservationInfo[] columns, double[][] values )
+            : this(   rows.Select( z => new RowHeader( z, null ) ).ToArray(),
                   columns.Select( z => new ColumnHeader( z ) ).ToArray(),
                   values )
 
@@ -57,26 +38,12 @@ namespace MetaboliteLevels.Data.Session.Associational
             // NA
         }
 
-        public IntensityMatrix( string name, string comment, RowHeader[] rows, ColumnHeader[] columns, double[][] values )
-        {
-            _name = name;
+        public IntensityMatrix( RowHeader[] rows, ColumnHeader[] columns, double[][] values )
+        {                    
             Rows = rows;
             Columns = columns;
-            Values = values;
-            Comment = comment;
-        }
-
-        public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Matrix;
-
-        public IEnumerable<Column> GetColumns( Core core )
-        {
-            var result = new List<Column<IntensityMatrix>>();
-
-            result.Add( "Name", EColumn.Visible, z => z.OverrideDisplayName );
-            result.Add( "Comment", EColumn.None, z => z.Comment );  
-
-            return result;
-        }
+            Values = values;    
+        }         
 
         internal IntensityMatrix Subset( PeakFilter peakFilter, ObsFilter columnFilter = null, bool splitGroups=false, bool invertPeakFilter =false)
         {
@@ -119,11 +86,9 @@ namespace MetaboliteLevels.Data.Session.Associational
             {  
                 int[] colIndices = Columns.Which( z => columnFilter( z.Observation ) ).ToArray();
                 ColumnHeader[] newCols = Columns.At( colIndices ).ToArray();
-                double[][] newValues = Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ).ToArray();
+                double[][] newValues = Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ).ToArray(); 
 
-                string comment = $"Subset of {this} using {peakFilter} and {columnFilter}";
-
-                return new IntensityMatrix( "subset", comment, newRows, newCols, newValues );
+                return new IntensityMatrix( newRows, newCols, newValues );
             }
             else
             {
@@ -138,11 +103,9 @@ namespace MetaboliteLevels.Data.Session.Associational
 
                     newCols.AddRange( Columns.At( colIndices ) );
                     newValues.AddRange( Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ) );
-                }
+                }                                                                                   
 
-                string comment = $"Split subset of {this} using {peakFilter} and {columnFilter}";
-
-                return new IntensityMatrix( "split subset", comment, newRows.ToArray(), newCols.ToArray(), newValues.ToArray() );
+                return new IntensityMatrix( newRows.ToArray(), newCols.ToArray(), newValues.ToArray() );
             }
         }
 
@@ -217,6 +180,6 @@ namespace MetaboliteLevels.Data.Session.Associational
             }
         }
 
-        public IntensityMatrix Product => this;
+        public IntensityMatrix Provide => this;
     }
 }

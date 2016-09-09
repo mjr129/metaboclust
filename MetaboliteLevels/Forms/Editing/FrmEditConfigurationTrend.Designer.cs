@@ -58,6 +58,9 @@
             this._lnkError = new System.Windows.Forms.LinkLabel();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MGui.Controls.CtlError(this.components);
+            this.label3 = new System.Windows.Forms.Label();
+            this._lstSource = new System.Windows.Forms.ComboBox();
+            this._btnSource = new MetaboliteLevels.Controls.CtlButton();
             this.contextMenuStrip1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -88,7 +91,7 @@
             // _btnNewStatistic
             // 
             this._btnNewStatistic.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnNewStatistic.Location = new System.Drawing.Point(1025, 53);
+            this._btnNewStatistic.Location = new System.Drawing.Point(1025, 98);
             this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewStatistic.Name = "_btnNewStatistic";
             this._btnNewStatistic.Size = new System.Drawing.Size(29, 29);
@@ -193,7 +196,7 @@
             this.flowLayoutPanel1.Controls.Add(this._btnCancel);
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(791, 667);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(791, 712);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(268, 50);
             this.flowLayoutPanel1.TabIndex = 13;
@@ -202,7 +205,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 53);
+            this.label1.Location = new System.Drawing.Point(8, 98);
             this.label1.Margin = new System.Windows.Forms.Padding(8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 21);
@@ -212,11 +215,10 @@
             // _lstMethod
             // 
             this.tableLayoutPanel1.SetColumnSpan(this._lstMethod, 2);
-            this._lstMethod.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstMethod.ForeColor = System.Drawing.Color.Blue;
             this._lstMethod.FormattingEnabled = true;
-            this._lstMethod.Location = new System.Drawing.Point(88, 53);
+            this._lstMethod.Location = new System.Drawing.Point(88, 98);
             this._lstMethod.Margin = new System.Windows.Forms.Padding(8);
             this._lstMethod.Name = "_lstMethod";
             this._lstMethod.Size = new System.Drawing.Size(921, 29);
@@ -253,39 +255,41 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this._btnEditParameters, 3, 2);
-            this.tableLayoutPanel1.Controls.Add(this._btnNewStatistic, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this._lstMethod, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this._btnEditParameters, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this._btnNewStatistic, 3, 2);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this._lstMethod, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this._txtName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this._btnComment, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label16, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this._lblParams, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this._txtParams, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this._tlpPreview, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.label16, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this._lblParams, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this._txtParams, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this._tlpPreview, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this._lstSource, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this._btnSource, 3, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 87);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1062, 720);
             this.tableLayoutPanel1.TabIndex = 14;
             // 
             // _btnEditParameters
             // 
             this._btnEditParameters.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnEditParameters.Location = new System.Drawing.Point(1025, 98);
+            this._btnEditParameters.Location = new System.Drawing.Point(1025, 143);
             this._btnEditParameters.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditParameters.Name = "_btnEditParameters";
             this._btnEditParameters.Size = new System.Drawing.Size(29, 29);
@@ -297,7 +301,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(8, 143);
+            this.label16.Location = new System.Drawing.Point(8, 188);
             this.label16.Margin = new System.Windows.Forms.Padding(8);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(14, 21);
@@ -307,7 +311,7 @@
             // _lblParams
             // 
             this._lblParams.AutoSize = true;
-            this._lblParams.Location = new System.Drawing.Point(88, 98);
+            this._lblParams.Location = new System.Drawing.Point(88, 143);
             this._lblParams.Margin = new System.Windows.Forms.Padding(8);
             this._lblParams.Name = "_lblParams";
             this._lblParams.Size = new System.Drawing.Size(46, 21);
@@ -318,10 +322,10 @@
             // 
             this._txtParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtParams.ForeColor = System.Drawing.Color.Blue;
-            this._txtParams.Location = new System.Drawing.Point(150, 98);
+            this._txtParams.Location = new System.Drawing.Point(1025, 143);
             this._txtParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtParams.Name = "_txtParams";
-            this._txtParams.Size = new System.Drawing.Size(859, 29);
+            this._txtParams.Size = new System.Drawing.Size(1, 29);
             this._txtParams.TabIndex = 6;
             this._txtParams.Watermark = null;
             this._txtParams.TextChanged += new System.EventHandler(this.CheckAndChange);
@@ -329,7 +333,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 635);
+            this.label2.Location = new System.Drawing.Point(8, 680);
             this.label2.Margin = new System.Windows.Forms.Padding(8);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 21);
@@ -349,7 +353,7 @@
             this._tlpPreview.Controls.Add(this._lnkError, 0, 2);
             this._tlpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
             this._tlpPreview.ForeColor = System.Drawing.Color.Black;
-            this._tlpPreview.Location = new System.Drawing.Point(8, 180);
+            this._tlpPreview.Location = new System.Drawing.Point(8, 225);
             this._tlpPreview.Margin = new System.Windows.Forms.Padding(8);
             this._tlpPreview.Name = "_tlpPreview";
             this._tlpPreview.RowCount = 3;
@@ -433,6 +437,40 @@
             this.ctlTitleBar1.Text = "Select Smoothing Algorithm";
             this.ctlTitleBar1.WarningText = null;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 53);
+            this.label3.Margin = new System.Windows.Forms.Padding(8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 21);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Source";
+            // 
+            // _lstSource
+            // 
+            this._lstSource.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstSource.ForeColor = System.Drawing.Color.Blue;
+            this._lstSource.FormattingEnabled = true;
+            this._lstSource.Location = new System.Drawing.Point(88, 53);
+            this._lstSource.Margin = new System.Windows.Forms.Padding(8);
+            this._lstSource.Name = "_lstSource";
+            this._lstSource.Size = new System.Drawing.Size(921, 29);
+            this._lstSource.TabIndex = 1;
+            this._lstSource.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
+            // 
+            // _btnSource
+            // 
+            this._btnSource.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnSource.Location = new System.Drawing.Point(1025, 53);
+            this._btnSource.Margin = new System.Windows.Forms.Padding(8);
+            this._btnSource.Name = "_btnSource";
+            this._btnSource.Size = new System.Drawing.Size(29, 29);
+            this._btnSource.TabIndex = 16;
+            this._btnSource.UseDefaultSize = true;
+            this._btnSource.UseVisualStyleBackColor = true;
+            // 
             // FrmEditConfigurationTrend
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -488,5 +526,8 @@
         private System.Windows.Forms.Panel panel1;
         private MGui.Controls.CtlError _checker;
         private System.Windows.Forms.LinkLabel _lnkError;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox _lstSource;
+        private Controls.CtlButton _btnSource;
     }
 }

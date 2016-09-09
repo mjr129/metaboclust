@@ -48,7 +48,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             columns.AddSubObject(core, "Arguments\\Observation filter", z => z.Args.ObsFilter);
             columns.AddSubObject(core, "Arguments\\Peak pilter", z => z.Args.PeakFilter);
             columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
-            columns.Add("Arguments\\Source", z => z.Args.Source);
+            columns.Add("Arguments\\Source", z => z.Args.SourceProvider);
             columns.Add("Arguments\\Split groups", z => z.Args.SplitGroups);
             columns.Add("Arguments\\Statistics", z => z.Args.Statistics);
 

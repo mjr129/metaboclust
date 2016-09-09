@@ -4,13 +4,18 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 using MGui.Datatypes;
 using MGui.Helpers;
+using System.Linq;
+using MetaboliteLevels.Viewers.Charts;
 
 namespace MetaboliteLevels.Settings
 {
@@ -20,37 +25,37 @@ namespace MetaboliteLevels.Settings
     [Serializable]
     class CoreOptions
     {
-        [DisplayName("Object size limit (Mb)")]
-        [Category("Miscellaneous")]
-        [Description("Maximum size of objects used in calculations before the user is told to rethink their parameters. Used to avoid disturbingly long tea breaks.")]
-        [DefaultValue(500)]
+        [DisplayName( "Object size limit (Mb)" )]
+        [Category( "Miscellaneous" )]
+        [Description( "Maximum size of objects used in calculations before the user is told to rethink their parameters. Used to avoid disturbingly long tea breaks." )]
+        [DefaultValue( 500 )]
         public int ObjectSizeLimit { get; set; }
 
-        [DisplayName("Show cluster centres")]
-        [Category("Clusters")]
-        [DefaultValue(true)]
+        [DisplayName( "Show cluster centres" )]
+        [Category( "Clusters" )]
+        [DefaultValue( true )]
         public bool ShowCentres { get; set; }
 
-        [DisplayName("Maximum vectors")]
-        [Description("Speed up plotting only plot this number of vectors at maximum in a cluster plot")]
-        [Category("Clusters")]
-        [DefaultValue(200)]
-        public int MaxPlotVariables { get; set; }            
+        [DisplayName( "Maximum vectors" )]
+        [Description( "Speed up plotting only plot this number of vectors at maximum in a cluster plot" )]
+        [Category( "Clusters" )]
+        [DefaultValue( 200 )]
+        public int MaxPlotVariables { get; set; }
 
-        [DisplayName("Explore acquisition")]
-        [Category("Peaks")]
-        [Description("Plot peaks batch/acquisition-wise rather than group/time-wise.")]
-        [DefaultValue(false)]
+        [DisplayName( "Explore acquisition" )]
+        [Category( "Peaks" )]
+        [Description( "Plot peaks batch/acquisition-wise rather than group/time-wise." )]
+        [DefaultValue( false )]
         public bool ViewAcquisition { get; set; }
 
-        [DisplayName("Plot experimental conditions side-by-side")]
-        [Category("All")]
-        [DefaultValue(true)]
+        [DisplayName( "Plot experimental conditions side-by-side" )]
+        [Category( "All" )]
+        [DefaultValue( true )]
         public bool ConditionsSideBySide { get; set; }
 
-        [DisplayName("Shade min/max area")]
-        [Category("Peaks")]
-        [DefaultValue(true)]
+        [DisplayName( "Shade min/max area" )]
+        [Category( "Peaks" )]
+        [DefaultValue( true )]
         public bool ShowVariableRanges { get; set; }
 
         [DisplayName( "Draw lines around min/max area" )]
@@ -58,138 +63,138 @@ namespace MetaboliteLevels.Settings
         [DefaultValue( true )]
         public bool ShowVariableMinMax { get; set; }
 
-        [DisplayName("Show mean and std. dev.")]
-        [Category("Peaks")]
-        [DefaultValue(true)]
+        [DisplayName( "Show mean and std. dev." )]
+        [Category( "Peaks" )]
+        [DefaultValue( true )]
         public bool ShowVariableMean { get; set; }
 
-        [DisplayName("Show individual data points")]
-        [Category("Peaks")]
-        [DefaultValue(true)]
+        [DisplayName( "Show individual data points" )]
+        [Category( "Peaks" )]
+        [DefaultValue( true )]
         public bool ShowPoints { get; set; }
 
-        [DisplayName("Show trend")]
-        [Description("Plot the trend on the graphs.")]
-        [Category("Peaks")]
-        [DefaultValue(true)]
+        [DisplayName( "Show trend" )]
+        [Description( "Plot the trend on the graphs." )]
+        [Category( "Peaks" )]
+        [DefaultValue( true )]
         public bool ShowTrend { get; set; }
 
-        [DisplayName("Enable peak flagging")]
-        [Category("Peaks")]
-        [Description("When set you can toggle peak flags by pressing the corresponding key on your keyboard with the peak list selected. See the \"Peak flags\" field to edit the list of available flags.")]
-        [DefaultValue(false)]
+        [DisplayName( "Enable peak flagging" )]
+        [Category( "Peaks" )]
+        [Description( "When set you can toggle peak flags by pressing the corresponding key on your keyboard with the peak list selected. See the \"Peak flags\" field to edit the list of available flags." )]
+        [DefaultValue( false )]
         public bool EnablePeakFlagging { get; set; }
 
-        [DisplayName("Peak flags")]
-        [Category("Peaks")]
+        [DisplayName( "Peak flags" )]
+        [Category( "Peaks" )]
         public List<PeakFlag> PeakFlags { get; set; }
 
-        [DisplayName("Colours")]
-        [Category("All")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [DisplayName( "Colours" )]
+        [Category( "All" )]
+        [TypeConverter( typeof( ExpandableObjectConverter ) )]
         public CoreColourSettings Colours { get; set; }
 
-        [DisplayName("Display")]
-        [Category("Clusters")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [DisplayName( "Display" )]
+        [Category( "Clusters" )]
+        [TypeConverter( typeof( ExpandableObjectConverter ) )]
         public PlotSetup ClusterDisplay { get; set; }
 
-        [DisplayName("No axes")]
-        [Description("Treats all plots as a preview for drawing purposes, suppressing the drawing of the axes. This is useful if you have a very small plot window or for exporting data to small images.")]
-        [Category("Miscellaneous")]
-        [DefaultValue(false)]
+        [DisplayName( "No axes" )]
+        [Description( "Treats all plots as a preview for drawing purposes, suppressing the drawing of the axes. This is useful if you have a very small plot window or for exporting data to small images." )]
+        [Category( "Miscellaneous" )]
+        [DefaultValue( false )]
         public bool NoAxes { get; set; }
 
-        [DisplayName("Display")]
-        [Category("Peaks")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [DisplayName( "Display" )]
+        [Category( "Peaks" )]
+        [TypeConverter( typeof( ExpandableObjectConverter ) )]
         public PlotSetup PeakDisplay { get; set; }
 
-        [DisplayName("Display")]
-        [Category("Compounds")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [DisplayName( "Display" )]
+        [Category( "Compounds" )]
+        [TypeConverter( typeof( ExpandableObjectConverter ) )]
         public PlotSetup CompoundDisplay { get; set; }
 
-        [DisplayName("Display")]
-        [Category("Pathways")]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [DisplayName( "Display" )]
+        [Category( "Pathways" )]
+        [TypeConverter( typeof( ExpandableObjectConverter ) )]
         public PlotSetup PathwayDisplay { get; set; }
 
         [Serializable]
         public class PlotSetup
         {
-            [DisplayName("Information bar")]
-            [Description("The text to display in the toolbar above the plot. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
-            [DefaultValue("")]
+            [DisplayName( "Information bar" )]
+            [Description( "The text to display in the toolbar above the plot. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs." )]
+            [DefaultValue( "" )]
             public ParseElementCollection Information { get; set; }
 
-            [DisplayName("Plot title")]
-            [Description("Plot title. You can leave this empty to hide the title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
-            [DefaultValue("")]
+            [DisplayName( "Plot title" )]
+            [Description( "Plot title. You can leave this empty to hide the title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs." )]
+            [DefaultValue( "" )]
             public ParseElementCollection Title { get; set; }
 
-            [DisplayName("Plot sub-title")]
-            [Description("Plot sub-title. You can leave this empty to hide the sub-title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
-            [DefaultValue("")]
+            [DisplayName( "Plot sub-title" )]
+            [Description( "Plot sub-title. You can leave this empty to hide the sub-title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs." )]
+            [DefaultValue( "" )]
             public ParseElementCollection SubTitle { get; set; }
 
-            [DisplayName("X Axis Label.")]
-            [Description("Label for the X axis, e.g. \"day\" or \"hour\". You can leave this empty to hide the axis title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
-            [DefaultValue("")]
+            [DisplayName( "X Axis Label." )]
+            [Description( "Label for the X axis, e.g. \"day\" or \"hour\". You can leave this empty to hide the axis title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs." )]
+            [DefaultValue( "" )]
             public ParseElementCollection AxisX { get; set; }
 
-            [DisplayName("Y Axis Label")]
-            [Description("Label for the Y axis, e.g. \"intensity\". You can leave this empty to hide the axis title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs.")]
-            [Category("All plots")]
-            [DefaultValue("")]
+            [DisplayName( "Y Axis Label" )]
+            [Description( "Label for the Y axis, e.g. \"intensity\". You can leave this empty to hide the axis title and conserve screen space. You can use {braces} to specify special values by ID - the \"info\" panel on the main screen shows the available IDs." )]
+            [Category( "All plots" )]
+            [DefaultValue( "" )]
             public ParseElementCollection AxisY { get; set; }
 
             public override string ToString()
             {
-                return (ParseElementCollection.IsNullOrEmpty(Information)
-                    && ParseElementCollection.IsNullOrEmpty(Title)
-                    && ParseElementCollection.IsNullOrEmpty(SubTitle)
-                    && ParseElementCollection.IsNullOrEmpty(AxisX)
-                    && ParseElementCollection.IsNullOrEmpty(AxisY))
+                return (ParseElementCollection.IsNullOrEmpty( Information )
+                    && ParseElementCollection.IsNullOrEmpty( Title )
+                    && ParseElementCollection.IsNullOrEmpty( SubTitle )
+                    && ParseElementCollection.IsNullOrEmpty( AxisX )
+                    && ParseElementCollection.IsNullOrEmpty( AxisY ))
                     ? "(None)"
                     : "(Custom text)";
             }
         }
 
-        [DisplayName("Clustering results filename")]
-        [Description("How to name the cluster evaluation results. Use {SESSION} for the session filename and {RESULTS} for the results folder. The extension of the file will also determine the filetype. Files will be automatically numbered.")]
-        [Category("Clustering evaluation")]
-        [DefaultValue("{RESULTS}{SESSION}.mres")]
+        [DisplayName( "Clustering results filename" )]
+        [Description( "How to name the cluster evaluation results. Use {SESSION} for the session filename and {RESULTS} for the results folder. The extension of the file will also determine the filetype. Files will be automatically numbered." )]
+        [Category( "Clustering evaluation" )]
+        [DefaultValue( "{RESULTS}{SESSION}.mres" )]
         public string ClusteringEvaluationResultsFileName { get; set; }
 
-        [Browsable(false)]
-        [Description("The visible experimental groups.")]
+        [Browsable( false )]
+        [Description( "The visible experimental groups." )]
         public List<GroupInfo> ViewTypes { get; set; }
 
-        [Description("Size of thumbnails on lists")]
-        [DefaultValue(96)]
+        [Description( "Size of thumbnails on lists" )]
+        [DefaultValue( 96 )]
         public int ThumbnailSize { get; set; }
 
-        [Description("Size of thumbnails on popout lists")]
-        [DefaultValue(128)]
+        [Description( "Size of thumbnails on popout lists" )]
+        [DefaultValue( 128 )]
         public int PopoutThumbnailSize { get; set; }
 
-        [DisplayName("Margin")]
-        [Description("Plot margin width")]
-        [Category("Miscellaneous")]
-        [DefaultValue(32)]
+        [DisplayName( "Margin" )]
+        [Description( "Plot margin width" )]
+        [Category( "Miscellaneous" )]
+        [DefaultValue( 32 )]
         public int Margin { get; set; }
 
-        [DisplayName("Line width")]
-        [Description("Multiplier applied to the width of the lines in the plots")]
-        [Category("Miscellaneous")]
-        [DefaultValue(1.0f)]
+        [DisplayName( "Line width" )]
+        [Description( "Multiplier applied to the width of the lines in the plots" )]
+        [Category( "Miscellaneous" )]
+        [DefaultValue( 1.0f )]
         public float LineWidth { get; set; }
 
-        [DisplayName("Display groups")]
-        [Description("When set all groups will be displayed in cluster plots. This is the default behaviour since these plots represent the input vectors rather than the peaks directly. If unchecked only the visible groups will be displayed. Only the visible groups will ever be shown in the peak plots.")]
-        [Category("Cluster")]
-        [DefaultValue(true)]
+        [DisplayName( "Display groups" )]
+        [Description( "When set all groups will be displayed in cluster plots. This is the default behaviour since these plots represent the input vectors rather than the peaks directly. If unchecked only the visible groups will be displayed. Only the visible groups will ever be shown in the peak plots." )]
+        [Category( "Cluster" )]
+        [DefaultValue( true )]
         public bool DisplayAllGroupsInClusterPlot { get; set; }
 
         [DisplayName( "Experimental group axis labels" )]
@@ -213,7 +218,7 @@ namespace MetaboliteLevels.Settings
 
         [DisplayName( "Not-a-number" )]
         [Category( "Heat map" )]
-        [DefaultValue( typeof( Color )," 0xFF00FF" )]
+        [DefaultValue( typeof( Color ), " 0xFF00FF" )]
         public Color HeatMapNanColour { get; set; }
 
         [DisplayName( "Out of range" )]
@@ -221,34 +226,102 @@ namespace MetaboliteLevels.Settings
         [DefaultValue( typeof( Color ), "0xC0C0C0" )]
         public Color HeatMapOorColour { get; set; }
 
-        public CoreOptions()
+
+        private WeakReference<IProvider<IntensityMatrix>> _selectedMatrixProvider;
+        private WeakReference<ConfigurationTrend> _selectedTrendProvider;
+        private Core _core;
+
+        [Name( "Default matrix to view using" )]
+        [Category( "Peaks" )]
+        public IProvider<IntensityMatrix> SelectedMatrixProvider
         {
-            UiControls.ApplyDefaultsFromAttributes(this);
+            get { var result = _selectedMatrixProvider.GetTarget();
+
+                if (result != null)
+                {
+                    return result;
+                }
+
+                return this._core.Matrices.First();
+            }
+            set { _selectedMatrixProvider = new WeakReference<IProvider<IntensityMatrix>>( value ); }
+        }
+
+        public IntensityMatrix SelectedMatrix
+        {
+            get
+            {
+                IntensityMatrix matrix = _selectedMatrixProvider.GetTarget()?.Provide;
+
+                if (matrix != null)
+                {
+                    return matrix;
+                }
+
+                foreach (IProvider<IntensityMatrix> x in this._core.Matrices)
+                {
+                    IntensityMatrix y = x.Provide;
+
+                    if (y != null)
+                    {
+                        return y;
+                    }
+                }
+
+                throw new InvalidOperationException( "Can't find any intensity matrices in the Core!" );
+            }
+        }                                          
+
+        [Name( "Default trend to view using" )]
+        [Category( "Peaks" )]
+        public ConfigurationTrend SelectedTrend
+        {
+            get { ConfigurationTrend trend = _selectedTrendProvider.GetTarget();
+
+                if (trend != null)
+                {
+                    return trend;
+                }
+
+                if (_core.AllTrends.Count != 0)
+                {
+                    return _core.AllTrends[0];
+                }
+
+                return ChartHelperForPeaks.FallbackSmoother;
+            }
+            set { _selectedTrendProvider = new WeakReference<ConfigurationTrend>( value ); }
+        }
+
+        public CoreOptions(Core core)
+        {
+            UiControls.ApplyDefaultsFromAttributes( this );
+            _core = core;
             ViewTypes = new List<GroupInfo>();
-            Colours   = new CoreColourSettings();
+            Colours = new CoreColourSettings();
             PeakFlags = new List<PeakFlag>();
-            PeakFlags.Add(new PeakFlag("INT", '1', "Interesting", Color.Green));
-            PeakFlags.Add(new PeakFlag("CHK", '2', "Checked", Color.Gray));
-            PeakFlags.Add(new PeakFlag("BOR", '3', "Boring", Color.DarkRed));
+            PeakFlags.Add( new PeakFlag( "INT", '1', "Interesting", Color.Green ) );
+            PeakFlags.Add( new PeakFlag( "CHK", '2', "Checked", Color.Gray ) );
+            PeakFlags.Add( new PeakFlag( "BOR", '3', "Boring", Color.DarkRed ) );
 
-            PeakDisplay     = new PlotSetup();
-            ClusterDisplay  = new PlotSetup();
+            PeakDisplay = new PlotSetup();
+            ClusterDisplay = new PlotSetup();
             CompoundDisplay = new PlotSetup();
-            PathwayDisplay  = new PlotSetup();
+            PathwayDisplay = new PlotSetup();
 
-            PeakDisplay.Information = new ParseElementCollection("m/z = {m/z}, rt = {meta\\rt}");
+            PeakDisplay.Information = new ParseElementCollection( "m/z = {m/z}, rt = {meta\\rt}" );
         }
 
         [OnDeserializing]
-        private void OnDeserializing(StreamingContext context)
+        private void OnDeserializing( StreamingContext context )
         {
-            UiControls.InvokeConstructor(this);
-        }              
+            UiControls.InvokeConstructor( this );
+        }
 
         /// <summary>
         /// Saves or loads a listview column.
         /// </summary>
-        internal void OpenColumn(bool save, string listId, Column column)
+        internal void OpenColumn( bool save, string listId, Column column )
         {
             string key = listId + "\\" + column.Id;
             ColumnDetails savedData;
@@ -256,25 +329,25 @@ namespace MetaboliteLevels.Settings
             if (save)
             {
                 // Save
-                if (!_columnDisplayStatuses.TryGetValue(key, out savedData))
+                if (!_columnDisplayStatuses.TryGetValue( key, out savedData ))
                 {
                     savedData = new ColumnDetails();
-                    _columnDisplayStatuses.Add(key, savedData);
+                    _columnDisplayStatuses.Add( key, savedData );
                 }
 
                 savedData.DisplayIndex = column.DisplayIndex;
-                savedData.Width        = column.Width;
-                savedData.Visible      = column.Visible;
-                savedData.DisplayName  = column.OverrideDisplayName;
+                savedData.Width = column.Width;
+                savedData.Visible = column.Visible;
+                savedData.DisplayName = column.OverrideDisplayName;
             }
             else
             {
                 // Load
-                if (_columnDisplayStatuses.TryGetValue(key, out savedData))
+                if (_columnDisplayStatuses.TryGetValue( key, out savedData ))
                 {
-                    column.Visible             = savedData.Visible;
-                    column.Width               = savedData.Width;
-                    column.DisplayIndex        = savedData.DisplayIndex;
+                    column.Visible = savedData.Visible;
+                    column.Width = savedData.Width;
+                    column.DisplayIndex = savedData.DisplayIndex;
                     column.OverrideDisplayName = savedData.DisplayName;
                 }
             }
@@ -283,13 +356,13 @@ namespace MetaboliteLevels.Settings
         [Serializable]
         public class ColumnDetails
         {
-            public bool   Visible;
-            public int    Width;
-            public int    DisplayIndex;
+            public bool Visible;
+            public int Width;
+            public int DisplayIndex;
             public string DisplayName;
         }
 
-        internal PlotSetup GetUserText(Core core, IAssociational visualisable)
+        internal PlotSetup GetUserText( Core core, IAssociational visualisable )
         {
             if (visualisable == null)
             {

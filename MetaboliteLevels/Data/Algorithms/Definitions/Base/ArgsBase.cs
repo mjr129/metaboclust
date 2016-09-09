@@ -2,6 +2,7 @@
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -14,23 +15,25 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// and parameters for the algorithm itself (e.g. k = 3).
     /// </summary>
     [Serializable]
-    abstract class ArgsBase
+    internal abstract class ArgsBase
     {
         /// <summary>
         /// The user-inputtable parameters.
         /// </summary>
         public readonly object[] Parameters;
 
-        public readonly MatrixProducer Source;
+        private WeakReference<IProvider<IntensityMatrix>> _sourceProvider;
 
-        public IntensityMatrix SourceMatrix => Source.Product;
+        public IProvider<IntensityMatrix> SourceProvider => _sourceProvider.GetTarget();
+
+        public IntensityMatrix SourceMatrix => SourceProvider?.Provide;
 
         /// <summary>
         /// Constructor
         /// </summary> 
-        public ArgsBase( MatrixProducer source, object[] parameters)
+        protected ArgsBase( IProvider<IntensityMatrix> sourceProvider, object[] parameters)
         {
-            Source = source;
+            _sourceProvider = new WeakReference<IProvider<IntensityMatrix>>( sourceProvider );
             Parameters = parameters;
         }
         
@@ -41,7 +44,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 
         public virtual string ToString( AlgoBase algorithm )
         {
-            return Source?.Product.ToString() + "; " + AlgoParameterCollection.ParamsToHumanReadableString( Parameters, algorithm );
+            return SourceMatrix.ToStringSafe() + "; " + AlgoParameterCollection.ParamsToHumanReadableString( Parameters, algorithm );
         }
     }
 }

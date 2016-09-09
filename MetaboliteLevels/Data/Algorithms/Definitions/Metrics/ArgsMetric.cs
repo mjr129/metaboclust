@@ -1,5 +1,6 @@
 ﻿using System;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -11,7 +12,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsMetric : ArgsBase
     {
-        public ArgsMetric( MatrixProducer source, object[] parameters)
+        public ArgsMetric( IProvider<IntensityMatrix> source, object[] parameters)
             : base( source, parameters )
         {
         }

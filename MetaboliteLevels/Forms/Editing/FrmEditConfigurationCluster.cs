@@ -37,7 +37,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<MetricBase> _ecbMeasure;
         private ConditionBox<EClustererStatistics> _cbStatistics;
         private readonly bool _readOnly;
-        private EditableComboBox<MatrixProducer> _ecbSource;
+        private EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
 
         internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
         {
@@ -67,7 +67,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _ecbObsFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstObsFilter, _btnObsFilter,  ENullItemName.All);
             _ecbMethod = DataSet.ForClustererAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.None);
             _ecbMeasure = DataSet.ForMetricAlgorithms(core).CreateComboBox(_lstMeasure, _btnNewDistance, ENullItemName.None);
-            _ecbSource = DataSet.ForIntensityMatrices( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
+            _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
             _cbStatistics = DataSet.ForFlagsEnum<EClustererStatistics>("Cluster Statistics").CreateConditionBox(_txtStatistics, _btnSetStatistics);
             _readOnly = readOnly;
 
@@ -98,7 +98,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _cbStatistics.SelectedItems = EnumHelper.SplitEnum<EClustererStatistics>(def.Args.Statistics);
 
                 // Input vector
-                _ecbSource.SelectedItem = def.Args.Source;
+                _ecbSource.SelectedItem = def.Args.SourceProvider;
 
                 // ObsFilter
                 _ecbObsFilter.SelectedItem = def.Args.ObsFilter;
@@ -137,7 +137,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ConfigurationClusterer GetSelection()
         {
-            MatrixProducer src;
+            IProvider<IntensityMatrix> src;
             PeakFilter peakFilter;
             ObsFilter obsFilter;
             string title;
