@@ -17,7 +17,7 @@ namespace MetaboliteLevels.Forms.Generic
     {
         private readonly ChartHelper _chart;
 
-        public static void Show(Form owner, ISelectionHolder selectionHolder, Core core, ChartHelper chart)
+        public static void Show(Form owner, ISelectionCapable selectionHolder, Core core, ChartHelper chart)
         {
             using (FrmPopoutPlot frm = new FrmPopoutPlot( selectionHolder, core, chart))
             {
@@ -30,7 +30,7 @@ namespace MetaboliteLevels.Forms.Generic
             InitializeComponent();
         }
 
-        public FrmPopoutPlot( ISelectionHolder selectionHolder, Core core, ChartHelper chart)
+        public FrmPopoutPlot( ISelectionCapable selectionHolder, Core core, ChartHelper chart)
             : this()
         {
             _chart = new ChartHelper(selectionHolder, core, this, true);

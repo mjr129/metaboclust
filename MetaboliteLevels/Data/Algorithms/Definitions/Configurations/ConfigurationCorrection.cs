@@ -11,6 +11,8 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Algorithms.Statistics.Inputs;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Algorithms.Statistics.Results;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 using MGui.Datatypes;
@@ -18,7 +20,7 @@ using MGui.Datatypes;
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
     [Serializable]
-    internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsBase, ResultCorrection>
+    internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsBase, ResultCorrection>, IMatrixProducer
     {
         public ConfigurationCorrection(string name, string comments, TrendBase trend, ArgsTrendAsCorrection args)
             : base(name, comments, trend.Id, args)
@@ -58,7 +60,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Like Correct(), but just gets the trend (for plots).
         /// </summary>
-        internal double[] ExtractTrend(Core core, double[] raw, out IEnumerable trendOrder)
+        internal double[] ExtractTrend(Core core, double[] raw, out IReadOnlyList<ObservationInfo> trendOrder)
         {
             if (!IsUsingTrend)
             {
@@ -75,21 +77,21 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                     {
                         if (args.Constraint != null)
                         {
-                            var xI = core.Observations.Which(args.Constraint.Test);
-                            var x = core.Observations.At(xI).ToArray();
-                            var xOut = core.Observations;
-                            var g = core.Batches;
-                            var y = raw.At(xI).ToArray();
+                            IEnumerable<int> xI = core.Observations.Which(args.Constraint.Test);
+                            ObservationInfo[] x = core.Observations.At(xI).ToArray();
+                            IReadOnlyList<ObservationInfo> xOut = core.Observations;
+                            IReadOnlyList<BatchInfo> g = core.Batches;
+                            double[] y = raw.At(xI).ToArray();
 
                             trendOrder = xOut;
                             return algo.SmoothByBatch(x, xOut, g, y, args);
                         }
                         else
                         {
-                            var x = core.Observations;
-                            var xOut = core.Observations;
-                            var y = raw;
-                            var g = core.Batches;
+                            IReadOnlyList<ObservationInfo> x = core.Observations;
+                            IReadOnlyList<ObservationInfo> xOut = core.Observations;
+                            double[] y = raw;
+                            IReadOnlyList<BatchInfo> g = core.Batches;
 
                             trendOrder = xOut;
                             return algo.SmoothByBatch(x, xOut, g, y, args);
@@ -98,11 +100,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
                 case ECorrectionMode.Control:
                     {
-                        var xI = core.Observations.Which(z => z.Group == args.ControlGroup);
-                        var x = core.Observations.At(xI).ToArray();
-                        var xOut = core.Conditions.Where(z => z.Group == args.ControlGroup).ToArray();
-                        var y = raw.At(xI).ToArray();
-                        var g = new[] { args.ControlGroup };
+                        IEnumerable<int> xI = core.Observations.Which(z => z.Group == args.ControlGroup);
+                        ObservationInfo[] x = core.Observations.At(xI).ToArray();
+                        ObservationInfo[] xOut = core.Conditions.Where(z => z.Group == args.ControlGroup).ToArray();
+                        double[] y = raw.At(xI).ToArray();
+                        GroupInfo[] g = new[] { args.ControlGroup };
 
                         trendOrder = xOut;
                         return algo.SmoothByType(x, xOut, g, y, args);
@@ -114,7 +116,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         }
 
         /// <summary>
-        ///Executes the correction for a set of raw values (in core.observation order).
+        /// Executes the correction for a set of raw values (in core.observation order).
         /// </summary>
         public double[] Calculate(Core core, double[] raw)
         {
@@ -132,8 +134,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                 var args = base.Args as ArgsTrendAsCorrection;
                 var algo = base.Cached as TrendBase;
 
-                IEnumerable trendOrderO;
-                double[] trend = ExtractTrend(core, raw, out trendOrderO);
+                IReadOnlyList<ObservationInfo> trendOrder;
+                double[] trend = ExtractTrend(core, raw, out trendOrder);
                 IReadOnlyList<ObservationInfo> resultOrder = core.Observations;
                 result = new double[raw.Length];
 
@@ -168,8 +170,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                     case ECorrectionMode.Control:
                         {
                             // Here the trend will only represent the control group
-                            ConditionInfo[] trendOrder = (ConditionInfo[])trendOrderO;
-
                             for (int i = 0; i < raw.Length; i++)
                             {
                                 ObservationInfo obs = resultOrder[i];
@@ -208,5 +208,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
             return result;
         }
+
+        public IntensityMatrix Product => Results.Matrix;
     }
 }

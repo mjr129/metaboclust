@@ -15,6 +15,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MGui;
 using MGui.Helpers;
 using MGui.Datatypes;
@@ -46,9 +47,9 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private Peak PickVariable()
+        private Vector PickVariable(IntensityMatrix im)
         {
-            return DataSet.ForPeaks(_core).ShowList(this, null);
+            return DataSet.ForVectors(_core, im).ShowList(this, null);
         }
 
         private Cluster PickCluster()
@@ -174,7 +175,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             BeginWait("Create clusters from pathways", false);
 
-            var args = new ArgsClusterer(null, null, _core.Matrices.First(), null, false, EClustererStatistics.None, null);
+            var args = new ArgsClusterer( _core.Matrices.First(), null, null, null, false, EClustererStatistics.None, null);
 
             ConfigurationClusterer config = new ConfigurationClusterer("create_clusters_from_pathways",
                                                                        "create_clusters_from_pathways", Algo.ID_PATFROMPATH, args);
@@ -231,14 +232,14 @@ namespace MetaboliteLevels.Forms.Editing
             Tuple<Peak, Peak> smallestT = null;
             Tuple<Peak, Peak> largestT = null;
             ConfigurationMetric metric = new ConfigurationMetric(null, null, Algo.ID_METRIC_EUCLIDEAN, null);
-            IntensityMatrix vmatrix = DataSet.ForIntensityMatrices(_core).ShowList( this, null );
+            MatrixProducer vmatrix = DataSet.ForIntensityMatrices(_core).ShowList( this, null );
 
             if (vmatrix == null)
             {
                 return;
             }
 
-            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix, metric, prog);
+            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix.Product, metric, prog);
 
             for (int peakIndex1 = 0; peakIndex1 < _core.Peaks.Count; peakIndex1++)
             {
@@ -272,71 +273,34 @@ namespace MetaboliteLevels.Forms.Editing
             sb.AppendLine("| " + largestT.Item1.DisplayName + " - " + largestT.Item2.DisplayName + " | = " + largest);
 
             FrmInputMultiLine.ShowFixed(this, "Find distance range", "Maximum and minimum differences", "Showing the closest and furthest peaks", sb.ToString());
-        }
-
-        [InList]
-        [Description("Compares two peaks")]
-        void compare_variables()
-        {
-            ProgressReporter prog = new ProgressReporter(this);
-            ConfigurationMetric metric = new ConfigurationMetric(null, null, Algo.ID_METRIC_EUCLIDEAN, null);
-            IntensityMatrix vmatrix = DataSet.ForIntensityMatrices( _core ).ShowList( this, null );
-            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix, metric, prog);
-
-            Peak v1 = PickVariable();
-
-            if (v1 != null)
-            {
-                Peak v2 = PickVariable();
-
-                if (v2 != null)
-                {
-                    double result = dmatrix.Find(v1, null, v2, null);
-
-                    FrmInputMultiLine.ShowFixed(this, "Compare variables", v1.DisplayName + " - " + v2.DisplayName, "Showing the distance between two variables' vectors", result.ToString());
-                }
-            }
-        }
+        }         
 
         [InList]
         [Description("View peak raw intensity data")]
         void view_variable_full()
         {
-            Peak peak = PickVariable();
+            MatrixProducer im = DataSet.ForIntensityMatrices( _core ).ShowList(this, null);
+
+            if (im == null)
+            {
+                return;
+            }
+
+            Vector peak = PickVariable(im.Product);
 
             if (peak != null)
             {
                 StringBuilder sb = new StringBuilder();
 
-                for (int i = 0; i < _core.Observations.Count; i++)
+                for (int i = 0; i < peak.Observations.Length; i++)
                 {
-                    ObservationInfo obs = _core.Observations[i];
-                    sb.AppendLine(obs.Time + obs.Group.DisplayShortName + obs.Rep + " = " + peak.Get_Observations_Raw(_core)[i]);
+                    ObservationInfo obs = peak.Observations[i];
+                    sb.AppendLine(obs.Time + obs.Group.DisplayShortName + obs.Rep + " = " + peak.Values[i]);
                 }
 
-                FrmInputMultiLine.ShowFixed(this, "View full variable", peak.DisplayName, "Full variable information", sb.ToString());
+                FrmInputMultiLine.ShowFixed(this, "View full variable", peak.ToString(), "Full variable information", sb.ToString());
             }
-        }
-
-        [InList]
-        [Description("View peak intensity trend")]
-        void view_variable_trend()
-        {
-            Peak v = PickVariable();
-
-            if (v != null)
-            {
-                StringBuilder sb = new StringBuilder();
-
-                for (int i = 0; i < _core.Conditions.Count; i++)
-                {
-                    ConditionInfo cond = _core.Conditions[i];
-                    sb.AppendLine(cond.Time + cond.Group.DisplayShortName + " = " + v.Get_Observations_Trend(_core)[i]);
-                }
-
-                FrmInputMultiLine.ShowFixed(this, "View variable averages", v.DisplayName, "Variable averages", sb.ToString());
-            }
-        }
+        }           
 
         [InList]
         [Description("Shows statistics on the current clusters")]
@@ -574,66 +538,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
 
             FrmInputMultiLine.ShowFixed(this, "Find classifier", "Classifier results", "Best value to determine split between variables marked with \"" + type1 + "\" and \"" + type2 + "\" based on their significances", sb.ToString());
-        }
-
-        [InList]
-        [Description("Prompts for a list of peaks and saves their raw and trend profiles to a file.")]
-        private void extract_profiles()
-        {
-            string peakNames = FrmInputMultiLine.Show(this, "Extract profiles", "Specify peak names", null, null);
-
-            if (peakNames == null)
-            {
-                return;
-            }
-
-            BeginWait("Extracting profiles");
-
-            string[] e = peakNames.Split("\r\n\t,;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-
-            StringBuilder sa = new StringBuilder();
-            StringBuilder sb = new StringBuilder();
-
-            sa.AppendLine(_core.FileNames.Title);
-            sa.AppendLine();
-            sa.AppendLine("All intensities");
-
-            sa.Append("Peak, ");
-            sb.Append("Peak, ");
-
-            sa.AppendLine(StringHelper.ArrayToString(_core.Observations, z => z.ToString()));
-            sb.AppendLine(StringHelper.ArrayToString(_core.Conditions, z => z.ToString()));
-
-            foreach (string elemm in e)
-            {
-                string elem = elemm.ToUpper().Trim();
-                Peak p = _core.Peaks.FirstOrDefault(z => z.DisplayName.ToUpper() == elem);
-
-                if (p != null)
-                {
-                    sa.Append(p.DisplayName + ", ");
-                    sb.Append(p.DisplayName + ", ");
-
-                    sa.AppendLine(StringHelper.ArrayToString(p.Get_Observations_Raw(_core)));
-                    sb.AppendLine(StringHelper.ArrayToString(p.Get_Observations_Trend(_core)));
-                }
-            }
-
-            sa.AppendLine();
-            sa.AppendLine("Trendline intensities (" + _core.AvgSmoother.ToString() + ")");
-            sa.Append(sb);
-
-            EndWait();
-
-            string fn = UiControls.BrowseForFile(this, null, UiControls.EFileExtension.Csv, FileDialogMode.SaveAs, UiControls.EInitialFolder.ExportedData);
-
-            if (fn != null)
-            {
-                System.IO.File.WriteAllText(fn, sa.ToString());
-
-                FrmMsgBox.ShowCompleted(this, "Extract Profiles", "Data saved to: " + fn);
-            }
-        }
+        }     
 
         [InList]
         [Description("View information about the current dataset.")]
@@ -874,7 +779,7 @@ namespace MetaboliteLevels.Forms.Editing
             numTen = 0;
             warning = false;
 
-            ArgsMetric args = new ArgsMetric( null );
+            ArgsMetric args = new ArgsMetric( null, null );
             ConfigurationMetric metric = new ConfigurationMetric( "temp", null, Algo.ID_METRIC_EUCLIDEAN, args );
 
             // Iterate clusters

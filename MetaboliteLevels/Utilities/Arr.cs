@@ -79,7 +79,7 @@ namespace MetaboliteLevels.Utilities
         /// Gets the overlapping time range for the specified [groups].
         /// </summary>                                                 
 
-        private static Range GetOverlappingTimeRange(Core core, IEnumerable<GroupInfo> groups)
+        private static Range GetOverlappingTimeRange(Core core, IntensityMatrix source, IEnumerable<GroupInfo> groups)
         {
             int min = int.MinValue; // sic
             int max = int.MaxValue;
@@ -89,7 +89,7 @@ namespace MetaboliteLevels.Utilities
                 int minA = int.MaxValue;
                 int maxA = int.MinValue;
 
-                foreach (ConditionInfo cond in core.Conditions)
+                foreach (ObservationInfo cond in source.Columns.Select(z=> z.Observation ))
                 {
                     if (cond.Group == type)
                     {
@@ -112,9 +112,9 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Does Arian's PCA-ANOVA idea.
         /// </summary>                
-        public double PcaAnova(Peak peak, Core core, List<GroupInfo> types, List<int> replicates)
+        public double PcaAnova(IntensityMatrix source, Peak peak, Core core, List<GroupInfo> types, List<int> replicates)
         {
-            Range times = GetOverlappingTimeRange(core, types);
+            Range times = GetOverlappingTimeRange(core, source, types );
 
             // Create a matrix thusly:
             // Control Replicate 1: <day1> <day2> <day3> ...
@@ -145,6 +145,8 @@ namespace MetaboliteLevels.Utilities
                 groups[r] = types[r / replicates.Count].Order;
             }
 
+            double[] raw = source.Find( peak ).Values; // TODO: Dirty
+
             // Fill out the values we know
             for (int i = 0; i < core.Observations.Count; i++)
             {
@@ -158,7 +160,7 @@ namespace MetaboliteLevels.Utilities
 
                     int row = typeIndex * replicates.Count + repIndex;
                     UiControls.Assert(double.IsNaN(matrix[row, timeIndex]), "Duplicate day/time/rep observations in dataset are not allowed.");
-                    matrix[row, timeIndex] = peak.Get_Observations_Raw(core)[i];
+                    matrix[row, timeIndex] = raw[i];
                 }
             }
 

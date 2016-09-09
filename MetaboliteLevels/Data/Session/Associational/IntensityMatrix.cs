@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Settings;
@@ -18,7 +19,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 {         
     [Serializable]
     [DeferSerialisation]
-    class IntensityMatrix : IVisualisable
+    class IntensityMatrix : IVisualisable, IMatrixProducer
     {
         private string _name;
         public readonly double[][] Values;
@@ -77,7 +78,15 @@ namespace MetaboliteLevels.Data.Session.Associational
             return result;
         }
 
-        internal IntensityMatrix Subset( PeakFilter peakFilter, ObsFilter columnFilter, bool splitGroups, bool invertPeakFilter )
+        internal IntensityMatrix Subset( PeakFilter peakFilter, ObsFilter columnFilter = null, bool splitGroups=false, bool invertPeakFilter =false)
+        {
+            return Subset( peakFilter != null ? (Predicate<Peak>)peakFilter.Test : null,
+                columnFilter != null ? (Predicate<ObservationInfo>)columnFilter.Test : null, 
+                splitGroups, 
+                invertPeakFilter );
+        }
+
+        internal IntensityMatrix Subset( Predicate<Peak> peakFilter, Predicate<ObservationInfo> columnFilter=null, bool splitGroups =false, bool invertPeakFilter=false )
         {
             int[] rowIndices;
 
@@ -89,7 +98,7 @@ namespace MetaboliteLevels.Data.Session.Associational
                 }
                 else
                 {
-                    rowIndices = Rows.Which( z => !peakFilter.Test( z.Peak ) ).ToArray();
+                    rowIndices = Rows.Which( z => !peakFilter( z.Peak ) ).ToArray();
                 }
             }
             else
@@ -100,7 +109,7 @@ namespace MetaboliteLevels.Data.Session.Associational
                 }
                 else
                 {
-                    rowIndices = Rows.Which( z => peakFilter.Test( z.Peak ) ).ToArray();
+                    rowIndices = Rows.Which( z => peakFilter( z.Peak ) ).ToArray();
                 }
             }
 
@@ -108,7 +117,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
             if (!splitGroups)
             {  
-                int[] colIndices = Columns.Which( z => columnFilter.Test( z.Observation ) ).ToArray();
+                int[] colIndices = Columns.Which( z => columnFilter( z.Observation ) ).ToArray();
                 ColumnHeader[] newCols = Columns.At( colIndices ).ToArray();
                 double[][] newValues = Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ).ToArray();
 
@@ -125,7 +134,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
                 foreach (GroupInfo g in groups)
                 {
-                    int[] colIndices = Columns.Which( z => z.Observation.Group == g && columnFilter.Test( z.Observation ) ).ToArray();
+                    int[] colIndices = Columns.Which( z => z.Observation.Group == g && columnFilter( z.Observation ) ).ToArray();
 
                     newCols.AddRange( Columns.At( colIndices ) );
                     newValues.AddRange( Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ) );
@@ -167,13 +176,10 @@ namespace MetaboliteLevels.Data.Session.Associational
                         
             public MetaboliteLevels.Algorithms.Vector this[int rowIndex]
             {
-                get
-                {
-                    return LegacyHelper.Create_Vector( owner, rowIndex );
-                }
+                get { return new MetaboliteLevels.Algorithms.Vector( owner, rowIndex ); } // TODO: This is okay if it's a one-off, but shouldn't be used all the time
             }
 
-            public IEnumerator<Vector> GetEnumerator()
+            public IEnumerator<Vector> GetEnumerator() // TODO: This is okay if it's a one-off, but shouldn't be used all the time
             {
                 for (int n = 0; n < owner.NumRows; n++)
                 {
@@ -210,5 +216,7 @@ namespace MetaboliteLevels.Data.Session.Associational
                 Observation = observation;
             }
         }
+
+        public IntensityMatrix Product => this;
     }
 }

@@ -46,7 +46,7 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <summary>
         /// Ctor
         /// </summary>
-        public ChartHelperForClusters(ISelectionHolder selector, Core core, Control targetSite)
+        public ChartHelperForClusters(ISelectionCapable selector, Core core, Control targetSite)
             : base(selector, core, targetSite, true)
         {
             _chart.SelectionChanging += _chart_SelectionChanging;
@@ -190,96 +190,47 @@ namespace MetaboliteLevels.Viewers.Charts
                 MCharting.DataPoint lastPoint = null;
                 MCharting.Series lastSeries = null;
 
-                double[] vector = vec.Values;
-
                 ///////////////////
                 // PLOT THE POINT
-                // Okay! Now plot the values pertinent to this peak & type
-                if (vec.Conditions != null)
+                // Okay! Now plot the values pertinent to this peak & type                                           
+                for(int i = 0; i < vec.Length; ++i)
                 {
-                    IEnumerable<int> order = vec.Conditions.WhichOrder(ConditionInfo.GroupTimeDisplayOrder);
+                    // Peak, by observation
+                    ObservationInfo obs = vec.Observations[i];
+                    GroupInfo group = obs.Group;
 
-                    foreach (int index in order)
+                    if (!groupOrder.Contains(group))
                     {
-                        // Peak, by condition
-                        ConditionInfo cond = vec.Conditions[index];
-                        GroupInfo group = cond.Group;
-
-                        if (!groupOrder.Contains(group))
-                        {
-                            continue;
-                        }
-
-                        MCharting.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, false);
-                        MCharting.Series seriesb = null;
-
-                        if (series != lastSeries && lastSeries != null)
-                        {
-                            seriesb = GetOrCreateSeries(plot, vec2Series, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, true);
-                        }
-
-                        lastSeries = series;
-
-                        int typeOffset = GetTypeOffset(groupOrder, group, isMultiGroup);
-
-                        int x = typeOffset + cond.Time;
-                        double y = vector[index];
-                        MCharting.DataPoint dataPoint = new MCharting.DataPoint(x, y);
-                        dataPoint.Tag = new IntensityInfo(cond.Time, null, cond.Group, y);
-                        series.Points.Add(dataPoint);
-
-                        if (seriesb != null)
-                        {
-                            seriesb.Points.Add(lastPoint);
-                            seriesb.Points.Add(dataPoint);
-                        }
-
-                        lastPoint = dataPoint;
+                        continue;
                     }
-                }
-                else if (vec.Observations != null)
-                {
-                    IEnumerable<int> order = vec.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateDisplayOrder);
 
-                    foreach (int index in order)
+                    MCharting.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, false);
+
+                    MCharting.Series seriesb = null;
+
+                    if (series != lastSeries && lastSeries != null)
                     {
-                        // Peak, by observation
-                        ObservationInfo obs = vec.Observations[index];
-                        GroupInfo group = obs.Group;
-
-                        if (!groupOrder.Contains(group))
-                        {
-                            continue;
-                        }
-
-                        MCharting.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, false);
-
-                        MCharting.Series seriesb = null;
-
-                        if (series != lastSeries && lastSeries != null)
-                        {
-                            seriesb = GetOrCreateSeries(plot, vec2Series, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, true);
-                        }
-
-                        lastSeries = series;
-
-                        int typeOffset = GetTypeOffset(groupOrder, group, isMultiGroup);
-
-                        int x = typeOffset + obs.Time;
-                        double v = vector[index];
-                        MCharting.DataPoint dataPoint = new MCharting.DataPoint(x, v);
-                        dataPoint.Tag = new IntensityInfo(obs.Time, obs.Rep, obs.Group, v);
-                        series.Points.Add(dataPoint);
-
-                        if (seriesb != null)
-                        {
-                            seriesb.Points.Add(lastPoint);
-                            seriesb.Points.Add(dataPoint);
-                        }
-
-                        lastPoint = dataPoint;
+                        seriesb = GetOrCreateSeries(plot, vec2Series, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, true);
                     }
-                }
+
+                    lastSeries = series;
+
+                    int typeOffset = GetTypeOffset(groupOrder, group, isMultiGroup);
+
+                    int x = typeOffset + obs.Time;
+                    double v = vec.Values[i];
+                    MCharting.DataPoint dataPoint = new MCharting.DataPoint(x, v);
+                    dataPoint.Tag = new IntensityInfo(obs.Time, obs.Rep, obs.Group, v);
+                    series.Points.Add(dataPoint);
+
+                    if (seriesb != null)
+                    {
+                        seriesb.Points.Add(lastPoint);
+                        seriesb.Points.Add(dataPoint);
+                    }
+
+                    lastPoint = dataPoint;
+                }     
             }
 
             // --- PLOT CLUSTER CENTRES ---
@@ -305,49 +256,25 @@ namespace MetaboliteLevels.Viewers.Charts
                     series.Style.DrawLines.DashStyle = DashStyle.Dash;
                     series.Style.DrawPoints = new SolidBrush(colourSettings.ClusterCentre);
                     series.Style.DrawPointsSize = 8; // MarkerStyle.Diamond;
+                         
+                    IEnumerable<int> order = templateAssignment.Vector.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateDisplayOrder);
 
-                    if (templateAssignment.Vector.Conditions != null)
+                    foreach (int index in order)
                     {
-                        IEnumerable<int> order = templateAssignment.Vector.Conditions.WhichOrder(ConditionInfo.GroupTimeDisplayOrder);
+                        // Centre, by observation
+                        ObservationInfo cond = templateAssignment.Vector.Observations[index];
 
-                        foreach (int index in order)
+                        if (!groupOrder.Contains(cond.Group))
                         {
-                            // Centre, by condition
-                            ConditionInfo cond = templateAssignment.Vector.Conditions[index];
-
-                            if (!groupOrder.Contains(cond.Group))
-                            {
-                                continue;
-                            }
-
-                            double dp = centre[index];
-                            int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
-                            MCharting.DataPoint cdp = new MCharting.DataPoint(x, dp);
-                            cdp.Tag = new IntensityInfo(cond.Time, null, cond.Group, dp);
-                            series.Points.Add(cdp);
+                            continue;
                         }
-                    }
-                    else
-                    {
-                        IEnumerable<int> order = templateAssignment.Vector.Observations.WhichOrder(ObservationInfo.GroupTimeReplicateDisplayOrder);
 
-                        foreach (int index in order)
-                        {
-                            // Centre, by observation
-                            ObservationInfo cond = templateAssignment.Vector.Observations[index];
-
-                            if (!groupOrder.Contains(cond.Group))
-                            {
-                                continue;
-                            }
-
-                            double dp = centre[index];
-                            int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
-                            MCharting.DataPoint cdp = new MCharting.DataPoint(x, dp);
-                            cdp.Tag = new IntensityInfo(cond.Time, cond.Rep, cond.Group, dp);
-                            series.Points.Add(cdp);
-                        }
-                    }
+                        double dp = centre[index];
+                        int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
+                        MCharting.DataPoint cdp = new MCharting.DataPoint(x, dp);
+                        cdp.Tag = new IntensityInfo(cond.Time, cond.Rep, cond.Group, dp);
+                        series.Points.Add(cdp);
+                    }          
                 }
             }
 

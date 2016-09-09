@@ -22,7 +22,7 @@ namespace MetaboliteLevels.Forms.Editing
         private bool                                  _isInitialised;
         private ConditionBox<int>                     _cbAq;
         private ConditionBox<BatchInfo>               _cbBatch;
-        private ConditionBox<ConditionInfo>           _cbCond;
+        private ConditionBox<ObservationInfo>           _cbCond;
         private ConditionBox<GroupInfo>               _cbGroup;
         private ConditionBox<ObservationInfo>         _cbObs;
         private ConditionBox<int>                     _cbRep;

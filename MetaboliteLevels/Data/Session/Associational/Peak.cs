@@ -300,8 +300,6 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("LC-MS mode", EColumn.None, λ => λ.LcmsMode);
             columns.Add("m/z", EColumn.None, λ => λ.Mz);
             columns.Add( "rt", EColumn.None, λ => λ.Rt );
-            columns.Add("Observations (all)", EColumn.Advanced, λ => λ.Get_Observations_Raw(core));
-            columns.Add("Observations (trend)", EColumn.Advanced, λ => λ.Get_Observations_Trend( core ) );
 
             columns.Add("Clusters\\All", EColumn.None, λ => λ.Assignments.Clusters);
             columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.Advanced, z => StringHelper.ArrayToString(z.Assignments.Clusters));
@@ -346,13 +344,6 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("Similar peaks", EColumn.None, λ => λ.SimilarPeaks);
 
             core._peakMeta.ReadAllColumns(z => z.MetaInfo, columns);
-
-            foreach (GroupInfo ti in core.Groups)
-            {
-                int i = ti.Order;
-                columns.Add("Mean\\" + ti.DisplayName, EColumn.None, λ => λ.Get_Observations(core).Mean[i]);
-                columns.Add("Std. Dev\\" + ti.DisplayName, EColumn.Advanced, λ => λ.Get_Observations(core).StdDev[i]);
-            }
 
             foreach (PeakFilter fi in core.AllPeakFilters)
             {

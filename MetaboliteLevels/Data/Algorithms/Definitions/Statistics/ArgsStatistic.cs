@@ -1,6 +1,7 @@
 ﻿using MetaboliteLevels.Data.Visualisables;
 using System;
 using System.Text;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -14,17 +15,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// </summary>
     [Serializable]
     class ArgsStatistic : ArgsBase
-    {
-        public readonly WeakReference<IntensityMatrix> Source;                 // Where the input vectors come from
+    {                                                                                                              
         public readonly EAlgoInputBSource VectorBSource;            // Where the second input vector comes from
         public readonly ObsFilter VectorAConstraint;                // Filter on the first input vector
         public readonly ObsFilter VectorBConstraint;                // Filter on the second input vector (only used if [VectorBSource] is Peak)
         public readonly Peak VectorBPeak;                           // Which peak the second input vector comes from (only used if [VectorBSource] is AltPeak)
 
-        public ArgsStatistic(IntensityMatrix src, ObsFilter atypes, EAlgoInputBSource bsrc, ObsFilter btypes, Peak compareTo, object[] parameters)
-            : base(parameters)
-        {
-            this.Source = new WeakReference<IntensityMatrix>( src );
+        public ArgsStatistic( MatrixProducer source, ObsFilter atypes, EAlgoInputBSource bsrc, ObsFilter btypes, Peak compareTo, object[] parameters)
+            : base(source, parameters)
+        {                                                           
             this.VectorAConstraint = atypes;
             this.VectorBConstraint = btypes;
             this.VectorBSource = bsrc;
@@ -34,16 +33,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         public override string ToString(AlgoBase algorithm)
         {
             StringBuilder sb = new StringBuilder();
-
-            if (Parameters != null)
-            {
-                sb.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm));
-            }
-
-            sb.Append("; ");
-                 
-                sb.Append(" of ");
-                sb.Append(Source.GetTarget());
+                                              
+            sb.Append(base.ToString());
 
             if (VectorAConstraint != null)
             {

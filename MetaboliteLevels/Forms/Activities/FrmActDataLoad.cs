@@ -19,6 +19,7 @@ using MetaboliteLevels.Utilities;
 using System.IO;
 using MetaboliteLevels.Controls;
 using System.Threading;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MGui.Helpers;
 using MGui.Datatypes;
 using MetaboliteLevels.Data.Session.Associational;
@@ -162,7 +163,7 @@ namespace MetaboliteLevels.Forms.Startup
             _result = new Core(_fileNames, data, compounds, pathways, compoundHeader, pathwayHeader, adducts, adductsHeader, annotationsHeader);
 
             // STATISTICS
-            Load_6_CalculateDefaultStatistics(data.IntensityMatrix, _result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson), _prog);
+            Load_6_CalculateDefaultStatistics(new MatrixProducer( data.IntensityMatrix), _result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson), _prog);
         }
 
         /// <summary>
@@ -860,12 +861,10 @@ namespace MetaboliteLevels.Forms.Startup
 
         internal class DataSet
         {
-            public List<ObservationInfo> Observations;    
+            public List<ObservationInfo> Observations;
+            public List<ObservationInfo> Conditions;
             public List<GroupInfo> Types;
             public List<BatchInfo> Batches;
-            public ConfigurationTrend AvgSmoother;
-            public ConfigurationTrend MinSmoother;
-            public ConfigurationTrend MaxSmoother;
             public List<Peak> Peaks;
             public MetaInfoHeader PeakMetaHeader;
             internal IntensityMatrix IntensityMatrix;
@@ -1025,7 +1024,7 @@ namespace MetaboliteLevels.Forms.Startup
             //                                                  , conditions
             //                                                  , types
             List<ObservationInfo> observations = new List<ObservationInfo>();
-            List<ConditionInfo> conditions = new List<ConditionInfo>();
+            List<ObservationInfo> conditions = new List<ObservationInfo>();
 
             for (int row = 0; row < ssObservations.NumRows; row++) // obs info
             {
@@ -1038,45 +1037,23 @@ namespace MetaboliteLevels.Forms.Startup
                 GroupInfo groupInfo = expGroupsById[typeId];
 
                 // Add condition (if not already)
-                ConditionInfo condition = conditions.FirstOrDefault( λ => λ.Time == day && λ.Group == groupInfo );
+                ObservationInfo condition = conditions.FirstOrDefault( λ => λ.Time == day && λ.Group == groupInfo );
 
                 if (condition == null)
                 {
-                    condition = new ConditionInfo( day, expGroupsById[typeId] );
+                    condition = new ObservationInfo( null, groupInfo, day );
                     conditions.Add( condition ); // all conditions
                 }
 
                 // Add observation
-                observations.Add( new ObservationInfo( ssObservations.RowNames[row], condition, repId, batchesById[batchId], acquisition ) );
+                observations.Add( new ObservationInfo( new Acquisition( ssObservations.RowNames[row], repId, batchesById[batchId], acquisition ), groupInfo, day ) );
             }
 
             // Add to result
             result.Observations = observations;
             result.Conditions = conditions;
             result.Types = expGroups;
-            result.Batches = batches;
-
-            // Apply trend generators
-            switch (files.DefaultTrendGenerator)
-            {
-                case EDefaultTrendGenerator.MeanOfReplicates:
-                    result.AvgSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_FLAT_MEAN, new ArgsTrend( new object[] { 1 } ) );
-                    break;
-
-                case EDefaultTrendGenerator.MedianOfReplicates:
-                    result.AvgSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MEDIAN, new ArgsTrend( new object[] { 1 } ) );
-                    break;
-
-                case EDefaultTrendGenerator.None:
-                    result.AvgSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_NAN, new ArgsTrend( new object[0] ) );
-                    break;
-
-                default:
-                    throw new SwitchException( files.DefaultTrendGenerator );
-            }
-
-            result.MinSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MINIMUM, new ArgsTrend( new object[] { 0 } ) );
-            result.MaxSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MAXIMUM, new ArgsTrend( new object[] { 0 } ) );
+            result.Batches = batches;                                                                                      
 
             // Read in "ssPeaks" to an array of peaks
             result.Peaks = new List<Peak>();
@@ -1150,7 +1127,7 @@ namespace MetaboliteLevels.Forms.Startup
                 obs[row] = obsFinder[ss.RowNames[row]];
             }
 
-            return new IntensityMatrix(title, peaks, obs, matrix );                  
+            return new IntensityMatrix(title, ss.Title, peaks, obs, matrix );                  
         }
 
         private static void CreateGroupInfo<T>(string longNamePrefix, string shortNamePrefix, Dictionary<string, string> conditionNames, List<T> types, Dictionary<string, T> byId, List<string> typeIds, Func<int, string, int, string, string, T> result)
@@ -1227,7 +1204,7 @@ namespace MetaboliteLevels.Forms.Startup
             return result;                                                        
         }
 
-        private static void Load_6_CalculateDefaultStatistics(IntensityMatrix src, Core core, bool calcT, bool calcP, ProgressReporter prog)
+        private static void Load_6_CalculateDefaultStatistics( MatrixProducer src, Core core, bool calcT, bool calcP, ProgressReporter prog)
         {
             // Create filters
             List<ObsFilter> allFilters = new List<ObsFilter>();
@@ -1342,7 +1319,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Creates an absolute maximum statistic of other statistics.
         /// </summary>
-        private static ConfigurationStatistic CreateAbsMaxStatistic(IntensityMatrix src, List<ConfigurationStatistic> pStatOpts, string name)
+        private static ConfigurationStatistic CreateAbsMaxStatistic( MatrixProducer src, List<ConfigurationStatistic> pStatOpts, string name)
         {
             object pStatMinParam1 = pStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
             ArgsStatistic pStatMinArgs = new ArgsStatistic(src, null, EAlgoInputBSource.None, null, null, new[] { pStatMinParam1 });
@@ -1353,7 +1330,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Creates an mathematical minimum statistic of other statistics.
         /// </summary>
-        private static ConfigurationStatistic CreateMinStatistic(IntensityMatrix src, List<ConfigurationStatistic> tStatOpts, string name)
+        private static ConfigurationStatistic CreateMinStatistic( MatrixProducer src, List<ConfigurationStatistic> tStatOpts, string name)
         {
             object tStatMinParam1 = tStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
             ArgsStatistic tStatMinArgs = new ArgsStatistic(src, null, EAlgoInputBSource.None, null, null, new[] { tStatMinParam1 });
@@ -1364,7 +1341,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Calculates a default T-test statistic.
         /// </summary>
-        private static ConfigurationStatistic CreateTTestStatistic(IntensityMatrix src, string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
+        private static ConfigurationStatistic CreateTTestStatistic( MatrixProducer src, string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
         {
             ArgsStatistic args = new ArgsStatistic(src, typeOfInterest, EAlgoInputBSource.SamePeak, controlConditions, null, null);
             var stat = new ConfigurationStatistic("T-TEST: " + name, null, Algo.ID_METRIC_TTEST, args);
@@ -1374,7 +1351,7 @@ namespace MetaboliteLevels.Forms.Startup
         /// <summary>
         /// Calculates a default pearson correlation statistic.
         /// </summary>
-        private static ConfigurationStatistic CreatePearsonStatistic(IntensityMatrix src, string name, ObsFilter typeOfInterest)
+        private static ConfigurationStatistic CreatePearsonStatistic( MatrixProducer src, string name, ObsFilter typeOfInterest)
         {
             ArgsStatistic argsPearson = new ArgsStatistic(src, typeOfInterest, EAlgoInputBSource.Time, null, null, null);
             var statPearson = new ConfigurationStatistic("PEARSON: " + name, "Pearson correlation of the trend-line for " + name + " against time.", Algo.ID_METRIC_PEARSON, argsPearson);

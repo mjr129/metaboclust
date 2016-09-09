@@ -13,6 +13,7 @@ using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Settings;
 using MSerialisers;
 using System.Drawing.Drawing2D;
+using MetaboliteLevels.Data.Session.Associational;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Visualisables
@@ -109,7 +110,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <param name="core">Core</param>
         /// <param name="highlightContents">What to highlight in the plot</param>
         /// <returns>A StylisedCluster</returns>
-        internal StylisedCluster CreateStylisedCluster(Core core, IAssociational highlightContents )
+        internal StylisedCluster CreateStylisedCluster(Core core, IntensityMatrix source, IAssociational highlightContents )
         {
             var colours = new Dictionary<Peak, LineInfo>();
 
@@ -188,7 +189,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             int cindex = -1;
 
-            ValueMatrix vm = ValueMatrix.Create(peaks.Keys.ToArray(), true, core, ObsFilter.Empty, false, ProgressReporter.GetEmpty());
+            IntensityMatrix vm = source.Subset(z=>  peaks.ContainsKey( z ));
 
             for (int vIndex = 0; vIndex < vm.NumVectors; vIndex++)
             {

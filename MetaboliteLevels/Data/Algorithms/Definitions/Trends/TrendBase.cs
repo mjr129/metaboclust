@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         /// <summary>
         /// Smooths input data by type with x = time.
         /// </summary>
-        internal double[] SmoothByType(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ConditionInfo> outputOrder, IReadOnlyList<GroupInfo> groups, double[] raw, ArgsTrend a)
+        internal double[] SmoothByType(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ObservationInfo> outputOrder, IReadOnlyList<GroupInfo> groups, double[] raw, ArgsTrend a)
         {
             return this.SmoothByType(inputOrder, outputOrder, groups, raw, a.Parameters);
         }
@@ -42,7 +42,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         /// <summary>
         /// Smooths input data by type with x = time.
         /// </summary>
-        protected double[] SmoothByType(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ConditionInfo> outputOrder, IReadOnlyList<GroupInfo> groups, double[] raw, object[] args)
+        protected double[] SmoothByType(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ObservationInfo> outputOrder, IReadOnlyList<GroupInfo> groups, double[] raw, object[] args)
         {
             double[] r = new double[outputOrder.Count];
 
@@ -92,8 +92,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
                 IEnumerable<int> xOutI = outputOrder.Which(z => z.Batch == b);
 
                 // Get obs/cond/values for this BATCH
-                IEnumerable<int> x = inputOrder.At( xI).Select(z => z.Acquisition);
-                IEnumerable<int> xOut = outputOrder.At( xOutI).Select(z => z.Acquisition);
+                IEnumerable<int> x = inputOrder.At( xI).Select(z => z.Order);
+                IEnumerable<int> xOut = outputOrder.At( xOutI).Select(z => z.Order );
                 IEnumerable<double> y = raw.At( xI);
 
                 // Smooth this line

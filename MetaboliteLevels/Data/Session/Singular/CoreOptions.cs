@@ -35,13 +35,7 @@ namespace MetaboliteLevels.Settings
         [Description("Speed up plotting only plot this number of vectors at maximum in a cluster plot")]
         [Category("Clusters")]
         [DefaultValue(200)]
-        public int MaxPlotVariables { get; set; }
-
-        [DisplayName("View alternative dataset")]
-        [Category("Peaks")]
-        [Description("Check to show the \"alternate data set\" loaded in at program startup.")]
-        [DefaultValue(false)]
-        public bool ViewAlternativeObservations { get; set; }
+        public int MaxPlotVariables { get; set; }            
 
         [DisplayName("Explore acquisition")]
         [Category("Peaks")]

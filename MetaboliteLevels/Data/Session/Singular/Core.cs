@@ -18,6 +18,7 @@ using MetaboliteLevels.Algorithms.Statistics.Clusterers;
 using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Forms.Algorithms;
 using System.Collections;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MSerialisers;
 using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
 using MSerialisers.Serialisers;
@@ -66,56 +67,56 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Main data - the peaks
         /// </summary>
-        [UndeferSerialisation(typeof(Peak))]
+        [UndeferSerialisation( typeof( Peak ) )]
         private readonly List<Peak> _peaks;
 
         /// <summary>
         /// Main data - the compounds
         /// </summary>
-        [UndeferSerialisation(typeof(Compound))]
+        [UndeferSerialisation( typeof( Compound ) )]
         private readonly List<Compound> _compounds;
 
         /// <summary>
         /// Main data - pathways
         /// </summary>
-        [UndeferSerialisation(typeof(Pathway))]
+        [UndeferSerialisation( typeof( Pathway ) )]
         private readonly List<Pathway> _pathways;
 
         /// <summary>
         /// Main data - adducts
         /// </summary>
-        [UndeferSerialisation(typeof(Adduct))]
+        [UndeferSerialisation( typeof( Adduct ) )]
         private readonly List<Adduct> _adducts;
 
         /// <summary>
         /// Main data - observations
         /// </summary>
-        [UndeferSerialisation(typeof(ObservationInfo))]
+        [UndeferSerialisation( typeof( ObservationInfo ) )]
         private readonly List<ObservationInfo> _observations;
 
         /// <summary>
         /// Main data - conditions (observations with replicates accounted for)
         /// </summary>
-        [UndeferSerialisation(typeof( ObservationInfo ) )]
+        [UndeferSerialisation( typeof( ObservationInfo ) )]
         private readonly List<ObservationInfo> _conditions;
 
         /// <summary>
         /// Main data - experimental groups
         /// </summary>
-        [UndeferSerialisation(typeof(GroupInfo))]
+        [UndeferSerialisation( typeof( GroupInfo ) )]
         private readonly List<GroupInfo> _groups;
 
         /// <summary>
         /// Main data - LC-MS batches
         /// </summary>
-        [UndeferSerialisation(typeof(BatchInfo))]
+        [UndeferSerialisation( typeof( BatchInfo ) )]
         private readonly List<BatchInfo> _batches;
 
         /// <summary>
         /// Currently visible clusters
         /// (The complete set of clusters, including disabled ones can be obtained by iterating _clusterers::results)
         /// </summary>
-        [UndeferSerialisation(typeof(Cluster))]
+        [UndeferSerialisation( typeof( Cluster ) )]
         private readonly List<Cluster> _clusters;
 
         //
@@ -151,22 +152,7 @@ namespace MetaboliteLevels.Data.Session
 
         //
         // WORKFLOW
-        //
-
-        /// <summary>
-        /// The trend generation function
-        /// </summary>
-        public ConfigurationTrend AvgSmoother { get; private set; }
-
-        /// <summary>
-        /// A special trend generation function used to produce the "minimum" line on graphs
-        /// </summary>
-        public ConfigurationTrend MinSmoother { get; private set; }
-
-        /// <summary>
-        /// A special trend generation function used to produce the "maximum" line on graphs
-        /// </summary>
-        public ConfigurationTrend MaxSmoother { get; private set; }
+        //                                                         
 
         /// <summary>
         /// Trend generation functions
@@ -228,8 +214,6 @@ namespace MetaboliteLevels.Data.Session
         public IReadOnlyList<int> Acquisitions { get { return _cache._acquisitions; } }
         public IReadOnlyList<GroupInfo> ControlConditions { get { return _cache._controlConditions; } }
         public Range TimeRange { get { return _cache._timeRange; } }
-
-        public IReadOnlyList<IntensityMatrix> Matrices { get { return _matrices; } }
         public IReadOnlyList<GroupInfo> Groups { get { return _groups; } }
         public IReadOnlyList<BatchInfo> Batches { get { return _batches; } }
         public IReadOnlyList<Cluster> Clusters { get { return _clusters; } }
@@ -258,46 +242,46 @@ namespace MetaboliteLevels.Data.Session
             public readonly Range _timeRange;
             public readonly Range _repRange;
 
-            public CachedData(Core core)
+            public CachedData( Core core )
             {
-                _times = new HashSet<int>(core._observations.Select(z => z.Time)).ToList().AsReadOnly();
-                _reps = new HashSet<int>(core._observations.Select(z => z.Rep)).ToList().AsReadOnly();
-                _acquisitions = new HashSet<int>(core._observations.Select(z => z.Acquisition)).ToList().AsReadOnly();
+                _times = new HashSet<int>( core._observations.Select( z => z.Time ) ).ToList().AsReadOnly();
+                _reps = new HashSet<int>( core._observations.Select( z => z.Rep ) ).ToList().AsReadOnly();
+                _acquisitions = new HashSet<int>( core._observations.Select( z => z.Order ) ).ToList().AsReadOnly();
 
                 _groupsById = new Dictionary<string, GroupInfo>();
 
                 foreach (var t in core._groups)
                 {
-                    _groupsById.Add(t.StringId, t);
+                    _groupsById.Add( t.StringId, t );
                 }
 
-                _conditionsOfInterest = new List<GroupInfo>(core.FileNames.ConditionsOfInterestString.Select(z => _groupsById[z])).AsReadOnly();
-                _controlConditions = new List<GroupInfo>(core.FileNames.ControlConditionsString.Select(z => _groupsById[z])).AsReadOnly();
+                _conditionsOfInterest = new List<GroupInfo>( core.FileNames.ConditionsOfInterestString.Select( z => _groupsById[z] ) ).AsReadOnly();
+                _controlConditions = new List<GroupInfo>( core.FileNames.ControlConditionsString.Select( z => _groupsById[z] ) ).AsReadOnly();
 
-                _timeRange = new Range(_times.Min(), _times.Max());
-                _repRange = new Range(_reps.Min(), _reps.Max());
+                _timeRange = new Range( _times.Min(), _times.Max() );
+                _repRange = new Range( _reps.Min(), _reps.Max() );
             }
         }
 
         /// <summary>
         /// Saves all data
         /// </summary>
-        public void Save(string fileName, ProgressReporter prog)
+        public void Save( string fileName, ProgressReporter prog )
         {
-            XmlSettings.Save<Core>(fileName, this, null, prog);
+            XmlSettings.Save<Core>( fileName, this, null, prog );
         }
 
         /// <summary>
         /// Loads all data
         /// </summary>
-        public static Core Load(string fileName, ProgressReporter progress)
+        public static Core Load( string fileName, ProgressReporter progress )
         {
-            Core result = XmlSettings.LoadOrDefault<Core>(fileName, null, null, progress);
+            Core result = XmlSettings.LoadOrDefault<Core>( fileName, null, null, progress );
 
             if (result != null)
             {
                 result.FileNames.Session = fileName;
-                result._cache = new CachedData(result);
+                result._cache = new CachedData( result );
             }
 
             return result;
@@ -306,13 +290,13 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Main constructor.
         /// </summary>
-        public Core(DataFileNames fileNames, FrmActDataLoad.DataSet data, List<Compound> compounds, List<Pathway> pathways, MetaInfoHeader compMeta, MetaInfoHeader pathMeta, List<Adduct> adducts, MetaInfoHeader adductsHeader, MetaInfoHeader annotationsHeader)
+        public Core( DataFileNames fileNames, FrmActDataLoad.DataSet data, List<Compound> compounds, List<Pathway> pathways, MetaInfoHeader compMeta, MetaInfoHeader pathMeta, List<Adduct> adducts, MetaInfoHeader adductsHeader, MetaInfoHeader annotationsHeader )
         {
             this.CoreGuid = Guid.NewGuid();
 
             this.FileNames = fileNames;
             this.Options = new CoreOptions();
-            this.Options.ViewTypes = new List<GroupInfo>(data.Types.OrderBy(z => z.DisplayPriority));
+            this.Options.ViewTypes = new List<GroupInfo>( data.Types.OrderBy( z => z.DisplayPriority ) );
 
             this._adducts = adducts;
             this._clusters = new List<Cluster>();
@@ -330,18 +314,14 @@ namespace MetaboliteLevels.Data.Session
             this._adductsMeta = adductsHeader;
             this._annotationsMeta = annotationsHeader;
 
-            this.AvgSmoother = data.AvgSmoother;
-            this.MinSmoother = data.MinSmoother;
-            this.MaxSmoother = data.MaxSmoother;
-
             this._clusterers = new List<ConfigurationClusterer>();
             this._statistics = new List<ConfigurationStatistic>();
             this._corrections = new List<ConfigurationCorrection>();
-            this._trends = new List<ConfigurationTrend> { this.AvgSmoother };
+            this._trends = new List<ConfigurationTrend>();
             this._peakFilters = new List<PeakFilter>();
             this._obsFilters = new List<ObsFilter>();
 
-            this._cache = new CachedData(this);
+            this._cache = new CachedData( this );
 
             this._matrices = new List<IntensityMatrix>();
             this._matrices.Add( data.IntensityMatrix );
@@ -362,27 +342,25 @@ namespace MetaboliteLevels.Data.Session
         /// <param name="updateClusters">Update clusters afterwards</param>
         /// <param name="reportProgress">Progress reporter</param>
         /// <returns>true unless any correction failed</returns>
-        internal bool SetCorrections(IEnumerable<ConfigurationCorrection> newList, bool refreshAll, bool updateStatistics, bool updateTrends, bool updateClusters, ProgressReporter reportProgress)
+        internal bool SetCorrections( IEnumerable<ConfigurationCorrection> newList, bool refreshAll, bool updateStatistics, bool updateTrends, bool updateClusters, ProgressReporter reportProgress )
         {
             bool result = true;
 
             // Report                        
-            reportProgress.Enter("Applying corrections...");
+            reportProgress.Enter( "Applying corrections..." );
 
             if (newList == null)
             {
                 newList = this.AllCorrections;
-                UiControls.Assert(refreshAll, "SetCorrections: Why set to the same without refresh?");
+                UiControls.Assert( refreshAll, "SetCorrections: Why set to the same without refresh?" );
             }
 
             // Get first change
             var newListEnabled = newList.WhereEnabled().ToList();
             var prevList = _corrections.WhereEnabled();
-            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference(prevList, newListEnabled);
+            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference( prevList, newListEnabled );
 
-            // Remove old results
-            _ClearCorrections(firstChange);
-
+            // Remove old results                                                    
             for (int index = firstChange; index < _corrections.Count; index++)
             {
                 _corrections[index].ClearResults();
@@ -401,31 +379,32 @@ namespace MetaboliteLevels.Data.Session
                 try
                 {
                     // For each peak
-                    for (int peakIndex = 0; peakIndex < Peaks.Count; peakIndex++)
+                    IntensityMatrix source = algo.Args.SourceMatrix;
+                    double[][] results = new double[source.NumRows][];
+
+                    for (int peakIndex = 0; peakIndex < source.NumRows; peakIndex++)
                     {
                         if (reportProgress != null)
                         {
-                            reportProgress.SetProgress(peakIndex, Peaks.Count, corIndex - firstChange, newListEnabled.Count);
+                            reportProgress.SetProgress( peakIndex, Peaks.Count, corIndex - firstChange, newListEnabled.Count );
                         }
 
                         Peak x = Peaks[peakIndex];
-                        PeakValueSet src = (corIndex == 0) ? x.OriginalObservations : x.CorrectionChain[corIndex - 1];
-                        double[] corrected = algo.Calculate(this, src.Raw);
+                        results[peakIndex] = algo.Calculate( this, source.Values[peakIndex] );
 
-                        PeakValueSet corS = new PeakValueSet(this, corrected);
-                        x.CorrectionChain.Add(corS);
-
-                        if (corrected.Any(double.IsNaN))
+                        if (results[peakIndex].Any( double.IsNaN ))
                         {
                             isInvalid = true;
                         }
                     }
 
-                    algo.SetResults(new ResultCorrection());
+                    IntensityMatrix imresult = new IntensityMatrix( algo.DisplayName, null, source.Rows, source.Columns, results );
+
+                    algo.SetResults( new ResultCorrection( imresult ) );
                 }
                 catch (Exception ex)
                 {
-                    InvalidateSubsequentCorrections(newListEnabled, ex, null, corIndex);
+                    InvalidateSubsequentCorrections( newListEnabled, ex, null, corIndex );
                     result = false;
                     isInvalid = false;
                     break;
@@ -433,7 +412,7 @@ namespace MetaboliteLevels.Data.Session
 
                 if (isInvalid)
                 {
-                    invalidIndices.Add(corIndex);
+                    invalidIndices.Add( corIndex );
                 }
             }
 
@@ -441,35 +420,29 @@ namespace MetaboliteLevels.Data.Session
             if (isInvalid)
             {
                 result = false;
-                InvalidateSubsequentCorrections(newListEnabled, null, "One or more peaks contain NaN/Infinite values that were not remedied by the end of the correction chain. NaN/Infinite values were encountered as a result of this algorithm.", invalidIndices.ToArray());
-            }
-
-            // Set final observations
-            foreach (var x in Peaks)
-            {
-                x.Observations = x.CorrectionChain.Count == 0 ? x.OriginalObservations : x.CorrectionChain[x.CorrectionChain.Count - 1];
+                InvalidateSubsequentCorrections( newListEnabled, null, "One or more peaks contain NaN/Infinite values that were not remedied by the end of the correction chain. NaN/Infinite values were encountered as a result of this algorithm.", invalidIndices.ToArray() );
             }
 
             // Set result
-            this._corrections.ReplaceAll(newList);
+            this._corrections.ReplaceAll( newList );
 
             // Update statistics
             if (updateTrends)
             {
-                SetTrends(null, true, updateStatistics, updateClusters, reportProgress);
+                SetTrends( null, true, updateStatistics, updateClusters, reportProgress );
             }
             else
             {
                 if (updateStatistics)
                 {
-                    UiControls.Assert(false, "SetCorrections: Would expect trends to be updated if statistics are.");
-                    SetStatistics(null, true, reportProgress);
+                    UiControls.Assert( false, "SetCorrections: Would expect trends to be updated if statistics are." );
+                    SetStatistics( null, true, reportProgress );
                 }
 
                 if (updateClusters)
                 {
-                    UiControls.Assert(false, "SetCorrections: No reason to update clusters if trend unchanged.");
-                    SetClusterers(null, true, reportProgress);
+                    UiControls.Assert( false, "SetCorrections: No reason to update clusters if trend unchanged." );
+                    SetClusterers( null, true, reportProgress );
                 }
             }
 
@@ -489,25 +462,22 @@ namespace MetaboliteLevels.Data.Session
             {
                 foreach (string statistic in cluster.ClusterStatistics.Keys)
                 {
-                    result.Add(statistic);
+                    result.Add( statistic );
                 }
             }
 
             return result;
         }
 
-        private void InvalidateSubsequentCorrections(List<ConfigurationCorrection> list, Exception responsibleError, string responsibleErrorMessage, params int[] invalidIndices)
+        private void InvalidateSubsequentCorrections( List<ConfigurationCorrection> list, Exception responsibleError, string responsibleErrorMessage, params int[] invalidIndices )
         {
             int firstInvalidIndex = invalidIndices[0];
-
-            // Clear everything after from peaks
-            _ClearCorrections(firstInvalidIndex);
 
             // Disable everything after
             for (int ci2 = firstInvalidIndex; ci2 < list.Count; ci2++)
             {
                 list[ci2].Enabled = false;
-                list[ci2].SetError("Disabled due to an error in a previous correction.");
+                list[ci2].SetError( "Disabled due to an error in a previous correction." );
             }
 
             foreach (int invalidIndex in invalidIndices)
@@ -516,33 +486,19 @@ namespace MetaboliteLevels.Data.Session
 
                 if (responsibleError != null)
                 {
-                    responsibleCorrection.SetError(responsibleError);
+                    responsibleCorrection.SetError( responsibleError );
                 }
                 else if (responsibleErrorMessage != null)
                 {
-                    responsibleCorrection.SetError(responsibleErrorMessage);
+                    responsibleCorrection.SetError( responsibleErrorMessage );
                 }
                 else
                 {
-                    throw new ArgumentException("Missing an argument.");
+                    throw new ArgumentException( "Missing an argument." );
                 }
             }
 
-            list.RemoveRange(firstInvalidIndex, list.Count - firstInvalidIndex);
-        }
-
-        /// <summary>
-        /// Clears corrections from results (after [firstChange]).
-        /// </summary>                                                                               
-        private void _ClearCorrections(int firstChange)
-        {
-            foreach (var x in Peaks)
-            {
-                if (x.CorrectionChain.Count > (firstChange - 1))
-                {
-                    x.CorrectionChain.RemoveRange(firstChange, x.CorrectionChain.Count - firstChange);
-                }
-            }
+            list.RemoveRange( firstInvalidIndex, list.Count - firstInvalidIndex );
         }
 
         /// <summary>
@@ -554,30 +510,30 @@ namespace MetaboliteLevels.Data.Session
         /// Cluster stats : updated
         /// Clustering    : don't use statistics (ignored)
         /// </summary>
-        internal bool SetStatistics(IEnumerable<ConfigurationStatistic> newList, bool refreshAll, ProgressReporter reportProgress)
+        internal bool SetStatistics( IEnumerable<ConfigurationStatistic> newList, bool refreshAll, ProgressReporter reportProgress )
         {
             bool result = true;
 
             // Report               
-            reportProgress.Enter("Calculating statistics...");
+            reportProgress.Enter( "Calculating statistics..." );
 
             if (newList == null)
             {
                 newList = this._statistics;
-                UiControls.Assert(refreshAll, "SetStatistics: Expected refresh if unchanged");
+                UiControls.Assert( refreshAll, "SetStatistics: Expected refresh if unchanged" );
             }
 
             // Get changes
             var newListEnabled = newList.WhereEnabled().ToList();
             var prevList = this._statistics.WhereEnabled();
-            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference(prevList, newListEnabled);
+            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference( prevList, newListEnabled );
 
             // Remove old results
             for (int i = firstChange; i < this._statistics.Count; i++)
             {
                 var stat = this._statistics[i];
 
-                _ClearStatistic(stat);
+                _ClearStatistic( stat );
             }
 
             // Add new results
@@ -586,7 +542,7 @@ namespace MetaboliteLevels.Data.Session
             for (int statIndex = firstChange; statIndex < newListEnabled.Count; statIndex++)
             {
                 var stat = newListEnabled[statIndex];
-                Debug.WriteLine("Adding statistic: " + stat.ToString());
+                Debug.WriteLine( "Adding statistic: " + stat.ToString() );
                 double max = double.MinValue;
                 double min = double.MaxValue;
 
@@ -594,29 +550,29 @@ namespace MetaboliteLevels.Data.Session
                 {
                     for (int peakIndex = 0; peakIndex < Peaks.Count; peakIndex++)
                     {
-                        reportProgress.SetProgress(peakIndex, Peaks.Count, statIndex - firstChange, newListEnabled.Count - firstChange);
+                        reportProgress.SetProgress( peakIndex, Peaks.Count, statIndex - firstChange, newListEnabled.Count - firstChange );
 
                         Peak x = Peaks[peakIndex];
-                        double value = stat.Calculate(this, x);
-                        max = Math.Max(max, value);
-                        min = Math.Min(min, value);
+                        double value = stat.Calculate( this, x );
+                        max = Math.Max( max, value );
+                        min = Math.Min( min, value );
                         x.Statistics[stat] = value;
                     }
 
-                    stat.SetResults(new ResultStatistic(min, max));
+                    stat.SetResults( new ResultStatistic( min, max ) );
                 }
                 catch (Exception ex)
                 {
                     result = false;
                     stat.Enabled = false;
-                    actList.Remove(stat);
-                    _ClearStatistic(stat);
-                    stat.SetError(ex);
+                    actList.Remove( stat );
+                    _ClearStatistic( stat );
+                    stat.SetError( ex );
                 }
             }
 
             // Set result                         
-            this._statistics.ReplaceAll(newList);
+            this._statistics.ReplaceAll( newList );
 
             // Update clusters
             foreach (var x in Clusters)
@@ -629,11 +585,11 @@ namespace MetaboliteLevels.Data.Session
             return result;
         }
 
-        private void _ClearStatistic(ConfigurationStatistic stat)
+        private void _ClearStatistic( ConfigurationStatistic stat )
         {
             foreach (var x in Peaks)
             {
-                x.Statistics.Remove(stat);
+                x.Statistics.Remove( stat );
             }
 
             stat.ClearError();
@@ -648,17 +604,17 @@ namespace MetaboliteLevels.Data.Session
         /// Cluster stats : updated with statistics
         /// Clustering    : not changed - must be manually reperformed
         /// </summary>
-        internal bool SetTrends(IEnumerable<ConfigurationTrend> newList, bool refreshAll, bool updateStatistics, bool updateClusters, ProgressReporter info)
+        internal bool SetTrends( IEnumerable<ConfigurationTrend> newList, bool refreshAll, bool updateStatistics, bool updateClusters, ProgressReporter info )
         {
             bool result = true;
 
             // Report
-            info.Enter("Calculating trends...");
+            info.Enter( "Calculating trends..." );
 
             if (newList == null)
             {
                 newList = _trends;
-                UiControls.Assert(refreshAll, "SetTrend: Expected refresh if unchanged");
+                UiControls.Assert( refreshAll, "SetTrend: Expected refresh if unchanged" );
             }
 
             // Get changes
@@ -669,7 +625,7 @@ namespace MetaboliteLevels.Data.Session
 
             if (numberEnabled != 1)
             {
-                throw new InvalidOperationException("SetTrend: Provided with " + numberEnabled + " enabled trends (expected 1).");
+                throw new InvalidOperationException( "SetTrend: Provided with " + numberEnabled + " enabled trends (expected 1)." );
             }
 
             // Set result
@@ -677,34 +633,32 @@ namespace MetaboliteLevels.Data.Session
 
             try
             {
-                _ApplyTrend(info, trend);
+                _ApplyTrend( info, trend );
             }
             catch (Exception ex)
             {
                 result = false;
-                trend.SetError(ex);
+                trend.SetError( ex );
                 trend.Enabled = false;
-                trend = CreateFallbackTrend();
 
                 newListEnabled = new List<ConfigurationTrend> { trend };
-                newList = newList.Concat(newListEnabled);
+                newList = newList.Concat( newListEnabled );
 
-                _ApplyTrend(info, trend);
+                _ApplyTrend( info, trend );
             }
 
-            // Set lists
-            this.AvgSmoother = trend;
-            _trends.ReplaceAll(newList);
+            // Set lists             
+            _trends.ReplaceAll( newList );
 
             // Update statistics
             if (updateStatistics)
             {
-                SetStatistics(null, true, info);
+                SetStatistics( null, true, info );
             }
 
             if (updateClusters)
             {
-                SetClusterers(null, true, info);
+                SetClusterers( null, true, info );
             }
 
             info.Leave();
@@ -712,87 +666,75 @@ namespace MetaboliteLevels.Data.Session
             return result;
         }
 
-        private ConfigurationTrend CreateFallbackTrend()
+        private void _ApplyTrend( ProgressReporter info, ConfigurationTrend trend )
         {
-            return new ConfigurationTrend(null, null, Algo.ID_TREND_FLAT_MEAN, new ArgsTrend(null));
-        }
+            IntensityMatrix source = trend.Args.SourceMatrix;
+            double[][] results = new double[source.NumRows][];
 
-        private void _ApplyTrend(ProgressReporter info, ConfigurationTrend trend)
-        {
-            for (int index = 0; index < Peaks.Count; index++)
+            for (int index = 0; index < source.NumRows; index++)
             {
-                info.SetProgress(index, Peaks.Count);
-
-                Peak p = Peaks[index];
+                info.SetProgress( index, source.NumRows );
 
                 // Apply new trend
-                p.Observations.Trend = trend.CreateTrend(Observations, Conditions, Groups, p.Observations.Raw); // obs
-
-                if (p.AltObservations != null)
-                {
-                    p.AltObservations.Trend = trend.CreateTrend(Observations, Conditions, Groups, p.AltObservations.Raw); // alt. obs
-                }
-
-                for (int i = 0; i < p.CorrectionChain.Count; i++)
-                {
-                    p.CorrectionChain[i].Trend = trend.CreateTrend(Observations, Conditions, Groups, p.CorrectionChain[i].Raw); // chain obs
-                }
+                results[index] = trend.CreateTrend( Observations, Conditions, Groups, source.Values[index] ); // obs
             }
 
-            trend.SetResults(new ResultTrend(Peaks.Count));
+            IntensityMatrix result = new IntensityMatrix( trend.DisplayName, null, source.Rows, source.Columns, results );
+
+            trend.SetResults( new ResultTrend( result ) );
         }
 
         /// <summary>
         /// Sets clusters and applies clustering algorithm.
         /// </summary>
-        public bool SetClusterers(IEnumerable<ConfigurationClusterer> newList, bool refreshAll, ProgressReporter reportProgress)
+        public bool SetClusterers( IEnumerable<ConfigurationClusterer> newList, bool refreshAll, ProgressReporter reportProgress )
         {
             bool result = true;
 
             // Report                        
-            reportProgress.Enter("Calculating clusters...");
+            reportProgress.Enter( "Calculating clusters..." );
 
             if (newList == null)
             {
                 newList = this._clusterers;
-                UiControls.Assert(refreshAll, "SetClusterers: Expected refresh if unchanged");
+                UiControls.Assert( refreshAll, "SetClusterers: Expected refresh if unchanged" );
             }
 
             // Get changes
             var newListEnabled = newList.WhereEnabled().ToList();
 
             // Remove obsolete clusters
-            foreach (ConfigurationClusterer config in IVisualisableExtensions.WhereEnabled(this.AllClusterers))
+            foreach (ConfigurationClusterer config in IVisualisableExtensions.WhereEnabled( this.AllClusterers ))
             {
-                if (!newListEnabled.Contains(config))
+                if (!newListEnabled.Contains( config ))
                 {
-                    this._ClearCluster(config);
+                    this._ClearCluster( config );
                 }
             }
 
             // Create new clusters
             foreach (ConfigurationClusterer config in newListEnabled.ToList())
             {
-                if (!IVisualisableExtensions.WhereEnabled(this.AllClusterers).Contains(config))
+                if (!IVisualisableExtensions.WhereEnabled( this.AllClusterers ).Contains( config ))
                 {
                     try
                     {
-                        ResultClusterer results = config.Cluster(this, -1, reportProgress);
-                        config.SetResults(results);
+                        ResultClusterer results = config.Cluster( this, -1, reportProgress );
+                        config.SetResults( results );
                     }
                     catch (Exception ex)
                     {
                         result = false;
-                        this._ClearCluster(config);
-                        config.SetError(ex);
-                        newListEnabled.Remove(config);
+                        this._ClearCluster( config );
+                        config.SetError( ex );
+                        newListEnabled.Remove( config );
                         continue;
                     }
                 }
             }
 
             // Set new ones                       
-            this._clusterers.ReplaceAll(newList);
+            this._clusterers.ReplaceAll( newList );
 
             // Set the enabled clusters
             this._clusters.Clear();
@@ -806,14 +748,14 @@ namespace MetaboliteLevels.Data.Session
             {
                 if (config.HasResults)
                 {
-                    this._clusters.AddRange(config.Results.Clusters);
+                    this._clusters.AddRange( config.Results.Clusters );
 
                     // ...to Peaks
                     foreach (Cluster cluster in config.Results.Clusters)
                     {
                         foreach (var a in cluster.Assignments.List)
                         {
-                            a.Peak.Assignments.Add(a);
+                            a.Peak.Assignments.Add( a );
                         }
                     }
                 }
@@ -824,7 +766,7 @@ namespace MetaboliteLevels.Data.Session
             return result;
         }
 
-        private void _ClearCluster(ConfigurationClusterer config)
+        private void _ClearCluster( ConfigurationClusterer config )
         {
             config.Enabled = false;
             config.ClearResults();
@@ -834,49 +776,49 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Adds and applies a single new clustering algorithm.
         /// </summary>
-        public void AddClusterer(ConfigurationClusterer toAdd, ProgressReporter setProgress)
+        public void AddClusterer( ConfigurationClusterer toAdd, ProgressReporter setProgress )
         {
-            List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>(AllClusterers);
-            existing.Add(toAdd);
-            this.SetClusterers(existing.ToArray(), false, setProgress);
+            List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>( AllClusterers );
+            existing.Add( toAdd );
+            this.SetClusterers( existing.ToArray(), false, setProgress );
         }
 
         /// <summary>
         /// Sets the filters.
         /// Since the filters themselves are immutable we don't need to update e.g. clusters which use them.
         /// </summary>
-        internal void SetPeakFilters(IEnumerable<PeakFilter> alist)
+        internal void SetPeakFilters( IEnumerable<PeakFilter> alist )
         {
-            this._peakFilters.ReplaceAll(alist);
+            this._peakFilters.ReplaceAll( alist );
         }
 
         /// <summary>
         /// Sets the filters.
         /// Since the filters themselves are immutable we don't need to update e.g. clusters which use them.
         /// </summary>
-        internal void SetObsFilters(IEnumerable<ObsFilter> alist)
+        internal void SetObsFilters( IEnumerable<ObsFilter> alist )
         {
-            this._obsFilters.ReplaceAll(alist);
+            this._obsFilters.ReplaceAll( alist );
         }
 
         /// <summary>
         /// Adds and a single new observation filter.
         /// </summary>
-        internal void AddObsFilter(ObsFilter toAdd)
+        internal void AddObsFilter( ObsFilter toAdd )
         {
-            List<ObsFilter> existing = new List<ObsFilter>(AllObsFilters);
-            existing.Add(toAdd);
-            this.SetObsFilters(existing.ToArray());
+            List<ObsFilter> existing = new List<ObsFilter>( AllObsFilters );
+            existing.Add( toAdd );
+            this.SetObsFilters( existing.ToArray() );
         }
 
         /// <summary>
         /// Adds and a single new peak filter.
         /// </summary>
-        internal void AddPeakFilter(PeakFilter toAdd)
+        internal void AddPeakFilter( PeakFilter toAdd )
         {
-            List<PeakFilter> existing = new List<PeakFilter>(AllPeakFilters);
-            existing.Add(toAdd);
-            this.SetPeakFilters(existing.ToArray());
+            List<PeakFilter> existing = new List<PeakFilter>( AllPeakFilters );
+            existing.Add( toAdd );
+            this.SetPeakFilters( existing.ToArray() );
         }
 
         /// <summary>
@@ -884,7 +826,7 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         public IEnumerable<Assignment> Assignments
         {
-            get { return Clusters.SelectMany(z => z.Assignments.List); }
+            get { return Clusters.SelectMany( z => z.Assignments.List ); }
         }
 
         /// <summary>
@@ -892,7 +834,7 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         public IEnumerable<Annotation> Annotations
         {
-            get { return Peaks.SelectMany(z => z.Annotations); }
+            get { return Peaks.SelectMany( z => z.Annotations ); }
         }
 
         /// <summary>
@@ -905,21 +847,21 @@ namespace MetaboliteLevels.Data.Session
                 _guids = new Dictionary<Guid, WeakReference>();
             }
 
-            LookupByGuidSerialiser result = new LookupByGuidSerialiser(_guids);
+            LookupByGuidSerialiser result = new LookupByGuidSerialiser( _guids );
 
-            result.Add(typeof(Peak), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(Compound), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(Pathway), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(Adduct), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(PeakFilter), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ObsFilter), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ConfigurationCorrection), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ConfigurationStatistic), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add( typeof( Peak ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( Compound ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( Pathway ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( Adduct ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( PeakFilter ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( ObsFilter ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( ConfigurationCorrection ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( ConfigurationStatistic ), LookupByGuidSerialiser.ETypeBehaviour.Default );
             //result.Add(typeof(ConfigurationClusterer), LookupByGuidSerialiser.ETypeBehaviour.Default); <-- Don't add these because they can be temporary
-            result.Add(typeof(ConfigurationTrend), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(GroupInfo), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ObservationInfo), LookupByGuidSerialiser.ETypeBehaviour.Default);
-            result.Add(typeof(ConditionInfo), LookupByGuidSerialiser.ETypeBehaviour.Default);
+            result.Add( typeof( ConfigurationTrend ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( GroupInfo ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( ObservationInfo ), LookupByGuidSerialiser.ETypeBehaviour.Default );
+            result.Add( typeof( ObservationInfo ), LookupByGuidSerialiser.ETypeBehaviour.Default );
 
             return result;
         }
@@ -928,15 +870,45 @@ namespace MetaboliteLevels.Data.Session
         /// Retrieves and sets object GUIDs (after partial serialisation)
         /// </summary>                                   
         /// <returns>If anything has changed</returns>
-        public bool SetLookups(LookupByGuidSerialiser src)
+        public bool SetLookups( LookupByGuidSerialiser src )
         {
             if (src.HasLookupTableChanged)
             {
-                src.GetLookupTable(_guids);
+                src.GetLookupTable( _guids );
                 return true;
             }
 
             return false;
+        }
+
+        public static IntensityMatrix Legacy()
+        {
+            return null;
+        }
+
+        public IEnumerable<MatrixProducer> Matrices
+        {
+            get
+            {
+                List<MatrixProducer> results = new List<MatrixProducer>();
+
+                foreach (IntensityMatrix matrix in _matrices)
+                {
+                    results.Add( new MatrixProducer( matrix ) );
+                }
+
+                foreach (ConfigurationTrend trend in _trends)
+                {
+                    results.Add( new MatrixProducer( trend ) );
+                }
+
+                foreach (ConfigurationCorrection correction in _corrections)
+                {
+                    results.Add( new MatrixProducer( correction ) );
+                }
+
+                return results;
+            }
         }
     }
 }

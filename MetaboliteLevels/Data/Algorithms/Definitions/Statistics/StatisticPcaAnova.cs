@@ -3,6 +3,7 @@ using System.Linq;
 using MetaboliteLevels.Algorithms.Statistics.Inputs;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Statistics
 {
@@ -23,7 +24,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
             HashSet<GroupInfo> groups = new HashSet<GroupInfo>(vo.Select(z => z.Group));
             HashSet<int> reps = new HashSet<int>(vo.Select(z => z.Rep));
 
-            return Arr.Instance.PcaAnova(input.PeakA, input.Core, groups.ToList(), reps.ToList());
+            return Arr.Instance.PcaAnova(input.Args.SourceMatrix, input.PeakA, input.Core, groups.ToList(), reps.ToList());
         }
 
         protected override AlgoParameterCollection CreateParamaterDesription()

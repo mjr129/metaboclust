@@ -106,9 +106,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             binder1.Bind(_numThumbnail, λ => λ.ThumbnailSize);
 
-            binder1.Bind(_lstPeakOrder, λ => λ.ViewAcquisition);
-
-            binder1.Bind(_lstPeakData, λ => λ.ViewAlternativeObservations);
+            binder1.Bind(_lstPeakOrder, λ => λ.ViewAcquisition);           
 
             binder1.Bind( _chkGroupNames, λ => λ.DrawExperimentalGroupAxisLabels );
 

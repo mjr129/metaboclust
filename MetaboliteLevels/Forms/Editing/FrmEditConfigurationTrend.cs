@@ -14,6 +14,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Controls;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MGui.Helpers;
 using MetaboliteLevels.Data.Session.Associational;
 
@@ -122,12 +123,14 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _checker.Check( _ecbMethod.ComboBox, false, "Select a method" );
             }
 
+            var src =new MatrixProducer( Core.Legacy());// _ecbSource.SelectedItem;
+
             if (_checker.HasErrors)
             {
                 return null;
             }
 
-            return new ConfigurationTrend(title, _comments, sel.Id, new ArgsTrend(args));
+            return new ConfigurationTrend(title, _comments, sel.Id, new ArgsTrend(src, args));
         }
 
         public FrmEditConfigurationTrend()
@@ -163,11 +166,13 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 StylisedPeak sPeak = new StylisedPeak(_previewPeak);
 
+                IntensityMatrix source = Core.Legacy();
+
                 if (_previewPeak != null)
                 {
                     try
                     {
-                        sPeak.ForceObservations = new PeakValueSet(_core, _previewPeak.Get_Observations_Raw(_core), sel);
+                        sPeak.ForceObservations = source.Find( _previewPeak);
                         _chart1.Plot(sPeak);
                     }
                     catch (Exception ex)

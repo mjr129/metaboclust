@@ -9,6 +9,7 @@ using MetaboliteLevels.Algorithms.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Settings;
@@ -150,7 +151,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         {
             foreach (ResultClusterer result in Repetitions)
             {
-                ValueMatrix vmatrix;
+                IntensityMatrix vmatrix;
                 DistanceMatrix dmatrix;
                 Owner.ClustererConfiguration.Cached.ExecuteAlgorithm(core, -1, true, Owner.ClustererConfiguration.Args, null, prog, out vmatrix, out dmatrix);
                 result.RecalculateStatistics(core, Owner.ClustererConfiguration.Args.Distance, vmatrix, dmatrix, stats, prog);

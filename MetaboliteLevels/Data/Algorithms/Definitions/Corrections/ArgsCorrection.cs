@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -11,8 +12,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsCorrection : ArgsBase
     {
-        public ArgsCorrection(object[] parameters)
-            : base(parameters)
+        public ArgsCorrection( MatrixProducer source, object[] parameters)
+            : base( source, parameters )
         {
         }
 

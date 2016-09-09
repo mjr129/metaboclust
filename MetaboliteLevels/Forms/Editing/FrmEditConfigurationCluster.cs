@@ -19,6 +19,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Data.Visualisables;
 using System.Text;
 using MetaboliteLevels.Algorithms.Statistics.Results;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.General;
 using MGui;
 using MGui.Helpers;
@@ -36,7 +37,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<MetricBase> _ecbMeasure;
         private ConditionBox<EClustererStatistics> _cbStatistics;
         private readonly bool _readOnly;
-        private EditableComboBox<IntensityMatrix> _ecbSource;
+        private EditableComboBox<MatrixProducer> _ecbSource;
 
         internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
         {
@@ -97,7 +98,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _cbStatistics.SelectedItems = EnumHelper.SplitEnum<EClustererStatistics>(def.Args.Statistics);
 
                 // Input vector
-                _ecbSource.SelectedItem = def.Args.Source.GetTarget();
+                _ecbSource.SelectedItem = def.Args.Source;
 
                 // ObsFilter
                 _ecbObsFilter.SelectedItem = def.Args.ObsFilter;
@@ -135,8 +136,8 @@ namespace MetaboliteLevels.Forms.Algorithms
         }
 
         private ConfigurationClusterer GetSelection()
-        {      
-            IntensityMatrix src;
+        {
+            MatrixProducer src;
             PeakFilter peakFilter;
             ObsFilter obsFilter;
             string title;
@@ -228,8 +229,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             // Result
-            ConfigurationMetric df = dMet != null ? new ConfigurationMetric(dMet.Name, string.Empty, dMet.Id, new ArgsMetric(dMetParams)) : null;
-            ArgsClusterer args = new ArgsClusterer(peakFilter, df, src, obsFilter, _chkSepGroups.Checked, suppressMetric, parameters);
+            ConfigurationMetric df = dMet != null ? new ConfigurationMetric(dMet.Name, string.Empty, dMet.Id, new ArgsMetric(src,dMetParams)) : null;
+            ArgsClusterer args = new ArgsClusterer(src,peakFilter, df, obsFilter, _chkSepGroups.Checked, suppressMetric, parameters);
             ConfigurationClusterer result = new ConfigurationClusterer(title, _comment, sel.Id, args);
             return result;
         }
@@ -274,12 +275,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             var sel = GetSelection();
             _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
             _btnOk.Enabled = sel != null;
-        }   
-
-        private void _btnTrendHelp_Click(object sender, EventArgs e)
-        {
-            FrmMsgBox.ShowHelp(this, "Default Trend", UiControls.GetDefaultTrendMessage(_core));
-        }
+        }      
 
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {

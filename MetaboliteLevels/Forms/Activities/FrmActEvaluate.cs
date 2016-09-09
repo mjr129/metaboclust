@@ -617,7 +617,14 @@ namespace MetaboliteLevels.Forms.Algorithms
                     string newName = AlgoParameterCollection.ParamToString(false, null, value) + " " + StringHelper.Circle(repetition + 1);
                     object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
                     copyOfParameters[test.ParameterIndex] = value;
-                    ArgsClusterer copyOfArgs = new ArgsClusterer(test.ClustererConfiguration.Args.PeakFilter, test.ClustererConfiguration.Args.Distance, test.ClustererConfiguration.Args.SourceMode, test.ClustererConfiguration.Args.ObsFilter, test.ClustererConfiguration.Args.SplitGroups, test.ClustererConfiguration.Args.Statistics, copyOfParameters);
+                    ArgsClusterer copyOfArgs = new ArgsClusterer(
+                        test.ClustererConfiguration.Args.Source,
+                        test.ClustererConfiguration.Args.PeakFilter,
+                        test.ClustererConfiguration.Args.Distance, 
+                        test.ClustererConfiguration.Args.ObsFilter, 
+                        test.ClustererConfiguration.Args.SplitGroups,
+                        test.ClustererConfiguration.Args.Statistics,
+                        copyOfParameters);
                     var copyOfConfig = new ConfigurationClusterer(newName, test.ClustererConfiguration.Comment, test.ClustererConfiguration.Id, copyOfArgs);
 
                     // Try load previus result

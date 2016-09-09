@@ -40,7 +40,6 @@ namespace MetaboliteLevels.Forms.Editing
         private ObsFilter _obsFilter;
         private PeakFilter _peakFilter;
         private bool _transposeToShowPeaks;
-        private bool _trend;
 
         private int _component;
 
@@ -49,8 +48,8 @@ namespace MetaboliteLevels.Forms.Editing
 
         private EPlotSource _plotSource;
         private double[,] _loadings;
-        private ReadOnlyCollection<Peak> _pcaPeaks;
-        private IEnumerable _pcaObservations;
+        private Peak[] _pcaPeaks;
+        private ObservationInfo[] _pcaObservations;
         private ConfigurationCorrection _selectedCorrection;
 
 
@@ -66,7 +65,6 @@ namespace MetaboliteLevels.Forms.Editing
         {
             public  Column _colourByPeak;
             public  Column _colourByObervation;
-            public  Column _colourByCondition;
         }
 
         internal static void Show(FrmMain owner, Core core)
@@ -93,10 +91,8 @@ namespace MetaboliteLevels.Forms.Editing
             this._selectedCorrection = IVisualisableExtensions.WhereEnabled(core.AllCorrections).Any() ? IVisualisableExtensions.WhereEnabled(core.AllCorrections).Last() : null;
 
             _colourBy._colourByPeak = ColumnManager.GetColumns<Peak>(_core).First(z => z.Id == Peak.ID_COLUMN_CLUSTERCOMBINATION);
-            _colourBy._colourByCondition = ColumnManager.GetColumns<ConditionInfo>(_core).First(z => z.Id == ConditionInfo.ID_COLNAME_GROUP);
             _colourBy._colourByObervation = ColumnManager.GetColumns<ObservationInfo>(_core).First(z => z.Id == ObservationInfo.ID_COLNAME_GROUP);
             _regressAgainst._colourByPeak = _colourBy._colourByPeak;
-            _regressAgainst._colourByCondition = _colourBy._colourByCondition;
             _regressAgainst._colourByObervation = _colourBy._colourByObervation;
 
             this._chart.AddControls( this.toolStripDropDownButton1);
@@ -137,19 +133,13 @@ namespace MetaboliteLevels.Forms.Editing
         {
             StringBuilder title = new StringBuilder();
 
-            var peaks = _peakFilter.Test( _core.Peaks ).Passed;
-
-            double[,] valueMatrix = null;
+            IntensityMatrix source = Core.Legacy().Subset( _peakFilter, _obsFilter );
+            
             double[] plsrResponseMatrix = null;             
 
             _lblPcaSource.Text = _transposeToShowPeaks ? "Peaks" : "Observations";
             transposeToShowObservationsToolStripMenuItem.Checked = !_transposeToShowPeaks;
-            transposeToShowPeaksToolStripMenuItem.Checked = _transposeToShowPeaks;
-
-            _lblAspect.Text = _trend ? "Trend" : "Full data";
-
-            usetrendLineToolStripMenuItem.Checked = _trend;
-            useAllobservationsToolStripMenuItem.Checked = !_trend;
+            transposeToShowPeaksToolStripMenuItem.Checked = _transposeToShowPeaks;           
 
             _lblObs.Text = _obsFilter.ToString();
             _lblPeaks.Text = _peakFilter.ToString();
@@ -165,54 +155,33 @@ namespace MetaboliteLevels.Forms.Editing
             Column plsrColumn;
             GetSource( _regressAgainst,  out plsrColumn );
 
-            _lblPlsrSource.Text = plsrColumn.DisplayName;    
+            _lblPlsrSource.Text = plsrColumn.DisplayName;
 
-            IEnumerable conds;
-            IEnumerable<int> which;
+            double[,] valueMatrix = _transposeToShowPeaks ? new double[source.NumRows, source.NumCols] : new double[source.NumCols, source.NumRows];
 
-            if (_trend)
+            for (int row = 0; row < source.NumRows; row++)
             {
-                which = _core.Conditions.Which( _obsFilter.Test );
-                conds = _core.Conditions.At( which );
-            }
-            else
-            {
-                which = _core.Observations.Which( _obsFilter.Test );
-                conds = _core.Observations.At( which );
-            }
-
-            for (int peakIndex = 0; peakIndex < peaks.Count; peakIndex++)
-            {
-                Peak peak = peaks[peakIndex];
-
-                PeakValueSet src = corIndex == -1 ? peak.Get_OriginalObservations(_core) : peak.Get_CorrectionChain(_core, corIndex);
-
-                IEnumerable<double> vals = _trend ? src.Trend.At( which ) : src.Raw.At( which );
-
-                if (valueMatrix == null)
-                {
-                    valueMatrix = _transposeToShowPeaks ? new double[peaks.Count, vals.Count()] : new double[vals.Count(), peaks.Count];
-                }
+                Vector vector= source.Vectors[row];                                       
 
                 int obsIndex = 0;
 
-                foreach (double d in vals)
+                for (int col = 0; col < source.NumCols; col++)
                 {
                     if (_transposeToShowPeaks)
                     {
-                        valueMatrix[peakIndex, obsIndex] = d;
+                        valueMatrix[row, col] = source.Values[row][col];
                     }
                     else
                     {
-                        valueMatrix[obsIndex, peakIndex] = d;
+                        valueMatrix[col, row] = source.Values[row][col];
                     }
 
                     ++obsIndex;
                 }
             }
 
-            this._pcaPeaks = peaks;
-            this._pcaObservations = conds;
+            this._pcaPeaks = source.Rows.Select(z=> z.Peak ).ToArray();
+            this._pcaObservations = source.Columns.Select(z=> z.Observation ).ToArray();
 
             if (_method == EMethod.Plsr)
             {
@@ -222,11 +191,11 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (_transposeToShowPeaks)
                 {
-                    rows = peaks;
+                    rows = _pcaPeaks;
                 }
                 else
                 {
-                    rows = conds;
+                    rows = _pcaObservations;
                 }
 
                 IEnumerator en= rows.GetEnumerator();
@@ -377,11 +346,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 case EPlotting.Peaks:                              
                     column = ss._colourByPeak;
-                    break;
-
-                case EPlotting.Conditions:                              
-                    column = ss._colourByCondition;
-                    break;
+                    break;      
 
                 case EPlotting.Observations:                            
                     column = ss._colourByObervation;
@@ -400,11 +365,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 case EPlotting.Peaks:
                     enSources = this._pcaPeaks.GetEnumerator();
-                    break;
-
-                case EPlotting.Conditions:
-                    enSources = this._pcaObservations.GetEnumerator();
-                    break;
+                    break;            
 
                 case EPlotting.Observations:
                     enSources = this._pcaObservations.GetEnumerator();
@@ -560,25 +521,12 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _transposeToShowPeaks = true;
             UpdateScores();
-        }
-
-        private void usetrendLineToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _trend = true;
-            UpdateScores();
-        }
-
-        private void useAllobservationsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _trend = false;
-            UpdateScores();
-        }
+        } 
 
         private enum EPlotting
         {
             Peaks,
             Observations,
-            Conditions,
         }
 
         private enum EPlotSource
@@ -597,8 +545,7 @@ namespace MetaboliteLevels.Forms.Editing
                 }
                 else
                 {
-                    return (_plotSource == EPlotSource.Loadings) ? EPlotting.Peaks
-                        : (_trend) ? EPlotting.Conditions : EPlotting.Observations;
+                    return (_plotSource == EPlotSource.Loadings) ? EPlotting.Peaks : EPlotting.Observations;
                 }
             }
         }
@@ -635,7 +582,7 @@ namespace MetaboliteLevels.Forms.Editing
         private void _btnMarkAsOutlier_Click(object sender, EventArgs e)
         {
             object item = _chart.SelectedItem.DataPoint.Tag;
-
+            ObservationInfo observationInfo = item as ObservationInfo;
             Peak peak = item as Peak;
 
             bool safeToReplace = false;
@@ -693,13 +640,11 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            ObservationInfo observationInfo = item as ObservationInfo;
-
-            if (observationInfo != null)
+            if (observationInfo == null)
             {
                 bool needsNewFilter2 = true;
 
-                List<ObsFilter.Condition> filters2 = new List<ObsFilter.Condition>(_obsFilter.Conditions.Cast<ObsFilter.Condition>());
+                List<ObsFilter.Condition> filters2 = new List<ObsFilter.Condition>( _obsFilter.Conditions.Cast<ObsFilter.Condition>() );
 
                 foreach (ObsFilter.ConditionObservation fikaklq in filters2)
                 {
@@ -707,13 +652,13 @@ namespace MetaboliteLevels.Forms.Editing
 
                     if (qkklqq != null
                         && qkklqq.CombiningOperator == Filter.ELogicOperator.And
-                         && qkklqq.Negate == false
-                         && qkklqq.Operator == Filter.EElementOperator.IsNot)
+                        && qkklqq.Negate == false
+                        && qkklqq.Operator == Filter.EElementOperator.IsNot)
                     {
                         needsNewFilter2 = false;
 
-                        filters2.Remove(qkklqq);
-                        filters2.Add(new ObsFilter.ConditionObservation(Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, qkklqq.Possibilities.ConcatSingle(observationInfo)));
+                        filters2.Remove( qkklqq );
+                        filters2.Add( new ObsFilter.ConditionObservation( Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, qkklqq.Possibilities.ConcatSingle( observationInfo ) ) );
                         safeToReplace = filters2.Count == 1;
                         break;
                     }
@@ -721,66 +666,18 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (needsNewFilter2)
                 {
-                    filters2.Add(new ObsFilter.ConditionObservation(Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, new[] { observationInfo }));
+                    filters2.Add( new ObsFilter.ConditionObservation( Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, new[] { observationInfo } ) );
                 }
 
-                ObsFilter obsFilter = new ObsFilter(null, null, filters2);
+                ObsFilter obsFilter = new ObsFilter( null, null, filters2 );
 
                 if (safeToReplace)
                 {
-                    _core.SetObsFilters(_core.AllObsFilters.ReplaceSingle(_obsFilter, obsFilter).ToArray());
+                    _core.SetObsFilters( _core.AllObsFilters.ReplaceSingle( _obsFilter, obsFilter ).ToArray() );
                 }
                 else
                 {
-                    _core.SetObsFilters(_core.AllObsFilters.ConcatSingle(obsFilter).ToArray());
-                }
-
-                _obsFilter = obsFilter;
-
-                UpdateScores();
-            }
-
-
-            ConditionInfo conditionInfo = item as ConditionInfo;
-
-            if (conditionInfo != null)
-            {
-                List<ObsFilter.Condition> filters3 = new List<ObsFilter.Condition>(_obsFilter.Conditions.Cast<ObsFilter.Condition>());
-
-                bool needsNewFilter3 = true;
-
-                foreach (ObsFilter.Condition sklqklklq in filters3)
-                {
-                    ObsFilter.ConditionCondition wklqklklq = sklqklklq as ObsFilter.ConditionCondition;
-
-                    if (wklqklklq != null
-                        && wklqklklq.CombiningOperator == Filter.ELogicOperator.And
-                         && wklqklklq.Negate == false
-                         && wklqklklq.Operator == Filter.EElementOperator.IsNot)
-                    {
-                        needsNewFilter3 = false;
-
-                        filters3.Remove(wklqklklq);
-                        filters3.Add(new ObsFilter.ConditionCondition(Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, wklqklklq.Possibilities.ConcatSingle(conditionInfo)));
-                        safeToReplace = filters3.Count == 1;
-                        break;
-                    }
-                }
-
-                if (needsNewFilter3)
-                {
-                    filters3.Add(new ObsFilter.ConditionObservation(Filter.ELogicOperator.And, false, Filter.EElementOperator.IsNot, new[] { observationInfo }));
-                }
-
-                ObsFilter obsFilter = new ObsFilter(null, null, filters3);
-
-                if (safeToReplace)
-                {
-                    _core.SetObsFilters(_core.AllObsFilters.ReplaceSingle(_obsFilter, obsFilter).ToArray());
-                }
-                else
-                {
-                    _core.SetObsFilters(_core.AllObsFilters.ConcatSingle(obsFilter).ToArray());
+                    _core.SetObsFilters( _core.AllObsFilters.ConcatSingle( obsFilter ).ToArray() );
                 }
 
                 _obsFilter = obsFilter;
@@ -842,12 +739,7 @@ namespace MetaboliteLevels.Forms.Editing
                 case EPlotting.Observations:
                     columns = ColumnManager.GetColumns<ObservationInfo>(_core);
                     selected = ss._colourByObervation;
-                    break;
-
-                case EPlotting.Conditions:
-                    columns = ColumnManager.GetColumns<ConditionInfo>(_core);
-                    selected = ss._colourByCondition;
-                    break;
+                    break;       
 
                 default:
                     throw new SwitchException(WhatPlotting);
@@ -888,11 +780,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 case EPlotting.Observations:
                     ss._colourByObervation = selected;
-                    break;
-
-                case EPlotting.Conditions:
-                    ss._colourByCondition = selected;
-                    break;
+                    break;   
 
                 default:
                     throw new SwitchException( WhatPlotting );

@@ -8,12 +8,21 @@ using MSerialisers;
 
 namespace MetaboliteLevels.Data.DataInfo
 {
-    public class Acquisition
+    [Serializable]
+    class Acquisition
     {
         public readonly int Replicate;
         public readonly BatchInfo Batch;
         public readonly int Order;
-        public readonly string Id;
+        public readonly string Id;   
+
+        public Acquisition( string v, int repId, BatchInfo batchInfo, int acquisition )
+        {
+            this.Id = v;
+            this.Replicate = repId;
+            this.Batch = batchInfo;
+            this.Order = acquisition;
+        }
     }
 
     /// <summary>
@@ -30,7 +39,7 @@ namespace MetaboliteLevels.Data.DataInfo
         public const string ID_COLNAME_GROUP = "Group";
         public readonly Acquisition Acquisition;
         public readonly GroupInfo Group;
-        private readonly int Time;
+        public readonly int Time;
 
         public ObservationInfo( Acquisition acquisition, GroupInfo group, int time)
         {
@@ -40,7 +49,7 @@ namespace MetaboliteLevels.Data.DataInfo
         }
 
         public string Id => Acquisition?.Id;
-        public BatchInfo Batch => Acquisition?.BatchInfo;
+        public BatchInfo Batch => Acquisition?.Batch;
         public int Order => Acquisition?.Order ?? 0;
         public int Rep => Acquisition?.Replicate ?? 0;
 

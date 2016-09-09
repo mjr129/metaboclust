@@ -9,6 +9,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Algorithms.Statistics.Metrics;
 using MetaboliteLevels.Algorithms.Statistics.Statistics;
 using MetaboliteLevels.Controls;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
@@ -31,7 +32,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<ObsFilter> _ecbFilter1;
         private EditableComboBox<ObsFilter> _ecbFilter2;
         private EditableComboBox<StatisticBase> _ecbMeasure;
-        private readonly EditableComboBox<IntensityMatrix> _ecbSource;
+        private readonly EditableComboBox<MatrixProducer> _ecbSource;
 
         internal static ConfigurationStatistic Show(Form owner, ConfigurationStatistic def, Core core, bool readOnly)
         {
@@ -64,7 +65,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private ConfigurationStatistic GetSelection()
         {
             StatisticBase sel = this._ecbMeasure.SelectedItem;
-            IntensityMatrix src;
+            MatrixProducer src;
             EAlgoInputBSource bsrc;
             ObsFilter filter1;
             ObsFilter filter2;
@@ -225,7 +226,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _ecbMeasure.SelectedItem = defaultSelection.Cached;
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
 
-                _ecbSource.SelectedItem = defaultSelection.Args.Source.GetTarget();
+                _ecbSource.SelectedItem = defaultSelection.Args.Source;
                 _radBCorTime.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.Time;
                 _radBDiffPeak.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.AltPeak;
                 _radSamePeak.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.SamePeak;
@@ -432,12 +433,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _previewPeak = _core.Peaks[index];
 
             GeneratePreview(GetSelection());
-        }
-
-        private void _btnTrendHelp_Click(object sender, EventArgs e)
-        {
-            FrmMsgBox.ShowHelp(this, "Default Trend", UiControls.GetDefaultTrendMessage(_core));
-        }
+        }      
 
         private void _btnEditParameters_Click(object sender, EventArgs e)
         {

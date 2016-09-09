@@ -579,7 +579,7 @@ namespace MetaboliteLevels.Settings
 
             protected override bool Test(ObservationInfo ci)
             {
-                return CompareElement(Operator, ci.Acquisition, Possibilities);
+                return CompareElement(Operator, ci.Order, Possibilities);
             }
                                          
             public override string ToString()
@@ -637,30 +637,54 @@ namespace MetaboliteLevels.Settings
             }
         }
 
-        //[Serializable]
-        //public sealed class ConditionCondition : Condition
-        //{
-        //    public readonly ReadOnlyCollection<ConditionInfo> Possibilities;
-        //    public readonly EElementOperator Operator;
+        [Serializable]
+        public sealed class ConditionCondition : Condition
+        {
+            public readonly ReadOnlyCollection<ObservationInfo> Possibilities;
+            public readonly EElementOperator Operator;
 
-        //    public ConditionCondition(ELogicOperator lop, bool negate, EElementOperator op, IEnumerable<ConditionInfo> enu)
-        //        : base(lop, negate)
-        //    {
-        //        Operator = op;
-        //        Possibilities = enu.ToList().AsReadOnly();
-        //    }
+            public ConditionCondition( ELogicOperator lop, bool negate, EElementOperator op, IEnumerable<ObservationInfo> enu )
+                : base( lop, negate )
+            {
+                Operator = op;
+                Possibilities = enu.ToList().AsReadOnly();
+            }
 
-        //    protected override bool Test(ObservationInfo ci)
-        //    {
-        //        return CompareElement(Operator, ci._conditions, Possibilities);
-        //    }
+            protected override bool Test( ObservationInfo ci )
+            {
+                return CompareElement( Operator, ci, Possibilities );
+            }
 
-        //    public override string ToString()
-        //    {
-        //        return "Cᴏɴᴅɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities) + "}";
-        //    }
-        //}         
-    }
+            public override string ToString()
+            {
+                return "Oʙsᴇʀᴠᴀᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString( Possibilities ) + "}";
+            }
+        }
+
+        [Serializable]
+        public sealed class ConditionFilter : Condition
+        {
+            public readonly bool FilterOp;
+            public readonly ObsFilter Filter;
+
+            public ConditionFilter( ELogicOperator op, bool negate, ObsFilter filter, bool filterOp )
+                : base( op, negate )
+            {
+                this.Filter = filter;
+                this.FilterOp = filterOp;
+            }
+
+            protected override bool Test( ObservationInfo p )
+            {
+                return Filter.Test( p ) == FilterOp;
+            }
+
+            public override string ToString()
+            {
+                return "Fɪʟᴛᴇʀ {" + Filter + "} = " + FilterOp;
+            }
+        }        
+    }         
 
     /// <summary>
     /// Significance filter.

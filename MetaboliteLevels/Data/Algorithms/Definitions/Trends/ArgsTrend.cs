@@ -1,4 +1,5 @@
 ﻿using System;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -10,19 +11,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsTrend : ArgsBase
     {
-        public ArgsTrend(object[] parameters)
-            : base(parameters)
+        public ArgsTrend( MatrixProducer source, object[] parameters)
+            : base(source, parameters)
         {
         }
 
         public override string ToString(AlgoBase algorithm)
         {
-            if (Parameters != null)
-            {
-                return ("(" + AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm) + ") ");
-            }
-
-            return string.Empty;
+            return base.ToString();
         }
     }
 }

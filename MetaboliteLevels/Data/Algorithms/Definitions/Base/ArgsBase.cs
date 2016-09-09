@@ -1,4 +1,6 @@
 ﻿using System;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
@@ -19,19 +21,27 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// </summary>
         public readonly object[] Parameters;
 
+        public readonly MatrixProducer Source;
+
+        public IntensityMatrix SourceMatrix => Source.Product;
+
         /// <summary>
         /// Constructor
         /// </summary> 
-        public ArgsBase(object[] parameters)
+        public ArgsBase( MatrixProducer source, object[] parameters)
         {
+            Source = source;
             Parameters = parameters;
         }
         
-        public sealed override string ToString()
+        public sealed override string ToString(  )
         {
-            return ToString(null);
+            return ToString( null );
         }
 
-        public abstract string ToString(AlgoBase algorithm);
+        public virtual string ToString( AlgoBase algorithm )
+        {
+            return Source?.Product.ToString() + "; " + AlgoParameterCollection.ParamsToHumanReadableString( Parameters, algorithm );
+        }
     }
 }

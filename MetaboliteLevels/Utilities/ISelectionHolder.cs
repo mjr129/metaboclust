@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MGui;
@@ -13,6 +15,12 @@ namespace MetaboliteLevels.Forms
     internal interface ISelectionHolder
     {
         VisualisableSelection Selection { get; set; }
+    }
+
+    internal interface ISelectionCapable : ISelectionHolder
+    {
+        IntensityMatrix SelectedMatrix { get; }
+        ConfigurationTrend SelectedTrend { get; }
     }
 
     internal class VisualisableSelection

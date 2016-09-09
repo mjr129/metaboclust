@@ -71,7 +71,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             // FILTER PEAKS
             PeakFilter pfilter = args.PeakFilter ?? Settings.PeakFilter.Empty;
 
-            IntensityMatrix src = args.Source.GetTargetOrThrow();
+            IntensityMatrix src = args.SourceMatrix;
             Filter<Peak>.Results filter = pfilter.Test(peaks);
             Cluster insigs;
 

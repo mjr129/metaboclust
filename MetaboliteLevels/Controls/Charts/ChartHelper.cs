@@ -31,7 +31,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
         protected Core                           _core;
         protected readonly MChart                _chart;
-        private readonly ISelectionHolder        _selector;
+        protected readonly ISelectionCapable       _selector;
                                                                  
         private readonly CaptionBar              _captionBar;
         private readonly ToolStrip               _menuBar;
@@ -52,9 +52,6 @@ namespace MetaboliteLevels.Viewers.Charts
         private readonly ToolStripMenuItem       _chkShowReplicate;
         private readonly ToolStripMenuItem       _chkShowTime;
         private readonly ToolStripMenuItem       _chkShowCustom;
-
-        protected readonly Func<IntensityMatrix> GetIntensityMatrix;
-        protected readonly Func<ConfigurationTrend> GetTrend;
 
         public virtual IVisualisable CurrentPlot
         {
@@ -77,12 +74,10 @@ namespace MetaboliteLevels.Viewers.Charts
             this._core = newCore;
         }
 
-        public ChartHelper(ISelectionHolder selector, Core core, Control targetSite, bool describePeaks, Func<IntensityMatrix> getIntensityMatrix, Func<ConfigurationTrend> getTrend )
+        public ChartHelper( ISelectionCapable selector, Core core, Control targetSite, bool describePeaks)
         {
             this._selector = selector;
-            this._core = core;
-            this.GetIntensityMatrix = getIntensityMatrix;
-            this.GetTrend = getTrend;
+            this._core = core;              
 
             // CHART
             this._chart      = new MChart();

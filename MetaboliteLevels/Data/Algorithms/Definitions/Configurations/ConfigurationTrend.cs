@@ -3,8 +3,11 @@ using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Trends;
 using MetaboliteLevels.Data.DataInfo;
 using System.Collections.Generic;
+using System.Linq;
 using MetaboliteLevels.Algorithms.Statistics.Results;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
@@ -13,7 +16,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// Configured trend algorithm (see ConfigurationBase).
     /// </summary>
     [Serializable]
-    sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend>
+    sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend>, IMatrixProducer
     {
         public ConfigurationTrend(string name, string comments, string trendId, ArgsTrend args)
             : base(name, comments, trendId, args)
@@ -21,9 +24,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             // NA
         }
 
-        internal double[] CreateTrend(IReadOnlyList<ObservationInfo> obsInfo, IReadOnlyList<ConditionInfo> condInfo, IReadOnlyList<GroupInfo> typeInfo, double[] raw)
+        public Vector CreateTrend( Core core, Vector vector )
         {
-            return Cached.SmoothByType(obsInfo, condInfo, typeInfo, raw, this.Args);
+            double[] newValues = CreateTrend( vector.Observations, core.Conditions, core.Groups, vector.Values );
+            IntensityMatrix temporary = new IntensityMatrix( "temp", null, new[] { vector.Peak }, core.Conditions.ToArray(), new[] { newValues } );
+            return temporary.Vectors[0];
+        }
+
+        internal double[] CreateTrend(IReadOnlyList<ObservationInfo> inOrder, IReadOnlyList<ObservationInfo> outOrder, IReadOnlyList<GroupInfo> typeInfo, double[] raw)
+        {
+            return Cached.SmoothByType(inOrder, outOrder, typeInfo, raw, this.Args);
         }
 
         protected override IEnumerable<Column> GetExtraColumns(Core core)
@@ -34,5 +44,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
             return columns;
         }
+
+        public IntensityMatrix Product => Results.Matrix;
     }
 }

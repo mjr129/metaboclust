@@ -4,6 +4,7 @@ using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Algorithms.Statistics.Results;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MGui.Helpers;
 using MetaboliteLevels.Data.Session.Associational;
 
@@ -29,12 +30,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// Defines the distance metric used.
         /// (Not used by all algorithms!)
         /// </summary>
-        public readonly ConfigurationMetric Distance;
-
-        /// <summary>
-        /// Defines where the data comes from.
-        /// </summary>
-        public readonly WeakReference<IntensityMatrix> Source;
+        public readonly ConfigurationMetric Distance;            
 
         /// <summary>
         /// When set peaks are split into one vecror per group.
@@ -49,12 +45,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// <summary>
         /// Constructor.
         /// </summary>  
-        public ArgsClusterer(PeakFilter sigFilter, ConfigurationMetric distance, IntensityMatrix src, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters)
-            : base(parameters)
+        public ArgsClusterer( MatrixProducer source, PeakFilter sigFilter, ConfigurationMetric distance, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters)
+            : base( source, parameters )
         {
             this.PeakFilter = sigFilter;
-            this.Distance = distance;
-            this.Source = new WeakReference<IntensityMatrix>( src );
+            this.Distance = distance;                               
             this.ObsFilter = atypes;
             this.SplitGroups = splitGroups;
             this.Statistics = suppressMetric;
@@ -64,12 +59,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         {
             StringBuilder sb = new StringBuilder();
 
-            if (Parameters != null)
-            {
-                sb.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm));
-            }
-
-            sb.Append("; x = " + Source.GetTarget());
+            sb.Append( base.ToString() );
 
             if (ObsFilter != null)
             {

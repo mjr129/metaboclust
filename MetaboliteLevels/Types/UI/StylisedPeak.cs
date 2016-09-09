@@ -36,12 +36,7 @@ namespace MetaboliteLevels.Data
         /// <summary>
         /// Batch trend line (only if OverrideDefaultOptions.ShowAcqisition == true)
         /// </summary>
-        public double[] ForceTrend;
-
-        /// <summary>
-        /// Any array of ConditionInfo[] or ObservationInfo[] determining the order of the trend
-        /// </summary>
-        public IEnumerable ForceTrendOrder;
+        public Vector ForceTrend;        
 
         /// <summary>
         /// Override the user's choices on visualisations (if not null).
@@ -70,7 +65,7 @@ namespace MetaboliteLevels.Data
     /// </summary>
     internal sealed class StylisedPeakOptions
     {
-        public IEnumerable<GroupInfo> ViewTypes;            // See CoreVisualOptions
+        public IEnumerable<GroupInfo> ViewGroups;            // See CoreVisualOptions
         public IEnumerable<BatchInfo> ViewBatches;          // Like ViewTypes for batches (only if ShowAcqisition == true)
         public bool ConditionsSideBySide;                   // See CoreVisualOptions
         public bool ShowRanges;                             // See CoreVisualOptions
@@ -84,11 +79,10 @@ namespace MetaboliteLevels.Data
         public StylisedPeakOptions(Core core)
         {
             CoreOptions visualOptions = core.Options;
-
-            ViewAlternativeObservations = visualOptions.ViewAlternativeObservations;
+                                                                                    
             ShowRanges = visualOptions.ShowVariableRanges;
             ShowMinMax = visualOptions.ShowVariableMinMax;
-            ViewTypes = visualOptions.ViewTypes;
+            ViewGroups = visualOptions.ViewTypes;
             ViewBatches = core.Batches;
             ConditionsSideBySide = visualOptions.ConditionsSideBySide;
             ShowPoints = visualOptions.ShowPoints;
@@ -99,11 +93,10 @@ namespace MetaboliteLevels.Data
         }
 
         public StylisedPeakOptions(StylisedPeakOptions copyFrom)
-        {
-            ViewAlternativeObservations = copyFrom.ViewAlternativeObservations;
+        {                                                                         
             ShowRanges = copyFrom.ShowRanges;
             ShowRanges = copyFrom.ShowRanges;
-            ViewTypes = copyFrom.ViewTypes;
+            ViewGroups = copyFrom.ViewGroups;
             ViewBatches = copyFrom.ViewBatches;
             ConditionsSideBySide = copyFrom.ConditionsSideBySide;
             ShowPoints = copyFrom.ShowPoints;

@@ -18,6 +18,7 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Algorithms.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Corrections;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Forms.Editing;
 using MGui.Helpers;
@@ -46,6 +47,8 @@ namespace MetaboliteLevels.Forms.Algorithms
         private ConfigurationCorrection GetSelection()
         {
             _checker.Clear();
+
+            MatrixProducer source = new MatrixProducer( Core.Legacy() );
 
             // Algo
             AlgoBase algo = _ecbMethod.SelectedItem;
@@ -120,7 +123,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return null;
                 }
 
-                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection( mode, met, controlGroup, filter, parameters );
+                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection( source, mode, met, controlGroup, filter, parameters );
                 return new ConfigurationCorrection( _txtName.Text, _comments, (TrendBase)algo, args );
             }
             else if (algo is CorrectionBase)
@@ -130,7 +133,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return null;
                 }
 
-                ArgsCorrection args = new ArgsCorrection( parameters );
+                ArgsCorrection args = new ArgsCorrection(source, parameters );
                 return new ConfigurationCorrection( _txtName.Text, _comments, (CorrectionBase)algo, args );
             }
             else
@@ -299,17 +302,23 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _lblPreviewTitle.Text = "Preview (" + _selectedPeak.DisplayName + ")";
 
+            IntensityMatrix source = Core.Legacy();
+
             var orig = new StylisedPeak(_selectedPeak);
             var changed = new StylisedPeak(_selectedPeak);
 
-            IEnumerable trendOrder;
-            double[] trend;
-            double[] corrected;
+            Vector original = source.Find( _selectedPeak );
+            Vector trend;
+            Vector corrected;
+
+            
 
             try
             {
-                trend = sel.ExtractTrend(_core, _selectedPeak.Get_Observations_Raw(_core), out trendOrder);
-                corrected = sel.Calculate(_core, _selectedPeak.Get_Observations_Raw(_core));
+                IReadOnlyList<ObservationInfo> order;
+                double[] trendData = sel.ExtractTrend(_core, original.Values, out order);
+                trend = new Vector( trendData, original.Header, order.Select( z => new IntensityMatrix.ColumnHeader( z ) ).ToArray() );
+                corrected = new Vector( sel.Calculate( _core, original.Values ), original.Header, original.ColHeaders );
             }
             catch (Exception ex)
             {
@@ -335,12 +344,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 ShowAcqisition = isBatchMode,
                 ViewBatches = vBatches,
-                ViewTypes = vTypes,
+                ViewGroups = vTypes,
                 ConditionsSideBySide = true,
                 ShowPoints = true,
                 ShowTrend = sel.IsUsingTrend,
-                ShowRanges = false,
-                ViewAlternativeObservations = false
+                ShowRanges = false,                
             };
 
             changed.OverrideDefaultOptions = new StylisedPeakOptions(orig.OverrideDefaultOptions)
@@ -348,10 +356,9 @@ namespace MetaboliteLevels.Forms.Algorithms
                 ShowTrend = false
             };
 
-            orig.ForceTrend = trend;
-            orig.ForceTrendOrder = trendOrder;
+            orig.ForceTrend = trend;            
 
-            changed.ForceObservations = new PeakValueSet(_core, corrected);
+            changed.ForceObservations = corrected;
 
             _chartOrig.Plot(orig);
             _chartChanged.Plot(changed);

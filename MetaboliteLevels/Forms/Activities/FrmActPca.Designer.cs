@@ -356,8 +356,7 @@
             this.usetrendLineToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.usetrendLineToolStripMenuItem.Name = "usetrendLineToolStripMenuItem";
             this.usetrendLineToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.usetrendLineToolStripMenuItem.Text = "&Trend only";
-            this.usetrendLineToolStripMenuItem.Click += new System.EventHandler(this.usetrendLineToolStripMenuItem_Click);
+            this.usetrendLineToolStripMenuItem.Text = "OBSOLETE";                                                                  
             // 
             // useAllobservationsToolStripMenuItem
             // 
@@ -365,8 +364,7 @@
             this.useAllobservationsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.useAllobservationsToolStripMenuItem.Name = "useAllobservationsToolStripMenuItem";
             this.useAllobservationsToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.useAllobservationsToolStripMenuItem.Text = "&All";
-            this.useAllobservationsToolStripMenuItem.Click += new System.EventHandler(this.useAllobservationsToolStripMenuItem_Click);
+            this.useAllobservationsToolStripMenuItem.Text = "OBSOLETE";                                                               
             // 
             // _lblAspect
             // 

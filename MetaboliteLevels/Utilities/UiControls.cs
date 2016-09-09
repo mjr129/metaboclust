@@ -1197,20 +1197,7 @@ namespace MetaboliteLevels.Utilities
             }
 
             return bmp;
-        }
-
-        /// <summary>
-        /// Returns the trend message text.
-        /// </summary>
-        internal static string GetDefaultTrendMessage(Core core)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("The currently selected trend function is:");
-            sb.AppendLine(" * " + core.AvgSmoother.ToString());
-
-            return sb.ToString();
-        }
+        }                 
 
         /// <summary>
         /// Browses for a folder.

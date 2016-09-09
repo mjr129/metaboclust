@@ -16,6 +16,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Data;
 using MetaboliteLevels.Algorithms.Statistics.Metrics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
 
 namespace MetaboliteLevels.Forms.Wizards
@@ -31,7 +32,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private EditableComboBox<MetricBase> _ecbDistance;
         private EditableComboBox<PeakFilter> _ecbPeakFilter;
         private readonly ChartHelperForPeaks _chart;
-        private readonly EditableComboBox<IntensityMatrix> _ecbSource;
+        private readonly EditableComboBox<MatrixProducer> _ecbSource;
 
         internal static bool Show(Form owner, Core core)
         {
@@ -183,13 +184,14 @@ namespace MetaboliteLevels.Forms.Wizards
             WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>(_radSeedCurrent.Checked ? current : _radSeedHighest.Checked ? _highestPeak : _lowestPeak);
             GroupInfo param4_seedGroup = NamedItem<GroupInfo>.Extract(_lstGroups.SelectedItem);
             int param5_doKMeans = _radFinishK.Checked ? 1 : 0;
+            MatrixProducer source = _ecbSource.SelectedItem;
             object[] parameters = { param1_numClusters, param2_distanceLimit, param3_seedPeak, param4_seedGroup, param5_doKMeans };
             string name = "DK";
 
             // Create a constraint that only allows overlapping timepoints
             HashSet<int> overlappingPoints = new HashSet<int>();
             var fil = _ecbFilter.SelectedItem ?? ObsFilter.Empty;
-            var passed = fil.Test(_core.Conditions);
+            var passed = fil.Test( source.Product.Columns.Select(z=> z.Observation)).Passed;
             HashSet<GroupInfo> groups = new HashSet<GroupInfo>(passed.Select(z => z.Group));
             bool needsExFilter = false;
 
@@ -244,13 +246,14 @@ namespace MetaboliteLevels.Forms.Wizards
                 trueFilter = _ecbFilter.SelectedItem;
             }
 
-            ArgsClusterer args = new ArgsClusterer(_ecbPeakFilter.SelectedItem,
+            ArgsClusterer args = new ArgsClusterer(
+                _ecbSource.SelectedItem,
+                _ecbPeakFilter.SelectedItem,
                                                    new ConfigurationMetric(
                                                         null,
                                                         null,
                                                         _ecbDistance.SelectedItem.Id,
-                                                        new ArgsMetric(_ecbDistance.SelectedItem.Parameters.StringToParams(_core, _txtDistanceParams.Text))),
-                                                    _ecbSource.SelectedItem,
+                                                        new ArgsMetric( _ecbSource.SelectedItem, _ecbDistance.SelectedItem.Parameters.StringToParams(_core, _txtDistanceParams.Text))),
                                                     trueFilter,
                                                     _chkClusterIndividually.Checked,
                                                     EClustererStatistics.None,

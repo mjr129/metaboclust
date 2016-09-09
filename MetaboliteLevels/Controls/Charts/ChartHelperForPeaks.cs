@@ -18,11 +18,16 @@ using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Algorithms.Statistics.Configurations;
 
 namespace MetaboliteLevels.Viewers.Charts
 {
     class ChartHelperForPeaks : ChartHelper
     {
+        public static ConfigurationTrend MinSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MINIMUM, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
+        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MAXIMUM, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
+        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MEDIAN, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
+
         public Peak SelectedPeak
         {
             get;
@@ -37,66 +42,63 @@ namespace MetaboliteLevels.Viewers.Charts
             }
         }
 
-        public ChartHelperForPeaks(ISelectionHolder selector, Core core, Control targetSite, Func<IntensityMatrix> getIntensityMatrix, Func<ConfigurationTrend> getTrend )
-            : base(selector, core, targetSite, false, getIntensityMatrix, getTrend )
+        public ChartHelperForPeaks( ISelectionCapable selector, Core core, Control targetSite )
+            : base( selector, core, targetSite, false )
         {
         }
 
-        public Bitmap CreateBitmap(int width, int height, StylisedPeak peak)
+        public Bitmap CreateBitmap( int width, int height, StylisedPeak peak )
         {
-            Plot(peak);
-            return CreateBitmap(width, height);
+            Plot( peak );
+            return CreateBitmap( width, height );
         }
 
-        public void Plot(StylisedPeak stylisedPeak)
+        public void Plot( StylisedPeak stylisedPeak )
         {
-            Debug.WriteLine("PeakPlot: " + stylisedPeak);
+            Debug.WriteLine( "PeakPlot: " + stylisedPeak );
             Dictionary<string, MCharting.Series> seriesNames = new Dictionary<string, MCharting.Series>();
             Peak peak = stylisedPeak?.Peak;
 
             // Clear plot
-            MCharting.Plot plot = PrepareNewPlot(stylisedPeak != null && !stylisedPeak.IsPreview, peak);
+            MCharting.Plot plot = PrepareNewPlot( stylisedPeak != null && !stylisedPeak.IsPreview, peak );
 
             // Get selection   
             SelectedPeak = peak;
-            SetCaption("Plot of {0}.", peak);
+            SetCaption( "Plot of {0}.", peak );
 
             if (peak == null)
             {
-                CompleteNewPlot(plot);
+                CompleteNewPlot( plot );
                 return;
             }
 
             // Get options
-            StylisedPeakOptions opts = stylisedPeak.OverrideDefaultOptions ?? new StylisedPeakOptions(_core);
+            StylisedPeakOptions opts = stylisedPeak.OverrideDefaultOptions ?? new StylisedPeakOptions( _core );
 
             // Get order data                                      
             ObservationInfo[] obsOrder = _core.Observations.ToArray();
 
             // Group legends
-            IEnumerable<GroupInfoBase> order = opts.ShowAcqisition ? (IEnumerable<GroupInfoBase>)opts.ViewBatches : (IEnumerable<GroupInfoBase>)opts.ViewTypes;
-            Dictionary<GroupInfoBase, MCharting.Series> groupLegends = DrawLegend(plot, order);
+            IEnumerable<GroupInfoBase> order = opts.ShowAcqisition ? (IEnumerable<GroupInfoBase>)opts.ViewBatches : (IEnumerable<GroupInfoBase>)opts.ViewGroups;
+            Dictionary<GroupInfoBase, MCharting.Series> groupLegends = DrawLegend( plot, order );
 
             // Get observations
-            Vector observations;
+            Vector vector;
 
             if (stylisedPeak.ForceObservations != null)
             {
-                observations = stylisedPeak.ForceObservations;
+                vector = stylisedPeak.ForceObservations;
             }
             else
             {
-                observations = GetIntensityMatrix().Find( stylisedPeak.Peak );
-            }   
-
-            if (observations == null)
-            {
-                CompleteNewPlot(plot);
-                return;
+                vector = _selector.SelectedMatrix.Find( stylisedPeak.Peak );
             }
 
-            // COPY the observations (since we will reorder them)
-            double[] raw = observations.Values.ToArray();
+            if (vector == null)
+            {
+                CompleteNewPlot( plot );
+                return;
+            }
 
             // Show acquisition and batches?
             if (opts.ShowAcqisition)
@@ -104,53 +106,44 @@ namespace MetaboliteLevels.Viewers.Charts
                 // --- RAW DATA (points) ---
                 MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Observations";
-                legendEntry.Style.DrawPoints = new SolidBrush(Color.Black);
-                plot.LegendEntries.Add(legendEntry);
+                legendEntry.Style.DrawPoints = new SolidBrush( Color.Black );
+                plot.LegendEntries.Add( legendEntry );
 
-                ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionDisplayOrder);
-                AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.ByBatch, groupLegends, legendEntry);
+                AddToPlot( plot, peak, seriesNames, vector, "Raw data", opts, EPlot.ByBatch, groupLegends, legendEntry );
 
                 // --- TREND (thick line) ---
                 if (stylisedPeak.ForceTrend != null)
                 {
                     MCharting.Series legendEntry2 = new MCharting.Series();
                     legendEntry2.Name = "Trend";
-                    legendEntry2.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
+                    legendEntry2.Style.DrawLines = new Pen( Color.Black, _core.Options.LineWidth );
                     legendEntry2.Style.DrawLines.Width = 4;
-                    plot.LegendEntries.Add(legendEntry2);
+                    plot.LegendEntries.Add( legendEntry2 );
 
-                    raw = stylisedPeak.ForceTrend.ToArray();
-                    obsOrder = ((IEnumerable<ObservationInfo>)stylisedPeak.ForceTrendOrder).ToArray();
-                    ArrayHelper.Sort(obsOrder, raw, ObservationInfo.BatchAcquisitionDisplayOrder);
-
-                    AddToPlot(plot, peak, seriesNames, raw, "Trend data", obsOrder, opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2);
+                    AddToPlot( plot, peak, seriesNames, vector, "Trend data", opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2 );
                 }
 
-                DrawLabels(plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels);
-                CompleteNewPlot(plot);
+                DrawLabels( plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels );
+                CompleteNewPlot( plot );
                 return;
             }
 
-            // Sort data
-            Tuple<double, double, double>[] amm = ArrayHelper.Zip(observations.Trend, observations.Min, observations.Max).ToArray(); // TODO: this is awful sorting
-
-            ArrayHelper.Sort(condOrder, amm, ConditionInfo.GroupTimeDisplayOrder);
-            ArrayHelper.Sort(obsOrder, raw, ObservationInfo.GroupTimeDisplayOrder);
-
-            double[] avg = amm.Select(z => z.Item1).ToArray();
-            double[] min = amm.Select(z => z.Item2).ToArray();
-            double[] max = amm.Select(z => z.Item3).ToArray();
+            // Sort data                                                
+            ConfigurationTrend trend = this._selector.SelectedTrend ?? FallbackSmoother;
+            Vector avg = stylisedPeak.ForceTrend ?? trend.CreateTrend( _core, vector );
+            Vector min = MinSmoother.CreateTrend( _core, vector );
+            Vector max = MaxSmoother.CreateTrend( _core, vector );
 
             // --- PLOT MEAN & SD (lines across)
             if (opts.ShowVariableMean)
             {
-                AddMeanAndSdLines(plot, opts, observations, peak, groupLegends);
+                AddMeanAndSdLines( plot, opts, vector.Values, peak, groupLegends );
             }
 
             // --- RANGE (shaded area) ---
             if (opts.ShowRanges)
             {
-                AddUpperAndLowerShade(plot, condOrder, opts, seriesNames, peak, min, max, groupLegends);
+                AddUpperAndLowerShade( plot, opts, seriesNames, peak, min, max, groupLegends );
             }
 
             // --- RAW DATA (points) ---
@@ -158,10 +151,10 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Observations";
-                legendEntry.Style.DrawPoints = new SolidBrush(Color.Black);
-                plot.LegendEntries.Add(legendEntry);
+                legendEntry.Style.DrawPoints = new SolidBrush( Color.Black );
+                plot.LegendEntries.Add( legendEntry );
 
-                AddToPlot(plot, peak, seriesNames, raw, "Raw data", obsOrder, opts, EPlot.None, groupLegends, legendEntry);
+                AddToPlot( plot, peak, seriesNames, vector, "Raw data", opts, EPlot.None, groupLegends, legendEntry );
             }
 
             // --- RANGE (lines) ---
@@ -169,11 +162,11 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Range min/max";
-                legendEntry.Style.DrawLines = new Pen(Color.Gray, _core.Options.LineWidth);
-                plot.LegendEntries.Add(legendEntry);
+                legendEntry.Style.DrawLines = new Pen( Color.Gray, _core.Options.LineWidth );
+                plot.LegendEntries.Add( legendEntry );
 
-                AddToPlot(plot, peak, seriesNames, min, "Min value", condOrder, opts, EPlot.DrawLine, groupLegends, legendEntry);
-                AddToPlot(plot, peak, seriesNames, max, "Max value", condOrder, opts, EPlot.DrawLine, groupLegends, legendEntry);
+                AddToPlot( plot, peak, seriesNames, min, "Min value", opts, EPlot.DrawLine, groupLegends, legendEntry );
+                AddToPlot( plot, peak, seriesNames, max, "Max value", opts, EPlot.DrawLine, groupLegends, legendEntry );
             }
 
             // --- TREND (thick line) ---
@@ -181,68 +174,57 @@ namespace MetaboliteLevels.Viewers.Charts
             {
                 MCharting.Series legendEntry = new MCharting.Series();
                 legendEntry.Name = "Trend";
-                legendEntry.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
+                legendEntry.Style.DrawLines = new Pen( Color.Black, _core.Options.LineWidth );
                 legendEntry.Style.DrawLines.Width = _core.Options.LineWidth * 4;
-                plot.LegendEntries.Add(legendEntry);
+                plot.LegendEntries.Add( legendEntry );
 
-                if (stylisedPeak.ForceTrend != null)
-                {
-                    ConditionInfo[] forder = stylisedPeak.ForceTrendOrder.Cast<ConditionInfo>().ToArray();
-                    double[] fdata = stylisedPeak.ForceTrend.ToArray();
-
-                    ArrayHelper.Sort(forder, fdata, ConditionInfo.GroupTimeDisplayOrder);
-
-                    AddToPlot(plot, peak, seriesNames, fdata, "Trend data", forder, opts, EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry);
-                }
-                else
-                {
-                    AddToPlot(plot, peak, seriesNames, avg, "Trend data", condOrder, opts, EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry);
-                }
+                AddToPlot( plot, peak, seriesNames, avg, "Trend data", opts, EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry );
             }
 
             // --- LABELS ---
-            DrawLabels(plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels);
+            DrawLabels( plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels );
 
-            CompleteNewPlot(plot);
+            CompleteNewPlot( plot );
         }
 
         private void AddUpperAndLowerShade(
             MCharting.Plot plot,
-            ConditionInfo[] condOrder,
-            StylisedPeakOptions o, 
-            Dictionary<string, MCharting.Series> seriesNames, 
+            StylisedPeakOptions o,
+            Dictionary<string, MCharting.Series> seriesNames,
             Peak peak,
-            double[] min,
-            double[] max,
-            Dictionary<GroupInfoBase, MCharting.Series> groupLegends)
+            Vector min,
+            Vector max,
+            Dictionary<GroupInfoBase, MCharting.Series> groupLegends )
         {
             MCharting.Series legendEntry = new MCharting.Series();
             legendEntry.Name = "Range";
-            legendEntry.Style.DrawVBands = new SolidBrush(Color.Gray);
-            plot.LegendEntries.Add(legendEntry);
+            legendEntry.Style.DrawVBands = new SolidBrush( Color.Gray );
+            plot.LegendEntries.Add( legendEntry );
 
             // Iterate the conditions
-            for (int i = 0; i < condOrder.Length; i++)
+            for (int i = 0; i < min.Observations.Length; i++)
             {
-                ConditionInfo cond = condOrder[i];
+                ObservationInfo obs = min.Observations[i];
 
-                if (o.ViewTypes.Contains(cond.Group))
+                Debug.Assert( max.Observations[i] == min.Observations[i], "Expected max and min trends to match sequences." );
+
+                if (o.ViewGroups.Contains( obs.Group ))
                 {
                     // Name the series
-                    string name = "Range for " + cond.Group.DisplayName;
+                    string name = "Range for " + obs.Group.DisplayName;
                     MCharting.Series series;
 
                     // Create the series (if required)
-                    if (!seriesNames.ContainsKey(name))
+                    if (!seriesNames.ContainsKey( name ))
                     {
-                        series = plot.Series.Add(name);
-                        Color c = cond.Group.ColourLight;
-                        c = Color.FromArgb(0x80, c.R, c.G, c.B);
+                        series = plot.Series.Add( name );
+                        Color c = obs.Group.ColourLight;
+                        c = Color.FromArgb( 0x80, c.R, c.G, c.B );
                         series.Tag = peak;
-                        series.Style.DrawVBands =  cond.Group.CreateBrush( c );
-                        series.ApplicableLegends.Add(groupLegends[cond.Group]);
-                        series.ApplicableLegends.Add(legendEntry);
-                        seriesNames.Add(name, series);
+                        series.Style.DrawVBands = obs.Group.CreateBrush( c );
+                        series.ApplicableLegends.Add( groupLegends[obs.Group] );
+                        series.ApplicableLegends.Add( legendEntry );
+                        seriesNames.Add( name, series );
                     }
                     else
                     {
@@ -250,9 +232,9 @@ namespace MetaboliteLevels.Viewers.Charts
                     }
 
                     // Get the X coordinate
-                    int typeOffset = GetTypeOffset(o.ViewTypes, cond.Group);
+                    int typeOffset = GetTypeOffset( o.ViewGroups, obs.Group );
 
-                    double xVal = cond.Time;
+                    double xVal = obs.Time;
 
                     if (o.ConditionsSideBySide)
                     {
@@ -260,25 +242,25 @@ namespace MetaboliteLevels.Viewers.Charts
                     }
 
                     // Get the Y coordinates
-                    double yMin = min[i];
-                    double yMax = max[i];
+                    double yMin = min.Values[i];
+                    double yMax = max.Values[i];
 
-                    if (double.IsNaN(yMin) || double.IsInfinity(yMin))
+                    if (double.IsNaN( yMin ) || double.IsInfinity( yMin ))
                     {
                         yMin = 0;
                     }
 
-                    if (double.IsNaN(yMax) || double.IsInfinity(yMax))
+                    if (double.IsNaN( yMax ) || double.IsInfinity( yMax ))
                     {
                         yMax = 0;
                     }
 
                     // Create the point
-                    IntensityInfo info1 = new IntensityInfo(cond.Time, null, cond.Group, yMin);
-                    IntensityInfo info2 = new IntensityInfo(cond.Time, null, cond.Group, yMax);
-                    MCharting.DataPoint cdp = new MCharting.DataPoint(xVal, new[] { yMin, yMax });
+                    IntensityInfo info1 = new IntensityInfo( obs.Time, null, obs.Group, yMin );
+                    IntensityInfo info2 = new IntensityInfo( obs.Time, null, obs.Group, yMax );
+                    MCharting.DataPoint cdp = new MCharting.DataPoint( xVal, new[] { yMin, yMax } );
                     cdp.Tag = new[] { info1, info2 };
-                    series.Points.Add(cdp);
+                    series.Points.Add( cdp );
                 }
             }
         }
@@ -286,27 +268,27 @@ namespace MetaboliteLevels.Viewers.Charts
         private void AddMeanAndSdLines(
             MCharting.Plot plot,
             StylisedPeakOptions o,
-            PeakValueSet observations, 
-            Peak peak, 
-            Dictionary<GroupInfoBase, MCharting.Series> groupLegends)
+            double[] observations,
+            Peak peak,
+            Dictionary<GroupInfoBase, MCharting.Series> groupLegends )
         {
             MCharting.Series legendEntry = new MCharting.Series();
             legendEntry.Name = "Std. Dev. Min/Max";
-            legendEntry.Style.DrawLines = new Pen(Color.Gray, _core.Options.LineWidth);
+            legendEntry.Style.DrawLines = new Pen( Color.Gray, _core.Options.LineWidth );
             legendEntry.Style.DrawLines.DashStyle = DashStyle.Dot;
-            plot.LegendEntries.Add(legendEntry);
+            plot.LegendEntries.Add( legendEntry );
 
             MCharting.Series legendEntry2 = new MCharting.Series();
             legendEntry2.Name = "Mean";
-            legendEntry2.Style.DrawLines = new Pen(Color.Black, _core.Options.LineWidth);
-            plot.LegendEntries.Add(legendEntry2);
+            legendEntry2.Style.DrawLines = new Pen( Color.Black, _core.Options.LineWidth );
+            plot.LegendEntries.Add( legendEntry2 );
 
             // Iterate the types
-            foreach (GroupInfo group in o.ViewTypes)
+            foreach (GroupInfo group in o.ViewGroups)
             {
                 // Get the Y values
-                double sd = observations.StdDev[@group.Order];
-                double yMean = observations.Mean[@group.Order];
+                double yMean = Maths.Mean( observations );
+                double sd = Maths.StdDev( observations, yMean );
                 double yMin = yMean - sd / 2;
                 double yMax = yMean + sd / 2;
 
@@ -316,61 +298,61 @@ namespace MetaboliteLevels.Viewers.Charts
 
                 if (o.ConditionsSideBySide)
                 {
-                    int typeOffset = GetTypeOffset(o.ViewTypes, @group);
+                    int typeOffset = GetTypeOffset( o.ViewGroups, @group );
                     xLeft += typeOffset;
                     xRight += typeOffset;
                 }
 
                 // Create the series
-                MCharting.Series sMean = plot.Series.Add(@group.DisplayName + ": Mean");
-                MCharting.Series sMin = plot.Series.Add(@group.DisplayName + ": StdDevMin");
-                MCharting.Series sMax = plot.Series.Add(@group.DisplayName + ": StdDevMax");
+                MCharting.Series sMean = plot.Series.Add( @group.DisplayName + ": Mean" );
+                MCharting.Series sMin = plot.Series.Add( @group.DisplayName + ": StdDevMin" );
+                MCharting.Series sMax = plot.Series.Add( @group.DisplayName + ": StdDevMax" );
 
-                sMean.ApplicableLegends.Add(groupLegends[group]);
-                sMin.ApplicableLegends.Add(groupLegends[group]);
-                sMax.ApplicableLegends.Add(groupLegends[group]);
-                sMean.ApplicableLegends.Add(legendEntry2);
-                sMin.ApplicableLegends.Add(legendEntry);
-                sMax.ApplicableLegends.Add(legendEntry);
+                sMean.ApplicableLegends.Add( groupLegends[group] );
+                sMin.ApplicableLegends.Add( groupLegends[group] );
+                sMax.ApplicableLegends.Add( groupLegends[group] );
+                sMean.ApplicableLegends.Add( legendEntry2 );
+                sMin.ApplicableLegends.Add( legendEntry );
+                sMax.ApplicableLegends.Add( legendEntry );
 
                 sMean.Tag = peak;
                 sMin.Tag = peak;
                 sMax.Tag = peak;
 
                 Color c = @group.ColourLight;
-                sMean.Style.DrawLines = new Pen(c, _core.Options.LineWidth);
-                sMin.Style.DrawLines = new Pen(c, _core.Options.LineWidth);
-                sMax.Style.DrawLines = new Pen(c, _core.Options.LineWidth);
+                sMean.Style.DrawLines = new Pen( c, _core.Options.LineWidth );
+                sMin.Style.DrawLines = new Pen( c, _core.Options.LineWidth );
+                sMax.Style.DrawLines = new Pen( c, _core.Options.LineWidth );
 
                 sMin.Style.DrawLines.DashStyle = DashStyle.Dot;
                 sMax.Style.DrawLines.DashStyle = DashStyle.Dot;
 
                 // Add the points
-                AddDataPoint(sMean, xLeft, yMean, @group);
-                AddDataPoint(sMean, xRight, yMean, @group);
+                AddDataPoint( sMean, xLeft, yMean, @group );
+                AddDataPoint( sMean, xRight, yMean, @group );
 
-                AddDataPoint(sMin, xLeft, yMin, @group);
-                AddDataPoint(sMin, xRight, yMin, @group);
+                AddDataPoint( sMin, xLeft, yMin, @group );
+                AddDataPoint( sMin, xRight, yMin, @group );
 
-                AddDataPoint(sMax, xLeft, yMax, @group);
-                AddDataPoint(sMax, xRight, yMax, @group);
+                AddDataPoint( sMax, xLeft, yMax, @group );
+                AddDataPoint( sMax, xRight, yMax, @group );
             }
         }
 
         /// <summary>
         /// Adds a tagged datapoint to a series.
         /// </summary>
-        private static void AddDataPoint( MCharting.Series series, int x, double y, GroupInfo type)
+        private static void AddDataPoint( MCharting.Series series, int x, double y, GroupInfo type )
         {
-            MCharting.DataPoint dp = new MCharting.DataPoint(x, y);
-            dp.Tag = new IntensityInfo(null, null, type, y);
+            MCharting.DataPoint dp = new MCharting.DataPoint( x, y );
+            dp.Tag = new IntensityInfo( null, null, type, y );
 
-            if (double.IsNaN(y) || double.IsInfinity(y))
+            if (double.IsNaN( y ) || double.IsInfinity( y ))
             {
                 y = 0;
             }
 
-            series.Points.Add(dp);
+            series.Points.Add( dp );
         }
 
         [Flags]
@@ -393,92 +375,64 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <param name="line">Line or dots/</param>
         /// <param name="bold">Bold line?</param>
         /// <param name="isConditions">Order by conditions or obervations</param>
-        private void AddToPlot( 
-            MCharting.Plot plot, 
-            Peak peak, 
+        private void AddToPlot(
+            MCharting.Plot plot,
+            Peak peak,
             Dictionary<string, MCharting.Series> seriesNames,
-            double[] intensities,
-            string seriesName, 
-            IEnumerable xInfo,
+            Vector intensities,
+            string seriesName,
             StylisedPeakOptions o,
             EPlot draw,
             Dictionary<GroupInfoBase, MCharting.Series> groupLegends,
-            MCharting.Series legend)
+            MCharting.Series legend )
         {
-            bool byCondition = xInfo.FirstOrDefault2() is ConditionInfo;
-            int i = -1;
 
             // Iterate whatever it is we're iterating
-            foreach (object ord in xInfo)
+            for (int i = 0; i < intensities.Observations.Length; ++i)
             {
-                i++;
-
-                // Get the values
-                GroupInfo condType;
-                int condDay;
-                int? condRep;
-                BatchInfo condBatch;
-                int condAcquisition;
-
-                if (byCondition)
-                {
-                    ConditionInfo cond = (ConditionInfo)ord;
-                    condType = cond.Group;
-                    condDay = cond.Time;
-                    condRep = null;
-                    condBatch = null;
-                    condAcquisition = -1;
-                }
-                else
-                {
-                    ObservationInfo obs = (ObservationInfo)ord;
-                    condType = obs.Group;
-                    condDay = obs.Time;
-                    condRep = obs.Rep;
-                    condBatch = obs.Batch;
-                    condAcquisition = obs.Acquisition;
-                }
+                // Get the values                                 
+                ObservationInfo obs = intensities.Observations[i];
 
                 // Name the series
-                if (draw.HasFlag(EPlot.ByBatch))
+                if (draw.HasFlag( EPlot.ByBatch ))
                 {
-                    if (!o.ViewBatches.Contains(condBatch))
+                    if (!o.ViewBatches.Contains( obs.Batch ))
                     {
                         continue;
                     }
                 }
                 else
                 {
-                    if (!o.ViewTypes.Contains(condType))
+                    if (!o.ViewGroups.Contains( obs.Group ))
                     {
                         continue;
                     }
                 }
 
-                bool colorByBatch = draw.HasFlag(EPlot.ByBatch);
-                GroupInfoBase seriesUsing = colorByBatch ? (GroupInfoBase)condBatch : (GroupInfoBase)condType;
+                bool colorByBatch = draw.HasFlag( EPlot.ByBatch );
+                GroupInfoBase seriesUsing = colorByBatch ? (GroupInfoBase)obs.Batch : (GroupInfoBase)obs.Group;
 
                 string name = seriesName + " for " + seriesUsing.DisplayName;
                 MCharting.Series series;
 
                 // Create the series (if required)
-                if (!seriesNames.ContainsKey(name))
+                if (!seriesNames.ContainsKey( name ))
                 {
-                    series = plot.Series.Add(name);
-                    series.ApplicableLegends.Add(groupLegends[seriesUsing]);
-                    series.ApplicableLegends.Add(legend);
-                    seriesNames.Add(name, series);
+                    series = plot.Series.Add( name );
+                    series.ApplicableLegends.Add( groupLegends[seriesUsing] );
+                    series.ApplicableLegends.Add( legend );
+                    seriesNames.Add( name, series );
                     series.Tag = peak;
 
-                    Color colour = (draw.HasFlag(EPlot.DrawBold) || draw.HasFlag(EPlot.ByBatch) || !o.ShowTrend ) ? seriesUsing.Colour : seriesUsing.ColourLight;
+                    Color colour = (draw.HasFlag( EPlot.DrawBold ) || draw.HasFlag( EPlot.ByBatch ) || !o.ShowTrend) ? seriesUsing.Colour : seriesUsing.ColourLight;
 
-                    if (draw.HasFlag(EPlot.DrawLine))
+                    if (draw.HasFlag( EPlot.DrawLine ))
                     {
-                        series.Style.DrawLines = new Pen(colour);
-                        series.Style.DrawLines.Width = draw.HasFlag(EPlot.DrawBold) ? _core.Options.LineWidth * 4 : _core.Options.LineWidth;
+                        series.Style.DrawLines = new Pen( colour );
+                        series.Style.DrawLines.Width = draw.HasFlag( EPlot.DrawBold ) ? _core.Options.LineWidth * 4 : _core.Options.LineWidth;
                     }
                     else
-                    {                                   
+                    {
                         UiControls.CreateIcon( series, seriesUsing );
                     }
                 }
@@ -490,38 +444,38 @@ namespace MetaboliteLevels.Viewers.Charts
                 // Get the X position
                 double xPos;
 
-                if (draw.HasFlag(EPlot.ByBatch))
+                if (draw.HasFlag( EPlot.ByBatch ))
                 {
-                    xPos = condAcquisition;
+                    xPos = obs.Order;
 
                     if (o.ConditionsSideBySide)
                     {
-                        xPos += GetBatchOffset(o.ViewBatches, condBatch);
+                        xPos += GetBatchOffset( o.ViewBatches, obs.Batch );
                     }
                 }
                 else
                 {
-                    xPos = condDay;
+                    xPos = obs.Time;
 
                     if (o.ConditionsSideBySide)
                     {
-                        xPos += GetTypeOffset(o.ViewTypes, condType);
+                        xPos += GetTypeOffset( o.ViewGroups, obs.Group );
                     }
                 }
 
                 // Get the Y position
-                double yPos = intensities[i];
+                double yPos = intensities.Values[i];
 
-                if (double.IsNaN(yPos) || double.IsInfinity(yPos))
+                if (double.IsNaN( yPos ) || double.IsInfinity( yPos ))
                 {
                     yPos = 0;
                 }
 
                 // Create the point
-                MCharting.DataPoint cdp = new MCharting.DataPoint(xPos, yPos);
-                IntensityInfo tag = new IntensityInfo(condDay, condRep, condType, yPos);
+                MCharting.DataPoint cdp = new MCharting.DataPoint( xPos, yPos );
+                IntensityInfo tag = new IntensityInfo( obs.Time, obs.Rep, obs.Group, yPos );
                 cdp.Tag = tag;
-                series.Points.Add(cdp);
+                series.Points.Add( cdp );
             }
         }
     } // class

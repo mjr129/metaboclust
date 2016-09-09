@@ -25,6 +25,7 @@ using MetaboliteLevels.Algorithms.Statistics.Trends;
 using MetaboliteLevels.Algorithms.Statistics.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Corrections;
 using System.IO;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MGui;
 using MGui.Helpers;
 using MGui.Datatypes;
@@ -294,6 +295,22 @@ namespace MetaboliteLevels.Forms.Generic
         }
 
         /// <summary>
+        /// The session's peaks
+        /// </summary>
+        internal static DataSet<Vector> ForVectors( Core core, IntensityMatrix matrix )
+        {
+            return new DataSet<Vector>()
+            {
+                Core = core,
+                Title = "Vectors",
+                Source = matrix.Vectors,
+                ItemNameProvider = z=> z.ToString(),
+                ItemDescriptionProvider = z=> z.Peak.Comment,
+                Icon = Resources.IconPeak,
+            };
+        }
+
+        /// <summary>
         /// Pretty much everything in the session in one go (all IVisualisables in Core).
         /// </summary>
         internal static DataSet<object> ForEverything(Core core)
@@ -474,9 +491,9 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All intensity matrices
         /// </summary>            
-        internal static DataSet<IntensityMatrix> ForIntensityMatrices( Core core )
+        internal static DataSet<MatrixProducer> ForIntensityMatrices( Core core )
         {
-            return new DataSet<IntensityMatrix>()
+            return new DataSet<MatrixProducer>()
             {
                 Core = core,
                 Title = "Intensity matrices",

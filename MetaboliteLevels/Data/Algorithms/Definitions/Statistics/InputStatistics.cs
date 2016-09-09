@@ -40,7 +40,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Inputs
             public int[] Time;              // time
             public int[] Rep;               // rep
         }
-
+        
         public GetDataInfo GetData(EAlgoInput v, bool getPrimary, bool getIntensity, bool getGroup, bool getTime, bool getRep)
         {
             // Get the peak
@@ -94,65 +94,30 @@ namespace MetaboliteLevels.Algorithms.Statistics.Inputs
                 getTime |= primaryIsTime;
             }
 
-            switch (Args.SourceMode)
+            // TODO: This whole section is awful legacy stuff, why do we keep looking this stuff up!
+            Vector srcV = Args.SourceMatrix.Find( peak );
+            IEnumerable<int> indices = srcV.Observations.Which( λ => con.Test( λ ) );
+            IEnumerable<ObservationInfo> srcC = srcV.Observations.At( indices);
+
+            if (getIntensity)
             {
-                case EAlgoSourceMode.Trend:
-                    {
-                        IEnumerable<int> indices = con != null ? Core.Conditions.Which(λ => con.Test(λ)) : Core.Conditions.Indices();
-                        IEnumerable<double> srcV = peak.Get_Observations_Trend( Core ).At(indices);
-                        IEnumerable<ConditionInfo> srcC = Core.Conditions.At(indices);
-
-                        if (getIntensity)
-                        {
-                            r.Intensity = srcV.ToArray();
-                        }
-
-                        if (getTime)
-                        {
-                            r.Time = srcC.Select(z => z.Time).ToArray();
-                        }
-
-                        if (getGroup)
-                        {
-                            r.Group = srcC.Select(z => z.Group).ToArray();
-                        }
-
-                        if (getRep)
-                        {
-                            r.Rep = srcC.Select(z => -1).ToArray();
-                        }
-                    }
-                    break;
-
-                case EAlgoSourceMode.Full:
-                default:
-                    {
-                        IEnumerable<int> indices = con != null ? Core.Observations.Which(λ => con.Test(λ)) : Core.Conditions.Indices();
-                        IEnumerable<double> srcV = peak.Get_Observations_Raw(Core).At(indices);
-                        IEnumerable<ObservationInfo> srcC = Core.Observations.At( indices);
-
-                        if (getIntensity)
-                        {
-                            r.Intensity = srcV.ToArray();
-                        }
-
-                        if (getTime)
-                        {
-                            r.Time = srcC.Select(z => z.Time).ToArray();
-                        }
-
-                        if (getGroup)
-                        {
-                            r.Group = srcC.Select(z => z.Group).ToArray();
-                        }
-
-                        if (getTime)
-                        {
-                            r.Rep = srcC.Select(z => z.Rep).ToArray();
-                        }
-                    }
-                    break;
+                r.Intensity = srcV.Values.ToArray();
             }
+
+            if (getTime)
+            {
+                r.Time = srcV.Observations.Select(z => z.Time).ToArray();
+            }
+
+            if (getGroup)
+            {
+                r.Group = srcV.Observations.Select(z => z.Group).ToArray();
+            }
+
+            if (getTime)
+            {
+                r.Rep = srcV.Observations.Select(z => z.Rep).ToArray();
+            }  
 
             if (getPrimary)
             {

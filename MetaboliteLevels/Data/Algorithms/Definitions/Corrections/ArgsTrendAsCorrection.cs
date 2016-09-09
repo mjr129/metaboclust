@@ -1,6 +1,7 @@
 ﻿using System;
 using MetaboliteLevels.Data.DataInfo;
 using System.Collections.Generic;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Settings;
 using MGui.Helpers;
@@ -18,8 +19,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         public readonly GroupInfo ControlGroup;     // Control group (only used when [Mode] is [Control])
         public readonly ObsFilter Constraint;       // Constraint on the input vector
 
-        public ArgsTrendAsCorrection(ECorrectionMode mode, ECorrectionMethod method, GroupInfo controlGroup, ObsFilter constraint, object[] args)
-            : base(args)
+        public ArgsTrendAsCorrection( MatrixProducer source, ECorrectionMode mode, ECorrectionMethod method, GroupInfo controlGroup, ObsFilter constraint, object[] args)
+            : base( source, args )
         {
             Mode = mode;
             Method = method;

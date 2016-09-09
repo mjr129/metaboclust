@@ -260,11 +260,12 @@ namespace MetaboliteLevels.Forms.Activities
         }
 
         private void ExportSelected(ProgressReporter prog)
-        {
+        {   
             if (_chkData.Checked)
             {
                 prog.Enter( "Intensities" );
-                ExportData( _txtData.Text );
+                IntensityMatrix source = Core.Legacy();
+                ExportData( _txtData.Text, source );
                 prog.Leave();
             }
 
@@ -292,7 +293,8 @@ namespace MetaboliteLevels.Forms.Activities
             if (_chkTrend.Checked)
             {
                 prog.Enter( "Trend" );
-                ExportTrend( _txtTrend.Text );
+                IntensityMatrix source = Core.Legacy();
+                ExportData( _txtTrend.Text, source );
                 prog.Leave();
             }
 
@@ -408,10 +410,10 @@ namespace MetaboliteLevels.Forms.Activities
         /// <summary>
         /// INTENSITIES
         /// </summary>                           
-        private void ExportData( string fileName )
+        private void ExportData( string fileName, IntensityMatrix source )
         {
             // nPeaks x nObs
-            Spreadsheet<double> ss = new Spreadsheet<double>( _core.Peaks.Count, _core.Observations.Count );
+            Spreadsheet<double> ss = new Spreadsheet<double>( source.NumRows, source.NumCols );
 
             for (int nObs = 0; nObs < _core.Observations.Count; ++nObs)
             {
@@ -425,35 +427,12 @@ namespace MetaboliteLevels.Forms.Activities
 
                 for (int nObs = 0; nObs < _core.Observations.Count; ++nObs)
                 {
-                    ss[nPeak, nObs] = peak.Get_Observations_Raw(_core)[nObs];
+                    ss[nPeak, nObs] = source.Values[nPeak][nObs];
                 }
             }
 
             ss.SaveCsv( fileName );
-        }
-
-        private void ExportTrend( string fileName )
-        {
-            Spreadsheet<double> ss = new Spreadsheet<double>( _core.Peaks.Count, _core.Conditions.Count );
-
-            for (int nObs = 0; nObs < _core.Conditions.Count; ++nObs)
-            {
-                ss.ColNames[nObs] = _uniqueTable.Name( _core.Conditions[nObs]);
-            }
-
-            for (int nPeak = 0; nPeak < _core.Peaks.Count; ++nPeak)
-            {
-                Peak peak = _core.Peaks[nPeak];
-                ss.RowNames[nPeak] = _uniqueTable.Name( peak );
-
-                for (int nObs = 0; nObs < _core.Conditions.Count; ++nObs)
-                {
-                    ss[nPeak, nObs] = peak.Get_Observations_Trend(_core)[nObs];
-                }
-            }
-
-            ss.SaveCsv( fileName );
-        }
+        }   
 
         private void Export( OtherExportInfo ooi )
         {

@@ -31,6 +31,7 @@ using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MGui.Helpers;
 using MGui.Controls;
 using System.Reflection;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Data.Session.Associational;
 
@@ -41,7 +42,7 @@ namespace MetaboliteLevels.Forms
     /// <summary>
     /// Main form.
     /// </summary>
-    internal partial class FrmMain : Form, IPreviewProvider, ISelectionHolder
+    internal partial class FrmMain : Form, IPreviewProvider, ISelectionCapable
     {
         // Core - this holds all the data
         //private readonly CoreLink _coreLink = CoreLink.Instance;
@@ -90,8 +91,8 @@ namespace MetaboliteLevels.Forms
         private ListViewHelper<Assignment> _assignmentList;
         private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList2;
         private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList;
-        private IntensityMatrix _selectedMatrix;
-        private ConfigurationTrend _selectedTrend;
+        private MatrixProducer _selectedMatrix;
+        private ConfigurationTrend _selectedTrend;                
 
         public VisualisableSelection Selection
         {
@@ -284,7 +285,7 @@ namespace MetaboliteLevels.Forms
 
                     case VisualClass.Compound:
                         {
-                            StylisedCluster p = ((Compound)target).CreateStylisedCluster(_core, highlight);
+                            StylisedCluster p = ((Compound)target).CreateStylisedCluster(_core, SelectedTrend.Results.Matrix,  highlight);
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -292,7 +293,7 @@ namespace MetaboliteLevels.Forms
 
                     case VisualClass.Pathway:
                         {
-                            StylisedCluster p = ((Pathway)target).CreateStylisedCluster(_core, highlight);
+                            StylisedCluster p = ((Pathway)target).CreateStylisedCluster(_core, SelectedTrend.Results.Matrix, highlight );
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -503,11 +504,11 @@ namespace MetaboliteLevels.Forms
                             break;
 
                         case VisualClass.Compound:
-                            sCluster = ((Compound)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
+                            sCluster = ((Compound)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as IAssociational );
                             break;
 
                         case VisualClass.Pathway:
-                            sCluster = ((Pathway)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
+                            sCluster = ((Pathway)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as IAssociational );
                             break;
 
                         default:
@@ -1595,7 +1596,7 @@ namespace MetaboliteLevels.Forms
                 _core.AddPeakFilter(filter);
             }
 
-            ConfigurationClusterer template = new ConfigurationClusterer(null, null, null, new ArgsClusterer(filter, null, _selectedMatrix, null, false, EClustererStatistics.None, null));
+            ConfigurationClusterer template = new ConfigurationClusterer(null, null, null, new ArgsClusterer(null, filter, null, null, false, EClustererStatistics.None, null));
 
             if (DataSet.ForClusterers(_core).ShowListEditor(this, FrmBigList.EShow.Default, template) != null)
             {
@@ -1711,11 +1712,11 @@ namespace MetaboliteLevels.Forms
 
         private void correlationMapToolStripMenuItem_Click( object sender, EventArgs e )
         {                                
-            ArgsMetric args = new ArgsMetric(new object[0]  );
+            ArgsMetric args = new ArgsMetric(_selectedMatrix, new object[0]  );
             ConfigurationMetric metric = new ConfigurationMetric( "Temporary", null, Algo.ID_METRIC_PEARSONDISTANCE, args );
 
             DistanceMatrix dm = FrmWait.Show( this, "Creating value matrix", null,
-                z => DistanceMatrix.Create( _core, _selectedMatrix, metric, z ) );
+                z => DistanceMatrix.Create( _core, _selectedMatrix.Product, metric, z ) );
 
             FrmActHeatMap.Show( _core, _peakList, dm );
         }
@@ -1784,6 +1785,16 @@ namespace MetaboliteLevels.Forms
             UpdateVisualOptions();
 
             Replot();
+        }
+
+        public IntensityMatrix SelectedMatrix
+        {
+            get { return Core.Legacy(); }
+        }
+
+        public ConfigurationTrend SelectedTrend
+        {
+            get { return (ConfigurationTrend)(object)Core.Legacy(); }
         }
     }
 }
