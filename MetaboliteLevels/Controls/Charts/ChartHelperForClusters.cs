@@ -46,7 +46,7 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <summary>
         /// Ctor
         /// </summary>
-        public ChartHelperForClusters(ISelectionCapable selector, Core core, Control targetSite)
+        public ChartHelperForClusters( ISelectionHolder selector, Core core, Control targetSite)
             : base(selector, core, targetSite, true)
         {
             _chart.SelectionChanging += _chart_SelectionChanging;
@@ -249,6 +249,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 foreach (double[] centre in p.Centres)
                 {
                     MCharting.Series series = new MCharting.Series();
+                    series.Style.StrictOrder = SeriesStyle.EOrder.X;
                     series.ApplicableLegends.Add(legendEntry2);
                     plot.Series.Add(series);
                     series.Name = "Cluster centre #" + (++numClusterCentres);
@@ -326,6 +327,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
             // Each peak + condition gets its own series (yes we end up with lots of series)
             series = new MCharting.Series();
+            series.Style.StrictOrder = SeriesStyle.EOrder.X;
             series.Name = vector.ToString() + " : " + group.DisplayName;
             series.ApplicableLegends.Add(groupLegends[group]);
             series.ApplicableLegends.Add(lineLegend);

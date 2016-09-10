@@ -24,9 +24,9 @@ namespace MetaboliteLevels.Viewers.Charts
 {
     class ChartHelperForPeaks : ChartHelper
     {
-        public static ConfigurationTrend MinSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MINIMUM, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
-        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MAXIMUM, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
-        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend( null, null, Algo.ID_TREND_MOVING_MEDIAN, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
+        public static ConfigurationTrend MinSmoother = new ConfigurationTrend( "Minimum", null, Algo.ID_TREND_MOVING_MINIMUM, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
+        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend( "Maximum", null, Algo.ID_TREND_MOVING_MAXIMUM, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
+        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend( "Median", null, Algo.ID_TREND_MOVING_MEDIAN, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
 
         public Peak SelectedPeak
         {
@@ -42,7 +42,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
         }
 
-        public ChartHelperForPeaks( ISelectionCapable selector, Core core, Control targetSite )
+        public ChartHelperForPeaks( ISelectionHolder selector, Core core, Control targetSite )
             : base( selector, core, targetSite, false )
         {
         }
@@ -91,7 +91,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
             else
             {
-                vector = _selector.SelectedMatrix.Find( stylisedPeak.Peak );
+                vector = _core.Options.SelectedMatrix.Find( stylisedPeak.Peak );
             }
 
             if (vector == null)
@@ -129,7 +129,7 @@ namespace MetaboliteLevels.Viewers.Charts
             }
 
             // Sort data                                                
-            ConfigurationTrend trend = this._selector.SelectedTrend ?? FallbackSmoother;
+            ConfigurationTrend trend = _core.Options.SelectedTrend;
             Vector avg = stylisedPeak.ForceTrend ?? trend.CreateTrend( _core, vector );
             Vector min = MinSmoother.CreateTrend( _core, vector );
             Vector max = MaxSmoother.CreateTrend( _core, vector );
@@ -218,6 +218,7 @@ namespace MetaboliteLevels.Viewers.Charts
                     if (!seriesNames.ContainsKey( name ))
                     {
                         series = plot.Series.Add( name );
+                        series.Style.StrictOrder = SeriesStyle.EOrder.X;
                         Color c = obs.Group.ColourLight;
                         c = Color.FromArgb( 0x80, c.R, c.G, c.B );
                         series.Tag = peak;
@@ -307,6 +308,10 @@ namespace MetaboliteLevels.Viewers.Charts
                 MCharting.Series sMean = plot.Series.Add( @group.DisplayName + ": Mean" );
                 MCharting.Series sMin = plot.Series.Add( @group.DisplayName + ": StdDevMin" );
                 MCharting.Series sMax = plot.Series.Add( @group.DisplayName + ": StdDevMax" );
+
+                sMean.Style.StrictOrder = SeriesStyle.EOrder.X;
+                sMin.Style.StrictOrder = SeriesStyle.EOrder.X;
+                sMax.Style.StrictOrder = SeriesStyle.EOrder.X;
 
                 sMean.ApplicableLegends.Add( groupLegends[group] );
                 sMin.ApplicableLegends.Add( groupLegends[group] );
@@ -419,6 +424,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 if (!seriesNames.ContainsKey( name ))
                 {
                     series = plot.Series.Add( name );
+                    series.Style.StrictOrder = SeriesStyle.EOrder.X;
                     series.ApplicableLegends.Add( groupLegends[seriesUsing] );
                     series.ApplicableLegends.Add( legend );
                     seriesNames.Add( name, series );

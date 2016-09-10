@@ -31,7 +31,7 @@ namespace MetaboliteLevels.Viewers.Charts
 
         protected Core                           _core;
         protected readonly MChart                _chart;
-        protected readonly ISelectionCapable       _selector;
+        protected readonly ISelectionHolder _selector;
                                                                  
         private readonly CaptionBar              _captionBar;
         private readonly ToolStrip               _menuBar;
@@ -74,7 +74,7 @@ namespace MetaboliteLevels.Viewers.Charts
             this._core = newCore;
         }
 
-        public ChartHelper( ISelectionCapable selector, Core core, Control targetSite, bool describePeaks)
+        public ChartHelper( ISelectionHolder selector, Core core, Control targetSite, bool describePeaks)
         {
             this._selector = selector;
             this._core = core;              

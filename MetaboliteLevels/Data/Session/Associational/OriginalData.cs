@@ -11,14 +11,15 @@ using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Data.Session.Associational
 {
-    internal class OriginalData    : IVisualisable, IProvider<IntensityMatrix>
-    {                                 
+    internal class OriginalData : IVisualisable, IProvider<IntensityMatrix>
+    {
         private readonly string _fileName;
         private readonly IntensityMatrix _intentisyMatrix;
 
         public OriginalData( string name, string fileName, IntensityMatrix intentisyMatrix )
         {
             OverrideDisplayName = name;
+            Enabled = true;
             _fileName = fileName;
             _intentisyMatrix = intentisyMatrix;
         }
@@ -40,6 +41,11 @@ namespace MetaboliteLevels.Data.Session.Associational
             result.Add( "File", EColumn.Visible, z => z._fileName );
 
             return result;
+        }
+
+        public override string ToString()
+        {
+            return DisplayName;
         }
     }
 }

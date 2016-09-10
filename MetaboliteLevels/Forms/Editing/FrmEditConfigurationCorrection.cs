@@ -51,13 +51,13 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             IProvider<IntensityMatrix> source = _ecbSource.SelectedItem;
 
+            _checker.Check( _ecbSource.ComboBox, source != null, "Select a source" );
+
             // Algo
             AlgoBase algo = _ecbMethod.SelectedItem;
 
             // Params
-            object[] parameters;
-
-            
+            object[] parameters;       
 
             if (algo!=null)
             {
@@ -304,7 +304,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _lblPreviewTitle.Text = "Preview (" + _selectedPeak.DisplayName + ")";
 
-            IntensityMatrix source = _ecbSource.SelectedItem.Provide;
+            IntensityMatrix source = sel.Args.SourceMatrix;
 
             var orig = new StylisedPeak(_selectedPeak);
             var changed = new StylisedPeak(_selectedPeak);
@@ -319,7 +319,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 IReadOnlyList<ObservationInfo> order;
                 double[] trendData = sel.ExtractTrend(_core, original.Values, out order);
-                trend = new Vector( trendData, original.Header, order.Select( z => new IntensityMatrix.ColumnHeader( z ) ).ToArray() );
+                trend = (trendData != null) ? new Vector( trendData, original.Header, order.Select( z => new IntensityMatrix.ColumnHeader( z ) ).ToArray() ) : null;
                 corrected = new Vector( sel.Calculate( _core, original.Values ), original.Header, original.ColHeaders );
             }
             catch (Exception ex)

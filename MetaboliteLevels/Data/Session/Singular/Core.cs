@@ -618,15 +618,7 @@ namespace MetaboliteLevels.Data.Session
             }
 
             // Get changes
-            var newListEnabled = newList.WhereEnabled().ToList();
-
-            // Validate
-            int numberEnabled = newListEnabled.Count();
-
-            if (numberEnabled != 1)
-            {
-                throw new InvalidOperationException( "SetTrend: Provided with " + numberEnabled + " enabled trends (expected 1)." );
-            }
+            var newListEnabled = newList.WhereEnabled().ToList();                     
 
             // Set result
             var trend = newListEnabled.First();

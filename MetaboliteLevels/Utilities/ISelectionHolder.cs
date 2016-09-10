@@ -15,13 +15,7 @@ namespace MetaboliteLevels.Forms
     internal interface ISelectionHolder
     {
         VisualisableSelection Selection { get; set; }
-    }
-
-    internal interface ISelectionCapable : ISelectionHolder
-    {
-        IntensityMatrix SelectedMatrix { get; }
-        ConfigurationTrend SelectedTrend { get; }
-    }
+    }       
 
     internal class VisualisableSelection
     {

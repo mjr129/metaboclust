@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,10 +40,13 @@ namespace MetaboliteLevels.Data.Session.Associational
         }
 
         public IntensityMatrix( RowHeader[] rows, ColumnHeader[] columns, double[][] values )
-        {                    
+        {
+            Debug.Assert( rows.Length == values.Length, "IntensityMatrix number of rows mismatch." );
+            Debug.Assert( values.Length == 0 || columns.Length == values[0].Length, "IntensityMatrix number of columns mismatch." );
+
             Rows = rows;
             Columns = columns;
-            Values = values;    
+            Values = values;
         }         
 
         internal IntensityMatrix Subset( PeakFilter peakFilter, ObsFilter columnFilter = null, bool splitGroups=false, bool invertPeakFilter =false)

@@ -42,7 +42,7 @@ namespace MetaboliteLevels.Forms
     /// <summary>
     /// Main form.
     /// </summary>
-    internal partial class FrmMain : Form, IPreviewProvider, ISelectionCapable
+    internal partial class FrmMain : Form, IPreviewProvider, ISelectionHolder
     {
         // Core - this holds all the data
         //private readonly CoreLink _coreLink = CoreLink.Instance;
@@ -758,8 +758,14 @@ namespace MetaboliteLevels.Forms
                 index2++;
             }
 
-            _lstMatrix.Text = _core.Options.SelectedMatrixProvider.ToString();
-            _lstTrend.Text = _core.Options.SelectedTrend.ToString();
+            // These are essentially "fake" items since Strings cannot be selected
+            _lstDatasetCb.Items.Clear();
+            _lstDatasetCb.Items.Add( _core.Options.SelectedMatrixProvider.ToString() );
+            _lstDatasetCb.SelectedIndex = 0;
+
+            _lstTrendCb.Items.Clear();
+            _lstTrendCb.Items.Add( _core.Options.SelectedTrend.ToString() );
+            _lstTrendCb.SelectedIndex = 0;    
         }
 
         /// <summary>
@@ -1759,30 +1765,12 @@ namespace MetaboliteLevels.Forms
 
         private void _lstMatrix_Click( object sender, EventArgs e )
         {
-            var sel = DataSet.ForMatrixProviders( _core ).ShowList(this, _core.Options.SelectedMatrixProvider );
-
-            if (sel != null)
-            {
-                _core.Options.SelectedMatrixProvider = sel;
-            }
-
-            UpdateAll( "Data matrix changed", EListInvalids.ContentsChanged, EListInvalids.None, EListInvalids.None, EListInvalids.None );
-            UpdateVisualOptions();
-            Replot();
+            _lstDatasetCb.PerformClick();
         }
 
         private void _lstTrend_Click( object sender, EventArgs e )
         {
-            var sel = DataSet.ForTrends( _core ).ShowList( this, _core.Options.SelectedTrend );
-
-            if (sel != null)
-            {
-                _core.Options.SelectedTrend = sel;
-            }
             
-            UpdateVisualOptions();
-
-            Replot();
         }
 
         // TODO: Obsolete
@@ -1790,5 +1778,66 @@ namespace MetaboliteLevels.Forms
 
         // TODO: Obsolete
         public ConfigurationTrend SelectedTrend => _core.Options.SelectedTrend;
+
+        private void _lstDataSet_DropDown( object sender, EventArgs e )
+        {
+
+        }
+
+        private void _lstDatasetCb_DropDown( object sender, EventArgs e )
+        {
+            _lstDatasetCb.Items.Clear();
+            _lstDatasetCb.Items.AddRange( _core.Matrices.Cast<object>().ToArray() );
+            _lstDatasetCb.SelectedItem = _core.Options.SelectedMatrixProvider;
+        }
+
+        private void _lstDatasetCb_SelectedIndexChanged( object sender, EventArgs e )
+        {
+            var sel = _lstDatasetCb.SelectedItem as IProvider<IntensityMatrix>;
+
+            if (sel != null && sel != _core.Options.SelectedMatrixProvider)
+            {
+                _core.Options.SelectedMatrixProvider = sel;
+
+                UpdateAll( "Data matrix changed", EListInvalids.ContentsChanged, EListInvalids.None, EListInvalids.None, EListInvalids.None );
+                UpdateVisualOptions();
+                Replot();
+            }
+        }
+
+        private void _lstTrendCb_Click( object sender, EventArgs e )
+        {
+         
+        }
+
+        private void _lstTrendCb_DropDown( object sender, EventArgs e )
+        {
+            _lstTrendCb.Items.Clear();
+            _lstTrendCb.Items.AddRange( _core.AllTrends.Cast<object>().ToArray() );
+            _lstTrendCb.SelectedItem = _core.Options.SelectedTrend;
+        }
+
+        private void _lstTrendCb_SelectedIndexChanged( object sender, EventArgs e )
+        {
+            var sel = _lstDatasetCb.SelectedItem as ConfigurationTrend;
+
+            if (sel != null && sel != _core.Options.SelectedTrend)
+            {
+                _core.Options.SelectedTrend = sel;
+
+                UpdateVisualOptions();
+                Replot();
+            }                         
+        }
+
+        private void _lstDatasetCb_DropDownClosed( object sender, EventArgs e )
+        {
+            UpdateVisualOptions();
+        }
+
+        private void _lstTrendCb_DropDownClosed( object sender, EventArgs e )
+        {
+            UpdateVisualOptions();
+        }
     }
 }
