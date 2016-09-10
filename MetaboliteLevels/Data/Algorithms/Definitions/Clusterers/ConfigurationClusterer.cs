@@ -54,5 +54,20 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
             return columns;
         }
+
+        internal override bool Run( Core core, ProgressReporter prog )
+        {
+            try
+            {
+                ResultClusterer results = this.Cluster( core, -1, prog );
+                this.SetResults( results );
+                return true;
+            }
+            catch (Exception ex)
+            {                                
+                this.SetError( ex );
+                return false;
+            }
+        }
     }
 }

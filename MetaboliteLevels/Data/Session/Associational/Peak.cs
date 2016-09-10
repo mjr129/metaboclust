@@ -37,12 +37,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string OverrideDisplayName { get; set; }
-
-        /// <summary>
-        /// Which cluster has this been assigned to.
-        /// </summary>
-        public readonly AssignmentList Assignments = new AssignmentList();
+        public string OverrideDisplayName { get; set; }                   
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -52,12 +47,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Comment flags.
         /// </summary>
-        public List<PeakFlag> CommentFlags = new List<PeakFlag>();
-
-        /// <summary>
-        /// Statistics.
-        /// </summary>
-        public Dictionary<ConfigurationStatistic, double> Statistics = new Dictionary<ConfigurationStatistic, double>();
+        public List<PeakFlag> CommentFlags = new List<PeakFlag>();                                                      
 
         /// <summary>
         /// Corrected variable data (index ≘ Core.Correction)

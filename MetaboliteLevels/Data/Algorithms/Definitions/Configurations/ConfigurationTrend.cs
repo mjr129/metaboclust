@@ -9,6 +9,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
@@ -46,5 +47,33 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         }
 
         public IntensityMatrix Provide => Results.Matrix;
+
+        internal override bool Run( Core core, ProgressReporter prog )
+        {
+            try
+            {
+                IntensityMatrix source = this.Args.SourceMatrix;
+                double[][] results = new double[source.NumRows][];
+
+                for (int index = 0; index < source.NumRows; index++)
+                {
+                    prog.SetProgress( index, source.NumRows );
+
+                    // Apply new trend
+                    // TODO: Should we be using core. here?
+                    results[index] = this.CreateTrend( core.Observations, core.Conditions, core.Groups, source.Values[index] ); // obs
+                }
+
+                IntensityMatrix result = new IntensityMatrix( source.Rows, source.Columns, results );
+
+                SetResults( new ResultTrend( result ) );
+                return true;
+            }
+            catch (Exception ex)
+            {                  
+                this.SetError( ex );
+                return false;
+            }
+        }
     }
 }

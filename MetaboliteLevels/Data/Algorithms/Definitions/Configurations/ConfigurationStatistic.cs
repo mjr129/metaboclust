@@ -8,6 +8,9 @@ using MetaboliteLevels.Data.Visualisables;
 using System.Drawing;
 using MetaboliteLevels.Viewers.Lists;
 using System.Collections.Generic;
+using System.Diagnostics;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
@@ -44,6 +47,37 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             columns.Add("Arguments\\Second vector source", z => z.Args.VectorBSource);
 
             return columns;
+        }
+
+        internal override bool Run( Core core, ProgressReporter prog )
+        {
+            IntensityMatrix source = Args.SourceMatrix;
+                                                                      
+            double max = double.MinValue;
+            double min = double.MaxValue;
+
+            try
+            {
+                Dictionary<Peak, double> results = new Dictionary<Peak, double>();
+
+                for (int peakIndex = 0; peakIndex < source.Rows.Length; peakIndex++)
+                {
+                    prog.SetProgress( peakIndex, source.Rows.Length );
+
+                    Peak peak = source.Rows[peakIndex].Peak;
+                    double value = this.Calculate( core, peak );
+                    max = Math.Max( max, value );
+                    min = Math.Min( min, value ); 
+                }
+
+                SetResults( new ResultStatistic( results, min, max ) );
+                return true;
+            }
+            catch (Exception ex)
+            {                                   
+                this.SetError( ex );
+                return false;
+            }
         }
     }
 }

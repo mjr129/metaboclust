@@ -210,5 +210,32 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         }
 
         public IntensityMatrix Provide => Results.Matrix;
+
+        internal override bool Run( Core core, ProgressReporter prog )
+        {
+            try
+            {
+                // For each peak
+                IntensityMatrix source = this.Args.SourceMatrix;
+                double[][] results = new double[source.NumRows][];
+
+                for (int peakIndex = 0; peakIndex < source.NumRows; peakIndex++)
+                {
+                    prog.SetProgress( peakIndex, source.NumRows );
+                    Peak x = source.Rows[peakIndex].Peak;
+                    results[peakIndex] =this.Calculate( core, source.Values[peakIndex] );
+                }
+
+                IntensityMatrix imresult = new IntensityMatrix( source.Rows, source.Columns, results );
+
+                this.SetResults( new ResultCorrection( imresult ) );
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.SetError( ex );
+                return false;
+            }
+        }
     }
 }

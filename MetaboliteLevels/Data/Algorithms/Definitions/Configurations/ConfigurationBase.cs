@@ -16,11 +16,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// See the typed class ConfigurationBase(of TStat, TArgs) for more details.
     /// </summary>
     [Serializable]
-    abstract class ConfigurationBase : IVisualisable
+    abstract class ConfigurationBase : IDisposable, IVisualisable
     {
-        // Name/Comments are for info and can be changed without having to change the object and recalculate the statistic
-        public string Error { get; protected set; }
-
         // ID and parameters for algorithm
         public readonly string Id;
 
@@ -34,15 +31,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             Enabled = true;
         }
 
-        public bool HasError
-        {
-            get { return Error != null; }
-        }
+        public virtual bool HasError { get; }
 
         public abstract bool IsAvailable { get; }
         public abstract string AlgoName { get; }
         public abstract string ArgsToString { get; }
-        public abstract bool HasResults { get; }                                  
+        public abstract bool HasResults { get; }
+
+        private bool _isDisposed;
+        public bool IsDisposed => _isDisposed;
 
         public string Description
         {
@@ -56,6 +53,17 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         {
             return DisplayName;
         }
+
+        public void Dispose()
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                ClearResults();
+            }
+        }
+
+        public abstract void ClearResults();
 
         public string DisplayName
         {
@@ -73,23 +81,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
         public bool Enabled { get; set; }
 
-        public abstract void ClearResults();
+        public virtual bool NeedsUpdate { get; }
 
-        public void SetError(Exception ex)
-        {
-            SetError(ex.Message);
-        }
 
-        public void SetError(string error)
-        {
-            ClearResults();
-            Error = error;
-        }
-
-        public void ClearError()
-        {
-            Error = null;
-        }
 
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
@@ -132,7 +126,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return allResults;
         }
 
-        protected abstract IEnumerable<Column> GetExtraColumns(Core core);    
+        public abstract string Error { get;  }
+
+        protected abstract IEnumerable<Column> GetExtraColumns(Core core);
+
+        internal abstract bool Run( Core core, ProgressReporter prog );
     }
 
     /// <summary>
@@ -159,7 +157,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         [NonSerialized]
         private bool _hasGotCache;
 
-        public TResults Results { get; protected set; }
+        private TResults _results;
+
+        public TResults Results => _results;
+
+        private Guid _sourceGuid;
 
         protected ConfigurationBase(string name, string comments, string id, TArgs args)
             : base(name, comments, id)
@@ -169,16 +171,36 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             Args = args;
         }
 
-        public override void ClearResults()
+        public override string Error => _error;
+        private string _error;
+
+        public void SetError( Exception ex )
         {
-            SetResults(null);
+            SetError( ex.Message );
         }
 
-        public void SetResults(TResults results)
+        private void SetError( string error )
         {
-            ClearError();
-            Results = results;
+            _results = null;
+            _error = error;
+            _sourceGuid = Args.SourceMatrix.Guid;
         }
+
+        public override void ClearResults()
+        {
+            _results = null;
+            _error = null;
+            _sourceGuid = new Guid();
+        }
+
+        protected void SetResults(TResults results)
+        {                  
+            _results = results;
+            _error = null;
+            _sourceGuid = Args.SourceMatrix.Guid;
+        }
+
+        internal abstract override bool Run( Core core, ProgressReporter prog );
 
         /// <summary>
         /// If the statistic is available to perform calculations.
@@ -268,6 +290,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 return Args == null ? string.Empty : Args.ToString(TryGetCached());
             }
+        }
+
+        public override bool NeedsUpdate
+        {
+            get { return Enabled && Args.SourceMatrix != null && _sourceGuid != Args.SourceMatrix.Guid; }
         }
     }
 }

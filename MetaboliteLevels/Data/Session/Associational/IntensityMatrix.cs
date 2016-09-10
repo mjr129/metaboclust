@@ -24,7 +24,8 @@ namespace MetaboliteLevels.Data.Session.Associational
     {                           
         public readonly double[][] Values;
         public readonly RowHeader[] Rows;
-        public readonly ColumnHeader[] Columns;                 
+        public readonly ColumnHeader[] Columns;
+        public readonly Guid Guid;
 
         public int NumRows => Rows.Length;
         public int NumVectors => Rows.Length;
@@ -44,6 +45,7 @@ namespace MetaboliteLevels.Data.Session.Associational
             Debug.Assert( rows.Length == values.Length, "IntensityMatrix number of rows mismatch." );
             Debug.Assert( values.Length == 0 || columns.Length == values[0].Length, "IntensityMatrix number of columns mismatch." );
 
+            Guid = Guid.NewGuid();
             Rows = rows;
             Columns = columns;
             Values = values;

@@ -295,7 +295,7 @@ namespace MetaboliteLevels.Data.Session
             this.CoreGuid = Guid.NewGuid();
 
             this.FileNames = fileNames;
-            this.Options = new CoreOptions(this);
+            this.Options = new CoreOptions( this );
             this.Options.ViewTypes = new List<GroupInfo>( data.Types.OrderBy( z => z.DisplayPriority ) );
 
             this._adducts = adducts;
@@ -332,123 +332,65 @@ namespace MetaboliteLevels.Data.Session
             }
         }
 
-        /// <summary>
-        /// Sets the correction methods
-        /// </summary>
-        /// <param name="newList">New list of corrections</param>
-        /// <param name="refreshAll">Update ALL corrections, not just those which have changed</param>
-        /// <param name="updateStatistics">Update statistics afterwards</param>
-        /// <param name="updateTrends">Update trends afterwards</param>
-        /// <param name="updateClusters">Update clusters afterwards</param>
-        /// <param name="reportProgress">Progress reporter</param>
-        /// <returns>true unless any correction failed</returns>
-        internal bool SetCorrections( IEnumerable<ConfigurationCorrection> newList, bool refreshAll, bool updateStatistics, bool updateTrends, bool updateClusters, ProgressReporter reportProgress )
+        private void GenericReplace<T>( List<T> current, IEnumerable<T> replacement, ProgressReporter info )
+            where T : ConfigurationBase
+        {           
+            // Clear old values
+            foreach (T old in current.Where( z => !replacement.Contains( z ) ))
+            {
+                old.Dispose();
+            }
+
+            current.ReplaceAll( replacement );
+        }
+
+        private bool GenericUpdate<T>( string title, List<T> current, ProgressReporter info )
+            where T : ConfigurationBase
         {
-            bool result = true;
+            bool result = false;
 
             // Report                        
-            reportProgress.Enter( "Applying corrections..." );
-
-            if (newList == null)
-            {
-                newList = this.AllCorrections;
-                UiControls.Assert( refreshAll, "SetCorrections: Why set to the same without refresh?" );
-            }
-
-            // Get first change
-            var newListEnabled = newList.WhereEnabled().ToList();
-            var prevList = _corrections.WhereEnabled();
-            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference( prevList, newListEnabled );
-
-            // Remove old results                                                    
-            for (int index = firstChange; index < _corrections.Count; index++)
-            {
-                _corrections[index].ClearResults();
-            }
-
-            List<int> invalidIndices = new List<int>();
-            bool isInvalid = false;
+            info.Enter( "Applying " + title + "..." );
 
             // Add new results
-            for (int corIndex = firstChange; corIndex < newListEnabled.Count; corIndex++)
+            T[] needsUpdate = current.Where( z => z.NeedsUpdate ).ToArray();
+
+           foreach(T item in current)
             {
-                var algo = newListEnabled[corIndex];
-
-                isInvalid = false;
-
-                try
+                if (item.NeedsUpdate)
                 {
-                    // For each peak
-                    IntensityMatrix source = algo.Args.SourceMatrix;
-                    double[][] results = new double[source.NumRows][];
-
-                    for (int peakIndex = 0; peakIndex < source.NumRows; peakIndex++)
-                    {
-                        if (reportProgress != null)
-                        {
-                            reportProgress.SetProgress( peakIndex, Peaks.Count, corIndex - firstChange, newListEnabled.Count );
-                        }
-
-                        Peak x = Peaks[peakIndex];
-                        results[peakIndex] = algo.Calculate( this, source.Values[peakIndex] );
-
-                        if (results[peakIndex].Any( double.IsNaN ))
-                        {
-                            isInvalid = true;
-                        }
-                    }
-
-                    IntensityMatrix imresult = new IntensityMatrix( source.Rows, source.Columns, results );
-
-                    algo.SetResults( new ResultCorrection( imresult ) );
-                }
-                catch (Exception ex)
-                {
-                    InvalidateSubsequentCorrections( newListEnabled, ex, null, corIndex );
-                    result = false;
-                    isInvalid = false;
-                    break;
-                }
-
-                if (isInvalid)
-                {
-                    invalidIndices.Add( corIndex );
+                    result = true;
+                    item.Run( this, info );
                 }
             }
 
-            // Check validity
-            if (isInvalid)
-            {
-                result = false;
-                InvalidateSubsequentCorrections( newListEnabled, null, "One or more peaks contain NaN/Infinite values that were not remedied by the end of the correction chain. NaN/Infinite values were encountered as a result of this algorithm.", invalidIndices.ToArray() );
-            }
-
-            // Set result
-            this._corrections.ReplaceAll( newList );
-
-            // Update statistics
-            if (updateTrends)
-            {
-                SetTrends( null, true, updateStatistics, updateClusters, reportProgress );
-            }
-            else
-            {
-                if (updateStatistics)
-                {
-                    UiControls.Assert( false, "SetCorrections: Would expect trends to be updated if statistics are." );
-                    SetStatistics( null, true, reportProgress );
-                }
-
-                if (updateClusters)
-                {
-                    UiControls.Assert( false, "SetCorrections: No reason to update clusters if trend unchanged." );
-                    SetClusterers( null, true, reportProgress );
-                }
-            }
-
-            reportProgress.Leave();
+            // Set result 
+            info.Leave();
 
             return result;
+        }
+
+        private void UpdateAll( ProgressReporter prog)
+        {
+            bool anyUpdated;
+
+            do
+            {
+                anyUpdated = false;
+                anyUpdated|=GenericUpdate( "corrections", _corrections, prog );
+                anyUpdated|=GenericUpdate( "trends", _trends, prog );
+                anyUpdated|=GenericUpdate( "statistics", _statistics, prog );
+                anyUpdated|=GenericUpdate( "clusters", _clusterers, prog );
+            } while (anyUpdated);
+        }
+
+        /// <summary>
+        /// Sets the correction methods
+        /// </summary>              
+        internal void SetCorrections( IEnumerable<ConfigurationCorrection> newList, ProgressReporter prog )
+        {
+            GenericReplace( _corrections, newList, prog );
+            UpdateAll( prog );
         }
 
         /// <summary>
@@ -469,301 +411,34 @@ namespace MetaboliteLevels.Data.Session
             return result;
         }
 
-        private void InvalidateSubsequentCorrections( List<ConfigurationCorrection> list, Exception responsibleError, string responsibleErrorMessage, params int[] invalidIndices )
+        /// <summary>
+        /// Sets the statistics.
+        /// </summary>
+        internal void SetStatistics( IEnumerable<ConfigurationStatistic> newList, ProgressReporter prog )
         {
-            int firstInvalidIndex = invalidIndices[0];
+            GenericReplace( _statistics, newList, prog );
+            UpdateAll( prog );
 
-            // Disable everything after
-            for (int ci2 = firstInvalidIndex; ci2 < list.Count; ci2++)
-            {
-                list[ci2].Enabled = false;
-                list[ci2].SetError( "Disabled due to an error in a previous correction." );
-            }
-
-            foreach (int invalidIndex in invalidIndices)
-            {
-                var responsibleCorrection = list[invalidIndex];
-
-                if (responsibleError != null)
-                {
-                    responsibleCorrection.SetError( responsibleError );
-                }
-                else if (responsibleErrorMessage != null)
-                {
-                    responsibleCorrection.SetError( responsibleErrorMessage );
-                }
-                else
-                {
-                    throw new ArgumentException( "Missing an argument." );
-                }
-            }
-
-            list.RemoveRange( firstInvalidIndex, list.Count - firstInvalidIndex );
-        }
+            // TODO: x.CalculateAveragedStatistics();
+        }      
 
         /// <summary>
-        /// Sets the statistics
-        /// Since the statistics themselves are immutable we don't need to update e.g. clusters which use them as filters.
-        /// 
-        /// Trend         : don't use statistics (ignored)
-        /// Corrections   : don't use statistics (ignored)
-        /// Cluster stats : updated
-        /// Clustering    : don't use statistics (ignored)
+        /// Sets the trends.
         /// </summary>
-        internal bool SetStatistics( IEnumerable<ConfigurationStatistic> newList, bool refreshAll, ProgressReporter reportProgress )
+        internal void SetTrends( IEnumerable<ConfigurationTrend> newList, ProgressReporter prog )
         {
-            bool result = true;
-
-            // Report               
-            reportProgress.Enter( "Calculating statistics..." );
-
-            if (newList == null)
-            {
-                newList = this._statistics;
-                UiControls.Assert( refreshAll, "SetStatistics: Expected refresh if unchanged" );
-            }
-
-            // Get changes
-            var newListEnabled = newList.WhereEnabled().ToList();
-            var prevList = this._statistics.WhereEnabled();
-            int firstChange = refreshAll ? 0 : ArrayHelper.GetIndexOfFirstDifference( prevList, newListEnabled );
-
-            // Remove old results
-            for (int i = firstChange; i < this._statistics.Count; i++)
-            {
-                var stat = this._statistics[i];
-
-                _ClearStatistic( stat );
-            }
-
-            // Add new results
-            var actList = newListEnabled.ToList();
-
-            for (int statIndex = firstChange; statIndex < newListEnabled.Count; statIndex++)
-            {
-                var stat = newListEnabled[statIndex];
-                Debug.WriteLine( "Adding statistic: " + stat.ToString() );
-                double max = double.MinValue;
-                double min = double.MaxValue;
-
-                try
-                {
-                    for (int peakIndex = 0; peakIndex < Peaks.Count; peakIndex++)
-                    {
-                        reportProgress.SetProgress( peakIndex, Peaks.Count, statIndex - firstChange, newListEnabled.Count - firstChange );
-
-                        Peak x = Peaks[peakIndex];
-                        double value = stat.Calculate( this, x );
-                        max = Math.Max( max, value );
-                        min = Math.Min( min, value );
-                        x.Statistics[stat] = value;
-                    }
-
-                    stat.SetResults( new ResultStatistic( min, max ) );
-                }
-                catch (Exception ex)
-                {
-                    result = false;
-                    stat.Enabled = false;
-                    actList.Remove( stat );
-                    _ClearStatistic( stat );
-                    stat.SetError( ex );
-                }
-            }
-
-            // Set result                         
-            this._statistics.ReplaceAll( newList );
-
-            // Update clusters
-            foreach (var x in Clusters)
-            {
-                x.CalculateAveragedStatistics();
-            }
-
-            reportProgress.Leave();
-
-            return result;
-        }
-
-        private void _ClearStatistic( ConfigurationStatistic stat )
-        {
-            foreach (var x in Peaks)
-            {
-                x.Statistics.Remove( stat );
-            }
-
-            stat.ClearError();
-            stat.ClearResults();
-        }
-
-        /// <summary>
-        /// Sets the trend.
-        /// 
-        /// Statistics    : updated accordingly.
-        /// Corrections   : don't use the trend (ignored)
-        /// Cluster stats : updated with statistics
-        /// Clustering    : not changed - must be manually reperformed
-        /// </summary>
-        internal bool SetTrends( IEnumerable<ConfigurationTrend> newList, bool refreshAll, bool updateStatistics, bool updateClusters, ProgressReporter info )
-        {
-            bool result = true;
-
-            // Report
-            info.Enter( "Calculating trends..." );
-
-            if (newList == null)
-            {
-                newList = _trends;
-                UiControls.Assert( refreshAll, "SetTrend: Expected refresh if unchanged" );
-            }
-
-            // Get changes
-            var newListEnabled = newList.WhereEnabled().ToList();                     
-
-            // Set result
-            var trend = newListEnabled.First();
-
-            try
-            {
-                _ApplyTrend( info, trend );
-            }
-            catch (Exception ex)
-            {
-                result = false;
-                trend.SetError( ex );
-                trend.Enabled = false;
-
-                newListEnabled = new List<ConfigurationTrend> { trend };
-                newList = newList.Concat( newListEnabled );
-
-                _ApplyTrend( info, trend );
-            }
-
-            // Set lists             
-            _trends.ReplaceAll( newList );
-
-            // Update statistics
-            if (updateStatistics)
-            {
-                SetStatistics( null, true, info );
-            }
-
-            if (updateClusters)
-            {
-                SetClusterers( null, true, info );
-            }
-
-            info.Leave();
-
-            return result;
-        }
-
-        private void _ApplyTrend( ProgressReporter info, ConfigurationTrend trend )
-        {
-            IntensityMatrix source = trend.Args.SourceMatrix;
-            double[][] results = new double[source.NumRows][];
-
-            for (int index = 0; index < source.NumRows; index++)
-            {
-                info.SetProgress( index, source.NumRows );
-
-                // Apply new trend
-                results[index] = trend.CreateTrend( Observations, Conditions, Groups, source.Values[index] ); // obs
-            }
-
-            IntensityMatrix result = new IntensityMatrix(  source.Rows, source.Columns, results );
-
-            trend.SetResults( new ResultTrend( result ) );
-        }
+            GenericReplace( _trends, newList, prog );
+            UpdateAll( prog );   
+        }      
 
         /// <summary>
         /// Sets clusters and applies clustering algorithm.
         /// </summary>
-        public bool SetClusterers( IEnumerable<ConfigurationClusterer> newList, bool refreshAll, ProgressReporter reportProgress )
+        public void SetClusterers( IEnumerable<ConfigurationClusterer> newList, ProgressReporter prog )
         {
-            bool result = true;
-
-            // Report                        
-            reportProgress.Enter( "Calculating clusters..." );
-
-            if (newList == null)
-            {
-                newList = this._clusterers;
-                UiControls.Assert( refreshAll, "SetClusterers: Expected refresh if unchanged" );
-            }
-
-            // Get changes
-            var newListEnabled = newList.WhereEnabled().ToList();
-
-            // Remove obsolete clusters
-            foreach (ConfigurationClusterer config in IVisualisableExtensions.WhereEnabled( this.AllClusterers ))
-            {
-                if (!newListEnabled.Contains( config ))
-                {
-                    this._ClearCluster( config );
-                }
-            }
-
-            // Create new clusters
-            foreach (ConfigurationClusterer config in newListEnabled.ToList())
-            {
-                if (!IVisualisableExtensions.WhereEnabled( this.AllClusterers ).Contains( config ))
-                {
-                    try
-                    {
-                        ResultClusterer results = config.Cluster( this, -1, reportProgress );
-                        config.SetResults( results );
-                    }
-                    catch (Exception ex)
-                    {
-                        result = false;
-                        this._ClearCluster( config );
-                        config.SetError( ex );
-                        newListEnabled.Remove( config );
-                        continue;
-                    }
-                }
-            }
-
-            // Set new ones                       
-            this._clusterers.ReplaceAll( newList );
-
-            // Set the enabled clusters
-            this._clusters.Clear();
-
-            foreach (Peak peak in Peaks)
-            {
-                peak.Assignments.ClearAll();
-            }
-
-            foreach (ConfigurationClusterer config in newListEnabled)
-            {
-                if (config.HasResults)
-                {
-                    this._clusters.AddRange( config.Results.Clusters );
-
-                    // ...to Peaks
-                    foreach (Cluster cluster in config.Results.Clusters)
-                    {
-                        foreach (var a in cluster.Assignments.List)
-                        {
-                            a.Peak.Assignments.Add( a );
-                        }
-                    }
-                }
-            }
-
-            reportProgress.Leave();
-
-            return result;
-        }
-
-        private void _ClearCluster( ConfigurationClusterer config )
-        {
-            config.Enabled = false;
-            config.ClearResults();
-            config.ClearError();
-        }
+            GenericReplace( _clusterers, newList, prog );
+            UpdateAll( prog );       
+        }         
 
         /// <summary>
         /// Adds and applies a single new clustering algorithm.
@@ -772,7 +447,7 @@ namespace MetaboliteLevels.Data.Session
         {
             List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>( AllClusterers );
             existing.Add( toAdd );
-            this.SetClusterers( existing.ToArray(), false, setProgress );
+            this.SetClusterers( existing.ToArray(), setProgress );
         }
 
         /// <summary>
@@ -886,12 +561,12 @@ namespace MetaboliteLevels.Data.Session
 
                 foreach (OriginalData matrix in _originalData)
                 {
-                    results.Add(  matrix  );
+                    results.Add( matrix );
                 }
 
                 foreach (ConfigurationTrend trend in _trends)
                 {
-                    results.Add(  trend  );
+                    results.Add( trend );
                 }
 
                 foreach (ConfigurationCorrection correction in _corrections)

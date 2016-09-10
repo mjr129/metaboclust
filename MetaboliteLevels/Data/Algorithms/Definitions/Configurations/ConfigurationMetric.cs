@@ -4,6 +4,7 @@ using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Metrics;
 using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
@@ -32,6 +33,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
 
             return columns;
+        }
+
+        internal override bool Run( Core core, ProgressReporter prog )
+        {
+            throw new InvalidOperationException("Metrics serve as part of another algorithm and cannot be run alone.");
         }
     }
 }
