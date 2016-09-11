@@ -329,7 +329,7 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// (MJR) Displays a double to a specified number of significant digits
         /// </summary>
-        static public string SignificantDigits(this double d, int digits = 3)
+        public static string SignificantDigits(this double d, int digits = 3)
         {
             int magnitude = (d == 0.0) ? 0 : (int)Math.Floor(Math.Log10(Math.Abs(d))) + 1;
 

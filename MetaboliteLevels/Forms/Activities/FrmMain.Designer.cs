@@ -883,9 +883,7 @@ namespace MetaboliteLevels.Forms
             this._lstDatasetCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstDatasetCb.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._lstDatasetCb.Name = "_lstDatasetCb";
-            this._lstDatasetCb.Size = new System.Drawing.Size(121, 46);
-            this._lstDatasetCb.DropDown += new System.EventHandler(this._lstDatasetCb_DropDown);
-            this._lstDatasetCb.DropDownClosed += new System.EventHandler(this._lstDatasetCb_DropDownClosed);
+            this._lstDatasetCb.Size = new System.Drawing.Size(121, 46);                                     
             this._lstDatasetCb.SelectedIndexChanged += new System.EventHandler(this._lstDatasetCb_SelectedIndexChanged);
             // 
             // _lstTrend
@@ -906,11 +904,8 @@ namespace MetaboliteLevels.Forms
             this._lstTrendCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstTrendCb.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._lstTrendCb.Name = "_lstTrendCb";
-            this._lstTrendCb.Size = new System.Drawing.Size(121, 46);
-            this._lstTrendCb.DropDown += new System.EventHandler(this._lstTrendCb_DropDown);
-            this._lstTrendCb.DropDownClosed += new System.EventHandler(this._lstTrendCb_DropDownClosed);
+            this._lstTrendCb.Size = new System.Drawing.Size(121, 46);                                      
             this._lstTrendCb.SelectedIndexChanged += new System.EventHandler(this._lstTrendCb_SelectedIndexChanged);
-            this._lstTrendCb.Click += new System.EventHandler(this._lstTrendCb_Click);
             // 
             // _btnSession
             // 
