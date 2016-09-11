@@ -19,20 +19,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// </summary>
     [Serializable]
     sealed class ConfigurationStatistic : ConfigurationBase<StatisticBase, ArgsStatistic, ResultStatistic>
-    {
-        public ConfigurationStatistic(string name, string comments, string id, ArgsStatistic args)
-            : base(name, comments, id, args)
-        {
-        }
-
+    {                      
         internal double Calculate(Core core, Peak a)
         {
-            return Cached.Calculate(new InputStatistic(core, a, a, Args));
+            return GetAlgorithm().Calculate(new InputStatistic(core, a, a, Args));
         }
 
         internal double Calculate(Core core, Peak a, Peak b) // TODO: What is this for?!
         {
-            return Cached.Calculate(new InputStatistic(core, a, b, Args));
+            return GetAlgorithm().Calculate(new InputStatistic(core, a, b, Args));
         }
 
         protected sealed override IEnumerable<Column> GetExtraColumns(Core core)
@@ -49,7 +44,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return columns;
         }
 
-        internal override bool Run( Core core, ProgressReporter prog )
+        public override bool Run( Core core, ProgressReporter prog )
         {
             IntensityMatrix source = Args.SourceMatrix;
                                                                       

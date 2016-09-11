@@ -35,11 +35,11 @@ namespace MetaboliteLevels.Forms.Editing
             public bool OriginalEnabled;
             public string OriginalOverrideDisplayName;
 
-            public OriginalStatus(string name, string comments, bool enabled)
+            public OriginalStatus(string name, string comments, bool hidden )
             {
                 this.OriginalOverrideDisplayName = name;
                 this.OriginalComment = comments;
-                this.OriginalEnabled = enabled;
+                this.OriginalEnabled = hidden;
             }
         }
 
@@ -178,7 +178,7 @@ namespace MetaboliteLevels.Forms.Editing
                     {
                         kvp.Key.OverrideDisplayName = kvp.Value.OriginalOverrideDisplayName;
                         kvp.Key.Comment = kvp.Value.OriginalComment;
-                        kvp.Key.Enabled = kvp.Value.OriginalEnabled;
+                        kvp.Key.Hidden = kvp.Value.OriginalEnabled;
                     }
                 }
             }
@@ -239,7 +239,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private OriginalStatus GetUnchanged(IVisualisable input)
         {
-            return new OriginalStatus(input.OverrideDisplayName, input.Comment, input.Enabled);
+            return new OriginalStatus(input.OverrideDisplayName, input.Comment, input.Hidden );
         }
 
         private void Replace(IVisualisable remove, IVisualisable create)
@@ -408,7 +408,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             OriginalStatus change = Get(first);
 
-            first.Enabled = !first.Enabled;
+            first.Hidden = !first.Hidden;
             change.Required = true;
 
             _listViewHelper.Rebuild(EListInvalids.ValuesChanged);

@@ -319,7 +319,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
                 // Custom (if applicable)
                 if (metric != null
                     && statistics.HasFlag(EClustererStatistics.DistanceFromAverage)
-                    && !(metric.Id == Algo.ID_METRIC_EUCLIDEAN && statistics.HasFlag(EClustererStatistics.EuclideanFromAverage)))
+                    && !(metric.Args.Id == Algo.ID_METRIC_EUCLIDEAN && statistics.HasFlag(EClustererStatistics.EuclideanFromAverage)))
                 {
                     string key1 = metric.ToString() + STAT_ASSIGNMENT_DISTANCE_FROM_AVG;
                     string key2 = metric.ToString() + STAT_ASSIGNMENT_DISTANCE_FROM_AVG_SQUARED;

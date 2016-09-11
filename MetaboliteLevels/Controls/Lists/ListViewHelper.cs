@@ -1053,7 +1053,7 @@ namespace MetaboliteLevels.Viewers.Lists
                     string result = c.GetRowAsString(tag);
                     Color color;
 
-                    if (!tag.Enabled)
+                    if (tag.Hidden)
                     {
                         lvsi.Font = FontHelper.StrikeFont;
                         color = Color.Gray;

@@ -64,7 +64,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (def != null)
             {
                 this._txtName.Text = def.OverrideDisplayName;
-                this._ecbMethod.SelectedItem = def.Cached;
+                this._ecbMethod.SelectedItem = def.GetAlgorithm();
                 this._comments = def.Comment;
                 this._txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
             }
@@ -134,7 +134,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return null;
             }
 
-            return new ConfigurationTrend(title, _comments, sel.Id, new ArgsTrend(src, args));
+            return new ConfigurationTrend() { OverrideDisplayName = title, Comment = _comments, Args = new ArgsTrend( sel.Id, src, args ) };
         }
 
         public FrmEditConfigurationTrend()

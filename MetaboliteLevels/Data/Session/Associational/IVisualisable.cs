@@ -35,9 +35,9 @@ namespace MetaboliteLevels.Data.Visualisables
         string Comment { get; set; }
 
         /// <summary>
-        /// Is this object enabled?
+        /// Is this object hidden from view
         /// </summary>
-        bool Enabled { get; set; }
+        bool Hidden { get; set; }
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ namespace MetaboliteLevels.Data.Visualisables
         public static IEnumerable<T> WhereEnabled<T>(this IEnumerable<T> self)
             where T : INameable
         {
-            return self.Where(z => z.Enabled);
+            return self.Where(z => !z.Hidden);
         }
 
         /// <summary>
@@ -219,10 +219,10 @@ namespace MetaboliteLevels.Data.Visualisables
 
         public static bool SupportsDisable( this INameable v )
         {
-            bool originalState = v.Enabled;
-            v.Enabled = !originalState;
-            bool canEnable = v.Enabled != originalState;
-            v.Enabled = originalState;
+            bool originalState = v.Hidden;
+            v.Hidden = !originalState;
+            bool canEnable = v.Hidden != originalState;
+            v.Hidden = originalState;
             return canEnable;
         }
 

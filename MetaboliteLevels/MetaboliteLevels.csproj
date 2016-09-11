@@ -152,7 +152,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\PagerControl.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\IMatrixProducer.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Base\ArgsBase.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Configurations\IConfigutationBase.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Configurations\IProvider.cs" />
     <Compile Include="Data\Algorithms\General\Algo.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameter.cs" />
     <Compile Include="Data\Algorithms\General\DistanceMatrix.cs" />
@@ -287,12 +289,6 @@
     <Compile Include="Forms\Editing\FrmEditParameters.Designer.cs">
       <DependentUpon>FrmEditParameters.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Selection\FrmSelectUpdate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Selection\FrmSelectUpdate.Designer.cs">
-      <DependentUpon>FrmSelectUpdate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Editing\FrmEditObsFilterCondition.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -327,7 +323,6 @@
     <Compile Include="Utilities\ConstAttribute.cs" />
     <Compile Include="Utilities\Counter.cs" />
     <Compile Include="Data\Algorithms\Definitions\Configurations\ConfigurationBase.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Base\ArgsBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ArgsClusterer.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ClustererBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererScript.cs" />
@@ -608,9 +603,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmEditParameters.resx">
       <DependentUpon>FrmEditParameters.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Selection\FrmSelectUpdate.resx">
-      <DependentUpon>FrmSelectUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Selection\FrmSelectAlgorithmType.resx">
       <DependentUpon>FrmSelectAlgorithmType.cs</DependentUpon>

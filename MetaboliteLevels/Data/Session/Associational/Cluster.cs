@@ -97,7 +97,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
-        bool INameable.Enabled { get { return true; } set { } }
+        bool INameable.Hidden { get { return false; } set { } }
 
         /// <summary>
         /// Constructor.
@@ -194,36 +194,36 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public void CalculateAveragedStatistics()
         {
-            Statistics.Clear();
+            //Statistics.Clear();
 
-            if (Assignments.Count == 0)
-            {
-                return;
-            }
+            //if (Assignments.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Create
-            foreach (ConfigurationStatistic stat in Assignments.List[0].Peak.Statistics.Keys)
-            {
-                Statistics.Add(stat, 0.0d);
-            }
+            //// Create
+            //foreach (ConfigurationStatistic stat in Assignments.List[0].Peak.Statistics.Keys)
+            //{
+            //    Statistics.Add(stat, 0.0d);
+            //}
 
-            // Sum
-            Counter<ConfigurationStatistic> counts = new Counter<ConfigurationStatistic>();
+            //// Sum
+            //Counter<ConfigurationStatistic> counts = new Counter<ConfigurationStatistic>();
 
-            foreach (Assignment assignment in Assignments.List)
-            {
-                foreach (var kvp in assignment.Peak.Statistics)
-                {
-                    Statistics[kvp.Key] += kvp.Value;
-                    counts.Increment(kvp.Key);
-                }
-            }
+            //foreach (Assignment assignment in Assignments.List)
+            //{
+            //    foreach (var kvp in assignment.Peak.Statistics)
+            //    {
+            //        Statistics[kvp.Key] += kvp.Value;
+            //        counts.Increment(kvp.Key);
+            //    }
+            //}
 
-            // Average
-            foreach (var kvp in Statistics.Keys.ToArray())
-            {
-                Statistics[kvp] /= counts.Counts[kvp];
-            }
+            //// Average
+            //foreach (var kvp in Statistics.Keys.ToArray())
+            //{
+            //    Statistics[kvp] /= counts.Counts[kvp];
+            //}
         }
 
         /// <summary>

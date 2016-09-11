@@ -26,13 +26,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
         {
             var src = (IEnumerable<WeakReference<ConfigurationStatistic>>)input.Args.Parameters[0];
 
+
+
             double[] vals = src.Select(delegate (WeakReference<ConfigurationStatistic> z)
                                        {
                                            ConfigurationStatistic a = z.GetTarget();
 
                                            if (a != null)
                                            {
-                                               return input.PeakA.Statistics[a];
+                                               return a.Results.Results[ input.PeakA];
                                            }
                                            else
                                            {

@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         public ClustererReclusterer(string id, string name)
             : base(id, name)
         {
-            Description = "Performs k-means clustering on vectors starting with the cluster centres at existing cluster assignments.";
+            Comment = "Performs k-means clustering on vectors starting with the cluster centres at existing cluster assignments.";
         }
 
         protected override IEnumerable<Cluster> Cluster(IntensityMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)

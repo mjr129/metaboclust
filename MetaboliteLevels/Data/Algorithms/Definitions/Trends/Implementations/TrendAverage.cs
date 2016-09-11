@@ -12,7 +12,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Trends
         public TrendAverage(AlgoDelegate_EInput1 del, string id, string name)
             : base(id, name)
         {
-            Description = "Calculates an average or moving average. The window width parameter 'w' must be specified.";
+            Comment = "Calculates an average or moving average. The window width parameter 'w' must be specified.";
             _avg = del;
         }
 

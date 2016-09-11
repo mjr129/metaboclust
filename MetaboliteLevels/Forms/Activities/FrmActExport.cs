@@ -173,11 +173,11 @@ namespace MetaboliteLevels.Forms.Activities
                 }
             }
 
-            public bool Enabled
+            public bool Hidden
             {
                 get
                 {
-                    return true;
+                    return false;
                 }
                 set
                 {
@@ -347,7 +347,7 @@ namespace MetaboliteLevels.Forms.Activities
                 for (int nClust = 0; nClust < _core.Clusters.Count; ++nClust)
                 {
                     Cluster cluster = _core.Clusters[nClust];
-                    ss[nPeak, nClust] = string.Join( "; ", peak.Assignments.List.Where( z => z.Cluster == cluster ).Select(AssignmentToString) );
+                    ss[nPeak, nClust] = string.Join( "; ", peak.FindAssignments( _core ).Where( z => z.Cluster == cluster ).Select(AssignmentToString) );
                 }
             }
 

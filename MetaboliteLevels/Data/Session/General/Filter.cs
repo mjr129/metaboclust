@@ -34,7 +34,6 @@ namespace MetaboliteLevels.Settings
         {
             this.OverrideDisplayName = overrideDisplayName;
             this.Comment = comment;
-            this.Enabled = true;
         }
 
         #region IVisualisable
@@ -42,7 +41,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public bool Enabled { get; set; }   
+        public bool Hidden { get; set; }   
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
@@ -92,7 +91,7 @@ namespace MetaboliteLevels.Settings
             List<Column<Filter>> result = new List<Column<Filter>>();
 
             result.Add("Name", EColumn.Visible, z => z.DisplayName);
-            result.Add("Enabled", EColumn.None, z => z.Enabled);
+            result.Add( "Hidden", EColumn.None, z => z.Hidden );
             result.Add("Comments", EColumn.None, z => z.Comment);
             result.Add("Parameters", EColumn.None, z => z.ParamsAsString());
 
@@ -132,32 +131,54 @@ namespace MetaboliteLevels.Settings
             [Name("_Not")]
             Negate = 1,
 
-            [Name("any in")]
-            AnyXinY = 2,
+            [Name("any of")]
+            Any = 2,
 
-            [Name("all in")]
-            AllXInY = 4,
+            [Name( "all of" )]
+            All = 4,
 
-            [Name("contains any")]
-            AnyYInX = 8,
+            [Name("limited to")]
+            Limited = 8,
 
-            [Name("contains all")]
-            AllYInX = 16,
+            [Name( "exactly" )]
+            Exact = 16,
 
-            [Name("none in")]
-            NotAnyXinY = AnyXinY | Negate,
+            [Name("none of")]
+            NotAny = Any | Negate,
 
-            [Name("not all in")]
-            NotAllXInY = AllXInY | Negate,
+            [Name("not all of")]
+            NotAll = All | Negate,
 
-            [Name("does not contain any")]
-            NotAnyYInX = AnyYInX | Negate,
+            [Name( "not limited to" )]
+            NotLimited = Limited | Negate,
 
-            [Name("does not contain all")]
-            NotAllYInX = AllYInX | Negate,
+            [Name( "not exactly" )]
+            NotExact = Exact | Negate,
 
             [Name("_BasicMask")]
-            BasicMask = AnyXinY | AllXInY | AnyYInX | AllYInX,
+            BasicMask = Any | All | Limited | Exact
+        }
+
+        [Flags]
+        public enum ELimitedSetOperator
+        {
+            [Name( "_Not" )]
+            Negate = 1,
+
+            [Name( "any of" )]
+            Any = 2,
+
+            [Name( "all of" )]
+            All = 4,   
+
+            [Name( "none of" )]
+            NotAny = Any | Negate,
+
+            [Name( "not all of" )]
+            NotAll = All | Negate,
+
+            [Name( "_BasicMask" )]
+            BasicMask = Any | All
         }
 
         public enum ELogicOperator
@@ -217,11 +238,10 @@ namespace MetaboliteLevels.Settings
         {
             public readonly ELogicOperator CombiningOperator;
             public readonly bool Negate;
-            public bool Enabled { get; set; }
+            public bool Hidden { get; set; }
 
             protected ConditionBase(ELogicOperator op, bool negate)
-            {
-                this.Enabled = true;
+            {                             
                 this.Negate = negate;
                 this.CombiningOperator = op;
             }
@@ -254,7 +274,7 @@ namespace MetaboliteLevels.Settings
 
                 columns.Add("Name", EColumn.Visible, z => z.DisplayName);
                 columns.Add("Comments", EColumn.None, z => z.Comment);
-                columns.Add("Enabled", EColumn.None, z => z.Enabled);
+                columns.Add( "Hidden", EColumn.None, z => z.Hidden );
 
                 return columns;
             }
@@ -271,7 +291,7 @@ namespace MetaboliteLevels.Settings
 
             public bool Test(bool previousResult, T target)
             {
-                if (!Enabled)
+                if (Hidden)
                 {
                     return true;
                 }
@@ -309,7 +329,7 @@ namespace MetaboliteLevels.Settings
             {
                 ConditionBase test = Conditions[index];
 
-                if (!test.Enabled)
+                if (test.Hidden)
                 {
                     continue;
                 }
@@ -432,23 +452,23 @@ namespace MetaboliteLevels.Settings
             return new Results(passed.AsReadOnly(), failed.AsReadOnly());
         }
 
-        protected static bool CompareSets<U>(ESetOperator op, IEnumerable<U> enumerable, IEnumerable<U> compareTo)
+        protected static bool CompareSets<U>(ESetOperator op, IEnumerable<U> test, IEnumerable<U> target)
         {
             bool negate = op.HasFlag(ESetOperator.Negate);
 
             switch (op & ESetOperator.BasicMask)
             {
-                case ESetOperator.AllXInY:
-                    return compareTo.All(enumerable.Contains) ^ negate;
+                case ESetOperator.Any:
+                    return target.Any( test.Contains ) ^ negate;
 
-                case ESetOperator.AnyXinY:
-                    return compareTo.Any(enumerable.Contains) ^ negate;
+                case ESetOperator.All:
+                    return target.All( test.Contains ) ^ negate;
 
-                case ESetOperator.AllYInX:
-                    return enumerable.All(compareTo.Contains) ^ negate;
+                case ESetOperator.Limited:
+                    return test.All( target.Contains ) ^ negate;
 
-                case ESetOperator.AnyYInX:
-                    return enumerable.Any(compareTo.Contains) ^ negate;
+                case ESetOperator.Exact:
+                    return (target.All(test.Contains) && test.All( target.Contains )) ^ negate;
 
                 default:
                     throw new SwitchException(op);
@@ -738,7 +758,7 @@ namespace MetaboliteLevels.Settings
                     throw new InvalidOperationException("Statistic required for significance detection but statistic is no longer available.");
                 }
 
-                if (!p.Statistics.TryGetValue(stat, out v))
+                if (!stat.Results.Results.TryGetValue( p, out v))
                 {
                     throw new InvalidOperationException("Statistic required (" + Statistic + ") for significance detection but statistic is no longer available.");
                 }
@@ -819,10 +839,10 @@ namespace MetaboliteLevels.Settings
         [Serializable]
         public sealed class ConditionCluster : Condition
         {
-            public readonly ESetOperator ClustersOp;
+            public readonly ELimitedSetOperator ClustersOp;
             public readonly ReadOnlyCollection<WeakReference<Cluster>> Clusters;
 
-            public ConditionCluster(ELogicOperator op, bool negate, ESetOperator clusterOp, IEnumerable<Cluster> clusters)
+            public ConditionCluster(ELogicOperator op, bool negate, ELimitedSetOperator clusterOp, IEnumerable<Cluster> clusters)
                 : base(op, negate)
             {
                 this.ClustersOp = clusterOp;
@@ -831,12 +851,49 @@ namespace MetaboliteLevels.Settings
 
             protected override bool Test(Peak p)
             {
-                return CompareSets(ClustersOp, p.Assignments.Clusters, Clusters.Select(z => z.GetTargetOrThrow()));
+                bool result;
+
+                switch (ClustersOp & ELimitedSetOperator.BasicMask)
+                {                             
+                    case ELimitedSetOperator.Any:
+                        result = false;
+
+                        foreach (var c in Clusters.Select( z => z.GetTargetOrThrow() ))
+                        {
+                            if (c.Assignments.Peaks.Contains( p ))
+                            {
+                                result = true;
+                                break;
+                            }
+                        }
+                        break;
+                    case ELimitedSetOperator.All:
+                        result = true;
+
+                        foreach (var c in Clusters.Select( z => z.GetTargetOrThrow() ))
+                        {
+                            if (c.Assignments.Peaks.Contains( p ))
+                            {
+                                result = false;
+                                break;
+                            }
+                        }
+                        break;      
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                if (ClustersOp.Has( ELimitedSetOperator.Negate ))
+                {
+                    result = !result;
+                }
+
+                return result;
             }
 
             public override string ToString()
             {
-                return "Cʟᴜsᴛᴇʀ " + ClustersOp.ToUiString() + " {" + StringHelper.ArrayToString(Clusters, z => z.DisplayName) + "}";
+                return "Cʟᴜsᴛᴇʀ " + ClustersOp.ToUiString() + " {" + StringHelper.ArrayToString( Clusters, z => z.DisplayName ) + "}";
             }
         }
 
@@ -846,21 +903,20 @@ namespace MetaboliteLevels.Settings
             public readonly ESetOperator FlagsOp;
             public readonly ReadOnlyCollection<WeakReference<PeakFlag>> Flags;
 
-            public ConditionFlags(ELogicOperator op, bool negate, ESetOperator flagsOp, IEnumerable<PeakFlag> flags)
-                : base(op, negate)
+            public ConditionFlags( ELogicOperator op, bool negate, ESetOperator flagsOp, IEnumerable<PeakFlag> flags ) : base( op, negate )
             {
                 this.FlagsOp = flagsOp;
-                this.Flags = new ReadOnlyCollection<WeakReference<PeakFlag>>(flags.Select(WeakReferenceHelper.ToWeakReference).ToList());
+                this.Flags = new ReadOnlyCollection<WeakReference<PeakFlag>>( flags.Select( WeakReferenceHelper.ToWeakReference ).ToList() );
             }
 
-            protected override bool Test(Peak p)
+            protected override bool Test( Peak p )
             {
-                return CompareSets(FlagsOp, p.CommentFlags, Flags.Select(z => z.GetTargetOrThrow()));
+                return CompareSets( FlagsOp, p.CommentFlags, Flags.Select( z => z.GetTargetOrThrow() ) );
             }
 
             public override string ToString()
             {
-                return "Fʟᴀɢ " + FlagsOp.ToUiString() + " {" + StringHelper.ArrayToString(Flags, z => z.DisplayName) + "}";
+                return "Fʟᴀɢ " + FlagsOp.ToUiString() + " {" + StringHelper.ArrayToString( Flags, z => z.DisplayName ) + "}";
             }
         }
     }

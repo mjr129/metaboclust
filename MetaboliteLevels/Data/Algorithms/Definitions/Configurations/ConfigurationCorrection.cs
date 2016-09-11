@@ -21,17 +21,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
     [Serializable]
     internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsBase, ResultCorrection>, IProvider<IntensityMatrix>
-    {
-        public ConfigurationCorrection(string name, string comments, TrendBase trend, ArgsTrendAsCorrection args)
-            : base(name, comments, trend.Id, args)
-        {
-        }
-
-        public ConfigurationCorrection(string name, string comments, CorrectionBase trend, ArgsCorrection args)
-            : base(name, comments, trend.Id, args)
-        {
-        }
-
+    {               
         public bool IsUsingTrend
         {
             get
@@ -69,7 +59,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             }
 
             var args = base.Args as ArgsTrendAsCorrection;
-            var algo = base.Cached as TrendBase;
+            var algo = base.GetAlgorithm() as TrendBase;
 
             switch (args.Mode)
             {
@@ -125,14 +115,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             if (!IsUsingTrend)
             {
                 var args = base.Args as ArgsCorrection;
-                var algo = base.Cached as CorrectionBase;
+                var algo = base.GetAlgorithm() as CorrectionBase;
 
                 result = algo.Calculate(raw, args);
             }
             else
             {
                 var args = base.Args as ArgsTrendAsCorrection;
-                var algo = base.Cached as TrendBase;
+                var algo = base.GetAlgorithm() as TrendBase;
 
                 IReadOnlyList<ObservationInfo> trendOrder;
                 double[] trend = ExtractTrend(core, raw, out trendOrder);
@@ -211,7 +201,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
         public IntensityMatrix Provide => Results.Matrix;
 
-        internal override bool Run( Core core, ProgressReporter prog )
+        public override bool Run( Core core, ProgressReporter prog )
         {
             try
             {

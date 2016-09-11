@@ -621,8 +621,7 @@ namespace MetaboliteLevels.Utilities
                 case ImageListOrder.ListSortDown    : return bold ? Resources.ListIconSortDown : Resources.ListIconSortDown;
                 case ImageListOrder.ListFilter      : return bold ? Resources.ListIconFilter : Resources.ListIconFilter;
                 case ImageListOrder.ScriptInbuilt   : return bold ? Resources.IconBinary : Resources.IconBinary;
-                case ImageListOrder.ScriptFile      : return bold ? Resources.IconR : Resources.IconR;
-                case ImageListOrder.ScriptMathDotNet: return bold ? Resources.IconMathNet : Resources.IconMathNet;
+                case ImageListOrder.ScriptFile      : return bold ? Resources.IconR : Resources.IconR;         
                 case ImageListOrder.Group           : return bold ? Resources.MnuGroup : Resources.MnuGroup;
                 case ImageListOrder.Matrix: return Resources.IconMatrix;
                 default: throw new SwitchException(v);
@@ -665,8 +664,7 @@ namespace MetaboliteLevels.Utilities
             ListSortDown,
             ListFilter,
             ScriptInbuilt,
-            ScriptFile,
-            ScriptMathDotNet,
+            ScriptFile,   
             Group,
             Matrix,
         }
@@ -1262,27 +1260,12 @@ namespace MetaboliteLevels.Utilities
 
             strong = result;
             return success;
-        }
+        }              
 
         /// <summary>
         /// Gets the colour of a statistic.
         /// </summary>
-        internal static Color StatisticColour(ConfigurationStatistic key, Dictionary<ConfigurationStatistic, double> values)
-        {
-            double value;
-
-            if (!values.TryGetValue(key, out value))
-            {
-                return Color.Black;
-            }
-
-            return StatisticColour(value, key.Results.Min, key.Results.Max);
-        }
-
-        /// <summary>
-        /// Gets the colour of a statistic.
-        /// </summary>
-        private static Color StatisticColour(double value, double min, double max)
+        public static Color StatisticColour(double value, double min, double max)
         {
             if (double.IsNaN(value))
             {

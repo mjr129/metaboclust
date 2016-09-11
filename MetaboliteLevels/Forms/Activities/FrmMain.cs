@@ -481,7 +481,7 @@ namespace MetaboliteLevels.Forms
 
                 // Get the selection
                 Peak peak = selection.Primary as Peak ?? selection.Secondary as Peak;
-                IAssociational cluster = (((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.Assignments.Clusters.FirstOrDefault()) as IAssociational;
+                IAssociational cluster = (((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.FindAssignments(_core).Select(z=> z.Cluster ).FirstOrDefault()) as IAssociational;
                 StylisedCluster sCluster;
 
                 // Plot that!
@@ -760,12 +760,12 @@ namespace MetaboliteLevels.Forms
 
             // These are essentially "fake" items since Strings cannot be selected
             _lstDatasetCb.Items.Clear();
-            _lstDatasetCb.Items.Add( _core.Options.SelectedMatrixProvider.ToString() );
-            _lstDatasetCb.SelectedIndex = 0;
+            _lstDatasetCb.Items.AddRange( _core.Matrices.Cast<object>().ToArray() );
+            _lstDatasetCb.SelectedItem = _core.Options.SelectedMatrixProvider;
 
             _lstTrendCb.Items.Clear();
-            _lstTrendCb.Items.Add( _core.Options.SelectedTrend.ToString() );
-            _lstTrendCb.SelectedIndex = 0;    
+            _lstTrendCb.Items.AddRange( _core.AllTrends.Cast<object>().ToArray() );
+            _lstTrendCb.SelectedItem = _core.Options.SelectedTrend;
         }
 
         /// <summary>
@@ -1584,7 +1584,7 @@ namespace MetaboliteLevels.Forms
 
                     if (x != null)
                     {
-                        if (x.Clusters.Count == 1 && x.Clusters[0].GetTarget() == clu && x.ClustersOp == Filter.ESetOperator.AnyXinY && x.CombiningOperator == Filter.ELogicOperator.And && x.Negate == false)
+                        if (x.Clusters.Count == 1 && x.Clusters[0].GetTarget() == clu && x.ClustersOp == Filter.ELimitedSetOperator.Any && x.CombiningOperator == Filter.ELogicOperator.And && x.Negate == false)
                         {
                             filter = pf;
                             break;
@@ -1595,12 +1595,12 @@ namespace MetaboliteLevels.Forms
 
             if (filter == null)
             {
-                PeakFilter.Condition condition = new PeakFilter.ConditionCluster(Filter.ELogicOperator.And, false, Filter.ESetOperator.AnyXinY, new[] { clu });
+                PeakFilter.Condition condition = new PeakFilter.ConditionCluster(Filter.ELogicOperator.And, false, Filter.ELimitedSetOperator.Any, new[] { clu });
                 filter = new PeakFilter(null, null, new[] { condition });
                 _core.AddPeakFilter(filter);
             }
 
-            ConfigurationClusterer template = new ConfigurationClusterer(null, null, null, new ArgsClusterer(null, filter, null, null, false, EClustererStatistics.None, null));
+            ConfigurationClusterer template = new ConfigurationClusterer() { Args = new ArgsClusterer( null, null, filter, null, null, false, EClustererStatistics.None, null ) };
 
             if (DataSet.ForClusterers(_core).ShowListEditor(this, FrmBigList.EShow.Default, template) != null)
             {
@@ -1613,7 +1613,8 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void compareToThisPeakToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConfigurationStatistic template = new ConfigurationStatistic(null, null, null, new ArgsStatistic( _core.Options.SelectedMatrixProvider, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null));
+            ConfigurationStatistic template = new ConfigurationStatistic( );
+            template.Args = new ArgsStatistic( null, _core.Options.SelectedMatrixProvider, null, EAlgoInputBSource.AltPeak, null, (Peak)_selectionMenuOpenedFromList, null );
 
             DataSet.ForStatistics(_core).ShowListEditor(this, FrmBigList.EShow.Default, template);
         }
@@ -1697,6 +1698,8 @@ namespace MetaboliteLevels.Forms
                         break;
                 }
             }
+
+            UpdateVisualOptions();
         }
 
         private void sessionInformationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1716,8 +1719,9 @@ namespace MetaboliteLevels.Forms
 
         private void correlationMapToolStripMenuItem_Click( object sender, EventArgs e )
         {                                
-            ArgsMetric args = new ArgsMetric( _core.Options.SelectedMatrixProvider, new object[0]  );
-            ConfigurationMetric metric = new ConfigurationMetric( "Temporary", null, Algo.ID_METRIC_PEARSONDISTANCE, args );
+            ArgsMetric args = new ArgsMetric( Algo.ID_METRIC_PEARSONDISTANCE, _core.Options.SelectedMatrixProvider, new object[0]  );
+            ConfigurationMetric metric = new ConfigurationMetric(  );
+            metric.Args = args;
 
             DistanceMatrix dm = FrmWait.Show( this, "Creating value matrix", null,
                 z => DistanceMatrix.Create( _core, _core.Options.SelectedMatrixProvider.Provide, metric, z ) );
@@ -1765,34 +1769,33 @@ namespace MetaboliteLevels.Forms
 
         private void _lstMatrix_Click( object sender, EventArgs e )
         {
-            _lstDatasetCb.PerformClick();
+            var sel = DataSet.ForMatrixProviders( _core ).ShowRadio( this, _core.Options.SelectedMatrixProvider );
+
+            if (sel != null)
+            {
+                _lstDatasetCb.SelectedItem = sel;
+            }
         }
 
         private void _lstTrend_Click( object sender, EventArgs e )
         {
-            
+            var sel = DataSet.ForTrends( _core ).ShowRadio( this, _core.Options.SelectedTrend );
+
+            if (sel != null)
+            {
+                _lstTrendCb.SelectedItem = sel;
+            }
         }
 
         // TODO: Obsolete
         public IntensityMatrix SelectedMatrix => _core.Options.SelectedMatrix;
 
         // TODO: Obsolete
-        public ConfigurationTrend SelectedTrend => _core.Options.SelectedTrend;
-
-        private void _lstDataSet_DropDown( object sender, EventArgs e )
-        {
-
-        }
-
-        private void _lstDatasetCb_DropDown( object sender, EventArgs e )
-        {
-            _lstDatasetCb.Items.Clear();
-            _lstDatasetCb.Items.AddRange( _core.Matrices.Cast<object>().ToArray() );
-            _lstDatasetCb.SelectedItem = _core.Options.SelectedMatrixProvider;
-        }
+        public ConfigurationTrend SelectedTrend => _core.Options.SelectedTrend;     
 
         private void _lstDatasetCb_SelectedIndexChanged( object sender, EventArgs e )
         {
+            Debug.WriteLine( _lstDatasetCb.SelectedItem );
             var sel = _lstDatasetCb.SelectedItem as IProvider<IntensityMatrix>;
 
             if (sel != null && sel != _core.Options.SelectedMatrixProvider)
@@ -1803,19 +1806,7 @@ namespace MetaboliteLevels.Forms
                 UpdateVisualOptions();
                 Replot();
             }
-        }
-
-        private void _lstTrendCb_Click( object sender, EventArgs e )
-        {
-         
-        }
-
-        private void _lstTrendCb_DropDown( object sender, EventArgs e )
-        {
-            _lstTrendCb.Items.Clear();
-            _lstTrendCb.Items.AddRange( _core.AllTrends.Cast<object>().ToArray() );
-            _lstTrendCb.SelectedItem = _core.Options.SelectedTrend;
-        }
+        }              
 
         private void _lstTrendCb_SelectedIndexChanged( object sender, EventArgs e )
         {
@@ -1828,16 +1819,6 @@ namespace MetaboliteLevels.Forms
                 UpdateVisualOptions();
                 Replot();
             }                         
-        }
-
-        private void _lstDatasetCb_DropDownClosed( object sender, EventArgs e )
-        {
-            UpdateVisualOptions();
-        }
-
-        private void _lstTrendCb_DropDownClosed( object sender, EventArgs e )
-        {
-            UpdateVisualOptions();
-        }
+        }       
     }
 }

@@ -43,7 +43,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
         public ColumnHeader Header;
         public string OverrideDisplayName { get; set; }
-        bool INameable.Enabled { get { return true; } set { /* NA */ } }
+        bool INameable.Hidden { get { return false; } set { /* NA */ } }
         public bool Visible;
         public int Width = 128;
         public bool DisableMenu;
@@ -283,7 +283,7 @@ namespace MetaboliteLevels.Viewers.Lists
             result.Add( "Is always empty", EColumn.Advanced, z => z.IsAlwaysEmpty );
             result.Add( "Special", EColumn.Advanced, z => z.Special );
             result.Add( "Displayed name", EColumn.Advanced, z => z.DisplayName );
-            result.Add( "Enabled", EColumn.Advanced, z => ((INameable)z).Enabled );
+            result.Add( "Hidden", EColumn.Advanced, z => ((INameable)z).Hidden );
 
             return result;
         }

@@ -83,7 +83,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
-        bool INameable.Enabled { get { return true; } set { } }
+        bool INameable.Hidden { get { return false; } set { } }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -195,6 +195,7 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 var vec = vm.Vectors[vIndex];
                 Peak peak = vec.Peak;
+                var asses = vec.Peak.FindAssignments( core ).ToArray();
                 List<Compound> compounds = peaks[peak];
                 Color col;
 
@@ -236,7 +237,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 }
                 else
                 {
-                    var l = vec.Peak.Assignments.Clusters.ToList();
+                    var l = asses.Select(z=> z.Cluster ).ToList();
                     int uniqueIndex = Maths.FindMatch(uniqueClusterCombinations, l);
 
                     if (uniqueIndex == -1)
@@ -276,7 +277,7 @@ namespace MetaboliteLevels.Data.Visualisables
                 fakeCluster.Assignments.Add(new Assignment(vec, fakeCluster, double.NaN));
 
 
-                string seriesName = peak.DisplayName + (!peak.Assignments.List.IsEmpty() ? (" (" + StringHelper.ArrayToString(peak.Assignments.Clusters) + ")") : "") + ": " + legend.ToString();
+                string seriesName = peak.DisplayName + (!asses.IsEmpty() ? (" (" + StringHelper.ArrayToString( asses.Select(z=> z.Cluster )) + ")") : "") + ": " + legend.ToString();
                 var li = new LineInfo(seriesName, col, DashStyle.Solid);
                 colours.Add(peak, li);
             }
@@ -386,7 +387,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
                             foreach (Annotation p in c.Annotations)
                             {
-                                foreach (Cluster pat in p.Peak.Assignments.Clusters)
+                                foreach (Cluster pat in p.Peak.FindAssignments(request.Core ).Select(z=> z.Cluster ))
                                 {
                                     pats.Add(pat);
                                 }

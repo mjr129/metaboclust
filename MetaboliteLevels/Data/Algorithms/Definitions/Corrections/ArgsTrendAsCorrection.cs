@@ -20,8 +20,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         public readonly GroupInfo ControlGroup;     // Control group (only used when [Mode] is [Control])
         public readonly ObsFilter Constraint;       // Constraint on the input vector
 
-        public ArgsTrendAsCorrection( IProvider<IntensityMatrix> source, ECorrectionMode mode, ECorrectionMethod method, GroupInfo controlGroup, ObsFilter constraint, object[] args)
-            : base( source, args )
+        public ArgsTrendAsCorrection( string id, IProvider<IntensityMatrix> source, ECorrectionMode mode, ECorrectionMethod method, GroupInfo controlGroup, ObsFilter constraint, object[] args)
+            : base( id, source, args )
         {
             Mode = mode;
             Method = method;

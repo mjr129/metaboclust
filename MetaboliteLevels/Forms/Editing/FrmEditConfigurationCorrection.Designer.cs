@@ -74,12 +74,12 @@
             this.label5 = new System.Windows.Forms.Label();
             this._lstMethod = new System.Windows.Forms.ComboBox();
             this._lblSepFilter = new System.Windows.Forms.Label();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this._checker = new MGui.Controls.CtlError(this.components);
             this.label7 = new System.Windows.Forms.Label();
             this._lstSource = new System.Windows.Forms.ComboBox();
             this._btnSource = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this._checker = new MGui.Controls.CtlError(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -657,10 +657,10 @@
             // _txtParameters
             // 
             this._txtParameters.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtParameters.Location = new System.Drawing.Point(852, 143);
+            this._txtParameters.Location = new System.Drawing.Point(200, 143);
             this._txtParameters.Margin = new System.Windows.Forms.Padding(8);
             this._txtParameters.Name = "_txtParameters";
-            this._txtParameters.Size = new System.Drawing.Size(1, 29);
+            this._txtParameters.Size = new System.Drawing.Size(636, 29);
             this._txtParameters.TabIndex = 9;
             this._txtParameters.Watermark = null;
             this._txtParameters.TextChanged += new System.EventHandler(this.anything_SomethingChanged);
@@ -711,6 +711,39 @@
             this._lblSepFilter.Text = " ";
             this._lblSepFilter.Visible = false;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(8, 53);
+            this.label7.Margin = new System.Windows.Forms.Padding(8);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(58, 21);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Source";
+            // 
+            // _lstSource
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this._lstSource, 2);
+            this._lstSource.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstSource.FormattingEnabled = true;
+            this._lstSource.Location = new System.Drawing.Point(100, 53);
+            this._lstSource.Margin = new System.Windows.Forms.Padding(8);
+            this._lstSource.Name = "_lstSource";
+            this._lstSource.Size = new System.Drawing.Size(736, 29);
+            this._lstSource.TabIndex = 18;
+            this._lstSource.SelectedIndexChanged += new System.EventHandler(this.anything_SomethingChanged);
+            // 
+            // _btnSource
+            // 
+            this._btnSource.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
+            this._btnSource.Location = new System.Drawing.Point(852, 53);
+            this._btnSource.Margin = new System.Windows.Forms.Padding(8);
+            this._btnSource.Name = "_btnSource";
+            this._btnSource.Size = new System.Drawing.Size(28, 28);
+            this._btnSource.TabIndex = 17;
+            this._btnSource.UseVisualStyleBackColor = true;
+            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -728,38 +761,6 @@
             this.ctlTitleBar1.TabIndex = 0;
             this.ctlTitleBar1.Text = "Data Correction";
             this.ctlTitleBar1.WarningText = null;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 53);
-            this.label7.Margin = new System.Windows.Forms.Padding(8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(58, 21);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "Source";
-            // 
-            // _lstSource
-            // 
-            this._lstSource.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstSource.FormattingEnabled = true;
-            this._lstSource.Location = new System.Drawing.Point(100, 53);
-            this._lstSource.Margin = new System.Windows.Forms.Padding(8);
-            this._lstSource.Name = "_lstSource";
-            this._lstSource.Size = new System.Drawing.Size(736, 29);
-            this._lstSource.TabIndex = 18;
-            this._lstSource.SelectedIndexChanged += new System.EventHandler(this.anything_SomethingChanged);
-            // 
-            // _source
-            // 
-            this._btnSource.Image = global::MetaboliteLevels.Properties.Resources.MnuViewList;
-            this._btnSource.Location = new System.Drawing.Point(852, 53);
-            this._btnSource.Margin = new System.Windows.Forms.Padding(8);
-            this._btnSource.Name = "_source";
-            this._btnSource.Size = new System.Drawing.Size(28, 28);
-            this._btnSource.TabIndex = 17;
-            this._btnSource.UseVisualStyleBackColor = true;
             // 
             // FrmEditConfigurationCorrection
             // 

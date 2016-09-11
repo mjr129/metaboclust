@@ -49,13 +49,12 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        internal static bool ShowCannotEditError(Form owner, ConfigurationBase def)
+        internal static bool ShowCannotEditError(Form owner, IConfigurationBase def)
         {
-            if (def != null && !def.IsAvailable)
+            if (def != null && !def.CheckIsAvailable())
             {
                 FrmMsgBox.ShowWarning(owner, "Missing algorithm",
-                                      "This algorithm uses an algorithm not installed on this machine \"" + def.Id
-                                      + "\"  and its parameters cannot be modified.");
+                                      "This algorithm uses an algorithm not installed on this machine and its parameters cannot be modified.");
 
                 return true;
             }
@@ -167,8 +166,11 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             // Result
-            ArgsStatistic args = new ArgsStatistic(src, filter1, bsrc, filter2, bpeak, parameters);
-            ConfigurationStatistic result = new ConfigurationStatistic(title, _comments, sel.Id, args);
+            ArgsStatistic args = new ArgsStatistic( sel.Id, src, filter1, bsrc, filter2, bpeak, parameters);
+            ConfigurationStatistic result = new ConfigurationStatistic();
+            result.OverrideDisplayName = title;
+            result.Comment = _comments;
+            result.Args = args;
             return result;
         }
 
@@ -223,7 +225,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _txtName.Text = defaultSelection.OverrideDisplayName;
                 ctlTitleBar1.SubText = defaultSelection.AlgoName;
                 _comments = defaultSelection.Comment;
-                _ecbMeasure.SelectedItem = defaultSelection.Cached;
+                _ecbMeasure.SelectedItem = defaultSelection.GetAlgorithm();
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
 
                 _ecbSource.SelectedItem = defaultSelection.Args.SourceProvider;
@@ -273,16 +275,16 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (input is MetricBase) // check in this order since all metrics are statistics
             {
                 MetricBase m = (MetricBase)input;
-                return " ⇉    " + input.Name;
+                return " ⇉    " + input.DisplayName;
             }
             else if (input is StatisticConsumer)
             {
                 StatisticBase s = (StatisticBase)input;
-                return " ↣   " + input.Name;
+                return " ↣   " + input.DisplayName;
             }
             else
             {
-                return " →    " + input.Name;
+                return " →    " + input.DisplayName;
             }
         }
 

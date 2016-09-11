@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         public LegacyKMeansClusterer(string id, string name)
             : base(id, name)
         {
-            Description = "k-means clustering";
+            Comment = "k-means clustering";
         }
 
         public override bool RequiresDistanceMatrix { get { return false; } }

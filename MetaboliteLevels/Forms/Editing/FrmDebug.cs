@@ -37,30 +37,30 @@ namespace MetaboliteLevels.Forms.Editing
 
         private class InListAttribute : Attribute { }
 
-        internal static bool Show(Form owner, Core core)
+        internal static bool Show( Form owner, Core core )
         {
             using (FrmDebug frm = new FrmDebug())
             {
                 frm._core = core;
-                UiControls.ShowWithDim(owner, frm);
+                UiControls.ShowWithDim( owner, frm );
                 return frm._result;
             }
         }
 
-        private Vector PickVariable(IntensityMatrix im)
+        private Vector PickVariable( IntensityMatrix im )
         {
-            return DataSet.ForVectors(_core, im).ShowList(this, null);
+            return DataSet.ForVectors( _core, im ).ShowList( this, null );
         }
 
         private Cluster PickCluster()
         {
-            return DataSet.ForClusters(_core).ShowList(this, null);
+            return DataSet.ForClusters( _core ).ShowList( this, null );
         }
 
         private void EndWait()
         {
             _waitCounter--;
-            UiControls.Assert(_waitCounter >= 0, "EndWait called when no wait preceded.");
+            UiControls.Assert( _waitCounter >= 0, "EndWait called when no wait preceded." );
 
             if (_waitCounter == 0)
             {
@@ -72,7 +72,7 @@ namespace MetaboliteLevels.Forms.Editing
         }
 
 
-        private void BeginWait(string message, bool showProgBar = false)
+        private void BeginWait( string message, bool showProgBar = false )
         {
             _waitCounter++;
             toolStripStatusLabel2.Text = message;
@@ -90,7 +90,7 @@ namespace MetaboliteLevels.Forms.Editing
         /// <summary>
         /// Updates the progress bar
         /// </summary>
-        void IProgressReceiver.ReportProgressDetails(ProgressReporter.ProgInfo info)
+        void IProgressReceiver.ReportProgressDetails( ProgressReporter.ProgInfo info )
         {
             toolStripStatusLabel2.Text = info.Text;
 
@@ -117,43 +117,43 @@ namespace MetaboliteLevels.Forms.Editing
         private FrmDebug()
         {
             InitializeComponent();
-            UiControls.SetIcon(this);
+            UiControls.SetIcon( this );
             // UiControls.CompensateForVisualStyles(this);
 
-            var ms = this.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.DeclaredOnly);
+            var ms = this.GetType().GetMethods( System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.DeclaredOnly );
 
             foreach (var m in ms)
             {
-                InListAttribute[] attr = (InListAttribute[])m.GetCustomAttributes(typeof(InListAttribute), false);
+                InListAttribute[] attr = (InListAttribute[])m.GetCustomAttributes( typeof( InListAttribute ), false );
 
                 if (attr.Length != 0)
                 {
-                    DescriptionAttribute[] desc = (DescriptionAttribute[])m.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                    MethodInvoker invoker = (MethodInvoker)m.CreateDelegate(typeof(MethodInvoker), this);
+                    DescriptionAttribute[] desc = (DescriptionAttribute[])m.GetCustomAttributes( typeof( DescriptionAttribute ), false );
+                    MethodInvoker invoker = (MethodInvoker)m.CreateDelegate( typeof( MethodInvoker ), this );
 
-                    AddMethod(m.Name, invoker, desc.Length != 0 ? desc[0].Description : m.Name);
+                    AddMethod( m.Name, invoker, desc.Length != 0 ? desc[0].Description : m.Name );
                 }
             }
         }
 
-        private void AddMethod(string p, MethodInvoker invoker, string description)
+        private void AddMethod( string p, MethodInvoker invoker, string description )
         {
-            ListViewItem lvi = new ListViewItem(p);
+            ListViewItem lvi = new ListViewItem( p );
             lvi.Tag = new object[] { invoker, description };
             lvi.ImageIndex = 0;
-            lvi.SubItems.Add(description);
+            lvi.SubItems.Add( description );
             lvi.UseItemStyleForSubItems = false;
             lvi.SubItems[1].ForeColor = Color.Gray;
 
-            listView1.Items.Add(lvi);
+            listView1.Items.Add( lvi );
         }
 
         [InList]
-        [Description( "Sets RT values from meta data (required for old file versions when RTs are needed)." )]             
+        [Description( "Sets RT values from meta data (required for old file versions when RTs are needed)." )]
         void update_rt_from_old_version()
         {
             BeginWait( "Update RT from old version", false );
-                                              
+
             int rtIndex = DataSet.ForString( "Set RT from...", _core._peakMeta.Headers ).ShowRadio( this, 0 );
 
             if (rtIndex == -1)
@@ -170,76 +170,81 @@ namespace MetaboliteLevels.Forms.Editing
         }
 
         [InList]
-        [Description("Creates a cluster from each of the pathways, allowing you to explore pathways as you do with clusters.")]
+        [Description( "Creates a cluster from each of the pathways, allowing you to explore pathways as you do with clusters." )]
         void create_clusters_from_pathways()
         {
-            BeginWait("Create clusters from pathways", false);
+            BeginWait( "Create clusters from pathways", false );
 
-            var args = new ArgsClusterer( _core.Matrices.First(), null, null, null, false, EClustererStatistics.None, null);
+            var args = new ArgsClusterer( Algo.ID_PATFROMPATH, _core.Matrices.First(), null, null, null, false, EClustererStatistics.None, null );
 
-            ConfigurationClusterer config = new ConfigurationClusterer("create_clusters_from_pathways",
-                                                                       "create_clusters_from_pathways", Algo.ID_PATFROMPATH, args);
+            ConfigurationClusterer config = new ConfigurationClusterer()
+                                            {
+                                                OverrideDisplayName = "create_clusters_from_pathways",
+                                                Args = args
+                                            };
 
-            _core.AddClusterer(config, new ProgressReporter(this));
+            _core.AddClusterer( config, new ProgressReporter( this ) );
 
             EndWait();
         }
 
         [InList]
-        [Description("(Debugging feature) Displays information on all of the experimental groups.")]
+        [Description( "(Debugging feature) Displays information on all of the experimental groups." )]
         void display_type_info()
         {
             StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < _core.Groups.Count; i++)
             {
-                sb.AppendLine("========== " + i + " ==========");
-                sb.AppendLine(_core.Groups[i].ToString());
+                sb.AppendLine( "========== " + i + " ==========" );
+                sb.AppendLine( _core.Groups[i].ToString() );
             }
 
-            FrmInputMultiLine.ShowFixed(this, "Debugging", "Type Info", null, sb.ToString());
+            FrmInputMultiLine.ShowFixed( this, "Debugging", "Type Info", null, sb.ToString() );
         }
 
         [InList]
-        [Description("Input and run R command and view the result")]
+        [Description( "Input and run R command and view the result" )]
         void do_something_in_r()
         {
-            string text = FrmInputMultiLine.Show(this, "R", "Enter command", null, "a = 42\r\na");
+            string text = FrmInputMultiLine.Show( this, "R", "Enter command", null, "a = 42\r\na" );
 
             if (text != null)
             {
                 try
                 {
-                    string newText = Arr.Instance.Evaluate(text).ToString();
+                    string newText = Arr.Instance.Evaluate( text ).ToString();
 
-                    FrmInputMultiLine.ShowFixed(this, "R", "Result of user command", null, newText);
+                    FrmInputMultiLine.ShowFixed( this, "R", "Result of user command", null, newText );
                 }
                 catch (Exception ex)
                 {
-                    FrmMsgBox.ShowError(this, ex.Message);
+                    FrmMsgBox.ShowError( this, ex.Message );
                 }
             }
         }
 
         [InList]
-        [Description("Finds the closest and most different peaks (uses original data)")]
+        [Description( "Finds the closest and most different peaks (uses original data)" )]
         void find_distance_range()
         {
-            ProgressReporter prog = new ProgressReporter(this);
+            ProgressReporter prog = new ProgressReporter( this );
 
             double smallest = double.MaxValue;
             double largest = double.MinValue;
             Tuple<Peak, Peak> smallestT = null;
             Tuple<Peak, Peak> largestT = null;
-            ConfigurationMetric metric = new ConfigurationMetric(null, null, Algo.ID_METRIC_EUCLIDEAN, null);
-            IProvider<IntensityMatrix> vmatrix = DataSet.ForMatrixProviders(_core).ShowList( this, null );
+            IProvider<IntensityMatrix> vmatrix = DataSet.ForMatrixProviders( _core ).ShowList( this, null );
 
             if (vmatrix == null)
             {
                 return;
             }
 
-            DistanceMatrix dmatrix = DistanceMatrix.Create(_core, vmatrix.Provide, metric, prog);
+            ConfigurationMetric metric = new ConfigurationMetric();
+            metric.Args = new ArgsMetric( Algo.ID_METRIC_EUCLIDEAN, vmatrix, null );
+
+            DistanceMatrix dmatrix = DistanceMatrix.Create( _core, vmatrix.Provide, metric, prog );
 
             for (int peakIndex1 = 0; peakIndex1 < _core.Peaks.Count; peakIndex1++)
             {
@@ -255,13 +260,13 @@ namespace MetaboliteLevels.Forms.Editing
                         if (result > largest)
                         {
                             largest = result;
-                            largestT = new Tuple<Peak, Peak>(peak1, peak2);
+                            largestT = new Tuple<Peak, Peak>( peak1, peak2 );
                         }
 
                         if (result < smallest)
                         {
                             smallest = result;
-                            smallestT = new Tuple<Peak, Peak>(peak1, peak2);
+                            smallestT = new Tuple<Peak, Peak>( peak1, peak2 );
                         }
                     }
                 }
@@ -269,24 +274,24 @@ namespace MetaboliteLevels.Forms.Editing
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("| " + smallestT.Item1.DisplayName + " - " + smallestT.Item2.DisplayName + " | = " + smallest);
-            sb.AppendLine("| " + largestT.Item1.DisplayName + " - " + largestT.Item2.DisplayName + " | = " + largest);
+            sb.AppendLine( "| " + smallestT.Item1.DisplayName + " - " + smallestT.Item2.DisplayName + " | = " + smallest );
+            sb.AppendLine( "| " + largestT.Item1.DisplayName + " - " + largestT.Item2.DisplayName + " | = " + largest );
 
-            FrmInputMultiLine.ShowFixed(this, "Find distance range", "Maximum and minimum differences", "Showing the closest and furthest peaks", sb.ToString());
-        }         
+            FrmInputMultiLine.ShowFixed( this, "Find distance range", "Maximum and minimum differences", "Showing the closest and furthest peaks", sb.ToString() );
+        }
 
         [InList]
-        [Description("View peak raw intensity data")]
+        [Description( "View peak raw intensity data" )]
         void view_variable_full()
         {
-            IProvider<IntensityMatrix> im = DataSet.ForMatrixProviders( _core ).ShowList(this, null);
+            IProvider<IntensityMatrix> im = DataSet.ForMatrixProviders( _core ).ShowList( this, null );
 
             if (im == null)
             {
                 return;
             }
 
-            Vector peak = PickVariable(im.Provide);
+            Vector peak = PickVariable( im.Provide );
 
             if (peak != null)
             {
@@ -295,15 +300,15 @@ namespace MetaboliteLevels.Forms.Editing
                 for (int i = 0; i < peak.Observations.Length; i++)
                 {
                     ObservationInfo obs = peak.Observations[i];
-                    sb.AppendLine(obs.Time + obs.Group.DisplayShortName + obs.Rep + " = " + peak.Values[i]);
+                    sb.AppendLine( obs.Time + obs.Group.DisplayShortName + obs.Rep + " = " + peak.Values[i] );
                 }
 
-                FrmInputMultiLine.ShowFixed(this, "View full variable", peak.ToString(), "Full variable information", sb.ToString());
+                FrmInputMultiLine.ShowFixed( this, "View full variable", peak.ToString(), "Full variable information", sb.ToString() );
             }
-        }           
+        }
 
         [InList]
-        [Description("Shows statistics on the current clusters")]
+        [Description( "Shows statistics on the current clusters" )]
         void evaluate_cluster_performance()
         {
             bool warning;
@@ -315,61 +320,61 @@ namespace MetaboliteLevels.Forms.Editing
             double worst;
             int bwcount;
             List<Tuple<Peak, double>> all = new List<Tuple<Peak, double>>();
-            QuantifyAssignments(_core, out warning, out d, out di, out dz, out dzi, out worst, out best, out bwcount, all);
-            var all2 = all.Where(λ => λ.Item1.Assignments.Clusters.All(z => z.States == Cluster.EStates.None));
+            QuantifyAssignments( _core, out warning, out d, out di, out dz, out dzi, out worst, out best, out bwcount, all );
+            var all2 = all.Where( λ => λ.Item1.FindAssignments( _core ).All( z => z.Cluster.States == Cluster.EStates.None ) );
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine();
-            sb.AppendLine("Value = Σ(i) ( Distance( x(i) - c(i) ) )");
-            sb.AppendLine("  Where x = values(i), Distance = Euclidean and c(x) = Closest centre in assigned cluster for i.");
+            sb.AppendLine( "Value = Σ(i) ( Distance( x(i) - c(i) ) )" );
+            sb.AppendLine( "  Where x = values(i), Distance = Euclidean and c(x) = Closest centre in assigned cluster for i." );
             sb.AppendLine();
-            sb.AppendLine("All clusters");
-            sb.AppendLine("  Observations = " + di);
-            sb.AppendLine("  Value        = " + d);
-            sb.AppendLine("  Average      = " + (double)d / di);
+            sb.AppendLine( "All clusters" );
+            sb.AppendLine( "  Observations = " + di );
+            sb.AppendLine( "  Value        = " + d );
+            sb.AppendLine( "  Average      = " + (double)d / di );
             sb.AppendLine();
-            sb.AppendLine("All significant clusters");
-            sb.AppendLine("  Observations = " + dzi);
-            sb.AppendLine("  Value        = " + dz);
-            sb.AppendLine("  Average      = " + (double)dz / dzi);
+            sb.AppendLine( "All significant clusters" );
+            sb.AppendLine( "  Observations = " + dzi );
+            sb.AppendLine( "  Value        = " + dz );
+            sb.AppendLine( "  Average      = " + (double)dz / dzi );
             sb.AppendLine();
-            sb.AppendLine("Best/worst 10% in significant clusters");
-            sb.AppendLine("  Observations = " + bwcount);
-            sb.AppendLine("  Best         = " + best);
-            sb.AppendLine("  Worst        = " + worst);
-            sb.AppendLine("  Avg. Best    = " + best / bwcount);
-            sb.AppendLine("  Avg. Worst   = " + worst / bwcount);
+            sb.AppendLine( "Best/worst 10% in significant clusters" );
+            sb.AppendLine( "  Observations = " + bwcount );
+            sb.AppendLine( "  Best         = " + best );
+            sb.AppendLine( "  Worst        = " + worst );
+            sb.AppendLine( "  Avg. Best    = " + best / bwcount );
+            sb.AppendLine( "  Avg. Worst   = " + worst / bwcount );
             sb.AppendLine();
-            sb.AppendLine("Distribution");
-            sb.AppendLine("  all.names = c(" + StringHelper.ArrayToString(all, λ => "\"" + λ.Item1.DisplayName + "\"") + " )");
-            sb.AppendLine("  all.values = c(" + StringHelper.ArrayToString(all, λ => λ.Item2.ToString()) + " )");
-            sb.AppendLine("  signif.names = c(" + StringHelper.ArrayToString(all2, λ => λ.Item1.DisplayName) + " )");
-            sb.AppendLine("  signif.values = c(" + StringHelper.ArrayToString(all2, λ => λ.Item2.ToString()) + " )");
+            sb.AppendLine( "Distribution" );
+            sb.AppendLine( "  all.names = c(" + StringHelper.ArrayToString( all, λ => "\"" + λ.Item1.DisplayName + "\"" ) + " )" );
+            sb.AppendLine( "  all.values = c(" + StringHelper.ArrayToString( all, λ => λ.Item2.ToString() ) + " )" );
+            sb.AppendLine( "  signif.names = c(" + StringHelper.ArrayToString( all2, λ => λ.Item1.DisplayName ) + " )" );
+            sb.AppendLine( "  signif.values = c(" + StringHelper.ArrayToString( all2, λ => λ.Item2.ToString() ) + " )" );
 
             if (warning)
             {
-                FrmMsgBox.ShowWarning(this, "Performance", "One or more clusters had no centres, their centres were set to the average of the assignments.");
+                FrmMsgBox.ShowWarning( this, "Performance", "One or more clusters had no centres, their centres were set to the average of the assignments." );
             }
 
-            FrmInputMultiLine.ShowFixed(this, "Performance", "Performance", null, sb.ToString());
+            FrmInputMultiLine.ShowFixed( this, "Performance", "Performance", null, sb.ToString() );
         }
 
-        [Description("(Debugging feature) Break into the debugger to execute a query")]
+        [Description( "(Debugging feature) Break into the debugger to execute a query" )]
         [InList]
         void break_query()
         {
             Debugger.Break();
 
-            FrmMsgBox.ShowInfo(this, "Message", "This is a message");
+            FrmMsgBox.ShowInfo( this, "Message", "This is a message" );
 
-            FrmInputMultiLine.ShowFixed(this, "Break query", "Allow debugger to take control", "Showing text stored in temporary string", "");
+            FrmInputMultiLine.ShowFixed( this, "Break query", "Allow debugger to take control", "Showing text stored in temporary string", "" );
         }
 
-        [Description("View object fields")]
+        [Description( "View object fields" )]
         [InList]
         void view_fields()
         {
-            object vis = DataSet.ForEverything(_core).ShowList(this, null);
+            object vis = DataSet.ForEverything( _core ).ShowList( this, null );
 
             if (vis is IVisualisable)
             {
@@ -377,34 +382,34 @@ namespace MetaboliteLevels.Forms.Editing
                 {
                     Title = vis.ToString(),
                     SubTitle = "List of properties",
-                    Source = ((IVisualisable)vis).QueryProperties(_core)
-                }.ShowCheckList(this, null);
+                    Source = ((IVisualisable)vis).QueryProperties( _core )
+                }.ShowCheckList( this, null );
 
                 if (selected != null && !selected.IsEmpty())
                 {
-                    FrmInputMultiLine.ShowFixed(this, Text, "Property Descriptor", "Example property descriptor", StringHelper.ArrayToString(selected, z => z.Substring(z.IndexOf(':') + 1) + " = {" + z + "}", ", "));
+                    FrmInputMultiLine.ShowFixed( this, Text, "Property Descriptor", "Example property descriptor", StringHelper.ArrayToString( selected, z => z.Substring( z.IndexOf( ':' ) + 1 ) + " = {" + z + "}", ", " ) );
                 }
             }
         }
 
-        [Description("Adds a meta-field to the names of all peaks")]
+        [Description( "Adds a meta-field to the names of all peaks" )]
         [InList]
         void set_peak_names()
         {
-            string header = FrmInputSingleLine.Show(this, Text, "Peak names", "Enter the peak names", "{DisplayName}");
+            string header = FrmInputSingleLine.Show( this, Text, "Peak names", "Enter the peak names", "{DisplayName}" );
 
             if (header != null)
             {
-                ParseElementCollection hc = new ParseElementCollection(header);
+                ParseElementCollection hc = new ParseElementCollection( header );
 
                 foreach (Peak p in _core.Peaks)
                 {
-                    p.OverrideDisplayName = hc.ConvertToString(p, _core);
+                    p.OverrideDisplayName = hc.ConvertToString( p, _core );
                 }
             }
         }
 
-        [Description("Find the cutoff for a chosen statistic that best groups peaks based on two specified flags of interest.")]
+        [Description( "Find the cutoff for a chosen statistic that best groups peaks based on two specified flags of interest." )]
         [InList]
         void find_classifier()
         {
@@ -413,32 +418,32 @@ namespace MetaboliteLevels.Forms.Editing
             PeakFlag type1;
             PeakFlag type2;
 
-            ConfigurationStatistic stat = DataSet.ForStatistics(_core).ShowList(this, null);
+            ConfigurationStatistic stat = DataSet.ForStatistics( _core ).ShowList( this, null );
 
             if (stat == null)
             {
-                FrmMsgBox.ShowError(this, "No stat with this name");
+                FrmMsgBox.ShowError( this, "No stat with this name" );
                 return;
             }
 
-            string sign = FrmInputSingleLine.Show(this, "Classifier settings", "Find classifier", "Enter the cutoff, or 0 for for automatic", "0");
+            string sign = FrmInputSingleLine.Show( this, "Classifier settings", "Find classifier", "Enter the cutoff, or 0 for for automatic", "0" );
             double manCutoff;
 
-            type1 = DataSet.ForPeakFlags(_core).IncludeMessage("Specify the comment flag signifying the first type").ShowList(this, null);
+            type1 = DataSet.ForPeakFlags( _core ).IncludeMessage( "Specify the comment flag signifying the first type" ).ShowList( this, null );
 
             if (type1 == null)
             {
                 return;
             }
 
-            type2 = DataSet.ForPeakFlags(_core).IncludeMessage("Specify the comment flag signifying the second type").ShowList(this, null);
+            type2 = DataSet.ForPeakFlags( _core ).IncludeMessage( "Specify the comment flag signifying the second type" ).ShowList( this, null );
 
             if (type2 == null)
             {
                 return;
             }
 
-            if (!double.TryParse(sign, out manCutoff))
+            if (!double.TryParse( sign, out manCutoff ))
             {
                 return;
             }
@@ -451,9 +456,9 @@ namespace MetaboliteLevels.Forms.Editing
             for (int tid = 0; tid < 10; tid++)
             {
                 // Get all significances
-                List<double> sigs = new List<double>(core.Peaks.Select(λ => λ.GetStatistic(stat)));
+                List<double> sigs = new List<double>( core.Peaks.Select( λ => λ.GetStatistic( stat ) ) );
 
-                List<bool> inTrainingSet = new List<bool>(core.Peaks.Count);
+                List<bool> inTrainingSet = new List<bool>( core.Peaks.Count );
                 int co;
 
                 // For the training only include 75%
@@ -468,7 +473,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 for (int n = 0; n < core.Peaks.Count; n++)
                 {
-                    inTrainingSet.Add(n < co);
+                    inTrainingSet.Add( n < co );
                 }
 
                 inTrainingSet.Shuffle();
@@ -490,12 +495,12 @@ namespace MetaboliteLevels.Forms.Editing
                     {
                         if (inTrainingSet[n])
                         {
-                            var success = SimpleClassify(sigs[n], type1, type2, sigs, inTrainingSet, true);
+                            var success = SimpleClassify( sigs[n], type1, type2, sigs, inTrainingSet, true );
 
                             if (best == null || success.Item1 > best.Item1)
                             {
                                 best = success;
-                                bestTest = SimpleClassify(sigs[n], type1, type2, sigs, inTrainingSet, false);
+                                bestTest = SimpleClassify( sigs[n], type1, type2, sigs, inTrainingSet, false );
                                 cutoff = sigs[n];
                             }
                         }
@@ -503,102 +508,102 @@ namespace MetaboliteLevels.Forms.Editing
                 }
                 else
                 {
-                    best = SimpleClassify(manCutoff, type1, type2, sigs, inTrainingSet, true);
-                    bestTest = SimpleClassify(manCutoff, type1, type2, sigs, inTrainingSet, false);
+                    best = SimpleClassify( manCutoff, type1, type2, sigs, inTrainingSet, true );
+                    bestTest = SimpleClassify( manCutoff, type1, type2, sigs, inTrainingSet, false );
                     cutoff = manCutoff;
                 }
 
-                sb.AppendLine(tid == 0 ? "FULLDATA" : tid <= 5 ? "VALIDATION" : "BOOTSTRAP");
+                sb.AppendLine( tid == 0 ? "FULLDATA" : tid <= 5 ? "VALIDATION" : "BOOTSTRAP" );
                 sb.AppendLine();
-                sb.AppendLine("    " + type1 + " <= " + cutoff + " < " + type2);
+                sb.AppendLine( "    " + type1 + " <= " + cutoff + " < " + type2 );
                 sb.AppendLine();
-                sb.AppendLine("    TRAINING SET (" + co + ")");
-                sb.AppendLine("        " + type1 + " correct: " + StringHelper.AsFraction(best.Item2, best.Item2 + best.Item3));
-                sb.AppendLine("        " + type2 + " correct: " + StringHelper.AsFraction(best.Item4, best.Item4 + best.Item5));
-                sb.AppendLine("        Total correct: " + StringHelper.AsFraction(best.Item2 + best.Item4, best.Item2 + best.Item4 + best.Item3 + best.Item5));
-                sb.AppendLine("        Variables used: " + StringHelper.AsFraction(best.Item2 + best.Item4 + best.Item3 + best.Item5, core.Peaks.Count));
+                sb.AppendLine( "    TRAINING SET (" + co + ")" );
+                sb.AppendLine( "        " + type1 + " correct: " + StringHelper.AsFraction( best.Item2, best.Item2 + best.Item3 ) );
+                sb.AppendLine( "        " + type2 + " correct: " + StringHelper.AsFraction( best.Item4, best.Item4 + best.Item5 ) );
+                sb.AppendLine( "        Total correct: " + StringHelper.AsFraction( best.Item2 + best.Item4, best.Item2 + best.Item4 + best.Item3 + best.Item5 ) );
+                sb.AppendLine( "        Variables used: " + StringHelper.AsFraction( best.Item2 + best.Item4 + best.Item3 + best.Item5, core.Peaks.Count ) );
                 sb.AppendLine();
                 if (co != core.Peaks.Count)
                 {
-                    sb.AppendLine("    TEST SET (" + (core.Peaks.Count - co) + ")");
-                    sb.AppendLine("        " + type1 + " correct: " + StringHelper.AsFraction(bestTest.Item2, bestTest.Item2 + bestTest.Item3));
-                    sb.AppendLine("        " + type2 + " correct: " + StringHelper.AsFraction(bestTest.Item4, bestTest.Item4 + bestTest.Item5));
-                    sb.AppendLine("        Total correct: " + StringHelper.AsFraction(bestTest.Item2 + bestTest.Item4, bestTest.Item2 + bestTest.Item4 + bestTest.Item3 + bestTest.Item5));
-                    sb.AppendLine("        Variables used: " + StringHelper.AsFraction(bestTest.Item2 + bestTest.Item4 + bestTest.Item3 + bestTest.Item5, core.Peaks.Count));
+                    sb.AppendLine( "    TEST SET (" + (core.Peaks.Count - co) + ")" );
+                    sb.AppendLine( "        " + type1 + " correct: " + StringHelper.AsFraction( bestTest.Item2, bestTest.Item2 + bestTest.Item3 ) );
+                    sb.AppendLine( "        " + type2 + " correct: " + StringHelper.AsFraction( bestTest.Item4, bestTest.Item4 + bestTest.Item5 ) );
+                    sb.AppendLine( "        Total correct: " + StringHelper.AsFraction( bestTest.Item2 + bestTest.Item4, bestTest.Item2 + bestTest.Item4 + bestTest.Item3 + bestTest.Item5 ) );
+                    sb.AppendLine( "        Variables used: " + StringHelper.AsFraction( bestTest.Item2 + bestTest.Item4 + bestTest.Item3 + bestTest.Item5, core.Peaks.Count ) );
                     sb.AppendLine();
-                    sb.AppendLine("    SCORE: " + (bestTest.Item1 * 100).ToString("F02"));
+                    sb.AppendLine( "    SCORE: " + (bestTest.Item1 * 100).ToString( "F02" ) );
                 }
                 else
                 {
-                    sb.AppendLine("    SCORE: " + (best.Item1 * 100).ToString("F02"));
+                    sb.AppendLine( "    SCORE: " + (best.Item1 * 100).ToString( "F02" ) );
                 }
                 sb.AppendLine();
-                sb.AppendLine("--------------------------------------------------------------------------------");
+                sb.AppendLine( "--------------------------------------------------------------------------------" );
                 sb.AppendLine();
             }
 
-            FrmInputMultiLine.ShowFixed(this, "Find classifier", "Classifier results", "Best value to determine split between variables marked with \"" + type1 + "\" and \"" + type2 + "\" based on their significances", sb.ToString());
-        }     
+            FrmInputMultiLine.ShowFixed( this, "Find classifier", "Classifier results", "Best value to determine split between variables marked with \"" + type1 + "\" and \"" + type2 + "\" based on their significances", sb.ToString() );
+        }
 
         [InList]
-        [Description("View information about the current dataset.")]
+        [Description( "View information about the current dataset." )]
         private void view_statistics()
         {
             Core core = _core;
             StringBuilder sb = new StringBuilder();
 
-            int vwpid = core.Peaks.Count(λ => λ.Annotations.Count != 0);
-            double td = core.Peaks.Sum(λ => λ.Assignments.Count != 0 ? λ.Assignments.Scores.Average() : double.NaN) / core.Peaks.Count;
-            int sigs = core.Peaks.Count(λ => λ.Assignments.Clusters.All(z => z.States == Cluster.EStates.None));
+            int vwpid = core.Peaks.Count( λ => λ.Annotations.Count != 0 );
+            double td = core.Peaks.Sum( λ => λ.FindAssignments( _core ).Any() ? λ.FindAssignments( _core ).Select( z => z.Score ).Average() : double.NaN ) / core.Peaks.Count;
+            int sigs = core.Peaks.Count( λ => λ.FindAssignments( _core ).All( z => z.Cluster.States == Cluster.EStates.None ) );
 
-            sb.AppendLine("Observations:");
-            sb.AppendLine("    № observations = " + core.Observations.Count);
-            sb.AppendLine("    № conditions = " + core.Conditions.Count);
-            sb.AppendLine("    № types = " + core.Groups.Count);
+            sb.AppendLine( "Observations:" );
+            sb.AppendLine( "    № observations = " + core.Observations.Count );
+            sb.AppendLine( "    № conditions = " + core.Conditions.Count );
+            sb.AppendLine( "    № types = " + core.Groups.Count );
             sb.AppendLine();
 
-            sb.AppendLine("Variables:");
-            sb.AppendLine("    № variables = " + core.Peaks.Count);
-            sb.AppendLine("    № with potential IDs = " + StringHelper.AsFraction(vwpid, core.Peaks.Count));
-            sb.AppendLine("    № significant (based on cluster) = " + StringHelper.AsFraction(sigs, core.Peaks.Count));
-            sb.AppendLine("    Average distance = " + td.ToString("F02"));
+            sb.AppendLine( "Variables:" );
+            sb.AppendLine( "    № variables = " + core.Peaks.Count );
+            sb.AppendLine( "    № with potential IDs = " + StringHelper.AsFraction( vwpid, core.Peaks.Count ) );
+            sb.AppendLine( "    № significant (based on cluster) = " + StringHelper.AsFraction( sigs, core.Peaks.Count ) );
+            sb.AppendLine( "    Average distance = " + td.ToString( "F02" ) );
             sb.AppendLine();
 
-            sb.AppendLine("Clusters:");
-            sb.AppendLine("    № clusters = " + core.Clusters.Count);
-            sb.AppendLine("    Active count = " + core.Clusters.Count(p => p.States == Cluster.EStates.None));
+            sb.AppendLine( "Clusters:" );
+            sb.AppendLine( "    № clusters = " + core.Clusters.Count );
+            sb.AppendLine( "    Active count = " + core.Clusters.Count( p => p.States == Cluster.EStates.None ) );
             sb.AppendLine();
 
             foreach (Cluster p in core.Clusters)
             {
-                sb.AppendLine("    " + p.DisplayName + " = " + StringHelper.AsFraction(p.Assignments.Count, core.Peaks.Count));
+                sb.AppendLine( "    " + p.DisplayName + " = " + StringHelper.AsFraction( p.Assignments.Count, core.Peaks.Count ) );
             }
             sb.AppendLine();
 
-            int pc = core.Pathways.Count(p => !p.Compounds.TrueForAll(c => c.Annotations.Count == 0));
-            sb.AppendLine("Pathways:");
-            sb.AppendLine("    № pathways = " + core.Pathways.Count);
-            sb.AppendLine("    № with 1+ potential IDs = " + StringHelper.AsFraction(pc, core.Pathways.Count));
+            int pc = core.Pathways.Count( p => !p.Compounds.TrueForAll( c => c.Annotations.Count == 0 ) );
+            sb.AppendLine( "Pathways:" );
+            sb.AppendLine( "    № pathways = " + core.Pathways.Count );
+            sb.AppendLine( "    № with 1+ potential IDs = " + StringHelper.AsFraction( pc, core.Pathways.Count ) );
             sb.AppendLine();
 
-            int cc = core.Compounds.Count(c => c.Annotations.Count != 0);
-            sb.AppendLine("Compounds:");
-            sb.AppendLine("    № compounds = " + core.Compounds.Count);
-            sb.AppendLine("    № with potential variables = " + StringHelper.AsFraction(cc, core.Compounds.Count));
+            int cc = core.Compounds.Count( c => c.Annotations.Count != 0 );
+            sb.AppendLine( "Compounds:" );
+            sb.AppendLine( "    № compounds = " + core.Compounds.Count );
+            sb.AppendLine( "    № with potential variables = " + StringHelper.AsFraction( cc, core.Compounds.Count ) );
             sb.AppendLine();
 
-            sb.AppendLine("Adducts:");
-            sb.AppendLine("    № adducts = " + core.Adducts.Count);
+            sb.AppendLine( "Adducts:" );
+            sb.AppendLine( "    № adducts = " + core.Adducts.Count );
             sb.AppendLine();
 
-            sb.AppendLine("Flags:");
+            sb.AppendLine( "Flags:" );
             HashSet<PeakFlag> flags = new HashSet<PeakFlag>();
 
             foreach (Peak v in core.Peaks)
             {
                 foreach (PeakFlag flag in v.CommentFlags)
                 {
-                    flags.Add(flag);
+                    flags.Add( flag );
                 }
             }
 
@@ -608,20 +613,20 @@ namespace MetaboliteLevels.Forms.Editing
 
                 foreach (Peak v in core.Peaks)
                 {
-                    if (v.CommentFlags.Contains(flag))
+                    if (v.CommentFlags.Contains( flag ))
                     {
                         c++;
                     }
                 }
 
-                sb.AppendLine("    " + flag + " = " + StringHelper.AsFraction(c, core.Peaks.Count));
+                sb.AppendLine( "    " + flag + " = " + StringHelper.AsFraction( c, core.Peaks.Count ) );
             }
 
-            FrmInputMultiLine.ShowFixed(this, "View statistics", "Statistics summary", null, sb.ToString());
+            FrmInputMultiLine.ShowFixed( this, "View statistics", "Statistics summary", null, sb.ToString() );
         }
 
         [InList]
-        [Description("Find the peak closest the average for a particular cluster.")]
+        [Description( "Find the peak closest the average for a particular cluster." )]
         private void find_archetype()
         {
             Cluster p = PickCluster();
@@ -631,14 +636,14 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            var average = p.GetCentre(ECentreMode.Average, ECandidateMode.Assignments)[0];
+            var average = p.GetCentre( ECentreMode.Average, ECandidateMode.Assignments )[0];
 
             Vector clV = null;
             double clD = double.MaxValue;
 
             foreach (Vector v in p.Assignments.Vectors)
             {
-                double d = Maths.Euclidean(v.Values, average);
+                double d = Maths.Euclidean( v.Values, average );
 
                 if (d < clD)
                 {
@@ -647,14 +652,14 @@ namespace MetaboliteLevels.Forms.Editing
                 }
             }
 
-            FrmMsgBox.ShowCompleted(this, this.Text, "Info: The most similar variable to the Euclidean mean of cluster " + p.DisplayName + " is " + clV.ToString());
+            FrmMsgBox.ShowCompleted( this, this.Text, "Info: The most similar variable to the Euclidean mean of cluster " + p.DisplayName + " is " + clV.ToString() );
         }
 
         [InList]
-        [Description("(legacy) Split a cluster in two.")]
+        [Description( "(legacy) Split a cluster in two." )]
         private void find_most_different()
         {
-            FrmMsgBox.ShowError(this, "This method is not available.");
+            FrmMsgBox.ShowError( this, "This method is not available." );
 
             /*
             Peak a = null;
@@ -697,7 +702,7 @@ namespace MetaboliteLevels.Forms.Editing
              * */
         }
 
-        private Tuple<double, int, int, int, int> SimpleClassify(double cutoff, PeakFlag type1, PeakFlag type2, List<double> sigs, List<bool> inTrainingSet, bool checkTrainingSet)
+        private Tuple<double, int, int, int, int> SimpleClassify( double cutoff, PeakFlag type1, PeakFlag type2, List<double> sigs, List<bool> inTrainingSet, bool checkTrainingSet )
         {
             int correct1 = 0;
             int incorrect1 = 0;
@@ -711,7 +716,7 @@ namespace MetaboliteLevels.Forms.Editing
                     Peak v = _core.Peaks[vi];
                     double sig = sigs[vi];
 
-                    if (v.CommentFlags.Contains(type1))
+                    if (v.CommentFlags.Contains( type1 ))
                     {
                         if (sig <= cutoff)
                         {
@@ -722,7 +727,7 @@ namespace MetaboliteLevels.Forms.Editing
                             incorrect1++;
                         }
                     }
-                    else if (v.CommentFlags.Contains(type2))
+                    else if (v.CommentFlags.Contains( type2 ))
                     {
                         if (sig <= cutoff)
                         {
@@ -738,10 +743,10 @@ namespace MetaboliteLevels.Forms.Editing
 
             double score = (((double)correct1 / (correct1 + incorrect1)) + ((double)correct2 / (correct2 + incorrect2))) / 2;
 
-            return new Tuple<double, int, int, int, int>(score, correct1, incorrect1, correct2, incorrect2);
+            return new Tuple<double, int, int, int, int>( score, correct1, incorrect1, correct2, incorrect2 );
         }
 
-        private void listView1_ItemActivate(object sender, EventArgs e)
+        private void listView1_ItemActivate( object sender, EventArgs e )
         {
             if (listView1.SelectedItems.Count != 0)
             {
@@ -754,7 +759,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void listView1_SelectedIndexChanged( object sender, EventArgs e )
         {
             if (listView1.SelectedItems.Count != 0)
             {
@@ -779,8 +784,8 @@ namespace MetaboliteLevels.Forms.Editing
             numTen = 0;
             warning = false;
 
-            ArgsMetric args = new ArgsMetric( null, null );
-            ConfigurationMetric metric = new ConfigurationMetric( "temp", null, Algo.ID_METRIC_EUCLIDEAN, args );
+            ArgsMetric args = new ArgsMetric( Algo.ID_METRIC_EUCLIDEAN, null, null );
+            ConfigurationMetric metric = new ConfigurationMetric() { Args = args };
 
             // Iterate clusters
             foreach (Cluster pat in core.Clusters)

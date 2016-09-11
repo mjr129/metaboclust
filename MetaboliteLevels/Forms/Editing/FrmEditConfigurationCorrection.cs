@@ -57,13 +57,13 @@ namespace MetaboliteLevels.Forms.Algorithms
             AlgoBase algo = _ecbMethod.SelectedItem;
 
             // Params
-            object[] parameters;       
+            object[] parameters;
 
-            if (algo!=null)
+            if (algo != null)
             {
                 parameters = algo.Parameters.TryStringToParams( _core, _txtParameters.Text );
 
-                _checker.Check( _txtParameters, parameters!=null, "Specify valid parameters for the algorithm." );
+                _checker.Check( _txtParameters, parameters != null, "Specify valid parameters for the algorithm." );
             }
             else
             {
@@ -120,12 +120,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
 
                 if (_checker.HasErrors)
-                {                                     
+                {
                     return null;
                 }
 
-                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection( source, mode, met, controlGroup, filter, parameters );
-                return new ConfigurationCorrection( _txtName.Text, _comments, (TrendBase)algo, args );
+                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection( ((TrendBase)algo).Id, source, mode, met, controlGroup, filter, parameters );
+                return new ConfigurationCorrection() { OverrideDisplayName = _txtName.Text, Comment = _comments, Args = args };
             }
             else if (algo is CorrectionBase)
             {
@@ -134,11 +134,11 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return null;
                 }
 
-                ArgsCorrection args = new ArgsCorrection(source, parameters );
-                return new ConfigurationCorrection( _txtName.Text, _comments, (CorrectionBase)algo, args );
+                ArgsCorrection args = new ArgsCorrection( ((CorrectionBase)algo).Id, source, parameters );
+                return new ConfigurationCorrection() { OverrideDisplayName = _txtName.Text, Comment = _comments, Args = args };
             }
             else
-            {                                  
+            {
                 return null;
             }
         }
@@ -153,7 +153,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _txtParameters.Visible = paramsVisible;
             _btnEditParameters.Visible = paramsVisible;
             _lblParams.Text = paramsVisible ? trend.Parameters.ParamNames() : "Parameters";
-                             
+
             bool usingTrend = trend is TrendBase;
             bool correctorVisible = usingTrend;
 
@@ -188,15 +188,15 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (valid)
             {
-                GeneratePreview(sel);
+                GeneratePreview( sel );
             }
         }
 
-        internal static ConfigurationCorrection Show(Form owner, Core core, ConfigurationCorrection def, bool readOnly)
+        internal static ConfigurationCorrection Show( Form owner, Core core, ConfigurationCorrection def, bool readOnly )
         {
-            using (FrmEditConfigurationCorrection frm = new FrmEditConfigurationCorrection(core, def, readOnly, FrmMain.SearchForSelectedPeak(owner)))
+            using (FrmEditConfigurationCorrection frm = new FrmEditConfigurationCorrection( core, def, readOnly, FrmMain.SearchForSelectedPeak( owner ) ))
             {
-                if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
+                if (UiControls.ShowWithDim( owner, frm ) == DialogResult.OK)
                 {
                     return frm.GetSelection();
                 }
@@ -205,7 +205,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        internal FrmEditConfigurationCorrection(Core core, ConfigurationCorrection def, bool readOnly, Peak previewPeak)
+        internal FrmEditConfigurationCorrection( Core core, ConfigurationCorrection def, bool readOnly, Peak previewPeak )
             : this()
         {
             _core = core;
@@ -213,13 +213,13 @@ namespace MetaboliteLevels.Forms.Algorithms
             _selectedPeak = previewPeak;
 
             // Charts
-            _chartOrig = new ChartHelperForPeaks(null, _core, panel1);
-            _chartChanged = new ChartHelperForPeaks(null, _core, panel2);
+            _chartOrig = new ChartHelperForPeaks( null, _core, panel1 );
+            _chartChanged = new ChartHelperForPeaks( null, _core, panel2 );
 
             // Choicelists
-            _ecbFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter, _btnFilter,  ENullItemName.All);
-            _ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
-            _ecbTypes = DataSet.ForGroups(_core).CreateComboBox(_lstTypes, _btnEditTypes, ENullItemName.NoNullItem);
+            _ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( _lstFilter, _btnFilter, ENullItemName.All );
+            _ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms( core ).CreateComboBox( _lstMethod, _btnNewStatistic, ENullItemName.NoNullItem );
+            _ecbTypes = DataSet.ForGroups( _core ).CreateComboBox( _lstTypes, _btnEditTypes, ENullItemName.NoNullItem );
             _ecbSource = DataSet.ForMatrixProviders( _core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
 
             // Buttons
@@ -229,8 +229,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (def != null)
             {
                 _txtName.Text = def.OverrideDisplayName;
-                _txtParameters.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
-                _ecbMethod.SelectedItem = def.Cached;
+                _txtParameters.Text = AlgoParameterCollection.ParamsToReversableString( def.Args.Parameters, core );
+                _ecbMethod.SelectedItem = def.GetAlgorithm();
                 _comments = def.Comment;
 
                 if (def.IsUsingTrend)
@@ -254,7 +254,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (readOnly)
             {
-                UiControls.MakeReadOnly(this, _tlpPreview);
+                UiControls.MakeReadOnly( this, _tlpPreview );
             }
 
             // UiControls.CompensateForVisualStyles(this);
@@ -263,7 +263,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         public FrmEditConfigurationCorrection()
         {
             InitializeComponent();
-            UiControls.SetIcon(this);
+            UiControls.SetIcon( this );
 
             _lblPreviewTitle.BackColor = UiControls.PreviewBackColour;
             _lblPreviewTitle.ForeColor = UiControls.PreviewForeColour;
@@ -271,9 +271,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             _flpPreviewButtons.ForeColor = UiControls.PreviewForeColour;
         }
 
-        private void _btnSelectPreview_Click(object sender, EventArgs e)
+        private void _btnSelectPreview_Click( object sender, EventArgs e )
         {
-            var sel = DataSet.ForPeaks(_core).ShowList(this, _selectedPeak);
+            var sel = DataSet.ForPeaks( _core ).ShowList( this, _selectedPeak );
 
             if (sel != null)
             {
@@ -285,7 +285,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// <summary>
         /// Generates the preview image.
         /// </summary>
-        private void GeneratePreview(ConfigurationCorrection sel)
+        private void GeneratePreview( ConfigurationCorrection sel )
         {
             _lnkError.Visible = false;
 
@@ -306,26 +306,26 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             IntensityMatrix source = sel.Args.SourceMatrix;
 
-            var orig = new StylisedPeak(_selectedPeak);
-            var changed = new StylisedPeak(_selectedPeak);
+            var orig = new StylisedPeak( _selectedPeak );
+            var changed = new StylisedPeak( _selectedPeak );
 
             Vector original = source.Find( _selectedPeak );
             Vector trend;
             Vector corrected;
 
-            
+
 
             try
             {
                 IReadOnlyList<ObservationInfo> order;
-                double[] trendData = sel.ExtractTrend(_core, original.Values, out order);
+                double[] trendData = sel.ExtractTrend( _core, original.Values, out order );
                 trend = (trendData != null) ? new Vector( trendData, original.Header, order.Select( z => new IntensityMatrix.ColumnHeader( z ) ).ToArray() ) : null;
                 corrected = new Vector( sel.Calculate( _core, original.Values ), original.Header, original.ColHeaders );
             }
             catch (Exception ex)
             {
-                _chartOrig.Plot(null);
-                _chartChanged.Plot(null);                                    
+                _chartOrig.Plot( null );
+                _chartChanged.Plot( null );
                 _lnkError.Tag = ex.ToString();
                 _lnkError.Visible = true;
                 return;
@@ -342,7 +342,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 isBatchMode = false;
             }
 
-            orig.OverrideDefaultOptions = new StylisedPeakOptions(_core)
+            orig.OverrideDefaultOptions = new StylisedPeakOptions( _core )
             {
                 ShowAcqisition = isBatchMode,
                 ViewBatches = vBatches,
@@ -350,26 +350,26 @@ namespace MetaboliteLevels.Forms.Algorithms
                 ConditionsSideBySide = true,
                 ShowPoints = true,
                 ShowTrend = sel.IsUsingTrend,
-                ShowRanges = false,                
+                ShowRanges = false,
             };
 
-            changed.OverrideDefaultOptions = new StylisedPeakOptions(orig.OverrideDefaultOptions)
+            changed.OverrideDefaultOptions = new StylisedPeakOptions( orig.OverrideDefaultOptions )
             {
                 ShowTrend = false
             };
 
-            orig.ForceTrend = trend;            
+            orig.ForceTrend = trend;
 
             changed.ForceObservations = corrected;
 
-            _chartOrig.Plot(orig);
-            _chartChanged.Plot(changed);
+            _chartOrig.Plot( orig );
+            _chartChanged.Plot( changed );
         }
 
         private void GenerateTypeButtons()
         {
-            vTypes.AddRange(_core.Groups);
-            vBatches.Add(_core.Batches.OrderBy(z => z.DisplayPriority).First());
+            vTypes.AddRange( _core.Groups );
+            vBatches.Add( _core.Batches.OrderBy( z => z.DisplayPriority ).First() );
 
             _flpBatchButtons = new FlowLayoutPanel();
             _flpGroupButtons = new FlowLayoutPanel();
@@ -383,68 +383,68 @@ namespace MetaboliteLevels.Forms.Algorithms
             _flpBatchButtons.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             _flpGroupButtons.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
-            _flpPreviewButtons.Controls.Add(_flpBatchButtons);
-            _flpPreviewButtons.Controls.Add(_flpGroupButtons);
+            _flpPreviewButtons.Controls.Add( _flpBatchButtons );
+            _flpPreviewButtons.Controls.Add( _flpGroupButtons );
 
-            foreach (var ti in _core.Groups.OrderBy(z => z.DisplayPriority))
+            foreach (var ti in _core.Groups.OrderBy( z => z.DisplayPriority ))
             {
-                _flpGroupButtons.Controls.Add(GenerateTypeButton(ti));
+                _flpGroupButtons.Controls.Add( GenerateTypeButton( ti ) );
             }
 
-            foreach (var ti in _core.Batches.OrderBy(z => z.DisplayPriority))
+            foreach (var ti in _core.Batches.OrderBy( z => z.DisplayPriority ))
             {
-                _flpBatchButtons.Controls.Add(GenerateTypeButton(ti));
+                _flpBatchButtons.Controls.Add( GenerateTypeButton( ti ) );
             }
         }
 
-        private CtlButton GenerateTypeButton(GroupInfoBase ti)
+        private CtlButton GenerateTypeButton( GroupInfoBase ti )
         {
             CtlButton btn = new CtlButton();
             btn.Tag = ti;
-            UpdateImage(btn);
+            UpdateImage( btn );
             btn.UseDefaultSize = true;
             btn.Click += btn_Click;
-            btn.Margin = new Padding(0, 0, 0, 0);
+            btn.Margin = new Padding( 0, 0, 0, 0 );
             btn.Visible = true;
-            toolTip1.SetToolTip(btn, "View " + ti.DisplayName);
+            toolTip1.SetToolTip( btn, "View " + ti.DisplayName );
             return btn;
         }
 
-        void btn_Click(object sender, EventArgs e)
+        void btn_Click( object sender, EventArgs e )
         {
             CtlButton btn = (CtlButton)sender;
             GroupInfo g = btn.Tag as GroupInfo;
 
             if (g != null)
             {
-                if (vTypes.Contains(g))
+                if (vTypes.Contains( g ))
                 {
-                    vTypes.Remove(g);
+                    vTypes.Remove( g );
                 }
                 else
                 {
-                    vTypes.Add(g);
+                    vTypes.Add( g );
                 }
             }
             else
             {
                 BatchInfo b = (BatchInfo)btn.Tag;
 
-                if (vBatches.Contains(b))
+                if (vBatches.Contains( b ))
                 {
-                    vBatches.Remove(b);
+                    vBatches.Remove( b );
                 }
                 else
                 {
-                    vBatches.Add(b);
+                    vBatches.Add( b );
                 }
             }
 
-            UpdateImage(btn);
-            this.GeneratePreview(GetSelection());
+            UpdateImage( btn );
+            this.GeneratePreview( GetSelection() );
         }
 
-        private void UpdateImage(CtlButton btn)
+        private void UpdateImage( CtlButton btn )
         {
             if (btn.Image != null)
             {
@@ -457,31 +457,31 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (g != null)
             {
-                vis = vTypes.Contains(g);
+                vis = vTypes.Contains( g );
             }
             else
             {
                 BatchInfo b = (BatchInfo)btn.Tag;
-                vis = vBatches.Contains(b);
+                vis = vBatches.Contains( b );
             }
 
-            btn.Image = UiControls.CreateExperimentalGroupImage(vis, (GroupInfoBase)btn.Tag, false);
+            btn.Image = UiControls.CreateExperimentalGroupImage( vis, (GroupInfoBase)btn.Tag, false );
         }
 
-        private void _btnOk_Click(object sender, EventArgs e)
+        private void _btnOk_Click( object sender, EventArgs e )
         {
 
         }
 
-        private void _btnComment_Click(object sender, EventArgs e)
+        private void _btnComment_Click( object sender, EventArgs e )
         {
             if (_readOnly)
             {
-                FrmInputMultiLine.ShowFixed(this, Text, "View Comments", _txtName.Text, _comments);
+                FrmInputMultiLine.ShowFixed( this, Text, "View Comments", _txtName.Text, _comments );
             }
             else
             {
-                string newComments = FrmInputMultiLine.Show(this, Text, "Edit Comments", _txtName.Text, _comments);
+                string newComments = FrmInputMultiLine.Show( this, Text, "Edit Comments", _txtName.Text, _comments );
 
                 if (newComments != null)
                 {
@@ -490,19 +490,19 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        private void anything_SomethingChanged(object sender, EventArgs e)
+        private void anything_SomethingChanged( object sender, EventArgs e )
         {
             CheckAndChange();
         }
 
-        private void _btnPreviousPreview_Click(object sender, EventArgs e)
+        private void _btnPreviousPreview_Click( object sender, EventArgs e )
         {
-            PagePreview(-1);
+            PagePreview( -1 );
         }
 
-        private void PagePreview(int direction)
+        private void PagePreview( int direction )
         {
-            int index = _core.Peaks.IndexOf(_selectedPeak) + direction;
+            int index = _core.Peaks.IndexOf( _selectedPeak ) + direction;
 
             if (index <= -1)
             {
@@ -516,23 +516,23 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _selectedPeak = _core.Peaks[index];
 
-            GeneratePreview(GetSelection());
+            GeneratePreview( GetSelection() );
         }
 
-        private void _btnNextPreview_Click(object sender, EventArgs e)
+        private void _btnNextPreview_Click( object sender, EventArgs e )
         {
-            PagePreview(1);
+            PagePreview( 1 );
         }
 
-        private void _btnEditParameters_Click(object sender, EventArgs e)
+        private void _btnEditParameters_Click( object sender, EventArgs e )
         {
             AlgoBase trend = (AlgoBase)_ecbMethod.SelectedItem;
-            FrmEditParameters.Show(trend, _txtParameters, _core, _readOnly);
+            FrmEditParameters.Show( trend, _txtParameters, _core, _readOnly );
         }
 
-        private void _btnBatchInfo_Click(object sender, EventArgs e)
+        private void _btnBatchInfo_Click( object sender, EventArgs e )
         {
-            DataSet.ForBatches(_core).ShowListEditor(this);
+            DataSet.ForBatches( _core ).ShowListEditor( this );
         }
 
         private void _radType_CheckedChanged( object sender, EventArgs e )

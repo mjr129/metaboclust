@@ -12,8 +12,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsTrend : ArgsBase
     {
-        public ArgsTrend( IProvider<IntensityMatrix> source, object[] parameters)
-            : base(source, parameters)
+        public ArgsTrend( string id, IProvider<IntensityMatrix> source, object[] parameters)
+            : base(id, source, parameters)
         {
         }
 

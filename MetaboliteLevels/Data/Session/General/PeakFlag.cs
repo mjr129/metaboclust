@@ -72,7 +72,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public bool Enabled { get; set; }
+        public bool Hidden { get; set; }
 
         /// <summary>
         /// CONSTRUCTOR
@@ -210,7 +210,7 @@ namespace MetaboliteLevels.Settings
 
             result.Add("Name", EColumn.Visible, z => z.OverrideDisplayName, z => z.Colour);
             result.Add("Key", EColumn.Visible, z => z.Key);
-            result.Add("Enabled", z => z.Enabled);
+            result.Add( "Hidden", z => z.Hidden );
             result.Add("Comments", z => z.Comment);
             result.Add("Colour", EColumn.None, z => ColourHelper.ColourToName(z.Colour), z => z.Colour);
             result.Add("Beep frequency", z => z.BeepFrequency);

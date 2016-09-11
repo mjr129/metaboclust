@@ -14,16 +14,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// </summary>
     [Serializable]
     sealed class ConfigurationMetric : ConfigurationBase<MetricBase, ArgsMetric, ResultStatistic>
-    {
-        public ConfigurationMetric( string name, string comments, string id, ArgsMetric args)
-            : base( name, comments, id, args)
-        {
-            // NA
-        }
-
+    {        
         internal double Calculate(double[] a, double[] b)
         {
-            return Cached.QuickCalculate(a, b, this.Args.Parameters);
+            return GetAlgorithm().QuickCalculate(a, b, this.Args.Parameters);
         }
 
         protected sealed override IEnumerable<Column> GetExtraColumns(Core core)
@@ -35,7 +29,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return columns;
         }
 
-        internal override bool Run( Core core, ProgressReporter prog )
+        public override bool Run( Core core, ProgressReporter prog )
         {
             throw new InvalidOperationException("Metrics serve as part of another algorithm and cannot be run alone.");
         }

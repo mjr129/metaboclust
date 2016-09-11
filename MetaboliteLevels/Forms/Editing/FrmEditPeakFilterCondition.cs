@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Forms.Editing
         private ConditionBox<PeakFlag> _cbFlags;
         private ConditionBox<Cluster> _cbClusters;
         private EnumComboBox<PeakFilter.ESetOperator> _lsoFlags;
-        private EnumComboBox<PeakFilter.ESetOperator> _lsoPats;
+        private EnumComboBox<PeakFilter.ELimitedSetOperator> _lsoPats;
         private EnumComboBox<PeakFilter.EElementOperator> _lsoPeaks;
         private EnumComboBox<PeakFilter.EStatOperator> _lsoStats;
         private bool _isInitialised;
@@ -85,8 +85,8 @@ namespace MetaboliteLevels.Forms.Editing
             _cbFlags = DataSet.ForPeakFlags(core).CreateConditionBox(_txtIsFlaggedWith, _btnIsFlaggedWith);
             _cbClusters = DataSet.ForClusters(core).CreateConditionBox(_txtIsInCluster, _btnIsInCluster);
 
-            _lsoFlags = EnumComboBox.Create(this._lstFlagComparator, Filter.ESetOperator.AnyXinY);
-            _lsoPats = EnumComboBox.Create(this._lstClusterComparator, Filter.ESetOperator.AnyXinY);
+            _lsoFlags = EnumComboBox.Create(this._lstFlagComparator, Filter.ESetOperator.Any);
+            _lsoPats = EnumComboBox.Create(this._lstClusterComparator, Filter.ELimitedSetOperator.Any);
             _lsoPeaks = EnumComboBox.Create(this._lstPeakComparator, Filter.EElementOperator.Is);
             _lsoFilter = EnumComboBox.Create(this._lstFilterOp, Filter.EElementOperator.Is);
             _lsoStats = EnumComboBox.Create(this._lstStatisticComparator, Filter.EStatOperator.LessThan);

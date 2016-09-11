@@ -69,7 +69,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             this.ParameterValues = values;
             this._guid = Guid.NewGuid();
             this.NumberOfRepeats = numberOfRepeats;
-            this.ParameterName = clustererConfiguration.Cached.Parameters[ParameterIndex].Name;
+            this.ParameterName = clustererConfiguration.GetAlgorithm().Parameters[ParameterIndex].Name;
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public bool Enabled
+        public bool Hidden
         {
             get;
             set;

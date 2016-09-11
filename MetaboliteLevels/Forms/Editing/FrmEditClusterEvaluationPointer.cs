@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                 _txtAlgorithm.Text = value.ToString();
 
-                foreach (AlgoParameter param in value.Cached.Parameters)
+                foreach (AlgoParameter param in value.GetAlgorithm().Parameters)
                 {
                     _lstParameters.Items.Add(param);
                 }

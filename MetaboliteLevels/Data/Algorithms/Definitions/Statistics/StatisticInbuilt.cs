@@ -14,8 +14,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Statistics
         public StatisticInbuilt(AlgoDelegate_Input1 method, bool isMathDotNet)
             : base(method.Method.Name.ToUpper(), method.Method.Name)
         {
-            this._delegate = method;
-            IsMathDotNet = isMathDotNet;
+            this._delegate = method;      
         }
 
         public override double Calculate(InputStatistic input)

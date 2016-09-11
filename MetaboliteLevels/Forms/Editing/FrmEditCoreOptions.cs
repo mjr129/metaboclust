@@ -214,9 +214,9 @@ namespace MetaboliteLevels.Forms.Editing
 
             public string DisplayName => arg.Key;
 
-            public bool Enabled
+            public bool Hidden
             {
-                get { return true; }
+                get { return false; }
                 set { /* ro */ }
             }
 
@@ -267,10 +267,10 @@ namespace MetaboliteLevels.Forms.Editing
 
             public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
 
-            public bool Enabled
+            public bool Hidden
             {
-                get { return _col.Visible; }   
-                set { _col.Visible = value; }
+                get { return !_col.Visible; }   
+                set { _col.Visible = !value; }
             }
 
             public string OverrideDisplayName

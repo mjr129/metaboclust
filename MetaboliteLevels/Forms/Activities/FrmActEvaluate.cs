@@ -105,7 +105,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             string INameable.DefaultDisplayName { get { return Column.Id; } }
 
-            bool INameable.Enabled { get { return true; } set { } }
+            bool INameable.Hidden { get { return false; } set { } }
 
             public string DisplayName
             {
@@ -472,9 +472,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             bool loop2 = false;
 
-            while (_core.EvaluationResultFiles.Any(z => !z.HasResults && z.Enabled))
+            while (_core.EvaluationResultFiles.Any(z => !z.HasResults && !z.Hidden ))
             {
-                var toRun = _core.EvaluationResultFiles.Where(z => !z.HasResults && z.Enabled).ToArray();
+                var toRun = _core.EvaluationResultFiles.Where(z => !z.HasResults && !z.Hidden ).ToArray();
 
                 if (toRun.Length == 0)
                 {
@@ -575,7 +575,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 }
                 catch (Exception)
                 {
-                    test.Configuration.Enabled = false;
+                    test.Configuration.Hidden = true;
                     throw;
                 }
 
@@ -618,6 +618,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
                     copyOfParameters[test.ParameterIndex] = value;
                     ArgsClusterer copyOfArgs = new ArgsClusterer(
+                        test.ClustererConfiguration.Args.Id,
                         test.ClustererConfiguration.Args.SourceProvider,
                         test.ClustererConfiguration.Args.PeakFilter,
                         test.ClustererConfiguration.Args.Distance, 
@@ -625,7 +626,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                         test.ClustererConfiguration.Args.SplitGroups,
                         test.ClustererConfiguration.Args.Statistics,
                         copyOfParameters);
-                    var copyOfConfig = new ConfigurationClusterer(newName, test.ClustererConfiguration.Comment, test.ClustererConfiguration.Id, copyOfArgs);
+                    var copyOfConfig = new ConfigurationClusterer()
+                                       {
+                                           OverrideDisplayName = newName,
+                                           Comment = test.ClustererConfiguration.Comment,
+                                           Args = copyOfArgs
+                                       };
 
                     // Try load previus result
                     ResultClusterer result = null;

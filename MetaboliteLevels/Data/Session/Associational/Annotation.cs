@@ -57,7 +57,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Unused (can't be disabled)
         /// </summary>
-        bool INameable.Enabled { get { return true; } set { } }
+        bool INameable.Hidden { get { return false; } set { } }
 
         public string DefaultDisplayName
         {

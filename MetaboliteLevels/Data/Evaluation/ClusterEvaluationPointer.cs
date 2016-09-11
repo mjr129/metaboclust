@@ -37,7 +37,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable 
         /// </summary>
-        public bool Enabled { get; set; }
+        public bool Hidden { get; set; }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable 
@@ -54,8 +54,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// From newly stored results and imported files
         /// </summary>       
         public ClusterEvaluationPointer(string fileName, ClusterEvaluationConfiguration configuration)
-        {
-            this.Enabled = true; // It must be or we wouldn't have got here!
+        {                                                                   
             this.FileName = fileName;
             this.Configuration = configuration;
         }
@@ -65,8 +64,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// From imported files with unknown data
         /// </summary>       
         public ClusterEvaluationPointer(string fileName)
-        {
-            this.Enabled = true;
+        {                                                                   
             this.FileName = fileName;    
         }
 
@@ -75,8 +73,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// For a new test without results
         /// </summary>    
         internal ClusterEvaluationPointer(ClusterEvaluationConfiguration configuration)
-        {
-            this.Enabled = true;
+        {                            
             this.Configuration = configuration;
         }
 
@@ -145,7 +142,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
 
             ptr.Add("Name", EColumn.Visible, z => z.DisplayName);
             ptr.Add("Comment", EColumn.None, z => z.Comment);
-            ptr.Add("Enabled", EColumn.None, z => z.Enabled);
+            ptr.Add( "Hidden", EColumn.None, z => z.Hidden );
             ptr.Add("Default name", EColumn.None, z => z.DefaultDisplayName);
             ptr.Add("File", EColumn.None, z => z.FileName);
             ptr.Add("HasResults", EColumn.None, z => z.HasResults);

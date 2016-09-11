@@ -17,13 +17,18 @@ using System.Drawing;
 namespace MetaboliteLevels.Forms.Generic
 {
     /// <summary>
-    /// Represents a collection of objects, with additional information on how to represent those
-    /// objects in the GUI and how to edit them.
+    /// Holds a list of objects alongside additional information on how to represent that list
+    /// objects in the GUI.
     /// 
-    /// The concrete implementations can be found in the static DataSet helper class.
+    /// Concrete implementations of this class can be found in the static <see cref="DataSet"/> helper class.
     /// 
-    /// The mandatory properties to set are:
-    ///     Title, Source, ItemNameProvider, ItemDescriptionProvider, Core
+    /// This is a somewhat large list of properties, depending upon which GUI elements need to be displayed,
+    /// however most are special cases, the only mandatory properties to set are:
+    ///     * Title                      (list title)
+    ///     * Source                     (the actual list)
+    ///     * ItemNameProvider           (how items are named)
+    ///     * ItemDescriptionProvider    (how items are described)
+    ///     * Core                       (backreference to Core)
     /// </summary>
     internal class DataSet<T> : IDataSet
     {
@@ -312,7 +317,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             var x = arg as IVisualisable;
 
-            return x == null || x.Enabled;
+            return x == null || !x.Hidden;
         }
 
         /// <summary>

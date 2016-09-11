@@ -104,7 +104,7 @@ namespace MetaboliteLevels.Data.DataInfo
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public bool Enabled { get; set; }
+        public bool Hidden { get; set; }
 
         public static int GroupTimeReplicateDisplayOrder(ObservationInfo a, ObservationInfo b)
         {
@@ -173,7 +173,7 @@ namespace MetaboliteLevels.Data.DataInfo
             columns.Add("Acquisition", EColumn.None, z => z.Acquisition);
             columns.Add("Batch", EColumn.None, z => z.Batch, z => z.Batch.Colour);
             columns.Add("Comment", EColumn.None, z => z.Comment);
-            columns.Add("Enabled", EColumn.None, z => z.Enabled);
+            columns.Add( "Hidden", EColumn.None, z => z.Hidden );
 
             return columns;
         }     

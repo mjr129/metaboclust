@@ -24,9 +24,9 @@ namespace MetaboliteLevels.Viewers.Charts
 {
     class ChartHelperForPeaks : ChartHelper
     {
-        public static ConfigurationTrend MinSmoother = new ConfigurationTrend( "Minimum", null, Algo.ID_TREND_MOVING_MINIMUM, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
-        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend( "Maximum", null, Algo.ID_TREND_MOVING_MAXIMUM, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
-        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend( "Median", null, Algo.ID_TREND_MOVING_MEDIAN, new Algorithms.Statistics.Arguments.ArgsTrend( null, new object[] { 1 } ) );
+        public static ConfigurationTrend MinSmoother = new ConfigurationTrend() {OverrideDisplayName =  "Minimum", Args= new Algorithms.Statistics.Arguments.ArgsTrend( Algo.ID_TREND_MOVING_MINIMUM, null, new object[] { 1 } ) };
+        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend() { OverrideDisplayName =  "Maximum", Args= new Algorithms.Statistics.Arguments.ArgsTrend( Algo.ID_TREND_MOVING_MAXIMUM, null, new object[] { 1 } ) };
+        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend() {OverrideDisplayName =  "Median", Args= new Algorithms.Statistics.Arguments.ArgsTrend( Algo.ID_TREND_MOVING_MEDIAN, null, new object[] { 1 } ) };
 
         public Peak SelectedPeak
         {

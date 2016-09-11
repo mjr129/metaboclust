@@ -363,7 +363,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Icon = Resources.IconScriptTrend,
                 BeforeListChangesApplied = z =>
                 {
-                    int numEnabledX = z.List.Count(zz => zz.Enabled);
+                    int numEnabledX = z.List.Count(zz => !zz.Hidden );
 
                     if (numEnabledX == 0)
                     {
@@ -375,28 +375,24 @@ namespace MetaboliteLevels.Forms.Generic
                         FrmMsgBox.ShowError(z.Owner, "Only one trend can be activated at once.");
                         return false;
                     }
-
-                    var ch = FrmSelectUpdate.ShowTrendsChanged(z.Owner);
-                    z.Status = ch;
-
-                    return ch != FrmSelectUpdate.EChangeLevel.None;
+                               
+                    return true;
                 },
                 ListChangeApplicator = z =>
                 {
-                    bool updateStats = ((FrmSelectUpdate.EChangeLevel)z.Status).HasFlag(FrmSelectUpdate.EChangeLevel.Statistic);
-                    bool updateClusters = ((FrmSelectUpdate.EChangeLevel)z.Status).HasFlag(FrmSelectUpdate.EChangeLevel.Cluster);
-                    core.SetTrends(z.List, false, true, true, z.Progress);
+
+                    core.SetTrends(z.List, z.Progress);
                 },
                 ItemEditor = z =>
                     {
-                        if (!_ShowEditPreamble(z.Cast<ConfigurationBase>() ))
+                        if (!_ShowEditPreamble(z.Cast<IConfigurationBase>() ))
                         {
                             return null;
                         }
 
                         return FrmEditConfigurationTrend.Show(z.Owner, core, z.DefaultValue, z.ReadOnly);
                     },
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Trends", FrmSelectUpdate.GetUpdateMessage((FrmSelectUpdate.EChangeLevel)z.Status)),
+                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Trends", "Update complete"),
             };
         }   
 
@@ -413,28 +409,17 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
                 Icon = Resources.IconScriptCorrect,
-                BeforeListChangesApplied = z =>
-                {
-                    var ch = FrmSelectUpdate.ShowCorrectionsChanged(z.Owner);
-                    z.Status = ch;
-
-                    return ch != FrmSelectUpdate.EChangeLevel.None;
-                },
                 AfterListChangesApplied = z =>
                 {
-                    FrmMsgBox.ShowCompleted(z.owner, "Data Corrections", FrmSelectUpdate.GetUpdateMessage((FrmSelectUpdate.EChangeLevel)z.Status));
+                    FrmMsgBox.ShowCompleted(z.owner, "Data Corrections", "Update complete");
                 },
                 ListChangeApplicator = z =>
-                {
-                    bool updateStats = ((FrmSelectUpdate.EChangeLevel)z.Status).HasFlag(FrmSelectUpdate.EChangeLevel.Statistic);
-                    bool updateTrends = ((FrmSelectUpdate.EChangeLevel)z.Status).HasFlag(FrmSelectUpdate.EChangeLevel.Trend);
-                    bool updateClusters = ((FrmSelectUpdate.EChangeLevel)z.Status).HasFlag(FrmSelectUpdate.EChangeLevel.Cluster);
-
-                    core.SetCorrections(z.List, false, updateStats, updateTrends, updateClusters, z.Progress);
+                {            
+                    core.SetCorrections(z.List, z.Progress);
                 },
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Cast<ConfigurationBase>() ))
+                    if (!_ShowEditPreamble(z.Cast<IConfigurationBase>() ))
                     {
                         return null;
                     }
@@ -456,11 +441,11 @@ namespace MetaboliteLevels.Forms.Generic
                 Source = core.AllClusterers,
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
-                ListChangeApplicator = z => core.SetClusterers(z.List, false, z.Progress),
+                ListChangeApplicator = z => core.SetClusterers(z.List, z.Progress),
                 Icon = Resources.IconScriptCluster,
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Cast<ConfigurationBase>() ))
+                    if (!_ShowEditPreamble(z.Cast<IConfigurationBase>() ))
                     {
                         return null;
                     }
@@ -468,7 +453,7 @@ namespace MetaboliteLevels.Forms.Generic
                     return FrmEditConfigurationCluster.Show(z.Owner, core, z.DefaultValue, z.ReadOnly, false);
                 },
 
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Clustering", FrmSelectUpdate.GetUpdateMessage(FrmSelectUpdate.EChangeLevel.Cluster))
+                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Clustering", "Update complete")
             };
         }
 
@@ -592,19 +577,19 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Statistics",
                 Source = core.AllStatistics,
                 ItemDescriptionProvider = _GetComment,
-                ListChangeApplicator = z => core.SetStatistics(z.List, false, z.Progress),
+                ListChangeApplicator = z => core.SetStatistics(z.List, z.Progress),
                 ListSupportsReorder = true,
                 Icon = Resources.IconScriptStatistic,
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Cast< ConfigurationBase >()))
+                    if (!_ShowEditPreamble(z.Cast< IConfigurationBase >()))
                     {
                         return null;
                     }
 
                     return FrmEditConfigurationStatistic.Show(z.Owner, z.DefaultValue, core, z.ReadOnly);
                 },
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Staticics", FrmSelectUpdate.GetUpdateMessage(FrmSelectUpdate.EChangeLevel.Statistic)),
+                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Staticics", "Update complete"),
             };
         }
 
@@ -737,9 +722,9 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Gets comment for a ConfigurationBase
         /// </summary>
-        private static string _GetComment(ConfigurationBase z)
+        private static string _GetComment(IConfigurationBase z)
         {
-            return z.Description + z.Comment.FormatIf("\r\nComments: ");
+            return z.DisplayName + z.Comment.FormatIf("\r\nComments: ");
         }
 
         /// <summary>
@@ -769,7 +754,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Shows error and remove results dialogues
         /// </summary>
-        private static bool _ShowEditPreamble( DataSet<ConfigurationBase>.EditItemArgs args)
+        private static bool _ShowEditPreamble( DataSet<IConfigurationBase>.EditItemArgs args)
         {
             if (args.DefaultValue != null)
             {
@@ -786,7 +771,7 @@ namespace MetaboliteLevels.Forms.Generic
                             break;
 
                         case DialogResult.No:
-                            args.DefaultValue.ClearError();
+                            args.DefaultValue.ClearResults();
                             break;
 
                         case DialogResult.Cancel:

@@ -12,8 +12,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsMetric : ArgsBase
     {
-        public ArgsMetric( IProvider<IntensityMatrix> source, object[] parameters)
-            : base( source, parameters )
+        public ArgsMetric( string id, IProvider<IntensityMatrix> source, object[] parameters)
+            : base( id, source, parameters )
         {
         }
 

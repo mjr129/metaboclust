@@ -21,7 +21,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         public ClustererAffinityPropagation(string id, string name)
             : base(id, name)
         {
-            Description = "Clusters using Affinity Propogation";
+            Comment = "Clusters using Affinity Propogation";
         }
 
         protected override AlgoParameterCollection CreateParamaterDesription()

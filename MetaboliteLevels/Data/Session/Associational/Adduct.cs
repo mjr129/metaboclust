@@ -68,7 +68,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
-        bool INameable.Enabled { get { return true; } set { } }
+        bool INameable.Hidden { get { return false; } set { } }
 
         /// <summary>
         /// Is this an empty adduct?

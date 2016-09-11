@@ -35,7 +35,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
 
             _usesDistanceMatrix = this._script.CheckInputMask("01");
 
-            Description = "Clusters based on an R script.";
+            Comment = "Clusters based on an R script.";
         }
 
         public override bool SupportsDistanceMetrics { get { return _usesDistanceMatrix; } }

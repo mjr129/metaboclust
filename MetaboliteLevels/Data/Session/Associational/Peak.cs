@@ -114,7 +114,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// IMPLEMENTS IVisualisable
         /// Unused (can't be disabled)
         /// </summary>
-        bool INameable.Enabled { get { return true; } set { } }
+        bool INameable.Hidden { get { return false; } set { } }
 
         /// <summary>     
         /// Default display name.
@@ -175,7 +175,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     request.Text = "Assigned clusters for {0}";
                     Assignment.AddHeaders(request);
 
-                    foreach (var ass in Assignments.List)
+                    foreach (var ass in FindAssignments(request.Core ))
                     {
                         request.Add(ass.Cluster, ass.GetHeaders());
                     }
@@ -184,7 +184,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
                 case VisualClass.Assignment:
                     request.Text = "Assignments for {0}";
-                    request.AddRange(Assignments.List);
+                    request.AddRange( FindAssignments( request.Core ) );
                     break;
 
 
@@ -268,7 +268,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             double v;
 
-            if (Statistics.TryGetValue(x, out v))
+            if (x.Results.Results.TryGetValue(this, out v))
             {
                 return v;
             }
@@ -291,18 +291,18 @@ namespace MetaboliteLevels.Data.Visualisables
             columns.Add("m/z", EColumn.None, λ => λ.Mz);
             columns.Add( "rt", EColumn.None, λ => λ.Rt );
 
-            columns.Add("Clusters\\All", EColumn.None, λ => λ.Assignments.Clusters);
-            columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.Advanced, z => StringHelper.ArrayToString(z.Assignments.Clusters));
-            columns.Add("Clusters\\All (scores)", EColumn.Advanced, λ => λ.Assignments.Scores);
+            columns.Add("Clusters\\All", EColumn.None, λ => λ.FindAssignments( core ).Select(z=> z.Cluster ));
+            columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.Advanced, z => StringHelper.ArrayToString(z.FindAssignments( core ).Select(zz=> zz.Cluster )));
+            columns.Add("Clusters\\All (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Select(z=> z.Score ));
 
-            columns.Add("Clusters\\Unique", EColumn.Advanced, λ => new HashSet<Cluster>(λ.Assignments.Clusters).ToArray());
-            columns.Add("Clusters\\Grouped", EColumn.Advanced, λ => StringHelper.ArrayToString(λ.Assignments.List.OrderBy(z => z.Vector.Group?.DisplayPriority).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
+            columns.Add("Clusters\\Unique", EColumn.Advanced, λ => new HashSet<Cluster>(λ.FindAssignments( core ).Select(z=> z.Cluster )).ToArray());
+            columns.Add("Clusters\\Grouped", EColumn.Advanced, λ => StringHelper.ArrayToString(λ.FindAssignments( core ).OrderBy(z => z.Vector.Group?.DisplayPriority).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
 
             foreach (GroupInfo group in core.Groups)
             {
                 var closure = group;
-                columns.Add("Clusters\\" + group.DisplayName, EColumn.Advanced, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray(), z => closure.Colour);
-                columns.Add("Clusters\\" + group.DisplayName + " (scores)", EColumn.Advanced, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray(), z => closure.Colour);
+                columns.Add("Clusters\\" + group.DisplayName, EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray(), z => closure.Colour);
+                columns.Add("Clusters\\" + group.DisplayName + " (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray(), z => closure.Colour);
             }
 
             foreach (PeakFlag flag in core.Options.PeakFlags)
@@ -311,8 +311,8 @@ namespace MetaboliteLevels.Data.Visualisables
                 columns.Add("Flags\\" + flag, EColumn.Advanced, λ => λ.CommentFlags.Contains(closure) ? closure.DisplayName : string.Empty, z => closure.Colour);
             }
 
-            columns.Add("Clusters\\Groupless", EColumn.Advanced, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
-            columns.Add("Clusters\\Groupless (scores)", EColumn.Advanced, λ => λ.Assignments.List.Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
+            columns.Add("Clusters\\Groupless", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
+            columns.Add("Clusters\\Groupless (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
 
             columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.CommentFlags), z=> z.CommentFlags.Count == 1 ? z.CommentFlags[0].Colour : Color.Black );
 
@@ -323,7 +323,7 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 var closure = stat;
                 columns.Add("Statistic\\" + stat.ToString(), EColumn.Statistic, λ => λ.GetStatistic(closure));
-                columns[columns.Count - 1].Colour = z => UiControls.StatisticColour(closure, z.Statistics);
+                columns[columns.Count - 1].Colour = z => UiControls.StatisticColour( z.GetStatistic( closure ), stat.Results.Min, stat.Results.Max);
             }
 
             columns.Add( "Annotations", EColumn.None, λ => λ.Annotations );
@@ -382,6 +382,17 @@ namespace MetaboliteLevels.Data.Visualisables
 
                     default:
                         throw new SwitchException();
+                }
+            }
+        }
+
+        public IEnumerable<Assignment> FindAssignments( Core core )
+        {
+            foreach (Cluster clu in core.Clusters)
+            {
+                foreach (Assignment ass in clu.Assignments.List.Where( z => z.Peak == this ))
+                {
+                    yield return ass;
                 }
             }
         }

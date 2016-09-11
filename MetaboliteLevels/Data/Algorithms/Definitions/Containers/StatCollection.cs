@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Containers
 {
@@ -27,6 +29,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Containers
 
         public T Get(string id)
         {
+            DebugHelper.NotifySlowFunction();
+
             T v;
 
             if (_collection.TryGetValue(id, out v))

@@ -16,13 +16,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// </summary>
     [Serializable]
     sealed class ConfigurationClusterer : ConfigurationBase<ClustererBase, ArgsClusterer, ResultClusterer>
-    {
-        public ConfigurationClusterer(string name, string comments, string clusterId, ArgsClusterer args)
-            : base(name, comments, clusterId, args)
-        {
-            // NA
-        }
-
+    {         
         /// <summary>
         /// ACTION!
         /// </summary>
@@ -31,7 +25,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             // Get results
             IntensityMatrix vmatrix;
             DistanceMatrix dmatrix;
-            ResultClusterer results = this.Cached.ExecuteAlgorithm(core, isPreview, false, this.Args, this, prog, out vmatrix, out dmatrix);
+            ResultClusterer results = this.GetAlgorithm().ExecuteAlgorithm(core, isPreview, false, this.Args, this, prog, out vmatrix, out dmatrix);
 
             // Finalize statistics
             results.FinalizeResults(core, this.Args.Distance, vmatrix, dmatrix, this.Args.Statistics, prog);
@@ -55,7 +49,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return columns;
         }
 
-        internal override bool Run( Core core, ProgressReporter prog )
+        public override bool Run( Core core, ProgressReporter prog )
         {
             try
             {

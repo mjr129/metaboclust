@@ -80,7 +80,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _comment = def.Comment;
 
                 // Method
-                _ecbMethod.SelectedItem = def.Cached;
+                _ecbMethod.SelectedItem = def.GetAlgorithm();
 
                 // Params
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
@@ -89,7 +89,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _ecbPeakFilter.SelectedItem = def.Args.PeakFilter;
 
                 // Distance
-                _ecbMeasure.SelectedItem = def.Args.Distance != null ? def.Args.Distance.Cached : null;
+                _ecbMeasure.SelectedItem = def.Args.Distance != null ? def.Args.Distance.GetAlgorithm() : null;
 
                 // Distance params
                 _txtMeasureParams.Text = StringHelper.ArrayToString(def.Args.Distance?.Args.Parameters);
@@ -229,9 +229,14 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             // Result
-            ConfigurationMetric df = dMet != null ? new ConfigurationMetric(dMet.Name, string.Empty, dMet.Id, new ArgsMetric(src,dMetParams)) : null;
-            ArgsClusterer args = new ArgsClusterer(src,peakFilter, df, obsFilter, _chkSepGroups.Checked, suppressMetric, parameters);
-            ConfigurationClusterer result = new ConfigurationClusterer(title, _comment, sel.Id, args);
+            ConfigurationMetric df = dMet != null ? new ConfigurationMetric() : null;
+            if (df != null)
+            {
+                df.Args = new ArgsMetric( dMet.Id, src, dMetParams );
+                df.OverrideDisplayName = dMet.DisplayName;
+            }
+            ArgsClusterer args = new ArgsClusterer( sel.Id, src, peakFilter, df, obsFilter, _chkSepGroups.Checked, suppressMetric, parameters);
+            ConfigurationClusterer result = new ConfigurationClusterer() {OverrideDisplayName =  title, Comment = _comment, Args = args};
             return result;
         }
 

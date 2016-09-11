@@ -113,7 +113,7 @@ namespace MetaboliteLevels.Algorithms
             Statistics.Add(new MetricInbuilt(Maths.Qian, @"QIAN", "Qian", false));
             Statistics.Add(new MetricInbuilt(Maths.QianDistance, @"QIAN_DISTANCE", "Qian × -1 (distance)", false));
 
-            Statistics.Add(new MetricScript(SCRIPT_TTEST, ID_METRIC_TTEST, "t-test (p)", null) { Description = "Conducts a t-test and returns the p-value" });
+            Statistics.Add(new MetricScript(SCRIPT_TTEST, ID_METRIC_TTEST, "t-test (p)", null) { Comment = "Conducts a t-test and returns the p-value" });
             Statistics.Add(new MetricScript(SCRIPT_PEARSON, ID_METRIC_PEARSON, "Pearson (r)", null));
 
             // Statistics
@@ -130,7 +130,7 @@ namespace MetaboliteLevels.Algorithms
             Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.UpperQuartile, true ) );
             Statistics.Add(new StatisticInbuilt(MathNet.Numerics.Statistics.Statistics.Variance, true ) );
 
-            Statistics.Add(new StatisticPcaAnova(@"PCA_ANOVA", "PCA-ANOVA") { Description = "Constructs a matrix representing a CONDITION and REPLICATE for each row (TIME for each column) and uses PCA to reduce this to 1 dimension. Uses ANOVA to determine if there is a difference between groups of replicates for each CONDITION. It is recommended to constrain this method to CONDITIONS of interest and only use REPLICATES with comparable sets (CONDITIONs and TIMEs) of data since missing values are guessed based on the average of the other replicates." });
+            Statistics.Add(new StatisticPcaAnova(@"PCA_ANOVA", "PCA-ANOVA") { Comment = "Constructs a matrix representing a CONDITION and REPLICATE for each row (TIME for each column) and uses PCA to reduce this to 1 dimension. Uses ANOVA to determine if there is a difference between groups of replicates for each CONDITION. It is recommended to constrain this method to CONDITIONS of interest and only use REPLICATES with comparable sets (CONDITIONs and TIMEs) of data since missing values are guessed based on the average of the other replicates." });
 
             // Derived statistics
             Statistics.Add(new StatisticConsumer(Maths.Mean, "STATS_MEAN", "Mean:"));

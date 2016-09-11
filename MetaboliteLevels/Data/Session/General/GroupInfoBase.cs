@@ -43,7 +43,7 @@ namespace MetaboliteLevels.Data.DataInfo
 
         public string Comment { get; set; }
 
-        bool INameable.Enabled { get { return true; } set { /* NA*/} }
+        bool INameable.Hidden { get { return false; } set { /* NA*/} }
 
         public EHatchStyle HatchStyle { get; set; } = EHatchStyle.Solid;
         public EGraphIcon GraphIcon { get; set; }

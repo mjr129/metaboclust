@@ -15,6 +15,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.Collections;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.DataLoader;
@@ -127,6 +128,14 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Show a warning in 32-bit mode
             _lbl32BitWarning.Visible = IntPtr.Size != 8;
+
+
+
+            if (Debugger.IsAttached || (System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttribute<DebuggableAttribute>()?.IsJITTrackingEnabled ?? false))
+            {
+                _lbl32BitWarning.Text = "A debugger is attached OR this is a debug build.\r\nPerformance will be negatively impacted.";
+                _lbl32BitWarning.Visible = true;
+            }
 
             // Setup the wizard
             _wizard = CtlWizard.BindNew( tabControl1.Parent, tabControl1, CtlWizardOptions.ShowCancel | CtlWizardOptions.HandleBasicChanges );

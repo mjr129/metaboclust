@@ -71,7 +71,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Unused (can't be disabled)
         /// </summary>
-        bool INameable.Enabled { get { return true; } set { } }
+        bool INameable.Hidden { get { return false; } set { } }
 
         /// <summary>
         /// Defining library.
@@ -257,7 +257,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
                     foreach (Annotation p in Annotations)
                     {
-                        foreach (Cluster pat in p.Peak.Assignments.Clusters)
+                        foreach (Cluster pat in p.Peak.FindAssignments(request.Core).Select(z=> z.Cluster ))
                         {
                             counts.Increment(pat); // assume there is only one of each cluster per peak so the count holds
                         }

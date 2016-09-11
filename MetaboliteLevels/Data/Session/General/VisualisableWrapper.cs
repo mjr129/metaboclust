@@ -31,9 +31,9 @@ namespace MetaboliteLevels.Data.Session.General
 
         public string DisplayName => DefaultDisplayName;
 
-        public bool Enabled
+        public bool Hidden
         {
-            get { return true; }
+            get { return false; }
             set {/*NA*/}
         }
 

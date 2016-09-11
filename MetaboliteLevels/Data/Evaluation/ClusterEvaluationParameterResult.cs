@@ -39,7 +39,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// IMPLEMENTS: IVisualisable
         /// Not used - meaningless.
         /// </summary>
-        bool INameable.Enabled { get { return true; } set { } }
+        bool INameable.Hidden { get { return false; } set { } }
 
         /// <summary>
         /// Conifguration these results were sourced from
@@ -153,7 +153,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             {
                 IntensityMatrix vmatrix;
                 DistanceMatrix dmatrix;
-                Owner.ClustererConfiguration.Cached.ExecuteAlgorithm(core, -1, true, Owner.ClustererConfiguration.Args, null, prog, out vmatrix, out dmatrix);
+                Owner.ClustererConfiguration.GetAlgorithm().ExecuteAlgorithm(core, -1, true, Owner.ClustererConfiguration.Args, null, prog, out vmatrix, out dmatrix);
                 result.RecalculateStatistics(core, Owner.ClustererConfiguration.Args.Distance, vmatrix, dmatrix, stats, prog);
             }
         }

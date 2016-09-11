@@ -38,14 +38,19 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         {
             Dictionary<Cluster, Cluster> result = new Dictionary<Cluster,Cluster>();
             WeakReference<ConfigurationClusterer> wrMethod= (WeakReference < ConfigurationClusterer > )args.Parameters[0];
-            ConfigurationClusterer method = wrMethod.GetTargetOrThrow();
+            ConfigurationClusterer existing = wrMethod.GetTargetOrThrow();
+            var existingResults = existing.Results;
 
             foreach (Vector vector in vmatrix.Vectors)
             {
-                Cluster existingCluster = vector.Peak.Assignments.List.First( z => z.Cluster.Method == method ).Cluster;
-                Cluster newCluster = result.GetOrCreate( existingCluster, xc => new Cluster( xc.ShortName, tag ) );
+                Cluster existingCluster = existingResults.Assignments.FirstOrDefault( z => z.Peak == vector.Peak )?.Cluster;
 
-                newCluster.Assignments.Add( new Assignment( vector, newCluster, double.NaN ) );
+                if (existingCluster != null)
+                {
+                    Cluster newCluster = result.GetOrCreate( existingCluster, xc => new Cluster( xc.ShortName, tag ) );
+
+                    newCluster.Assignments.Add( new Assignment( vector, newCluster, double.NaN ) );
+                }
             }
 
             return result.Values;

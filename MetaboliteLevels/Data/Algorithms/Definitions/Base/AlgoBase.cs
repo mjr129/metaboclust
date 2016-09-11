@@ -10,25 +10,38 @@ using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Algorithms.Statistics
-{
-
+{                  
+    /// <summary>
+    /// Base class for all algorithms
+    /// (an algorithm is the bit that does the work, it is generally immutable to the user)
+    /// </summary>
     abstract class AlgoBase : IVisualisable
     {
-        public readonly string Id;
-        public readonly string Name;
-        public string Description { get; set; }
+        /// <summary>
+        /// ID used to refer to the algorithm in save-data
+        /// </summary>
+        public readonly string Id;         
+
+        /// <summary>
+        /// Details of expected parameters passed into the algorithm
+        /// </summary>
         private AlgoParameterCollection _parameters;
 
+        /// <summary>
+        /// CONSTRUCTOR
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
         public AlgoBase(string id, string name)
         {
             Id = id;
-            Name = name;
+            OverrideDisplayName = name;
         }
 
-        public override string ToString()
-        {
-            return Name;
-        }
+        /// <summary>
+        /// Implements Object
+        /// </summary>         
+        public override string ToString() => DisplayName;
 
         public AlgoParameterCollection Parameters
         {
@@ -45,40 +58,37 @@ namespace MetaboliteLevels.Algorithms.Statistics
         }
 
         protected abstract AlgoParameterCollection CreateParamaterDesription();
-                                                                  
-        string INameable.DisplayName => Name;
 
-        string INameable.DefaultDisplayName => Name;
+        /// <summary>
+        /// Implements IVisualisable
+        /// </summary>                         
+        public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
 
-        string INameable.OverrideDisplayName
+        /// <summary>
+        /// Implements IVisualisable
+        /// </summary>              
+        public string DefaultDisplayName => Id;
+
+        /// <summary>
+        /// Implements IVisualisable
+        /// Friendly name
+        /// </summary>              
+        public string OverrideDisplayName { get; set; }
+
+        /// <summary>
+        /// Implements IVisualisable
+        /// Description of algorithm's purpose
+        /// </summary>              
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// Implements IVisualisable
+        /// </summary>              
+        bool INameable.Hidden
         {
             get
             {
-                return null;
-            }
-            set
-            {
-                // No action
-            }
-        }
-
-        string INameable.Comment
-        {
-            get
-            {
-                return null;
-            }
-            set
-            {
-                // No action
-            }
-        }
-
-        bool INameable.Enabled
-        {
-            get
-            {
-                return true;
+                return false;
             }
             set
             {
@@ -87,27 +97,27 @@ namespace MetaboliteLevels.Algorithms.Statistics
         }
 
         /// <summary>
-        /// Script, if any
+        /// Script (if any)
         /// </summary>
-        public virtual RScript Script
-        {
-            get { return null; }
-        }
+        public virtual RScript Script => null;
 
-        public bool IsMathDotNet { get; protected set; }
-
+        /// <summary>
+        /// Implements IVisualisable
+        /// </summary>              
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
             return Script != null ? UiControls.ImageListOrder.ScriptFile
-                : IsMathDotNet ? UiControls.ImageListOrder.ScriptMathDotNet
                 : UiControls.ImageListOrder.ScriptInbuilt;
-        }     
+        }
 
+        /// <summary>
+        /// Implements IVisualisable
+        /// </summary>              
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
         {
             List<Column<AlgoBase>> result = new List<Column<AlgoBase>>();
 
-            result.Add("Name", EColumn.Visible, z => z.Name);
+            result.Add("Name", EColumn.Visible, z => z.DisplayName);
             result.Add("ID", z => z.Id);
             result.Add("R", z => z.Script != null ? 1 : 0);
             result.Add("File", z => z.Script?.FileName);

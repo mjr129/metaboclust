@@ -22,7 +22,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         public LegacyDKMeansPPClusterer(string id, string name)
             : base(id, name)
         {
-            Description = "k-means clustering using the k-means++ initial centre assignment, always choosing the most likley (most distant) centre.";
+            Comment = "k-means clustering using the k-means++ initial centre assignment, always choosing the most likley (most distant) centre.";
         }
 
         public override bool RequiresDistanceMatrix { get { return false; } }

@@ -31,12 +31,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// <summary>
         /// Constructor
         /// </summary> 
-        protected ArgsBase( IProvider<IntensityMatrix> sourceProvider, object[] parameters)
+        protected ArgsBase( string id, IProvider<IntensityMatrix> sourceProvider, object[] parameters)
         {
             _sourceProvider = new WeakReference<IProvider<IntensityMatrix>>( sourceProvider );
+            Id = id;
             Parameters = parameters;
         }
-        
+
+        public readonly string Id;
+
         public sealed override string ToString(  )
         {
             return ToString( null );

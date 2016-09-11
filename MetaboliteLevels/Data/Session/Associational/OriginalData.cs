@@ -19,7 +19,6 @@ namespace MetaboliteLevels.Data.Session.Associational
         public OriginalData( string name, string fileName, IntensityMatrix intentisyMatrix )
         {
             OverrideDisplayName = name;
-            Enabled = true;
             _fileName = fileName;
             _intentisyMatrix = intentisyMatrix;
         }
@@ -29,7 +28,7 @@ namespace MetaboliteLevels.Data.Session.Associational
         public string DefaultDisplayName => Path.GetFileName( _fileName );
         public string OverrideDisplayName { get; set; }
         public string Comment { get; set; }
-        public bool Enabled { get; set; }
+        public bool Hidden { get; set; }
 
         public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Matrix;
 

@@ -18,13 +18,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// </summary>
     [Serializable]
     sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend>, IProvider<IntensityMatrix>
-    {
-        public ConfigurationTrend(string name, string comments, string trendId, ArgsTrend args)
-            : base(name, comments, trendId, args)
-        {
-            // NA
-        }
-
+    {        
         public Vector CreateTrend( Core core, Vector vector )
         {
             double[] newValues = CreateTrend( vector.Observations, core.Conditions, core.Groups, vector.Values );
@@ -34,7 +28,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
         internal double[] CreateTrend(IReadOnlyList<ObservationInfo> inOrder, IReadOnlyList<ObservationInfo> outOrder, IReadOnlyList<GroupInfo> typeInfo, double[] raw)
         {
-            return Cached.SmoothByType(inOrder, outOrder, typeInfo, raw, this.Args);
+            return GetAlgorithm().SmoothByType(inOrder, outOrder, typeInfo, raw, this.Args);
         }
 
         protected override IEnumerable<Column> GetExtraColumns(Core core)
@@ -48,7 +42,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
         public IntensityMatrix Provide => Results.Matrix;
 
-        internal override bool Run( Core core, ProgressReporter prog )
+        public override bool Run( Core core, ProgressReporter prog )
         {
             try
             {

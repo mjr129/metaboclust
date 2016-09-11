@@ -22,79 +22,81 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// <summary>
         /// 
         /// </summary>
-        public ClustererUniqueness(string id, string name)
-            : base(id, name)
+        public ClustererUniqueness( string id, string name )
+            : base( id, name )
         {
-            Description = "Sorts peaks into clusters based on the clusters to which they have been assigned by a previous clustering algorithm. (The previous algorithm must have been capable of assigning peaks to multiple clusters - such as by creating a vector per experimental group.";
+            Comment = "Sorts peaks into clusters based on the clusters to which they have been assigned by a previous clustering algorithm. (The previous algorithm must have been capable of assigning peaks to multiple clusters - such as by creating a vector per experimental group.";
         }
 
         /// <summary>
         /// 
         /// </summary>
-        protected override IEnumerable<Cluster> Cluster( IntensityMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
+        protected override IEnumerable<Cluster> Cluster( IntensityMatrix vmatrix, DistanceMatrix dmatrix, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog )
         {
-            ConfigurationClusterer config = ((WeakReference<ConfigurationClusterer>)args.Parameters[0]).GetTarget();
+            ConfigurationClusterer existing = ((WeakReference<ConfigurationClusterer>)args.Parameters[0]).GetTarget();
             List<List<Assignment>> uniqueCombinations = new List<List<Assignment>>();
-            List<Cluster> newClusters = new List<Cluster>();               
+            List<Cluster> newClusters = new List<Cluster>();
             List<ObservationInfo[]> observations = new List<ObservationInfo[]>();
 
-            prog.Enter("Finding unique matches");
+            var existingResults = existing.Results;
 
-            for (int vmatIndex = 0; vmatIndex < vmatrix.NumRows; vmatIndex++)
+            prog.Enter( "Finding unique matches" );
+
+            for (int row = 0; row < vmatrix.NumRows; row++)
             {
-                Vector vp = vmatrix.Vectors[vmatIndex];
-                Peak peak = vp.Peak;
-                prog.SetProgress(vmatIndex, vmatrix.NumRows);
+                Vector vector = vmatrix.Vectors[row];
+                Peak peak = vector.Peak;
+                prog.SetProgress( row, vmatrix.NumRows );
 
-                List<Assignment> assignments = new List<Assignment>(peak.Assignments.List
-                                                         .Where(z => config.Results.Clusters.Contains(z.Cluster))
-                                                         .OrderBy(z => z.Vector.Group.Order));
+                List<Assignment> assignments = new List<Assignment>( existingResults.Assignments
+                                                         .Where( z => z.Peak == peak )
+                                                         .OrderBy( z => z.Vector.Group.Order ) );
 
-                int index = FindMatch(uniqueCombinations, assignments);
+                int index = FindMatch( uniqueCombinations, assignments );
                 Cluster pat;
 
                 if (index == -1)
                 {
-                    uniqueCombinations.Add(assignments);
+                    uniqueCombinations.Add( assignments );
 
-                    string name = StringHelper.ArrayToString<Assignment>(assignments, z => z.Vector.Group.DisplayShortName + "." + z.Cluster.ShortName, " / ");
+                    string name = StringHelper.ArrayToString<Assignment>( assignments, z => z.Vector.Group.DisplayShortName + "." + z.Cluster.ShortName, " / " );
 
-                    pat = new Cluster(name, tag);
+                    pat = new Cluster( name, tag );
 
                     // Centre (merge centres)
-                    IEnumerable<double[]> centres = assignments.Select(z => z.Cluster.Centres.First());
-                    pat.Centres.Add(centres.SelectMany(z => z).ToArray());
+                    IEnumerable<double[]> centres = assignments.Select( z => z.Cluster.Centres.First() );
+                    pat.Centres.Add( centres.SelectMany( z => z ).ToArray() );
 
                     // Vector (merge vectors)        
                     if (assignments[0].Vector.Observations != null)
                     {
-                        observations.Add(assignments.Select(z => z.Vector.Observations).SelectMany(z => z).ToArray());
+                        observations.Add( assignments.Select( z => z.Vector.Observations ).SelectMany( z => z ).ToArray() );
                     }
                     else
                     {
-                        observations.Add(null);
+                        observations.Add( null );
                     }
 
                     // Relations (all clusters)
-                    pat.Related.AddRange(assignments.Select(z => z.Cluster).Unique());
+                    pat.Related.AddRange( assignments.Select( z => z.Cluster ).Unique() );
 
                     foreach (Cluster pat2 in pat.Related)
                     {
-                        if (!pat2.Related.Contains(pat))
+                        if (!pat2.Related.Contains( pat ))
                         {
-                            pat2.Related.Add(pat);
+                            pat2.Related.Add( pat );
                         }
                     }
 
                     index = newClusters.Count;
-                    newClusters.Add(pat);
+                    newClusters.Add( pat );
                 }
 
 
                 pat = newClusters[index];
 
-                double[] values = assignments.Select(z => z.Vector.Values).SelectMany(z => z).ToArray();
-                pat.Assignments.Add(new Assignment(vp, pat, assignments.Count));
+                double[] values = assignments.Select( z => z.Vector.Values ).SelectMany( z => z ).ToArray();
+                pat.Assignments.Add( new Assignment( vector, pat, assignments.Count ) );
             }
 
             prog.Leave();
@@ -105,14 +107,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// <summary>
         /// 
         /// </summary>
-        private int FindMatch(List<List<Assignment>> uniqueCombinations, List<Assignment> pats)
+        private int FindMatch( List<List<Assignment>> uniqueCombinations, List<Assignment> pats )
         {
             for (int index = 0; index < uniqueCombinations.Count; index++)
             {
                 var list = uniqueCombinations[index];
-                UiControls.Assert(list.Count == pats.Count, "FindMatch requires the lists to be of equal length.");
+                UiControls.Assert( list.Count == pats.Count, "FindMatch requires the lists to be of equal length." );
 
-                if (IsEqual(pats, list))
+                if (IsEqual( pats, list ))
                 {
                     return index;
                 }
@@ -124,14 +126,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// <summary>
         /// 
         /// </summary>
-        private static bool IsEqual(List<Assignment> pats, List<Assignment> list)
+        private static bool IsEqual( List<Assignment> pats, List<Assignment> list )
         {
             for (int index = 0; index < pats.Count; index++)
             {
                 Assignment v = pats[index];
                 Assignment t = list[index];
 
-                UiControls.Assert(v.Vector.Group == t.Vector.Group, "IsEqual expects the vector groups to match.");
+                UiControls.Assert( v.Vector.Group == t.Vector.Group, "IsEqual expects the vector groups to match." );
 
                 if (t.Cluster != v.Cluster)
                 {
@@ -147,7 +149,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
         /// </summary>
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection(new AlgoParameter("source", EAlgoParameterType.WeakRefConfigurationClusterer));
+            return new AlgoParameterCollection( new AlgoParameter( "source", EAlgoParameterType.WeakRefConfigurationClusterer ) );
         }
 
         public override bool SupportsObservationFilters { get { return false; } }
