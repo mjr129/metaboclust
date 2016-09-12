@@ -74,13 +74,13 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (def != null)
             {
                 // Name
-                _txtName.Text = def.OverrideDisplayName;
+                _txtName.Text = def.Args.OverrideDisplayName;
 
                 // Comment
-                _comment = def.Comment;
+                _comment = def.Args.Comment;
 
                 // Method
-                _ecbMethod.SelectedItem = def.GetAlgorithm();
+                _ecbMethod.SelectedItem =(ClustererBase) def.Args.GetAlgorithmOrNull();
 
                 // Params
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
@@ -89,7 +89,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _ecbPeakFilter.SelectedItem = def.Args.PeakFilter;
 
                 // Distance
-                _ecbMeasure.SelectedItem = def.Args.Distance != null ? def.Args.Distance.GetAlgorithm() : null;
+                _ecbMeasure.SelectedItem = def.Args.Distance != null ? (MetricBase)def.Args.Distance.Args.GetAlgorithmOrNull() : null;
 
                 // Distance params
                 _txtMeasureParams.Text = StringHelper.ArrayToString(def.Args.Distance?.Args.Parameters);
@@ -232,11 +232,17 @@ namespace MetaboliteLevels.Forms.Algorithms
             ConfigurationMetric df = dMet != null ? new ConfigurationMetric() : null;
             if (df != null)
             {
-                df.Args = new ArgsMetric( dMet.Id, src, dMetParams );
-                df.OverrideDisplayName = dMet.DisplayName;
+                df.Args = new ArgsMetric( dMet.Id, src, dMetParams )
+                {
+                    OverrideDisplayName = dMet.DisplayName
+                };
             }
-            ArgsClusterer args = new ArgsClusterer( sel.Id, src, peakFilter, df, obsFilter, _chkSepGroups.Checked, suppressMetric, parameters);
-            ConfigurationClusterer result = new ConfigurationClusterer() {OverrideDisplayName =  title, Comment = _comment, Args = args};
+            ArgsClusterer args = new ArgsClusterer( sel.Id, src, peakFilter, df, obsFilter, _chkSepGroups.Checked, suppressMetric, parameters )
+            {
+                OverrideDisplayName = title,
+                Comment = _comment
+            };
+            ConfigurationClusterer result = new ConfigurationClusterer() { Args = args};
             return result;
         }
 
@@ -278,7 +284,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void Check(object sender, EventArgs e)
         {
             var sel = GetSelection();
-            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+            _txtName.Watermark = sel != null ? sel.Args.DefaultDisplayName : "Default";
             _btnOk.Enabled = sel != null;
         }      
 

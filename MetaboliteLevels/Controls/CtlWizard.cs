@@ -236,15 +236,7 @@ namespace MetaboliteLevels.Controls
         private void _btnCancel_Click(object sender, EventArgs e)
         {
             Pager.PreviousPage();
-        }
-
-        private void _btnShowHelp_Click(object sender, EventArgs e)
-        {
-            if (HelpClicked != null)
-            {
-                HelpClicked(this, EventArgs.Empty);
-            }
-        }
+        }   
 
         private void _btnCancel_Click_2(object sender, EventArgs e)
         {
@@ -265,22 +257,17 @@ namespace MetaboliteLevels.Controls
         {
             get { return ctlTitleBar1.HelpText; }
             set { ctlTitleBar1.HelpText = value; }
-        }
+        }   
 
-        public Control HelpControl
-        {
-        get { return this._btnShowHelp; }
-        }
-
-        public string HelpText
+        public CtlTitleBar.EHelpIcon TitleHelpIcon
         {
             get
             {
-                return _btnShowHelp.Text;
+                return ctlTitleBar1.HelpIcon;
             }
             set
             {
-                _btnShowHelp.Text = value;
+                ctlTitleBar1.HelpIcon = value;
             }
         }
 
@@ -315,8 +302,7 @@ namespace MetaboliteLevels.Controls
         }
 
         private void SetButtonVisibilities()
-        {
-            _btnShowHelp.Visible = _options.HasFlag(CtlWizardOptions.ShowHelp);
+        {                                                                         
             _btnNext.Visible = _options.HasFlag(CtlWizardOptions.ShowNext) && !Pager.IsOnLastPage;
             _btnBack.Visible = _options.HasFlag(CtlWizardOptions.ShowCancel) && !Pager.IsOnFirstPage;
             _btnCancel.Visible = _options.HasFlag(CtlWizardOptions.ShowBack) && Pager.IsOnFirstPage;
@@ -327,14 +313,18 @@ namespace MetaboliteLevels.Controls
         {
             UiControls.DrawHBar( e.Graphics, _lblOrder );
         }
+
+        private void ctlTitleBar1_HelpClicked( object sender, CancelEventArgs e )
+        {
+            HelpClicked?.Invoke( this, EventArgs.Empty );
+        }
     }
 
     [Flags]
     public enum CtlWizardOptions
     {
         None = 0,
-
-        ShowHelp = 1,
+                     
         ShowNext = 2,
         ShowCancel = 4,
         ShowBack = 8,

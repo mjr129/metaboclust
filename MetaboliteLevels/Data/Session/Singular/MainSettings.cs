@@ -43,7 +43,13 @@ namespace MetaboliteLevels.Settings
         public MainSettings()
         {
             SaveLoad(false);
-        }                 
+        }
+
+        public void Reset()
+        {
+            DoNotShowAgain = new Dictionary<string, int>();
+            General = new GeneralSettings();
+        }
 
         private void SaveLoad(bool save)
         {

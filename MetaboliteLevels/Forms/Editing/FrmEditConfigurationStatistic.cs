@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         internal static bool ShowCannotEditError(Form owner, IConfigurationBase def)
         {
-            if (def != null && !def.CheckIsAvailable())
+            if (def != null && !def.Args.CheckIsAvailable())
             {
                 FrmMsgBox.ShowWarning(owner, "Missing algorithm",
                                       "This algorithm uses an algorithm not installed on this machine and its parameters cannot be modified.");
@@ -167,9 +167,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             // Result
             ArgsStatistic args = new ArgsStatistic( sel.Id, src, filter1, bsrc, filter2, bpeak, parameters);
+            args.OverrideDisplayName = title;
+            args.Comment = _comments;
             ConfigurationStatistic result = new ConfigurationStatistic();
-            result.OverrideDisplayName = title;
-            result.Comment = _comments;
             result.Args = args;
             return result;
         }
@@ -194,7 +194,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 ConfigurationStatistic sel = GetSelection();
                 GeneratePreview(sel);
                 previewSucceeded = sel != null;
-                _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+                _txtName.Watermark = sel != null ? sel.Args.DefaultDisplayName : "Default";
             }
             catch
             {
@@ -222,10 +222,10 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (defaultSelection != null)
             {
-                _txtName.Text = defaultSelection.OverrideDisplayName;
-                ctlTitleBar1.SubText = defaultSelection.AlgoName;
-                _comments = defaultSelection.Comment;
-                _ecbMeasure.SelectedItem = defaultSelection.GetAlgorithm();
+                _txtName.Text = defaultSelection.Args.OverrideDisplayName;
+                ctlTitleBar1.SubText = defaultSelection.Args.AlgoName;
+                _comments = defaultSelection.Args.Comment;
+                _ecbMeasure.SelectedItem =(StatisticBase) defaultSelection.Args.GetAlgorithmOrNull();
                 _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
 
                 _ecbSource.SelectedItem = defaultSelection.Args.SourceProvider;

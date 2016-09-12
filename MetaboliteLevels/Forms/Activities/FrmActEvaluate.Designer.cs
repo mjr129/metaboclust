@@ -212,7 +212,7 @@
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
+            this.button2.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this.button2.Location = new System.Drawing.Point(302, 0);
             this.button2.Margin = new System.Windows.Forms.Padding(0);
             this.button2.Name = "button2";
@@ -283,7 +283,7 @@
             this._btnValuesHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._btnValuesHelp.FlatAppearance.BorderSize = 0;
             this._btnValuesHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnValuesHelp.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
+            this._btnValuesHelp.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this._btnValuesHelp.Location = new System.Drawing.Point(302, 0);
             this._btnValuesHelp.Margin = new System.Windows.Forms.Padding(0);
             this._btnValuesHelp.Name = "_btnValuesHelp";
@@ -384,7 +384,7 @@
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
+            this.button3.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this.button3.Location = new System.Drawing.Point(302, 0);
             this.button3.Margin = new System.Windows.Forms.Padding(0);
             this.button3.Name = "button3";
@@ -485,7 +485,7 @@
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.FlatAppearance.BorderSize = 0;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
+            this.button4.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this.button4.Location = new System.Drawing.Point(468, 0);
             this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
@@ -579,7 +579,7 @@
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.FlatAppearance.BorderSize = 0;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
+            this.button5.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this.button5.Location = new System.Drawing.Point(468, 0);
             this.button5.Margin = new System.Windows.Forms.Padding(0);
             this.button5.Name = "button5";

@@ -7,6 +7,9 @@ using MetaboliteLevels.Algorithms.Statistics.Results;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MGui.Helpers;
 using MetaboliteLevels.Data.Session.Associational;
+using System.Collections.Generic;
+using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Data.Session;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -55,33 +58,51 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             this.Statistics = suppressMetric;
         }
 
-        public override string ToString(AlgoBase algorithm)
+        protected sealed override IEnumerable<Column> GetExtraColumns( Core core )
         {
-            StringBuilder sb = new StringBuilder();
+            List<Column<ArgsClusterer>> columns = new List<Column<ArgsClusterer>>();
 
-            sb.Append( base.ToString() );
+            columns.AddSubObject( core, "Distance", z => z.Distance );
+            columns.AddSubObject( core, "Observation filter", z => z.ObsFilter );
+            columns.AddSubObject( core, "Peak pilter", z => z.PeakFilter );
+            columns.Add( "Parameters", z => z.Parameters );
+            columns.Add( "Source", z => z.SourceProvider );
+            columns.Add( "Split groups", z => z.SplitGroups );
+            columns.Add( "Statistics", z => z.Statistics );
 
-            if (ObsFilter != null)
-            {
-                sb.Append("; o = " + ObsFilter.ToString());
-            }
-
-            if (SplitGroups)
-            {
-                sb.Append("; [G]");
-            }
-
-            if (Distance != null)
-            {
-                sb.Append("; d = " + Distance.ToString());
-            }
-
-            if (PeakFilter != null)
-            {
-                sb.Append("; p = " + PeakFilter.ToString());
-            }
-
-            return sb.ToString();
+            return columns;
         }
+
+        public override string DefaultDisplayName
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append( base.DefaultDisplayName );
+
+                if (ObsFilter != null)
+                {
+                    sb.Append( "; o = " + ObsFilter.ToString() );
+                }
+
+                if (SplitGroups)
+                {
+                    sb.Append( "; [G]" );
+                }
+
+                if (Distance != null)
+                {
+                    sb.Append( "; d = " + Distance.ToString() );
+                }
+
+                if (PeakFilter != null)
+                {
+                    sb.Append( "; p = " + PeakFilter.ToString() );
+                }
+
+                return sb.ToString();
+            }
+        } 
     }
 }

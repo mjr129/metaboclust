@@ -36,16 +36,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 return (ArgsTrendAsCorrection)Args;
             }
-        }
-
-        protected sealed override IEnumerable<Column> GetExtraColumns(Core core)
-        {
-            List<Column<ConfigurationCorrection>> columns = new List<Column<ConfigurationCorrection>>();
-                                                                                         
-            columns.Add("Arguments\\Parameters", z => z.Args.Parameters); 
-
-            return columns;
-        }
+        }               
 
         /// <summary>
         /// Like Correct(), but just gets the trend (for plots).
@@ -59,7 +50,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             }
 
             var args = base.Args as ArgsTrendAsCorrection;
-            var algo = base.GetAlgorithm() as TrendBase;
+            var algo = base.GetAlgorithmOrThrow() as TrendBase;
 
             switch (args.Mode)
             {
@@ -115,14 +106,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             if (!IsUsingTrend)
             {
                 var args = base.Args as ArgsCorrection;
-                var algo = base.GetAlgorithm() as CorrectionBase;
+                var algo = base.GetAlgorithmOrThrow() as CorrectionBase;
 
                 result = algo.Calculate(raw, args);
             }
             else
             {
                 var args = base.Args as ArgsTrendAsCorrection;
-                var algo = base.GetAlgorithm() as TrendBase;
+                var algo = base.GetAlgorithmOrThrow() as TrendBase;
 
                 IReadOnlyList<ObservationInfo> trendOrder;
                 double[] trend = ExtractTrend(core, raw, out trendOrder);

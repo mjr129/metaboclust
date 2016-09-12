@@ -611,25 +611,27 @@ namespace MetaboliteLevels.Forms.Algorithms
                 // Iterate over repetitions
                 for (int repetition = 0; repetition < test.NumberOfRepeats; repetition++)
                 {
-                    proggy.Enter("Test " + index + "/" + of + ", parameter " + valueIndex + "/" + test.ParameterValues.Length + ", repetition " + repetition + "/" + test.NumberOfRepeats);
+                    proggy.Enter( "Test " + index + "/" + of + ", parameter " + valueIndex + "/" + test.ParameterValues.Length + ", repetition " + repetition + "/" + test.NumberOfRepeats );
 
                     // Create config
-                    string newName = AlgoParameterCollection.ParamToString(false, null, value) + " " + StringHelper.Circle(repetition + 1);
+                    string newName = AlgoParameterCollection.ParamToString( false, null, value ) + " " + StringHelper.Circle( repetition + 1 );
                     object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
                     copyOfParameters[test.ParameterIndex] = value;
                     ArgsClusterer copyOfArgs = new ArgsClusterer(
                         test.ClustererConfiguration.Args.Id,
                         test.ClustererConfiguration.Args.SourceProvider,
                         test.ClustererConfiguration.Args.PeakFilter,
-                        test.ClustererConfiguration.Args.Distance, 
-                        test.ClustererConfiguration.Args.ObsFilter, 
+                        test.ClustererConfiguration.Args.Distance,
+                        test.ClustererConfiguration.Args.ObsFilter,
                         test.ClustererConfiguration.Args.SplitGroups,
                         test.ClustererConfiguration.Args.Statistics,
-                        copyOfParameters);
+                        copyOfParameters )
+                    {
+                        OverrideDisplayName = newName,
+                        Comment = test.ClustererConfiguration.Args.Comment
+                    };
                     var copyOfConfig = new ConfigurationClusterer()
-                                       {
-                                           OverrideDisplayName = newName,
-                                           Comment = test.ClustererConfiguration.Comment,
+                                       {  
                                            Args = copyOfArgs
                                        };
 

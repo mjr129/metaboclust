@@ -11,6 +11,7 @@ using System.Drawing.Design;
 using MetaboliteLevels.Forms;
 using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Utilities;
+using MetaboliteLevels.Properties;
 
 namespace MetaboliteLevels.Controls
 {
@@ -18,7 +19,17 @@ namespace MetaboliteLevels.Controls
     {
         public event CancelEventHandler HelpClicked;
         private string _helpText;
+        private EHelpIcon _helpIcon;
         private string _warningText;
+
+        public enum EHelpIcon
+        {
+            Automatic,
+            Off,
+            Normal,
+            ShowBar,
+            HideBar
+        }
 
         public CtlTitleBar()
         {
@@ -112,7 +123,65 @@ namespace MetaboliteLevels.Controls
             set
             {
                 _helpText = value;
-                _btnHelp.Visible = !string.IsNullOrEmpty(_helpText);
+                UpdateHelpButtonVisibility();
+            }
+        }
+
+        private void UpdateHelpButtonVisibility()
+        {
+            switch (_helpIcon)
+            {
+                case EHelpIcon.Automatic:
+                    _btnHelp.Visible = !string.IsNullOrEmpty( _helpText );
+                    break;
+
+                case EHelpIcon.Off:
+                    _btnHelp.Visible = false;
+                    break;
+
+                default:
+                    _btnHelp.Visible = true;
+                    break;
+            }
+
+            
+        }
+
+        [EditorBrowsable( EditorBrowsableState.Always ), Browsable( true ), DesignerSerializationVisibility( DesignerSerializationVisibility.Visible )]
+        [Category( "Appearance" )]
+        [DefaultValue( EHelpIcon.Automatic)]
+        public EHelpIcon HelpIcon
+        {
+            get
+            {
+                return _helpIcon;
+            }
+            set
+            {
+                if (_helpIcon == value)
+                {
+                    return;
+                }
+
+                _helpIcon = value;
+
+                switch (_helpIcon)
+                {
+                    case EHelpIcon.Automatic:
+                    case EHelpIcon.Normal:
+                        _btnHelp.Image = UiControls.RecolourImage( Resources.MnuHelp );
+                        break;
+
+                    case EHelpIcon.HideBar:
+                        _btnHelp.Image = UiControls.RecolourImage( Resources.MnuCancel );
+                        break;            
+
+                    case EHelpIcon.ShowBar:
+                        _btnHelp.Image = UiControls.RecolourImage( Resources.MnuHelpBar );
+                        break;
+                }
+
+                UpdateHelpButtonVisibility();
             }
         }
 
@@ -144,11 +213,12 @@ namespace MetaboliteLevels.Controls
                 {
                     return;
                 }
+            }                     
+
+            if (!string.IsNullOrEmpty( _helpText ))
+            {
+                FrmInputMultiLine.ShowFixed( this.FindForm(), "Help", "Help", Text, _helpText );
             }
-
-            string helpText = _helpText;        
-
-            FrmInputMultiLine.ShowFixed(this.FindForm(), "Help", "Help", Text, helpText);
         }
 
         private void _btnWarning_Click(object sender, EventArgs e)

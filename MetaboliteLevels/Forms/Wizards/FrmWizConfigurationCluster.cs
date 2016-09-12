@@ -257,9 +257,13 @@ namespace MetaboliteLevels.Forms.Wizards
                 trueFilter,
                 _chkClusterIndividually.Checked,
                 EClustererStatistics.None,
-                parameters );
+                parameters )
+            {
+                OverrideDisplayName = name,
+                Comment = "Generated using wizard"
+            };
 
-            ConfigurationClusterer config = new ConfigurationClusterer() { OverrideDisplayName = name, Comment = "Generated using wizard", Args = args };
+            ConfigurationClusterer config = new ConfigurationClusterer() { Args = args };
 
             FrmWait.Show( this, "Clustering", null, z => _core.AddClusterer( config, z ) );
             DialogResult = DialogResult.OK;

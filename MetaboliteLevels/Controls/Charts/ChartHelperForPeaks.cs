@@ -19,14 +19,15 @@ using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
 
 namespace MetaboliteLevels.Viewers.Charts
 {
     class ChartHelperForPeaks : ChartHelper
     {
-        public static ConfigurationTrend MinSmoother = new ConfigurationTrend() {OverrideDisplayName =  "Minimum", Args= new Algorithms.Statistics.Arguments.ArgsTrend( Algo.ID_TREND_MOVING_MINIMUM, null, new object[] { 1 } ) };
-        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend() { OverrideDisplayName =  "Maximum", Args= new Algorithms.Statistics.Arguments.ArgsTrend( Algo.ID_TREND_MOVING_MAXIMUM, null, new object[] { 1 } ) };
-        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend() {OverrideDisplayName =  "Median", Args= new Algorithms.Statistics.Arguments.ArgsTrend( Algo.ID_TREND_MOVING_MEDIAN, null, new object[] { 1 } ) };
+        public static ConfigurationTrend MinSmoother = new ConfigurationTrend() { Args= new ArgsTrend( Algo.ID_TREND_MOVING_MINIMUM, null, new object[] { 1 } ) { OverrideDisplayName = "Minimum" } };
+        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend() { Args= new ArgsTrend( Algo.ID_TREND_MOVING_MAXIMUM, null, new object[] { 1 } ) { OverrideDisplayName = "Maximum" } };
+        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend() { Args= new ArgsTrend( Algo.ID_TREND_MOVING_MEDIAN, null, new object[] { 1 } ) { OverrideDisplayName = "Median" } };
 
         public Peak SelectedPeak
         {

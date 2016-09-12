@@ -45,6 +45,81 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<GroupInfo> _ecbTypes;
         private EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
 
+        internal static ConfigurationCorrection Show( Form owner, Core core, ConfigurationCorrection def, bool readOnly )
+        {
+            using (FrmEditConfigurationCorrection frm = new FrmEditConfigurationCorrection( core, def, readOnly, FrmMain.SearchForSelectedPeak( owner ) ))
+            {
+                if (UiControls.ShowWithDim( owner, frm ) == DialogResult.OK)
+                {
+                    return frm.GetSelection();
+                }
+
+                return null;
+            }
+        }
+
+        internal FrmEditConfigurationCorrection( Core core, ConfigurationCorrection def, bool readOnly, Peak previewPeak )
+        {
+            InitializeComponent();
+            UiControls.SetIcon( this );
+
+            _lblPreviewTitle.BackColor = UiControls.PreviewBackColour;
+            _lblPreviewTitle.ForeColor = UiControls.PreviewForeColour;
+            _flpPreviewButtons.BackColor = UiControls.PreviewBackColour;
+            _flpPreviewButtons.ForeColor = UiControls.PreviewForeColour;
+
+            _core = core;
+            _readOnly = readOnly;
+            _selectedPeak = previewPeak;
+
+            // Charts
+            _chartOrig = new ChartHelperForPeaks( null, _core, panel1 );
+            _chartChanged = new ChartHelperForPeaks( null, _core, panel2 );
+
+            // Choicelists
+            _ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( _lstFilter, _btnFilter, ENullItemName.All );
+            _ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms( core ).CreateComboBox( _lstMethod, _btnNewStatistic, ENullItemName.NoNullItem );
+            _ecbTypes = DataSet.ForGroups( _core ).CreateComboBox( _lstTypes, _btnEditTypes, ENullItemName.NoNullItem );
+            _ecbSource = DataSet.ForMatrixProviders( _core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
+
+            // Buttons
+            GenerateTypeButtons();
+
+            // Default
+            if (def != null)
+            {
+                _txtName.Text = def.Args.OverrideDisplayName;
+                _txtParameters.Text = AlgoParameterCollection.ParamsToReversableString( def.Args.Parameters, core );
+                _ecbMethod.SelectedItem = def.Args.GetAlgorithmOrNull();
+                _comments = def.Args.Comment;
+
+                if (def.IsUsingTrend)
+                {
+                    ArgsTrendAsCorrection args = (ArgsTrendAsCorrection)def.Args;
+                    _radBatch.Checked = args.Mode == ECorrectionMode.Batch;
+                    _radType.Checked = args.Mode == ECorrectionMode.Control;
+                    _radDivide.Checked = args.Method == ECorrectionMethod.Divide;
+                    _radSubtract.Checked = args.Method == ECorrectionMethod.Subtract;
+                    _ecbTypes.SelectedItem = args.ControlGroup;
+                    _ecbFilter.SelectedItem = args.Constraint;
+                }
+                else
+                {
+                    ArgsCorrection args = (ArgsCorrection)def.Args;
+                    // NA
+                }
+            }
+
+            CheckAndChange();
+
+            if (readOnly)
+            {
+                UiControls.MakeReadOnly( this, _tlpPreview );
+            }
+
+            // UiControls.CompensateForVisualStyles(this);
+        }     
+
         private ConfigurationCorrection GetSelection()
         {
             _checker.Clear();
@@ -124,8 +199,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return null;
                 }
 
-                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection( ((TrendBase)algo).Id, source, mode, met, controlGroup, filter, parameters );
-                return new ConfigurationCorrection() { OverrideDisplayName = _txtName.Text, Comment = _comments, Args = args };
+                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection( ((TrendBase)algo).Id, source, mode, met, controlGroup, filter, parameters )
+                {
+                    OverrideDisplayName = _txtName.Text,
+                    Comment = _comments
+                };
+                return new ConfigurationCorrection() {  Args = args };
             }
             else if (algo is CorrectionBase)
             {
@@ -134,8 +213,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return null;
                 }
 
-                ArgsCorrection args = new ArgsCorrection( ((CorrectionBase)algo).Id, source, parameters );
-                return new ConfigurationCorrection() { OverrideDisplayName = _txtName.Text, Comment = _comments, Args = args };
+                ArgsCorrection args = new ArgsCorrection( ((CorrectionBase)algo).Id, source, parameters )
+                {
+                    OverrideDisplayName = _txtName.Text,
+                    Comment = _comments
+                };
+                return new ConfigurationCorrection() { Args = args };
             }
             else
             {
@@ -177,7 +260,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             bool readyToGo = (usingTrend && operatorVisible && (_radDivide.Checked || _radSubtract.Checked)) || (!usingTrend);
 
             ConfigurationCorrection sel = GetSelection();
-            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+            _txtName.Watermark = sel != null ? sel.Args.DefaultDisplayName : "Default";
             bool valid = sel != null;
 
             _tlpPreview.Visible = valid;
@@ -190,86 +273,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 GeneratePreview( sel );
             }
-        }
-
-        internal static ConfigurationCorrection Show( Form owner, Core core, ConfigurationCorrection def, bool readOnly )
-        {
-            using (FrmEditConfigurationCorrection frm = new FrmEditConfigurationCorrection( core, def, readOnly, FrmMain.SearchForSelectedPeak( owner ) ))
-            {
-                if (UiControls.ShowWithDim( owner, frm ) == DialogResult.OK)
-                {
-                    return frm.GetSelection();
-                }
-
-                return null;
-            }
-        }
-
-        internal FrmEditConfigurationCorrection( Core core, ConfigurationCorrection def, bool readOnly, Peak previewPeak )
-            : this()
-        {
-            _core = core;
-            _readOnly = readOnly;
-            _selectedPeak = previewPeak;
-
-            // Charts
-            _chartOrig = new ChartHelperForPeaks( null, _core, panel1 );
-            _chartChanged = new ChartHelperForPeaks( null, _core, panel2 );
-
-            // Choicelists
-            _ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( _lstFilter, _btnFilter, ENullItemName.All );
-            _ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms( core ).CreateComboBox( _lstMethod, _btnNewStatistic, ENullItemName.NoNullItem );
-            _ecbTypes = DataSet.ForGroups( _core ).CreateComboBox( _lstTypes, _btnEditTypes, ENullItemName.NoNullItem );
-            _ecbSource = DataSet.ForMatrixProviders( _core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
-
-            // Buttons
-            GenerateTypeButtons();
-
-            // Default
-            if (def != null)
-            {
-                _txtName.Text = def.OverrideDisplayName;
-                _txtParameters.Text = AlgoParameterCollection.ParamsToReversableString( def.Args.Parameters, core );
-                _ecbMethod.SelectedItem = def.GetAlgorithm();
-                _comments = def.Comment;
-
-                if (def.IsUsingTrend)
-                {
-                    ArgsTrendAsCorrection args = (ArgsTrendAsCorrection)def.Args;
-                    _radBatch.Checked = args.Mode == ECorrectionMode.Batch;
-                    _radType.Checked = args.Mode == ECorrectionMode.Control;
-                    _radDivide.Checked = args.Method == ECorrectionMethod.Divide;
-                    _radSubtract.Checked = args.Method == ECorrectionMethod.Subtract;
-                    _ecbTypes.SelectedItem = args.ControlGroup;
-                    _ecbFilter.SelectedItem = args.Constraint;
-                }
-                else
-                {
-                    ArgsCorrection args = (ArgsCorrection)def.Args;
-                    // NA
-                }
-            }
-
-            CheckAndChange();
-
-            if (readOnly)
-            {
-                UiControls.MakeReadOnly( this, _tlpPreview );
-            }
-
-            // UiControls.CompensateForVisualStyles(this);
-        }
-
-        public FrmEditConfigurationCorrection()
-        {
-            InitializeComponent();
-            UiControls.SetIcon( this );
-
-            _lblPreviewTitle.BackColor = UiControls.PreviewBackColour;
-            _lblPreviewTitle.ForeColor = UiControls.PreviewForeColour;
-            _flpPreviewButtons.BackColor = UiControls.PreviewBackColour;
-            _flpPreviewButtons.ForeColor = UiControls.PreviewForeColour;
-        }
+        }  
 
         private void _btnSelectPreview_Click( object sender, EventArgs e )
         {

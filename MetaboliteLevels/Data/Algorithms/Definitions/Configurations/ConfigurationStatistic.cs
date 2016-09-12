@@ -22,27 +22,13 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     {                      
         internal double Calculate(Core core, Peak a)
         {
-            return GetAlgorithm().Calculate(new InputStatistic(core, a, a, Args));
+            return GetAlgorithmOrThrow().Calculate(new InputStatistic(core, a, a, Args));
         }
 
         internal double Calculate(Core core, Peak a, Peak b) // TODO: What is this for?!
         {
-            return GetAlgorithm().Calculate(new InputStatistic(core, a, b, Args));
-        }
-
-        protected sealed override IEnumerable<Column> GetExtraColumns(Core core)
-        {
-            List<Column<ConfigurationStatistic>> columns = new List<Column<ConfigurationStatistic>>();
-
-            columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
-            columns.Add("Arguments\\Source", z => z.Args.SourceProvider);
-            columns.AddSubObject(core, "Arguments\\First vector constraint", z => z.Args.VectorAConstraint);
-            columns.AddSubObject(core, "Arguments\\Second vector constraint", z => z.Args.VectorBConstraint);
-            columns.AddSubObject(core, "Arguments\\Second vector peak", z => z.Args.VectorBPeak);
-            columns.Add("Arguments\\Second vector source", z => z.Args.VectorBSource);
-
-            return columns;
-        }
+            return GetAlgorithmOrThrow().Calculate(new InputStatistic(core, a, b, Args));
+        }                       
 
         public override bool Run( Core core, ProgressReporter prog )
         {
@@ -62,7 +48,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                     Peak peak = source.Rows[peakIndex].Peak;
                     double value = this.Calculate( core, peak );
                     max = Math.Max( max, value );
-                    min = Math.Min( min, value ); 
+                    min = Math.Min( min, value );
+
+                    results.Add( peak, value );
                 }
 
                 SetResults( new ResultStatistic( results, min, max ) );

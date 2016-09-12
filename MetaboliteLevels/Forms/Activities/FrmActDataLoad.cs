@@ -1329,8 +1329,8 @@ namespace MetaboliteLevels.Forms.Startup
         {
             object pStatMinParam1 = pStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
             ArgsStatistic pStatMinArgs = new ArgsStatistic( Algo.ID_STATS_ABSMAX, src, null, EAlgoInputBSource.None, null, null, new[] { pStatMinParam1 });
+            pStatMinArgs.OverrideDisplayName = name;
             var pStat = new ConfigurationStatistic();
-            pStat.OverrideDisplayName = name;
             pStat.Args = pStatMinArgs;
             return pStat;
         }
@@ -1342,8 +1342,8 @@ namespace MetaboliteLevels.Forms.Startup
         {
             object tStatMinParam1 = tStatOpts.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
             ArgsStatistic tStatMinArgs = new ArgsStatistic( Algo.ID_STATS_MIN, src, null, EAlgoInputBSource.None, null, null, new[] { tStatMinParam1 });
+            tStatMinArgs.OverrideDisplayName = name;
             var tStat = new ConfigurationStatistic();
-            tStat.OverrideDisplayName = name;
             tStat.Args = tStatMinArgs;
             return tStat;
         }
@@ -1354,8 +1354,8 @@ namespace MetaboliteLevels.Forms.Startup
         private static ConfigurationStatistic CreateTTestStatistic( IProvider<IntensityMatrix> src, string name, ObsFilter typeOfInterest, ObsFilter controlConditions)
         {
             ArgsStatistic args = new ArgsStatistic( Algo.ID_METRIC_TTEST, src, typeOfInterest, EAlgoInputBSource.SamePeak, controlConditions, null, null);
+            args.OverrideDisplayName = "T-TEST: " + name;
             var stat = new ConfigurationStatistic();
-            stat.OverrideDisplayName = "T-TEST: " + name;
             stat.Args = args;
             return stat;
         }
@@ -1366,9 +1366,9 @@ namespace MetaboliteLevels.Forms.Startup
         private static ConfigurationStatistic CreatePearsonStatistic( IProvider<IntensityMatrix> src, string name, ObsFilter typeOfInterest)
         {
             ArgsStatistic argsPearson = new ArgsStatistic( Algo.ID_METRIC_PEARSON, src, typeOfInterest, EAlgoInputBSource.Time, null, null, null);
+            argsPearson.OverrideDisplayName = "PEARSON: " + name;
+            argsPearson.Comment = "Pearson correlation of the trend-line for " + name + " against time.";
             var statPearson = new ConfigurationStatistic();
-            statPearson.OverrideDisplayName = "PEARSON: " + name;
-            statPearson.Comment = "Pearson correlation of the trend-line for " + name + " against time.";
             statPearson.Args = argsPearson;
             return statPearson;
         }

@@ -29,9 +29,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             ControlGroup = controlGroup;
         }
 
-        public override string ToString(AlgoBase algorithm)
+        public override string DefaultDisplayName
         {
-            return Mode.ToUiString() + " " + Method.ToUiString() + " " + base.ToString(algorithm);
+            get
+            {
+                return base.DefaultDisplayName + " " + Mode.ToUiString() + " " + Method.ToUiString();
+            }
         }
     }                                   
 }

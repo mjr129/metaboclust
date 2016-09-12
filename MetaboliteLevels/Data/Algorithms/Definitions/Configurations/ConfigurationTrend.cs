@@ -28,17 +28,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 
         internal double[] CreateTrend(IReadOnlyList<ObservationInfo> inOrder, IReadOnlyList<ObservationInfo> outOrder, IReadOnlyList<GroupInfo> typeInfo, double[] raw)
         {
-            return GetAlgorithm().SmoothByType(inOrder, outOrder, typeInfo, raw, this.Args);
-        }
-
-        protected override IEnumerable<Column> GetExtraColumns(Core core)
-        {
-            List<Column<ConfigurationTrend>> columns = new List<Column<ConfigurationTrend>>();
-
-            columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
-
-            return columns;
-        }
+            return GetAlgorithmOrThrow().SmoothByType(inOrder, outOrder, typeInfo, raw, this.Args);
+        }              
 
         public IntensityMatrix Provide => Results.Matrix;
 

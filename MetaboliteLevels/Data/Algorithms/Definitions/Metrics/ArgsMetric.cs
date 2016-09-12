@@ -15,16 +15,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         public ArgsMetric( string id, IProvider<IntensityMatrix> source, object[] parameters)
             : base( id, source, parameters )
         {
-        }
-
-        public override string ToString(AlgoBase algorithm)
-        {
-            if (Parameters != null)
-            {
-                return  AlgoParameterCollection.ParamsToHumanReadableString(Parameters, algorithm);
-            }
-
-            return "";
-        }
+        }   
     }
 }

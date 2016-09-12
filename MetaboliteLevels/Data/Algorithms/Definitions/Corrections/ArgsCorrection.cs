@@ -16,18 +16,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         public ArgsCorrection( string id, IProvider<IntensityMatrix> source, object[] parameters)
             : base( id, source, parameters )
         {
-        }
-
-        public override string ToString(AlgoBase algorithm)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            if (Parameters != null)
-            {
-                sb.Append(AlgoParameterCollection.ParamsToHumanReadableString(Parameters,algorithm ));
-            }
-
-            return sb.ToString();
-        }
+        }      
     }
 }

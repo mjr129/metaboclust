@@ -7,6 +7,9 @@ using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 using MGui.Datatypes;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Data.Session;
+using System.Collections.Generic;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -30,45 +33,60 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             this.VectorBPeak = compareTo;
         }
 
-        public override string ToString(AlgoBase algorithm)
+        public override string DefaultDisplayName
         {
-            StringBuilder sb = new StringBuilder();
-                                              
-            sb.Append(base.ToString());
-
-            if (VectorAConstraint != null)
+            get
             {
-                sb.Append(" for ");
-                sb.Append(VectorAConstraint.ToString());
-            }
+                StringBuilder sb = new StringBuilder();
 
-            if (VectorBSource != EAlgoInputBSource.None)
-            {
-                sb.Append(" against ");
+                sb.Append( base.DefaultDisplayName );
 
-                switch (VectorBSource)
+                if (VectorAConstraint != null)
                 {
-                    case EAlgoInputBSource.SamePeak:
-                        if (VectorBConstraint != null)
-                        {
-                            sb.Append(VectorBConstraint.ToString());
-                        }
-                        break;
-
-                    case EAlgoInputBSource.AltPeak:
-                        sb.Append("peak " + VectorBPeak.DisplayName);
-                        break;
-
-                    case EAlgoInputBSource.Time:
-                        sb.Append(VectorBSource.ToUiString());
-                        break;
-
-                    default:
-                        throw new SwitchException(VectorBSource);
+                    sb.Append( " for " );
+                    sb.Append( VectorAConstraint.ToString() );
                 }
-            }
 
-            return sb.ToString();
+                if (VectorBSource != EAlgoInputBSource.None)
+                {
+                    sb.Append( " against " );
+
+                    switch (VectorBSource)
+                    {
+                        case EAlgoInputBSource.SamePeak:
+                            if (VectorBConstraint != null)
+                            {
+                                sb.Append( VectorBConstraint.ToString() );
+                            }
+                            break;
+
+                        case EAlgoInputBSource.AltPeak:
+                            sb.Append( "peak " + VectorBPeak.DisplayName );
+                            break;
+
+                        case EAlgoInputBSource.Time:
+                            sb.Append( VectorBSource.ToUiString() );
+                            break;
+
+                        default:
+                            throw new SwitchException( VectorBSource );
+                    }
+                }
+
+                return sb.ToString();
+            }
+        }
+
+        protected sealed override IEnumerable<Column> GetExtraColumns( Core core )
+        {
+            List<Column<ArgsStatistic>> columns = new List<Column<ArgsStatistic>>();
+
+            columns.AddSubObject( core, "First vector constraint", z => z.VectorAConstraint );
+            columns.AddSubObject( core, "Second vector constraint", z => z.VectorBConstraint );
+            columns.AddSubObject( core, "Second vector peak", z => z.VectorBPeak );
+            columns.Add( "Second vector source", z => z.VectorBSource );
+
+            return columns;
         }
     }
 }

@@ -114,7 +114,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         {
             get
             {
-                return Configuration.ClustererConfiguration.DisplayName;
+                return Configuration.ClustererConfiguration.Args.DisplayName;
             }
         }    
 

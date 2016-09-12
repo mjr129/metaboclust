@@ -15,11 +15,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         public ArgsTrend( string id, IProvider<IntensityMatrix> source, object[] parameters)
             : base(id, source, parameters)
         {
-        }
-
-        public override string ToString(AlgoBase algorithm)
-        {
-            return base.ToString( algorithm );
-        }
+        }            
     }
 }

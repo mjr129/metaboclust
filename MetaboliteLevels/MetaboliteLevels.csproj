@@ -786,9 +786,6 @@
     <None Include="Resources\IconAdduct.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IcoHelp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\IconBack.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1108,6 +1105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\MnuHelpBar.png" />
     <None Include="Resources\IconMatrix.png" />
     <None Include="Resources\Busy.gif" />
     <None Include="Resources\IconAnnotation.png" />

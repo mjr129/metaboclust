@@ -13,14 +13,21 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
     /// <summary>
-    /// Represents a configurared algorithm.                                                   
+    /// Represents a configurared algorithm, containing the configuration and results.
+    /// 
+    /// This is a mutable object and can be modified by the user by changing the arguments.
+    /// The results are discarded upon modification.
+    /// 
+    /// The arguments comprise an immutable object with the intention of all changes going through ConfigurationBase.
+    /// 
+    /// 
     /// </summary>
-    /// <typeparam name="TStat">Type of statistic</typeparam>
+    /// <typeparam name="TAlgo">Type of statistic</typeparam>
     /// <typeparam name="TArgs">Type of arguments</typeparam>
     /// <typeparam name="TResults">Type of results</typeparam>
     [Serializable]
-    internal abstract class ConfigurationBase<TStat, TArgs, TResults> : IConfigurationBase
-        where TStat : AlgoBase
+    internal abstract class ConfigurationBase<TAlgo, TArgs, TResults> : IConfigurationBase
+        where TAlgo : AlgoBase
         where TArgs : ArgsBase
         where TResults : ResultBase
     {
@@ -55,6 +62,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// </summary>
         public object[] Parameters { get; private set; }
 
+        ArgsBase IConfigurationBase.Args => Args;
+
         /// <summary>
         /// Retrieves the algorithm arguments
         /// </summary>
@@ -80,7 +89,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// ToString
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => DisplayName;
+        public override string ToString() => Args.DisplayName;
 
         /// <summary>
         /// Retrieves the Error (if Results is null)
@@ -113,27 +122,27 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
+        string INameable.DisplayName => Args.DisplayName;
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        public string DefaultDisplayName => AlgoName + "; " + ArgsToString;
+        string INameable.DefaultDisplayName => Args.DefaultDisplayName;
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        public string OverrideDisplayName { get; set; }
+        string INameable.OverrideDisplayName { get { return Args.OverrideDisplayName; } set { Args.OverrideDisplayName = value; } }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        public string Comment { get; set; }
+        string INameable.Comment { get { return Args.Comment; } set { Args.Comment = value; } }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        public bool Hidden { get; set; }
+        bool INameable.Hidden { get { return Args.Hidden; } set { Args.Hidden = value; } }
 
         /// <summary>
         /// Disposes of the configuration
@@ -153,33 +162,41 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// </summary>              
         IEnumerable<Column> IVisualisable.GetColumns( Core core )
         {
-            List<Column<IConfigurationBase>> columns = new List<Column<IConfigurationBase>>();
+            var columns = new List<Column<ConfigurationBase<TAlgo, TArgs, TResults>>>();
 
-            columns.Add( "Name", EColumn.Visible, z => z.DisplayName );
-            columns.Add( "Comments", EColumn.None, z => z.Comment );
-            columns.Add( "Hidden", EColumn.None, z => z.Hidden );
-            columns.Add( "Algorithm\\Name", EColumn.None, z => z.AlgoName );
-            columns.Add( "Arguments\\Summary", EColumn.None, z => z.ArgsToString );
-            columns.Add( "Default name", EColumn.None, z => z.DefaultDisplayName );
-            columns.Add( "Results\\Error message", EColumn.None, z => z.Error );
-            columns.Add( "Results\\Has error", EColumn.None, z => z.HasError );
-            columns.Add( "Results\\Has results", EColumn.None, z => z.HasResults );
+            columns.Add( "Results\\Status", EColumn.Visible, z => z.Status );    
+            columns.Add( "Results\\Results", EColumn.None, z => z.Results );
+            columns.Add( "Results\\Error", EColumn.None, z => z.Error );
 
-            List<Column> allResults = new List<Column>();
+            ColumnExtensions.AddSubObject( columns, core, "Config", z => z.Args );
 
-            allResults.AddRange( columns );
-            allResults.AddRange( GetExtraColumns( core ) );
-
-            return allResults;
+            return columns;
         }
 
-        /// <summary>
-        /// Imlplemented by the derived class to supplement <see cref="GetColumns"/>.
-        /// </summary>                                                               
-        protected virtual IEnumerable<Column> GetExtraColumns( Core core )
+        public EAlgoStatus Status
         {
-            // NA
-            return new Column[0];
+            get
+            {
+                if (_results != null)
+                {
+                    return EAlgoStatus.Success;
+                }
+                else if (_error != null)
+                {
+                    return EAlgoStatus.Failed;
+                }
+                else
+                {
+                    return EAlgoStatus.Pending;
+                }
+            }
+        }
+
+        public enum EAlgoStatus
+        {
+            Pending,
+            Success,
+            Failed,
         }
 
         /// <summary>
@@ -207,21 +224,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// The derived class should perform its calculations and call EITHER <see cref="SetResults"/> OR <see cref="SetError"/>.
         /// </summary>
         public abstract bool Run( Core core, ProgressReporter prog );
-
-        /// <summary>
-        /// Checks if the algorithm is available.
-        /// </summary>
-        /// <returns></returns>
-        public bool CheckIsAvailable()
-        {
-            return GetAlgorithm() != null;
-        }
-
-        /// <summary>
-        /// Gets cached algorithm or throws an exception if not found.
-        /// </summary>
-        public TStat GetAlgorithm() => (TStat)Algo.Instance.All.Get( Args.Id );
-
+                           
         /// <summary>
         /// Returns if the algorithm completed with an error
         /// </summary>
@@ -231,24 +234,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// Returns if the algorithm completed successfully
         /// </summary>
         public bool HasResults => Results != null;
-
-        /// <summary>
-        /// Returns the display name of algorithm
-        /// </summary>          
-        public string AlgoName
-        {
-            get
-            {
-                var alg = GetAlgorithm();
-                return alg != null ? alg.DisplayName : Args.Id;
-            }
-        }
-
-        /// <summary>
-        /// Returns the 
-        /// </summary>
-        public string ArgsToString => Args == null ? string.Empty : Args.ToString( GetAlgorithm() );
-
+                                  
         /// <summary>
         /// Determines if the configuration needs recalculating, either because it
         /// hasn't ever been calculated, or its inputs have changed since they're creation.
@@ -264,9 +250,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         {
             get
             {
-                return !Hidden && Args.SourceMatrix != null && _sourceGuid != Args.SourceMatrix.Guid;
+                return Args != null && !Args.Hidden && Args.SourceMatrix != null && _sourceGuid != Args.SourceMatrix.Guid;
             }
-        }
+        }    
 
         /// <summary>
         /// Implements IVisualisable

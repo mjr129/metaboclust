@@ -145,7 +145,7 @@ namespace MetaboliteLevels.Forms.Startup
             _wizard.OkClicked += _wizard_OkClicked;
             _wizard.PermitAdvance += _wizard_PermitAdvance;
             _wizard.Pager.PageChanged += _wizard_PageChanged;
-            _wizard.TitleHelpText = Manual.DataLoadQueryHelp;
+            UpdateHelpButton();
 
             // Setup the experimental group boxes
             _cbControl = CreateExpConditionBox( _txtControls, _btnBrowseContCond );
@@ -398,12 +398,19 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (_wizard.Page != 0)
             {
-                _wizard.Options |= (CtlWizardOptions.ShowBack | CtlWizardOptions.ShowNext | CtlWizardOptions.ShowHelp);
+                _wizard.Options |= (CtlWizardOptions.ShowBack | CtlWizardOptions.ShowNext);
             }
             else
             {
-                _wizard.Options &= ~(CtlWizardOptions.ShowBack | CtlWizardOptions.ShowNext | CtlWizardOptions.ShowHelp);
+                _wizard.Options &= ~(CtlWizardOptions.ShowBack | CtlWizardOptions.ShowNext);
             }
+
+            UpdateHelpButton();
+        }
+
+        private void UpdateHelpButton()
+        {              
+            _wizard.TitleHelpIcon = splitContainer1.Panel2Collapsed ? CtlTitleBar.EHelpIcon.ShowBar : CtlTitleBar.EHelpIcon.Off;
         }
 
         void _wizard_CancelClicked( object sender, CancelEventArgs e )
@@ -867,7 +874,7 @@ namespace MetaboliteLevels.Forms.Startup
         private void ToggleHelp()
         {
             splitContainer1.Panel2Collapsed = !splitContainer1.Panel2Collapsed;
-            _wizard.HelpText = splitContainer1.Panel2Collapsed ? "Show help" : "Hide help";
+            UpdateHelpButton();
         }
 
         private void _btnDeleteWorkspace_Click( object sender, EventArgs e )
@@ -986,6 +993,8 @@ namespace MetaboliteLevels.Forms.Startup
         {
             if (FrmMsgBox.ShowYesNo( this, "Restore Settings", "Restore settings to defaults and restart program?", Resources.MsgWarning ))
             {
+                MainSettings.Instance.Reset();
+                MainSettings.Instance.Save();
                 UiControls.RestartProgram(this);
             }
         }
@@ -1004,7 +1013,7 @@ namespace MetaboliteLevels.Forms.Startup
         private void button1_Click( object sender, EventArgs e )
         {
             _wizard.Page += 1;
-            FrmMsgBox.ShowInfo( this, "Hint", "Select the help button to display the help side-bar describing file-format details, etc.", FrmMsgBox.EDontShowAgainId.HelpSideBar );
+            FrmMsgBox.Show( this, "Hint", null, "Select the help button to display the help side-bar describing file-format details, etc.", Resources.MnuHelpBar, new[] { new FrmMsgBox.ButtonSet( "OK", Resources.MnuAccept, DialogResult.OK ) }, FrmMsgBox.EDontShowAgainId.HelpSideBar, DialogResult.OK );
         }
 
         private void _lstLcmsMode_SelectedIndexChanged( object sender, EventArgs e )
@@ -1334,6 +1343,11 @@ namespace MetaboliteLevels.Forms.Startup
         private void _radRecentWorkspace_CheckedChanged( object sender, EventArgs e )
         {
 
+        }
+
+        private void ctlTitleBar1_HelpClicked( object sender, CancelEventArgs e )
+        {
+            ToggleHelp();
         }
     }
 }

@@ -83,16 +83,6 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap IcoHelp {
-            get {
-                object obj = ResourceManager.GetObject("IcoHelp", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap IconAdduct {
             get {
                 object obj = ResourceManager.GetObject("IconAdduct", resourceCulture);
@@ -1006,6 +996,16 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap MnuHelp {
             get {
                 object obj = ResourceManager.GetObject("MnuHelp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MnuHelpBar {
+            get {
+                object obj = ResourceManager.GetObject("MnuHelpBar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

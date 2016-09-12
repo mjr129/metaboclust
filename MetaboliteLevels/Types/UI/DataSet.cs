@@ -363,7 +363,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Icon = Resources.IconScriptTrend,
                 BeforeListChangesApplied = z =>
                 {
-                    int numEnabledX = z.List.Count(zz => !zz.Hidden );
+                    int numEnabledX = z.List.Count(zz => !zz.Args.Hidden );
 
                     if (numEnabledX == 0)
                     {

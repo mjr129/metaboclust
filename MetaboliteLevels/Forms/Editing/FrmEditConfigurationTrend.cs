@@ -63,9 +63,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (def != null)
             {
-                this._txtName.Text = def.OverrideDisplayName;
-                this._ecbMethod.SelectedItem = def.GetAlgorithm();
-                this._comments = def.Comment;
+                this._txtName.Text = def.Args.OverrideDisplayName;
+                this._ecbMethod.SelectedItem = (TrendBase)def.Args.GetAlgorithmOrNull();
+                this._comments = def.Args.Comment;
                 this._txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
             }
 
@@ -134,7 +134,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return null;
             }
 
-            return new ConfigurationTrend() { OverrideDisplayName = title, Comment = _comments, Args = new ArgsTrend( sel.Id, src, args ) };
+            return new ConfigurationTrend() { Args = new ArgsTrend( sel.Id, src, args ) { OverrideDisplayName = title, Comment = _comments } };
         }
 
         public FrmEditConfigurationTrend()
@@ -162,7 +162,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             bool valid = sel != null;
-            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+            _txtName.Watermark = sel != null ? sel.Args.DefaultDisplayName : "Default";
 
             _lnkError.Visible = false;
 

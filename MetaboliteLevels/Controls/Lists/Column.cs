@@ -35,6 +35,32 @@ namespace MetaboliteLevels.Viewers.Lists
         CountAndContent = 3,
     }
 
+    abstract class ColumnAttribute
+    {
+        public string Name { get; set; }
+        public EColumn Visibility { get; set; }
+
+        public ColumnAttribute()
+        {
+        }
+
+        public ColumnAttribute( string name )
+        {
+            Name = name;
+        }
+
+        public ColumnAttribute( EColumn visibility )
+        {
+            Visibility = visibility;
+        }
+
+        public ColumnAttribute( string name, EColumn visibility )
+        {
+            Name = name;
+            Visibility = visibility;
+        }
+    }
+
     abstract class Column : IVisualisable
     {
         public readonly string Id;

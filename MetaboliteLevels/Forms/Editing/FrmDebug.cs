@@ -175,11 +175,14 @@ namespace MetaboliteLevels.Forms.Editing
         {
             BeginWait( "Create clusters from pathways", false );
 
-            var args = new ArgsClusterer( Algo.ID_PATFROMPATH, _core.Matrices.First(), null, null, null, false, EClustererStatistics.None, null );
+            var args = new ArgsClusterer( Algo.ID_PATFROMPATH, _core.Matrices.First(), null, null, null, false, EClustererStatistics.None, null )
+            {
+                OverrideDisplayName = "create_clusters_from_pathways",
+            };
 
             ConfigurationClusterer config = new ConfigurationClusterer()
                                             {
-                                                OverrideDisplayName = "create_clusters_from_pathways",
+                                             
                                                 Args = args
                                             };
 

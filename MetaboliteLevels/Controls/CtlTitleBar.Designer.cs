@@ -92,7 +92,7 @@
             this._btnHelp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this._btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnHelp.Image = global::MetaboliteLevels.Properties.Resources.IcoHelp;
+            this._btnHelp.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this._btnHelp.Location = new System.Drawing.Point(223, 11);
             this._btnHelp.Name = "_btnHelp";
             this.tableLayoutPanel1.SetRowSpan(this._btnHelp, 2);

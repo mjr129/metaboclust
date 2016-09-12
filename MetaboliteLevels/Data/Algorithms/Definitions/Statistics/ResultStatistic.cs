@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
     {
         public readonly double Min;
         public readonly double Max;
-        public readonly Dictionary<Peak, double> Results;
+
+        public IReadOnlyDictionary<Peak, double> Results => _results;
+
+        public readonly Dictionary<Peak, double> _results;
 
         public ResultStatistic( Dictionary<Peak, double> results, double min, double max)
         {
-            this.Results = results;
+            Debug.Assert( results.Count != 0 );
+
+            this._results = results;
             this.Min = min;
             this.Max = max;
         }

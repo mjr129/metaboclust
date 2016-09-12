@@ -31,7 +31,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._lblOrder = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnShowHelp = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
             this._btnBack = new MetaboliteLevels.Controls.CtlButton();
             this._btnNext = new MetaboliteLevels.Controls.CtlButton();
@@ -81,34 +80,21 @@
             this.flowLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel3.AutoSize = true;
             this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel3.Controls.Add(this._btnShowHelp);
             this.flowLayoutPanel3.Controls.Add(this._btnCancel);
             this.flowLayoutPanel3.Controls.Add(this._btnBack);
             this.flowLayoutPanel3.Controls.Add(this._btnNext);
             this.flowLayoutPanel3.Controls.Add(this._btnOk);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(76, 339);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(212, 339);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(680, 56);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(544, 56);
             this.flowLayoutPanel3.TabIndex = 18;
             this.flowLayoutPanel3.WrapContents = false;
-            // 
-            // _btnShowHelp
-            // 
-            this._btnShowHelp.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
-            this._btnShowHelp.Location = new System.Drawing.Point(4, 8);
-            this._btnShowHelp.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
-            this._btnShowHelp.Name = "_btnShowHelp";
-            this._btnShowHelp.Size = new System.Drawing.Size(128, 40);
-            this._btnShowHelp.TabIndex = 13;
-            this._btnShowHelp.Text = "Show help";
-            this._btnShowHelp.UseVisualStyleBackColor = true;
-            this._btnShowHelp.Click += new System.EventHandler(this._btnShowHelp_Click);
             // 
             // _btnCancel
             // 
             this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this._btnCancel.Location = new System.Drawing.Point(140, 8);
+            this._btnCancel.Location = new System.Drawing.Point(4, 8);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
@@ -121,7 +107,7 @@
             // _btnBack
             // 
             this._btnBack.Image = global::MetaboliteLevels.Properties.Resources.MnuBack;
-            this._btnBack.Location = new System.Drawing.Point(276, 8);
+            this._btnBack.Location = new System.Drawing.Point(140, 8);
             this._btnBack.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnBack.Name = "_btnBack";
             this._btnBack.Size = new System.Drawing.Size(128, 40);
@@ -134,7 +120,7 @@
             // _btnNext
             // 
             this._btnNext.Image = global::MetaboliteLevels.Properties.Resources.MnuNext;
-            this._btnNext.Location = new System.Drawing.Point(412, 8);
+            this._btnNext.Location = new System.Drawing.Point(276, 8);
             this._btnNext.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnNext.Name = "_btnNext";
             this._btnNext.Size = new System.Drawing.Size(128, 40);
@@ -147,7 +133,7 @@
             // _btnOk
             // 
             this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this._btnOk.Location = new System.Drawing.Point(548, 8);
+            this._btnOk.Location = new System.Drawing.Point(412, 8);
             this._btnOk.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this._btnOk.Name = "_btnOk";
             this._btnOk.Size = new System.Drawing.Size(128, 40);
@@ -182,6 +168,7 @@
             this.ctlTitleBar1.TabIndex = 22;
             this.ctlTitleBar1.Text = "Title";
             this.ctlTitleBar1.WarningText = null;
+            this.ctlTitleBar1.HelpClicked += new System.ComponentModel.CancelEventHandler(this.ctlTitleBar1_HelpClicked);
             // 
             // CtlWizard
             // 
@@ -203,7 +190,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
-        private MetaboliteLevels.Controls.CtlButton _btnShowHelp;
         private MetaboliteLevels.Controls.CtlButton _btnBack;
         private MetaboliteLevels.Controls.CtlButton _btnNext;
         private MetaboliteLevels.Controls.CtlButton _btnOk;

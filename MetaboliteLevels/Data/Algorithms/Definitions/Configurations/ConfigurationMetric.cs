@@ -17,17 +17,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     {        
         internal double Calculate(double[] a, double[] b)
         {
-            return GetAlgorithm().QuickCalculate(a, b, this.Args.Parameters);
-        }
-
-        protected sealed override IEnumerable<Column> GetExtraColumns(Core core)
-        {
-            List<Column<ConfigurationMetric>> columns = new List<Column<ConfigurationMetric>>();
-
-            columns.Add("Arguments\\Parameters", z => z.Args.Parameters);
-
-            return columns;
-        }
+            return GetAlgorithmOrThrow().QuickCalculate(a, b, this.Args.Parameters);
+        }               
 
         public override bool Run( Core core, ProgressReporter prog )
         {
