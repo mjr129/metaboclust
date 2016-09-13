@@ -166,12 +166,12 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             switch (request.Type)
             {
-                case VisualClass.Peak:
+                case EVisualClass.Peak:
                     request.Text = "Peaks with similar m/z to {0} (" + Maths.SignificantDigits((double)this.Mz, 5) + ")";
                     request.AddRange(this.SimilarPeaks);
                     break;
 
-                case VisualClass.Cluster:
+                case EVisualClass.Cluster:
                     request.Text = "Assigned clusters for {0}";
                     Assignment.AddHeaders(request);
 
@@ -182,13 +182,13 @@ namespace MetaboliteLevels.Data.Visualisables
 
                     break;
 
-                case VisualClass.Assignment:
+                case EVisualClass.Assignment:
                     request.Text = "Assignments for {0}";
                     request.AddRange( FindAssignments( request.Core ) );
                     break;
 
 
-                case VisualClass.Compound:
+                case EVisualClass.Compound:
                     request.Text = "Potential compounds of {0}";
 
                     foreach (var annotation in Annotations)
@@ -198,7 +198,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
                     break;
 
-                case VisualClass.Annotation:
+                case EVisualClass.Annotation:
                     request.Text = "Annotations for {0}";
 
                     foreach (var annotation in Annotations)
@@ -208,7 +208,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
                     break;
 
-                case VisualClass.Adduct:
+                case EVisualClass.Adduct:
                     {
                         request.Text = "Adducts of potential compounds for {0}";
 
@@ -226,7 +226,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     }
                     break;
 
-                case VisualClass.Pathway:
+                case EVisualClass.Pathway:
                     {
                         request.Text = "Pathways of potential compounds for {0}";
                         request.AddExtraColumn("Compounds", "Compounds in this pathway potentially represented by {0}.");
@@ -256,9 +256,9 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        VisualClass IAssociational.VisualClass
+        EVisualClass IAssociational.VisualClass
         {
-            get { return VisualClass.Peak; }
+            get { return EVisualClass.Peak; }
         }
 
         /// <summary>

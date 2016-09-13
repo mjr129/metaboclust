@@ -71,7 +71,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// VisualClass of IVisualisable
         /// </summary>
-        VisualClass VisualClass { get; }
+        EVisualClass VisualClass { get; }
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Provides a preview for the specified IVisualisable.
         /// </summary>
-        Image ProvidePreview(Size size, object target, object highlight );
+        Image ProvidePreview(Size size, object target );
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// (EXTENSION) (MJR) Retrieves a request for contents with the specified parameters.
         /// </summary>
-        public static ContentsRequest GetContents(this IAssociational self, Core core, VisualClass type)
+        public static ContentsRequest GetContents(this IAssociational self, Core core, EVisualClass type)
         {
             ContentsRequest cl = new ContentsRequest(core, self, type);
             self.RequestContents(cl);
@@ -219,6 +219,11 @@ namespace MetaboliteLevels.Data.Visualisables
 
         public static bool SupportsDisable( this INameable v )
         {
+            if (v == null)
+            {
+                return false;
+            }
+
             bool originalState = v.Hidden;
             v.Hidden = !originalState;
             bool canEnable = v.Hidden != originalState;
@@ -230,6 +235,11 @@ namespace MetaboliteLevels.Data.Visualisables
 
         public static bool SupportsRename( this INameable v )
         {
+            if (v == null)
+            {
+                return false;
+            }
+
             string originalState = v.OverrideDisplayName;
             v.OverrideDisplayName = TEST_VALUE;
             bool canEnable = v.OverrideDisplayName == TEST_VALUE;
@@ -237,8 +247,13 @@ namespace MetaboliteLevels.Data.Visualisables
             return canEnable;
         }
 
-        public static bool SupportsComment( this IVisualisable v )
+        public static bool SupportsComment( this INameable v )
         {
+            if (v == null)
+            {
+                return false;
+            }
+
             string originalState = v.Comment;
             v.Comment = TEST_VALUE;
             bool canEnable = v.Comment == TEST_VALUE;
@@ -247,16 +262,97 @@ namespace MetaboliteLevels.Data.Visualisables
         }
     }
 
+    class Association : IVisualisable
+    {
+        public readonly IAssociational WrappedValue;
+        public IAssociational SourceValue => _owner.Owner;
+        public readonly ContentsRequest _owner;
+        private readonly object[] _extraColumns;
+
+        public string Comment
+        {
+            get
+            {
+                return WrappedValue.Comment;
+            }
+
+            set
+            {
+                WrappedValue.Comment = value;
+            }
+        }
+
+        public Association( ContentsRequest source, IAssociational target, object[] extraColumns )
+        {
+            _owner = source;
+            WrappedValue = target;         
+            _extraColumns = extraColumns;
+        }
+
+        public string DefaultDisplayName => WrappedValue.DefaultDisplayName;
+
+        public string DisplayName => WrappedValue.DisplayName;
+
+        public bool Hidden
+        {
+            get
+            {
+                return WrappedValue.Hidden;
+            }
+
+            set
+            {
+                WrappedValue.Hidden = value;
+            }
+        }
+
+        public string OverrideDisplayName
+        {
+            get
+            {
+                return WrappedValue.OverrideDisplayName;
+            }
+
+            set
+            {
+                WrappedValue.OverrideDisplayName = value;
+            }
+        }
+
+        public IEnumerable<Column> GetColumns( Core core )
+        {
+            List<Column<Association>> results = new List<Column<Association>>();
+
+            results.AddSubObject( core, "Target\\", z => z.WrappedValue );
+
+            for(int n=0; n < _owner.ExtraColumns.Count; ++n)
+            {
+                var closure = n;
+                var c = _owner.ExtraColumns[n];
+
+                results.Add( new Column<Association>( c.Item1, EColumn.Visible, c.Item2, z => z._extraColumns[closure], z => Color.Blue ) );
+
+            }
+
+            return results.Cast<Column>().Concat( GetExtraColumns( core ) );
+        } 
+
+        protected virtual IEnumerable<Column> GetExtraColumns( Core core )
+        {
+            return new Column[0];
+        }
+
+        public UiControls.ImageListOrder GetIcon()
+        {
+            return WrappedValue.GetIcon();
+        }                             
+    }
+
     /// <summary>
     /// Request for contents from an IVisualisable.
     /// </summary>
     internal class ContentsRequest
-    {
-        /// <summary>
-        /// Empty request.
-        /// </summary>
-        public static readonly ContentsRequest Empty = new ContentsRequest(null, null, (VisualClass)(-1));
-
+    {      
         /// <summary>
         /// Request - Core
         /// </summary>
@@ -265,12 +361,12 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Request - Called upon
         /// </summary>
-        public readonly IVisualisable Owner;
+        public readonly IAssociational Owner;
 
         /// <summary>
         /// Request - Type of results to get.
         /// </summary>
-        public readonly VisualClass Type;
+        public readonly EVisualClass Type;
 
         /// <summary>
         /// Response - Title of the results.
@@ -278,108 +374,56 @@ namespace MetaboliteLevels.Data.Visualisables
         public string Text;
 
         /// <summary>
-        /// Response - OBJECT and OPTIONAL EXTRA COLUMNS
+        /// Response - List of results
         /// </summary>
-        public readonly Dictionary<IVisualisable, object[]> Contents = new Dictionary<IVisualisable, object[]>();
+        public readonly List<Association> Results = new List<Association>();
 
         /// <summary>
-        /// Response - titles of OPTIONAL EXTRA COLUMNS 
+        /// Extra columns
         /// </summary>
-        private readonly List<ExtraColumn> _headers = new List<ExtraColumn>();
+        public readonly List<Tuple<string, string>> ExtraColumns = new List<Tuple<string, string>>();
 
         /// <summary>
         /// CONSTRUCTOR
         /// </summary> 
-        public ContentsRequest(Core core, IVisualisable owner, VisualClass type)
+        public ContentsRequest(Core core, IAssociational owner, EVisualClass type)
         {
             this.Core = core;
             this.Owner = owner;
             this.Type = type;
-        }
+        }     
 
-        /// <summary>
-        /// Adds an extra column header - pass the actual values to [Add::extraColumnData].
-        /// </summary>           
-        public void AddExtraColumn(string header, string description)
+        public void Add<T>( T item, params object[] extraColumns )
+            where T:IAssociational
         {
-            _headers.Add(new ExtraColumn(header, description));
-        }
-
-        /// <summary>
-        /// Adds an [item], additional columns should be passed in the [extraColumnData].
-        /// </summary>   
-        public void Add(IVisualisable item, params object[] extraColumnData)
-        {
-            Contents[item] = extraColumnData;
-        }
-
-        /// <summary>
-        /// Returns the column items.
-        /// </summary>
-        public IEnumerable<IVisualisable> Keys
-        {
-            get { return Contents.Keys; }
+            Results.Add( new Association(this, item, extraColumns) );
         }
 
         /// <summary>
         /// Adds a range of items (this can't be done if there are unique columns).
         /// </summary>                                                             
-        public void AddRange(IEnumerable<IVisualisable> items)
+        public void AddRange(IEnumerable<IAssociational> items)
         {
             if (items != null)
             {
-                foreach (IVisualisable item in items)
+                foreach (IAssociational item in items)
                 {
                     Add(item);
                 }
             }
         }
 
-        /// <summary>
-        /// Gets the list of extra columns.
-        /// </summary>
-        public IList<ExtraColumn> ExtraColumns
+        internal void AddExtraColumn( string title, string description )
         {
-            get
-            {
-                return this._headers;
-            }
+            ExtraColumns.Add( Tuple.Create( title, description ) );
         }
 
-        /// <summary>
-        /// Adds a range of items, with their counts in the first extra column (there must just be one extra column).
-        /// </summary>                                                  
-        public void AddRangeWithCounts<T>(Counter<T> counts)
-            where T : IVisualisable
+        internal void AddRangeWithCounts<T>( Counter<T> counts )
+            where T: IAssociational
         {
             foreach (var kvp in counts.Counts)
             {
-                Add(kvp.Key, kvp.Value);
-            }
-        }
-
-        /// <summary>
-        /// Columns (returned in <see cref="ContentsRequest"/>) in addition to those normally on the items.
-        /// </summary>
-        public class ExtraColumn
-        {
-            /// <summary>
-            /// Column name
-            /// </summary>
-            public readonly string Name;
-
-            /// <summary>
-            /// Column description
-            /// </summary>
-            public readonly string Description;
-
-            /// <summary>
-            /// CONSTRUCTOR
-            /// </summary> 
-            public ExtraColumn(string header, string description)
-            {
-                this.Name = header;
-                this.Description = description;
+                Add( kvp.Key, kvp.Value );
             }
         }
     }
@@ -387,9 +431,11 @@ namespace MetaboliteLevels.Data.Visualisables
     /// <summary>
     /// Types of IVisualisable.
     /// </summary>
-    public enum VisualClass
+    public enum EVisualClass
     {
         None,
+        Info,
+        Statistic,
         Peak,
         Cluster,
         Compound,

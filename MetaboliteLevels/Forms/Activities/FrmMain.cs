@@ -28,12 +28,12 @@ using MetaboliteLevels.Viewers.Lists;
 using System.Drawing.Imaging;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MGui.Helpers;
 using MGui.Controls;
 using System.Reflection;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Data.Session.Associational;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms
 {
@@ -55,25 +55,8 @@ namespace MetaboliteLevels.Forms
         private readonly ChartHelperForClusters _chartClusterForPrinting;
 
         // The list views
-        private readonly ListViewHelper<Peak> _peakList;
-        private readonly ListViewHelper<Cluster> _clusterList;
-        private readonly ListViewHelper<Adduct> _adductList;
-        private readonly ListViewHelper<Compound> _compoundList;
-        private readonly ListViewHelper<Pathway> _pathwayList;
-
-        private readonly ListViewHelper<Peak> _peakList2;
-        private readonly ListViewHelper<Cluster> _clusterList2;
-        private readonly ListViewHelper<Adduct> _adductList2;
-        private readonly ListViewHelper<Compound> _compoundList2;
-        private readonly ListViewHelper<Pathway> _pathwayList2;
-        private readonly ListViewHelper<Assignment> _assignmentList2;
-
-        // Pager controls
-        private readonly PagerControl _pgrMain;
-        private readonly PagerControl _pgrSub;
-
-        // Selection dependent lists (bottom left)
-        private readonly SubListHandler _subDisplay;
+        private readonly CtlAutoList _primaryList; 
+        private readonly CtlAutoList _secondaryList;
 
         // Whether to force close the form
         private readonly bool _ignoreConfirmClose;
@@ -85,12 +68,13 @@ namespace MetaboliteLevels.Forms
         private string _printTitle;
         private int _waitCounter;
 
+        EDataSet _primaryListView;
+        EVisualClass _secondaryListView;
+
         // Selection
         VisualisableSelection _selection;
-        private IVisualisable _selectionMenuOpenedFromList;
-        private ListViewHelper<Assignment> _assignmentList;
-        private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList2;
-        private readonly ListViewHelper<Data.Visualisables.Annotation> _annotationList;
+        private object _selectionMenuOpenedFromList;
+        private readonly CaptionBar _captSecondary;
 
         public VisualisableSelection Selection
         {
@@ -113,6 +97,8 @@ namespace MetaboliteLevels.Forms
             // Create this form
             InitializeComponent();
             UiControls.SetIcon(this);
+
+            _captSecondary = new CaptionBar( panel4, this );
 
             // Initialise R
             if (!InitialiseR())
@@ -147,49 +133,38 @@ namespace MetaboliteLevels.Forms
             _chartCluster = new ChartHelperForClusters(this, _core, splitContainer3.Panel2);
             _chartPeakForPrinting = new ChartHelperForPeaks(null, _core, null);
             _chartClusterForPrinting = new ChartHelperForClusters(null, _core, null);
-
             _chartCluster.SelectionChanged += _chartCluster_SelectionChanged;
-
             _coreWatchers.Add(_chartPeak);
             _coreWatchers.Add(_chartCluster);
             _coreWatchers.Add(_chartPeakForPrinting);
             _coreWatchers.Add(_chartClusterForPrinting);
 
             // Primary lists
-            _peakList = CreatePrimaryList<Peak>(_lstVariables, z => z.Peaks);
-            _clusterList = CreatePrimaryList<Cluster>(_lstClusters, z => z.Clusters);
-            _adductList = CreatePrimaryList<Adduct>(_lstAdducts, z => z.Adducts);
-            _compoundList = CreatePrimaryList<Compound>(_lstCompounds, z => z.Compounds);
-            _pathwayList = CreatePrimaryList<Pathway>(_lstPathways, z => z.Pathways);
-            _assignmentList = CreatePrimaryList<Assignment>(_lstAssignments, z => z.Assignments);
-            _annotationList = CreatePrimaryList<Annotation>(_lstAnnotations, z => z.Annotations);
+            _primaryList = new CtlAutoList(_lstPrimary, _core, this);
+            _primaryList.Activate += primaryList_Activate;
+            _primaryList.ShowContextMenu += list_ShowContextMenu;
+            _coreWatchers.Add( _primaryList );
 
             // Secondary lists
-            _peakList2 = CreateSecondaryList<Peak>(_lst2Peaks);
-            _clusterList2 = CreateSecondaryList<Cluster>(_lst2Clusters);
-            _adductList2 = CreateSecondaryList<Adduct>(_lst2Adducts);
-            _compoundList2 = CreateSecondaryList<Compound>(_lst2Compounds);
-            _pathwayList2 = CreateSecondaryList<Pathway>(_lst2Pathways);
-            _assignmentList2 = CreateSecondaryList<Assignment>(_lst2Assignments);
-            _annotationList2 = CreateSecondaryList<Annotation>(_lstSubAnnots);
+            _secondaryList = new CtlAutoList( _lstSecondary, _core, this );
+            _secondaryList.Activate += secondaryList_Activate;
+            _secondaryList.ShowContextMenu += list_ShowContextMenu;
+            _coreWatchers.Add( _secondaryList );
 
             // Pagers
-            _pgrMain = new PagerControl(ref tabControl1);
-            _pgrMain.BindToButtons(_btnMain0, _btnMain1, _btnMain2, _btnMain3, _btnMain4, _btnMain5, _btnMainAnnots);
-
-
-            _pgrSub = new PagerControl(ref _tabSubinfo);
-            _pgrSub.BindToButtons(_btnSubInfo, _btnSubStat, _btnSubPeak, _btnSubPat, _btnSubComp, _btnSubAdd, _btnSubPath, _btnSubAss, _btnSubAnnot);
-
-            _subDisplay = new SubListHandler(this, _core, _lst2Info, _lst2Stats);
-            _subDisplay.Add(_adductList2, VisualClass.Adduct, _btnSubAdd);
-            _subDisplay.Add(_compoundList2, VisualClass.Compound, _btnSubComp);
-            _subDisplay.Add(_pathwayList2, VisualClass.Pathway, _btnSubPath);
-            _subDisplay.Add(_clusterList2, VisualClass.Cluster, _btnSubPat);
-            _subDisplay.Add(_peakList2, VisualClass.Peak, _btnSubPeak);
-            _subDisplay.Add(_assignmentList2, VisualClass.Assignment, _btnSubAss);
-            _subDisplay.Add(_annotationList2, VisualClass.Annotation, _btnSubAnnot);
-            _coreWatchers.Add(_subDisplay);
+            _btnPrimPeak.Tag = EDataSet.Peaks;
+            _btnPrimPath.Tag = EDataSet.Pathways;
+            _btnPrimComp.Tag = EDataSet.Compounds;
+            _btnPrimAssig.Tag = EDataSet.Assignments;
+            _btnPrimClust.Tag = EDataSet.Clusters;
+            _btnPrimAdduct.Tag = EDataSet.Adducts;
+            _btnSubAdd.Tag = EVisualClass.Adduct;
+            _btnSubAnnot.Tag = EVisualClass.Annotation;
+            _btnSubAss.Tag = EVisualClass.Assignment;
+            _btnSubComp.Tag = EVisualClass.Compound;
+            _btnSubInfo.Tag = EVisualClass.Info;
+            _btnSubPat.Tag = EVisualClass.Pathway;
+            _btnSubPeak.Tag = EVisualClass.Peak;
 
             // General stuff
             HandleCoreChange();
@@ -210,6 +185,11 @@ namespace MetaboliteLevels.Forms
             }
         }
 
+        private void _btnPrimary_Click<T>( object sender, EventArgs e )
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Handles menu click.
         /// </summary>aram>
@@ -218,31 +198,7 @@ namespace MetaboliteLevels.Forms
             ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
             EDataSet tag = (EDataSet)tsmi.Tag;
             ShowEditor( tag );
-        }
-
-        /// <summary>
-        /// Sets up one of the lists
-        /// </summary>
-        private ListViewHelper<T> CreatePrimaryList<T>(ListView view, Func<Core, IEnumerable<T>> contentRetriever) where T : class, IVisualisable
-        {
-            var r = new ListViewHelper<T>(view, _core, contentRetriever, this);
-            r.Activate += primaryList_Activate;
-            r.ShowContextMenu += list_ShowContextMenu;
-            _coreWatchers.Add(r);
-            return r;
-        }
-
-        /// <summary>
-        /// Sets up one of the lists
-        /// </summary>
-        private ListViewHelper<T> CreateSecondaryList<T>(ListView view) where T : class, IVisualisable
-        {
-            var r = new ListViewHelper<T>(view, _core, null, this);
-            r.Activate += secondaryList_Activate;
-            r.ShowContextMenu += list_ShowContextMenu;
-            _coreWatchers.Add(r);
-            return r;
-        }
+        }     
 
         /// <summary>
         /// Any of the lists showing their context menu
@@ -256,66 +212,78 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Implements IPreviewProvider
         /// </summary>
-        Image IPreviewProvider.ProvidePreview(Size s, object utTarget, object utHighlight)
+        Image IPreviewProvider.ProvidePreview(Size s, object @object)
         {
-            IAssociational target = utTarget as IAssociational;
-            IAssociational highlight = utHighlight as IAssociational;
+            Association wrapped = @object as Association;
+            IAssociational primaryTarget;
+            IAssociational secondaryTarget;
 
-            if (target == null)
+            if (wrapped != null)
+            {
+                secondaryTarget = wrapped.SourceValue;
+                primaryTarget = wrapped.WrappedValue;
+            }
+            else
+            {
+                secondaryTarget = null;
+                primaryTarget = @object as IAssociational;
+            }                                       
+
+            if (primaryTarget == null)
             {
                 return null;
             }
 
             bool small = true;
 
-            BeginWait("Creating preview for " + target.DisplayName);
+            BeginWait("Creating preview for " + primaryTarget.DisplayName);
             Bitmap result;
 
             try
             {
-                switch (target.VisualClass)
+                switch (primaryTarget.VisualClass)
                 {
-                    case VisualClass.Adduct:
+                    case EVisualClass.Adduct:
                         {
                             result = null;
                         }
                         break;
 
-                    case VisualClass.Compound:
+                    case EVisualClass.Compound:
                         {
-                            StylisedCluster p = ((Compound)target).CreateStylisedCluster(_core, SelectedTrend.Results.Matrix,  highlight);
+                            StylisedCluster p = ((Compound)primaryTarget).CreateStylisedCluster(_core, SelectedTrend.Results.Matrix,  secondaryTarget);
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
-                    case VisualClass.Pathway:
+                    case EVisualClass.Pathway:
                         {
-                            StylisedCluster p = ((Pathway)target).CreateStylisedCluster(_core, SelectedTrend.Results.Matrix, highlight );
+                            StylisedCluster p = ((Pathway)primaryTarget).CreateStylisedCluster(_core, SelectedTrend.Results.Matrix, secondaryTarget );
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
-                    case VisualClass.Cluster:
+                    case EVisualClass.Cluster:
                         {
-                            StylisedCluster p = ((Cluster)target).CreateStylisedCluster(_core, highlight);
+                            StylisedCluster p = ((Cluster)primaryTarget).CreateStylisedCluster(_core, secondaryTarget );
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
-                    case VisualClass.Peak:
+                    case EVisualClass.Peak:
                         {
-                            StylisedPeak p = new StylisedPeak((Peak)target);
+                            StylisedPeak p = new StylisedPeak((Peak)primaryTarget);
                             p.IsPreview = small;
                             result = _chartPeakForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
                         break;
 
-                    case VisualClass.Assignment:
+                    case EVisualClass.Assignment:
                         {
-                            StylisedCluster p = ((Assignment)target).CreateStylisedCluster(_core, highlight);
+                            StylisedCluster p = ((Assignment)primaryTarget).CreateStylisedCluster(_core, secondaryTarget);
                             p.IsPreview = small;
                             result = _chartClusterForPrinting.CreateBitmap(s.Width, s.Height, p);
                         }
@@ -323,7 +291,7 @@ namespace MetaboliteLevels.Forms
 
                     default:
                         {
-                            throw new InvalidOperationException("Invalid switch: " + target.VisualClass);
+                            throw new InvalidOperationException("Invalid switch: " + primaryTarget.VisualClass);
                         }
                 }
             }
@@ -340,7 +308,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void primaryList_Activate(object sender, ListViewItemEventArgs e)
         {
-            CommitSelection(new VisualisableSelection(e.Selection));
+            CommitSelection(new VisualisableSelection(e.SelectedItem));
         }
 
 
@@ -349,7 +317,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void secondaryList_Activate(object sender, ListViewItemEventArgs e)
         {
-            CommitSelection(new VisualisableSelection(Selection.Primary, e.Selection));
+            CommitSelection(new VisualisableSelection(Selection.Primary, e.SelectedItem));
         }
 
         /// <summary>
@@ -438,13 +406,13 @@ namespace MetaboliteLevels.Forms
                 _selection = selection;
 
                 // Update the lists
-                _subDisplay.Activate( selection.Primary as IAssociational );
+                UpdateSecondaryList();
 
                 // Icons
                 if (selection.Primary != null)
                 {
-                    _btnSelection.Text = selection.Primary.DisplayName;
-                    _btnSelection.Image = UiControls.GetImage( selection.Primary.GetIcon(), true );
+                    _btnSelection.Text = selection.Primary.ToString();
+                    _btnSelection.Image = UiControls.GetImage( selection.Primary, true );
                     _btnSelection.Visible = true;
                 }
                 else
@@ -454,8 +422,8 @@ namespace MetaboliteLevels.Forms
 
                 if (selection.Secondary != null)
                 {
-                    _btnSelectionExterior.Text = selection.Secondary.DisplayName;
-                    _btnSelectionExterior.Image = UiControls.GetImage( selection.Secondary.GetIcon(), true );
+                    _btnSelectionExterior.Text = selection.Secondary.ToString();
+                    _btnSelectionExterior.Image = UiControls.GetImage( selection.Secondary, true );
                     _btnSelectionExterior.Visible = true;
                     _btnExterior.Visible = true;
                 }
@@ -493,19 +461,19 @@ namespace MetaboliteLevels.Forms
                 {
                     switch (cluster.VisualClass)
                     {
-                        case VisualClass.Assignment:
+                        case EVisualClass.Assignment:
                             sCluster = ((Assignment)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
                             break;
 
-                        case VisualClass.Cluster:
+                        case EVisualClass.Cluster:
                             sCluster = ((Cluster)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
                             break;
 
-                        case VisualClass.Compound:
+                        case EVisualClass.Compound:
                             sCluster = ((Compound)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as IAssociational );
                             break;
 
-                        case VisualClass.Pathway:
+                        case EVisualClass.Pathway:
                             sCluster = ((Pathway)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as IAssociational );
                             break;
 
@@ -540,6 +508,62 @@ namespace MetaboliteLevels.Forms
             }
         }
 
+        private void UpdatePrimaryList()
+        {
+            IDataSet dataSet = DataSet.For( _primaryListView, _core );
+            HighlightByTag( _tsBarBrowser, _primaryListView, _btnPrimOther );
+            _primaryList.DivertList( dataSet );
+
+        }
+
+        private void HighlightByTag( ToolStrip bar, Enum sel, ToolStripButton other )
+        {
+            bool any = false;
+
+            foreach (ToolStripItem tsi in bar.Items)
+            {
+                bool x = sel.Equals( tsi.Tag );
+                tsi.BackgroundImage = x ? Resources.TabSel : Resources.TabUnsel;
+                any |= x;     
+            }
+
+            if (!any)
+            {
+                other.BackgroundImage = Resources.TabSel;
+                other.Text = sel.ToUiString();
+            }
+            else
+            {
+                other.Text = "Other";
+            }
+        }
+
+        private void UpdateSecondaryList()
+        {
+            HighlightByTag( _tsBarSelection, _secondaryListView, _btnSubOther );
+
+            var selection = _selection?.Primary as IAssociational;
+                 
+            if (selection == null)
+            {
+                _captSecondary.SetText( "No data - no associational selection");
+                _secondaryList.Clear();   
+                return;
+            }
+
+            ContentsRequest request = selection.GetContents( _core, _secondaryListView );      
+            _secondaryList.DivertList( request.Results );     
+
+            if (request != null && request.Text != null)
+            {
+                _captSecondary.SetText( request.Text, selection );
+            }
+            else
+            {
+                _captSecondary.SetText( "No data - " + _secondaryListView.ToString() + " unavailable for {0}.", selection );
+            }
+        }
+
         /// <summary>
         /// Ads the selection to the selection history
         /// </summary>
@@ -567,16 +591,7 @@ namespace MetaboliteLevels.Forms
             try
             {
                 // Select it in the clusters list
-                _autoChangingSelection = true;
-
-                if (p == null || p.IsFake)
-                {
-                    _clusterList.Selection = null;
-                }
-                else
-                {
-                    _clusterList.Selection = p.Cluster;
-                }
+                _autoChangingSelection = true;   
 
                 _chartCluster.Plot( p );
 
@@ -654,13 +669,7 @@ namespace MetaboliteLevels.Forms
             try
             {
                 // Select it in the peaks list
-                _autoChangingSelection = true;
-
-                // The peak might be hidden due to a filter!
-                if (_peakList.GetVisible().Contains( peak )) // Todo - this is show, there should be a tryselect
-                {
-                    _peakList.Selection = peak; // make sure it is selected
-                }
+                _autoChangingSelection = true; 
 
                 StylisedPeak sp = new StylisedPeak( peak );
                 _chartPeak.Plot( sp );
@@ -928,13 +937,8 @@ namespace MetaboliteLevels.Forms
             this.UseWaitCursor = true;
             _lblChanges.Text = "PLEASE WAIT...";
 
-            _peakList.Rebuild(peak);
-            _clusterList.Rebuild(cluster);
-            _assignmentList.Rebuild(assignments);
-
-            _adductList.Rebuild(compounds);
-            _compoundList.Rebuild(compounds);
-            _pathwayList.Rebuild(compounds);
+            UpdatePrimaryList();
+            UpdateSecondaryList();         
 
             Replot();
 
@@ -1101,8 +1105,15 @@ namespace MetaboliteLevels.Forms
                 int y = 0;
                 int yim = (int)(g.MeasureString("X", titleFont).Height) * 2;
 
-                foreach (Cluster p in _clusterList.GetVisible())
+                foreach (object xx in _primaryList.GetVisible())
                 {
+                    Cluster p = xx as Cluster;
+
+                    if (p == null)
+                    {
+                        continue;
+                    }
+
                     StylisedCluster sp = new StylisedCluster(p);
 
                     _chartClusterForPrinting.Plot(sp);
@@ -1196,6 +1207,13 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void _lstVariables_KeyDown(object sender, KeyEventArgs e)
         {
+            Peak peakk = _primaryList.Selection as Peak;
+
+            if (peakk == null)
+            {
+                return;
+            }
+
             if (_core.Options.EnablePeakFlagging)
             {
                 foreach (var f in _core.Options.PeakFlags)
@@ -1205,13 +1223,20 @@ namespace MetaboliteLevels.Forms
                         NativeMethods.Beep(f.BeepFrequency, f.BeepDuration);
 
                         if (e.Control)
-                        {
-                            bool add = !_peakList.Selection.CommentFlags.Contains(f);
+                        {            
+                            bool add = !peakk.CommentFlags.Contains(f);
 
                             if (FrmMsgBox.ShowOkCancel(this, f.ToString(), (add ? "Apply this flag to" : "Remove this flag from") + " all peaks shown in list?"))
                             {
-                                foreach (Peak peak in _peakList.GetVisible())
+                                foreach (object xx in _primaryList.GetVisible())
                                 {
+                                    Peak peak = xx as Peak;
+
+                                    if (peak == null)
+                                    {
+                                        continue;
+                                    }
+
                                     if (add)
                                     {
                                         if (!peak.CommentFlags.Contains(f))
@@ -1229,13 +1254,13 @@ namespace MetaboliteLevels.Forms
                                     }
                                 }
 
-                                _peakList.Rebuild(EListInvalids.ValuesChanged);
+                                _primaryList.Rebuild(EListInvalids.ValuesChanged);
                             }
                         }
                         else
                         {
-                            _peakList.Selection.ToggleCommentFlag(f);
-                            _peakList.Update(_peakList.Selection);
+                            peakk.ToggleCommentFlag(f);
+                            _primaryList.Update( peakk);
                             e.Handled = true;
                         }
 
@@ -1330,7 +1355,7 @@ namespace MetaboliteLevels.Forms
 
             foreach (VisualisableSelection o in _viewHistory)
             {
-                Image image = o.Primary != null ? UiControls.GetImage(o.Primary.GetIcon(), true) : Resources.IconTransparent;
+                Image image = o.Primary != null ? UiControls.GetImage(o.Primary, true) : Resources.IconTransparent;
                 ToolStripButton historyButton = new ToolStripButton(o.ToString(), image);
                 historyButton.Click += historyButton_Click;
                 historyButton.Tag = o;
@@ -1374,12 +1399,13 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void addCommentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_selectionMenuOpenedFromList == null)
+            var x = _selectionMenuOpenedFromList as INameable;
+            if (x == null)
             {
                 return;
             }
 
-            FrmEditINameable.Show(this, _selectionMenuOpenedFromList, false);
+            FrmEditINameable.Show(this, x, false);
 
             // TODO: Lazy - what's actually changed?
             // Probably doesn't matter these are all fast refreshes
@@ -1434,7 +1460,7 @@ namespace MetaboliteLevels.Forms
 
             if (t != null)
             {
-                items.Add("&Navigate to " + t.DisplayName, null, openToolStripMenuItem_Click_1);
+                items.Add("&Navigate to " + t.ToString(), null, openToolStripMenuItem_Click_1);
                 items.Add("&Edit name and comments", null, addCommentsToolStripMenuItem_Click);
             }
             else
@@ -1497,7 +1523,7 @@ namespace MetaboliteLevels.Forms
                 return null;
             }
 
-            return frm.Selection.Primary as Peak ?? frm._peakList.Selection ?? frm._chartPeak.SelectedPeak ?? frm._core.Peaks[0];
+            return frm.Selection.Primary as Peak ?? frm._primaryList.Selection as Peak ?? frm._chartPeak.SelectedPeak ?? frm._core.Peaks[0];
         }
 
         /// <summary>
@@ -1732,7 +1758,7 @@ namespace MetaboliteLevels.Forms
             DistanceMatrix dm = FrmWait.Show( this, "Creating value matrix", null,
                 z => DistanceMatrix.Create( _core, _core.Options.SelectedMatrixProvider.Provide, metric, z ) );
 
-            FrmActHeatMap.Show( _core, _peakList, dm );
+            FrmActHeatMap.Show( _core, _primaryList, dm );
         }
 
         private void peakidentificationsToolStripMenuItem_Click( object sender, EventArgs e )
@@ -1831,6 +1857,46 @@ namespace MetaboliteLevels.Forms
                 UpdateVisualOptions();
                 Replot();
             }                         
-        }       
+        }
+
+        private void _btnPrimPeak_Click( object sender, EventArgs e )
+        {
+            ToolStripItem tsmi = (ToolStripItem)sender;
+            _primaryListView = (EDataSet)tsmi.Tag;            
+            UpdatePrimaryList();
+        }
+
+        private void _btnPrimOther_Click( object sender, EventArgs e )
+        {
+            EDataSet dataSet = DataSet.ForDiscreteEnum<EDataSet>( "Data sets", (EDataSet)(-1) ).ShowButtons( this, (EDataSet)(-1) );
+
+            if (dataSet == (EDataSet)(-1))
+            {
+                return;
+            }
+                     
+            _primaryListView = dataSet;
+            UpdatePrimaryList();
+        }
+
+        private void _btnSubPeak_Click( object sender, EventArgs e )
+        {
+            ToolStripItem tsmi = (ToolStripItem)sender;
+            _secondaryListView = (EVisualClass)tsmi.Tag;
+            UpdateSecondaryList();
+        }
+
+        private void _btnSubOther_Click( object sender, EventArgs e )
+        {
+            EVisualClass dataSet = DataSet.ForDiscreteEnum<EVisualClass>( "Associations", (EVisualClass)(-1) ).ShowButtons( this, (EVisualClass)(-1) );
+
+            if (dataSet == (EVisualClass)(-1))
+            {
+                return;
+            }
+
+            _secondaryListView = dataSet;
+            UpdateSecondaryList();
+        }
     }
 }

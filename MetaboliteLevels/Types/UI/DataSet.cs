@@ -294,6 +294,19 @@ namespace MetaboliteLevels.Forms.Generic
             };
         }
 
+        private static DataSet<Assignment> ForAllAssignments( Core core )
+        {
+            return new DataSet<Assignment>()
+            {
+                Core = core,
+                Title = "Assignments",
+                Source = core.Assignments,
+                ItemNameProvider = _GetDisplayName,
+                ItemDescriptionProvider = _GetComment,
+                Icon = Resources.IconPeak,
+            };                        
+        }
+
         /// <summary>
         /// The session's peaks
         /// </summary>
@@ -931,7 +944,9 @@ namespace MetaboliteLevels.Forms.Generic
 
                 case EDataSet.AllAlgorithms:
                     return DataSet.ForAllAlgorithms( core );
-                    
+
+                case EDataSet.Assignments:
+                    return DataSet.ForAllAssignments( core );
 
                 default:
                     throw new SwitchException( dataSet );
@@ -1065,8 +1080,20 @@ namespace MetaboliteLevels.Forms.Generic
         [Name( "Data\\Peaks" )]
         Peaks,
 
+        [Name( "Data\\Pathways" )]
+        Pathways,
+
+        [Name( "Data\\Compounds" )]
+        Compounds,
+
+        [Name( "Data\\Assignments" )]
+        Assignments,
+
         [Name( "Data\\Clusters" )]
         Clusters,
+
+        [Name( "Data\\Adducts" )]
+        Adducts,
 
         [Name( "Data\\Acquisition indices" )]
         Acquisitions,

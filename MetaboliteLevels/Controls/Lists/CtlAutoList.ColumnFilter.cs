@@ -8,17 +8,17 @@ using MetaboliteLevels.Settings;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
-    partial class ListViewHelper
+    partial class CtlAutoList
     {
         class ColumnFilter
         {
-            private readonly ListViewHelper Owner;
+            private readonly CtlAutoList Owner;
             public readonly Column column;
             public readonly ListVieweHelper.EOperator Operator;
             public readonly double NumValue;
             public readonly string TextValue;
 
-            public ColumnFilter(ListViewHelper owner, Column column, ListVieweHelper.EOperator op, string va)
+            public ColumnFilter(CtlAutoList owner, Column column, ListVieweHelper.EOperator op, string va)
             {
                 this.Owner = owner;
                 this.Operator = op;
@@ -31,7 +31,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
             }
 
-            public bool FilterRemove(IVisualisable value)
+            public bool FilterRemove(object value)
             {
                 object v = column.GetRow(value);
 

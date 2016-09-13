@@ -124,7 +124,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
         }
 
-        public string GetRowAsString(IVisualisable line)
+        public string GetRowAsString(object line)
         {
             return AsString(GetRow(line), DisplayMode);
         }
@@ -278,13 +278,13 @@ namespace MetaboliteLevels.Viewers.Lists
             return result.ToString();
         }
 
-        public abstract object GetRow(IVisualisable line);
+        public abstract object GetRow(object line);
 
         public abstract Type GetTemplateType();
 
         public abstract bool IsAlwaysEmpty { get; }
 
-        public abstract Color GetColour(IVisualisable line);          
+        public abstract Color GetColour( object line );          
 
         UiControls.ImageListOrder IVisualisable.GetIcon()
         {
@@ -338,7 +338,7 @@ namespace MetaboliteLevels.Viewers.Lists
             return typeof( T );
         }
 
-        public override object GetRow(IVisualisable line)
+        public override object GetRow( object line )
         {
             T x = line as T;
 
@@ -362,7 +362,7 @@ namespace MetaboliteLevels.Viewers.Lists
             get { return Provider == null; }
         }
 
-        public override Color GetColour(IVisualisable line)
+        public override Color GetColour( object line )
         {
             T x = line as T;
 
@@ -387,9 +387,9 @@ namespace MetaboliteLevels.Viewers.Lists
 
     internal static class ColumnManager
     {
-        public static IEnumerable<Column> GetColumns(Core core, IVisualisable visualisable)
+        public static IEnumerable<Column> GetColumns(Core core, object visualisable)
         {
-            return AddProperties( visualisable.GetColumns( core ), visualisable.GetType() );
+            return AddProperties( (visualisable as IVisualisable)?.GetColumns( core ), visualisable.GetType() );
         }
 
         public static IEnumerable<Column> GetColumns<T>(Core core)
@@ -413,6 +413,11 @@ namespace MetaboliteLevels.Viewers.Lists
             foreach (FieldInfo field in t.GetFields( bf ))
             {
                 columns.Add( "IData\\" + field.Name, EColumn.Advanced, field.GetValue );
+            }
+
+            if (def == null)
+            {
+                return columns;
             }
 
             return def.Concat( columns );

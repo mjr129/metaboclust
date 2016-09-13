@@ -385,8 +385,9 @@ namespace MetaboliteLevels.Viewers.Charts
             }
         }
 
-        public static Bitmap CreatePlaceholderBitmap(IVisualisable x, Size sz)
+        public static Bitmap CreatePlaceholderBitmap(object x, Size sz)
         {
+            IVisualisable xx = x as IVisualisable;
             int width = sz.Width;
             int height = sz.Height;
             Bitmap result = new Bitmap(width, height);
@@ -396,7 +397,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 g.Clear(Color.LightGray);
                 g.DrawLine(Pens.Silver, 0, 0, width, height);
                 g.DrawLine(Pens.Silver, width, 0, 0, height);
-                Image icon = UiControls.GetImage(x.GetIcon(), true);
+                Image icon = UiControls.GetImage(xx?.GetIcon() ?? UiControls.ImageListOrder.Point, true);
                 Rectangle rect = new Rectangle(sz.Width / 2 - icon.Width / 2, sz.Height / 2 - icon.Height / 2, icon.Width, icon.Height);
                 g.FillRectangle(Brushes.White, rect);
                 g.DrawImage(icon, rect);

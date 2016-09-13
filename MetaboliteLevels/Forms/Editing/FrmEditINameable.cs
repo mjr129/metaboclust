@@ -36,7 +36,7 @@ namespace MetaboliteLevels.Forms.Generic
             }
         }
 
-        public static bool Show(Form owner, IVisualisable v, bool readOnly)
+        public static bool Show(Form owner, INameable v, bool readOnly)
         {
             string name = v.OverrideDisplayName;
             string comments = v.Comment;
@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Forms.Generic
             return false;
         }
 
-        public static bool Show(Form owner, string windowText, string mainTitle, string subTitle, string defaultName, ref string name, ref string comments, bool readOnly, IVisualisable supports)
+        public static bool Show(Form owner, string windowText, string mainTitle, string subTitle, string defaultName, ref string name, ref string comments, bool readOnly, INameable supports )
         {
             bool canRename = supports == null || IVisualisableExtensions.SupportsRename(supports);
             bool canComment = supports == null || IVisualisableExtensions.SupportsComment(supports);

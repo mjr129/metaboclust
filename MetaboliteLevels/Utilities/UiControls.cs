@@ -377,6 +377,13 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
+        internal static Image GetImage( object @object, bool bold )
+        {
+            IVisualisable vis = @object as IVisualisable;
+
+            return GetImage( vis?.GetIcon() ?? ImageListOrder.Point, bold );
+        }
+
         /// <summary>
         /// Like Path.GetFilename but doesn't error for invalid characters.
         /// </summary>                                                     

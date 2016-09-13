@@ -6,9 +6,9 @@ using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
-    partial class ListViewHelper
+    partial class CtlAutoList
     {
-        class SortByColumn : IComparer<IVisualisable>
+        class SortByColumn : IComparer<object>
         {
             public Column col;
             public bool ascending;
@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 this.ascending = ascending;
             }
 
-            public int Compare(IVisualisable x, IVisualisable y)
+            public int Compare(object x, object y )
             {
                 if (ascending)
                 {
@@ -31,7 +31,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
             }
 
-            private int DoCompare(IVisualisable x, IVisualisable y)
+            private int DoCompare( object x, object y )
             {
                 object xv = col.GetRow(x);
                 object yv = col.GetRow(y);
@@ -101,6 +101,11 @@ namespace MetaboliteLevels.Viewers.Lists
                     return NativeMethods.StrCmpLogicalW(xv.ToString(), yv.ToString());
                 }
             }
+        }
+
+        public void Clear()
+        {
+            DivertList( null );
         }
     }
 }

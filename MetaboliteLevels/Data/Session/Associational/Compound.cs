@@ -154,12 +154,12 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 switch (highlight.VisualClass)
                 {
-                    case VisualClass.Peak:
+                    case EVisualClass.Peak:
                         toHighlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)highlight, null) };
                         caption += " {1} is shown in red.";
                         break;
 
-                    case VisualClass.Cluster:
+                    case EVisualClass.Cluster:
                         Cluster highlightCluster = (Cluster)highlight;
                         toHighlight = highlightCluster.Assignments.Vectors.Select(StylisedCluster.HighlightElement.FromVector).ToArray();
                         caption += " Peaks in {1} are shown in red.";
@@ -220,9 +220,9 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>
-        VisualClass IAssociational.VisualClass
+        EVisualClass IAssociational.VisualClass
         {
-            get { return VisualClass.Compound; }
+            get { return EVisualClass.Compound; }
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             switch (request.Type)
             {
-                case VisualClass.Peak:
+                case EVisualClass.Peak:
                     request.Text = "Potential peaks for {0}";
 
                     foreach (var pp in this.Annotations)
@@ -249,7 +249,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     }
                     break;
 
-                case VisualClass.Cluster:
+                case EVisualClass.Cluster:
                     request.Text = "Clusters representing potential peaks of {0}";
                     request.AddExtraColumn("Num. in compound", "Number of peaks in {0} in this cluster");
 
@@ -267,18 +267,18 @@ namespace MetaboliteLevels.Data.Visualisables
 
                     break;
 
-                case VisualClass.Annotation:
+                case EVisualClass.Annotation:
                     request.Text = "Annotations using {0}";
                     request.AddRange(Annotations);
                     break;
 
-                case VisualClass.Compound:
+                case EVisualClass.Compound:
                     break;
 
-                case VisualClass.Adduct:
+                case EVisualClass.Adduct:
                     break;
 
-                case VisualClass.Pathway:
+                case EVisualClass.Pathway:
                     request.Text = "List of pathways implicating {0}";
                     request.AddRange(this.Pathways);
                     break;

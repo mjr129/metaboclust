@@ -61,11 +61,11 @@ namespace MetaboliteLevels.Data.DataInfo
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public VisualClass VisualClass
+        public EVisualClass VisualClass
         {
             get
             {
-                return VisualClass.None;
+                return EVisualClass.None;
             }
         }
 

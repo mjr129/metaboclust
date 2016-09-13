@@ -45,10 +45,10 @@ namespace MetaboliteLevels.Forms.Editing
 
         private object _automaticAddTemplate;
         private readonly IDataSet _config;
-        private List<IVisualisable> _list;
-        private readonly Dictionary<IVisualisable, OriginalStatus> _originalStatuses = new Dictionary<IVisualisable, OriginalStatus>();
+        private List<object> _list;
+        private readonly Dictionary<INameable, OriginalStatus> _originalStatuses = new Dictionary<INameable, OriginalStatus>();
         private bool _activated;
-        private readonly ListViewHelper<IVisualisable> _listViewHelper;
+        private readonly CtlAutoList _listViewHelper;
         private bool _keepChanges;
 
         public enum EShow
@@ -76,7 +76,7 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.SetIcon( this );
             UiControls.PopulateImageList( imageList1 );
 
-            _listViewHelper = new ListViewHelper<IVisualisable>(listView1, core, null, null);
+            _listViewHelper = new CtlAutoList(listView1, core, null);
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
             _listViewHelper.Activate += listView1_ItemActivate;
 
@@ -136,14 +136,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void UpdateListFromSource()
         {
-            try
-            {
-                _list = new List<IVisualisable>(_config.UntypedGetList(false).Cast<IVisualisable>());
-            }
-            catch
-            {
-                _list = new List<IVisualisable>(_config.UntypedGetList(false).Cast<object>().Select(z => new VisualisableWrapper(_config, z)));
-            }
+            _list = new List<object>( _config.UntypedGetList( false ).Cast<object>() );
 
             _listViewHelper.DivertList(_list);
         }             
@@ -214,7 +207,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private void Rename(IVisualisable item)
+        private void Rename( INameable item )
         {
             OriginalStatus origStatus = Get(item);
 
@@ -232,17 +225,17 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private OriginalStatus Get(IVisualisable o)
+        private OriginalStatus Get( INameable o )
         {
-            return _originalStatuses.GetOrCreate<IVisualisable, OriginalStatus>(o, GetUnchanged);
+            return _originalStatuses.GetOrCreate<INameable, OriginalStatus>(o, GetUnchanged);
         }
 
-        private OriginalStatus GetUnchanged(IVisualisable input)
+        private OriginalStatus GetUnchanged( INameable input )
         {
             return new OriginalStatus(input.OverrideDisplayName, input.Comment, input.Hidden );
         }
 
-        private void Replace(IVisualisable remove, IVisualisable create)
+        private void Replace(object remove, object create )
         {
             _config.UntypedBeforeReplace(this, remove, create);
 
@@ -273,7 +266,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnView_Click(object sender, EventArgs e)
         {
-            IVisualisable o = GetSelected();
+            object o = GetSelected();
 
             if (o != null)
             {
@@ -281,15 +274,15 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private IVisualisable GetSelected()
+        private object GetSelected()
         {
             return _listViewHelper.Selection;
         }
 
         private void _btnEdit_Click(object sender, EventArgs e)
         {
-            IVisualisable original = GetSelected();
-            IVisualisable toEdit = original;
+            object original = GetSelected();
+            object toEdit = original;
 
             if (original == null)
             {
@@ -313,7 +306,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnRemove_Click(object sender, EventArgs e)
         {
-            IVisualisable p = GetSelected();
+            object p = GetSelected();
 
             if (p == null)
             {
@@ -330,7 +323,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnRename_Click(object sender, EventArgs e)
         {
-            IVisualisable stat = GetSelected();
+            INameable stat = GetSelected() as INameable;
 
             if (stat == null)
             {
@@ -350,7 +343,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void MoveItem(int direction)
         {
-            IVisualisable sel = GetSelected();
+            object sel = GetSelected();
 
             if (sel == null)
             {
@@ -399,7 +392,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnEnableDisable_Click(object sender, EventArgs e)
         {
-            IVisualisable first = GetSelected();
+            IVisualisable first = GetSelected() as IVisualisable;
 
             if (first == null)
             {
@@ -417,20 +410,20 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs ev)
         {
-            IVisualisable p = GetSelected();
+            object p = GetSelected();
 
             bool itemSelected = p != null;
 
             _btnRemove.Enabled = itemSelected;
             _btnView.Enabled = itemSelected;
             _btnEdit.Enabled = itemSelected;
-            _btnRename.Enabled = itemSelected && IVisualisableExtensions.SupportsRename(p);
+            _btnRename.Enabled = itemSelected && IVisualisableExtensions.SupportsRename(p as INameable);
             _btnUp.Enabled = itemSelected;
             _btnDown.Enabled = itemSelected;
             _btnDuplicate.Enabled = itemSelected;
-            _btnEnableDisable.Enabled = itemSelected && IVisualisableExtensions.SupportsDisable(p);
+            _btnEnableDisable.Enabled = itemSelected && IVisualisableExtensions.SupportsDisable( p as INameable );
 
-            if (itemSelected && Get(p).OriginalEnabled)
+            if (itemSelected && (Get(p as INameable)?.OriginalEnabled ?? false))
             {
                 _btnEnableDisable.Text = "Disable";
                 _btnEnableDisable.Image = Resources.MnuDisable;
@@ -444,7 +437,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnDuplicate_Click(object sender, EventArgs e)
         {
-            IVisualisable p = GetSelected();
+            object p = GetSelected();
 
             if (p == null)
             {

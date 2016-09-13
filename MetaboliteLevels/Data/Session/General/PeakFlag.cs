@@ -47,7 +47,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        VisualClass IAssociational.VisualClass => VisualClass.None;
+        EVisualClass IAssociational.VisualClass => EVisualClass.None;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
@@ -137,12 +137,12 @@ namespace MetaboliteLevels.Settings
         {
             switch (list.Type)
             {
-                case VisualClass.Peak:
+                case EVisualClass.Peak:
                     list.Text = "Peaks marked with {0}";
                     list.AddRange(list.Core.Peaks.Where(z => z.CommentFlags.Contains(this)));
                     break;
 
-                case VisualClass.Cluster:
+                case EVisualClass.Cluster:
                     list.Text = "Clusters containing peaks marked with {0}";
                     list.AddExtraColumn("Flag count", "Number of peaks in this cluster with the comment flag " + ToString());
 
@@ -155,7 +155,7 @@ namespace MetaboliteLevels.Settings
                     }
                     break;
 
-                case VisualClass.Pathway:
+                case EVisualClass.Pathway:
                     list.Text = "Pathways containing compounds annotated with peaks marked with {0}";
                     foreach (Pathway c in list.Core.Pathways)
                     {
@@ -166,7 +166,7 @@ namespace MetaboliteLevels.Settings
                     }
                     break;
 
-                case VisualClass.Annotation:
+                case EVisualClass.Annotation:
                     list.Text = "Annotations for peaks peaks marked with {0}";
                     foreach (Annotation c in list.Core.Annotations)
                     {
@@ -177,7 +177,7 @@ namespace MetaboliteLevels.Settings
                     }
                     break;
 
-                case VisualClass.Assignment:
+                case EVisualClass.Assignment:
                     list.Text = "Assignments for peaks peaks marked with {0}";
                     foreach (Assignment c in list.Core.Assignments)
                     {
@@ -188,7 +188,7 @@ namespace MetaboliteLevels.Settings
                     }
                     break;
 
-                case VisualClass.Compound:
+                case EVisualClass.Compound:
                     list.Text = "Compounds with annotations for peaks peaks marked with {0}";
                     foreach (Compound c in list.Core.Compounds)
                     {

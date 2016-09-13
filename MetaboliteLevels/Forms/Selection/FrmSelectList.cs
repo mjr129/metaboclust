@@ -74,7 +74,7 @@ namespace MetaboliteLevels.Forms.Generic
         class FormListBigListBox : IFormList
         {
             private ListView _listBox;
-            ListViewHelper<IVisualisable> _lvh;
+            CtlAutoList _lvh;
             List<IVisualisable> _list = new List<IVisualisable>();
 
             public void AddItem(object item, string text, string description)
@@ -100,7 +100,7 @@ namespace MetaboliteLevels.Forms.Generic
                 _listBox.Visible = true;
 
                 form.panel1.Controls.Add(_listBox);
-                _lvh = new ListViewHelper<IVisualisable>(_listBox, core, null, null);
+                _lvh = new CtlAutoList(_listBox, core, null);
             }
 
             public void Ready()

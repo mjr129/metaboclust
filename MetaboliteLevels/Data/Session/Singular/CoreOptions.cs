@@ -374,22 +374,22 @@ namespace MetaboliteLevels.Settings
 
             switch (visualisable.VisualClass)
             {
-                case VisualClass.Cluster:
+                case EVisualClass.Cluster:
                     return ClusterDisplay;
 
-                case VisualClass.Peak:
+                case EVisualClass.Peak:
                     return PeakDisplay;
 
-                case VisualClass.Compound:
+                case EVisualClass.Compound:
                     return CompoundDisplay;
 
-                case VisualClass.Pathway:
+                case EVisualClass.Pathway:
                     return PathwayDisplay;
 
-                case VisualClass.Adduct:
-                case VisualClass.Annotation:
-                case VisualClass.Assignment:
-                case VisualClass.None:
+                case EVisualClass.Adduct:
+                case EVisualClass.Annotation:
+                case EVisualClass.Assignment:
+                case EVisualClass.None:
                 default:
                     return new PlotSetup();
             }

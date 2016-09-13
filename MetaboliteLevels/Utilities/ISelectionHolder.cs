@@ -19,16 +19,16 @@ namespace MetaboliteLevels.Forms
 
     internal class VisualisableSelection
     {
-        public readonly IVisualisable Primary;
-        public readonly IVisualisable Secondary;
+        public readonly object Primary;
+        public readonly object Secondary;
 
-        public VisualisableSelection(IVisualisable primary, IVisualisable secondary)
+        public VisualisableSelection(object primary, object secondary )
         {
             Primary = primary;
             Secondary = secondary;
         }
 
-        public VisualisableSelection(IVisualisable primary)
+        public VisualisableSelection( object primary )
         {
             Primary = primary;
             Secondary = null;
@@ -43,11 +43,11 @@ namespace MetaboliteLevels.Forms
             }
             else if (Secondary == null)
             {
-                return Primary.GetType().Name.ToSmallCaps() + " " + Primary.DisplayName;
+                return Primary.GetType().Name.ToSmallCaps() + " " + Primary.ToString();
             }
             else
             {
-                return Primary.GetType().Name.ToSmallCaps() + " " + Primary.DisplayName + " :: " + Secondary.GetType().Name.ToSmallCaps() + " " + Secondary.DisplayName;
+                return Primary.GetType().Name.ToSmallCaps() + " " + Primary.ToString() + " :: " + Secondary.GetType().Name.ToSmallCaps() + " " + Secondary.ToString();
             }
         }
 

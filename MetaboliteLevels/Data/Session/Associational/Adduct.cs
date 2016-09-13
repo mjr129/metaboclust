@@ -121,9 +121,9 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        VisualClass IAssociational.VisualClass
+        EVisualClass IAssociational.VisualClass
         {
-            get { return VisualClass.Adduct; }
+            get { return EVisualClass.Adduct; }
         }
 
         /// <summary>
@@ -141,26 +141,26 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             switch (request.Type)
             {
-                case VisualClass.Peak:
+                case EVisualClass.Peak:
                     request.Text = "Peak using {0}.";
                     request.AddRange(Annotations.Select(z => z.Peak));
                     break;
 
-                case VisualClass.Cluster:
+                case EVisualClass.Cluster:
                     break;
 
-                case VisualClass.Compound:
+                case EVisualClass.Compound:
                     request.Text = "Compounds using {0}.";
                     request.AddRange(Annotations.Select(z => z.Compound));
                     break;
 
-                case VisualClass.Adduct:
+                case EVisualClass.Adduct:
                     break;
 
-                case VisualClass.Pathway:
+                case EVisualClass.Pathway:
                     break;
 
-                case VisualClass.Annotation:
+                case EVisualClass.Annotation:
                     request.Text = "Annotations using {0}.";
                     request.AddRange(Annotations);
                     break;

@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Forms.Activities
     {                                  
         private readonly Column _source1D;
         private readonly DistanceMatrix _source2D;
-        private readonly ListViewHelper _sourceList;
+        private readonly CtlAutoList _sourceList;
         private HeatPoint[,] _heatMap;
         private bool _ignoreScrollBarChanges;
         private Color _oorColour;
@@ -39,7 +39,7 @@ namespace MetaboliteLevels.Forms.Activities
         /// <summary>
         /// Shows a 1D heatmap
         /// </summary>        
-        public static void Show( Core core, ListViewHelper lvh, Column source )
+        public static void Show( Core core, CtlAutoList lvh, Column source )
         {
             FrmActHeatMap frm = new FrmActHeatMap( core, lvh, source, null );
             frm.Show( lvh.ListView.FindForm() );
@@ -48,13 +48,13 @@ namespace MetaboliteLevels.Forms.Activities
         /// <summary>
         /// Shows a 2D heatmap
         /// </summary>        
-        public static void Show( Core core, ListViewHelper lvh, DistanceMatrix source )
+        public static void Show( Core core, CtlAutoList lvh, DistanceMatrix source )
         {
             FrmActHeatMap frm = new FrmActHeatMap( core, lvh, null, source);
             frm.Show( lvh.ListView.FindForm() );
         }
 
-        private FrmActHeatMap( Core core, ListViewHelper lvh, Column source1D, DistanceMatrix source2D )
+        private FrmActHeatMap( Core core, CtlAutoList lvh, Column source1D, DistanceMatrix source2D )
         {
             InitializeComponent();
             UiControls.SetIcon( this );
@@ -85,10 +85,10 @@ namespace MetaboliteLevels.Forms.Activities
 
         struct HeatPoint
         {
-            public IVisualisable XSource;
+            public object XSource;
             public int XIndex;
 
-            public IVisualisable YSource;
+            public object YSource;
             public int YIndex;
 
             public double ZFraction;
@@ -192,7 +192,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void Generate1DHeatMap()
         {
             // Get source list
-            IVisualisable[] source = _sourceList.GetVisible().ToArray();
+            object[] source = _sourceList.GetVisible().ToArray();
 
             // Generate heatmap values
             HeatPoint[] tsrc = new HeatPoint[source.Length];
@@ -241,7 +241,7 @@ namespace MetaboliteLevels.Forms.Activities
             pictureBox1.Rerender();
         }             
 
-        private double GetRow( IVisualisable arg )
+        private double GetRow( object arg )
         {
             object r = _source1D.GetRow( arg );             
             return Column.AsDouble( r );
@@ -282,11 +282,11 @@ namespace MetaboliteLevels.Forms.Activities
 
             if (h.YSource == null)
             {
-                _lblSelection.Text = h.XSource.DisplayName + " = (" + h.XIndex + ", " + h.ZValue + ")";
+                _lblSelection.Text = h.XSource.ToString() + " = (" + h.XIndex + ", " + h.ZValue + ")";
             }
             else
             {
-                _lblSelection.Text = "{" + h.XSource.DisplayName + ", " + h.YSource.DisplayName + "} ( {" + h.XIndex + ", " + h.YIndex + " }, " + h.ZValue + ")";
+                _lblSelection.Text = "{" + h.XSource.ToString() + ", " + h.YSource.ToString() + "} ( {" + h.XIndex + ", " + h.YIndex + " }, " + h.ZValue + ")";
             }
 
             toolStripStatusLabel3.BackColor = h.ZColour;
@@ -311,9 +311,9 @@ namespace MetaboliteLevels.Forms.Activities
             }
             else
             {
-                alphaToolStripMenuItem.Text = h.XSource.DisplayName;
+                alphaToolStripMenuItem.Text = h.XSource.ToString();
                 alphaToolStripMenuItem.Tag = h.XSource;
-                betaToolStripMenuItem.Text = h.YSource.DisplayName;
+                betaToolStripMenuItem.Text = h.YSource.ToString();
                 betaToolStripMenuItem.Tag = h.YSource;
                 contextMenuStrip1.Show( pictureBox1, e.Location );
             }

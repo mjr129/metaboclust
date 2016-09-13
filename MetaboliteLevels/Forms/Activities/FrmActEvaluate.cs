@@ -38,10 +38,10 @@ namespace MetaboliteLevels.Forms.Algorithms
     /// </summary>
     internal partial class FrmActEvaluate : Form
     {
-        private readonly ListViewHelper<ClusterEvaluationParameterResult> _lvhConfigs;
-        private readonly ListViewHelper<Cluster> _lvhClusters;
+        private readonly CtlAutoList _lvhConfigs;
+        private readonly CtlAutoList _lvhClusters;
         private readonly ChartHelperForClusters _chcClusters;
-        private readonly ListViewHelper<ColumnWrapper> _lvhStatistics;
+        private readonly CtlAutoList _lvhStatistics;
 
         private readonly Core _core;
         private readonly ConfigurationClusterer _templateConfig;
@@ -77,9 +77,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             this._core = core;
             this._templateConfig = config;
 
-            _lvhClusters = new ListViewHelper<Cluster>(_lstClusters, core, null, null);
-            _lvhConfigs = new ListViewHelper<ClusterEvaluationParameterResult>(_lstParams, core, null, null);
-            _lvhStatistics = new ListViewHelper<ColumnWrapper>(_lstStatistics, core, null, null);
+            _lvhClusters = new CtlAutoList( _lstClusters, core, null);
+            _lvhConfigs = new CtlAutoList( _lstParams, core, null);
+            _lvhStatistics = new CtlAutoList( _lstStatistics, core, null);
             _lvhStatistics.Visible = false;
             _chcClusters = new ChartHelperForClusters(null, core, panel6);
 
@@ -238,7 +238,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             BeginWait(_tlpHeaderClusters);
 
-            ClusterEvaluationParameterResult sel = _lvhConfigs.Selection;
+            ClusterEvaluationParameterResult sel = (ClusterEvaluationParameterResult)_lvhConfigs.Selection;
 
             if (sel != null)
             {
@@ -303,12 +303,13 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (_lvhClusters.HasSelection)
             {
-                var toPlot = _lvhClusters.Selection.CreateStylisedCluster(_core, null);
-                ClusterEvaluationParameterResult sel = _lvhConfigs.Selection;
+                var cluster = ((Cluster)_lvhClusters.Selection);
+                var toPlot = cluster.CreateStylisedCluster(_core, null);
+                ClusterEvaluationParameterResult sel = (ClusterEvaluationParameterResult)_lvhConfigs.Selection;
 
                 _chcClusters.Plot(toPlot);
-                _labelCluster.Text = "Cluster (" + sel.Owner.ParameterName + " = " + sel.DisplayName + " / cluster " + _lvhClusters.Selection.ShortName + ")";
-                _infoLabel.Text = "Cluster " + _lvhClusters.Selection.ShortName + " contains " + _lvhClusters.Selection.Assignments.Count + " assignments";
+                _labelCluster.Text = "Cluster (" + sel.Owner.ParameterName + " = " + sel.DisplayName + " / cluster " + cluster.ShortName + ")";
+                _infoLabel.Text = "Cluster " + cluster.ShortName + " contains " + cluster.Assignments.Count + " assignments";
             }
             else
             {
@@ -325,7 +326,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (_lvhStatistics.HasSelection)
             {
-                Column<ClusterEvaluationParameterResult> col = _lvhStatistics.Selection.Column;
+                Column<ClusterEvaluationParameterResult> col = ((ColumnWrapper)_lvhStatistics.Selection).Column;
 
                 CreatePlot(col);
             }

@@ -75,11 +75,11 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }    
 
-        VisualClass IAssociational.VisualClass
+        EVisualClass IAssociational.VisualClass
         {
             get
             {
-                return VisualClass.Annotation;
+                return EVisualClass.Annotation;
             }
         }
 
@@ -121,36 +121,36 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             switch (list.Type)
             {
-                case VisualClass.Adduct:
+                case EVisualClass.Adduct:
                     list.Text = "Adduct for annotation {0}";
                     list.Add( Adduct );
                     break;
 
-                case VisualClass.Annotation:
+                case EVisualClass.Annotation:
                     ((IAssociational)Peak).RequestContents( list );
                     ((IAssociational)Compound).RequestContents( list );
                     list.Text = "Annotations with same peaks/compounds to {0}";
                     break;
 
-                case VisualClass.Assignment:
+                case EVisualClass.Assignment:
                     ((IAssociational)Peak).RequestContents( list );
                     break;
 
-                case VisualClass.Cluster:
+                case EVisualClass.Cluster:
                     ((IAssociational)Peak).RequestContents( list );
                     break;
 
-                case VisualClass.Compound:
+                case EVisualClass.Compound:
                     list.Text = "Compound for annotation {0}";
                     list.Add( Compound );
                     break;
 
-                case VisualClass.Pathway:
+                case EVisualClass.Pathway:
                     ((IAssociational)Peak).RequestContents( list );
                     ((IAssociational)Compound).RequestContents( list );
                     break;
 
-                case VisualClass.Peak:
+                case EVisualClass.Peak:
                     list.Text = "Peak for annotation {0}";
                     list.Add( Peak );
                     break;

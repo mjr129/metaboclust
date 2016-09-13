@@ -43,7 +43,7 @@ namespace MetaboliteLevels.Data.Session.General
             set {/*NA*/}
         }
 
-        public VisualClass VisualClass => VisualClass.None;
+        public EVisualClass VisualClass => EVisualClass.None;
 
         public IEnumerable<Column> GetColumns( Core core )
         {

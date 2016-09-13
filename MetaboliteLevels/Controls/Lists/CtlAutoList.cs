@@ -16,15 +16,18 @@ using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Settings;
 using MGui.Helpers;
 using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
     /// <summary>
     /// Attaches to a listview and manages its contents, columns and menu options.
     /// </summary>
-    abstract partial class ListViewHelper : IDisposable
+    internal partial class CtlAutoList : IDisposable, ICoreWatcher
     {                 
         public Core _core;  // link to core
+        private IDataSet _source;
+
         protected ListView _listView; // listview control to use
         private Dictionary<object, int> _imgListPreviewIndexes = new Dictionary<object, int>(); // cached thumbnails
         private IPreviewProvider _previewProvider; // thumbnail provider
@@ -57,12 +60,11 @@ namespace MetaboliteLevels.Viewers.Lists
         private SortByColumn _sortOrder;
         private ColumnFilter _filter;
 
-        protected List<IVisualisable> _filteredList;
+        protected List<object> _filteredList;
 
         private bool _emptyList;
         private ToolStripMenuItem _mnuDisplayColumn;
         private readonly ToolStripMenuItem _tsThumbNails;
-        private Type _knownColumnType;
         private string _listViewOptionsKey;
         private readonly ToolStripMenuItem _mnuViewAsHeatMap;
 
@@ -72,7 +74,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// <param name="listView">Listview to handle</param>
         /// <param name="ts">Toolstrip to create options on</param>
         /// <param name="previewProvider">Provider of thumbnails</param>
-        protected ListViewHelper(ListView listView, Core core, IPreviewProvider previewProvider)
+        public CtlAutoList(ListView listView, Core core, IPreviewProvider previewProvider)
         {
             this._listView = listView;
             this._previewProvider = previewProvider;
@@ -186,6 +188,19 @@ namespace MetaboliteLevels.Viewers.Lists
             _lblFilter.ForeColor = Color.Red;
             _lblFilter.Visible = false;
             _lblFilter.Click += _filterm_Click;
+        }
+
+        internal void DivertList<T>( IEnumerable<T> results )
+        {                        
+            DivertList( new DataSet<T>()
+            {
+                Core = _core,
+                Title = "List",
+                Source = results,
+                ItemNameProvider = z => z.ToString(),
+                ItemDescriptionProvider = z => (z as INameable)?.Comment,
+                Icon = Resources.IconData,
+            } );
         }
 
         /// <summary>
@@ -627,7 +642,11 @@ namespace MetaboliteLevels.Viewers.Lists
         /// <summary>
         /// Sets the list to source from a ContentsRequest object.
         /// </summary>
-        public abstract void DivertList(ContentsRequest diversion);
+        public void DivertList( IDataSet target )
+        {
+            _source = target;               
+            Rebuild( EListInvalids.SourceChanged );
+        }
 
         /// <summary>
         /// Memory cleanup.
@@ -637,7 +656,7 @@ namespace MetaboliteLevels.Viewers.Lists
             OnDisposing(true);
         }
 
-        protected void OnActivate(IVisualisable item)
+        protected void OnActivate(object item)
         {
             if (Activate != null)
             {
@@ -674,10 +693,8 @@ namespace MetaboliteLevels.Viewers.Lists
         /// Shows the expansion form.
         /// </summary>
         void tsExpand_Click(object sender, EventArgs e)
-        {
-            IVisualisable highlight = GetOwner();
-
-            int selected = Forms.Editing.FrmPopoutClusterSheet.Show( this._listView.FindForm(), new Size( this._core.Options.PopoutThumbnailSize, this._core.Options.PopoutThumbnailSize), this.SourceList, this._previewProvider, highlight);
+        {               
+            int selected = FrmPopoutClusterSheet.Show( this._listView.FindForm(), new Size( this._core.Options.PopoutThumbnailSize, this._core.Options.PopoutThumbnailSize), this.SourceList, this._previewProvider);
 
             if (selected != -1)
             {
@@ -725,15 +742,13 @@ namespace MetaboliteLevels.Viewers.Lists
             }
         }
 
-        protected int GeneratePreviewImage(IVisualisable item)
+        private int GeneratePreviewImage(object item)
         {
             int index;
 
             if (!_imgListPreviewIndexes.TryGetValue(item, out index))
             {
-                IVisualisable highlight = GetOwner();
-
-                Image img = _previewProvider.ProvidePreview(_imgListPreviews.ImageSize, item, highlight);
+                Image img = _previewProvider.ProvidePreview(_imgListPreviews.ImageSize, item);
 
                 if (img == null)
                 {
@@ -742,14 +757,12 @@ namespace MetaboliteLevels.Viewers.Lists
 
                 index = _imgListPreviews.Images.Count;
 
-                _imgListPreviews.Images.Add(item.DisplayName, img);
+                _imgListPreviews.Images.Add(img);
                 _imgListPreviewIndexes.Add(item, index);
             }
 
             return index;
-        }
-
-        protected abstract IVisualisable GetOwner();
+        }                                             
 
         void tsThumbNails_Click(object sender, EventArgs e)
         {
@@ -885,16 +898,19 @@ namespace MetaboliteLevels.Viewers.Lists
             {
                 _listView.RedrawItems(0, _listView.VirtualListSize - 1, true);
             }
-        }    
+        }
 
-        protected abstract IEnumerable<IVisualisable> GetSourceContent();
+        private IEnumerable GetSourceContent()
+        {
+            return _source?.UntypedGetList(false) ?? new object[0];
+        }
 
         /// <summary>
         /// Gets the source list, accounting for sort-order, filter, etc.
         /// </summary>
-        protected EListInvalids GetFilteredList(EListInvalids checks)
+        private EListInvalids GetFilteredList(EListInvalids checks)
         {
-            this._filteredList = new List<IVisualisable>(GetSourceContent());
+            this._filteredList = GetSourceContent().Cast<object>().ToList();
 
             if (_emptyList && this._filteredList.Count != 0)
             {
@@ -919,7 +935,7 @@ namespace MetaboliteLevels.Viewers.Lists
             return checks;
         }
 
-        private int GetListViewIndex(IVisualisable itemToFind)
+        private int GetListViewIndex( object itemToFind )
         {
             int r = _filteredList.IndexOf(itemToFind);
 
@@ -931,7 +947,7 @@ namespace MetaboliteLevels.Viewers.Lists
             return r;
         }
 
-        private ListViewItem CreateNewListViewItem(IVisualisable tag)
+        private ListViewItem CreateNewListViewItem(object tag)
         {
             ListViewItem lvi = new ListViewItem("");
             lvi.Tag = tag;
@@ -939,13 +955,13 @@ namespace MetaboliteLevels.Viewers.Lists
             return lvi;
         }
 
-        public void ActivateItem( IVisualisable item )
+        public void ActivateItem( object item )
         {
             Selection = item;
             OnActivate( item );
         }
 
-        public IVisualisable Selection
+        public object Selection
         {
             get
             {
@@ -978,7 +994,7 @@ namespace MetaboliteLevels.Viewers.Lists
             _availableColumns.Clear();
 
             // Get the type
-            IVisualisable firstElement = GetSourceContent().FirstOrDefault();
+            object firstElement = GetSourceContent().Cast<object>().FirstOrDefault();
 
             if (firstElement == null)
             {
@@ -1005,20 +1021,15 @@ namespace MetaboliteLevels.Viewers.Lists
 
             // Add the columns
             _availableColumns.Add(iconColumn);
-            _availableColumns.AddRange(cols);
-
-            // Add any custom columns
-            AddCustomColumns(_availableColumns);
+            _availableColumns.AddRange(cols);   
 
             // Apply preferences
             LoadColumnUserPreferences();
-        }
-
-        protected abstract void AddCustomColumns(List<Column> availableColumns);
+        }   
 
         void _listView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            IVisualisable tag = _filteredList[e.ItemIndex];
+            object tag = _filteredList[e.ItemIndex];
             e.Item = CreateNewListViewItem(tag);
             DoUpdate(e.Item, tag);
             UiControls.Assert(e.Item.SubItems.Count == _listView.Columns.Count, "ListViewItem doesn't have the expected number of subitems.");
@@ -1027,16 +1038,18 @@ namespace MetaboliteLevels.Viewers.Lists
         /// <summary>
         /// Updates the item
         /// </summary>
-        private void DoUpdate(ListViewItem lvi, IVisualisable tag)
-        {
+        private void DoUpdate(ListViewItem lvi, object tag)
+        {                       
+            IVisualisable vis = tag as IVisualisable;
+
             // Update icon
             if (EnablePreviews)
             {
                 lvi.ImageIndex = GeneratePreviewImage(tag);
             }
             else
-            {
-                lvi.ImageIndex = (int)tag.GetIcon();
+            {                
+                lvi.ImageIndex = (int)(vis?.GetIcon() ?? UiControls.ImageListOrder.Point);
             }
 
             // Update columns
@@ -1053,7 +1066,7 @@ namespace MetaboliteLevels.Viewers.Lists
                     string result = c.GetRowAsString(tag);
                     Color color;
 
-                    if (tag.Hidden)
+                    if (vis?.Hidden ?? false)
                     {
                         lvsi.Font = FontHelper.StrikeFont;
                         color = Color.Gray;
@@ -1101,12 +1114,12 @@ namespace MetaboliteLevels.Viewers.Lists
             }
         }
 
-        internal IEnumerable<IVisualisable> GetVisible()
+        internal IEnumerable<object> GetVisible()
         {
             return _filteredList;
         }
 
-        public void Update(IVisualisable itemToFind)
+        public void Update(object itemToFind)
         {
             int i = GetListViewIndex(itemToFind);
             _listView.RedrawItems(i, i, false);
@@ -1202,6 +1215,16 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             _core = newCore;
             Rebuild(EListInvalids.SourceChanged);
+        }
+    }
+
+    class ListViewItemEventArgs : EventArgs
+    {
+        public readonly object SelectedItem;
+
+        public ListViewItemEventArgs( object item )
+        {
+            this.SelectedItem = item;
         }
     }
 }

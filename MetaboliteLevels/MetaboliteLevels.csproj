@@ -378,7 +378,6 @@
       <DependentUpon>CtlWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\EnumComboBox.cs" />
-    <Compile Include="Controls\SubListHandler.cs" />
     <Compile Include="Controls\NamedItem.cs" />
     <Compile Include="Types\UI\StylisedPeak.cs" />
     <Compile Include="Data\Session\Associational\IVisualisable.cs" />
@@ -564,12 +563,11 @@
     <Compile Include="Controls\ICoreWatcher.cs" />
     <Compile Include="Controls\Lists\Column.cs" />
     <Compile Include="Controls\Lists\EListInvalids.cs" />
-    <Compile Include="Controls\Lists\ListViewHelper%28T%29.ColumnFilter.cs" />
-    <Compile Include="Controls\Lists\ListViewHelper%28T%29.cs" />
-    <Compile Include="Controls\Lists\ListViewHelper.cs" />
-    <Compile Include="Controls\Lists\ListViewHelper.EOperator.cs" />
+    <Compile Include="Controls\Lists\CtlAutoList.ColumnFilter.cs" />
+    <Compile Include="Controls\Lists\CtlAutoList.cs" />
+    <Compile Include="Controls\Lists\CtlAutoList.EOperator.cs" />
     <Compile Include="Controls\Lists\ShowContextMenuEventArgs.cs" />
-    <Compile Include="Controls\Lists\ListViewHelper%28T%29.SortByColumn.cs" />
+    <Compile Include="Controls\Lists\CtlAutoList.SortByColumn.cs" />
     <Compile Include="Utilities\XmlSettings.cs" />
     <EmbeddedResource Include="Controls\CtlHelpfulLabel.resx">
       <DependentUpon>CtlHelpfulLabel.cs</DependentUpon>

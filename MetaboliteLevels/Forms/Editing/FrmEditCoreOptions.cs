@@ -279,7 +279,7 @@ namespace MetaboliteLevels.Forms.Editing
                 set { _col.DisplayName = value; }
             }
 
-            public VisualClass VisualClass => VisualClass.None;
+            public EVisualClass VisualClass => EVisualClass.None;
 
             internal static _btnEditColumns_Click__ColumnDisplay New( KeyValuePair<string,  CoreOptions.ColumnDetails> arg )
             {

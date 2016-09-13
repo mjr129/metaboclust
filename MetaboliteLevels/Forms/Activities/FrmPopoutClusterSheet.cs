@@ -18,7 +18,6 @@ namespace MetaboliteLevels.Forms.Editing
         private readonly List<IVisualisable> _items;
         private readonly IPreviewProvider _previewProvider;
         private readonly Dictionary<object, int> _imgListPreviewIndexes = new Dictionary<object, int>();
-        private readonly IVisualisable _highlight;
 
         private FrmPopoutClusterSheet()
         {
@@ -26,13 +25,12 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.SetIcon(this);
         }
 
-        private FrmPopoutClusterSheet(Size size, List<IVisualisable> items, IPreviewProvider previewProvider, IVisualisable highlight)
+        private FrmPopoutClusterSheet(Size size, List<IVisualisable> items, IPreviewProvider previewProvider)
             : this()
         {
             this._imageSize = size;
             this._items = items;
-            this._previewProvider = previewProvider;
-            this._highlight = highlight;
+            this._previewProvider = previewProvider;  
 
             imageList1.ImageSize = this._imageSize;
             listView1.TileSize = this._imageSize;
@@ -47,7 +45,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (!_imgListPreviewIndexes.TryGetValue(item, out index))
             {
-                Image img = _previewProvider.ProvidePreview(_imageSize, item, _highlight) ??
+                Image img = _previewProvider.ProvidePreview(_imageSize, item) ??
                             ChartHelperForClusters.CreatePlaceholderBitmap(item, _imageSize);
 
                 index = imageList1.Images.Count;
@@ -59,9 +57,9 @@ namespace MetaboliteLevels.Forms.Editing
             return index;
         }
 
-        internal static int Show(Form owner, Size size, IEnumerable items, IPreviewProvider previewProvider, IVisualisable highlight)
+        internal static int Show(Form owner, Size size, IEnumerable items, IPreviewProvider previewProvider)
         {
-            FrmPopoutClusterSheet frm = new FrmPopoutClusterSheet(size, new List<IVisualisable>(items.Cast<IVisualisable>()), previewProvider, highlight);
+            FrmPopoutClusterSheet frm = new FrmPopoutClusterSheet(size, new List<IVisualisable>(items.Cast<IVisualisable>()), previewProvider);
             frm.StartPosition = FormStartPosition.Manual;
             frm.Location = owner.Location;
             frm.Size = new Size(owner.Width, owner.Height);

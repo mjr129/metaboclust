@@ -130,20 +130,20 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 switch (highlightContents.VisualClass)
                 {
-                    case VisualClass.Compound:
+                    case EVisualClass.Compound:
                         Compound highlightCompound = (Compound)highlightContents;
                         toHighlight = highlightCompound.Annotations.Select(z => new StylisedCluster.HighlightElement(z, null)).ToArray();
                         caption3 = " Peaks potentially representing {1} are {HIGHLIGHTED}.";
                         break;
 
-                    case VisualClass.Cluster:
+                    case EVisualClass.Cluster:
                         Cluster highlightCluster = (Cluster)highlightContents;
                         toHighlight = highlightCluster.Assignments.Vectors.Select(StylisedCluster.HighlightElement.FromVector).ToArray();
                         caption3 = " Peaks potentially representing compounds in {1} are {HIGHLIGHTED}.";
 
                         break;
 
-                    case VisualClass.Peak:
+                    case EVisualClass.Peak:
                         toHighlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)highlightContents, null) };
                         caption3 = " {1} is {HIGHLIGHTED}.";
                         break;
@@ -301,9 +301,9 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        VisualClass IAssociational.VisualClass
+        EVisualClass IAssociational.VisualClass
         {
-            get { return VisualClass.Pathway; }
+            get { return EVisualClass.Pathway; }
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             switch (request.Type)
             {
-                case VisualClass.Peak:
+                case EVisualClass.Peak:
                     {
                         request.Text = "Potential peaks of compounds in {0}";
                         request.AddExtraColumn("Compounds", "Compounds potentially representing this peak in {0}.");
@@ -335,7 +335,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     }
                     break;
 
-                case VisualClass.Annotation:
+                case EVisualClass.Annotation:
                     request.Text = "Annotations with compounds in {0}";
 
                     foreach (Compound c in this.Compounds)
@@ -344,7 +344,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     }
                     break;
 
-                case VisualClass.Cluster:
+                case EVisualClass.Cluster:
                     {
                         request.Text = "Clusters representing potential peaks of compounds in {0}";
                         request.AddExtraColumn("Peaks", "Number of peaks in this cluster in with compounds in {0}");
@@ -376,7 +376,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     }
                     break;
 
-                case VisualClass.Compound:
+                case EVisualClass.Compound:
                     {
                         request.Text = "Compounds in {0}";
                         request.AddExtraColumn("Clusters", "Clusters");  // TODO: This is actually generic to all compounds and not related to this Pathway class
@@ -398,10 +398,10 @@ namespace MetaboliteLevels.Data.Visualisables
                     }
                     break;
 
-                case VisualClass.Adduct:
+                case EVisualClass.Adduct:
                     break;
 
-                case VisualClass.Pathway:
+                case EVisualClass.Pathway:
                     {
                         request.Text = "Pathways related to {0}";
 

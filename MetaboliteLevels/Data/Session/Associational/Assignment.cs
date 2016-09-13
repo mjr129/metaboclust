@@ -150,9 +150,9 @@ namespace MetaboliteLevels.Data.Visualisables
             return UiControls.ImageListOrder.Assignment;
         }
 
-        VisualClass IAssociational.VisualClass
+        EVisualClass IAssociational.VisualClass
         {
-            get { return VisualClass.Assignment; }
+            get { return EVisualClass.Assignment; }
         }
 
         IEnumerable<Column> IVisualisable.GetColumns(Core core)
@@ -183,21 +183,21 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             switch (request.Type)
             {
-                case VisualClass.Peak:
+                case EVisualClass.Peak:
                     request.Add(this.Peak);
                     request.Text = "Peak for {0}";
                     break;
 
-                case VisualClass.Cluster:
+                case EVisualClass.Cluster:
                     request.Add(this.Cluster);
                     request.Text = "Clusters for {0}";
                     break;
 
-                case VisualClass.Assignment:   
-                case VisualClass.Compound:    
-                case VisualClass.Adduct:   
-                case VisualClass.Pathway:   
-                case VisualClass.Annotation:        
+                case EVisualClass.Assignment:   
+                case EVisualClass.Compound:    
+                case EVisualClass.Adduct:   
+                case EVisualClass.Pathway:   
+                case EVisualClass.Annotation:        
                 default:
                     break;
             }
