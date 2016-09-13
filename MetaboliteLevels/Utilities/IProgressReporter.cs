@@ -58,6 +58,26 @@ namespace MetaboliteLevels.Utilities
     /// </summary>
     internal class ProgressReporter
     {
+        class ProgSection : IDisposable
+        {
+            private readonly ProgressReporter _owner;
+            private bool disposedValue = false; // To detect redundant calls
+
+            public ProgSection( ProgressReporter owner )
+            {
+                _owner = owner;
+            }
+                                                                         
+            public void Dispose()
+            {
+                if (!disposedValue)
+                {                      
+                    _owner.Leave();
+                    disposedValue = true;
+                }
+            }                      
+        }
+
         private const int MAX_UPDATE_TIME = 250;
         private readonly IProgressReceiver _destination;
         private Stack<string> _texts = new Stack<string>();
@@ -124,6 +144,21 @@ namespace MetaboliteLevels.Utilities
 
             _percent = -1;
             return Update(); // force an update since marquee usually indicates we won't get another chance!
+        }
+
+        /// <summary>
+        /// Calls <see cref="Enter"/> and creates an IDisposable object which calls <see cref="Leave"/> on disposal.
+        /// </summary>                                                                                              
+        /// <example>
+        /// using (progressReporter.Section("Load data...")
+        /// {
+        ///     ... load some data ...
+        /// }
+        /// </example>
+        public IDisposable Section( string text )
+        {
+            Enter( text );
+            return new ProgSection( this );
         }
 
         /// <summary>

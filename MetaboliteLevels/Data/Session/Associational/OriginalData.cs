@@ -11,6 +11,7 @@ using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Data.Session.Associational
 {
+    [Serializable]
     internal class OriginalData : IVisualisable, IProvider<IntensityMatrix>
     {
         private readonly string _fileName;

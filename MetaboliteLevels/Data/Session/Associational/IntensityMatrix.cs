@@ -18,8 +18,7 @@ using MSerialisers;
 
 namespace MetaboliteLevels.Data.Session.Associational
 {         
-    [Serializable]
-    [DeferSerialisation]
+    [Serializable]       
     class IntensityMatrix : ITransient
     {                           
         public readonly double[][] Values;

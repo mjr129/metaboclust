@@ -282,6 +282,7 @@ namespace MetaboliteLevels.Data.Session
             {
                 result.FileNames.Session = fileName;
                 result._cache = new CachedData( result );
+                result.Options.Core = result;
             }
 
             return result;
@@ -295,7 +296,7 @@ namespace MetaboliteLevels.Data.Session
             this.CoreGuid = Guid.NewGuid();
 
             this.FileNames = fileNames;
-            this.Options = new CoreOptions( this );
+            this.Options = new CoreOptions() { Core = this };
             this.Options.ViewTypes = new List<GroupInfo>( data.Types.OrderBy( z => z.DisplayPriority ) );
 
             this._adducts = adducts;

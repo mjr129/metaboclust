@@ -120,6 +120,11 @@ namespace MetaboliteLevels.Settings
         [TypeConverter( typeof( ExpandableObjectConverter ) )]
         public PlotSetup PathwayDisplay { get; set; }
 
+        [NonSerialized]
+        public Core _core;
+
+        public Core Core { get { return _core; } set { _core = value; } }
+
         [Serializable]
         public class PlotSetup
         {
@@ -229,7 +234,6 @@ namespace MetaboliteLevels.Settings
 
         private WeakReference<IProvider<IntensityMatrix>> _selectedMatrixProvider;
         private WeakReference<ConfigurationTrend> _selectedTrendProvider;
-        private Core _core;
 
         [Name( "Default matrix to view using" )]
         [Category( "Peaks" )]
@@ -291,12 +295,11 @@ namespace MetaboliteLevels.Settings
                 return ChartHelperForPeaks.FallbackSmoother;
             }
             set { _selectedTrendProvider = new WeakReference<ConfigurationTrend>( value ); }
-        }
+        }   
 
-        public CoreOptions(Core core)
+        public CoreOptions() 
         {
             UiControls.ApplyDefaultsFromAttributes( this );
-            _core = core;
             ViewTypes = new List<GroupInfo>();
             Colours = new CoreColourSettings();
             PeakFlags = new List<PeakFlag>();
@@ -316,7 +319,7 @@ namespace MetaboliteLevels.Settings
         private void OnDeserializing( StreamingContext context )
         {
             UiControls.InvokeConstructor( this );
-        }
+        }                 
 
         /// <summary>
         /// Saves or loads a listview column.

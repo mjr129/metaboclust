@@ -427,10 +427,10 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         internal void CommitSelection(VisualisableSelection selection)
         {
+            BeginWait( "Updating displays" );
+
             try
             {
-                BeginWait( "Updating displays" );
-
                 // Add to history
                 AddToHistory( selection );
 
@@ -481,7 +481,7 @@ namespace MetaboliteLevels.Forms
 
                 // Get the selection
                 Peak peak = selection.Primary as Peak ?? selection.Secondary as Peak;
-                IAssociational cluster = (((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.FindAssignments(_core).Select(z=> z.Cluster ).FirstOrDefault()) as IAssociational;
+                IAssociational cluster = (((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.FindAssignments( _core ).Select( z => z.Cluster ).FirstOrDefault()) as IAssociational;
                 StylisedCluster sCluster;
 
                 // Plot that!
@@ -525,19 +525,19 @@ namespace MetaboliteLevels.Forms
                     _autoChangingSelection = true;
                     _chartCluster.SelectSeries( peak );
                     _autoChangingSelection = false;
-                }
-
-                EndWait();
+                }         
             }
             catch (Exception ex)
             {
-                EndWait();
-
                 // Error: Normal case is the target has been deleted, but it could be anything, either way there is no need to crash
                 CommitSelection( null );
 
                 _lblChanges.Text = "Error: " + ex.Message;
-            }             
+            }
+            finally
+            {
+                EndWait();
+            }
         }
 
         /// <summary>
@@ -564,22 +564,28 @@ namespace MetaboliteLevels.Forms
         {
             BeginWait("Plotting cluster");
 
-            // Select it in the clusters list
-            _autoChangingSelection = true;
-
-            if (p == null || p.IsFake)
+            try
             {
-                _clusterList.Selection = null;
+                // Select it in the clusters list
+                _autoChangingSelection = true;
+
+                if (p == null || p.IsFake)
+                {
+                    _clusterList.Selection = null;
+                }
+                else
+                {
+                    _clusterList.Selection = p.Cluster;
+                }
+
+                _chartCluster.Plot( p );
+
+                _autoChangingSelection = false;
             }
-            else
+            finally
             {
-                _clusterList.Selection = p.Cluster;
+                EndWait();
             }
-
-            _chartCluster.Plot(p);
-
-            _autoChangingSelection = false;
-            EndWait();
         }
 
         /// <summary>
@@ -612,7 +618,7 @@ namespace MetaboliteLevels.Forms
             toolStripStatusLabel2.Visible = true;
             _lblChanges.Visible = false;
             _lastProgressTime.Restart();
-            _statusMain.BackColor = Color.Red;
+            _statusMain.BackColor = Color.Orange;
             _statusMain.Refresh();
 
             if (pb)
@@ -645,21 +651,26 @@ namespace MetaboliteLevels.Forms
         {
             BeginWait("Plotting peak");
 
-            // Select it in the peaks list
-            _autoChangingSelection = true;
-
-            // The peak might be hidden due to a filter!
-            if (_peakList.GetVisible().Contains(peak)) // Todo - this is show, there should be a tryselect
+            try
             {
-                _peakList.Selection = peak; // make sure it is selected
+                // Select it in the peaks list
+                _autoChangingSelection = true;
+
+                // The peak might be hidden due to a filter!
+                if (_peakList.GetVisible().Contains( peak )) // Todo - this is show, there should be a tryselect
+                {
+                    _peakList.Selection = peak; // make sure it is selected
+                }
+
+                StylisedPeak sp = new StylisedPeak( peak );
+                _chartPeak.Plot( sp );
+
+                _autoChangingSelection = false;
             }
-
-            StylisedPeak sp = new StylisedPeak(peak);
-            _chartPeak.Plot(sp);
-
-            _autoChangingSelection = false;
-
-            EndWait();
+            finally
+            {
+                EndWait();
+            }
         }
 
         /// <summary>
@@ -827,6 +838,7 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Prompts to save data.
         /// </summary>
+        /// <returns>If the data was saved successfully</returns>
         private bool PromptSaveData(FileDialogMode mode)
         {
             // Force save as?
@@ -835,51 +847,45 @@ namespace MetaboliteLevels.Forms
                 mode = FileDialogMode.SaveAs;
             }
 
-            string fileName = this.BrowseForFile(_core.FileNames.Session, UiControls.EFileExtension.Sessions, mode, UiControls.EInitialFolder.Sessions);
+            string fileName = this.BrowseForFile( _core.FileNames.Session, UiControls.EFileExtension.Sessions, mode, UiControls.EInitialFolder.Sessions );
 
-            if (string.IsNullOrWhiteSpace(fileName))
+            if (string.IsNullOrWhiteSpace( fileName ))
             {
                 return false;
             }
 
-            // Save the file
-            _core.FileNames.Session = fileName;
-            _core.FileNames.ForceSaveAs = false;
-            _core.FileNames.AppVersion = UiControls.Version;
-            BeginWait("Saving");
-            bool success;
-
             try
             {
-                FrmWait.Show(this, "Saving session", null, z => _core.Save(fileName, z));
+                FrmWait.Show( this, "Saving session", null, SaveCore, fileName );
 
-                success = true;
+                FileInfo fi = new FileInfo( fileName );
+                double mb = fi.Length / (1024d * 1024d);
+                _lblChanges.Text = "Saved data, " + (mb.ToString( "F01" ) + "Mb");
+
+                return true;
             }
             catch (Exception ex)
             {
-                FrmMsgBox.ShowError(this, ex);
-                success = false;
-            }
+                FrmMsgBox.ShowError( this, ex );
+                _lblChanges.Text = "FAILED TO SAVE DATA";
+                return false;
+            }                                             
+        }
 
-            EndWait();
+        private void SaveCore( ProgressReporter prog, string fileName )
+        {
+            // Save the file
+            _core.FileNames.Session = fileName;
+            _core.FileNames.ForceSaveAs = false;
+            _core.FileNames.AppVersion = UiControls.Version;                      
+            _core.Save( fileName, prog ); 
 
             // Remember recent files
-            MainSettings.Instance.AddRecentSession(_core);
-            MainSettings.Instance.Save();
-
-            // Display the filesize
-            if (success)
+            using (prog.Section( "Adding to sessions list" ))
             {
-                FileInfo fi = new FileInfo(fileName);
-                double mb = fi.Length / (1024d * 1024d);
-                _lblChanges.Text = "Saved data, " + (mb.ToString("F01") + "Mb");
-            }
-            else
-            {
-                _lblChanges.Text = "FAILED TO SAVE DATA";
-            }
-
-            return true;
+                MainSettings.Instance.AddRecentSession( _core );
+                MainSettings.Instance.Save();
+            }                  
         }
 
         /// <summary>
@@ -1779,6 +1785,12 @@ namespace MetaboliteLevels.Forms
 
         private void _lstTrend_Click( object sender, EventArgs e )
         {
+            if (_core.AllTrends.Count == 0)
+            {
+                FrmMsgBox.ShowInfo( this, "Trends", "No trends have been defined, the default trend (median) will be used in the interim." );
+                return;
+            }
+
             var sel = DataSet.ForTrends( _core ).ShowRadio( this, _core.Options.SelectedTrend );
 
             if (sel != null)

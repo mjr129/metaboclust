@@ -60,9 +60,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Backing field
         /// </summary>
-        public object[] Parameters { get; private set; }
-
-        ArgsBase IConfigurationBase.Args => Args;
+        public object[] Parameters { get; private set; }     
 
         /// <summary>
         /// Retrieves the algorithm arguments
@@ -79,6 +77,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                 ClearResults();
             }
         }
+
+        ArgsBase IConfigurationBase.Args => Args;
 
         /// <summary>
         /// Retrieves the algorithm results
@@ -271,6 +271,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             {
                 return UiControls.ImageListOrder.TestEmpty;
             }
+        }
+
+        public TAlgo GetAlgorithmOrThrow()
+        {
+            return (TAlgo)Args.GetAlgorithmOrThrow();
         }
     }
 }

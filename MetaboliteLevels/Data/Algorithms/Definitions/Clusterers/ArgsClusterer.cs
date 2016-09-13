@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.Session.Associational;
 using System.Collections.Generic;
 using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Algorithms.Statistics.Clusterers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {

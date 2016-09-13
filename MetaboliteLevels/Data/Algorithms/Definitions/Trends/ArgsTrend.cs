@@ -1,4 +1,5 @@
 ﻿using System;
+using MetaboliteLevels.Algorithms.Statistics.Trends;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
 

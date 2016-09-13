@@ -751,7 +751,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             LookupByGuidSerialiser guidS = core.GetLookups();
 
             proggy.Enter("Saving intermediate results");
-            XmlSettings.Save<ResultClusterer>(new FileDescriptor( fileName, SerialisationFormat.MSerialiserCompactBinary), result, guidS, proggy);
+            XmlSettings.Save<ResultClusterer>(new FileDescriptor( fileName, SerialisationFormat.MSerialiserFastBinary), result, guidS, proggy);
 
             if (core.SetLookups(guidS))
             {
@@ -792,7 +792,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             try
             {
-                result = XmlSettings.LoadOrDefault<ResultClusterer>(new FileDescriptor(  fileName, SerialisationFormat.MSerialiserCompactBinary), null, guidS, proggy );
+                result = XmlSettings.LoadOrDefault<ResultClusterer>(new FileDescriptor(  fileName, SerialisationFormat.MSerialiserFastBinary), null, guidS, proggy );
             }
             catch
             {
