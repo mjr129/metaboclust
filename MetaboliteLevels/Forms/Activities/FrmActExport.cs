@@ -28,8 +28,8 @@ namespace MetaboliteLevels.Forms.Activities
         List<OtherExportInfo> _otherExports = new List<OtherExportInfo>();
         private Core _core;
         UniqueTable _uniqueTable = new UniqueTable();
-        private EditableComboBox<IProvider<IntensityMatrix>> _ecbIntensitySource;
-        private EditableComboBox<IProvider<IntensityMatrix>> _ecbTrendSource;
+        private EditableComboBox<IMatrixProvider> _ecbIntensitySource;
+        private EditableComboBox<IMatrixProvider> _ecbTrendSource;
 
         public static void Show( Form owner, Core core )
         {

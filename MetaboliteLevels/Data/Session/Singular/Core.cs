@@ -24,6 +24,8 @@ using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
 using MSerialisers.Serialisers;
 using MGui.Helpers;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Data.Session
 {
@@ -63,6 +65,11 @@ namespace MetaboliteLevels.Data.Session
         /// </summary>
         [UndeferSerialisation( typeof( Peak ) )]
         private readonly List<OriginalData> _originalData;
+
+        /// <summary>
+        /// Main data - Aliases
+        /// </summary>                          
+        private readonly List<ProviderAlias> _alises;
 
         /// <summary>
         /// Main data - the peaks
@@ -321,6 +328,7 @@ namespace MetaboliteLevels.Data.Session
             this._trends = new List<ConfigurationTrend>();
             this._peakFilters = new List<PeakFilter>();
             this._obsFilters = new List<ObsFilter>();
+            this._alises = new List<ProviderAlias>();
 
             this._cache = new CachedData( this );
 
@@ -331,11 +339,14 @@ namespace MetaboliteLevels.Data.Session
             {
                 this._originalData.Add( data.AltIntensityMatrix );
             }
+
+            _alises.Add( new ProviderAlias( this, EProviderAlias.LastCorrection, null ) { OverrideDisplayName = "Final correction" });
+            _alises.Add( new ProviderAlias( this, EProviderAlias.LastTrend, null ) { OverrideDisplayName = "Final trend" } );
         }
 
         private void GenericReplace<T>( List<T> current, IEnumerable<T> replacement, ProgressReporter info )
             where T : IConfigurationBase
-        {           
+        {
             // Clear old values
             foreach (T old in current.Where( z => !replacement.Contains( z ) ))
             {
@@ -356,7 +367,7 @@ namespace MetaboliteLevels.Data.Session
             // Add new results
             T[] needsUpdate = current.Where( z => z.NeedsUpdate ).ToArray();
 
-           foreach(T item in current)
+            foreach (T item in current)
             {
                 if (item.NeedsUpdate)
                 {
@@ -371,17 +382,17 @@ namespace MetaboliteLevels.Data.Session
             return result;
         }
 
-        private void UpdateAll( ProgressReporter prog)
+        private void UpdateAll( ProgressReporter prog )
         {
             bool anyUpdated;
 
             do
             {
                 anyUpdated = false;
-                anyUpdated|=GenericUpdate( "corrections", _corrections, prog );
-                anyUpdated|=GenericUpdate( "trends", _trends, prog );
-                anyUpdated|=GenericUpdate( "statistics", _statistics, prog );
-                anyUpdated|=GenericUpdate( "clusters", _clusterers, prog );
+                anyUpdated |= GenericUpdate( "corrections", _corrections, prog );
+                anyUpdated |= GenericUpdate( "trends", _trends, prog );
+                anyUpdated |= GenericUpdate( "statistics", _statistics, prog );
+                anyUpdated |= GenericUpdate( "clusters", _clusterers, prog );
             } while (anyUpdated);
         }
 
@@ -421,7 +432,7 @@ namespace MetaboliteLevels.Data.Session
             UpdateAll( prog );
 
             // TODO: x.CalculateAveragedStatistics();
-        }      
+        }
 
         /// <summary>
         /// Sets the trends.
@@ -429,8 +440,8 @@ namespace MetaboliteLevels.Data.Session
         internal void SetTrends( IEnumerable<ConfigurationTrend> newList, ProgressReporter prog )
         {
             GenericReplace( _trends, newList, prog );
-            UpdateAll( prog );   
-        }      
+            UpdateAll( prog );
+        }
 
         /// <summary>
         /// Sets clusters and applies clustering algorithm.
@@ -438,8 +449,8 @@ namespace MetaboliteLevels.Data.Session
         public void SetClusterers( IEnumerable<ConfigurationClusterer> newList, ProgressReporter prog )
         {
             GenericReplace( _clusterers, newList, prog );
-            UpdateAll( prog );       
-        }         
+            UpdateAll( prog );
+        }
 
         /// <summary>
         /// Adds and applies a single new clustering algorithm.
@@ -549,20 +560,20 @@ namespace MetaboliteLevels.Data.Session
             return false;
         }
 
-        public static IntensityMatrix LegacyXXXXXXXXXXXXXXXXXXXXXXXX()
-        {
-            return null;
-        }
-
-        public IEnumerable<IProvider<IntensityMatrix>> Matrices
+        public IEnumerable<IMatrixProvider> Matrices
         {
             get
             {
-                List<IProvider<IntensityMatrix>> results = new List<IProvider<IntensityMatrix>>();
+                List<IMatrixProvider> results = new List<IMatrixProvider>();
 
                 foreach (OriginalData matrix in _originalData)
                 {
                     results.Add( matrix );
+                }
+
+                foreach (ProviderAlias alias in _alises)
+                {
+                    results.Add( alias );
                 }
 
                 foreach (ConfigurationTrend trend in _trends)
@@ -573,7 +584,7 @@ namespace MetaboliteLevels.Data.Session
                 foreach (ConfigurationCorrection correction in _corrections)
                 {
                     results.Add( correction );
-                }
+                }   
 
                 return results;
             }

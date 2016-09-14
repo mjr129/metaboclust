@@ -19,8 +19,9 @@ using MGui.Datatypes;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
+    [Name("Correction configuration")]
     [Serializable]
-    internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsBase, ResultCorrection>, IProvider<IntensityMatrix>
+    internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsBase, ResultCorrection>, IMatrixProvider
     {               
         public bool IsUsingTrend
         {
@@ -188,9 +189,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             }
 
             return result;
-        }
-
-        public IntensityMatrix Provide => Results.Matrix;
+        }                                 
 
         public override bool Run( Core core, ProgressReporter prog )
         {
@@ -218,5 +217,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                 return false;
             }
         }
+
+        public IntensityMatrix Provide => Results.Matrix;
     }
 }

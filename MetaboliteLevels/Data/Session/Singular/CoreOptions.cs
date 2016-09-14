@@ -15,6 +15,7 @@ using MetaboliteLevels.Viewers.Lists;
 using MGui.Datatypes;
 using MGui.Helpers;
 using System.Linq;
+using JetBrains.Annotations;
 using MetaboliteLevels.Viewers.Charts;
 
 namespace MetaboliteLevels.Settings
@@ -232,61 +233,54 @@ namespace MetaboliteLevels.Settings
         public Color HeatMapOorColour { get; set; }
 
 
-        private WeakReference<IProvider<IntensityMatrix>> _selectedMatrixProvider;
+        private WeakReference<IMatrixProvider> _selectedMatrixProvider;
         private WeakReference<ConfigurationTrend> _selectedTrendProvider;
 
+        /// <summary>
+        /// The user-selected default viewing matrix provider
+        /// If there isn't a selection this falls back to a default matrix
+        /// If the selection has expired however, we still return null, otherwise it would give the impression that the selected
+        /// matrix contains something else.
+        /// </summary>
         [Name( "Default matrix to view using" )]
         [Category( "Peaks" )]
-        public IProvider<IntensityMatrix> SelectedMatrixProvider
+        [CanBeNull]
+        public IMatrixProvider SelectedMatrixProvider
         {
-            get { var result = _selectedMatrixProvider.GetTarget();
-
-                if (result != null)
+            get
+            {
+                if (_selectedMatrixProvider != null)
                 {
-                    return result;
+                    return _selectedMatrixProvider.GetTarget();
                 }
 
                 return this._core.Matrices.First();
             }
-            set { _selectedMatrixProvider = new WeakReference<IProvider<IntensityMatrix>>( value ); }
+            set { _selectedMatrixProvider = new WeakReference<IMatrixProvider>( value ); }
         }
 
-        public IntensityMatrix SelectedMatrix
+        /// <summary>
+        /// The matrix of <see cref="SelectedMatrixProvider"/>.
+        /// </summary>
+        [CanBeNull]
+        public IntensityMatrix SelectedMatrix => SelectedMatrixProvider?.Provide;          
+
+        /// <summary>
+        /// The selected trend
+        /// </summary>
+        [Name( "Default trend to view using" )]
+        [Category( "Peaks" )]
+        [CanBeNull]
+        public ConfigurationTrend SelectedTrend
         {
             get
             {
-                IntensityMatrix matrix = _selectedMatrixProvider.GetTarget()?.Provide;
-
-                if (matrix != null)
+                if (_selectedTrendProvider != null)
                 {
-                    return matrix;
+                    return _selectedTrendProvider.GetTarget();
                 }
 
-                foreach (IProvider<IntensityMatrix> x in this._core.Matrices)
-                {
-                    IntensityMatrix y = x.Provide;
-
-                    if (y != null)
-                    {
-                        return y;
-                    }
-                }
-
-                throw new InvalidOperationException( "Can't find any intensity matrices in the Core!" );
-            }
-        }                                          
-
-        [Name( "Default trend to view using" )]
-        [Category( "Peaks" )]
-        public ConfigurationTrend SelectedTrend
-        {
-            get { ConfigurationTrend trend = _selectedTrendProvider.GetTarget();
-
-                if (trend != null)
-                {
-                    return trend;
-                }
-
+                // Fallback    
                 if (_core.AllTrends.Count != 0)
                 {
                     return _core.AllTrends[0];

@@ -115,6 +115,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.7.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
@@ -190,6 +194,7 @@
     <Compile Include="Data\Evaluation\ClusterEvaluationPointer.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationResults.cs" />
     <Compile Include="Data\Session\General\GroupInfo.cs" />
+    <Compile Include="Data\Session\General\ProviderAlias.cs" />
     <Compile Include="Data\Session\General\VisualisableWrapper.cs" />
     <Compile Include="Forms\Activities\FrmActExport.cs">
       <SubType>Form</SubType>

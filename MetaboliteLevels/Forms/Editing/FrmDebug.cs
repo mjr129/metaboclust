@@ -181,10 +181,10 @@ namespace MetaboliteLevels.Forms.Editing
             };
 
             ConfigurationClusterer config = new ConfigurationClusterer()
-                                            {
-                                             
-                                                Args = args
-                                            };
+            {
+
+                Args = args
+            };
 
             _core.AddClusterer( config, new ProgressReporter( this ) );
 
@@ -237,7 +237,7 @@ namespace MetaboliteLevels.Forms.Editing
             double largest = double.MinValue;
             Tuple<Peak, Peak> smallestT = null;
             Tuple<Peak, Peak> largestT = null;
-            IProvider<IntensityMatrix> vmatrix = DataSet.ForMatrixProviders( _core ).ShowList( this, null );
+            IMatrixProvider vmatrix = DataSet.ForMatrixProviders( _core ).ShowList( this, null );
 
             if (vmatrix == null)
             {
@@ -287,14 +287,14 @@ namespace MetaboliteLevels.Forms.Editing
         [Description( "View peak raw intensity data" )]
         void view_variable_full()
         {
-            IProvider<IntensityMatrix> im = DataSet.ForMatrixProviders( _core ).ShowList( this, null );
+            IMatrixProvider im = DataSet.ForMatrixProviders( _core ).ShowList( this, null );
 
             if (im == null)
             {
                 return;
             }
 
-            Vector peak = PickVariable( im.Provide );
+            Vector peak = PickVariable( im.Provide);
 
             if (peak != null)
             {

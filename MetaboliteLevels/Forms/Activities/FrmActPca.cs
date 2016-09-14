@@ -50,7 +50,7 @@ namespace MetaboliteLevels.Forms.Editing
         private double[,] _loadings;
         private Peak[] _pcaPeaks;
         private ObservationInfo[] _pcaObservations;
-        private IProvider<IntensityMatrix> _selectedCorrection;
+        private IMatrixProvider _selectedCorrection;
 
 
         SourceSet _colourBy = new SourceSet();
@@ -694,7 +694,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _mnuCorrections_correction_Click(object sender, EventArgs e)
         {
-            _selectedCorrection = (IProvider<IntensityMatrix>)((ToolStripMenuItem)sender).Tag;
+            _selectedCorrection = (IMatrixProvider)((ToolStripMenuItem)sender).Tag;
 
             UpdateScores();
         }
@@ -703,7 +703,7 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _mnuCorrections.DropDownItems.Clear();
 
-            foreach (IProvider<IntensityMatrix> provider in _core.Matrices)
+            foreach (IMatrixProvider provider in _core.Matrices)
             {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem( provider.ToString() ) { Tag = provider };
                 tsmi.Click += this._mnuCorrections_correction_Click;

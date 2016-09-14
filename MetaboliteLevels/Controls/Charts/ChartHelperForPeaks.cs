@@ -25,9 +25,9 @@ namespace MetaboliteLevels.Viewers.Charts
 {
     class ChartHelperForPeaks : ChartHelper
     {
-        public static ConfigurationTrend MinSmoother = new ConfigurationTrend() { Args= new ArgsTrend( Algo.ID_TREND_MOVING_MINIMUM, null, new object[] { 1 } ) { OverrideDisplayName = "Minimum" } };
-        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend() { Args= new ArgsTrend( Algo.ID_TREND_MOVING_MAXIMUM, null, new object[] { 1 } ) { OverrideDisplayName = "Maximum" } };
-        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend() { Args= new ArgsTrend( Algo.ID_TREND_MOVING_MEDIAN, null, new object[] { 1 } ) { OverrideDisplayName = "Median" } };
+        public static ConfigurationTrend MinSmoother = new ConfigurationTrend() { Args = new ArgsTrend( Algo.ID_TREND_MOVING_MINIMUM, null, new object[] { 1 } ) { OverrideDisplayName = "Minimum" } };
+        public static ConfigurationTrend MaxSmoother = new ConfigurationTrend() { Args = new ArgsTrend( Algo.ID_TREND_MOVING_MAXIMUM, null, new object[] { 1 } ) { OverrideDisplayName = "Maximum" } };
+        public static ConfigurationTrend FallbackSmoother = new ConfigurationTrend() { Args = new ArgsTrend( Algo.ID_TREND_MOVING_MEDIAN, null, new object[] { 1 } ) { OverrideDisplayName = "Median" } };
 
         public Peak SelectedPeak
         {
@@ -35,13 +35,7 @@ namespace MetaboliteLevels.Viewers.Charts
             private set;
         }
 
-        public override IVisualisable CurrentPlot
-        {
-            get
-            {
-                return SelectedPeak;
-            }
-        }
+        public override IVisualisable CurrentPlot => this.SelectedPeak;
 
         public ChartHelperForPeaks( ISelectionHolder selector, Core core, Control targetSite )
             : base( selector, core, targetSite, false )
@@ -63,129 +57,139 @@ namespace MetaboliteLevels.Viewers.Charts
             // Clear plot
             MCharting.Plot plot = PrepareNewPlot( stylisedPeak != null && !stylisedPeak.IsPreview, peak );
 
-            // Get selection   
-            SelectedPeak = peak;
-            SetCaption( "Plot of {0}.", peak );
-
-            if (peak == null)
+            try // <- CompletNewPlot
             {
-                CompleteNewPlot( plot );
-                return;
-            }
+                // Get selection   
+                SelectedPeak = peak;
+                SetCaption( "Plot of {0}.", peak );
 
-            // Get options
-            StylisedPeakOptions opts = stylisedPeak.OverrideDefaultOptions ?? new StylisedPeakOptions( _core );
-
-            // Get order data                                      
-            ObservationInfo[] obsOrder = _core.Observations.ToArray();
-
-            // Group legends
-            IEnumerable<GroupInfoBase> order = opts.ShowAcqisition ? (IEnumerable<GroupInfoBase>)opts.ViewBatches : (IEnumerable<GroupInfoBase>)opts.ViewGroups;
-            Dictionary<GroupInfoBase, MCharting.Series> groupLegends = DrawLegend( plot, order );
-
-            // Get observations
-            Vector vector;
-
-            if (stylisedPeak.ForceObservations != null)
-            {
-                vector = stylisedPeak.ForceObservations;
-            }
-            else
-            {
-                vector = _core.Options.SelectedMatrix.Find( stylisedPeak.Peak );
-            }
-
-            if (vector == null)
-            {
-                CompleteNewPlot( plot );
-                return;
-            }
-
-            // Show acquisition and batches?
-            if (opts.ShowAcqisition)
-            {
-                // --- RAW DATA (points) ---
-                MCharting.Series legendEntry = new MCharting.Series();
-                legendEntry.Name = "Observations";
-                legendEntry.Style.DrawPoints = new SolidBrush( Color.Black );
-                plot.LegendEntries.Add( legendEntry );
-
-                AddToPlot( plot, peak, seriesNames, vector, "Raw data", opts, EPlot.ByBatch, groupLegends, legendEntry );
-
-                // --- TREND (thick line) ---
-                if (stylisedPeak.ForceTrend != null)
+                if (peak == null)
                 {
-                    MCharting.Series legendEntry2 = new MCharting.Series();
-                    legendEntry2.Name = "Trend";
-                    legendEntry2.Style.DrawLines = new Pen( Color.Black, _core.Options.LineWidth );
-                    legendEntry2.Style.DrawLines.Width = 4;
-                    plot.LegendEntries.Add( legendEntry2 );
-
-                    AddToPlot( plot, peak, seriesNames, vector, "Trend data", opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2 );
+                    return;
                 }
 
+                // Get options
+                StylisedPeakOptions opts = stylisedPeak.OverrideDefaultOptions ?? new StylisedPeakOptions( _core );
+
+                // Get order data                                      
+                ObservationInfo[] obsOrder = _core.Observations.ToArray();
+
+                // Group legends
+                IEnumerable<GroupInfoBase> order = opts.ShowAcqisition ? (IEnumerable<GroupInfoBase>)opts.ViewBatches : (IEnumerable<GroupInfoBase>)opts.ViewGroups;
+                Dictionary<GroupInfoBase, MCharting.Series> groupLegends = DrawLegend( plot, order );
+
+                // Get observations
+                Vector vector;
+
+                if (stylisedPeak.ForceObservations != null)
+                {
+                    vector = stylisedPeak.ForceObservations;
+                }
+                else
+                {
+                    IntensityMatrix matrix = _core.Options.SelectedMatrix;
+
+                    if (matrix == null)
+                    {
+                        return;
+                    }
+
+                    vector = matrix.Find( stylisedPeak.Peak );
+                }
+
+                if (vector == null)
+                {
+                    return;
+                }
+
+                // Show acquisition and batches?
+                if (opts.ShowAcqisition)
+                {
+                    // --- RAW DATA (points) ---
+                    MCharting.Series legendEntry = new MCharting.Series();
+                    legendEntry.Name = "Observations";
+                    legendEntry.Style.DrawPoints = new SolidBrush( Color.Black );
+                    plot.LegendEntries.Add( legendEntry );
+
+                    AddToPlot( plot, peak, seriesNames, vector, "Raw data", opts, EPlot.ByBatch, groupLegends, legendEntry );
+
+                    // --- TREND (thick line) ---
+                    if (stylisedPeak.ForceTrend != null)
+                    {
+                        MCharting.Series legendEntry2 = new MCharting.Series();
+                        legendEntry2.Name = "Trend";
+                        legendEntry2.Style.DrawLines = new Pen( Color.Black, _core.Options.LineWidth );
+                        legendEntry2.Style.DrawLines.Width = 4;
+                        plot.LegendEntries.Add( legendEntry2 );
+
+                        AddToPlot( plot, peak, seriesNames, vector, "Trend data", opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2 );
+                    }
+
+                    DrawLabels( plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels );
+                    return;
+                }
+
+                // Sort data                                                
+                ConfigurationTrend trend = _core.Options.SelectedTrend;
+                Vector avg = stylisedPeak.ForceTrend ?? trend.CreateTrend( _core, vector );
+                Vector min = MinSmoother.CreateTrend( _core, vector );
+                Vector max = MaxSmoother.CreateTrend( _core, vector );
+
+                // --- PLOT MEAN & SD (lines across)
+                if (opts.ShowVariableMean)
+                {
+                    AddMeanAndSdLines( plot, opts, vector.Values, peak, groupLegends );
+                }
+
+                // --- RANGE (shaded area) ---
+                if (opts.ShowRanges)
+                {
+                    AddUpperAndLowerShade( plot, opts, seriesNames, peak, min, max, groupLegends );
+                }
+
+                // --- RAW DATA (points) ---
+                if (opts.ShowPoints && !stylisedPeak.IsPreview)
+                {
+                    MCharting.Series legendEntry = new MCharting.Series();
+                    legendEntry.Name = "Observations";
+                    legendEntry.Style.DrawPoints = new SolidBrush( Color.Black );
+                    plot.LegendEntries.Add( legendEntry );
+
+                    AddToPlot( plot, peak, seriesNames, vector, "Raw data", opts, EPlot.None, groupLegends, legendEntry );
+                }
+
+                // --- RANGE (lines) ---
+                if (opts.ShowMinMax)
+                {
+                    MCharting.Series legendEntry = new MCharting.Series();
+                    legendEntry.Name = "Range min/max";
+                    legendEntry.Style.DrawLines = new Pen( Color.Gray, _core.Options.LineWidth );
+                    plot.LegendEntries.Add( legendEntry );
+
+                    AddToPlot( plot, peak, seriesNames, min, "Min value", opts, EPlot.DrawLine, groupLegends, legendEntry );
+                    AddToPlot( plot, peak, seriesNames, max, "Max value", opts, EPlot.DrawLine, groupLegends, legendEntry );
+                }
+
+                // --- TREND (thick line) ---
+                if (opts.ShowTrend)
+                {
+                    MCharting.Series legendEntry = new MCharting.Series();
+                    legendEntry.Name = "Trend";
+                    legendEntry.Style.DrawLines = new Pen( Color.Black, _core.Options.LineWidth );
+                    legendEntry.Style.DrawLines.Width = _core.Options.LineWidth * 4;
+                    plot.LegendEntries.Add( legendEntry );
+
+                    AddToPlot( plot, peak, seriesNames, avg, "Trend data", opts, EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry );
+                }
+
+                // --- LABELS ---
                 DrawLabels( plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels );
+
+            }
+            finally
+            {
                 CompleteNewPlot( plot );
-                return;
             }
-
-            // Sort data                                                
-            ConfigurationTrend trend = _core.Options.SelectedTrend;
-            Vector avg = stylisedPeak.ForceTrend ?? trend.CreateTrend( _core, vector );
-            Vector min = MinSmoother.CreateTrend( _core, vector );
-            Vector max = MaxSmoother.CreateTrend( _core, vector );
-
-            // --- PLOT MEAN & SD (lines across)
-            if (opts.ShowVariableMean)
-            {
-                AddMeanAndSdLines( plot, opts, vector.Values, peak, groupLegends );
-            }
-
-            // --- RANGE (shaded area) ---
-            if (opts.ShowRanges)
-            {
-                AddUpperAndLowerShade( plot, opts, seriesNames, peak, min, max, groupLegends );
-            }
-
-            // --- RAW DATA (points) ---
-            if (opts.ShowPoints && !stylisedPeak.IsPreview)
-            {
-                MCharting.Series legendEntry = new MCharting.Series();
-                legendEntry.Name = "Observations";
-                legendEntry.Style.DrawPoints = new SolidBrush( Color.Black );
-                plot.LegendEntries.Add( legendEntry );
-
-                AddToPlot( plot, peak, seriesNames, vector, "Raw data", opts, EPlot.None, groupLegends, legendEntry );
-            }
-
-            // --- RANGE (lines) ---
-            if (opts.ShowMinMax)
-            {
-                MCharting.Series legendEntry = new MCharting.Series();
-                legendEntry.Name = "Range min/max";
-                legendEntry.Style.DrawLines = new Pen( Color.Gray, _core.Options.LineWidth );
-                plot.LegendEntries.Add( legendEntry );
-
-                AddToPlot( plot, peak, seriesNames, min, "Min value", opts, EPlot.DrawLine, groupLegends, legendEntry );
-                AddToPlot( plot, peak, seriesNames, max, "Max value", opts, EPlot.DrawLine, groupLegends, legendEntry );
-            }
-
-            // --- TREND (thick line) ---
-            if (opts.ShowTrend)
-            {
-                MCharting.Series legendEntry = new MCharting.Series();
-                legendEntry.Name = "Trend";
-                legendEntry.Style.DrawLines = new Pen( Color.Black, _core.Options.LineWidth );
-                legendEntry.Style.DrawLines.Width = _core.Options.LineWidth * 4;
-                plot.LegendEntries.Add( legendEntry );
-
-                AddToPlot( plot, peak, seriesNames, avg, "Trend data", opts, EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry );
-            }
-
-            // --- LABELS ---
-            DrawLabels( plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels );
-
-            CompleteNewPlot( plot );
         }
 
         private void AddUpperAndLowerShade(

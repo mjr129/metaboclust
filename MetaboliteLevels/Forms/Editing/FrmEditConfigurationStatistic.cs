@@ -32,7 +32,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<ObsFilter> _ecbFilter1;
         private EditableComboBox<ObsFilter> _ecbFilter2;
         private EditableComboBox<StatisticBase> _ecbMeasure;
-        private readonly EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
+        private readonly EditableComboBox<IMatrixProvider> _ecbSource;
 
         internal static ConfigurationStatistic Show(Form owner, ConfigurationStatistic def, Core core, bool readOnly)
         {
@@ -64,7 +64,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private ConfigurationStatistic GetSelection()
         {
             StatisticBase sel = this._ecbMeasure.SelectedItem;
-            IProvider<IntensityMatrix> src;
+            IMatrixProvider src;
             EAlgoInputBSource bsrc;
             ObsFilter filter1;
             ObsFilter filter2;

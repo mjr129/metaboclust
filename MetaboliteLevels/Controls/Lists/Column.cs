@@ -394,7 +394,13 @@ namespace MetaboliteLevels.Viewers.Lists
 
         public static IEnumerable<Column> GetColumns<T>(Core core)
             where T : class, IVisualisable
-        {
+        {                                
+            // Unfortunately this won't work if T is abstract
+            if (typeof(T).IsAbstract)
+            {
+                return new Column[0]; // TODO: Fix this
+            }
+
             return GetColumns( core, (IVisualisable)(T)(FormatterServices.GetUninitializedObject( typeof( T ) )));
         }
 

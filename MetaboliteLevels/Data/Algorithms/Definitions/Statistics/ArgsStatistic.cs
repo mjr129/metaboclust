@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         public readonly ObsFilter VectorBConstraint;                // Filter on the second input vector (only used if [VectorBSource] is Peak)
         public readonly Peak VectorBPeak;                           // Which peak the second input vector comes from (only used if [VectorBSource] is AltPeak)
 
-        public ArgsStatistic( string id, IProvider<IntensityMatrix> source, ObsFilter atypes, EAlgoInputBSource bsrc, ObsFilter btypes, Peak compareTo, object[] parameters)
+        public ArgsStatistic( string id, IMatrixProvider source, ObsFilter atypes, EAlgoInputBSource bsrc, ObsFilter btypes, Peak compareTo, object[] parameters)
             : base(id, source, parameters)
         {                                                           
             this.VectorAConstraint = atypes;

@@ -30,7 +30,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private string _comments;
 
         EditableComboBox<TrendBase> _ecbMethod;
-        private EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
+        private EditableComboBox<IMatrixProvider> _ecbSource;
 
         internal static ConfigurationTrend Show(Form owner, Core core, ConfigurationTrend def, bool readOnly)
         {
@@ -125,7 +125,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _checker.Check( _ecbMethod.ComboBox, false, "Select a method" );
             }
 
-            IProvider<IntensityMatrix> src = _ecbSource.SelectedItem;
+            IMatrixProvider src = _ecbSource.SelectedItem;
 
             _checker.Check( _ecbSource.ComboBox, src != null, "Select a source" );
 

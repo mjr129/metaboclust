@@ -1756,7 +1756,7 @@ namespace MetaboliteLevels.Forms
             metric.Args = args;
 
             DistanceMatrix dm = FrmWait.Show( this, "Creating value matrix", null,
-                z => DistanceMatrix.Create( _core, _core.Options.SelectedMatrixProvider.Provide, metric, z ) );
+                z => DistanceMatrix.Create( _core, _core.Options.SelectedMatrixProvider.Provide , metric, z ) );
 
             FrmActHeatMap.Show( _core, _primaryList, dm );
         }
@@ -1834,7 +1834,7 @@ namespace MetaboliteLevels.Forms
         private void _lstDatasetCb_SelectedIndexChanged( object sender, EventArgs e )
         {
             Debug.WriteLine( _lstDatasetCb.SelectedItem );
-            var sel = _lstDatasetCb.SelectedItem as IProvider<IntensityMatrix>;
+            var sel = _lstDatasetCb.SelectedItem as IMatrixProvider;
 
             if (sel != null && sel != _core.Options.SelectedMatrixProvider)
             {

@@ -9,6 +9,12 @@ using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Generic
 {
+    /// <summary>
+    /// The waiting dialogue, containing a progress bar and cancel button.
+    /// 
+    /// The task to be performed is passed into <see cref="Show"/>.
+    /// Usage: FrmWait.Show( ... )
+    /// </summary>
     public partial class FrmWait : Form
     {
         private Callable function;
@@ -191,10 +197,6 @@ namespace MetaboliteLevels.Forms.Generic
             _info = new Info(this);
             _thread = Thread.CurrentThread;
             _prog = new ProgressReporter(_info);
-
-            // Give a chance for the form to show
-            Thread.Sleep(1000);
-
             function.Invoke(_prog);
         }
 
@@ -309,6 +311,14 @@ namespace MetaboliteLevels.Forms.Generic
         private void _chkLazy_CheckedChanged(object sender, EventArgs e)
         {
             _prog.SetLazyModeAsync(_chkLazy.Checked);
+        }
+
+        private void ctlTitleBar1_HelpClicked( object sender, CancelEventArgs e )
+        {
+            if (FrmMsgBox.ShowYesNo( this, "Cancel", "Are you sure you wish to cancel the task?" ))
+            {
+                _chkStop.Checked = true;
+            }
         }
     }
 }

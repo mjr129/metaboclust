@@ -14,7 +14,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     [Serializable]
     class ArgsCorrection : ArgsBase
     {
-        public ArgsCorrection( string id, IProvider<IntensityMatrix> source, object[] parameters)
+        public ArgsCorrection( string id, IMatrixProvider source, object[] parameters)
             : base( id, source, parameters )
         {
         }      

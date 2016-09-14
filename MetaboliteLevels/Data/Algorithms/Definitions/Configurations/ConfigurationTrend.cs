@@ -10,14 +10,16 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
     /// <summary>
     /// Configured trend algorithm (see ConfigurationBase).
     /// </summary>
+    [Name("Trend configuration")]
     [Serializable]
-    sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend>, IProvider<IntensityMatrix>
+    sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend>, IMatrixProvider
     {        
         public Vector CreateTrend( Core core, Vector vector )
         {

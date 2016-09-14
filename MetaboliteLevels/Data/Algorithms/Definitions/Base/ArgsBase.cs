@@ -26,9 +26,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// </summary>
         public readonly object[] Parameters;
 
-        private WeakReference<IProvider<IntensityMatrix>> _sourceProvider;
+        private WeakReference<IMatrixProvider> _sourceProvider;
 
-        public IProvider<IntensityMatrix> SourceProvider => _sourceProvider.GetTarget();
+        public IMatrixProvider SourceProvider => _sourceProvider.GetTarget();
 
         public IntensityMatrix SourceMatrix => SourceProvider?.Provide;
 
@@ -55,9 +55,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// <summary>
         /// Constructor
         /// </summary> 
-        protected ArgsBase( string id, IProvider<IntensityMatrix> sourceProvider, object[] parameters)
+        protected ArgsBase( string id, IMatrixProvider sourceProvider, object[] parameters)
         {
-            _sourceProvider = new WeakReference<IProvider<IntensityMatrix>>( sourceProvider );
+            _sourceProvider = new WeakReference<IMatrixProvider>( sourceProvider );
             Id = id;
             Parameters = parameters;
         }

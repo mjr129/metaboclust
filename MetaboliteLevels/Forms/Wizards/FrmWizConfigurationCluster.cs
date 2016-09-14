@@ -32,7 +32,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private EditableComboBox<MetricBase> _ecbDistance;
         private EditableComboBox<PeakFilter> _ecbPeakFilter;
         private readonly ChartHelperForPeaks _chart;
-        private readonly EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
+        private readonly EditableComboBox<IMatrixProvider> _ecbSource;
 
         internal static bool Show( Form owner, Core core )
         {
@@ -184,7 +184,7 @@ namespace MetaboliteLevels.Forms.Wizards
             WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>( _radSeedCurrent.Checked ? current : _radSeedHighest.Checked ? _highestPeak : _lowestPeak );
             GroupInfo param4_seedGroup = NamedItem<GroupInfo>.Extract( _lstGroups.SelectedItem );
             int param5_doKMeans = _radFinishK.Checked ? 1 : 0;
-            IProvider<IntensityMatrix> source = _ecbSource.SelectedItem;
+            IMatrixProvider source = _ecbSource.SelectedItem;
             object[] parameters = { param1_numClusters, param2_distanceLimit, param3_seedPeak, param4_seedGroup, param5_doKMeans };
             string name = "DK";
 

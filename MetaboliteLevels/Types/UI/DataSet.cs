@@ -44,7 +44,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// An enum with flags
         /// </summary>
-        public static DataSet<T> ForFlagsEnum<T>(string title)
+        public static DataSet<T> ForFlagsEnum<T>( string title )
             where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
         {
             return new DataSet<T>()
@@ -53,14 +53,14 @@ namespace MetaboliteLevels.Forms.Generic
                 Source = EnumHelper.GetEnumFlags<T>(),
                 ItemNameProvider = z => EnumHelper.ToUiString( (Enum)(object)z ),
                 ItemDescriptionProvider = z => EnumHelper.ToDescription( (Enum)(object)z ),
-                StringComparator = _EnumComparator<T>,    
+                StringComparator = _EnumComparator<T>,
             };
-        }      
+        }
 
         /// <summary>
         /// An arbitrary list of strings
         /// </summary>
-        public static DataSet<int> ForString(string title, params string[] options)
+        public static DataSet<int> ForString( string title, params string[] options )
         {
             return new DataSet<int>()
             {
@@ -73,15 +73,15 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// An enum without flags
         /// </summary>
-        public static DataSet<T> ForDiscreteEnum<T>(string title, T cancelValue)
+        public static DataSet<T> ForDiscreteEnum<T>( string title, T cancelValue )
             where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
         {
             return new DataSet<T>()
             {
                 Title = title,
-                Source = Enum.GetValues(typeof(T)).Cast<T>().Except(new T[] { cancelValue }),
-                ItemNameProvider = z => EnumHelper.ToUiString((Enum)(object)z),
-                ItemDescriptionProvider = z => EnumHelper.ToDescription((Enum)(object)z),
+                Source = Enum.GetValues( typeof( T ) ).Cast<T>().Except( new T[] { cancelValue } ),
+                ItemNameProvider = z => EnumHelper.ToUiString( (Enum)(object)z ),
+                ItemDescriptionProvider = z => EnumHelper.ToDescription( (Enum)(object)z ),
                 StringComparator = _EnumComparator<T>,
                 CancelValue = cancelValue,
             };
@@ -90,7 +90,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's observations.
         /// </summary>
-        public static DataSet<ObservationInfo> ForObservations(Core core)
+        public static DataSet<ObservationInfo> ForObservations( Core core )
         {
             return new DataSet<ObservationInfo>()
             {
@@ -120,12 +120,12 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The columns of a listview.
         /// </summary>
-        public static DataSet<Column> ForColumns(IEnumerable<Column> columns)
+        public static DataSet<Column> ForColumns( IEnumerable<Column> columns )
         {
             return new DataSet<Column>()
             {
                 Title = "Columns",
-                Source = columns.Where(z => !z.IsAlwaysEmpty),
+                Source = columns.Where( z => !z.IsAlwaysEmpty ),
                 ItemNameProvider = z => z.Id,
                 ItemDescriptionProvider = z => z.OverrideDisplayName,
             };
@@ -134,7 +134,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's cluster-optimistation tests
         /// </summary>             
-        public static DataSet<ClusterEvaluationPointer> ForTests(Core core)
+        public static DataSet<ClusterEvaluationPointer> ForTests( Core core )
         {
             return new DataSet<ClusterEvaluationPointer>()
             {
@@ -143,8 +143,8 @@ namespace MetaboliteLevels.Forms.Generic
                 Source = core.EvaluationResultFiles,
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
-                ItemEditor = z => FrmEvaluateClusteringOptions.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
-                ListChangeApplicator = z => core.EvaluationResultFiles.ReplaceAll(z.List),
+                ItemEditor = z => FrmEvaluateClusteringOptions.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
+                ListChangeApplicator = z => core.EvaluationResultFiles.ReplaceAll( z.List ),
                 ListSupportsReorder = true,
             };
         }
@@ -152,7 +152,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's acquisition indices
         /// </summary>
-        public static DataSet<int> ForAcquisitions(Core core)
+        public static DataSet<int> ForAcquisitions( Core core )
         {
             return new DataSet<int>()
             {
@@ -186,7 +186,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's batches.
         /// </summary>
-        public static DataSet<BatchInfo> ForBatches(Core core)
+        public static DataSet<BatchInfo> ForBatches( Core core )
         {
             return new DataSet<BatchInfo>()
             {
@@ -194,7 +194,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Batches",
                 Source = core.Batches,
                 ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = z => z.DisplayShortName + z.Comment.FormatIf("\r\nComment: "),
+                ItemDescriptionProvider = z => z.DisplayShortName + z.Comment.FormatIf( "\r\nComment: " ),
                 StringComparator = _TypeNameComparator,
                 ItemEditor = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
                 Icon = Resources.IconGroups,
@@ -204,7 +204,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's timepoints
         /// </summary>
-        public static DataSet<int> ForTimes(Core core)
+        public static DataSet<int> ForTimes( Core core )
         {
             return new DataSet<int>()
             {
@@ -220,7 +220,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's replicate indices
         /// </summary>
-        public static DataSet<int> ForReplicates(Core core)
+        public static DataSet<int> ForReplicates( Core core )
         {
             return new DataSet<int>()
             {
@@ -236,7 +236,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The headers for a particular metadata (misc user data) set
         /// </summary>
-        internal static DataSet<string> ForMetaHeaders(MetaInfoHeader headerCollection)
+        internal static DataSet<string> ForMetaHeaders( MetaInfoHeader headerCollection )
         {
             return new DataSet<string>()
             {
@@ -249,7 +249,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The parameters for an agrotithm
         /// </summary>
-        internal static DataSet<int> ForParameters(Core core, AlgoParameter[] parameters, int selectedIndex, string message = null)
+        internal static DataSet<int> ForParameters( Core core, AlgoParameter[] parameters, int selectedIndex, string message = null )
         {
             return new DataSet<int>()
             {
@@ -265,7 +265,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's clusters
         /// </summary>
-        internal static DataSet<Cluster> ForClusters(Core core)
+        internal static DataSet<Cluster> ForClusters( Core core )
         {
             return new DataSet<Cluster>()
             {
@@ -281,7 +281,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's peaks
         /// </summary>
-        internal static DataSet<Peak> ForPeaks(Core core)
+        internal static DataSet<Peak> ForPeaks( Core core )
         {
             return new DataSet<Peak>()
             {
@@ -304,7 +304,7 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemNameProvider = _GetDisplayName,
                 ItemDescriptionProvider = _GetComment,
                 Icon = Resources.IconPeak,
-            };                        
+            };
         }
 
         /// <summary>
@@ -317,8 +317,8 @@ namespace MetaboliteLevels.Forms.Generic
                 Core = core,
                 Title = "Vectors",
                 Source = matrix.Vectors,
-                ItemNameProvider = z=> z.ToString(),
-                ItemDescriptionProvider = z=> z.Peak.Comment,
+                ItemNameProvider = z => z.ToString(),
+                ItemDescriptionProvider = z => z.Peak.Comment,
                 Icon = Resources.IconPeak,
             };
         }
@@ -326,29 +326,29 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Pretty much everything in the session in one go (all IVisualisables in Core).
         /// </summary>
-        internal static DataSet<object> ForEverything(Core core)
+        internal static DataSet<object> ForEverything( Core core )
         {
             var all = core.Peaks.Cast<object>()
-                        .Concat(core.Clusters)
-                        .Concat(core.Compounds)
-                        .Concat(core.Adducts)
-                        .Concat(core.Pathways)
-                        .Concat(core.Assignments)
-                        .Concat(core.AllClusterers)
-                        .Concat(core.AllCorrections)
-                        .Concat(core.AllObsFilters)
-                        .Concat(core.AllPeakFilters)
-                        .Concat(core.AllStatistics)
-                        .Concat(core.AllTrends)
-                        .Concat(core.Annotations)
-                        .Concat(core.Batches)
-                        .Concat(core.Conditions)
-                        .Concat(core.EvaluationResultFiles)
-                        .Concat(core.Groups)
-                        .Concat(core.Observations)
-                        .Concat(core.Reps.Cast<object>())
-                        .Concat(core.Times.Cast<object>())
-                        .Concat(Algo.Instance.All);
+                        .Concat( core.Clusters )
+                        .Concat( core.Compounds )
+                        .Concat( core.Adducts )
+                        .Concat( core.Pathways )
+                        .Concat( core.Assignments )
+                        .Concat( core.AllClusterers )
+                        .Concat( core.AllCorrections )
+                        .Concat( core.AllObsFilters )
+                        .Concat( core.AllPeakFilters )
+                        .Concat( core.AllStatistics )
+                        .Concat( core.AllTrends )
+                        .Concat( core.Annotations )
+                        .Concat( core.Batches )
+                        .Concat( core.Conditions )
+                        .Concat( core.EvaluationResultFiles )
+                        .Concat( core.Groups )
+                        .Concat( core.Observations )
+                        .Concat( core.Reps.Cast<object>() )
+                        .Concat( core.Times.Cast<object>() )
+                        .Concat( Algo.Instance.All );
 
             return new DataSet<object>()
             {
@@ -364,7 +364,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's trends
         /// </summary>
-        internal static DataSet<ConfigurationTrend> ForTrends(Core core)
+        internal static DataSet<ConfigurationTrend> ForTrends( Core core )
         {
             return new DataSet<ConfigurationTrend>()
             {
@@ -376,43 +376,43 @@ namespace MetaboliteLevels.Forms.Generic
                 Icon = Resources.IconScriptTrend,
                 BeforeListChangesApplied = z =>
                 {
-                    int numEnabledX = z.List.Count(zz => !zz.Args.Hidden );
+                    int numEnabledX = z.List.Count( zz => !zz.Args.Hidden );
 
                     if (numEnabledX == 0)
                     {
-                        FrmMsgBox.ShowError(z.Owner, "A trendline must be defined.");
+                        FrmMsgBox.ShowError( z.Owner, "A trendline must be defined." );
                         return false;
                     }
                     else if (numEnabledX > 1)
                     {
-                        FrmMsgBox.ShowError(z.Owner, "Only one trend can be activated at once.");
+                        FrmMsgBox.ShowError( z.Owner, "Only one trend can be activated at once." );
                         return false;
                     }
-                               
+
                     return true;
                 },
                 ListChangeApplicator = z =>
                 {
 
-                    core.SetTrends(z.List, z.Progress);
+                    core.SetTrends( z.List, z.Progress );
                 },
                 ItemEditor = z =>
                     {
-                        if (!_ShowEditPreamble(z.Cast<IConfigurationBase>() ))
+                        if (!_ShowEditPreamble( z.Cast<IConfigurationBase>() ))
                         {
                             return null;
                         }
 
-                        return FrmEditConfigurationTrend.Show(z.Owner, core, z.DefaultValue, z.ReadOnly);
+                        return FrmEditConfigurationTrend.Show( z.Owner, core, z.DefaultValue, z.ReadOnly );
                     },
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Trends", "Update complete"),
+                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted( z.owner, "Trends", "Update complete" ),
             };
-        }   
+        }
 
         /// <summary>
         /// The session's corrections
         /// </summary> 
-        public static DataSet<ConfigurationCorrection> ForCorrections(Core core)
+        public static DataSet<ConfigurationCorrection> ForCorrections( Core core )
         {
             return new DataSet<ConfigurationCorrection>()
             {
@@ -424,20 +424,20 @@ namespace MetaboliteLevels.Forms.Generic
                 Icon = Resources.IconScriptCorrect,
                 AfterListChangesApplied = z =>
                 {
-                    FrmMsgBox.ShowCompleted(z.owner, "Data Corrections", "Update complete");
+                    FrmMsgBox.ShowCompleted( z.owner, "Data Corrections", "Update complete" );
                 },
                 ListChangeApplicator = z =>
-                {            
-                    core.SetCorrections(z.List, z.Progress);
+                {
+                    core.SetCorrections( z.List, z.Progress );
                 },
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Cast<IConfigurationBase>() ))
+                    if (!_ShowEditPreamble( z.Cast<IConfigurationBase>() ))
                     {
                         return null;
                     }
 
-                    return FrmEditConfigurationCorrection.Show(z.Owner, core, z.DefaultValue, z.ReadOnly);
+                    return FrmEditConfigurationCorrection.Show( z.Owner, core, z.DefaultValue, z.ReadOnly );
                 }
             };
         }
@@ -445,7 +445,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's clustering algorithms
         /// </summary>
-        internal static DataSet<ConfigurationClusterer> ForClusterers(Core core)
+        internal static DataSet<ConfigurationClusterer> ForClusterers( Core core )
         {
             return new DataSet<ConfigurationClusterer>()
             {
@@ -454,62 +454,64 @@ namespace MetaboliteLevels.Forms.Generic
                 Source = core.AllClusterers,
                 ItemDescriptionProvider = _GetComment,
                 ListSupportsReorder = true,
-                ListChangeApplicator = z => core.SetClusterers(z.List, z.Progress),
+                ListChangeApplicator = z => core.SetClusterers( z.List, z.Progress ),
                 Icon = Resources.IconScriptCluster,
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Cast<IConfigurationBase>() ))
+                    if (!_ShowEditPreamble( z.Cast<IConfigurationBase>() ))
                     {
                         return null;
                     }
 
-                    return FrmEditConfigurationCluster.Show(z.Owner, core, z.DefaultValue, z.ReadOnly, false);
+                    return FrmEditConfigurationCluster.Show( z.Owner, core, z.DefaultValue, z.ReadOnly, false );
                 },
 
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Clustering", "Update complete")
+                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted( z.owner, "Clustering", "Update complete" )
             };
         }
 
         /// <summary>
         /// All available metrics (not just those in use)
         /// </summary>            
-        internal static DataSet<MetricBase> ForMetricAlgorithms(Core core)
+        internal static DataSet<MetricBase> ForMetricAlgorithms( Core core )
         {
             return new DataSet<MetricBase>()
             {
                 Core = core,
                 Title = "Distance metrics",
                 Source = Algo.Instance.Metrics,
-                ItemEditor = z => _ShowScriptEditor<MetricBase>(z, UiControls.EInitialFolder.FOLDER_METRICS),
+                ItemEditor = z => _ShowScriptEditor<MetricBase>( z, UiControls.EInitialFolder.FOLDER_METRICS ),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
         }
 
         /// <summary>
-        /// All intensity matrices
+        /// All intensity matrix providers
         /// </summary>            
-        internal static DataSet<IProvider<IntensityMatrix>> ForMatrixProviders( Core core )
+        internal static DataSet<IMatrixProvider> ForMatrixProviders( Core core )
         {
-            return new DataSet<IProvider<IntensityMatrix>>()
+            return new DataSet<IMatrixProvider>()
             {
                 Core = core,
                 Title = "Intensity matrices",
-                Source = core.Matrices,     
+                Source = core.Matrices,
+                ItemNameProvider = λ => λ.ToString(),
+                ItemDescriptionProvider = λ => λ.GetType().ToUiString(),
             };
-        }     
+        }
 
         /// <summary>
         /// All available trend algorithms (not just those in use)
         /// </summary>            
-        internal static DataSet<TrendBase> ForTrendAlgorithms(Core core)
+        internal static DataSet<TrendBase> ForTrendAlgorithms( Core core )
         {
             return new DataSet<TrendBase>()
             {
                 Core = core,
                 Title = "Trend algorithms",
                 Source = Algo.Instance.Trends,
-                ItemEditor = z => _ShowScriptEditor(z, UiControls.EInitialFolder.FOLDER_TRENDS),
+                ItemEditor = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_TRENDS ),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
@@ -534,14 +536,14 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available clustering algorithms (not just those in use)
         /// </summary>            
-        internal static DataSet<ClustererBase> ForClustererAlgorithms(Core core)
+        internal static DataSet<ClustererBase> ForClustererAlgorithms( Core core )
         {
             return new DataSet<ClustererBase>()
             {
                 Core = core,
                 Title = "Clustering algorithms",
                 Source = Algo.Instance.Clusterers,
-                ItemEditor = z => _ShowScriptEditor(z, UiControls.EInitialFolder.FOLDER_CLUSTERERS),
+                ItemEditor = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_CLUSTERERS ),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
@@ -550,14 +552,14 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available trend and correction algorithms (not just those in use)
         /// </summary>            
-        internal static DataSet<AlgoBase> ForTrendAndCorrectionAlgorithms(Core core)
+        internal static DataSet<AlgoBase> ForTrendAndCorrectionAlgorithms( Core core )
         {
             return new DataSet<AlgoBase>()
             {
                 Core = core,
                 Title = "Correction algorithms",
-                Source = Algo.Instance.Trends.Cast<AlgoBase>().Concat(Algo.Instance.Corrections),
-                ItemEditor = z => _ShowScriptEditor(z, UiControls.EInitialFolder.FOLDER_TRENDS, UiControls.EInitialFolder.FOLDER_CORRECTIONS ),
+                Source = Algo.Instance.Trends.Cast<AlgoBase>().Concat( Algo.Instance.Corrections ),
+                ItemEditor = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_TRENDS, UiControls.EInitialFolder.FOLDER_CORRECTIONS ),
                 ListChangesOnEdit = true,
                 BeforeItemChanged = _ScriptReplace,
             };
@@ -566,7 +568,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available statistics (not just those in use)
         /// </summary>                  
-        internal static DataSet<StatisticBase> ForStatisticsAlgorithms(Core core)
+        internal static DataSet<StatisticBase> ForStatisticsAlgorithms( Core core )
         {
             return new DataSet<StatisticBase>()
             {
@@ -582,7 +584,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's statistics (those in use)
         /// </summary>
-        internal static DataSet<ConfigurationStatistic> ForStatistics(Core core)
+        internal static DataSet<ConfigurationStatistic> ForStatistics( Core core )
         {
             return new DataSet<ConfigurationStatistic>()
             {
@@ -590,26 +592,26 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "Statistics",
                 Source = core.AllStatistics,
                 ItemDescriptionProvider = _GetComment,
-                ListChangeApplicator = z => core.SetStatistics(z.List, z.Progress),
+                ListChangeApplicator = z => core.SetStatistics( z.List, z.Progress ),
                 ListSupportsReorder = true,
                 Icon = Resources.IconScriptStatistic,
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble(z.Cast< IConfigurationBase >()))
+                    if (!_ShowEditPreamble( z.Cast<IConfigurationBase>() ))
                     {
                         return null;
                     }
 
-                    return FrmEditConfigurationStatistic.Show(z.Owner, z.DefaultValue, core, z.ReadOnly);
+                    return FrmEditConfigurationStatistic.Show( z.Owner, z.DefaultValue, core, z.ReadOnly );
                 },
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted(z.owner, "Staticics", "Update complete"),
+                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted( z.owner, "Staticics", "Update complete" ),
             };
         }
 
         /// <summary>
         /// The session's peak (user-comment) flags
         /// </summary>
-        internal static DataSet<PeakFlag> ForPeakFlags(Core core)
+        internal static DataSet<PeakFlag> ForPeakFlags( Core core )
         {
             return new DataSet<PeakFlag>()
             {
@@ -622,7 +624,7 @@ namespace MetaboliteLevels.Forms.Generic
                 ItemEditor = z =>
                 {
                     var val = z.WorkOnCopy ? z.DefaultValue.Clone() : (z.DefaultValue ?? new PeakFlag());
-                    return FrmEditPeakFlag.Show(z.Owner, val, z.ReadOnly) ? val : null;
+                    return FrmEditPeakFlag.Show( z.Owner, val, z.ReadOnly ) ? val : null;
                 },
                 ListChangesOnEdit = true,
             };
@@ -631,26 +633,26 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All session's peak-filters
         /// </summary>
-        internal static DataSet<PeakFilter> ForPeakFilter(Core core)
+        internal static DataSet<PeakFilter> ForPeakFilter( Core core )
         {
             return new DataSet<PeakFilter>()
             {
                 Core = core,
                 Title = "Peak Filters",
                 Source = core.AllPeakFilters,
-                ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
-                ListChangeApplicator = z => core.SetPeakFilters(z.List),
+                ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
+                ListChangeApplicator = z => core.SetPeakFilters( z.List ),
                 ListSupportsReorder = true,
                 ItemEditor = z =>
                 {
-                    var newList = DataSet.ForPeakFilterConditions(core, z.DefaultValue).ShowListEditor(z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null);
+                    var newList = DataSet.ForPeakFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
 
                     if (newList == null || z.ReadOnly)
                     {
                         return null;
                     }
 
-                    return new PeakFilter(z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newList);
+                    return new PeakFilter( z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newList );
                 },
             };
         }
@@ -658,14 +660,14 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All the filters for a particular observation filter
         /// </summary>
-        internal static DataSet<ObsFilter.Condition> ForObsFilterConditions(Core core, ObsFilter of)
+        internal static DataSet<ObsFilter.Condition> ForObsFilterConditions( Core core, ObsFilter of )
         {
             return new DataSet<ObsFilter.Condition>()
             {
                 Core = core,
                 Title = "Observation filter conditions",
                 Source = of != null ? of.Conditions.Cast<ObsFilter.Condition>() : new ObsFilter.Condition[0],
-                ItemEditor = z => FrmEditObsFilterCondition.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
+                ItemEditor = z => FrmEditObsFilterCondition.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
                 ListSupportsReorder = true,
             };
         }
@@ -673,14 +675,14 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All the filters for a particular peak filter
         /// </summary>
-        internal static DataSet<PeakFilter.Condition> ForPeakFilterConditions(Core core, PeakFilter of)
+        internal static DataSet<PeakFilter.Condition> ForPeakFilterConditions( Core core, PeakFilter of )
         {
             return new DataSet<PeakFilter.Condition>()
             {
                 Core = core,
                 Title = "Peak filter conditions",
                 Source = of != null ? of.Conditions.Cast<PeakFilter.Condition>() : new PeakFilter.Condition[0],
-                ItemEditor = z => FrmEditPeakFilterCondition.Show(z.Owner, core, z.DefaultValue, z.ReadOnly),
+                ItemEditor = z => FrmEditPeakFilterCondition.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
                 ListSupportsReorder = true,
             };
         }
@@ -688,35 +690,35 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's observation filters
         /// </summary>
-        internal static DataSet<ObsFilter> ForObsFilter(Core core)
+        internal static DataSet<ObsFilter> ForObsFilter( Core core )
         {
             return new DataSet<ObsFilter>()
             {
                 Core = core,
                 Title = "Observation Filters",
                 Source = core.AllObsFilters,
-                ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf("\r\nComments: "),
+                ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
                 ItemEditor = z =>
                 {
-                    var newlist = DataSet.ForObsFilterConditions(core, z.DefaultValue).ShowListEditor(z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null);
+                    var newlist = DataSet.ForObsFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
 
                     if (newlist == null || z.ReadOnly)
                     {
                         return null;
                     }
 
-                    return new ObsFilter(z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newlist);
+                    return new ObsFilter( z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newlist );
                 },
-                ListChangeApplicator = z => core.SetObsFilters(z.List),
+                ListChangeApplicator = z => core.SetObsFilters( z.List ),
                 ListSupportsReorder = true,
             };
         }
         /// <summary>
         /// Private helper method: Gets comment for an IVisualisable
         /// </summary>
-        private static string _GetComment(IVisualisable vis)
+        private static string _GetComment( IVisualisable vis )
         {
-            if (!string.IsNullOrEmpty(vis.Comment))
+            if (!string.IsNullOrEmpty( vis.Comment ))
             {
                 return "Comments: " + vis.Comment;
             }
@@ -727,7 +729,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Gets display name for an IVisualisable
         /// </summary>
-        private static string _GetDisplayName(IVisualisable z)
+        private static string _GetDisplayName( IVisualisable z )
         {
             return z.DisplayName;
         }
@@ -735,15 +737,15 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Gets comment for a ConfigurationBase
         /// </summary>
-        private static string _GetComment(IConfigurationBase z)
+        private static string _GetComment( IConfigurationBase z )
         {
-            return z.DisplayName + z.Comment.FormatIf("\r\nComments: ");
+            return z.DisplayName + z.Comment.FormatIf( "\r\nComments: " );
         }
 
         /// <summary>
         /// Private helper method: Compares enums to strings
         /// </summary>
-        private static bool _EnumComparator<T>(string name, T value)
+        private static bool _EnumComparator<T>( string name, T value )
         {
             string a = ((Enum)(object)value).ToUiString().ToUpper();
             string b = value.ToString().ToUpper();
@@ -757,7 +759,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Compares experimental group names to strings
         /// </summary>
-        private static bool _TypeNameComparator(string name, GroupInfoBase group)
+        private static bool _TypeNameComparator( string name, GroupInfoBase group )
         {
             name = name.ToUpper();
 
@@ -767,7 +769,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Shows error and remove results dialogues
         /// </summary>
-        private static bool _ShowEditPreamble( DataSet<IConfigurationBase>.EditItemArgs args)
+        private static bool _ShowEditPreamble( DataSet<IConfigurationBase>.EditItemArgs args )
         {
             if (args.DefaultValue != null)
             {
@@ -778,7 +780,7 @@ namespace MetaboliteLevels.Forms.Generic
                                                      new   FrmMsgBox.ButtonSet("Clear error", Resources.MnuDelete, DialogResult.No),
                                                      new   FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
-                    switch (FrmMsgBox.Show(args.Owner, "Error report", "Last time this configuration was run it reported an error", args.DefaultValue.Error, Resources.MsgWarning, btns))
+                    switch (FrmMsgBox.Show( args.Owner, "Error report", "Last time this configuration was run it reported an error", args.DefaultValue.Error, Resources.MsgWarning, btns ))
                     {
                         case DialogResult.Yes:
                             break;
@@ -803,7 +805,7 @@ namespace MetaboliteLevels.Forms.Generic
                     FrmMsgBox.ButtonSet[] btns = {  new FrmMsgBox.ButtonSet( "Replace", Resources.MnuAccept, DialogResult.No),
                                                         new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
-                    switch (FrmMsgBox.Show(args.Owner, args.Owner.Text, text1, text2, Resources.MsgHelp, btns, FrmMsgBox.EDontShowAgainId.EditWithResults, DialogResult.No))
+                    switch (FrmMsgBox.Show( args.Owner, args.Owner.Text, text1, text2, Resources.MsgHelp, btns, FrmMsgBox.EDontShowAgainId.EditWithResults, DialogResult.No ))
                     {
                         case DialogResult.No:
                             break;
@@ -818,12 +820,12 @@ namespace MetaboliteLevels.Forms.Generic
             }
 
             return true;
-        }          
+        }
 
         /// <summary>
         /// Private helper method: Checks script editability
         /// </summary>    
-        private static void _ScriptReplace(Form owner, AlgoBase find, AlgoBase replace)
+        private static void _ScriptReplace( Form owner, AlgoBase find, AlgoBase replace )
         {
             if (find == null || find == replace)
             {
@@ -833,7 +835,7 @@ namespace MetaboliteLevels.Forms.Generic
 
             if (find.Script == null)
             {
-                FrmMsgBox.ShowInfo(owner, "Unavailable", "This algorithm is stored in binary format and cannot be viewed or modified." );
+                FrmMsgBox.ShowInfo( owner, "Unavailable", "This algorithm is stored in binary format and cannot be viewed or modified." );
                 return;
             }
 
@@ -859,88 +861,88 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 case EDataSet.Acquisitions:
                     return DataSet.ForAcquisitions( core );
-                    
+
 
                 case EDataSet.Batches:
                     return DataSet.ForBatches( core );
-                    
+
 
                 case EDataSet.Clusterers:
                     return DataSet.ForClusterers( core );
 
                 case EDataSet.Clusters:
                     return DataSet.ForClusters( core );
-                    
+
 
                 case EDataSet.Conditions:
                     return DataSet.ForConditions( core );
-                    
+
 
                 case EDataSet.Groups:
                     return DataSet.ForGroups( core );
 
                 case EDataSet.Observations:
                     return DataSet.ForObservations( core );
-                    
+
 
                 case EDataSet.ObservationFilters:
                     return DataSet.ForObsFilter( core );
-                    
+
 
                 case EDataSet.PeakFilters:
                     return DataSet.ForPeakFilter( core );
-                    
+
 
                 case EDataSet.PeakFlags:
                     return DataSet.ForPeakFlags( core );
-                    
+
 
                 case EDataSet.Peaks:
                     return DataSet.ForPeaks( core );
-                    
+
 
                 case EDataSet.Replicates:
                     return DataSet.ForReplicates( core );
-                    
+
 
                 case EDataSet.Statistics:
                     return DataSet.ForStatistics( core );
-                    
+
 
                 case EDataSet.Evaluations:
                     return DataSet.ForTests( core );
-                    
+
 
                 case EDataSet.Times:
                     return DataSet.ForTimes( core );
-                    
+
 
                 case EDataSet.Trends:
                     return DataSet.ForTrends( core );
-                    
+
 
                 case EDataSet.Corrections:
                     return DataSet.ForCorrections( core );
 
                 case EDataSet.ClusteringAlgorithms:
                     return DataSet.ForClustererAlgorithms( core );
-                    
+
 
                 case EDataSet.MetricAlgorithms:
                     return DataSet.ForMetricAlgorithms( core );
-                    
+
 
                 case EDataSet.StatisticsAlgorithms:
                     return DataSet.ForStatisticsAlgorithms( core );
-                    
+
 
                 case EDataSet.TrendAlgorithms:
                     return DataSet.ForTrendAlgorithms( core );
-                    
+
 
                 case EDataSet.TrendAndCorrectionAlgorithms:
                     return DataSet.ForTrendAndCorrectionAlgorithms( core );
-                    
+
 
                 case EDataSet.AllAlgorithms:
                     return DataSet.ForAllAlgorithms( core );
@@ -956,7 +958,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Shows the script editor.
         /// </summary>    
-        private static T _ShowScriptEditor<T>(DataSet<T>.EditItemArgs z,params  UiControls.EInitialFolder[] folders)
+        private static T _ShowScriptEditor<T>( DataSet<T>.EditItemArgs z, params UiControls.EInitialFolder[] folders )
           where T : AlgoBase
         {
             string fileName;
@@ -975,7 +977,7 @@ namespace MetaboliteLevels.Forms.Generic
 
                 if (fileName == null && !z.WorkOnCopy)
                 {
-                    FrmMsgBox.ShowError(z.Owner, "This script is locked for editing, consider working on a copy instead.");
+                    FrmMsgBox.ShowError( z.Owner, "This script is locked for editing, consider working on a copy instead." );
                     return null;
                 }
 
@@ -1003,7 +1005,7 @@ namespace MetaboliteLevels.Forms.Generic
                 }
                 else
                 {
-                    throw new SwitchException(z.DefaultValue.GetType());
+                    throw new SwitchException( z.DefaultValue.GetType() );
                 }
             }
             else
@@ -1059,7 +1061,7 @@ namespace MetaboliteLevels.Forms.Generic
                     throw new SwitchException( folder );
             }
 
-            string newFile = FrmInputScript.Show(z.Owner, title, inputTable, folder, fileName, z.WorkOnCopy, defaultContent, z.ReadOnly);
+            string newFile = FrmInputScript.Show( z.Owner, title, inputTable, folder, fileName, z.WorkOnCopy, defaultContent, z.ReadOnly );
 
             if (newFile == null)
             {
@@ -1067,8 +1069,8 @@ namespace MetaboliteLevels.Forms.Generic
             }
 
             Algo.Instance.Rebuild();
-            string id = Algo.GetId(folder, newFile, false);
-            return (T)Algo.Instance.All.First(zz => zz.Id == id);
+            string id = Algo.GetId( folder, newFile, false );
+            return (T)Algo.Instance.All.First( zz => zz.Id == id );
         }
     }
 
@@ -1076,7 +1078,7 @@ namespace MetaboliteLevels.Forms.Generic
     /// Datasets as an enum
     /// </summary>
     public enum EDataSet
-    {          
+    {
         [Name( "Data\\Peaks" )]
         Peaks,
 

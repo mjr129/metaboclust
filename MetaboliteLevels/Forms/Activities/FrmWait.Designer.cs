@@ -49,6 +49,7 @@
             this.ctlTitleBar1.AutoSize = true;
             this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlTitleBar1.HelpIcon = MetaboliteLevels.Controls.CtlTitleBar.EHelpIcon.HideBar;
             this.ctlTitleBar1.HelpText = "";
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -59,6 +60,7 @@
             this.ctlTitleBar1.TabIndex = 0;
             this.ctlTitleBar1.Text = "Please wait";
             this.ctlTitleBar1.WarningText = null;
+            this.ctlTitleBar1.HelpClicked += new System.ComponentModel.CancelEventHandler(this.ctlTitleBar1_HelpClicked);
             // 
             // progressBar1
             // 

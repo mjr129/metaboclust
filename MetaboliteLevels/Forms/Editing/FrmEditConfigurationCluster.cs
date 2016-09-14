@@ -37,7 +37,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<MetricBase> _ecbMeasure;
         private ConditionBox<EClustererStatistics> _cbStatistics;
         private readonly bool _readOnly;
-        private EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
+        private EditableComboBox<IMatrixProvider> _ecbSource;
 
         internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
         {
@@ -137,7 +137,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private ConfigurationClusterer GetSelection()
         {
-            IProvider<IntensityMatrix> src;
+            IMatrixProvider src;
             PeakFilter peakFilter;
             ObsFilter obsFilter;
             string title;

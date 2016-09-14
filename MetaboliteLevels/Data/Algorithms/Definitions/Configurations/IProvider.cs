@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Visualisables;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 {
     /// <summary>
-    /// Classes that can provide a <paramref name="T"/>.
-    /// </summary>
-    /// <typeparam name="T">Type provided by the class.</typeparam>
-    internal interface IProvider<out T>            
+    /// Classes that can provide an intensity matrix
+    /// </summary>                                                 
+    internal interface IMatrixProvider
     {
-        T Provide { get; }
-    }
+        [CanBeNull]
+        IntensityMatrix Provide { get; }
+    }         
 
     /// <summary>
     /// Classes that are replacable.

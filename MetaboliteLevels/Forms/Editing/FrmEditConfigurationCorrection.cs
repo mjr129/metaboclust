@@ -43,7 +43,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<ObsFilter> _ecbFilter;
         private EditableComboBox<AlgoBase> _ecbMethod;
         private EditableComboBox<GroupInfo> _ecbTypes;
-        private EditableComboBox<IProvider<IntensityMatrix>> _ecbSource;
+        private EditableComboBox<IMatrixProvider> _ecbSource;
 
         internal static ConfigurationCorrection Show( Form owner, Core core, ConfigurationCorrection def, bool readOnly )
         {
@@ -124,7 +124,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         {
             _checker.Clear();
 
-            IProvider<IntensityMatrix> source = _ecbSource.SelectedItem;
+            IMatrixProvider source = _ecbSource.SelectedItem;
 
             _checker.Check( _ecbSource.ComboBox, source != null, "Select a source" );
 

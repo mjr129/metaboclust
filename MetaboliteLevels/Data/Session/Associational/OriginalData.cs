@@ -8,11 +8,13 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Session.Associational
 {
+    [Name("Original data")]
     [Serializable]
-    internal class OriginalData : IVisualisable, IProvider<IntensityMatrix>
+    internal class OriginalData : IVisualisable, IMatrixProvider
     {
         private readonly string _fileName;
         private readonly IntensityMatrix _intentisyMatrix;

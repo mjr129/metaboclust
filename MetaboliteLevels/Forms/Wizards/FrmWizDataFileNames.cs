@@ -1049,39 +1049,42 @@ namespace MetaboliteLevels.Forms.Startup
 
                 try
                 {
-                    FrmWait.Show(this, "Updating experimental groups", null, delegate(ProgressReporter progress)
-                    {
-                        SpreadsheetReader reader = new SpreadsheetReader()
+                    // Don't show the wait form because it takes too little time
+                    FrmWait.Show( this, "Updating experimental groups", null,
+                        delegate ( ProgressReporter progress )
                         {
-                            Progress = progress.SetProgress,
-                        };
-
-                        if (useObsFile)
-                        {
-                            if (File.Exists( observationFile ))
+                            SpreadsheetReader reader = new SpreadsheetReader()
                             {
-                                Spreadsheet<string> info = reader.Read<string>( observationFile );
-                                int typeCol = info.TryFindColumn( _fileLoadInfo.OBSFILE_GROUP_HEADER );
+                                Progress = progress.SetProgress,
+                            }
+                            ;
 
-                                for (int row = 0; row < info.NumRows; row++)
+                            if (useObsFile)
+                            {
+                                if (File.Exists( observationFile ))
                                 {
-                                    string id = typeCol == -1 ? "A" : info[row, typeCol];
+                                    Spreadsheet<string> info = reader.Read<string>( observationFile );
+                                    int typeCol = info.TryFindColumn( _fileLoadInfo.OBSFILE_GROUP_HEADER );
 
-                                    if (!_experimentalGroupCache.Any( z=> z.Id.ToUpper() == id.ToUpper() ))
+                                    for (int row = 0; row < info.NumRows; row++)
                                     {
-                                        _experimentalGroupCache.Add( new ExpCond( id, "Type " + id ) );
+                                        string id = typeCol == -1 ? "A" : info[row, typeCol];
+
+                                        if (!_experimentalGroupCache.Any( z => z.Id.ToUpper() == id.ToUpper() ))
+                                        {
+                                            _experimentalGroupCache.Add( new ExpCond( id, "Type " + id ) );
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
-                            foreach (var kvp in FrmActDataLoad.LoadConditionInfo( _fileLoadInfo, conditionFile, progress ))
+                            else
                             {
-                                _experimentalGroupCache.Add( new ExpCond( kvp.Key, kvp.Value ) );
+                                foreach (var kvp in FrmActDataLoad.LoadConditionInfo( _fileLoadInfo, conditionFile, progress ))
+                                {
+                                    _experimentalGroupCache.Add( new ExpCond( kvp.Key, kvp.Value ) );
+                                }
                             }
-                        }
-                    } );
+                        } );
                 }
                 catch
                 {
