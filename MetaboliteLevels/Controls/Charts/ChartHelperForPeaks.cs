@@ -35,7 +35,7 @@ namespace MetaboliteLevels.Viewers.Charts
             private set;
         }
 
-        public override IVisualisable CurrentPlot => this.SelectedPeak;
+        public override Visualisable CurrentPlot => this.SelectedPeak;
 
         public ChartHelperForPeaks( ISelectionHolder selector, Core core, Control targetSite )
             : base( selector, core, targetSite, false )

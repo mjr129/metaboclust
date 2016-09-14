@@ -379,13 +379,13 @@ namespace MetaboliteLevels.Forms.Editing
         {
             object vis = DataSet.ForEverything( _core ).ShowList( this, null );
 
-            if (vis is IVisualisable)
+            if (vis is Visualisable)
             {
                 IEnumerable<string> selected = new DataSet<string>()
                 {
                     Title = vis.ToString(),
                     SubTitle = "List of properties",
-                    Source = ((IVisualisable)vis).QueryProperties( _core )
+                    Source = ((Visualisable)vis).QueryProperties( _core )
                 }.ShowCheckList( this, null );
 
                 if (selected != null && !selected.IsEmpty())

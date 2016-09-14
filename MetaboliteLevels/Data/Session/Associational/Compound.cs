@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Compound : IAssociational
+   internal class Compound : Associational
     {
         /// <summary>
         /// Compound name
@@ -58,20 +58,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly MetaInfoCollection MetaInfo = new MetaInfoCollection();
 
-        /// <summary>
-        /// User provided comments.
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// User provided name.
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
-
-        /// <summary>
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool INameable.Hidden { get { return false; } set { } }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
         /// <summary>
         /// Defining library.
@@ -122,7 +109,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Default display name.
         /// </summary>
-        public string DefaultDisplayName
+        public override string DefaultDisplayName
         {
             get
             {
@@ -136,7 +123,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <param name="core">Core</param>
         /// <param name="highlight">What to highlight in the result</param>
         /// <returns>A StylisedCluster</returns>
-        internal StylisedCluster CreateStylisedCluster(Core core, IntensityMatrix source, IAssociational highlight )
+        internal StylisedCluster CreateStylisedCluster(Core core, IntensityMatrix source, Associational highlight )
         {
             Cluster fakeCluster = new Cluster(this.DefaultDisplayName, null);
             Dictionary<Peak, LineInfo> colourInfo = new Dictionary<Peak, LineInfo>();
@@ -152,7 +139,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             if (highlight != null)
             {
-                switch (highlight.VisualClass)
+                switch (highlight.AssociationalClass)
                 {
                     case EVisualClass.Peak:
                         toHighlight = new StylisedCluster.HighlightElement[] { new StylisedCluster.HighlightElement((Peak)highlight, null) };
@@ -207,36 +194,20 @@ namespace MetaboliteLevels.Data.Visualisables
             r.WhatIsHighlighted = highlight;
             r.Highlight = toHighlight;
             return r;
-        }
+        }    
 
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>
-        public string DisplayName
-        {
-            get { return IVisualisableExtensions.FormatDisplayName(this); }
-        }
-
-        /// <summary>
-        /// IMPELEMENTS IVisualisable
-        /// </summary>
-        EVisualClass IAssociational.VisualClass
+        public override EVisualClass AssociationalClass
         {
             get { return EVisualClass.Compound; }
         }
 
         /// <summary>
-        /// OVERRIDES Object
-        /// </summary>
-        public override string ToString()
-        {
-            return DisplayName;
-        }
-
-        /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>
-        void IAssociational.RequestContents(ContentsRequest request)
+        public override void FindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -302,7 +273,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>               
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<Compound>> columns = new List<Column<Compound>>();
 
@@ -341,27 +312,30 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>               
-        UiControls.ImageListOrder IVisualisable.GetIcon()
+        public override UiControls.ImageListOrder Icon
         {
-            if (this.Annotations.Count == 0)
+            get
             {
-                return UiControls.ImageListOrder.Compound0;
-            }
-            else
-            {
-                switch (this.Annotations.Max( z => z.Status ))
+                if (this.Annotations.Count == 0)
                 {
-                    case EAnnotation.Tentative:
-                        return UiControls.ImageListOrder.CompoundT;
+                    return UiControls.ImageListOrder.Compound0;
+                }
+                else
+                {
+                    switch (this.Annotations.Max( z => z.Status ))
+                    {
+                        case EAnnotation.Tentative:
+                            return UiControls.ImageListOrder.CompoundT;
 
-                    case EAnnotation.Affirmative:
-                        return UiControls.ImageListOrder.CompoundA;
+                        case EAnnotation.Affirmative:
+                            return UiControls.ImageListOrder.CompoundA;
 
-                    case EAnnotation.Confirmed:
-                        return UiControls.ImageListOrder.CompoundC;
+                        case EAnnotation.Confirmed:
+                            return UiControls.ImageListOrder.CompoundC;
 
-                    default:
-                        throw new SwitchException();
+                        default:
+                            throw new SwitchException();
+                    }
                 }
             }
         }

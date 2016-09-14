@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     /// A configuration for a test (either to be run or already run)
     /// </summary>
     [Serializable]
-    class ClusterEvaluationConfiguration : IVisualisable
+    class ClusterEvaluationConfiguration : Visualisable
     {
         /// <summary>
         /// The configuration of the clusterer to use
@@ -70,28 +70,17 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             this._guid = Guid.NewGuid();
             this.NumberOfRepeats = numberOfRepeats;
             this.ParameterName = clustererConfiguration.Args.GetAlgorithmOrThrow().Parameters[ParameterIndex].Name;
-        }
-
-        /// <summary>
-        /// OVERRIDES Object.
-        /// </summary>           
-        public override string ToString()
-        {
-            return DisplayName;
-        }
+        }        
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>           
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            return UiControls.ImageListOrder.TestEmpty;
-        }
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.TestEmpty;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>               
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<ClusterEvaluationConfiguration>> columns = new List<Column<ClusterEvaluationConfiguration>>();
 
@@ -129,71 +118,11 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             {
                 return StringHelper.ArrayToString(ParameterValues, AlgoParameterCollection.ParamToString, ", ");
             }
-        }
-
-        /// <summary>
-        /// Legacy equivalent of IVisualisable.OverrideDisplayName.
-        /// </summary>
-        public string Name
-        {
-            get;
-            set;
-        }
+        }             
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string Comment
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public bool Hidden
-        {
-            get;
-            set;
-        }     
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string DisplayName
-        {
-            get
-            {
-                return IVisualisableExtensions.FormatDisplayName(this);
-            }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string DefaultDisplayName
-        {
-            get
-            {
-                return ClustererConfiguration.Args.DisplayName + " : " + ParameterConfigAsString;
-            }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS ITitlable
-        /// (Wraps an existing member for backwards compatibility before this class extended the interface)
-        /// </summary>
-        string INameable.OverrideDisplayName
-        {
-            get
-            {
-                return this.Name;
-            }
-            set
-            {
-                this.Name = value;
-            }
-        }
+        public override string DefaultDisplayName => ClustererConfiguration.Args.DisplayName + " : " + ParameterConfigAsString;             
     }
 }

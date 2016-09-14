@@ -4,74 +4,97 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
     /// <summary>
-    /// Stuff the user can add comments to and change the name of.
+    /// Stuff that shows in lists.
     /// </summary>
-    interface INameable
+    [Serializable]
+    internal abstract class Visualisable
     {
         /// <summary>
         /// Displayed name of this item.
         /// </summary>
-        string DisplayName { get; }
+        public virtual string DisplayName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty( OverrideDisplayName ))
+                {
+                    return DefaultDisplayName;
+                }
+                else
+                {
+                    return OverrideDisplayName;
+                }
+            }
+        }
+
+        public sealed override string ToString() => DisplayName;
 
         /// <summary>
         /// Assigned name of this item.
         /// </summary>
-        string DefaultDisplayName { get; }
+        public abstract string DefaultDisplayName { get; }
 
         /// <summary>
         /// User overriden name of this item
         /// </summary>
-        string OverrideDisplayName { get; set; }
+        public virtual string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Comments applied to this item.
         /// </summary>
-        string Comment { get; set; }
+        public virtual string Comment { get; set; }
 
         /// <summary>
         /// Is this object hidden from view
         /// </summary>
-        bool Hidden { get; set; }
-    }
+        public virtual bool Hidden { get; set; }
 
-    /// <summary>
-    /// Stuff that shows in lists.
-    /// </summary>
-    interface IVisualisable : INameable
-    {
         /// <summary>
         /// Icon for this item (as an index).
         /// </summary>
-        UiControls.ImageListOrder GetIcon();
+        public abstract UiControls.ImageListOrder Icon { get; }
 
         /// <summary>
         /// STATIC
         /// Gets columns
         /// </summary>
-        IEnumerable<Column> GetColumns(Core core);
+        public abstract IEnumerable<Column> GetColumns( Core core );
+                                                 
+        public virtual EPrevent SupportsHide => EPrevent.None;
+    }
+
+    [Flags]
+    public enum EPrevent
+    {
+        None,
+        Hide=1,
+        Comment=2,
+        Name =4,
     }
 
     /// <summary>
     /// Stuff that can have associations.
     /// Peaks...clusters...adducts...metabolites...pathways.
     /// </summary>
-    interface IAssociational : IVisualisable
+    [Serializable]
+    internal abstract class Associational : Visualisable
     {
         /// <summary>
         /// Gets related items.
         /// </summary>
-        void RequestContents( ContentsRequest list );
+        public abstract void FindAssociations( ContentsRequest list );
 
         /// <summary>
         /// VisualClass of IVisualisable
         /// </summary>
-        EVisualClass VisualClass { get; }
+        public abstract EVisualClass AssociationalClass { get; }
     }
 
     /// <summary>
@@ -82,7 +105,28 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Provides a preview for the specified IVisualisable.
         /// </summary>
-        Image ProvidePreview(Size size, object target );
+        Image ProvidePreview( Size size, object target );
+    }
+
+    interface IBackup
+    {
+        void Backup( BackupData data );
+        void Restore( BackupData data );
+    }
+
+    class BackupData
+    {
+        private IBackup iBackup;
+
+        public BackupData( IBackup iBackup )
+        {
+            this.iBackup = iBackup;
+        }
+
+        public void Restore()
+        {
+        // TODO
+        }
     }
 
     /// <summary>
@@ -98,19 +142,19 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// (EXTENSION) (MJR) Retrieves a request for contents with the specified parameters.
         /// </summary>
-        public static ContentsRequest GetContents(this IAssociational self, Core core, EVisualClass type)
+        public static ContentsRequest GetContents( this Associational self, Core core, EVisualClass type )
         {
-            ContentsRequest cl = new ContentsRequest(core, self, type);
-            self.RequestContents(cl);
+            ContentsRequest cl = new ContentsRequest( core, self, type );
+            self.FindAssociations( cl );
             return cl;
         }
 
         /// <summary>
         /// Gets the display name.
         /// </summary>    
-        public static string FormatDisplayName(INameable visualisable)
+        public static string FormatDisplayName( Visualisable visualisable )
         {
-            return string.IsNullOrEmpty(visualisable.OverrideDisplayName) ? visualisable.DefaultDisplayName : visualisable.OverrideDisplayName;
+            return string.IsNullOrEmpty( visualisable.OverrideDisplayName ) ? visualisable.DefaultDisplayName : visualisable.OverrideDisplayName;
         }
 
         /// <summary>
@@ -118,7 +162,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string SafeGetDisplayName(this INameable self )
+        public static string SafeGetDisplayName( this Visualisable self )
         {
             if (self == null)
             {
@@ -131,35 +175,35 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// (EXTENSION) (MJR) Gets the enabled elements of an IVisualisable enumerable.
         /// </summary>                                               
-        public static IEnumerable<T> WhereEnabled<T>(this IEnumerable<T> self)
-            where T : INameable
+        public static IEnumerable<T> WhereEnabled<T>( this IEnumerable<T> self )
+            where T : Visualisable
         {
-            return self.Where(z => !z.Hidden);
+            return self.Where( z => !z.Hidden );
         }
 
         /// <summary>
         /// (EXTENSION) (MJR) Gets the enabled elements of an IVisualisable enumerable.
         /// </summary>     
-        public static IEnumerable<T> WhereEnabled<T>(this IEnumerable<T> self, bool onlyEnabled)
-            where T : INameable
+        public static IEnumerable<T> WhereEnabled<T>( this IEnumerable<T> self, bool onlyEnabled )
+            where T : Visualisable
         {
-            return onlyEnabled ? WhereEnabled(self) : self;
+            return onlyEnabled ? WhereEnabled( self ) : self;
         }
 
         /// <summary>
         /// (EXTENSION) (MJR) Gets a list of valid values to pass to [QueryProperty::property]
         /// </summary>                     
-        public static List<string> QueryProperties(this IVisualisable self, Core core)
+        public static List<string> QueryProperties( this Visualisable self, Core core )
         {
             List<string> result = new List<string>();
-            result.AddRange(self.GetType().GetProperties().Select(z => SYMBOL_PROPERTY + z.Name));
+            result.AddRange( self.GetType().GetProperties().Select( z => SYMBOL_PROPERTY + z.Name ) );
             return result;
         }
 
         /// <summary>
         /// (EXTENSION) (MJR) Gets field called [property] from the [self]'s available columns..
         /// </summary>
-        public static object QueryProperty(this IVisualisable self, string property, Core core)
+        public static object QueryProperty( this Visualisable self, string property, Core core )
         {
             if (self == null)
             {
@@ -183,41 +227,41 @@ namespace MetaboliteLevels.Data.Visualisables
                     return "}";
             }
 
-            bool isProperty = property.StartsWith(SYMBOL_PROPERTY);
+            bool isProperty = property.StartsWith( SYMBOL_PROPERTY );
 
             if (isProperty)
             {
-                property = property.Substring(SYMBOL_PROPERTY.Length);
+                property = property.Substring( SYMBOL_PROPERTY.Length );
             }
 
             if (isProperty)
             {
-                PropertyInfo p = self.GetType().GetProperty(property);
+                PropertyInfo p = self.GetType().GetProperty( property );
 
                 if (p != null)
                 {
-                    return p.GetValue(self);
+                    return p.GetValue( self );
                 }
 
-                FieldInfo f = self.GetType().GetField(property);
+                FieldInfo f = self.GetType().GetField( property );
 
                 if (f != null)
                 {
-                    return f.GetValue(self);
+                    return f.GetValue( self );
                 }
             }
 
-            Column column = ColumnManager.GetColumns(core, self).FirstOrDefault(z => z.Id.ToUpper() == propertyUpperCase);
+            Column column = ColumnManager.GetColumns( core, self ).FirstOrDefault( z => z.Id.ToUpper() == propertyUpperCase );
 
             if (column != null)
             {
-                return column.GetRow(self);
+                return column.GetRow( self );
             }
 
             return "{Missing: " + property + "}";
         }
 
-        public static bool SupportsDisable( this INameable v )
+        public static bool SupportsDisable( this Visualisable v )
         {
             if (v == null)
             {
@@ -233,7 +277,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
         const string TEST_VALUE = "{EF304B9C-738D-4E2A-88D5-BFA1A72766EC}";
 
-        public static bool SupportsRename( this INameable v )
+        public static bool SupportsRename( this Visualisable v )
         {
             if (v == null)
             {
@@ -247,7 +291,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return canEnable;
         }
 
-        public static bool SupportsComment( this INameable v )
+        public static bool SupportsComment( this Visualisable v )
         {
             if (v == null)
             {
@@ -262,70 +306,51 @@ namespace MetaboliteLevels.Data.Visualisables
         }
     }
 
-    class Association : IVisualisable
+    class Association : Visualisable
     {
-        public readonly IAssociational WrappedValue;
-        public IAssociational SourceValue => _owner.Owner;
+        public readonly Associational WrappedValue;
+        public Associational SourceValue => _owner.Owner;
         public readonly ContentsRequest _owner;
         private readonly object[] _extraColumns;
 
-        public string Comment
+        public override string Comment
         {
-            get
-            {
-                return WrappedValue.Comment;
-            }
+            get { return WrappedValue.Comment; }
 
-            set
-            {
-                WrappedValue.Comment = value;
-            }
+            set { WrappedValue.Comment = value; }
         }
 
-        public Association( ContentsRequest source, IAssociational target, object[] extraColumns )
+        public Association( ContentsRequest source, Associational target, object[] extraColumns )
         {
             _owner = source;
-            WrappedValue = target;         
+            WrappedValue = target;
             _extraColumns = extraColumns;
         }
 
-        public string DefaultDisplayName => WrappedValue.DefaultDisplayName;
+        public override string DefaultDisplayName => WrappedValue.DefaultDisplayName;
 
-        public string DisplayName => WrappedValue.DisplayName;
+        public override string DisplayName => WrappedValue.DisplayName;
 
-        public bool Hidden
+        public override bool Hidden
         {
-            get
-            {
-                return WrappedValue.Hidden;
-            }
-
-            set
-            {
-                WrappedValue.Hidden = value;
-            }
+            get { return WrappedValue.Hidden; }
+            set { WrappedValue.Hidden = value; }
         }
 
-        public string OverrideDisplayName
+        public override string OverrideDisplayName
         {
-            get
-            {
-                return WrappedValue.OverrideDisplayName;
-            }
+            get { return WrappedValue.OverrideDisplayName; }
 
-            set
-            {
-                WrappedValue.OverrideDisplayName = value;
-            }
+            set { WrappedValue.OverrideDisplayName = value; }
         }
 
-        public IEnumerable<Column> GetColumns( Core core )
+        public override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<Association>> results = new List<Column<Association>>();
 
             results.AddSubObject( core, "Target\\", z => z.WrappedValue );
 
-            for(int n=0; n < _owner.ExtraColumns.Count; ++n)
+            for (int n = 0; n < _owner.ExtraColumns.Count; ++n)
             {
                 var closure = n;
                 var c = _owner.ExtraColumns[n];
@@ -335,24 +360,21 @@ namespace MetaboliteLevels.Data.Visualisables
             }
 
             return results.Cast<Column>().Concat( GetExtraColumns( core ) );
-        } 
+        }
 
         protected virtual IEnumerable<Column> GetExtraColumns( Core core )
         {
             return new Column[0];
         }
 
-        public UiControls.ImageListOrder GetIcon()
-        {
-            return WrappedValue.GetIcon();
-        }                             
+        public override UiControls.ImageListOrder Icon => WrappedValue.Icon;
     }
 
     /// <summary>
     /// Request for contents from an IVisualisable.
     /// </summary>
     internal class ContentsRequest
-    {      
+    {
         /// <summary>
         /// Request - Core
         /// </summary>
@@ -361,7 +383,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Request - Called upon
         /// </summary>
-        public readonly IAssociational Owner;
+        public readonly Associational Owner;
 
         /// <summary>
         /// Request - Type of results to get.
@@ -386,29 +408,29 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// CONSTRUCTOR
         /// </summary> 
-        public ContentsRequest(Core core, IAssociational owner, EVisualClass type)
+        public ContentsRequest( Core core, Associational owner, EVisualClass type )
         {
             this.Core = core;
             this.Owner = owner;
             this.Type = type;
-        }     
+        }
 
         public void Add<T>( T item, params object[] extraColumns )
-            where T:IAssociational
+            where T : Associational
         {
-            Results.Add( new Association(this, item, extraColumns) );
+            Results.Add( new Association( this, item, extraColumns ) );
         }
 
         /// <summary>
         /// Adds a range of items (this can't be done if there are unique columns).
         /// </summary>                                                             
-        public void AddRange(IEnumerable<IAssociational> items)
+        public void AddRange( IEnumerable<Associational> items )
         {
             if (items != null)
             {
-                foreach (IAssociational item in items)
+                foreach (Associational item in items)
                 {
-                    Add(item);
+                    Add( item );
                 }
             }
         }
@@ -419,7 +441,7 @@ namespace MetaboliteLevels.Data.Visualisables
         }
 
         internal void AddRangeWithCounts<T>( Counter<T> counts )
-            where T: IAssociational
+            where T : Associational
         {
             foreach (var kvp in counts.Counts)
             {

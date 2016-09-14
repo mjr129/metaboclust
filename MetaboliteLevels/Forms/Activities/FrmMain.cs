@@ -215,8 +215,8 @@ namespace MetaboliteLevels.Forms
         Image IPreviewProvider.ProvidePreview(Size s, object @object)
         {
             Association wrapped = @object as Association;
-            IAssociational primaryTarget;
-            IAssociational secondaryTarget;
+            Associational primaryTarget;
+            Associational secondaryTarget;
 
             if (wrapped != null)
             {
@@ -226,7 +226,7 @@ namespace MetaboliteLevels.Forms
             else
             {
                 secondaryTarget = null;
-                primaryTarget = @object as IAssociational;
+                primaryTarget = @object as Associational;
             }                                       
 
             if (primaryTarget == null)
@@ -241,7 +241,7 @@ namespace MetaboliteLevels.Forms
 
             try
             {
-                switch (primaryTarget.VisualClass)
+                switch (primaryTarget.AssociationalClass)
                 {
                     case EVisualClass.Adduct:
                         {
@@ -291,7 +291,7 @@ namespace MetaboliteLevels.Forms
 
                     default:
                         {
-                            throw new InvalidOperationException("Invalid switch: " + primaryTarget.VisualClass);
+                            throw new InvalidOperationException("Invalid switch: " + primaryTarget.AssociationalClass);
                         }
                 }
             }
@@ -449,7 +449,7 @@ namespace MetaboliteLevels.Forms
 
                 // Get the selection
                 Peak peak = selection.Primary as Peak ?? selection.Secondary as Peak;
-                IAssociational cluster = (((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.FindAssignments( _core ).Select( z => z.Cluster ).FirstOrDefault()) as IAssociational;
+                Associational cluster = (((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.FindAssignments( _core ).Select( z => z.Cluster ).FirstOrDefault()) as Associational;
                 StylisedCluster sCluster;
 
                 // Plot that!
@@ -459,22 +459,22 @@ namespace MetaboliteLevels.Forms
                 }
                 else
                 {
-                    switch (cluster.VisualClass)
+                    switch (cluster.AssociationalClass)
                     {
                         case EVisualClass.Assignment:
-                            sCluster = ((Assignment)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
+                            sCluster = ((Assignment)cluster).CreateStylisedCluster( _core, selection.Secondary as Associational );
                             break;
 
                         case EVisualClass.Cluster:
-                            sCluster = ((Cluster)cluster).CreateStylisedCluster( _core, selection.Secondary as IAssociational );
+                            sCluster = ((Cluster)cluster).CreateStylisedCluster( _core, selection.Secondary as Associational );
                             break;
 
                         case EVisualClass.Compound:
-                            sCluster = ((Compound)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as IAssociational );
+                            sCluster = ((Compound)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as Associational );
                             break;
 
                         case EVisualClass.Pathway:
-                            sCluster = ((Pathway)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as IAssociational );
+                            sCluster = ((Pathway)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as Associational );
                             break;
 
                         default:
@@ -542,7 +542,7 @@ namespace MetaboliteLevels.Forms
         {
             HighlightByTag( _tsBarSelection, _secondaryListView, _btnSubOther );
 
-            var selection = _selection?.Primary as IAssociational;
+            var selection = _selection?.Primary as Associational;
                  
             if (selection == null)
             {
@@ -1399,7 +1399,7 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void addCommentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var x = _selectionMenuOpenedFromList as INameable;
+            var x = _selectionMenuOpenedFromList as Visualisable;
             if (x == null)
             {
                 return;

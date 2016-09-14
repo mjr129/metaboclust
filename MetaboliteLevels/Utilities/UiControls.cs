@@ -379,9 +379,9 @@ namespace MetaboliteLevels.Utilities
 
         internal static Image GetImage( object @object, bool bold )
         {
-            IVisualisable vis = @object as IVisualisable;
+            Visualisable vis = @object as Visualisable;
 
-            return GetImage( vis?.GetIcon() ?? ImageListOrder.Point, bold );
+            return GetImage( vis?.Icon ?? ImageListOrder.Point, bold );
         }
 
         /// <summary>

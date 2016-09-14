@@ -198,7 +198,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 Title = "List",
                 Source = results,
                 ItemNameProvider = z => z.ToString(),
-                ItemDescriptionProvider = z => (z as INameable)?.Comment,
+                ItemDescriptionProvider = z => (z as Visualisable)?.Comment,
                 Icon = Resources.IconData,
             } );
         }
@@ -237,7 +237,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
         }
 
-        private void OnShowContextMenu(IVisualisable selection, Control control, int x, int y)
+        private void OnShowContextMenu(Visualisable selection, Control control, int x, int y)
         {
             if (ShowContextMenu != null)
             {
@@ -261,7 +261,7 @@ namespace MetaboliteLevels.Viewers.Lists
                     lvi.Focused = true;
                     lvi.EnsureVisible();
 
-                    OnShowContextMenu((IVisualisable)lvi.Tag, _listView, e.X, e.Y);
+                    OnShowContextMenu((Visualisable)lvi.Tag, _listView, e.X, e.Y);
                 }
             }
         }
@@ -391,7 +391,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
             _mnuHideColumn.Enabled = !col.DisableMenu;
 
-            _mnuColumnHelp.Visible = !string.IsNullOrWhiteSpace(col.Description);
+            _mnuColumnHelp.Visible = !string.IsNullOrWhiteSpace(col.Comment);
 
             _mnuDisplayColumn.Text = "List display mode (" + col.DisplayMode.ToUiString() + ")";
 
@@ -507,7 +507,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         void _descm_Click(object sender, EventArgs e)
         {
-            FrmInputMultiLine.ShowFixed(ListView.FindForm(), "Help", "Column Help", _clickedColumn.Id, _clickedColumn.Description);
+            FrmInputMultiLine.ShowFixed(ListView.FindForm(), "Help", "Column Help", _clickedColumn.Id, _clickedColumn.Comment);
         }
 
         void _filterm_Click(object sender, EventArgs e)
@@ -1015,7 +1015,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
 
             // Get the icon column
-            var iconColumn = new Column<IVisualisable>("", EColumn.Visible, "This column contains the object icon", null, null);
+            var iconColumn = new Column<Visualisable>("", EColumn.Visible, "This column contains the object icon", null, null);
             iconColumn.Width = 32;
             iconColumn.DisableMenu = true;
 
@@ -1040,7 +1040,7 @@ namespace MetaboliteLevels.Viewers.Lists
         /// </summary>
         private void DoUpdate(ListViewItem lvi, object tag)
         {                       
-            IVisualisable vis = tag as IVisualisable;
+            Visualisable vis = tag as Visualisable;
 
             // Update icon
             if (EnablePreviews)
@@ -1049,7 +1049,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
             else
             {                
-                lvi.ImageIndex = (int)(vis?.GetIcon() ?? UiControls.ImageListOrder.Point);
+                lvi.ImageIndex = (int)(vis?.Icon ?? UiControls.ImageListOrder.Point);
             }
 
             // Update columns
@@ -1168,7 +1168,7 @@ namespace MetaboliteLevels.Viewers.Lists
             sw.WriteLine();
 
             // Write data
-            foreach (IVisualisable item in _filteredList)
+            foreach (Visualisable item in _filteredList)
             {
                 needsComma = false;
 

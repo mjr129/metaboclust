@@ -18,7 +18,7 @@ namespace MetaboliteLevels.Settings
     /// Used to allow the user to "flag" variables with quick comments.
     /// </summary>
     [Serializable]
-    public class PeakFlag : IAssociational
+    internal class PeakFlag : Associational
     {
         private char _key;
 
@@ -47,32 +47,12 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        EVisualClass IAssociational.VisualClass => EVisualClass.None;
+        public override EVisualClass AssociationalClass => EVisualClass.None;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName(this);
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        string INameable.DefaultDisplayName => Key.ToString();
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public bool Hidden { get; set; }
+        public override string DefaultDisplayName => Key.ToString();      
 
         /// <summary>
         /// CONSTRUCTOR
@@ -112,28 +92,17 @@ namespace MetaboliteLevels.Settings
         private void OnDeserializing(StreamingContext context)
         {
             Init();
-        }
-
-        /// <summary>
-        /// OVERRIDES Object
-        /// </summary>      
-        public override string ToString()
-        {
-            return OverrideDisplayName;
-        }
+        }         
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>               
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            return UiControls.ImageListOrder.Filter;
-        }
+        public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.Filter;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>     
-        void IAssociational.RequestContents(ContentsRequest list)
+        public override void FindAssociations(ContentsRequest list)
         {
             switch (list.Type)
             {
@@ -204,7 +173,7 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>     
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<PeakFlag>> result = new List<Column<PeakFlag>>();
 

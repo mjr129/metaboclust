@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Cluster : IAssociational
+    internal class Cluster : Associational
     {
         /// <summary>
         /// State flags
@@ -30,12 +30,7 @@ namespace MetaboliteLevels.Data.Visualisables
             None = 0,   // None
             Insignificants = 1, // Represents insignificants
             Pathway = 2,    // Represents a pathway
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
+        }                                                 
 
         /// <summary>
         /// Name of cluster
@@ -45,12 +40,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Vectors used to generate cluster centre
         /// </summary>
-        public readonly List<double[]> Exemplars = new List<double[]>();
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string Comment { get; set; }
+        public readonly List<double[]> Exemplars = new List<double[]>();  
 
         /// <summary>
         /// Cluster mode
@@ -93,11 +83,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly Dictionary<string, double> ClusterStatistics = new Dictionary<string, double>();
 
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool INameable.Hidden { get { return false; } set { } }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
         /// <summary>
         /// Constructor.
@@ -108,21 +94,11 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Method = creationReason;
         }
 
-        /// <summary>
-        /// Display name of cluster
-        /// </summary>
-        public string DisplayName
-        {
-            get
-            {
-                return IVisualisableExtensions.FormatDisplayName(this);
-            }
-        }
 
         /// <summary>
         /// Name of cluster.
         /// </summary>
-        public string DefaultDisplayName
+        public override string DefaultDisplayName
         {
             get
             {
@@ -143,7 +119,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <param name="core">Core</param>
         /// <param name="toHighlight">Which peak to highlight</param>
         /// <returns>The StylisedCluster</returns>
-        public StylisedCluster CreateStylisedCluster(Core core, IAssociational toHighlight )
+        public StylisedCluster CreateStylisedCluster(Core core, Associational toHighlight )
         {
             // Cluster: Peaks in cluster
             // Peak: Handled by selection - take no action
@@ -154,7 +130,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             if (toHighlight != null)
             {
-                switch (toHighlight.VisualClass)
+                switch (toHighlight.AssociationalClass)
                 {
                     case EVisualClass.Compound:
                         Compound highlightCompound = (Compound)toHighlight;
@@ -379,20 +355,12 @@ namespace MetaboliteLevels.Data.Visualisables
                 default:
                     throw new InvalidOperationException("Invalid switch: " + distanceMode.ToString());
             }
-        }
-
-        /// <summary>
-        /// OVERRIDES Object
-        /// </summary>         
-        public override string ToString()
-        {
-            return DisplayName + " (" + Assignments.Count + " assignments)";
-        }
+        }           
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public EVisualClass VisualClass
+        public override EVisualClass AssociationalClass
         {
             get { return EVisualClass.Cluster; }
         }
@@ -400,7 +368,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public void RequestContents(ContentsRequest request)
+        public override void FindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -522,15 +490,15 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
-            return GetColumns(core);
+            return StaticGetColumns(core);
         }
 
         /// <summary>
         /// Static version of GetColumns
         /// </summary>
-        public static IEnumerable<Column> GetColumns(Core core)
+        public static IEnumerable<Column> StaticGetColumns(Core core)
         {
             var result = new List<Column<Cluster>>();
 
@@ -583,20 +551,23 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public UiControls.ImageListOrder GetIcon()
+        public override UiControls.ImageListOrder Icon
         {
-            // IMAGE
-            if (this.States == EStates.Insignificants)
+            get
             {
-                return UiControls.ImageListOrder.ClusterU;
-            }
-            else if (this.States == EStates.Pathway)
-            {
-                return UiControls.ImageListOrder.Pathway;
-            }
-            else
-            {
-                return UiControls.ImageListOrder.Cluster;
+                // IMAGE
+                if (this.States == EStates.Insignificants)
+                {
+                    return UiControls.ImageListOrder.ClusterU;
+                }
+                else if (this.States == EStates.Pathway)
+                {
+                    return UiControls.ImageListOrder.Pathway;
+                }
+                else
+                {
+                    return UiControls.ImageListOrder.Cluster;
+                }
             }
         }
     }

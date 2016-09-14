@@ -21,7 +21,7 @@ namespace MetaboliteLevels.Data.DataInfo
     /// Experimental group / batch information.
     /// </summary>
     [Serializable]
-    internal abstract class GroupInfoBase : IVisualisable
+    internal abstract class GroupInfoBase : Visualisable
     {       
         private string _id;
         public readonly int Order;          // This program's internal index (Core.Groups[this.Order] / Core.Batches[this.Order]). This is arbitrary but MUST NOT BE CHANGED.
@@ -29,23 +29,18 @@ namespace MetaboliteLevels.Data.DataInfo
         public Color ColourLight;           // Display colour (light)
         public Color Colour;                // Display colour       
 
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName(this);
-
         public string DisplayShortName => string.IsNullOrEmpty(OverrideShortName) ? DefaultShortName : OverrideShortName;
 
         public string DefaultShortName => StringId;
 
-        public abstract string DefaultDisplayName { get; }
+        public abstract override string DefaultDisplayName { get; }
 
         public string OverrideShortName { get; set; }
 
-        public string OverrideDisplayName { get; set; }
-
-        public string Comment { get; set; }
-
-        bool INameable.Hidden { get { return false; } set { /* NA*/} }
+        public override EPrevent SupportsHide => EPrevent.Hide;          
 
         public EHatchStyle HatchStyle { get; set; } = EHatchStyle.Solid;
+
         public EGraphIcon GraphIcon { get; set; }
 
         public int DisplayPriority;
@@ -53,10 +48,7 @@ namespace MetaboliteLevels.Data.DataInfo
         protected GroupInfoBase( string groupId, int order, Range xRange, string name, string shortName, int displayPriority )
         {
             Debug.Assert( !string.IsNullOrEmpty( groupId ) );
-
-#pragma warning disable CS0618
-            this.Id = -1;
-#pragma warning restore CS0618
+                              
             this._id = groupId;
             this.Order = order;
             this.Range = xRange;
@@ -111,30 +103,7 @@ namespace MetaboliteLevels.Data.DataInfo
                 default:
                     throw new SwitchException( _id.ToString() );
             }
-        }
-
-        #region Obsolete
-
-        [Obsolete("For serialization of old files only. This field will now always be -1. Please use 'StringId' or '_id' instead.")]
-        public int Id;             // ID (as in data file)
-
-        [OnDeserialized]
-        void OnDeserialised(StreamingContext context)
-        {
-#pragma warning disable CS0618
-            if (Id != -1)
-            {
-                Debug.Write("Obsolete field 'Id' updated.");
-                UiControls.Assert(_id == null, "New field '_id' expected to be null when obsolete field 'ID' is present.");
-
-                _id = Id.ToString();
-                DisplayPriority = Id;
-                Id = -1;
-            }
-#pragma warning restore CS0618   
-        }
-
-        #endregion
+        }               
 
         internal void SetColour(Color color)
         {
@@ -152,7 +121,7 @@ namespace MetaboliteLevels.Data.DataInfo
             return a.DisplayPriority;
         }
 
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<GroupInfoBase>> columns = new List<Column<GroupInfoBase>>();
 
@@ -174,12 +143,7 @@ namespace MetaboliteLevels.Data.DataInfo
             return columns;
         }
 
-        UiControls.ImageListOrder IVisualisable.GetIcon() => UiControls.ImageListOrder.Group;       
-
-        public override string ToString()
-        {
-            return DisplayName;
-        }
+        public override  UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Group;   
 
         public string StringId
         {

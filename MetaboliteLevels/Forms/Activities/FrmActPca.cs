@@ -205,7 +205,7 @@ namespace MetaboliteLevels.Forms.Editing
                 for (int n = 0; n < plsrResponseMatrix.Length; n++)
                 {
                     en.MoveNext();
-                    object row = plsrColumn.GetRow((IVisualisable) en.Current );
+                    object row = plsrColumn.GetRow((Visualisable) en.Current );
                     plsrResponseMatrix[n] = fac.Factor( row );
                 }
             }
@@ -318,7 +318,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 enSources.MoveNext();
 
-                MCharting.Series series = GetOrCreateSeriesForValue( plot, column, (IVisualisable)enSources.Current );
+                MCharting.Series series = GetOrCreateSeriesForValue( plot, column, (Visualisable)enSources.Current );
 
                 var coord = new MCharting.DataPoint( plotPoints[r, _component], plotPoints[r, _component + 1] );
                 coord.Tag = enSources.Current;
@@ -377,7 +377,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private static MCharting.Series GetOrCreateSeriesForValue( MCharting.Plot plot, Column column, IVisualisable vis)
+        private static MCharting.Series GetOrCreateSeriesForValue( MCharting.Plot plot, Column column, Visualisable vis)
         {
             object value = column.GetRow(vis);
             MCharting.Series series = plot.Series.FirstOrDefault(z => (z.Tag == null && value == null) || (z.Tag != null && z.Tag.Equals(value)));
@@ -827,7 +827,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnNavigate_Click( object sender, EventArgs e )
         {
-            _frmMain.Selection = new VisualisableSelection( _chart.SelectedItem.DataPoint.Tag as IVisualisable );
+            _frmMain.Selection = new VisualisableSelection( _chart.SelectedItem.DataPoint.Tag as Visualisable );
         }
     }
 }

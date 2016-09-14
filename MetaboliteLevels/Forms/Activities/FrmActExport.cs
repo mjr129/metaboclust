@@ -150,7 +150,7 @@ namespace MetaboliteLevels.Forms.Activities
             Browse( _txtConds );
         }
 
-        class OtherExportInfo : IVisualisable
+        class OtherExportInfo : Visualisable
         {
             public readonly EDataSet DataSet;
             public readonly string FileName;
@@ -161,43 +161,11 @@ namespace MetaboliteLevels.Forms.Activities
                 this.FileName = fn;
             }
 
-            public string Comment { get { return null; } set { } }
+            public override EPrevent SupportsHide => EPrevent.Hide | EPrevent.Comment | EPrevent.Name;
 
-            public string DefaultDisplayName => DataSet.ToUiString();
+            public override string DefaultDisplayName => DataSet.ToUiString();
 
-            public string DisplayName
-            {
-                get
-                {
-                    return IVisualisableExtensions.FormatDisplayName( this );
-                }
-            }
-
-            public bool Hidden
-            {
-                get
-                {
-                    return false;
-                }
-                set
-                {
-                    // NA
-                }
-            }
-
-            public string OverrideDisplayName
-            {
-                get
-                {
-                    return null;
-                }        
-                set
-                {
-                    // NA
-                }
-            }
-
-            public IEnumerable<Column> GetColumns( Core core )
+            public override IEnumerable<Column> GetColumns( Core core )
             {
                 List<Column<OtherExportInfo>> cols = new List<Column<OtherExportInfo>>();
 
@@ -207,10 +175,7 @@ namespace MetaboliteLevels.Forms.Activities
                 return cols;
             }
 
-            public UiControls.ImageListOrder GetIcon()
-            {
-                return UiControls.ImageListOrder.File;
-            }
+            public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.File;
         }
 
         private void _btnOther_Click( object sender, EventArgs e )
@@ -372,14 +337,14 @@ namespace MetaboliteLevels.Forms.Activities
         /// </summary>
         class UniqueTable
         {
-            Dictionary<INameable, string> _names = new Dictionary<INameable, string>();
-            public readonly HashSet<INameable> Renamed = new HashSet<INameable>();
+            Dictionary<Visualisable, string> _names = new Dictionary<Visualisable, string>();
+            public readonly HashSet<Visualisable> Renamed = new HashSet<Visualisable>();
             HashSet<string> _used = new HashSet<string>();
 
             /// <summary>
             /// Generates a unique name
             /// </summary>             
-            public string Name(INameable x)
+            public string Name(Visualisable x)
             {
                 string name;
 
@@ -456,11 +421,11 @@ namespace MetaboliteLevels.Forms.Activities
         private void Export( string fileName, IDataSet x )
         {
             IEnumerable utlist = x.UntypedGetList(false);  
-            IVisualisable[] list;
+            Visualisable[] list;
 
-            if (utlist.FirstOrDefault2() is IVisualisable)
+            if (utlist.FirstOrDefault2() is Visualisable)
             {
-                list = utlist.Cast<IVisualisable>().ToArray();
+                list = utlist.Cast<Visualisable>().ToArray();
             }
             else
             {
@@ -478,7 +443,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             for (int nPeak = 0; nPeak < list.Length; ++nPeak)
             {
-                IVisualisable peak = list[nPeak];
+                Visualisable peak = list[nPeak];
                 ss.RowNames[nPeak] = _uniqueTable.Name( peak);
 
                 for (int nObs = 0; nObs < columns.Length; ++nObs)

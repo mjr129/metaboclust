@@ -24,7 +24,7 @@ using MGui.Helpers;
 namespace MetaboliteLevels.Forms.Editing
 {
     /// <summary>
-    ///     Displays the list of statistics available for viewing.
+    /// Displays a list of any object for editing
     /// </summary>
     internal partial class FrmBigList : Form
     {
@@ -46,7 +46,7 @@ namespace MetaboliteLevels.Forms.Editing
         private object _automaticAddTemplate;
         private readonly IDataSet _config;
         private List<object> _list;
-        private readonly Dictionary<INameable, OriginalStatus> _originalStatuses = new Dictionary<INameable, OriginalStatus>();
+        private readonly Dictionary<Visualisable, OriginalStatus> _originalStatuses = new Dictionary<Visualisable, OriginalStatus>();
         private bool _activated;
         private readonly CtlAutoList _listViewHelper;
         private bool _keepChanges;
@@ -59,13 +59,13 @@ namespace MetaboliteLevels.Forms.Editing
             Default,
 
             /// <summary>
-            /// Read-only behaviour - neither the list nor items are editable
+            /// Read-only behaviour - neither the list nor its items are editable
             /// </summary>
             ReadOnly,
 
             /// <summary>
-            /// Acceptor behaviour - the list is always editable (it is assumed the caller of the form does something with the result itself).
-            /// ListChangeAcceptor is still called if present.
+            /// Acceptor behaviour - the list is always editable (it is assumed the caller of the form does something with the result itself so the list doesn't need a ListChangeAcceptor).
+            /// However, ListChangeAcceptor is still called if present.
             /// </summary>
             Acceptor
         }                   
@@ -137,9 +137,52 @@ namespace MetaboliteLevels.Forms.Editing
         private void UpdateListFromSource()
         {
             _list = new List<object>( _config.UntypedGetList( false ).Cast<object>() );
-
             _listViewHelper.DivertList(_list);
-        }             
+
+            BackupList();
+        }
+
+        private List<BackupData> _backup;
+
+        /// <summary>
+        /// Creates a backup of the list items (this will be restored if the user cancels)
+        /// </summary>
+        private bool BackupList()
+        {
+            _backup = new List<BackupData>();
+
+            foreach (object item in _list)
+            {
+                IBackup iBackup = item as IBackup;
+
+                if (iBackup == null)
+                {
+                    return false;
+                }
+
+                BackupData data = new BackupData( iBackup );
+                iBackup.Backup( data );
+                _backup.Add( data );
+            }
+
+            return true;
+        }
+                                                           
+        /// <summary>
+        /// Restores the values of the original list items after the user cancels.
+        /// </summary>
+        private void RestoreContents()
+        {
+            if (_backup == null)
+            {
+                throw new InvalidOperationException( "Attempt to restore list values when the list cannot be restored." );
+            }
+
+            foreach (BackupData item in _backup)
+            {
+                item.Restore();
+            }
+        }
 
         public static IEnumerable Show(Form owner, Core core, IDataSet config, EShow show, object automaticAddTemplate)
         {
@@ -187,7 +230,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (_automaticAddTemplate != null)
                 {
-                    IVisualisable o = (IVisualisable)_config.UntypedEdit(this, _automaticAddTemplate, false, true);
+                    Visualisable o = (Visualisable)_config.UntypedEdit(this, _automaticAddTemplate, false, true);
 
                     if (o != null)
                     {
@@ -199,7 +242,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnAdd_Click(object sender, EventArgs e)
         {
-            IVisualisable o = (IVisualisable)(_config.UntypedEdit( this, null, false, false ));
+            Visualisable o = (Visualisable)(_config.UntypedEdit( this, null, false, false ));
 
             if (o != null)
             {
@@ -207,7 +250,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private void Rename( INameable item )
+        private void Rename( Visualisable item )
         {
             OriginalStatus origStatus = Get(item);
 
@@ -225,12 +268,12 @@ namespace MetaboliteLevels.Forms.Editing
             }
         }
 
-        private OriginalStatus Get( INameable o )
+        private OriginalStatus Get( Visualisable o )
         {
-            return _originalStatuses.GetOrCreate<INameable, OriginalStatus>(o, GetUnchanged);
+            return _originalStatuses.GetOrCreate<Visualisable, OriginalStatus>(o, GetUnchanged);
         }
 
-        private OriginalStatus GetUnchanged( INameable input )
+        private OriginalStatus GetUnchanged( Visualisable input )
         {
             return new OriginalStatus(input.OverrideDisplayName, input.Comment, input.Hidden );
         }
@@ -289,7 +332,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            IVisualisable modified = (IVisualisable)_config.UntypedEdit(this, toEdit, false, false);
+            Visualisable modified = (Visualisable)_config.UntypedEdit(this, toEdit, false, false);
 
             if (modified == original)
             {
@@ -323,7 +366,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnRename_Click(object sender, EventArgs e)
         {
-            INameable stat = GetSelected() as INameable;
+            Visualisable stat = GetSelected() as Visualisable;
 
             if (stat == null)
             {
@@ -392,7 +435,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnEnableDisable_Click(object sender, EventArgs e)
         {
-            IVisualisable first = GetSelected() as IVisualisable;
+            Visualisable first = GetSelected() as Visualisable;
 
             if (first == null)
             {
@@ -417,13 +460,13 @@ namespace MetaboliteLevels.Forms.Editing
             _btnRemove.Enabled = itemSelected;
             _btnView.Enabled = itemSelected;
             _btnEdit.Enabled = itemSelected;
-            _btnRename.Enabled = itemSelected && IVisualisableExtensions.SupportsRename(p as INameable);
+            _btnRename.Enabled = itemSelected && IVisualisableExtensions.SupportsRename(p as Visualisable);
             _btnUp.Enabled = itemSelected;
             _btnDown.Enabled = itemSelected;
             _btnDuplicate.Enabled = itemSelected;
-            _btnEnableDisable.Enabled = itemSelected && IVisualisableExtensions.SupportsDisable( p as INameable );
+            _btnEnableDisable.Enabled = itemSelected && IVisualisableExtensions.SupportsDisable( p as Visualisable );
 
-            if (itemSelected && (Get(p as INameable)?.OriginalEnabled ?? false))
+            if (itemSelected && (Get(p as Visualisable)?.OriginalEnabled ?? false))
             {
                 _btnEnableDisable.Text = "Disable";
                 _btnEnableDisable.Image = Resources.MnuDisable;
@@ -444,7 +487,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            IVisualisable o = (IVisualisable)_config.UntypedEdit(this, p, false, true);
+            Visualisable o = (Visualisable)_config.UntypedEdit(this, p, false, true);
 
             if (o != null)
             {

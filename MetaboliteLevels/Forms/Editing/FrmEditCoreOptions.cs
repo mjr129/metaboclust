@@ -195,7 +195,7 @@ namespace MetaboliteLevels.Forms.Editing
             dataSet.ShowListEditor( this );
         }
 
-        private class _btnEditDefaults_Click__Kvp : IVisualisable
+        private class _btnEditDefaults_Click__Kvp : Visualisable
         {
             public KeyValuePair<string, object> arg;
 
@@ -204,34 +204,16 @@ namespace MetaboliteLevels.Forms.Editing
                 this.arg = arg;
             }
 
-            public string Comment
-            {
-                get { return null; }
-                set { /* ro */ }
-            }
+            public override string DefaultDisplayName => arg.Key;   
 
-            public string DefaultDisplayName => arg.Key;
-
-            public string DisplayName => arg.Key;
-
-            public bool Hidden
-            {
-                get { return false; }
-                set { /* ro */ }
-            }
-
-            public string OverrideDisplayName
-            {
-                get { return null; }
-                set { /* ro */ }
-            }                                                       
+            public override EPrevent SupportsHide => EPrevent.Hide | EPrevent.Name | EPrevent.Comment;
 
             internal static _btnEditDefaults_Click__Kvp New( KeyValuePair<string, object> arg )
             {
                 return new _btnEditDefaults_Click__Kvp( arg );
             }
 
-            public IEnumerable<Column> GetColumns( Core core )
+            public override IEnumerable<Column> GetColumns( Core core )
             {
                 List<Column<_btnEditDefaults_Click__Kvp>> result = new List<Column<_btnEditDefaults_Click__Kvp>>();
 
@@ -241,10 +223,10 @@ namespace MetaboliteLevels.Forms.Editing
                 return result;
             }
 
-            public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Point;     
+            public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;     
         }
 
-        private class _btnEditColumns_Click__ColumnDisplay : IVisualisable
+        private class _btnEditColumns_Click__ColumnDisplay : Visualisable
         {
           public string Key;
           public string Id;
@@ -257,36 +239,28 @@ namespace MetaboliteLevels.Forms.Editing
                 this.Id   = UiControls.GetFileName( arg.Key );
             }
 
-            public string Comment
-            {
-                get { return string.Empty; }  
-                set { /* readonly */ }
-            }
+            public override EPrevent SupportsHide => EPrevent.Comment;
 
-            public string DefaultDisplayName => Id;
+            public override string DefaultDisplayName => Id;
 
-            public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
-
-            public bool Hidden
+            public override bool Hidden
             {
                 get { return !_col.Visible; }   
                 set { _col.Visible = !value; }
             }
 
-            public string OverrideDisplayName
+            public override string OverrideDisplayName
             {
                 get {return _col.DisplayName; }      
                 set { _col.DisplayName = value; }
-            }
-
-            public EVisualClass VisualClass => EVisualClass.None;
+            }                                                               
 
             internal static _btnEditColumns_Click__ColumnDisplay New( KeyValuePair<string,  CoreOptions.ColumnDetails> arg )
             {
                 return new _btnEditColumns_Click__ColumnDisplay( arg );
             }
 
-            public IEnumerable<Column> GetColumns( Core core )
+            public override IEnumerable<Column> GetColumns( Core core )
             {
                 List<Column<_btnEditColumns_Click__ColumnDisplay>> list = new List<Column<_btnEditColumns_Click__ColumnDisplay>>();
 
@@ -300,12 +274,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return list;
             }
 
-            public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Point;
-
-            public void RequestContents( ContentsRequest list )
-            {
-                // NA
-            }
+            public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;     
         }
 
      

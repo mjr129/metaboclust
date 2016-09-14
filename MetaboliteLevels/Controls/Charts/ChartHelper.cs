@@ -53,12 +53,12 @@ namespace MetaboliteLevels.Viewers.Charts
         private readonly ToolStripMenuItem       _chkShowTime;
         private readonly ToolStripMenuItem       _chkShowCustom;
 
-        public virtual IVisualisable CurrentPlot
+        public virtual Visualisable CurrentPlot
         {
             get { return null; }
         }
 
-        protected void SetCaption(string format, params IAssociational[] namableItems)
+        protected void SetCaption(string format, params Associational[] namableItems)
         {
             if (_captionBar != null)
             {
@@ -223,11 +223,11 @@ namespace MetaboliteLevels.Viewers.Charts
 
             sender.DropDownItems.Clear();
 
-            HashSet<IVisualisable> items = new HashSet<IVisualisable>();
+            HashSet<Visualisable> items = new HashSet<Visualisable>();
 
             foreach (MCharting.Series series in _chart.SelectedItem.Series)
             {
-                IVisualisable visualisable = series.Tag as IVisualisable;
+                Visualisable visualisable = series.Tag as Visualisable;
 
                 if (visualisable == null || items.Contains(visualisable))
                 {
@@ -245,7 +245,7 @@ namespace MetaboliteLevels.Viewers.Charts
         private void menu_navigateTo(object sender, EventArgs e)
         {
             ToolStripItem tsender = (ToolStripItem)sender;
-            _selector.Selection = new VisualisableSelection((IVisualisable)tsender.Tag, null);
+            _selector.Selection = new VisualisableSelection((Visualisable)tsender.Tag, null);
         }
 
         private void menu_selectThis(object sender, EventArgs e)
@@ -282,7 +282,7 @@ namespace MetaboliteLevels.Viewers.Charts
         /// <param name="axes">Include axis text (i.e. not a preview)</param>
         /// <param name="toPlot">What will be plotted</param>
         /// <returns>New MChart.Plot object</returns>
-        protected MCharting.Plot PrepareNewPlot(bool axes, IAssociational toPlot)
+        protected MCharting.Plot PrepareNewPlot(bool axes, Associational toPlot)
         {
             MCharting.Plot plot = new MCharting.Plot();
 
@@ -293,7 +293,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 if (toPlot != null)
                 {
                     _mnuPlot.Text  = toPlot.DisplayName;
-                    _mnuPlot.Image = UiControls.GetImage(toPlot.GetIcon(), true);
+                    _mnuPlot.Image = UiControls.GetImage(toPlot.Icon, true);
 
                     if (ParseElementCollection.IsNullOrEmpty(userComments.Information))
                     {
@@ -428,7 +428,7 @@ namespace MetaboliteLevels.Viewers.Charts
                 if (peak != null && _chkShowPeak.Checked)
                 {
                     _mnuSelectedPeak.Text = peak.DisplayName;
-                    _mnuSelectedPeak.Image = UiControls.GetImage(((IVisualisable)peak).GetIcon(), true);
+                    _mnuSelectedPeak.Image = UiControls.GetImage(((Visualisable)peak).Icon, true);
                     _mnuSelectedPeak.Visible = true;
                 }
                 else

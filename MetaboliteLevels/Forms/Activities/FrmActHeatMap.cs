@@ -400,7 +400,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void alphaToolStripMenuItem_Click( object sender, EventArgs e )
         {
             ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
-            IVisualisable vis = (IVisualisable)tsmi.Tag;
+            Visualisable vis = (Visualisable)tsmi.Tag;
             _sourceList.ActivateItem( vis );
         }
 

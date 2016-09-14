@@ -20,7 +20,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// An annotation;
     /// </summary>
     [Serializable]
-    class Annotation : IAssociational
+    class Annotation : Associational
     {
         public readonly Peak Peak;
         public readonly Compound Compound;
@@ -31,17 +31,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly MetaInfoCollection Meta = new MetaInfoCollection();
 
-        public readonly EAnnotation Status;
-
-        /// <summary>
-        /// User modifiable comment
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// User modifiable comment
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
+        public readonly EAnnotation Status;                   
 
         /// <summary>
         /// Constructor
@@ -54,54 +44,34 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Status = attributes;
         }
 
-        /// <summary>
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool INameable.Hidden { get { return false; } set { } }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
-        public string DefaultDisplayName
+        public override string DefaultDisplayName=> Compound.DisplayName;      
+
+        public override EVisualClass AssociationalClass=>EVisualClass.Annotation;
+
+        public override UiControls.ImageListOrder Icon
         {
             get
             {
-                return Compound.DisplayName;
+                switch (this.Status)
+                {
+                    case EAnnotation.Tentative:
+                        return UiControls.ImageListOrder.AnnotationT;
+
+                    case EAnnotation.Affirmative:
+                        return UiControls.ImageListOrder.AnnotationA;
+
+                    case EAnnotation.Confirmed:
+                        return UiControls.ImageListOrder.AnnotationC;
+
+                    default:
+                        throw new SwitchException( this.Status );
+                }
             }
         }
 
-        public string DisplayName
-        {
-            get
-            {
-                return IVisualisableExtensions.FormatDisplayName(this);
-            }
-        }    
-
-        EVisualClass IAssociational.VisualClass
-        {
-            get
-            {
-                return EVisualClass.Annotation;
-            }
-        }
-
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            switch (this.Status)
-            {
-                case EAnnotation.Tentative:
-                    return UiControls.ImageListOrder.AnnotationT;
-
-                case EAnnotation.Affirmative:
-                    return UiControls.ImageListOrder.AnnotationA;
-
-                case EAnnotation.Confirmed:
-                    return UiControls.ImageListOrder.AnnotationC;
-
-                default:
-                    throw new SwitchException( this.Status );
-            }                                                
-        }
-
-        IEnumerable<Column> IVisualisable.GetColumns( Core core )
+        public override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<Annotation>> columns = new List<Column<Annotation>>();
 
@@ -117,7 +87,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return columns;
         }
 
-        void IAssociational.RequestContents( ContentsRequest list )
+        public override void FindAssociations( ContentsRequest list )
         {
             switch (list.Type)
             {
@@ -127,17 +97,17 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case EVisualClass.Annotation:
-                    ((IAssociational)Peak).RequestContents( list );
-                    ((IAssociational)Compound).RequestContents( list );
+                    ((Associational)Peak).FindAssociations( list );
+                    ((Associational)Compound).FindAssociations( list );
                     list.Text = "Annotations with same peaks/compounds to {0}";
                     break;
 
                 case EVisualClass.Assignment:
-                    ((IAssociational)Peak).RequestContents( list );
+                    ((Associational)Peak).FindAssociations( list );
                     break;
 
                 case EVisualClass.Cluster:
-                    ((IAssociational)Peak).RequestContents( list );
+                    ((Associational)Peak).FindAssociations( list );
                     break;
 
                 case EVisualClass.Compound:
@@ -146,8 +116,8 @@ namespace MetaboliteLevels.Data.Visualisables
                     break;
 
                 case EVisualClass.Pathway:
-                    ((IAssociational)Peak).RequestContents( list );
-                    ((IAssociational)Compound).RequestContents( list );
+                    ((Associational)Peak).FindAssociations( list );
+                    ((Associational)Compound).FindAssociations( list );
                     break;
 
                 case EVisualClass.Peak:

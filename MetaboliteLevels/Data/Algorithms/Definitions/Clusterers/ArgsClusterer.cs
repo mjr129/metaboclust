@@ -59,10 +59,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             this.Statistics = suppressMetric;
         }
 
-        protected sealed override IEnumerable<Column> GetExtraColumns( Core core )
+        public override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<ArgsClusterer>> columns = new List<Column<ArgsClusterer>>();
-
+            
             columns.AddSubObject( core, "Distance", z => z.Distance );
             columns.AddSubObject( core, "Observation filter", z => z.ObsFilter );
             columns.AddSubObject( core, "Peak pilter", z => z.PeakFilter );
@@ -71,7 +71,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             columns.Add( "Split groups", z => z.SplitGroups );
             columns.Add( "Statistics", z => z.Statistics );
 
-            return columns;
+            List<Column> result = new List<Column>();
+            result.AddRange( columns );
+            result.AddRange( base.GetColumns( core ) );
+            return result;
         }
 
         public override string DefaultDisplayName

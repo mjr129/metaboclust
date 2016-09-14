@@ -63,10 +63,10 @@ namespace MetaboliteLevels.Controls
                 return;
             }
 
-            _selector.Selection = new VisualisableSelection((IVisualisable)e.Link.LinkData);
+            _selector.Selection = new VisualisableSelection((Visualisable)e.Link.LinkData);
         }
 
-        public void SetText(string format, params IAssociational[] nameableItems)
+        public void SetText(string format, params Associational[] nameableItems)
         {
             _label.LinkColor = Color.CornflowerBlue;
 
@@ -90,13 +90,13 @@ namespace MetaboliteLevels.Controls
                         int i = int.Parse(t.ToString());
                         t.Clear();
 
-                        IAssociational it = (nameableItems != null && nameableItems.Length > i) ? nameableItems[i] : null;
+                        Associational it = (nameableItems != null && nameableItems.Length > i) ? nameableItems[i] : null;
 
                         if (it != null)
                         {
                             string txt = it.DisplayName;
 
-                            r.Append(it.VisualClass.ToUiString().ToLower().ToSmallCaps() + " ");
+                            r.Append(it.AssociationalClass.ToUiString().ToLower().ToSmallCaps() + " ");
 
                             _label.Links.Add(r.Length, txt.Length, it);
                             r.Append(txt);

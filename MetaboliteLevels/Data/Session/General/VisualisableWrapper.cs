@@ -10,7 +10,7 @@ using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Data.Session.General
 {
-    internal class VisualisableWrapper : IVisualisable
+    internal class VisualisableWrapper : Visualisable
     {
         private IDataSet _set;
         private object _x;
@@ -19,33 +19,13 @@ namespace MetaboliteLevels.Data.Session.General
         {
             _set = set;
             _x = x;
-        }
+        }      
 
-        public string Comment
-        {
-            get { return null; }
-            set {/*NA*/}
-        }
+        public override string DefaultDisplayName => _set.UntypedName( _x );
 
-        public string DefaultDisplayName => _set.UntypedName( _x );
+        public override EPrevent SupportsHide => EPrevent.Hide | EPrevent.Name;
 
-        public string DisplayName => DefaultDisplayName;
-
-        public bool Hidden
-        {
-            get { return false; }
-            set {/*NA*/}
-        }
-
-        public string OverrideDisplayName
-        {
-            get { return null; }
-            set {/*NA*/}
-        }
-
-        public EVisualClass VisualClass => EVisualClass.None;
-
-        public IEnumerable<Column> GetColumns( Core core )
+        public override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<VisualisableWrapper>> columns = new List<Column<VisualisableWrapper>>();
 
@@ -55,11 +35,6 @@ namespace MetaboliteLevels.Data.Session.General
             return columns;
         }
 
-        public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Info;
-
-        public void RequestContents( ContentsRequest list )
-        {
-            // NA
-        }        
+        public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.Point;  
     }
 }

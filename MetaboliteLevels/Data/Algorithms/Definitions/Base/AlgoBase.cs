@@ -15,7 +15,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
     /// Base class for all algorithms
     /// (an algorithm is the bit that does the work, it is generally immutable to the user)
     /// </summary>
-    abstract class AlgoBase : IVisualisable
+    internal abstract class AlgoBase : Visualisable
     {
         /// <summary>
         /// ID used to refer to the algorithm in save-data
@@ -36,12 +36,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
         {
             Id = id;
             OverrideDisplayName = name;
-        }
-
-        /// <summary>
-        /// Implements Object
-        /// </summary>         
-        public override string ToString() => DisplayName;
+        }                                                
 
         public AlgoParameterCollection Parameters
         {
@@ -57,44 +52,11 @@ namespace MetaboliteLevels.Algorithms.Statistics
             }
         }
 
-        protected abstract AlgoParameterCollection CreateParamaterDesription();
+        protected abstract AlgoParameterCollection CreateParamaterDesription();              
+   
+        public override string DefaultDisplayName => Id;
 
-        /// <summary>
-        /// Implements IVisualisable
-        /// </summary>                         
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
-
-        /// <summary>
-        /// Implements IVisualisable
-        /// </summary>              
-        public string DefaultDisplayName => Id;
-
-        /// <summary>
-        /// Implements IVisualisable
-        /// Friendly name
-        /// </summary>              
-        public string OverrideDisplayName { get; set; }
-
-        /// <summary>
-        /// Implements IVisualisable
-        /// Description of algorithm's purpose
-        /// </summary>              
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// Implements IVisualisable
-        /// </summary>              
-        bool INameable.Hidden
-        {
-            get
-            {
-                return false;
-            }
-            set
-            {
-                // No action
-            }
-        }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
         /// <summary>
         /// Script (if any)
@@ -104,16 +66,19 @@ namespace MetaboliteLevels.Algorithms.Statistics
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-        UiControls.ImageListOrder IVisualisable.GetIcon()
+        public override UiControls.ImageListOrder Icon
         {
-            return Script != null ? UiControls.ImageListOrder.ScriptFile
-                : UiControls.ImageListOrder.ScriptInbuilt;
+            get
+            {
+                return Script != null ? UiControls.ImageListOrder.ScriptFile
+                           : UiControls.ImageListOrder.ScriptInbuilt;
+            }
         }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+       public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<AlgoBase>> result = new List<Column<AlgoBase>>();
 

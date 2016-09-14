@@ -345,7 +345,7 @@ namespace MetaboliteLevels.Data.Session
         }
 
         private void GenericReplace<T>( List<T> current, IEnumerable<T> replacement, ProgressReporter info )
-            where T : IConfigurationBase
+            where T : ConfigurationBase
         {
             // Clear old values
             foreach (T old in current.Where( z => !replacement.Contains( z ) ))
@@ -357,7 +357,7 @@ namespace MetaboliteLevels.Data.Session
         }
 
         private bool GenericUpdate<T>( string title, List<T> current, ProgressReporter info )
-            where T : IConfigurationBase
+            where T : ConfigurationBase
         {
             bool result = false;
 

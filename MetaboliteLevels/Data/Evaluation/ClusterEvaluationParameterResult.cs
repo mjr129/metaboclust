@@ -23,23 +23,9 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     /// Results for an individual parameter (see ClusterEvaluationResults)
     /// </summary>
     [Serializable]
-    class ClusterEvaluationParameterResult : IVisualisable
+    class ClusterEvaluationParameterResult : Visualisable
     {
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS: IVisualisable
-        /// Not used - meaningless.
-        /// </summary>
-        bool INameable.Hidden { get { return false; } set { } }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
         /// <summary>
         /// Conifguration these results were sourced from
@@ -70,47 +56,22 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             Owner = owner;
             ValueIndex = valueIndex;
             Repetitions = results;
-        }
-
-        /// <summary>
-        /// OVERRIDES Object
-        /// </summary>                    
-        public override string ToString()
-        {
-            return DisplayName;
-        }
+        }           
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string DefaultDisplayName
-        {
-            get
-            {
-                return _defaultName;
-            }
-        }
+        public override string DefaultDisplayName => _defaultName;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string DisplayName
-        {
-            get { return IVisualisableExtensions.FormatDisplayName(this); }
-        }
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.TestFull;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            return UiControls.ImageListOrder.TestFull;
-        }     
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<ClusterEvaluationParameterResult>> res = new List<Column<ClusterEvaluationParameterResult>>();
 
@@ -147,7 +108,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// Recalculates the statistcal set.
         /// </summary>                      
-        internal void RecalculateStatistics(Core core, EClustererStatistics stats, ProgressReporter prog)
+        public void RecalculateStatistics(Core core, EClustererStatistics stats, ProgressReporter prog)
         {
             foreach (ResultClusterer result in Repetitions)
             {

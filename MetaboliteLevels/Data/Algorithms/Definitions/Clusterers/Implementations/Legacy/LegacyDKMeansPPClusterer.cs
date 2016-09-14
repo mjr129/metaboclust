@@ -36,16 +36,16 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
         {
             // Get parameters
             // COUNT LIMIT
-            int countLimit = (int)tag.Args.Parameters[0];
+            int countLimit = (int)tag.UntypedArgs.Parameters[0];
             // DISTANCE LIMIT
-            double distanceLimit = (double)tag.Args.Parameters[1];
+            double distanceLimit = (double)tag.UntypedArgs.Parameters[1];
             // SEED PEAK
-            WeakReference<Peak> seedPeakRef = (WeakReference<Peak>)tag.Args.Parameters[2];
+            WeakReference<Peak> seedPeakRef = (WeakReference<Peak>)tag.UntypedArgs.Parameters[2];
             Peak seedPeak = seedPeakRef.GetTargetOrThrow();
             // SEED GROUP
-            GroupInfo groupInfo = (GroupInfo)tag.Args.Parameters[3];
+            GroupInfo groupInfo = (GroupInfo)tag.UntypedArgs.Parameters[3];
             // DO-K-MEANS?
-            bool doKMeans = (int)tag.Args.Parameters[4] != 0;
+            bool doKMeans = (int)tag.UntypedArgs.Parameters[4] != 0;
 
             // Create the seed cluster
             Cluster seedCluster = new Cluster("1", tag);

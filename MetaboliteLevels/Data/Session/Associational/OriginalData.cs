@@ -14,7 +14,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 {
     [Name("Original data")]
     [Serializable]
-    internal class OriginalData : IVisualisable, IMatrixProvider
+    internal class OriginalData : Visualisable, IMatrixProvider
     {
         private readonly string _fileName;
         private readonly IntensityMatrix _intentisyMatrix;
@@ -27,15 +27,11 @@ namespace MetaboliteLevels.Data.Session.Associational
         }
 
         public IntensityMatrix Provide => _intentisyMatrix;
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
-        public string DefaultDisplayName => Path.GetFileName( _fileName );
-        public string OverrideDisplayName { get; set; }
-        public string Comment { get; set; }
-        public bool Hidden { get; set; }
+        public override string DefaultDisplayName => Path.GetFileName( _fileName );
 
-        public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Matrix;
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Matrix;
 
-        public IEnumerable<Column> GetColumns( Core core )
+        public override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<OriginalData>> result = new List<Column<OriginalData>>();
 
@@ -43,11 +39,6 @@ namespace MetaboliteLevels.Data.Session.Associational
             result.Add( "File", EColumn.Visible, z => z._fileName );
 
             return result;
-        }
-
-        public override string ToString()
-        {
-            return DisplayName;
-        }
+        }      
     }
 }

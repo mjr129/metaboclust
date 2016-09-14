@@ -315,7 +315,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// </summary>                       
         private bool EnabledFitler(T arg)
         {
-            var x = arg as IVisualisable;
+            var x = arg as Visualisable;
 
             return x == null || !x.Hidden;
         }

@@ -17,7 +17,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>
         /// <param name="propertyTarget">Elements {!xxx} will get the xxx property from this object, elements {xxx} will get the xxx value from QueryValue(xxx)</param>
         /// <returns>String</returns>
-        public static string ConvertToString( this ParseElementCollection self, IVisualisable propertyTarget, Core core )
+        public static string ConvertToString( this ParseElementCollection self, Visualisable propertyTarget, Core core )
         {
             var r = new StringBuilder();
 

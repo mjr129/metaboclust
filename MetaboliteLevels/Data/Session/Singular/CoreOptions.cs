@@ -359,14 +359,14 @@ namespace MetaboliteLevels.Settings
             public string DisplayName;
         }
 
-        internal PlotSetup GetUserText( Core core, IAssociational visualisable )
+        internal PlotSetup GetUserText( Core core, Associational visualisable )
         {
             if (visualisable == null)
             {
                 return new PlotSetup();
             }
 
-            switch (visualisable.VisualClass)
+            switch (visualisable.AssociationalClass)
             {
                 case EVisualClass.Cluster:
                     return ClusterDisplay;

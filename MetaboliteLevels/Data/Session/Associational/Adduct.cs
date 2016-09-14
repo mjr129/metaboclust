@@ -16,7 +16,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Adduct : IAssociational
+    internal class Adduct : Associational
     {
         /// <summary>
         /// Adduct name (may be NULL)
@@ -32,17 +32,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// m/z
         /// (m/z not mass - i.e. for both 1H+ and 2H+ this is 1.007)
         /// </summary>
-        public decimal Mz;
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
+        public decimal Mz;    
 
         /// <summary>
         /// Annotations
@@ -64,11 +54,7 @@ namespace MetaboliteLevels.Data.Visualisables
             this.Mz = mz;
         }
 
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool INameable.Hidden { get { return false; } set { } }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
         /// <summary>
         /// Is this an empty adduct?
@@ -84,7 +70,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string DefaultDisplayName
+        public override string DefaultDisplayName
         {
             get
             {
@@ -97,18 +83,7 @@ namespace MetaboliteLevels.Data.Visualisables
                     return _defaultName;
                 }
             }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string DisplayName
-        {
-            get
-            {
-                return IVisualisableExtensions.FormatDisplayName(this);
-            }
-        }
+        }         
 
         /// <summary>
         /// Creates an empty adduct (placeholder)
@@ -121,23 +96,15 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        EVisualClass IAssociational.VisualClass
+        public override EVisualClass AssociationalClass
         {
             get { return EVisualClass.Adduct; }
-        }
-
-        /// <summary>
-        /// OVERRIDES Object
-        /// </summary>
-        public override string ToString()
-        {
-            return DisplayName;
-        }
+        }        
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        void IAssociational.RequestContents(ContentsRequest request)
+        public override void FindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -173,7 +140,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        IEnumerable<Column> IVisualisable.GetColumns(Session.Core core)
+        public override IEnumerable<Column> GetColumns(Session.Core core)
         {                                                
             List<Column<Adduct>> result = new List<Column<Adduct>>();
 
@@ -191,10 +158,6 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            // IMAGE
-            return UiControls.ImageListOrder.Adduct;
-        }
+        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Adduct;
     }
 }

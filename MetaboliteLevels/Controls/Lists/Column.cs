@@ -61,66 +61,47 @@ namespace MetaboliteLevels.Viewers.Lists
         }
     }
 
-    abstract class Column : IVisualisable
+    abstract class Column : Visualisable
     {
-        public readonly string Id;
-        public readonly string Description;
+        public readonly string Id;                     
         public readonly EColumn Special;
 
-        public ColumnHeader Header;
-        public string OverrideDisplayName { get; set; }
-        bool INameable.Hidden { get { return false; } set { /* NA */ } }
+        public ColumnHeader Header;                    
+        public override EPrevent SupportsHide =>  EPrevent.Hide | EPrevent.Comment;
         public bool Visible;
         public int Width = 128;
         public bool DisableMenu;
         public int DisplayIndex;
-        public EListDisplayMode DisplayMode = EListDisplayMode.Smart;   
-        string INameable.DefaultDisplayName => Id;
-                       
-        /// <summary>
-        /// Hide implementation because comment is read-only.
-        /// </summary>
-        string INameable.Comment
-        {
-            get { return Description; }
-            set { /* READONLY */ }
-        }                        
+        public EListDisplayMode DisplayMode = EListDisplayMode.Smart;                 
 
         /// <summary>
         /// CONSTRUCTOR
         /// </summary>
         public Column(string name, EColumn special, string description)
         {
-            this.Id = name;
-            this.OverrideDisplayName = null;
+            this.Id = name;                 
             this.Special = special;
             this.Visible = special == EColumn.Visible;
-            this.Description = description;
-        }
-
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
+            this.Comment = description;
+        }                                                                              
 
         /// <summary>
         /// Gets ID (or display name if set).
         /// </summary>
-        public override string ToString()
+        public override string DefaultDisplayName
         {
-            if (string.IsNullOrEmpty(OverrideDisplayName))
+            get
             {
-                int lbs = Id.LastIndexOf('\\');
+                int lbs = Id.LastIndexOf( '\\' );
 
                 if (lbs != -1)
                 {
-                    return Id.Substring(lbs + 1);
+                    return Id.Substring( lbs + 1 );
                 }
                 else
                 {
                     return Id;
                 }
-            }
-            else
-            {
-                return OverrideDisplayName;
             }
         }
 
@@ -244,9 +225,9 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
             }
 
-            if (result is INameable)
+            if (result is Visualisable)
             {
-                INameable v = (INameable)result;
+                Visualisable v = (Visualisable)result;
 
                 return v.DisplayName;
             }          
@@ -284,14 +265,11 @@ namespace MetaboliteLevels.Viewers.Lists
 
         public abstract bool IsAlwaysEmpty { get; }
 
-        public abstract Color GetColour( object line );          
+        public abstract Color GetColour( object line );
 
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            throw new NotImplementedException();
-        }   
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;
 
-        IEnumerable<Column> IVisualisable.GetColumns( Core core )
+        public override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<Column>> result = new List<Column<Column>>();
 
@@ -299,7 +277,7 @@ namespace MetaboliteLevels.Viewers.Lists
             result.Add( "Preferred display order", z => z.DisplayIndex );
             result.Add( "Preferred name", z => z.OverrideDisplayName );
             result.Add( "Preferred width", z => z.Width );
-            result.Add( "Description", z => z.Description );
+            result.Add( "Description", z => z.Comment );
             result.Add( "Visible", EColumn.Visible, z => z.Visible );
 
             result.Add( "Disable menu", EColumn.Advanced, z => z.DisableMenu );     
@@ -309,7 +287,7 @@ namespace MetaboliteLevels.Viewers.Lists
             result.Add( "Is always empty", EColumn.Advanced, z => z.IsAlwaysEmpty );
             result.Add( "Special", EColumn.Advanced, z => z.Special );
             result.Add( "Displayed name", EColumn.Advanced, z => z.DisplayName );
-            result.Add( "Hidden", EColumn.Advanced, z => ((INameable)z).Hidden );
+            result.Add( "Hidden", EColumn.Advanced, z => ((Visualisable)z).Hidden );
 
             return result;
         }
@@ -318,7 +296,7 @@ namespace MetaboliteLevels.Viewers.Lists
     }
 
     sealed class Column<T> : Column
-        where T : class, IVisualisable
+        where T : Visualisable
     {
         public delegate object ColumnProvider(T item);
         public delegate Color ColourProvider(T item);                
@@ -389,11 +367,11 @@ namespace MetaboliteLevels.Viewers.Lists
     {
         public static IEnumerable<Column> GetColumns(Core core, object visualisable)
         {
-            return AddProperties( (visualisable as IVisualisable)?.GetColumns( core ), visualisable.GetType() );
+            return AddProperties( (visualisable as Visualisable)?.GetColumns( core ), visualisable.GetType() );
         }
 
         public static IEnumerable<Column> GetColumns<T>(Core core)
-            where T : class, IVisualisable
+            where T : Visualisable
         {                                
             // Unfortunately this won't work if T is abstract
             if (typeof(T).IsAbstract)
@@ -401,7 +379,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 return new Column[0]; // TODO: Fix this
             }
 
-            return GetColumns( core, (IVisualisable)(T)(FormatterServices.GetUninitializedObject( typeof( T ) )));
+            return GetColumns( core, (Visualisable)(T)(FormatterServices.GetUninitializedObject( typeof( T ) )));
         }
 
         private static IEnumerable<Column> AddProperties( IEnumerable<Column> def, Type t )
@@ -409,7 +387,7 @@ namespace MetaboliteLevels.Viewers.Lists
             var bf = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             var fields = t.GetProperties( bf );
 
-            List<Column<IVisualisable>> columns = new List<Column<IVisualisable>>();
+            List<Column<Visualisable>> columns = new List<Column<Visualisable>>();
 
             foreach (PropertyInfo prop in t.GetProperties( bf ))
             {
@@ -428,25 +406,25 @@ namespace MetaboliteLevels.Viewers.Lists
 
             return def.Concat( columns );
         }
-    }
+    }     
 
     static class ColumnExtensions
     {
         public static void Add<T>(this List<Column<T>> self, string name, EColumn special, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null)
-             where T : class, IVisualisable
+             where T : Visualisable
         {
             self.Add(new Column<T>(name, special, null, provider, colour));
         }
 
         public static void Add<T>(this List<Column<T>> self, string name, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null )
-          where T : class, IVisualisable
+          where T : Visualisable
         {
             self.Add(new Column<T>(name, EColumn.None, null, provider, colour));
         }
 
         public static void AddSubObject<T, U>(this List<Column<T>> self, Core core, string prefix, Converter<T, U> convertor)
-            where T : class, IVisualisable
-            where U : class, IVisualisable
+            where T : Visualisable
+            where U : Visualisable
         {
             Add(self, prefix, EColumn.None, new Column<T>.ColumnProvider(convertor));
 
@@ -455,7 +433,7 @@ namespace MetaboliteLevels.Viewers.Lists
                 self.Add(new Column<T>(
                             prefix + "\\" + column.Id,
                             EColumn.None,
-                            column.Description,
+                            column.Comment,
                             z =>
                             {
                                 var x = convertor(z);

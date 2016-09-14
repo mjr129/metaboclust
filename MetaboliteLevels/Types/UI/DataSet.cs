@@ -356,7 +356,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Title = "All items",
                 Source = all,
                 ItemNameProvider = z => z.GetType().Name.ToSmallCaps() + ": " + z.ToString(),
-                ItemDescriptionProvider = z => (z is IVisualisable) ? "Selectable" : "Not selectable",
+                ItemDescriptionProvider = z => (z is Visualisable) ? "Selectable" : "Not selectable",
                 Icon = Resources.IconCore,
             };
         }
@@ -398,7 +398,7 @@ namespace MetaboliteLevels.Forms.Generic
                 },
                 ItemEditor = z =>
                     {
-                        if (!_ShowEditPreamble( z.Cast<IConfigurationBase>() ))
+                        if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
                         {
                             return null;
                         }
@@ -432,7 +432,7 @@ namespace MetaboliteLevels.Forms.Generic
                 },
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble( z.Cast<IConfigurationBase>() ))
+                    if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
                     {
                         return null;
                     }
@@ -458,7 +458,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Icon = Resources.IconScriptCluster,
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble( z.Cast<IConfigurationBase>() ))
+                    if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
                     {
                         return null;
                     }
@@ -597,7 +597,7 @@ namespace MetaboliteLevels.Forms.Generic
                 Icon = Resources.IconScriptStatistic,
                 ItemEditor = z =>
                 {
-                    if (!_ShowEditPreamble( z.Cast<IConfigurationBase>() ))
+                    if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
                     {
                         return null;
                     }
@@ -716,7 +716,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Gets comment for an IVisualisable
         /// </summary>
-        private static string _GetComment( IVisualisable vis )
+        private static string _GetComment( Visualisable vis )
         {
             if (!string.IsNullOrEmpty( vis.Comment ))
             {
@@ -729,7 +729,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Gets display name for an IVisualisable
         /// </summary>
-        private static string _GetDisplayName( IVisualisable z )
+        private static string _GetDisplayName( Visualisable z )
         {
             return z.DisplayName;
         }
@@ -737,7 +737,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Gets comment for a ConfigurationBase
         /// </summary>
-        private static string _GetComment( IConfigurationBase z )
+        private static string _GetComment( ConfigurationBase z )
         {
             return z.DisplayName + z.Comment.FormatIf( "\r\nComments: " );
         }
@@ -769,7 +769,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Private helper method: Shows error and remove results dialogues
         /// </summary>
-        private static bool _ShowEditPreamble( DataSet<IConfigurationBase>.EditItemArgs args )
+        private static bool _ShowEditPreamble( DataSet<ConfigurationBase>.EditItemArgs args )
         {
             if (args.DefaultValue != null)
             {

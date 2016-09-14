@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// <typeparam name="TArgs">Type of arguments</typeparam>
     /// <typeparam name="TResults">Type of results</typeparam>
     [Serializable]
-    internal abstract class ConfigurationBase<TAlgo, TArgs, TResults> : IConfigurationBase
+    internal abstract class ConfigurationBase<TAlgo, TArgs, TResults> : ConfigurationBase
         where TAlgo : AlgoBase
         where TArgs : ArgsBase
         where TResults : ResultBase
@@ -60,7 +60,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Backing field
         /// </summary>
-        public object[] Parameters { get; private set; }     
+        public object[] Parameters { get; private set; }
+
+        public override ArgsBase UntypedArgs => _args;
 
         /// <summary>
         /// Retrieves the algorithm arguments
@@ -78,23 +80,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             }
         }
 
-        ArgsBase IConfigurationBase.Args => Args;
-
         /// <summary>
         /// Retrieves the algorithm results
         /// </summary>
-        public TResults Results => _results;
-
-        /// <summary>
-        /// ToString
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString() => Args.DisplayName;
+        public TResults Results => _results;                  
 
         /// <summary>
         /// Retrieves the Error (if Results is null)
         /// </summary>
-        public string Error => _error;
+        public override string Error => _error;
 
         /// <summary>
         /// Retrieves if Dispose has been called
@@ -116,39 +110,39 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         {
             _results = null;
             _error = error;
-            _sourceGuid = Args.SourceMatrix.Guid;
+            _sourceGuid = UntypedArgs.SourceMatrix.Guid;
         }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        string INameable.DisplayName => Args.DisplayName;
+        public override string DisplayName => Args.DisplayName;
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        string INameable.DefaultDisplayName => Args.DefaultDisplayName;
+        public override string DefaultDisplayName => Args.DefaultDisplayName;
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        string INameable.OverrideDisplayName { get { return Args.OverrideDisplayName; } set { Args.OverrideDisplayName = value; } }
+        public override string OverrideDisplayName { get { return Args.OverrideDisplayName; } set { Args.OverrideDisplayName = value; } }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        string INameable.Comment { get { return Args.Comment; } set { Args.Comment = value; } }
+        public override string Comment { get { return Args.Comment; } set { Args.Comment = value; } }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        bool INameable.Hidden { get { return Args.Hidden; } set { Args.Hidden = value; } }
+        public override bool Hidden { get { return Args.Hidden; } set { Args.Hidden = value; } }
 
         /// <summary>
         /// Disposes of the configuration
         /// (Not required - for sanity checking only)
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             if (!_isDisposed)
             {
@@ -160,7 +154,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-        IEnumerable<Column> IVisualisable.GetColumns( Core core )
+       public override IEnumerable<Column> GetColumns( Core core )
         {
             var columns = new List<Column<ConfigurationBase<TAlgo, TArgs, TResults>>>();
 
@@ -202,7 +196,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Clears existing results and errors, necessitatioing a recalculation at the next update
         /// </summary>
-        public void ClearResults()
+        public override void ClearResults()
         {
             _results = null;
             _error = null;
@@ -223,17 +217,17 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// Runs the algorithm.
         /// The derived class should perform its calculations and call EITHER <see cref="SetResults"/> OR <see cref="SetError"/>.
         /// </summary>
-        public abstract bool Run( Core core, ProgressReporter prog );
+        public abstract override bool Run( Core core, ProgressReporter prog );
                            
         /// <summary>
         /// Returns if the algorithm completed with an error
         /// </summary>
-        public bool HasError => Error != null;
+        public override bool HasError => Error != null;
 
         /// <summary>
         /// Returns if the algorithm completed successfully
         /// </summary>
-        public bool HasResults => Results != null;
+        public override bool HasResults => Results != null;
                                   
         /// <summary>
         /// Determines if the configuration needs recalculating, either because it
@@ -246,30 +240,33 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// and do NOT need to be accounted for. Only indirect inputs where the target
         /// has since changed need to be accounted for.
         /// </summary>
-        public virtual bool NeedsUpdate
+        public override bool NeedsUpdate
         {
             get
             {
                 return Args != null && !Args.Hidden && Args.SourceMatrix != null && _sourceGuid != Args.SourceMatrix.Guid;
             }
-        }    
+        }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-        UiControls.ImageListOrder IVisualisable.GetIcon()
+        public override UiControls.ImageListOrder Icon
         {
-            if (HasError)
+            get
             {
-                return UiControls.ImageListOrder.Warning;
-            }
-            else if (HasResults)
-            {
-                return UiControls.ImageListOrder.TestFull;
-            }
-            else
-            {
-                return UiControls.ImageListOrder.TestEmpty;
+                if (HasError)
+                {
+                    return UiControls.ImageListOrder.Warning;
+                }
+                else if (HasResults)
+                {
+                    return UiControls.ImageListOrder.TestFull;
+                }
+                else
+                {
+                    return UiControls.ImageListOrder.TestEmpty;
+                }
             }
         }
 

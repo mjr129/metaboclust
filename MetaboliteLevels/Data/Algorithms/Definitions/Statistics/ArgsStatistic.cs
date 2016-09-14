@@ -18,7 +18,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// Arguments for statistics (see StatisticBase).
     /// </summary>
     [Serializable]
-    class ArgsStatistic : ArgsBase
+    internal class ArgsStatistic : ArgsBase
     {                                                                                                              
         public readonly EAlgoInputBSource VectorBSource;            // Where the second input vector comes from
         public readonly ObsFilter VectorAConstraint;                // Filter on the first input vector
@@ -78,7 +78,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             }
         }
 
-        protected sealed override IEnumerable<Column> GetExtraColumns( Core core )
+        public sealed override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<ArgsStatistic>> columns = new List<Column<ArgsStatistic>>();
 
@@ -87,7 +87,10 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             columns.AddSubObject( core, "Second vector peak", z => z.VectorBPeak );
             columns.Add( "Second vector source", z => z.VectorBSource );
 
-            return columns;
+            List<Column> result = new List<Column>();
+            result.AddRange( base.GetColumns(core) );
+            result.AddRange( columns );
+            return result;
         }
     }
 }

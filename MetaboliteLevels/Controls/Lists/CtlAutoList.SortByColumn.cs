@@ -79,10 +79,10 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
 
                 // Compare IVisualisables using names
-                if (xv is IVisualisable && yv is IVisualisable)
+                if (xv is Visualisable && yv is Visualisable)
                 {
-                    xv = ((IVisualisable)xv).DisplayName;
-                    yv = ((IVisualisable)yv).DisplayName;
+                    xv = ((Visualisable)xv).DisplayName;
+                    yv = ((Visualisable)yv).DisplayName;
                 }
 
                 if (xv is string)

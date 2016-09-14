@@ -75,11 +75,11 @@ namespace MetaboliteLevels.Forms.Generic
         {
             private ListView _listBox;
             CtlAutoList _lvh;
-            List<IVisualisable> _list = new List<IVisualisable>();
+            List<Visualisable> _list = new List<Visualisable>();
 
             public void AddItem(object item, string text, string description)
             {
-                _list.Add((IVisualisable)item);
+                _list.Add((Visualisable)item);
             }
 
             public void ClearItems()
@@ -429,7 +429,7 @@ namespace MetaboliteLevels.Forms.Generic
 
         internal static T ShowList<T>(Form owner, DataSet<T> listValueSet, T defaultSelection)
         {
-            if (typeof(IVisualisable).IsAssignableFrom(typeof(T)))
+            if (typeof(Visualisable).IsAssignableFrom(typeof(T)))
             {
                 return Show<T>(owner, new FormListBigListBox(), listValueSet, false, AsArray(defaultSelection, listValueSet)).FirstOrDefault(listValueSet.CancelValue);
             }

@@ -15,7 +15,7 @@ namespace MetaboliteLevels.Forms.Editing
     {
         private int _result;
         private Size _imageSize;
-        private readonly List<IVisualisable> _items;
+        private readonly List<Visualisable> _items;
         private readonly IPreviewProvider _previewProvider;
         private readonly Dictionary<object, int> _imgListPreviewIndexes = new Dictionary<object, int>();
 
@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Forms.Editing
             UiControls.SetIcon(this);
         }
 
-        private FrmPopoutClusterSheet(Size size, List<IVisualisable> items, IPreviewProvider previewProvider)
+        private FrmPopoutClusterSheet(Size size, List<Visualisable> items, IPreviewProvider previewProvider)
             : this()
         {
             this._imageSize = size;
@@ -39,7 +39,7 @@ namespace MetaboliteLevels.Forms.Editing
             // UiControls.CompensateForVisualStyles(this);
         }
 
-        private int GeneratePreviewImage(IVisualisable item)
+        private int GeneratePreviewImage(Visualisable item)
         {
             int index;
 
@@ -59,7 +59,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         internal static int Show(Form owner, Size size, IEnumerable items, IPreviewProvider previewProvider)
         {
-            FrmPopoutClusterSheet frm = new FrmPopoutClusterSheet(size, new List<IVisualisable>(items.Cast<IVisualisable>()), previewProvider);
+            FrmPopoutClusterSheet frm = new FrmPopoutClusterSheet(size, new List<Visualisable>(items.Cast<Visualisable>()), previewProvider);
             frm.StartPosition = FormStartPosition.Manual;
             frm.Location = owner.Location;
             frm.Size = new Size(owner.Width, owner.Height);
@@ -74,7 +74,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void listView1_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            IVisualisable item = _items[e.ItemIndex];
+            Visualisable item = _items[e.ItemIndex];
             e.Item = new ListViewItem(item.DisplayName);
             e.Item.ImageIndex = GeneratePreviewImage(item);
         }

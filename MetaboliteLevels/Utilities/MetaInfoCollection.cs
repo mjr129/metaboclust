@@ -91,7 +91,7 @@ namespace MetaboliteLevels.Utilities
         }      
 
         internal void ReadAllColumns<T>(Converter<T, MetaInfoCollection> collectionRetriever, List<Column<T>> columns)
-            where T : class, IVisualisable
+            where T : Visualisable
         {
             for (int index = 0; index < this._headers.Length; index++)
             {

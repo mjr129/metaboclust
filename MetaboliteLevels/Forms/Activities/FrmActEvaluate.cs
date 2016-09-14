@@ -90,10 +90,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             // UiControls.CompensateForVisualStyles(this);
         }
 
-        class ColumnWrapper : IVisualisable
-        {
-            public string OverrideDisplayName { get; set; }
-
+        class ColumnWrapper : Visualisable
+        {                                                     
             private readonly ClusterEvaluationResults Results;
             public readonly Column<ClusterEvaluationParameterResult> Column;
 
@@ -103,23 +101,13 @@ namespace MetaboliteLevels.Forms.Algorithms
                 this.Column = col;
             }
 
-            string INameable.DefaultDisplayName { get { return Column.Id; } }
+            public override string DefaultDisplayName { get { return Column.Id; } }
 
-            bool INameable.Hidden { get { return false; } set { } }
+            public override EPrevent SupportsHide => EPrevent.Hide;
 
-            public string DisplayName
-            {
-                get { return IVisualisableExtensions.FormatDisplayName(this); }
-            }
+            public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Statistic;
 
-            UiControls.ImageListOrder IVisualisable.GetIcon()
-            {
-                return UiControls.ImageListOrder.Statistic;
-            }     
-
-            public string Comment { get; set; }
-
-            IEnumerable<Column> IVisualisable.GetColumns(Core core)
+            public override IEnumerable<Column> GetColumns(Core core)
             {
                 List<Column<ColumnWrapper>> cols = new List<Column<ColumnWrapper>>();
 

@@ -21,7 +21,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
     /// at this stage).
     /// </summary>
     [Serializable]
-    class ClusterEvaluationPointer : IVisualisable
+    class ClusterEvaluationPointer : Visualisable
     {
         /// <summary>
         /// For tests run: Where the results (ClusterEvaluationConfigurationResults) are stored
@@ -32,22 +32,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// The configuration (older versions only had this for tests not yet run, but now we keep
         /// a copy for tests run as well)
         /// </summary>
-        public readonly ClusterEvaluationConfiguration Configuration;
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable 
-        /// </summary>
-        public bool Hidden { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable 
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable 
-        /// </summary>
-        public string Comment { get; set; }
+        public readonly ClusterEvaluationConfiguration Configuration;                 
 
         /// <summary>
         /// CONSTRUCTOR
@@ -86,57 +71,35 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             {
                 return FileName != null;
             }
-        }
+        }      
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string DisplayName
+        public override string DefaultDisplayName => Configuration.ClustererConfiguration.Args.DisplayName;
+
+        /// <summary>
+        /// IMPLEMENTS IVisualisable
+        /// </summary>
+        public override UiControls.ImageListOrder Icon
         {
             get
             {
-                return IVisualisableExtensions.FormatDisplayName(this);
+                if (this.HasResults)
+                {
+                    return UiControls.ImageListOrder.TestFull;
+                }
+                else
+                {
+                    return UiControls.ImageListOrder.TestEmpty;
+                }
             }
         }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override string ToString()
-        {
-            return DisplayName;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string DefaultDisplayName
-        {
-            get
-            {
-                return Configuration.ClustererConfiguration.Args.DisplayName;
-            }
-        }    
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            if (this.HasResults)
-            {
-                return UiControls.ImageListOrder.TestFull;
-            }
-            else
-            {
-                return UiControls.ImageListOrder.TestEmpty;
-            }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<ClusterEvaluationPointer>> ptr = new List<Column<ClusterEvaluationPointer>>();
 

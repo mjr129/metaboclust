@@ -25,49 +25,19 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Peak : IAssociational
+    class Peak : Associational
     {                                                  
         public const string ID_COLUMN_CLUSTERCOMBINATION = "Clusters\\Combination (for colours)";                           
 
         /// <summary>
         /// The ID (name) of the peak.
         /// </summary>
-        public readonly string Id;
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string OverrideDisplayName { get; set; }                   
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string Comment { get; set; }
+        public readonly string Id;        
 
         /// <summary>
         /// Comment flags.
         /// </summary>
-        public List<PeakFlag> CommentFlags = new List<PeakFlag>();                                                      
-
-        /// <summary>
-        /// Corrected variable data (index ≘ Core.Correction)
-        /// </summary>
-        //public readonly List<PeakValueSet> CorrectionChain = new List<PeakValueSet>();
-
-        /// <summary>
-        /// Visible data (a pointer to OriginalObservations or the last item in CorrectionChain).
-        /// </summary>
-        //public PeakValueSet Observations;
-
-        /// <summary>
-        /// Original variable data
-        /// </summary>
-        //public PeakValueSet OriginalObservations;
-
-        /// <summary>
-        /// Alternative variable data
-        /// </summary>
-        //public PeakValueSet AltObservations;      
+        public List<PeakFlag> CommentFlags = new List<PeakFlag>();        
 
         /// <summary>
         /// M/Z
@@ -110,30 +80,12 @@ namespace MetaboliteLevels.Data.Visualisables
             this.LcmsMode = lcmsmode;
         }
 
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool INameable.Hidden { get { return false; } set { } }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
         /// <summary>     
         /// Default display name.
         /// </summary>
-        public string DefaultDisplayName
-        {
-            get
-            {
-                return Id;
-            }
-        }
-
-        /// <summary>
-        /// OVERRIDES Object
-        /// </summary>         
-        public override string ToString()
-        {
-            return DisplayName;
-        }
+        public override string DefaultDisplayName=> Id;       
 
         /// <summary>
         /// Toggles a comment flag on and off.
@@ -157,12 +109,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName(this);
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        void IAssociational.RequestContents(ContentsRequest request)
+        public override void FindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -256,7 +203,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        EVisualClass IAssociational.VisualClass
+        public override EVisualClass AssociationalClass
         {
             get { return EVisualClass.Peak; }
         }
@@ -279,7 +226,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             var columns = new List<Column<Peak>>();
 
@@ -360,28 +307,31 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        UiControls.ImageListOrder IVisualisable.GetIcon()
+        public override UiControls.ImageListOrder Icon
         {
-            // IMAGE
-            if (this.Annotations.Count == 0)
+            get
             {
-                return UiControls.ImageListOrder.Variable0;
-            }
-            else
-            {
-                switch (this.Annotations.Max( z => z.Status ))
+                // IMAGE
+                if (this.Annotations.Count == 0)
                 {
-                    case EAnnotation.Tentative:
-                        return UiControls.ImageListOrder.VariableT;
+                    return UiControls.ImageListOrder.Variable0;
+                }
+                else
+                {
+                    switch (this.Annotations.Max( z => z.Status ))
+                    {
+                        case EAnnotation.Tentative:
+                            return UiControls.ImageListOrder.VariableT;
 
-                    case EAnnotation.Affirmative:
-                        return UiControls.ImageListOrder.VariableA;
+                        case EAnnotation.Affirmative:
+                            return UiControls.ImageListOrder.VariableA;
 
-                    case EAnnotation.Confirmed:
-                        return UiControls.ImageListOrder.VariableC;
+                        case EAnnotation.Confirmed:
+                            return UiControls.ImageListOrder.VariableC;
 
-                    default:
-                        throw new SwitchException();
+                        default:
+                            throw new SwitchException();
+                    }
                 }
             }
         }

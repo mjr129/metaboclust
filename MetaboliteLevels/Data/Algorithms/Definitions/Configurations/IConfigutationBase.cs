@@ -15,15 +15,17 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
     /// <summary>
     /// All classes implementing this interface also implement <see cref="ConfigurationBase"/>, so see that class for details.
     /// </summary>           
-    internal interface IConfigurationBase : IDisposable, IVisualisable
+    internal abstract class ConfigurationBase : Visualisable, IDisposable
     {
-        bool HasError { get; }        
-        bool HasResults { get; }    
-        void ClearResults();
-        bool NeedsUpdate { get; }
-        string Error { get; }
-        ArgsBase Args { get; }
+        public abstract bool HasError { get; }
+        public abstract bool HasResults { get; }
+        public abstract void ClearResults();
+        public abstract bool NeedsUpdate { get; }
+        public abstract string Error { get; }
+        public abstract ArgsBase UntypedArgs { get; }
 
-        bool Run( Core core, ProgressReporter prog );
+        public abstract bool Run( Core core, ProgressReporter prog );
+
+        public abstract void Dispose();
     }
 }

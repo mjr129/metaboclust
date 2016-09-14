@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Data.DataInfo
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class ObservationInfo : IVisualisable
+    class ObservationInfo : Visualisable
     {
         public const string ID_COLNAME_GROUP = "Group";
         public readonly Acquisition Acquisition;
@@ -51,60 +51,18 @@ namespace MetaboliteLevels.Data.DataInfo
         public string Id => Acquisition?.Id;
         public BatchInfo Batch => Acquisition?.Batch;
         public int Order => Acquisition?.Order ?? 0;
-        public int Rep => Acquisition?.Replicate ?? 0;
-
-        public override string ToString()
-        {
-            return DisplayName;
-        }      
+        public int Rep => Acquisition?.Replicate ?? 0;          
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public EVisualClass VisualClass
-        {
-            get
-            {
-                return EVisualClass.None;
-            }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public string DisplayName
-        {
-            get
-            {
-                return IVisualisableExtensions.FormatDisplayName(this);
-            }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public string DefaultDisplayName
+        public override string DefaultDisplayName
         {
             get
             {
                 return Acquisition == null ? (Group.ToString() + Time) : Id;
             }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public bool Hidden { get; set; }
+        }                    
 
         public static int GroupTimeReplicateDisplayOrder(ObservationInfo a, ObservationInfo b)
         {
@@ -156,12 +114,9 @@ namespace MetaboliteLevels.Data.DataInfo
             return a.Rep.CompareTo(b.Rep);
         }
 
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            return UiControls.ImageListOrder.Point;
-        }
+        public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.Point;
 
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<ObservationInfo>> columns = new List<Column<ObservationInfo>>();
 

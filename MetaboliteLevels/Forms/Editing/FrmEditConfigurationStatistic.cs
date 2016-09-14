@@ -49,9 +49,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        internal static bool ShowCannotEditError(Form owner, IConfigurationBase def)
+        internal static bool ShowCannotEditError(Form owner, ConfigurationBase def)
         {
-            if (def != null && !def.Args.CheckIsAvailable())
+            if (def != null && !def.UntypedArgs.CheckIsAvailable())
             {
                 FrmMsgBox.ShowWarning(owner, "Missing algorithm",
                                       "This algorithm uses an algorithm not installed on this machine and its parameters cannot be modified.");

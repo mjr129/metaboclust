@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Settings
     /// IMMUTABLE (exc. names, comments and enabled status)
     /// </summary>
     [Serializable]
-    internal abstract class Filter : IVisualisable
+    internal abstract class Filter : Visualisable
     {         
         /// <summary>
         /// CONSTRUCTOR
@@ -36,57 +36,22 @@ namespace MetaboliteLevels.Settings
             this.Comment = comment;
         }
 
-        #region IVisualisable
+        #region IVisualisable             
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public bool Hidden { get; set; }   
+        public override string DefaultDisplayName => this.ParamsAsString();
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public string DisplayName
-        {
-            get
-            {
-                return IVisualisableExtensions.FormatDisplayName(this);
-            }
-        }
+        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Filter;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public string DefaultDisplayName
-        {
-            get
-            {
-                return ParamsAsString();
-            }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            return UiControls.ImageListOrder.Filter;
-        }    
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             List<Column<Filter>> result = new List<Column<Filter>>();
 
@@ -98,12 +63,7 @@ namespace MetaboliteLevels.Settings
             return result;
         }          
 
-        #endregion
-
-        /// <summary>
-        /// OVERRIDES Object.
-        /// </summary>
-        public abstract override string ToString();
+        #endregion                              
 
         /// <summary>
         /// Describes the filter.
@@ -234,41 +194,20 @@ namespace MetaboliteLevels.Settings
         /// Base class for condition
         /// </summary>
         [Serializable]
-        public abstract class ConditionBase : IVisualisable
+        public abstract class ConditionBase : Visualisable
         {
             public readonly ELogicOperator CombiningOperator;
-            public readonly bool Negate;
-            public bool Hidden { get; set; }
+            public readonly bool Negate;         
 
             protected ConditionBase(ELogicOperator op, bool negate)
             {                             
                 this.Negate = negate;
                 this.CombiningOperator = op;
-            }
+            }                                        
 
-            public string Comment { get; set; }
+            public abstract override string DefaultDisplayName { get; }
 
-            public string DefaultDisplayName
-            {
-                get
-                {
-                    return this.ToString();
-                }
-            }
-
-            public abstract override string ToString();
-
-            public string DisplayName
-            {
-                get
-                {
-                    return IVisualisableExtensions.FormatDisplayName(this);
-                }
-            }
-
-            public string OverrideDisplayName { get; set; }       
-
-            IEnumerable<Column> IVisualisable.GetColumns(Core core)
+            public override IEnumerable<Column> GetColumns(Core core)
             {
                 List<Column<ConditionBase>> columns = new List<Column<ConditionBase>>();
 
@@ -279,10 +218,7 @@ namespace MetaboliteLevels.Settings
                 return columns;
             }
 
-            UiControls.ImageListOrder IVisualisable.GetIcon()
-            {
-                return UiControls.ImageListOrder.Filter;
-            }     
+            public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Filter;
 
             public bool Preview(T target)
             {
@@ -376,15 +312,7 @@ namespace MetaboliteLevels.Settings
             }
 
             return sb.ToString();
-        }
-
-        /// <summary>
-        /// IMPLEMENTS Object
-        /// </summary>
-        public override string ToString()
-        {
-            return DisplayName;
-        }
+        }     
 
         /// <summary>
         /// Returns if the filter allows everything through.
@@ -530,10 +458,13 @@ namespace MetaboliteLevels.Settings
                 return CompareElement(Operator, ci.Group, Possibilities);
             }
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Gʀᴏᴜᴘ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities, z => z.DisplayShortName) + "}";
-            }
+                get
+                {
+                    return "Gʀᴏᴜᴘ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString( Possibilities, z => z.DisplayShortName ) + "}";
+                }
+            }  
         }
 
         [Serializable]
@@ -554,10 +485,13 @@ namespace MetaboliteLevels.Settings
                 return CompareElement(Operator, ci.Rep, Possibilities);
             }
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Rᴇᴘʟɪᴄᴀᴛᴇ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt(Possibilities) + "}";
-            }
+                get
+                {
+                    return "Rᴇᴘʟɪᴄᴀᴛᴇ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt( Possibilities ) + "}";
+                }
+            }     
         }
 
         [Serializable]
@@ -578,10 +512,13 @@ namespace MetaboliteLevels.Settings
                 return CompareElement(Operator, ci.Batch, Possibilities);
             }
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Bᴀᴛᴄʜ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities, z => z.DisplayShortName.ToString()) + "}";
-            }
+                get
+                {
+                    return "Bᴀᴛᴄʜ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString( Possibilities, z => z.DisplayShortName.ToString() ) + "}";
+                }
+            }  
         }
 
         [Serializable]
@@ -601,12 +538,14 @@ namespace MetaboliteLevels.Settings
             {
                 return CompareElement(Operator, ci.Order, Possibilities);
             }
-                                         
-            public override string ToString()
+
+            public override string DefaultDisplayName
             {
-                // Oʀᴅᴇʀ
-                return "Aᴄǫᴜɪsɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt(Possibilities) + "}";
-            }
+                get
+                {
+                    return "Aᴄǫᴜɪsɪᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt( Possibilities ) + "}";
+                }
+            }       
         }
 
         [Serializable]
@@ -627,10 +566,13 @@ namespace MetaboliteLevels.Settings
                 return CompareElement(Operator, ci.Time, Possibilities);
             }
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Tɪᴍᴇ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt(Possibilities) + "}";
-            }
+                get
+                {
+                    return "Tɪᴍᴇ " + Operator.ToUiString() + " {" + StringHelper.ArrayToStringInt( Possibilities ) + "}";
+                }
+            }     
         }
 
         [Serializable]
@@ -651,9 +593,12 @@ namespace MetaboliteLevels.Settings
                 return CompareElement(Operator, ci, Possibilities);
             }
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Oʙsᴇʀᴠᴀᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString(Possibilities) + "}";
+                get
+                {
+                    return "Oʙsᴇʀᴠᴀᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString( Possibilities ) + "}";
+                }
             }
         }
 
@@ -675,10 +620,13 @@ namespace MetaboliteLevels.Settings
                 return CompareElement( Operator, ci, Possibilities );
             }
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Oʙsᴇʀᴠᴀᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString( Possibilities ) + "}";
-            }
+                get
+                {
+                    return "Oʙsᴇʀᴠᴀᴛɪᴏɴ " + Operator.ToUiString() + " {" + StringHelper.ArrayToString( Possibilities ) + "}";
+                }
+            }            
         }
 
         [Serializable]
@@ -699,9 +647,12 @@ namespace MetaboliteLevels.Settings
                 return Filter.Test( p ) == FilterOp;
             }
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Fɪʟᴛᴇʀ {" + Filter + "} = " + FilterOp;
+                get
+                {
+                    return "Fɪʟᴛᴇʀ {" + Filter + "} = " + FilterOp;
+                }
             }
         }        
     }         
@@ -780,11 +731,14 @@ namespace MetaboliteLevels.Settings
                     default:
                         throw new InvalidOperationException("Invalid switch: " + StatisticOp);
                 }
-            }
+            }        
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return Statistic.SafeToString() + " " + StatisticOp.ToUiString() + " " + StatisticValue;
+                get
+                {
+                    return Statistic.SafeToString() + " " + StatisticOp.ToUiString() + " " + StatisticValue;
+                }
             }
         }
 
@@ -804,11 +758,13 @@ namespace MetaboliteLevels.Settings
             protected override bool Test(Peak p)
             {
                 return Filter.Test(p) == FilterOp;
-            }
-                                       
-            public override string ToString()
+            }       
+            public override string DefaultDisplayName
             {
-                return "Fɪʟᴛᴇʀ {" + Filter.ToString() + "} = " + FilterOp;
+                get
+                {
+                    return "Fɪʟᴛᴇʀ {" + Filter.ToString() + "} = " + FilterOp;
+                }
             }
         }
 
@@ -828,11 +784,14 @@ namespace MetaboliteLevels.Settings
             protected override bool Test(Peak p)
             {
                 return CompareElement(PeaksOp, p, Peaks.Select(z => z.GetTargetOrThrow()));
-            }
+            }       
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Pᴇᴀᴋ " + PeaksOp.ToUiString() + " {" + StringHelper.ArrayToString(Peaks, z => z.DisplayName) + "}";
+                get
+                {
+                    return "Pᴇᴀᴋ " + PeaksOp.ToUiString() + " {" + StringHelper.ArrayToString( Peaks, z => z.DisplayName ) + "}";
+                }
             }
         }
 
@@ -891,9 +850,12 @@ namespace MetaboliteLevels.Settings
                 return result;
             }
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Cʟᴜsᴛᴇʀ " + ClustersOp.ToUiString() + " {" + StringHelper.ArrayToString( Clusters, z => z.DisplayName ) + "}";
+                get
+                {
+                    return "Cʟᴜsᴛᴇʀ " + ClustersOp.ToUiString() + " {" + StringHelper.ArrayToString( Clusters, z => z.DisplayName ) + "}";
+                }
             }
         }
 
@@ -912,11 +874,14 @@ namespace MetaboliteLevels.Settings
             protected override bool Test( Peak p )
             {
                 return CompareSets( FlagsOp, p.CommentFlags, Flags.Select( z => z.GetTargetOrThrow() ) );
-            }
+            }            
 
-            public override string ToString()
+            public override string DefaultDisplayName
             {
-                return "Fʟᴀɢ " + FlagsOp.ToUiString() + " {" + StringHelper.ArrayToString( Flags, z => z.DisplayName ) + "}";
+                get
+                {
+                    return "Fʟᴀɢ " + FlagsOp.ToUiString() + " {" + StringHelper.ArrayToString( Flags, z => z.DisplayName ) + "}";
+                }
             }
         }
     }

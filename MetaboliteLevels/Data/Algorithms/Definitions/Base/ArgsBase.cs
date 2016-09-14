@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// and parameters for the algorithm itself (e.g. k = 3).
     /// </summary>
     [Serializable]
-    internal abstract class ArgsBase : IVisualisable
+    internal abstract class ArgsBase : Visualisable
     {
         /// <summary>
         /// The user-inputtable parameters.
@@ -30,11 +30,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 
         public IMatrixProvider SourceProvider => _sourceProvider.GetTarget();
 
-        public IntensityMatrix SourceMatrix => SourceProvider?.Provide;
+        public IntensityMatrix SourceMatrix => SourceProvider?.Provide;                     
 
-        public string DisplayName => IVisualisableExtensions.FormatDisplayName( this );
-
-        public virtual string DefaultDisplayName
+        public override string DefaultDisplayName
         {
             get
             {
@@ -44,13 +42,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
                     + " (" + SourceMatrix.ToStringSafe() + ") "
                     + AlgoParameterCollection.ParamsToHumanReadableString( Parameters, algorithm );
             }
-        }
-
-        public string OverrideDisplayName { get; set; }
-
-        public string Comment { get; set; }
-
-        public bool Hidden { get; set; }
+        }                      
 
         /// <summary>
         /// Constructor
@@ -62,19 +54,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             Parameters = parameters;
         }
 
-        public readonly string Id;
+        public readonly string Id;       
 
-        public sealed override string ToString()
-        {
-            return DisplayName;
-        }  
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;
 
-        public UiControls.ImageListOrder GetIcon()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Column> GetColumns( Core core )
+        public override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<ArgsBase>> columns = new List<Column<ArgsBase>>();
 
@@ -85,18 +69,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             columns.Add( "Algorithm\\Name", EColumn.None, z => z.AlgoName );       
             columns.Add( "Default name", EColumn.None, z => z.DefaultDisplayName );
 
-            List<Column> allResults = new List<Column>();
-
-            allResults.AddRange( columns );
-            allResults.AddRange( GetExtraColumns( core ) );
-
-            return allResults;
-        }
-
-        protected virtual IEnumerable<Column> GetExtraColumns( Core core )
-        {
-            return new Column[0];
-        }
+            return columns;
+        }          
 
         /// <summary>
         /// Returns the display name of algorithm, or the ID if not found

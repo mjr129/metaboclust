@@ -20,7 +20,7 @@ namespace MetaboliteLevels.Data.Visualisables
 {
     [Serializable]
     [DeferSerialisation]
-    class Assignment : IAssociational
+    internal class Assignment : Associational
     {
         /// <summary>
         /// Peak
@@ -36,17 +36,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// Assignment score (usually the result of the distance metric)
         /// May be double.NaN if not applicable
         /// </summary>
-        public double Score { get; private set; }
-
-        /// <summary>
-        /// Comments
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// Comments
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
+        public double Score { get; private set; }                  
 
         /// <summary>
         /// Statistics (from Silhouette Width)
@@ -58,10 +48,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public Dictionary<string, double> AssignmentStatistics = new Dictionary<string, double>();
 
-        /// <summary>
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool INameable.Hidden { get { return false; } set { } }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
         /// <summary>
         /// Ctor.
@@ -88,22 +75,7 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             // Don't null VECTOR or CLUSTER or we won't be able to actually remove them from the lists
             Score = 1111111111;
-        }
-
-        /// <summary>
-        /// For debugging.
-        /// </summary>
-        public override string ToString()
-        {
-            if (double.IsNaN(Score))
-            {
-                return Peak.DisplayName + " ∈ " + Cluster.DisplayName;
-            }
-            else
-            {
-                return Peak.DisplayName + " ∈ " + Cluster.DisplayName + " (d=" + Score + ")";
-            }
-        }
+        }                     
 
         internal static void AddHeaders(ContentsRequest request)
         {
@@ -122,7 +94,7 @@ namespace MetaboliteLevels.Data.Visualisables
                    };
         }
 
-        public string DefaultDisplayName
+        public override string DefaultDisplayName
         {
             get
             {
@@ -135,27 +107,13 @@ namespace MetaboliteLevels.Data.Visualisables
                     return this.Cluster.DisplayName + "···" + this.Peak.DisplayName + "···" + this.Vector.Group.DisplayShortName;
                 }
             }
-        }
+        }                
 
-        public string DisplayName
-        {
-            get
-            {
-                return IVisualisableExtensions.FormatDisplayName(this);
-            }
-        }
+        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Assignment;
 
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            return UiControls.ImageListOrder.Assignment;
-        }
+        public override EVisualClass AssociationalClass=> EVisualClass.Assignment;
 
-        EVisualClass IAssociational.VisualClass
-        {
-            get { return EVisualClass.Assignment; }
-        }
-
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             var cols = new List<Column<Assignment>>();
 
@@ -179,7 +137,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return cols;
         }
 
-        void IAssociational.RequestContents(ContentsRequest request)
+        public override void FindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -203,7 +161,7 @@ namespace MetaboliteLevels.Data.Visualisables
             }
         }
 
-        internal StylisedCluster CreateStylisedCluster(Core core, IVisualisable toHighlight)
+        internal StylisedCluster CreateStylisedCluster(Core core, Visualisable toHighlight)
         {        
             Cluster fakeCluster = new Cluster(DisplayName, null);
             fakeCluster.Assignments.Add(this);

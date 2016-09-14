@@ -23,7 +23,7 @@ namespace MetaboliteLevels.Data.Session.General
 
     [Name( "Alias" )]
     [Serializable]
-    internal class ProviderAlias : IMatrixProvider, IVisualisable
+    internal class ProviderAlias : Visualisable, IMatrixProvider
     {
         private readonly Core _core;
         private readonly EProviderAlias _source;
@@ -71,17 +71,13 @@ namespace MetaboliteLevels.Data.Session.General
         [CanBeNull]
         public IntensityMatrix Provide => Target?.Provide;
 
-        public string DisplayName => "*" + OverrideDisplayName + " - " + DefaultDisplayName;
-        public string DefaultDisplayName => Target?.ToString() ?? "Unavailable".ToBold();
-        public string OverrideDisplayName { get; set; }
-        public string Comment { get; set; }
-        public bool Hidden { get; set; }
+        public override string DisplayName => "*" + OverrideDisplayName + " - " + DefaultDisplayName;
 
-        public override string ToString() => DisplayName;
+        public override string DefaultDisplayName => Target?.ToString() ?? "Unavailable".ToBold();
 
-        public UiControls.ImageListOrder GetIcon() => UiControls.ImageListOrder.Matrix;
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Matrix;
 
-        public IEnumerable<Column> GetColumns( Core core )
+        public override IEnumerable<Column> GetColumns( Core core )
         {
             List<Column<ProviderAlias>> result = new List<Column<ProviderAlias>>();
 

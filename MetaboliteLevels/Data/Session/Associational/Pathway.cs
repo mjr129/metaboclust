@@ -23,7 +23,7 @@ namespace MetaboliteLevels.Data.Visualisables
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Pathway : IAssociational
+    class Pathway : Associational
     {
         /// <summary>
         /// Pathway name
@@ -33,17 +33,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Unique ID
         /// </summary>
-        public readonly string Id;
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string Comment { get; set; }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public string OverrideDisplayName { get; set; }
+        public readonly string Id;                   
 
         /// <summary>
         /// Source libraries.
@@ -79,30 +69,18 @@ namespace MetaboliteLevels.Data.Visualisables
             this._defaultName = !string.IsNullOrWhiteSpace(name) ? name : "Compounds not assigned to any pathway";
         }
 
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// Unused (can't be disabled)
-        /// </summary>
-        bool INameable.Hidden { get { return false; } set { } }
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string DefaultDisplayName
+        public override string DefaultDisplayName
         {
             get
             {
                 return _defaultName;
             }
-        }
-
-        /// <summary>
-        /// OVERRIDES Object
-        /// </summary>
-        public override string ToString()
-        {
-            return DefaultDisplayName;
-        }
+        }    
 
         /// <summary>
         /// Creates a StylisedCluster for plotting from this pathway.
@@ -110,7 +88,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <param name="core">Core</param>
         /// <param name="highlightContents">What to highlight in the plot</param>
         /// <returns>A StylisedCluster</returns>
-        internal StylisedCluster CreateStylisedCluster(Core core, IntensityMatrix source, IAssociational highlightContents )
+        internal StylisedCluster CreateStylisedCluster(Core core, IntensityMatrix source, Associational highlightContents )
         {
             var colours = new Dictionary<Peak, LineInfo>();
 
@@ -128,7 +106,7 @@ namespace MetaboliteLevels.Data.Visualisables
 
             if (highlightContents != null)
             {
-                switch (highlightContents.VisualClass)
+                switch (highlightContents.AssociationalClass)
                 {
                     case EVisualClass.Compound:
                         Compound highlightCompound = (Compound)highlightContents;
@@ -288,20 +266,12 @@ namespace MetaboliteLevels.Data.Visualisables
             r.CaptionFormat = (caption1 + caption2 + caption3);
             r.WhatIsHighlighted = highlightContents;
             return r;
-        }
+        }          
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public string DisplayName
-        {
-            get { return IVisualisableExtensions.FormatDisplayName(this); }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        EVisualClass IAssociational.VisualClass
+        public override EVisualClass AssociationalClass
         {
             get { return EVisualClass.Pathway; }
         }
@@ -309,7 +279,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        void IAssociational.RequestContents(ContentsRequest request)
+        public override void FindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -428,7 +398,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        IEnumerable<Column> IVisualisable.GetColumns(Core core)
+        public override IEnumerable<Column> GetColumns(Core core)
         {
             var result = new List<Column<Pathway>>();
 
@@ -450,9 +420,6 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        UiControls.ImageListOrder IVisualisable.GetIcon()
-        {
-            return UiControls.ImageListOrder.Pathway;
-        }
+        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Pathway;
     }
 }
