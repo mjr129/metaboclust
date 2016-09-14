@@ -80,7 +80,7 @@ namespace MetaboliteLevels.Controls
                 _selection = new HashSet<T>(newSelected);
                 _isSelectionValid = true;
 
-                UpdateTextFromSelection();
+                UpdateText();
             }
         }
 
@@ -100,7 +100,7 @@ namespace MetaboliteLevels.Controls
             // Nicely format selection (can only do if valuid)  
             if (_isSelectionValid)
             {   
-                UpdateTextFromSelection();
+                UpdateText();
             }
         }
 
@@ -163,14 +163,16 @@ namespace MetaboliteLevels.Controls
                     _isSelectionValid = true;
                 }                                   
 
-                UpdateTextFromSelection();
+                UpdateText();
             }
         }
 
         /// <summary>
         /// Updates the textbox text to reflect the current selection.
+        /// 
+        /// Can be called externally, for instance if item names have changed.
         /// </summary>
-        private void UpdateTextFromSelection()
+        public void UpdateText()
         {
             if (_args.IntegerBehaviour)
             {
@@ -331,6 +333,6 @@ namespace MetaboliteLevels.Controls
                 TextBox.Visible = value;
                 Button.Visible = value;
             }
-        }
+        }             
     }
 }

@@ -128,9 +128,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Show a warning in 32-bit mode
             _lbl32BitWarning.Visible = IntPtr.Size != 8;
-
-
-
+                 
             if (Debugger.IsAttached || (System.Reflection.Assembly.GetExecutingAssembly().GetCustomAttribute<DebuggableAttribute>()?.IsJITTrackingEnabled ?? false))
             {
                 _lbl32BitWarning.Text = "A debugger is attached OR this is a debug build.\r\nPerformance will be negatively impacted.";
@@ -406,6 +404,11 @@ namespace MetaboliteLevels.Forms.Startup
             }
 
             UpdateHelpButton();
+
+            if (_wizard.Page == 4)
+            {
+                UpdateCacheOfTypes();
+            }
         }
 
         private void UpdateHelpButton()
@@ -701,8 +704,8 @@ namespace MetaboliteLevels.Forms.Startup
                 fileNames.Session                    = null;
                 fileNames.AltData                    = _chkAltVals.Checked ? _txtAltVals.Text : null;
                 fileNames.ConditionInfo              = CondInfoFileName;
-                fileNames.ConditionsOfInterestString = new List<string>( _cbExp.GetSelectedItemsOrThrow() );
-                fileNames.ControlConditionsString    = new List<string>( _cbControl.GetSelectedItemsOrThrow() );
+                fileNames.ConditionsOfInterestString = _cbExp.GetSelectedItemsOrThrow().ToList();
+                fileNames.ControlConditionsString    = _cbControl.GetSelectedItemsOrThrow().ToList();
                 fileNames.StandardStatisticalMethods = EStatisticalMethods.None;
                 fileNames.StandardStatisticalMethods = GetCheck( _chkStatT, fileNames.StandardStatisticalMethods, EStatisticalMethods.TTest );
                 fileNames.StandardStatisticalMethods = GetCheck( _chkStatP, fileNames.StandardStatisticalMethods, EStatisticalMethods.Pearson );
@@ -1032,12 +1035,7 @@ namespace MetaboliteLevels.Forms.Startup
         }
 
         public void UpdateCacheOfTypes()
-        {
-            if (!Visible)
-            {
-                return;
-            }
-
+        {     
             string conditionFile = _chkCondInfo.Checked ? _txtCondInfo.Text : null;
             string observationFile = _txtDataSetObs.Text;
             bool useObsFile = string.IsNullOrWhiteSpace( conditionFile) || !File.Exists( conditionFile );
@@ -1090,6 +1088,9 @@ namespace MetaboliteLevels.Forms.Startup
                    // NA
                 }                                                        
             }
+
+            _cbExp.UpdateText();
+            _cbControl.UpdateText();
         }
 
         private ConditionBox<string> CreateExpConditionBox( CtlTextBox textBox, Button button )
@@ -1135,8 +1136,7 @@ namespace MetaboliteLevels.Forms.Startup
             }
 
             public IEnumerator<string> GetEnumerator()
-            {
-                _owner.UpdateCacheOfTypes();
+            {                               
                 return _owner._experimentalGroupCache.Select( z => z.Id ).GetEnumerator();
             }
 
