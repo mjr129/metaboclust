@@ -25,22 +25,26 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Peak
         /// </summary>
+        [XColumn( "Vector\\",EColumn.Decompose)]
         public Vector Vector { get; private set; }
 
         /// <summary>
         /// Cluster
         /// </summary>
+        [XColumn]
         public Cluster Cluster { get; private set; }
 
         /// <summary>
         /// Assignment score (usually the result of the distance metric)
         /// May be double.NaN if not applicable
         /// </summary>
-        public double Score { get; private set; }                  
+        [XColumn]
+        public double Score { get; private set; }
 
         /// <summary>
         /// Statistics (from Silhouette Width)
         /// </summary>
+        [XColumn("Next nearest", EColumn.None, "Calculated during silhouette width calculation")]
         public Cluster NextNearestCluster = null;
 
         /// <summary>
@@ -113,26 +117,15 @@ namespace MetaboliteLevels.Data.Visualisables
 
         public override EVisualClass AssociationalClass=> EVisualClass.Assignment;
 
-        public override IEnumerable<Column> GetColumns(Core core)
+        public override IEnumerable<Column> GetXColumns(Core core)
         {
-            var cols = new List<Column<Assignment>>();
-
-            cols.Add("Assignment", EColumn.Visible, z => z.DisplayName);
-            cols.Add("Group", EColumn.Visible, z => z.Vector.Group);
-            cols.Add("Comment", EColumn.None, z => z.Comment);
-            cols.Add("Vector", EColumn.None, z => z.Vector.Values);
-
-            cols.AddSubObject(core, "Cluster", z => z.Cluster);
-            cols.AddSubObject(core, "Peak", z => z.Peak);
+            var cols = new List<Column<Assignment>>();      
 
             foreach (var kvp in this.AssignmentStatistics.Keys)
             {
                 var closure = kvp;
                 cols.Add("Assignment statistic\\" + closure, EColumn.Statistic, z => z.AssignmentStatistics.GetOrNan(closure));
-            }
-
-            cols.Add("Assignment statistic\\Score", EColumn.Visible, z => z.Score);
-            cols.Add("Assignment statistic\\Next nearest cluster", EColumn.None, z => z.NextNearestCluster);
+            }                                                                                               
 
             return cols;
         }

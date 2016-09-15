@@ -17,13 +17,16 @@ using MetaboliteLevels.Types.UI;
 
 namespace MetaboliteLevels.Viewers.Lists
 {
+    [Flags]
     public enum EColumn
     {
         None,
-        Visible,
-        Meta,
-        Statistic,
-        Advanced,
+        Visible = 1,
+        Meta = 2,
+        Statistic = 4,
+        Advanced = 8,
+        Decompose = 16,
+        Content = 32
     }
 
     enum EListDisplayMode
@@ -63,15 +66,25 @@ namespace MetaboliteLevels.Viewers.Lists
 
     abstract class Column : Visualisable
     {
-        public readonly string Id;                     
+        [XColumn(EColumn.Visible)]
+        public readonly string Id;        
+                     
         public readonly EColumn Special;
 
         public ColumnHeader Header;                    
         public override EPrevent SupportsHide =>  EPrevent.Hide | EPrevent.Comment;
+
+        [XColumn( EColumn.Visible )]
         public bool Visible;
+
+        [XColumn( EColumn.Visible )]
         public int Width = 128;
         public bool DisableMenu;
+
+        [XColumn( EColumn.None )]
         public int DisplayIndex;
+
+        [XColumn( EColumn.None )]
         public EListDisplayMode DisplayMode = EListDisplayMode.Smart;                 
 
         /// <summary>
@@ -267,31 +280,9 @@ namespace MetaboliteLevels.Viewers.Lists
 
         public abstract Color GetColour( object line );
 
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;        
 
-        public override IEnumerable<Column> GetColumns( Core core )
-        {
-            List<Column<Column>> result = new List<Column<Column>>();
-
-            result.Add( "ID", EColumn.Visible, z => z.Id );
-            result.Add( "Preferred display order", z => z.DisplayIndex );
-            result.Add( "Preferred name", z => z.OverrideDisplayName );
-            result.Add( "Preferred width", z => z.Width );
-            result.Add( "Description", z => z.Comment );
-            result.Add( "Visible", EColumn.Visible, z => z.Visible );
-
-            result.Add( "Disable menu", EColumn.Advanced, z => z.DisableMenu );     
-            result.Add( "Display mode", EColumn.Advanced, z => z.DisplayMode );
-            result.Add( "Associated header", EColumn.Advanced, z => z.Header?.Name );
-            result.Add( "Has colour support", EColumn.Advanced, z => z.HasColourSupport );
-            result.Add( "Is always empty", EColumn.Advanced, z => z.IsAlwaysEmpty );
-            result.Add( "Special", EColumn.Advanced, z => z.Special );
-            result.Add( "Displayed name", EColumn.Advanced, z => z.DisplayName );
-            result.Add( "Hidden", EColumn.Advanced, z => ((Visualisable)z).Hidden );
-
-            return result;
-        }
-
+        [XColumn( EColumn.None )]
         public abstract bool HasColourSupport { get; }
     }
 
@@ -367,7 +358,7 @@ namespace MetaboliteLevels.Viewers.Lists
     {
         public static IEnumerable<Column> GetColumns(Core core, object visualisable)
         {
-            return AddProperties( (visualisable as Visualisable)?.GetColumns( core ), visualisable.GetType() );
+            return (visualisable as Visualisable)?.GetColumns( core );
         }
 
         public static IEnumerable<Column> GetColumns<T>(Core core)
@@ -380,32 +371,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
 
             return GetColumns( core, (Visualisable)(T)(FormatterServices.GetUninitializedObject( typeof( T ) )));
-        }
-
-        private static IEnumerable<Column> AddProperties( IEnumerable<Column> def, Type t )
-        {
-            var bf = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-            var fields = t.GetProperties( bf );
-
-            List<Column<Visualisable>> columns = new List<Column<Visualisable>>();
-
-            foreach (PropertyInfo prop in t.GetProperties( bf ))
-            {
-                columns.Add( "IData\\" + prop.Name, EColumn.Advanced, prop.GetValue);
-            }
-
-            foreach (FieldInfo field in t.GetFields( bf ))
-            {
-                columns.Add( "IData\\" + field.Name, EColumn.Advanced, field.GetValue );
-            }
-
-            if (def == null)
-            {
-                return columns;
-            }
-
-            return def.Concat( columns );
-        }
+        }   
     }     
 
     static class ColumnExtensions

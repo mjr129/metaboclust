@@ -19,10 +19,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// </summary>
     [Serializable]
     internal class ArgsStatistic : ArgsBase
-    {                                                                                                              
+    {
+        [XColumn]
         public readonly EAlgoInputBSource VectorBSource;            // Where the second input vector comes from
+        [XColumn]
         public readonly ObsFilter VectorAConstraint;                // Filter on the first input vector
+        [XColumn]
         public readonly ObsFilter VectorBConstraint;                // Filter on the second input vector (only used if [VectorBSource] is Peak)
+        [XColumn]
         public readonly Peak VectorBPeak;                           // Which peak the second input vector comes from (only used if [VectorBSource] is AltPeak)
 
         public ArgsStatistic( string id, IMatrixProvider source, ObsFilter atypes, EAlgoInputBSource bsrc, ObsFilter btypes, Peak compareTo, object[] parameters)
@@ -76,21 +80,6 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 
                 return sb.ToString();
             }
-        }
-
-        public sealed override IEnumerable<Column> GetColumns( Core core )
-        {
-            List<Column<ArgsStatistic>> columns = new List<Column<ArgsStatistic>>();
-
-            columns.AddSubObject( core, "First vector constraint", z => z.VectorAConstraint );
-            columns.AddSubObject( core, "Second vector constraint", z => z.VectorBConstraint );
-            columns.AddSubObject( core, "Second vector peak", z => z.VectorBPeak );
-            columns.Add( "Second vector source", z => z.VectorBSource );
-
-            List<Column> result = new List<Column>();
-            result.AddRange( base.GetColumns(core) );
-            result.AddRange( columns );
-            return result;
-        }
+        }              
     }
 }

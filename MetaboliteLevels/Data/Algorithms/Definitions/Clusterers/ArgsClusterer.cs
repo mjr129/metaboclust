@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Algorithms.Statistics.Clusterers;
+using MetaboliteLevels.Data.Visualisables;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 {
@@ -23,27 +24,32 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// <summary>
         /// Defines what peaks go into the "insignificants" cluster.
         /// </summary>
+        [XColumn]
         public readonly PeakFilter PeakFilter;
 
         /// <summary>
         /// Defines what creates the cluster vectors.
         /// </summary>
+        [XColumn]
         public readonly ObsFilter ObsFilter;
 
         /// <summary>
         /// Defines the distance metric used.
         /// (Not used by all algorithms!)
         /// </summary>
-        public readonly ConfigurationMetric Distance;            
+        [XColumn]
+        public readonly ConfigurationMetric Distance;
 
         /// <summary>
         /// When set peaks are split into one vecror per group.
         /// </summary>
+        [XColumn]
         public readonly bool SplitGroups;
 
         /// <summary>
         /// What statistics to calculate when the algorithm is complete.
         /// </summary>
+        [XColumn]
         public readonly EClustererStatistics Statistics;
 
         /// <summary>
@@ -57,25 +63,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
             this.ObsFilter = atypes;
             this.SplitGroups = splitGroups;
             this.Statistics = suppressMetric;
-        }
-
-        public override IEnumerable<Column> GetColumns( Core core )
-        {
-            List<Column<ArgsClusterer>> columns = new List<Column<ArgsClusterer>>();
-            
-            columns.AddSubObject( core, "Distance", z => z.Distance );
-            columns.AddSubObject( core, "Observation filter", z => z.ObsFilter );
-            columns.AddSubObject( core, "Peak pilter", z => z.PeakFilter );
-            columns.Add( "Parameters", z => z.Parameters );
-            columns.Add( "Source", z => z.SourceProvider );
-            columns.Add( "Split groups", z => z.SplitGroups );
-            columns.Add( "Statistics", z => z.Statistics );
-
-            List<Column> result = new List<Column>();
-            result.AddRange( columns );
-            result.AddRange( base.GetColumns( core ) );
-            return result;
-        }
+        }            
 
         public override string DefaultDisplayName
         {

@@ -26,17 +26,20 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Charge
         /// </summary>
+        [XColumn]
         public int Charge;
 
         /// <summary>
         /// m/z
         /// (m/z not mass - i.e. for both 1H+ and 2H+ this is 1.007)
         /// </summary>
-        public decimal Mz;    
+        [XColumn]
+        public decimal Mz;
 
         /// <summary>
         /// Annotations
         /// </summary>
+        [XColumn]
         public List<Annotation> Annotations = new List<Annotation>();
 
         /// <summary>
@@ -140,15 +143,9 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override IEnumerable<Column> GetColumns(Session.Core core)
+        public override IEnumerable<Column> GetXColumns(Session.Core core)
         {                                                
-            List<Column<Adduct>> result = new List<Column<Adduct>>();
-
-            result.Add("Name", EColumn.Visible, λ => λ.DefaultDisplayName);
-            result.Add("Comment", EColumn.None, λ => λ.Comment);
-            result.Add("Charge", EColumn.None, λ => λ.Charge);
-            result.Add("Mass", EColumn.None, λ => λ.Mz);
-            result.Add("Annotations", EColumn.None, λ => λ.Annotations);
+            List<Column<Adduct>> result = new List<Column<Adduct>>();       
 
             core._annotationsMeta.ReadAllColumns(z => z.MetaInfo, result);
 

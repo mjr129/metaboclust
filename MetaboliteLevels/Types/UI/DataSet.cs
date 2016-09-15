@@ -763,7 +763,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             name = name.ToUpper();
 
-            return group.DisplayName.ToUpper() == name || group.DisplayShortName.ToUpper() == name || group.StringId == name;
+            return group.DisplayName.ToUpper() == name || group.DisplayShortName.ToUpper() == name || group.Id == name;
         }
 
         /// <summary>

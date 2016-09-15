@@ -35,10 +35,12 @@ namespace MetaboliteLevels.Data.DataInfo
     [Serializable]
     [DeferSerialisation]
     class ObservationInfo : Visualisable
-    {
-        public const string ID_COLNAME_GROUP = "Group";
+    {                                                  
+        [XColumn]
         public readonly Acquisition Acquisition;
+        [XColumn]
         public readonly GroupInfo Group;
+        [XColumn]
         public readonly int Time;
 
         public ObservationInfo( Acquisition acquisition, GroupInfo group, int time)
@@ -48,9 +50,13 @@ namespace MetaboliteLevels.Data.DataInfo
             this.Time = time;
         }
 
+        [XColumn]
         public string Id => Acquisition?.Id;
+        [XColumn]
         public BatchInfo Batch => Acquisition?.Batch;
+        [XColumn]
         public int Order => Acquisition?.Order ?? 0;
+        [XColumn]
         public int Rep => Acquisition?.Replicate ?? 0;          
 
         /// <summary>
@@ -114,23 +120,6 @@ namespace MetaboliteLevels.Data.DataInfo
             return a.Rep.CompareTo(b.Rep);
         }
 
-        public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.Point;
-
-        public override IEnumerable<Column> GetColumns(Core core)
-        {
-            List<Column<ObservationInfo>> columns = new List<Column<ObservationInfo>>();
-
-            columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add( "ID", EColumn.None, z => z.Id );
-            columns.Add(ID_COLNAME_GROUP, EColumn.None, z => z.Group, z => z.Group.Colour);
-            columns.Add("Replicate", EColumn.None, z => z.Rep);
-            columns.Add("Time", EColumn.None, z => z.Time);
-            columns.Add("Acquisition", EColumn.None, z => z.Acquisition);
-            columns.Add("Batch", EColumn.None, z => z.Batch, z => z.Batch.Colour);
-            columns.Add("Comment", EColumn.None, z => z.Comment);
-            columns.Add( "Hidden", EColumn.None, z => z.Hidden );
-
-            return columns;
-        }     
+        public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.Point;       
     }
 }

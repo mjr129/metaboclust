@@ -41,33 +41,20 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
+        [XColumn]
         public override string DefaultDisplayName => this.ParamsAsString();
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Filter;
+        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Filter;    
 
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>
-        public override IEnumerable<Column> GetColumns(Core core)
-        {
-            List<Column<Filter>> result = new List<Column<Filter>>();
-
-            result.Add("Name", EColumn.Visible, z => z.DisplayName);
-            result.Add( "Hidden", EColumn.None, z => z.Hidden );
-            result.Add("Comments", EColumn.None, z => z.Comment);
-            result.Add("Parameters", EColumn.None, z => z.ParamsAsString());
-
-            return result;
-        }          
-
-        #endregion                              
+        #endregion
 
         /// <summary>
         /// Describes the filter.
         /// </summary>          
+        [XColumn("Parameters")]
         public abstract string ParamsAsString();
 
         public enum EStatOperator
@@ -205,18 +192,7 @@ namespace MetaboliteLevels.Settings
                 this.CombiningOperator = op;
             }                                        
 
-            public abstract override string DefaultDisplayName { get; }
-
-            public override IEnumerable<Column> GetColumns(Core core)
-            {
-                List<Column<ConditionBase>> columns = new List<Column<ConditionBase>>();
-
-                columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-                columns.Add("Comments", EColumn.None, z => z.Comment);
-                columns.Add( "Hidden", EColumn.None, z => z.Hidden );
-
-                return columns;
-            }
+            public abstract override string DefaultDisplayName { get; }              
 
             public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Filter;
 

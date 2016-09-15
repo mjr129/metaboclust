@@ -71,13 +71,9 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override IEnumerable<Column> GetColumns(Core core)
+        public override IEnumerable<Column> GetXColumns(Core core)
         {
             List<Column<ClusterEvaluationParameterResult>> res = new List<Column<ClusterEvaluationParameterResult>>();
-
-            res.Add("Value", EColumn.Visible, z => z.DisplayName);
-
-            // 
 
             for (int n = 0; n < Repetitions.Count; n++)
             {
@@ -91,8 +87,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
                     string closure2 = k;
                     res.Add("Rep " + humanIndex + "\\" + closure2, EColumn.None, z => z.Repetitions[closure].ClustererStatistics.GetOrNan(closure2));
                 }
-            }
-
+            } 
 
             res.Add("Rep AVG\\Number of clusters", EColumn.None, z => z.Repetitions.Average(zz => (zz.Clusters != null) ? zz.Clusters.Length : 0));
 

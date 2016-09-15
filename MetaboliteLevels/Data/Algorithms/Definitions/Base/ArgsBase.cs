@@ -24,12 +24,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         /// <summary>
         /// The user-inputtable parameters.
         /// </summary>
+        [XColumn( "Parameters", EColumn.Visible | EColumn.Content )]
         public readonly object[] Parameters;
 
         private WeakReference<IMatrixProvider> _sourceProvider;
 
+        [XColumn( "Source", EColumn.Visible )]
         public IMatrixProvider SourceProvider => _sourceProvider.GetTarget();
 
+        [XColumn( "Source matrix", EColumn.None )]
         public IntensityMatrix SourceMatrix => SourceProvider?.Provide;                     
 
         public override string DefaultDisplayName
@@ -56,25 +59,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
 
         public readonly string Id;       
 
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;
-
-        public override IEnumerable<Column> GetColumns( Core core )
-        {
-            List<Column<ArgsBase>> columns = new List<Column<ArgsBase>>();
-
-            columns.Add( "Name", EColumn.None, z => z.DisplayName );
-            columns.Add( "Comments", EColumn.None, z => z.Comment );
-            columns.Add( "Parameters", EColumn.None, z => z.Parameters );
-            columns.Add( "Hidden", EColumn.Advanced, z => z.Hidden );
-            columns.Add( "Algorithm\\Name", EColumn.None, z => z.AlgoName );       
-            columns.Add( "Default name", EColumn.None, z => z.DefaultDisplayName );
-
-            return columns;
-        }          
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;   
 
         /// <summary>
         /// Returns the display name of algorithm, or the ID if not found
-        /// </summary>          
+        /// </summary>  
+        [XColumn("Algorithm", EColumn.Visible)]        
         public string AlgoName => GetAlgorithmOrNull()?.DisplayName ?? Id ;
 
         /// <summary>

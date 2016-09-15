@@ -259,7 +259,7 @@ namespace MetaboliteLevels.Data.Session
 
                 foreach (var t in core._groups)
                 {
-                    _groupsById.Add( t.StringId, t );
+                    _groupsById.Add( t.Id, t );
                 }
 
                 _conditionsOfInterest = new List<GroupInfo>( core.FileNames.ConditionsOfInterestString.Select( z => _groupsById[z] ) ).AsReadOnly();

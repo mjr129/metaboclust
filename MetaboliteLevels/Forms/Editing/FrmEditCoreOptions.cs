@@ -213,7 +213,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return new _btnEditDefaults_Click__Kvp( arg );
             }
 
-            public override IEnumerable<Column> GetColumns( Core core )
+            public override IEnumerable<Column> GetXColumns( Core core )
             {
                 List<Column<_btnEditDefaults_Click__Kvp>> result = new List<Column<_btnEditDefaults_Click__Kvp>>();
 
@@ -228,7 +228,9 @@ namespace MetaboliteLevels.Forms.Editing
 
         private class _btnEditColumns_Click__ColumnDisplay : Visualisable
         {
-          public string Key;
+            [XColumn]
+            public string Key;
+            [XColumn]
           public string Id;
           public CoreOptions.ColumnDetails _col;
 
@@ -260,16 +262,14 @@ namespace MetaboliteLevels.Forms.Editing
                 return new _btnEditColumns_Click__ColumnDisplay( arg );
             }
 
-            public override IEnumerable<Column> GetColumns( Core core )
+            public override IEnumerable<Column> GetXColumns( Core core )
             {
                 List<Column<_btnEditColumns_Click__ColumnDisplay>> list = new List<Column<_btnEditColumns_Click__ColumnDisplay>>();
 
-                list.Add( "ID", EColumn.Visible, z => z.Id );
                 list.Add( "Display index", EColumn.Visible, z => z._col.DisplayIndex );
                 list.Add( "Display name", EColumn.Visible, z => z._col.DisplayName );
                 list.Add( "Visible", EColumn.Visible, z => z._col.Visible );
                 list.Add( "Width", EColumn.Visible, z => z._col.Width );
-                list.Add( "Key", EColumn.Visible, z => z.Key );
 
                 return list;
             }

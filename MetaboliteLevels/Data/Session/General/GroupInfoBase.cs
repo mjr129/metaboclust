@@ -25,24 +25,28 @@ namespace MetaboliteLevels.Data.DataInfo
     {       
         private string _id;
         public readonly int Order;          // This program's internal index (Core.Groups[this.Order] / Core.Batches[this.Order]). This is arbitrary but MUST NOT BE CHANGED.
+        [XColumn]
         public readonly Range Range;        // Range covered (days / acquisition-order)
         public Color ColourLight;           // Display colour (light)
         public Color Colour;                // Display colour       
 
+        [XColumn]
         public string DisplayShortName => string.IsNullOrEmpty(OverrideShortName) ? DefaultShortName : OverrideShortName;
 
-        public string DefaultShortName => StringId;
+        public string DefaultShortName => Id;
 
         public abstract override string DefaultDisplayName { get; }
 
         public string OverrideShortName { get; set; }
 
-        public override EPrevent SupportsHide => EPrevent.Hide;          
+        public override EPrevent SupportsHide => EPrevent.Hide;
 
+        [XColumn]
         public EHatchStyle HatchStyle { get; set; } = EHatchStyle.Solid;
 
         public EGraphIcon GraphIcon { get; set; }
 
+        [XColumn]
         public int DisplayPriority;
 
         protected GroupInfoBase( string groupId, int order, Range xRange, string name, string shortName, int displayPriority )
@@ -121,31 +125,21 @@ namespace MetaboliteLevels.Data.DataInfo
             return a.DisplayPriority;
         }
 
-        public override IEnumerable<Column> GetColumns(Core core)
+        public override IEnumerable<Column> GetXColumns(Core core)
         {
             List<Column<GroupInfoBase>> columns = new List<Column<GroupInfoBase>>();
-
-            columns.Add("ID", z => z.StringId);
-            columns.Add("Range", EColumn.Visible, z => z.Range.ToString());
-            columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add("Short name", z => z.DisplayShortName);
-            columns.Add("Default name", z => z.DefaultDisplayName);
-            columns.Add("Default short name", z => z.DefaultShortName);
-            columns.Add("User provided name", z => z.OverrideDisplayName);
-            columns.Add("User provided short name", z => z.OverrideShortName);
+                                                                               
             columns.Add("Colour", z => ColourHelper.ColourToName(z.Colour), z => z.Colour);
             columns.Add("Light colour", z => ColourHelper.ColourToName(z.ColourLight), z => z.ColourLight);
-            columns.Add("Comment", z => z.Comment);
-            columns.Add("Display priority", z => z.DisplayPriority);
-            columns.Add( "Graph icon", z => z.GraphIcon, z=> z.Colour );
-            columns.Add( "Graph brush", z => z.HatchStyle );
+            columns.Add( "Graph icon", z => z.GraphIcon, z=> z.Colour );  
 
             return columns;
         }
 
-        public override  UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Group;   
+        public override  UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Group;
 
-        public string StringId
+        [XColumn]
+        public string Id
         {
             get
             {

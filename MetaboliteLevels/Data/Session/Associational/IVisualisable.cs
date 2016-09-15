@@ -7,6 +7,7 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Viewers.Lists;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Visualisables
 {
@@ -19,6 +20,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Displayed name of this item.
         /// </summary>
+        [XColumn("Name", EColumn.Visible)]
         public virtual string DisplayName
         {
             get
@@ -38,22 +40,23 @@ namespace MetaboliteLevels.Data.Visualisables
 
         /// <summary>
         /// Assigned name of this item.
-        /// </summary>
+        /// </summary>                               
         public abstract string DefaultDisplayName { get; }
 
         /// <summary>
         /// User overriden name of this item
-        /// </summary>
+        /// </summary>                               
         public virtual string OverrideDisplayName { get; set; }
 
         /// <summary>
         /// Comments applied to this item.
         /// </summary>
+        [XColumn]
         public virtual string Comment { get; set; }
 
         /// <summary>
         /// Is this object hidden from view
-        /// </summary>
+        /// </summary>   
         public virtual bool Hidden { get; set; }
 
         /// <summary>
@@ -65,13 +68,110 @@ namespace MetaboliteLevels.Data.Visualisables
         /// STATIC
         /// Gets columns
         /// </summary>
-        public abstract IEnumerable<Column> GetColumns( Core core );
-                                                 
+        public virtual IEnumerable<Column> GetXColumns( Core core )
+        {
+            return null;
+        }
+
         public virtual EPrevent SupportsHide => EPrevent.None;
+
+        public IEnumerable<Column> GetColumns( Core core )
+        {
+            List<Column> results = new List<Column>();
+
+            var extra = GetXColumns( core );
+
+            if (extra != null)
+            {
+                results.AddRange(extra);
+            }
+
+            foreach (MemberInfo x in this.GetType().GetMembers( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ))
+            {
+                XColumnAttribute attr = x.GetCustomAttribute<XColumnAttribute>();
+
+                string name;  
+
+                if (attr != null)
+                {
+                    name = attr.Name ?? StringHelper.UndoCamelCase( x.Name );
+                }
+                else
+                {
+                    name = null;
+                }
+
+                string pname = "<DATA>\\" + x.Name;
+                string pdesc = "Internal field: " + x.DeclaringType.Name + "." + x.Name;
+
+                if (x is MethodInfo)
+                {
+                    if (attr != null)
+                    {
+                        MethodInfo method = (MethodInfo)x;
+                        results.Add( new Column<Visualisable>( name, attr.Special, attr.Description, z => method.Invoke( z, null ), null ) );
+                    }
+                }
+                else if (x is PropertyInfo)
+                {
+                    PropertyInfo property = (PropertyInfo)x;
+                    if (attr != null)
+                    {
+                        results.Add( new Column<Visualisable>( name, attr.Special, attr.Description, z => property.GetValue( z ), null ) );
+                    }
+
+                    results.Add( new Column<Visualisable>( pname, EColumn.Advanced, pdesc, z => property.GetValue( z ), null ) );
+                }
+                else if (x is FieldInfo)
+                {
+                    FieldInfo field = (FieldInfo)x;
+                    if (attr != null)
+                    {
+                        results.Add( new Column<Visualisable>( name, attr.Special, attr.Description, z => field.GetValue( z ), null ) );
+                    }
+
+                    results.Add( new Column<Visualisable>( pname, EColumn.Advanced, pdesc, z => field.GetValue( z ), null ) );
+                }    
+            }
+
+            return results;
+        }
+
+        public object QueryProperty( string value, Core core )
+        {
+            var col = GetColumns( core ).FirstOrDefault( z => z.DefaultDisplayName == value );
+
+            if (col == null)
+            {
+                return "{MISSING: \"" + value + "\"}";
+            }
+
+            return col.GetRowAsString( this );
+        }
+    }
+
+    internal class XColumnAttribute : NameAttribute
+    {
+        public XColumnAttribute( EColumn special, string description = null )
+            : this(null, special, description )
+        {
+        }
+
+
+        public XColumnAttribute( string name = null, EColumn special = EColumn.None, string description = null)
+            : base( name )
+        {
+            Special = special;
+            Description = description;
+        }
+
+        public string Description { get; set; }
+
+        public EColumn Special { get; set; }
     }
 
     [Flags]
-    public enum EPrevent
+    enum EPrevent
     {
         None,
         Hide=1,
@@ -188,126 +288,27 @@ namespace MetaboliteLevels.Data.Visualisables
             where T : Visualisable
         {
             return onlyEnabled ? WhereEnabled( self ) : self;
-        }
-
-        /// <summary>
-        /// (EXTENSION) (MJR) Gets a list of valid values to pass to [QueryProperty::property]
-        /// </summary>                     
-        public static List<string> QueryProperties( this Visualisable self, Core core )
-        {
-            List<string> result = new List<string>();
-            result.AddRange( self.GetType().GetProperties().Select( z => SYMBOL_PROPERTY + z.Name ) );
-            return result;
-        }
-
-        /// <summary>
-        /// (EXTENSION) (MJR) Gets field called [property] from the [self]'s available columns..
-        /// </summary>
-        public static object QueryProperty( this Visualisable self, string property, Core core )
-        {
-            if (self == null)
-            {
-                return null;
-            }
-
-            string propertyUpperCase = property.ToUpper();
-
-            switch (propertyUpperCase)
-            {
-                case "\\N":
-                    return "\r\n";
-
-                case "\\T":
-                    return "\t";
-
-                case "\\(":
-                    return "{";
-
-                case "\\)":
-                    return "}";
-            }
-
-            bool isProperty = property.StartsWith( SYMBOL_PROPERTY );
-
-            if (isProperty)
-            {
-                property = property.Substring( SYMBOL_PROPERTY.Length );
-            }
-
-            if (isProperty)
-            {
-                PropertyInfo p = self.GetType().GetProperty( property );
-
-                if (p != null)
-                {
-                    return p.GetValue( self );
-                }
-
-                FieldInfo f = self.GetType().GetField( property );
-
-                if (f != null)
-                {
-                    return f.GetValue( self );
-                }
-            }
-
-            Column column = ColumnManager.GetColumns( core, self ).FirstOrDefault( z => z.Id.ToUpper() == propertyUpperCase );
-
-            if (column != null)
-            {
-                return column.GetRow( self );
-            }
-
-            return "{Missing: " + property + "}";
-        }
+        }       
 
         public static bool SupportsDisable( this Visualisable v )
         {
-            if (v == null)
-            {
-                return false;
-            }
-
-            bool originalState = v.Hidden;
-            v.Hidden = !originalState;
-            bool canEnable = v.Hidden != originalState;
-            v.Hidden = originalState;
-            return canEnable;
-        }
-
-        const string TEST_VALUE = "{EF304B9C-738D-4E2A-88D5-BFA1A72766EC}";
+            return !v.SupportsHide.Has( EPrevent.Hide );
+        }                                                                        
 
         public static bool SupportsRename( this Visualisable v )
         {
-            if (v == null)
-            {
-                return false;
-            }
-
-            string originalState = v.OverrideDisplayName;
-            v.OverrideDisplayName = TEST_VALUE;
-            bool canEnable = v.OverrideDisplayName == TEST_VALUE;
-            v.OverrideDisplayName = originalState;
-            return canEnable;
+            return !v.SupportsHide.Has( EPrevent.Name );
         }
 
         public static bool SupportsComment( this Visualisable v )
         {
-            if (v == null)
-            {
-                return false;
-            }
-
-            string originalState = v.Comment;
-            v.Comment = TEST_VALUE;
-            bool canEnable = v.Comment == TEST_VALUE;
-            v.Comment = originalState;
-            return canEnable;
+            return !v.SupportsHide.Has( EPrevent.Comment );
         }
     }
 
     class Association : Visualisable
     {
+        [XColumn( "Target\\", EColumn.Visible | EColumn.Decompose )]
         public readonly Associational WrappedValue;
         public Associational SourceValue => _owner.Owner;
         public readonly ContentsRequest _owner;
@@ -344,11 +345,9 @@ namespace MetaboliteLevels.Data.Visualisables
             set { WrappedValue.OverrideDisplayName = value; }
         }
 
-        public override IEnumerable<Column> GetColumns( Core core )
+        public override IEnumerable<Column> GetXColumns( Core core )
         {
             List<Column<Association>> results = new List<Column<Association>>();
-
-            results.AddSubObject( core, "Target\\", z => z.WrappedValue );
 
             for (int n = 0; n < _owner.ExtraColumns.Count; ++n)
             {

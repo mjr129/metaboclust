@@ -47,7 +47,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtAbvTitle.Text = group.OverrideShortName;
             this._txtAbvTitle.Watermark = group.DefaultShortName;
             this._txtComments.Text = group.Comment;
-            this._txtId.Text = group.StringId.ToString();
+            this._txtId.Text = group.Id.ToString();
             this._txtDisplayOrder.Value = group.DisplayPriority;
             this._txtTimeRange.Text = group.Range.ToString();
 
@@ -98,7 +98,7 @@ namespace MetaboliteLevels.Forms.Editing
             _group.OverrideShortName = this._txtAbvTitle.Text;
             _group.Comment = this._txtComments.Text;
             _group.SetColour(_colour);
-            _group.StringId = _txtId.Text;
+            _group.Id = _txtId.Text;
             _group.GraphIcon = _ecbIcon.SelectedItemOrDefault;
             _group.HatchStyle = _ecbFill.SelectedItemOrDefault;
             _group.DisplayPriority = (int)_txtDisplayOrder.Value;

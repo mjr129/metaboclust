@@ -73,20 +73,9 @@ namespace MetaboliteLevels.Data.Session.General
 
         public override string DisplayName => "*" + OverrideDisplayName + " - " + DefaultDisplayName;
 
+        [XColumn("Current target", EColumn.Visible)]
         public override string DefaultDisplayName => Target?.ToString() ?? "Unavailable".ToBold();
 
         public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Matrix;
-
-        public override IEnumerable<Column> GetColumns( Core core )
-        {
-            List<Column<ProviderAlias>> result = new List<Column<ProviderAlias>>();
-
-            result.Add( "Title", EColumn.Visible, z => z.DisplayName );
-            result.Add( "Current target", EColumn.Visible, z => z.DefaultDisplayName );
-            result.Add( "Name", EColumn.Visible, z => z.OverrideDisplayName );
-            result.Add( "Comment", EColumn.None, z => z.Comment );            
-
-            return result;
-        }
     }
 }

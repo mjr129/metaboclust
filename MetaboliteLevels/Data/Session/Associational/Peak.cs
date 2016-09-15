@@ -27,26 +27,29 @@ namespace MetaboliteLevels.Data.Visualisables
     [DeferSerialisation]
     class Peak : Associational
     {                                                  
-        public const string ID_COLUMN_CLUSTERCOMBINATION = "Clusters\\Combination (for colours)";                           
+        public const string ID_COLUMN_CLUSTERCOMBINATION = "Clusters\\Combination (for colours)";
 
         /// <summary>
         /// The ID (name) of the peak.
         /// </summary>
+        [XColumn]
         public readonly string Id;        
 
         /// <summary>
         /// Comment flags.
         /// </summary>
-        public List<PeakFlag> CommentFlags = new List<PeakFlag>();        
+        public List<PeakFlag> CommentFlags = new List<PeakFlag>();
 
         /// <summary>
         /// M/Z
         /// </summary>
+        [XColumn("m/z")]
         public readonly decimal Mz;
 
         /// <summary>
         /// Retention time
         /// </summary>
+        [XColumn("RT")]
         public decimal Rt;
 
         /// <summary>
@@ -57,16 +60,19 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Potential compounds.
         /// </summary>
+        [XColumn]
         public readonly List<Annotation> Annotations = new List<Annotation>();
 
         /// <summary>
         /// Similar peaks.
         /// </summary>
+        [XColumn]
         public readonly List<Peak> SimilarPeaks = new List<Peak>();
 
         /// <summary>
         /// LC-MS Mode
         /// </summary>
+        [XColumn]
         public readonly ELcmsMode LcmsMode;
 
         /// <summary>
@@ -226,30 +232,23 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override IEnumerable<Column> GetColumns(Core core)
+        public override IEnumerable<Column> GetXColumns(Core core)
         {
             var columns = new List<Column<Peak>>();
+                                                           
 
-            columns.Add("Name", EColumn.Visible, λ => λ.DisplayName);
-            columns.Add("Comment", EColumn.None, λ => λ.Comment);
-            columns.Add("№ corrections", EColumn.Advanced, λ => core.AllCorrections.WhereEnabled());
-            columns.Add("ID", EColumn.None, λ => λ.Id);
-            columns.Add("LC-MS mode", EColumn.None, λ => λ.LcmsMode);
-            columns.Add("m/z", EColumn.None, λ => λ.Mz);
-            columns.Add( "rt", EColumn.None, λ => λ.Rt );
-
-            columns.Add("Clusters\\All", EColumn.None, λ => λ.FindAssignments( core ).Select(z=> z.Cluster ));
+            columns.Add("Cluster assignments", EColumn.None, λ => λ.FindAssignments( core ).Select(z=> z.Cluster ));
             columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.Advanced, z => StringHelper.ArrayToString(z.FindAssignments( core ).Select(zz=> zz.Cluster )));
-            columns.Add("Clusters\\All (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Select(z=> z.Score ));
+            columns.Add("Cluster assignments\\As scores", EColumn.Advanced, λ => λ.FindAssignments( core ).Select(z=> z.Score ));
 
-            columns.Add("Clusters\\Unique", EColumn.Advanced, λ => new HashSet<Cluster>(λ.FindAssignments( core ).Select(z=> z.Cluster )).ToArray());
-            columns.Add("Clusters\\Grouped", EColumn.Advanced, λ => StringHelper.ArrayToString(λ.FindAssignments( core ).OrderBy(z => z.Vector.Group?.DisplayPriority).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
+            columns.Add("Cluster assignments\\Unique", EColumn.Advanced, λ => new HashSet<Cluster>(λ.FindAssignments( core ).Select(z=> z.Cluster )).ToArray());
+            columns.Add("Cluster assignments\\Grouped", EColumn.Advanced, λ => StringHelper.ArrayToString(λ.FindAssignments( core ).OrderBy(z => z.Vector.Group?.DisplayPriority).Select(z => (z.Vector.Group != null ? (z.Vector.Group.DisplayShortName + "=") : "") + z.Cluster.ShortName)));
 
             foreach (GroupInfo group in core.Groups)
             {
                 var closure = group;
-                columns.Add("Clusters\\" + group.DisplayName, EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray(), z => closure.Colour);
-                columns.Add("Clusters\\" + group.DisplayName + " (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray(), z => closure.Colour);
+                columns.Add("Clusters assignments\\For " + group.DisplayName, EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray(), z => closure.Colour);
+                columns.Add("Clusters assignments\\For " + group.DisplayName + " (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray(), z => closure.Colour);
             }
 
             foreach (PeakFlag flag in core.Options.PeakFlags)
@@ -258,14 +257,11 @@ namespace MetaboliteLevels.Data.Visualisables
                 columns.Add("Flags\\" + flag, EColumn.Advanced, λ => λ.CommentFlags.Contains(closure) ? closure.DisplayName : string.Empty, z => closure.Colour);
             }
 
-            columns.Add("Clusters\\Groupless", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
-            columns.Add("Clusters\\Groupless (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
+            columns.Add("Cluster assignments\\For no group", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
+            columns.Add("Cluster assignments\\For no group (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
 
             columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.CommentFlags), z=> z.CommentFlags.Count == 1 ? z.CommentFlags[0].Colour : Color.Black );
-
-
-            columns.Add("Comment", EColumn.None, λ => λ.Comment);
-
+                                   
             foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
             {
                 var closure = stat;
@@ -273,24 +269,22 @@ namespace MetaboliteLevels.Data.Visualisables
                 columns[columns.Count - 1].Colour = z => UiControls.StatisticColour( z.GetStatistic( closure ), stat.Results.Min, stat.Results.Max);
             }
 
-            columns.Add( "Annotations", EColumn.None, λ => λ.Annotations );
-            columns.Add( "Annotation status", EColumn.None, λ => λ.GetAnnotationStatus() );
-            columns.Add( "Annotations\\Compounds", EColumn.Advanced, λ => λ.Annotations.Select(λλ => λλ.Compound));
-            columns.Add( "Annotations\\Adducts", EColumn.Advanced, λ => λ.Annotations.Select(λλ => λλ.Adduct));
-            columns.Add( "Annotations\\Statuses", EColumn.Advanced, λ => λ.Annotations.Select( λλ => λλ.Status ) );
-            columns.Add("Similar peaks", EColumn.None, λ => λ.SimilarPeaks);
+            columns.Add( "Annotations\\As compounds", EColumn.Advanced, λ => λ.Annotations.Select(λλ => λλ.Compound));
+            columns.Add( "Annotations\\As adducts", EColumn.Advanced, λ => λ.Annotations.Select(λλ => λλ.Adduct));
+            columns.Add( "Annotations\\As statuses", EColumn.Advanced, λ => λ.Annotations.Select( λλ => λλ.Status ) );
 
             core._peakMeta.ReadAllColumns(z => z.MetaInfo, columns);
 
             foreach (PeakFilter fi in core.AllPeakFilters)
             {
                 var closure = fi;
-                columns.Add("Filter\\" + fi.ToString(), EColumn.Advanced, z => fi.Test(z) ? "✔" : "✘");
+                columns.Add("Passes filter\\" + fi.ToString(), EColumn.Advanced, z => fi.Test(z));
             }
 
             return columns;
         }
 
+        [XColumn("Best annotation")]
         public EAnnotation GetAnnotationStatus()
         {
             // IMAGE

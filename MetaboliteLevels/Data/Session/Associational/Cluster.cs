@@ -30,21 +30,24 @@ namespace MetaboliteLevels.Data.Visualisables
             None = 0,   // None
             Insignificants = 1, // Represents insignificants
             Pathway = 2,    // Represents a pathway
-        }                                                 
+        }
 
         /// <summary>
         /// Name of cluster
         /// </summary>
+        [XColumn("Short name")]
         public readonly string ShortName;
 
         /// <summary>
         /// Vectors used to generate cluster centre
         /// </summary>
-        public readonly List<double[]> Exemplars = new List<double[]>();  
+        [XColumn()]
+        public readonly List<double[]> Exemplars = new List<double[]>();
 
         /// <summary>
         /// Cluster mode
         /// </summary>
+        [XColumn()]
         public EStates States;
 
         /// <summary>
@@ -55,16 +58,19 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Cluster centres
         /// </summary>
+        [XColumn()]
         public readonly List<double[]> Centres = new List<double[]>();
 
         /// <summary>
         /// Cluster assignments
         /// </summary>
+        [XColumn(EColumn.Visible)]
         public readonly AssignmentList Assignments = new AssignmentList();
 
         /// <summary>
         /// Method used to generate the cluster
         /// </summary>
+        [XColumn()]
         public readonly ConfigurationClusterer Method;
 
         /// <summary>
@@ -76,6 +82,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// Related clusters
         /// Used only for clusteruniqueness
         /// </summary>
+        [XColumn("Related clusters")]
         public readonly HashSet<Cluster> Related = new HashSet<Cluster>();
 
         /// <summary>
@@ -489,45 +496,29 @@ namespace MetaboliteLevels.Data.Visualisables
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public override IEnumerable<Column> GetColumns(Core core)
-        {
-            return StaticGetColumns(core);
-        }
-
-        /// <summary>
-        /// Static version of GetColumns
-        /// </summary>
-        public static IEnumerable<Column> StaticGetColumns(Core core)
+        /// </summary>    
+        public override IEnumerable<Column> GetXColumns(Core core)
         {
             var result = new List<Column<Cluster>>();
-
-            result.Add("Method Name", EColumn.None, λ => λ.Method.ToString());
-            result.Add("Method №", EColumn.Advanced, λ => 1 + core.AllClusterers.WhereEnabled().IndexOf(λ.Method));
-            result.Add("Name", EColumn.Visible, λ => λ.DisplayName);
-            result.Add("Comments", EColumn.None, λ => λ.Comment);
-            result.Add("Assignments\\All", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
-            result.Add("Assignments\\All (scores)", EColumn.Advanced, λ => λ.Assignments.Scores.ToArray());
+                                                                 
+            result.Add("Assignments\\As peaks", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
+            result.Add("Assignments\\As scores", EColumn.Advanced, λ => λ.Assignments.Scores.ToArray());
 
             foreach (GroupInfo group in core.Groups)
             {
                 GroupInfo closure = group;
-                result.Add("Assignments\\" + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
+                result.Add("Assignments\\For " + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
                 result[result.Count - 1].Colour = z => closure.Colour;
-            }
-
-            result.Add("Exemplars", EColumn.None, λ => λ.Exemplars);
-            result.Add("State", EColumn.Advanced, λ => λ.States.ToUiString());
-            result.Add("Comment", EColumn.None, λ => λ.Comment);
+            }             
 
             foreach (PeakFlag flag in core.Options.PeakFlags)
             {
                 PeakFlag closure = flag;
-                result.Add("Flag\\" + flag, EColumn.Advanced, λ => λ.CommentFlags.ContainsKey(closure) ? λ.CommentFlags[closure] : 0);
+                result.Add("Flags\\" + flag, EColumn.Advanced, λ => λ.CommentFlags.ContainsKey(closure) ? λ.CommentFlags[closure] : 0);
                 result[result.Count - 1].Colour = z => closure.Colour;
             }
 
-            result.Add("Flag\\(all)", EColumn.None, λ => λ.CommentFlags.Select(z => z.Key + " = " + z.Value), z => z.CommentFlags.Count != 1 ? Color.Black : z.CommentFlags.Keys.First().Colour);
+            result.Add("Flags\\Summary", EColumn.None, λ => λ.CommentFlags.Select(z => z.Key + " = " + z.Value), z => z.CommentFlags.Count != 1 ? Color.Black : z.CommentFlags.Keys.First().Colour);
 
             foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
             {
@@ -539,11 +530,7 @@ namespace MetaboliteLevels.Data.Visualisables
             {
                 string closure = stat;
                 result.Add("Cluster statistic\\" + closure, EColumn.Statistic, λ => λ.ClusterStatistics.GetOrNan(closure));
-            }
-
-            result.Add("№ centres", EColumn.None, λ => λ.Centres.Count);
-            result.Add("Related clusters", EColumn.Advanced, λ => λ.Related);
-            result.Add("Short name", EColumn.None, λ => λ.ShortName);
+            }                                                        
 
             return result;
         }

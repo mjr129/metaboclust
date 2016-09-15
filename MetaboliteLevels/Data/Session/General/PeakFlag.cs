@@ -27,16 +27,19 @@ namespace MetaboliteLevels.Settings
         /// Pressing Ctrl+this key toggles this flag for all peaks in the list (under the current filter).
         /// This can be empty (null).
         /// </summary>
+        [XColumn(EColumn.Visible)]
         public char Key { get { return _key; } set { _key = char.ToUpper(value); } }
 
         /// <summary>
         /// Sound to make when toggling the flag.
         /// </summary>
+        [XColumn]
         public uint BeepFrequency { get; set; }
 
         /// <summary>
         /// Sound to make when toggling the flag.
         /// </summary>
+        [XColumn]
         public uint BeepDuration { get; set; }
 
         /// <summary>
@@ -173,18 +176,11 @@ namespace MetaboliteLevels.Settings
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>     
-        public override IEnumerable<Column> GetColumns(Core core)
+        public override IEnumerable<Column> GetXColumns(Core core)
         {
             List<Column<PeakFlag>> result = new List<Column<PeakFlag>>();
-
-            result.Add("Name", EColumn.Visible, z => z.OverrideDisplayName, z => z.Colour);
-            result.Add("Key", EColumn.Visible, z => z.Key);
-            result.Add( "Hidden", z => z.Hidden );
-            result.Add("Comments", z => z.Comment);
-            result.Add("Colour", EColumn.None, z => ColourHelper.ColourToName(z.Colour), z => z.Colour);
-            result.Add("Beep frequency", z => z.BeepFrequency);
-            result.Add("Beep duration", z => z.BeepDuration);
-            result.Add("Display name", EColumn.Advanced, z => z.DisplayName);
+                                                                                             
+            result.Add( "Colour", EColumn.None, z => ColourHelper.ColourToName( z.Colour ), z => z.Colour );
 
             return result;
         }

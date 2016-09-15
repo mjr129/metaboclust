@@ -418,23 +418,31 @@ namespace MetaboliteLevels.Viewers.Lists
             // Dispose previous
             var x = new ArrayList(ctrl.DropDownItems);
 
-            foreach (ToolStripMenuItem c2 in x)
+            foreach (ToolStripItem cc2 in x)
             {
-                c2.Click -= toggleColumn_Click;
-                c2.Dispose();
+                if (cc2 is ToolStripMenuItem)
+                {
+                    var c2 = (ToolStripMenuItem)cc2;
+                    c2.Click -= toggleColumn_Click;
+                }
+                cc2.Dispose();
             }
 
-            // If many columns then allow the user to show a listbox instead
-            if (_availableColumns.Count >= 50)
+            var toShow = _availableColumns.Where( z => !z.Special.Has( EColumn.Advanced ) ).OrderBy(z=> z.Id ).ToArray();
+
+            ToolStripMenuItem editColumnsAsList = new ToolStripMenuItem("(Column editor...)", Resources.MnuEdit, EditColumnsAsList_Click);
+            ctrl.DropDownItems.Add(editColumnsAsList);
+            ctrl.DropDownItems.Add( new ToolStripSeparator() );
+
+            if (toShow.Length >= 50)
             {
-                ToolStripMenuItem editColumnsAsList = new ToolStripMenuItem("(Column editor...)", Resources.MnuEdit, EditColumnsAsList_Click);
-                ctrl.DropDownItems.Add(editColumnsAsList);
+                return;
             }
 
             // Create new
             Dictionary<string, ToolStripDropDownItem> folders = new Dictionary<string, ToolStripDropDownItem>();
 
-            foreach (Column col in _availableColumns)
+            foreach (Column col in toShow)
             {
                 if (!col.DisableMenu)
                 {
@@ -471,11 +479,13 @@ namespace MetaboliteLevels.Viewers.Lists
                     tsmi.Tag = col;
                     tsmi.Click += toggleColumn_Click;
 
-                    int addAt = 0;
+                    int addAt = menuTarget.DropDownItems.Count;
 
                     for (int i = 0; i < menuTarget.DropDownItems.Count; i++)
                     {
-                        if (((ToolStripMenuItem)menuTarget.DropDownItems[i]).DropDownItems.Count != 0)
+                        var tsddi = menuTarget.DropDownItems[i] as ToolStripDropDownItem;
+
+                        if (tsddi != null && tsddi.DropDownItems.Count != 0)
                         {
                             addAt = i;
                             break;

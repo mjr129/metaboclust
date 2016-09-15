@@ -371,29 +371,7 @@ namespace MetaboliteLevels.Forms.Editing
             FrmMsgBox.ShowInfo( this, "Message", "This is a message" );
 
             FrmInputMultiLine.ShowFixed( this, "Break query", "Allow debugger to take control", "Showing text stored in temporary string", "" );
-        }
-
-        [Description( "View object fields" )]
-        [InList]
-        void view_fields()
-        {
-            object vis = DataSet.ForEverything( _core ).ShowList( this, null );
-
-            if (vis is Visualisable)
-            {
-                IEnumerable<string> selected = new DataSet<string>()
-                {
-                    Title = vis.ToString(),
-                    SubTitle = "List of properties",
-                    Source = ((Visualisable)vis).QueryProperties( _core )
-                }.ShowCheckList( this, null );
-
-                if (selected != null && !selected.IsEmpty())
-                {
-                    FrmInputMultiLine.ShowFixed( this, Text, "Property Descriptor", "Example property descriptor", StringHelper.ArrayToString( selected, z => z.Substring( z.IndexOf( ':' ) + 1 ) + " = {" + z + "}", ", " ) );
-                }
-            }
-        }
+        }          
 
         [Description( "Adds a meta-field to the names of all peaks" )]
         [InList]

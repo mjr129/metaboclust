@@ -230,7 +230,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             {
                 GroupInfo p = (GroupInfo)param;
 
-                return (reversable ? p.StringId : p.DisplayName);
+                return (reversable ? p.Id : p.DisplayName);
             }
             else if (param is double)
             {
@@ -467,7 +467,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
                 case EAlgoParameterType.Group:
                     {
                         string el = element.Trim();
-                        return core.Groups.FirstOrDefault(z => z.StringId == el);
+                        return core.Groups.FirstOrDefault(z => z.Id == el);
                     }
 
                 case EAlgoParameterType.WeakRefClusterArray:

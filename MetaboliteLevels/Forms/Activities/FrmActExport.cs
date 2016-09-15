@@ -152,7 +152,9 @@ namespace MetaboliteLevels.Forms.Activities
 
         class OtherExportInfo : Visualisable
         {
+            [XColumn(EColumn.Visible )]
             public readonly EDataSet DataSet;
+            [XColumn( EColumn.Visible )]
             public readonly string FileName;
 
             public OtherExportInfo( EDataSet value, string fn )
@@ -163,17 +165,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             public override EPrevent SupportsHide => EPrevent.Hide | EPrevent.Comment | EPrevent.Name;
 
-            public override string DefaultDisplayName => DataSet.ToUiString();
-
-            public override IEnumerable<Column> GetColumns( Core core )
-            {
-                List<Column<OtherExportInfo>> cols = new List<Column<OtherExportInfo>>();
-
-                cols.Add( "Dataset", EColumn.Visible, z => z.DataSet.ToUiString() );
-                cols.Add( "File name", EColumn.Visible, z => z.FileName );
-
-                return cols;
-            }
+            public override string DefaultDisplayName => DataSet.ToUiString();        
 
             public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.File;
         }

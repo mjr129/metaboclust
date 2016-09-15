@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Data.DataInfo
         {
             get
             {
-                return StringId;
+                return Id;
             }
         }
     }

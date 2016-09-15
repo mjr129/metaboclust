@@ -33,11 +33,13 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Unique ID
         /// </summary>
-        public readonly string Id;                   
+        [XColumn()]
+        public readonly string Id;
 
         /// <summary>
         /// Source libraries.
         /// </summary>
+        [XColumn()]
         public readonly List<CompoundLibrary> Libraries = new List<CompoundLibrary>();
 
         /// <summary>
@@ -48,11 +50,13 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Related pathways (because the source database says so)
         /// </summary>
+        [XColumn()]
         public readonly List<Pathway> RelatedPathways = new List<Pathway>();
 
         /// <summary>
         /// Compounds in this pathway
         /// </summary>
+        [XColumn()]
         public readonly List<Compound> Compounds = new List<Compound>();
 
         /// <summary>
@@ -387,6 +391,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// URL used for "view online" option
         /// </summary>
+        [XColumn()]
         public string Url
         {
             get
@@ -398,19 +403,12 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override IEnumerable<Column> GetColumns(Core core)
+        public override IEnumerable<Column> GetXColumns(Core core)
         {
             var result = new List<Column<Pathway>>();
 
-            result.Add("ID", EColumn.None, λ => λ.Id);
-            result.Add("Name", EColumn.Visible, λ => λ.DefaultDisplayName);
-            result.Add("Library", EColumn.None, λ => λ.Libraries);
-            result.Add("Compounds", EColumn.None, λ => λ.Compounds);
             result.Add("Compounds with peaks", EColumn.None, λ => λ.Compounds.Where(z => z.Annotations.Count != 0));
-            result.Add("Comment", EColumn.None, λ => λ.Comment);
-            result.Add("Libraries", EColumn.None, λ => λ.Libraries);
             result.Add("Related pathways", EColumn.None, λ => λ.RelatedPathways);
-            result.Add("URL", EColumn.None, λ => λ.Url);        
 
             core._pathwaysMeta.ReadAllColumns(z => z.MetaInfo, result);
 

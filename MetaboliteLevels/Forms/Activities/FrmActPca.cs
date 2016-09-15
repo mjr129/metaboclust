@@ -91,7 +91,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._selectedCorrection = IVisualisableExtensions.WhereEnabled(core.AllCorrections).Any() ? IVisualisableExtensions.WhereEnabled(core.AllCorrections).Last() : null;
 
             _colourBy._colourByPeak = ColumnManager.GetColumns<Peak>(_core).First(z => z.Id == Peak.ID_COLUMN_CLUSTERCOMBINATION);
-            _colourBy._colourByObervation = ColumnManager.GetColumns<ObservationInfo>(_core).First(z => z.Id == ObservationInfo.ID_COLNAME_GROUP);
+            _colourBy._colourByObervation = ColumnManager.GetColumns<ObservationInfo>(_core).First(z => z.Id == nameof(ObservationInfo.Group ));
             _regressAgainst._colourByPeak = _colourBy._colourByPeak;
             _regressAgainst._colourByObervation = _colourBy._colourByObervation;
 

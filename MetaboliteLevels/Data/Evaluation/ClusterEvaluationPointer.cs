@@ -26,12 +26,14 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// For tests run: Where the results (ClusterEvaluationConfigurationResults) are stored
         /// </summary>
+        [XColumn("File")]
         public readonly string FileName;
 
         /// <summary>
         /// The configuration (older versions only had this for tests not yet run, but now we keep
         /// a copy for tests run as well)
         /// </summary>
+        [XColumn(EColumn.Decompose)]
         public readonly ClusterEvaluationConfiguration Configuration;                 
 
         /// <summary>
@@ -65,6 +67,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// Does this have any results?
         /// </summary>
+        [XColumn(  )]
         public bool HasResults
         {
             get
@@ -94,24 +97,6 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
                     return UiControls.ImageListOrder.TestEmpty;
                 }
             }
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable
-        /// </summary>
-        public override IEnumerable<Column> GetColumns(Core core)
-        {
-            List<Column<ClusterEvaluationPointer>> ptr = new List<Column<ClusterEvaluationPointer>>();
-
-            ptr.Add("Name", EColumn.Visible, z => z.DisplayName);
-            ptr.Add("Comment", EColumn.None, z => z.Comment);
-            ptr.Add( "Hidden", EColumn.None, z => z.Hidden );
-            ptr.Add("Default name", EColumn.None, z => z.DefaultDisplayName);
-            ptr.Add("File", EColumn.None, z => z.FileName);
-            ptr.Add("HasResults", EColumn.None, z => z.HasResults);
-            ptr.AddSubObject(core, "Configuration", z => z.Configuration);
-
-            return ptr;
-        }    
+        } 
     }
 }

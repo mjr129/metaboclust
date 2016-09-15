@@ -22,8 +22,11 @@ namespace MetaboliteLevels.Data.Visualisables
     [Serializable]
     class Annotation : Associational
     {
+        [XColumn()]
         public readonly Peak Peak;
+        [XColumn()]
         public readonly Compound Compound;
+        [XColumn()]
         public readonly Adduct Adduct;
 
         /// <summary>
@@ -31,6 +34,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// </summary>
         public readonly MetaInfoCollection Meta = new MetaInfoCollection();
 
+        [XColumn()]
         public readonly EAnnotation Status;                   
 
         /// <summary>
@@ -69,23 +73,7 @@ namespace MetaboliteLevels.Data.Visualisables
                         throw new SwitchException( this.Status );
                 }
             }
-        }
-
-        public override IEnumerable<Column> GetColumns( Core core )
-        {
-            List<Column<Annotation>> columns = new List<Column<Annotation>>();
-
-            columns.Add( "Name", EColumn.Visible, z => z.DisplayName );
-
-            columns.AddSubObject( core, "Peak", z => z.Peak );
-            columns.AddSubObject( core, "Compound", z => z.Compound );
-            columns.AddSubObject( core, "Adduct", z => z.Adduct );
-            columns.Add( "Confirmation", z => z.Status );
-
-            core._annotationsMeta.ReadAllColumns<Annotation>( z => z.Meta, columns );
-
-            return columns;
-        }
+        }           
 
         public override void FindAssociations( ContentsRequest list )
         {
@@ -125,6 +113,15 @@ namespace MetaboliteLevels.Data.Visualisables
                     list.Add( Peak );
                     break;
             }
+        }
+
+        public override IEnumerable<Column> GetXColumns( Core core )
+        {
+            List<Column<Annotation>> results = new List<Column<Annotation>>();
+
+            core._annotationsMeta.ReadAllColumns<Annotation>( z => z.Meta, results );
+
+            return results;
         }
     }
 }

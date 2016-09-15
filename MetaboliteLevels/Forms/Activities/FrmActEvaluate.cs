@@ -107,11 +107,9 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Statistic;
 
-            public override IEnumerable<Column> GetColumns(Core core)
+            public override IEnumerable<Column> GetXColumns(Core core)
             {
                 List<Column<ColumnWrapper>> cols = new List<Column<ColumnWrapper>>();
-
-                cols.Add("Name", EColumn.Visible, z => z.DisplayName);
 
                 foreach (ClusterEvaluationParameterResult v in Results.Results)
                 {

@@ -1196,11 +1196,11 @@ namespace MetaboliteLevels.Forms.Startup
 
             foreach (string name in list)
             {
-                GroupInfo group = types.FirstOrDefault( z => z.StringId == name );
+                GroupInfo group = types.FirstOrDefault( z => z.Id == name );
 
                 if (group == null)
                 {
-                    string expG = StringHelper.ArrayToString( types, z=> z.StringId );
+                    string expG = StringHelper.ArrayToString( types, z=> z.Id );
                     throw new InvalidOperationException( $"Cannot find the experimental group named '{name}' in the list of experimental groups: {expG}"  );
                 }
 

@@ -55,18 +55,14 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Contains GUID of matrix used (when run)
         /// </summary>
-        private Guid _sourceGuid;            
-
-        /// <summary>
-        /// Backing field
-        /// </summary>
-        public object[] Parameters { get; private set; }
+        private Guid _sourceGuid;                       
 
         public override ArgsBase UntypedArgs => _args;
 
         /// <summary>
         /// Retrieves the algorithm arguments
         /// </summary>
+        [XColumn("Configuration\\", EColumn.Decompose )]
         public TArgs Args
         {
             get
@@ -83,11 +79,13 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Retrieves the algorithm results
         /// </summary>
-        public TResults Results => _results;                  
+        [XColumn( "Results\\",EColumn.Decompose )]
+        public TResults Results => _results;
 
         /// <summary>
         /// Retrieves the Error (if Results is null)
         /// </summary>
+        [XColumn]
         public override string Error => _error;
 
         /// <summary>
@@ -149,24 +147,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                 _isDisposed = true;
                 ClearResults();
             }
-        }
+        }            
 
-        /// <summary>
-        /// Implements IVisualisable
-        /// </summary>              
-       public override IEnumerable<Column> GetColumns( Core core )
-        {
-            var columns = new List<Column<ConfigurationBase<TAlgo, TArgs, TResults>>>();
-
-            columns.Add( "Results\\Status", EColumn.Visible, z => z.Status );    
-            columns.Add( "Results\\Results", EColumn.None, z => z.Results );
-            columns.Add( "Results\\Error", EColumn.None, z => z.Error );
-
-            ColumnExtensions.AddSubObject( columns, core, "Config", z => z.Args );
-
-            return columns;
-        }
-
+        [XColumn(EColumn.Visible )]
         public EAlgoStatus Status
         {
             get

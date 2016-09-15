@@ -23,17 +23,19 @@ namespace MetaboliteLevels.Data.Session.General
 
         public override string DefaultDisplayName => _set.UntypedName( _x );
 
-        public override EPrevent SupportsHide => EPrevent.Hide | EPrevent.Name;
-
-        public override IEnumerable<Column> GetColumns( Core core )
+        public override string Comment
         {
-            List<Column<VisualisableWrapper>> columns = new List<Column<VisualisableWrapper>>();
-
-            columns.Add( "Name", EColumn.Visible, z => z._set.UntypedName( z._x ) );
-            columns.Add( "Description", EColumn.Visible, z => z._set.UntypedDescription( z._x ) );
-
-            return columns;
+            get
+            {
+                return _set.UntypedDescription( _x );
+            }        
+            set
+            {
+                // NA
+            }
         }
+
+        public override EPrevent SupportsHide => EPrevent.Hide | EPrevent.Name | EPrevent.Comment;        
 
         public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.Point;  
     }

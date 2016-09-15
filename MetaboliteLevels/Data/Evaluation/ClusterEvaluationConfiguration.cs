@@ -24,26 +24,31 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// The configuration of the clusterer to use
         /// </summary>
+        [XColumn( "Configuration\\", EColumn.Decompose )]
         public readonly ConfigurationClusterer ClustererConfiguration;
 
         /// <summary>
         /// Index of the parameter to manipulate
         /// </summary>
+        [XColumn( "Parameter\\Index" )]
         public readonly int ParameterIndex;
 
         /// <summary>
         /// Values of the specified parameter to test
         /// </summary>
+        [XColumn( "Parameter\\Test values" )]
         public readonly object[] ParameterValues;
 
         /// <summary>
         /// Number of times to repeat each test
         /// </summary>
+        [XColumn()]
         public readonly int NumberOfRepeats;
 
         /// <summary>
         /// Name of the manipulated parameter
         /// </summary>
+        [XColumn("Parameter\\Name")]
         public readonly string ParameterName;
 
         /// <summary>
@@ -75,32 +80,12 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>           
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.TestEmpty;
-
-        /// <summary>
-        /// IMPLEMENTS IVisualisable.
-        /// </summary>               
-        public override IEnumerable<Column> GetColumns(Core core)
-        {
-            List<Column<ClusterEvaluationConfiguration>> columns = new List<Column<ClusterEvaluationConfiguration>>();
-
-            columns.Add("Name", EColumn.Visible, z => z.DisplayName);
-            columns.Add("Test parameter\\Name", EColumn.None, z => z.ParameterName);
-            columns.Add("Test parameter\\Summary", EColumn.None, z => z.ParameterConfigAsString);
-            columns.Add("Test parameter\\Index", EColumn.None, z => z.ParameterIndex);
-            columns.Add("Test parameter\\Test values", EColumn.None, z => z.ParameterValuesAsString);
-            columns.Add("Test parameter\\Number of test values", EColumn.None, z => z.ParameterValues.Length);
-            columns.Add("Test parameter\\Test value list", EColumn.None, z => z.ParameterValues);
-            columns.Add("Number of repeats", EColumn.None, z => z.NumberOfRepeats);
-            columns.Add("GUID", EColumn.None, z => z.Guid.ToString());
-            columns.AddSubObject(core, "Clusterer", z => z.ClustererConfiguration);
-
-            return columns;
-        }      
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.TestEmpty;  
 
         /// <summary>
         /// The parameter configuation as a string.
         /// </summary>
+        [XColumn( "Parameter\\Summary" )]
         public string ParameterConfigAsString
         {
             get
@@ -112,6 +97,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// The parameter values as a string.
         /// </summary>
+        [XColumn( "Parameter\\Values (as text)" )]
         public string ParameterValuesAsString
         {
             get

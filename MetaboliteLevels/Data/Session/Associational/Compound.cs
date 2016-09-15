@@ -36,21 +36,25 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Unique ID
         /// </summary>
+        [XColumn]
         public readonly string Id;
 
         /// <summary>
         /// Mass
         /// </summary>
+        [XColumn]
         public decimal Mass;
 
         /// <summary>
         /// Implicated pathways
         /// </summary>
+        [XColumn]
         public readonly List<Pathway> Pathways = new List<Pathway>();
 
         /// <summary>
         /// Variables potentially representing this compound
         /// </summary>
+        [XColumn]
         public readonly List<Annotation> Annotations = new List<Annotation>();
 
         /// <summary>
@@ -63,6 +67,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Defining library.
         /// </summary>
+        [XColumn]
         public readonly List<CompoundLibrary> Libraries = new List<CompoundLibrary>();
 
         /// <summary>
@@ -262,6 +267,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// Gets the URL (used to "view online")
         /// </summary>
+        [XColumn]
         public string Url
         {
             get // TODO: FIX THIS! It shouldn't reference MedicCyc!
@@ -273,29 +279,20 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>               
-        public override IEnumerable<Column> GetColumns(Core core)
+        public override IEnumerable<Column> GetXColumns(Core core)
         {
             List<Column<Compound>> columns = new List<Column<Compound>>();
-
-            columns.Add("Name", EColumn.Visible, λ => λ.DefaultDisplayName);
-            columns.Add("Comment", EColumn.Visible, λ => λ.Comment);
-            columns.Add("Libraries", EColumn.None, λ => λ.Libraries);
-            columns.Add("Mass", EColumn.None, λ => λ.Mass);
-            columns.Add("Pathways", EColumn.None, λ => λ.Pathways);
-            columns.Add( "Annotation status", EColumn.Visible, λ => λ.GetAnnotationStatus() );
-            columns.Add( "Annotations\\Peaks", EColumn.Visible, λ => λ.Annotations.Select( z => z.Peak ) );
-            columns.Add( "Annotations\\Status", EColumn.None, λ => λ.Annotations.Select( z => z.Status ) );
-            columns.Add( "Annotations\\Compounds", EColumn.None, λ => λ.Annotations.Select( z => z.Compound ) );
-            columns.Add( "Annotations\\Annotations", EColumn.None, λ => λ.Annotations );
-            columns.Add("ID", EColumn.None, λ => λ.Id);
-            columns.Add("Comment", EColumn.None, λ => λ.Comment);
-            columns.Add("URL", EColumn.None, λ => λ.Url);
-
+                                                                                              
+            columns.Add( "Annotations\\As peaks", EColumn.Visible, λ => λ.Annotations.Select( z => z.Peak ) );
+            columns.Add( "Annotations\\As statuses", EColumn.None, λ => λ.Annotations.Select( z => z.Status ) );
+            columns.Add( "Annotations\\As compounds", EColumn.None, λ => λ.Annotations.Select( z => z.Compound ) );
+            
             core._compoundsMeta.ReadAllColumns(z => z.MetaInfo, columns);
 
             return columns;
-        }               
+        }
 
+        [XColumn("Best annotation")]
         public EAnnotation GetAnnotationStatus()
         {
             // IMAGE
