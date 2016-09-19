@@ -294,6 +294,19 @@ namespace MetaboliteLevels.Forms.Generic
             };
         }
 
+        private static DataSet<Annotation> ForAnnotations( Core core )
+        {
+            return new DataSet<Annotation>()
+            {
+                Core = core,
+                Title = "Annotations",
+                Source = core.Annotations,
+                ItemNameProvider = _GetDisplayName,
+                ItemDescriptionProvider = _GetComment,
+                Icon = Resources.IconAnnotation,
+            };
+        }
+
         private static DataSet<Assignment> ForAllAssignments( Core core )
         {
             return new DataSet<Assignment>()
@@ -950,10 +963,13 @@ namespace MetaboliteLevels.Forms.Generic
                 case EDataSet.Assignments:
                     return DataSet.ForAllAssignments( core );
 
+                case EDataSet.Annotations:
+                    return DataSet.ForAnnotations( core );
+
                 default:
                     throw new SwitchException( dataSet );
             }
-        }
+        }        
 
         /// <summary>
         /// Private helper method: Shows the script editor.
@@ -1096,6 +1112,9 @@ namespace MetaboliteLevels.Forms.Generic
 
         [Name( "Data\\Adducts" )]
         Adducts,
+
+        [Name( "Data\\Annotations" )]
+        Annotations,
 
         [Name( "Data\\Acquisition indices" )]
         Acquisitions,

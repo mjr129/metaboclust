@@ -203,7 +203,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Obs source
             src = _ecbSource.SelectedItem;
 
-            if (sel.SupportsObservationFilters)
+            if (sel != null && sel.SupportsObservationFilters)
             {
                 _checker.Check( _ecbSource.ComboBox, src != null, "Select a valid source" );
             }

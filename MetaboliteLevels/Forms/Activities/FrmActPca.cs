@@ -88,7 +88,7 @@ namespace MetaboliteLevels.Forms.Editing
             _peakFilter = PeakFilter.Empty;
             _obsFilter = ObsFilter.Empty;
 
-            this._selectedCorrection = IVisualisableExtensions.WhereEnabled(core.AllCorrections).Any() ? IVisualisableExtensions.WhereEnabled(core.AllCorrections).Last() : null;
+            this._selectedCorrection = core.Options.SelectedMatrixProvider;
 
             _colourBy._colourByPeak = ColumnManager.GetColumns<Peak>(_core).First(z => z.Id == Peak.ID_COLUMN_CLUSTERCOMBINATION);
             _colourBy._colourByObervation = ColumnManager.GetColumns<ObservationInfo>(_core).First(z => z.Id == nameof(ObservationInfo.Group ));

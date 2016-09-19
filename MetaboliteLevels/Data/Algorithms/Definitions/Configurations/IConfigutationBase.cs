@@ -15,6 +15,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
     /// <summary>
     /// All classes implementing this interface also implement <see cref="ConfigurationBase"/>, so see that class for details.
     /// </summary>           
+    [Serializable]
     internal abstract class ConfigurationBase : Visualisable, IDisposable
     {
         public abstract bool HasError { get; }

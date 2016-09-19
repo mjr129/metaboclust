@@ -158,6 +158,8 @@ namespace MetaboliteLevels.Forms
             _btnPrimAssig.Tag = EDataSet.Assignments;
             _btnPrimClust.Tag = EDataSet.Clusters;
             _btnPrimAdduct.Tag = EDataSet.Adducts;
+            _btnPrimAnnot.Tag = EDataSet.Annotations;
+
             _btnSubAdd.Tag = EVisualClass.Adduct;
             _btnSubAnnot.Tag = EVisualClass.Annotation;
             _btnSubAss.Tag = EVisualClass.Assignment;
@@ -165,6 +167,7 @@ namespace MetaboliteLevels.Forms
             _btnSubInfo.Tag = EVisualClass.Info;
             _btnSubPat.Tag = EVisualClass.Pathway;
             _btnSubPeak.Tag = EVisualClass.Peak;
+            _btnSubPath.Tag = EVisualClass.Pathway;
 
             // General stuff
             HandleCoreChange();
