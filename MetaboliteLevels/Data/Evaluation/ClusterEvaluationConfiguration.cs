@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
+namespace MetaboliteLevels.Data.Evaluation
 {
     /// <summary>
     /// A configuration for a test (either to be run or already run)

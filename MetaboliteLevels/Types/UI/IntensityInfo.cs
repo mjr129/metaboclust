@@ -1,6 +1,11 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Session.General;
 
-namespace MetaboliteLevels.Data.DataInfo
+namespace MetaboliteLevels.Types.UI
 {
     /// <summary>
     /// For graphs.

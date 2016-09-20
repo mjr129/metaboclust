@@ -4,9 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Session.Associational;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Results
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 {
     [Serializable]
     class ResultStatistic : ResultBase

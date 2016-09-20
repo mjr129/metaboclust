@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Algorithms;
 
-namespace MetaboliteLevels.Data.General
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
 {
     static class ClustererStatisticsHelper
     {

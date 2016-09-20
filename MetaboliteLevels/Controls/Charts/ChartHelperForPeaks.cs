@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MCharting;
-using MetaboliteLevels.Data;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MGui.Helpers;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
 
-namespace MetaboliteLevels.Viewers.Charts
+namespace MetaboliteLevels.Controls.Charts
 {
     class ChartHelperForPeaks : ChartHelper
     {

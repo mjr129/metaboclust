@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
-using MSerialisers;
-using System.Runtime.Serialization;
 using System.Diagnostics;
-using MGui;
-using MetaboliteLevels.Types.UI;
+using System.Drawing;
 using System.Drawing.Drawing2D;
-using MCharting;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Data.DataInfo
+namespace MetaboliteLevels.Data.Session.General
 {
     /// <summary>
     /// Experimental group / batch information.

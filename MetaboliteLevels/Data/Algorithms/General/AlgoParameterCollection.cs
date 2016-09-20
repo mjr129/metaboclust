@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Data.DataInfo;
-using System.Collections;
-using System.Diagnostics;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics
+namespace MetaboliteLevels.Data.Algorithms.General
 {
     /// <summary>
     /// Algorithms return this class to say what inputs and parameters they require.

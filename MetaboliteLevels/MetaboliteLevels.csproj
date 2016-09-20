@@ -155,6 +155,8 @@
     <Compile Include="Controls\CtlLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Lists\ColumnManager.cs" />
+    <Compile Include="Controls\Lists\IColumnProvider.cs" />
     <Compile Include="Controls\PagerControl.cs" />
     <Compile Include="Data\Algorithms\Definitions\Base\ArgsBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Configurations\IConfigutationBase.cs" />

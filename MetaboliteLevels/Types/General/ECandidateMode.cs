@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Types.General
 {
     /// <summary>
     /// The candidates for the cluster centre - see CentreMode for which one(s) get chosen.

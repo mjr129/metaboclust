@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics
+namespace MetaboliteLevels.Data.Algorithms.General
 {
     /// <summary>
     /// Types of parameters passed to algorithms

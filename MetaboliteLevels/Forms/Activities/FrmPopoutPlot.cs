@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MCharting;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Viewers.Charts;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Forms.Activities
 {
     internal partial class FrmPopoutPlot : Form
     {

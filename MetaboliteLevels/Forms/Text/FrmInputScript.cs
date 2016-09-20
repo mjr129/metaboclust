@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Forms.Text
 {
     internal partial class FrmInputScript : Form
     {

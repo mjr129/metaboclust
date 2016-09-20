@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Session.General

@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Properties;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers;
-using MetaboliteLevels.Viewers.Charts;
-using MetaboliteLevels.Viewers.Lists;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Settings;
-using MSerialisers;
-using System.Drawing.Drawing2D;
-using MetaboliteLevels.Data.Session.Associational;
 using MGui.Datatypes;
 using MGui.Helpers;
+using MSerialisers;
 
-namespace MetaboliteLevels.Data.Visualisables
+namespace MetaboliteLevels.Data.Session.Associational
 {
     /// <summary>
     /// Chemical compounds

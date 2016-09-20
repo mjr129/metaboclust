@@ -1,10 +1,10 @@
-﻿using MetaboliteLevels.Settings;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using MetaboliteLevels.Forms;
 using System.Threading;
-using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels

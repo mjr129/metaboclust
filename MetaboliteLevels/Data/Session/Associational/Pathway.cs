@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers;
-using MetaboliteLevels.Viewers.Charts;
-using MetaboliteLevels.Viewers.Lists;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Settings;
-using MSerialisers;
-using System.Drawing.Drawing2D;
-using MetaboliteLevels.Data.Session.Associational;
 using MGui.Helpers;
+using MSerialisers;
 
-namespace MetaboliteLevels.Data.Visualisables
+namespace MetaboliteLevels.Data.Session.Associational
 {
     /// <summary>
     /// Pathways (essentially sets of compounds)

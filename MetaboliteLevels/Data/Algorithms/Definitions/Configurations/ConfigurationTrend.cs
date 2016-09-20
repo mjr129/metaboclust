@@ -1,18 +1,17 @@
 ﻿using System;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Trends;
-using MetaboliteLevels.Data.DataInfo;
 using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Data.Session;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Configurations
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 {
     /// <summary>
     /// Configured trend algorithm (see ConfigurationBase).

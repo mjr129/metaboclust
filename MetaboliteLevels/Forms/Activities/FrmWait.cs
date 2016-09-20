@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Properties;
+using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Forms.Activities
 {
     /// <summary>
     /// The waiting dialogue, containing a progress bar and cancel button.
@@ -17,7 +21,7 @@ namespace MetaboliteLevels.Forms.Generic
     /// </summary>
     public partial class FrmWait : Form
     {
-        private Callable function;
+        private Callable _function;
         private Stopwatch _operationTimer = Stopwatch.StartNew();
         private bool _allowClose;
         private Thread _thread;
@@ -26,16 +30,16 @@ namespace MetaboliteLevels.Forms.Generic
 
         private class Info : IProgressReceiver
         {
-            private readonly FrmWait form;                                  
+            private readonly FrmWait _form;                                  
 
             public Info(FrmWait frmWait)
             {
-                this.form = frmWait;
+                this._form = frmWait;
             }
 
             void IProgressReceiver.ReportProgressDetails(ProgressReporter.ProgInfo info)
             {
-                form.backgroundWorker1.ReportProgress(0, info);
+                _form.backgroundWorker1.ReportProgress(0, info);
             }
         }
 
@@ -54,7 +58,7 @@ namespace MetaboliteLevels.Forms.Generic
 
         private class Callable<TResult, TArgs> : Callable
         {
-            public TArgs args;
+            public TArgs _args;
 
             // Info and args
             public Func<ProgressReporter, TArgs, TResult> InfoArgsWithResult;
@@ -76,11 +80,11 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 if (InfoArgsWithResult != null)
                 {
-                    return InfoArgsWithResult(info, args);
+                    return InfoArgsWithResult(info, _args);
                 }
                 else if (InfoArgsWithoutResult != null)
                 {
-                    InfoArgsWithoutResult(info, args);
+                    InfoArgsWithoutResult(info, _args);
                     return null;
                 }
                 else if (InfoWithResult != null)
@@ -94,11 +98,11 @@ namespace MetaboliteLevels.Forms.Generic
                 }
                 else if (ArgsWithResult != null)
                 {
-                    return ArgsWithResult(args);
+                    return ArgsWithResult(_args);
                 }
                 else if (ArgsWithoutResult != null)
                 {
-                    ArgsWithoutResult(args);
+                    ArgsWithoutResult(_args);
                     return null;
                 }
                 else if (WithResult != null)
@@ -133,12 +137,12 @@ namespace MetaboliteLevels.Forms.Generic
 
         internal static void Show<TArgs>(Form owner, string title, string subtitle, Action<TArgs> action, TArgs args)
         {
-            Show(owner, title, subtitle, new Callable<NA, TArgs> { ArgsWithoutResult = action, args = args });
+            Show(owner, title, subtitle, new Callable<NA, TArgs> { ArgsWithoutResult = action, _args = args });
         }
 
         internal static void Show<TArgs>(Form owner, string title, string subtitle, Action<ProgressReporter, TArgs> action, TArgs args)
         {
-            Show(owner, title, subtitle, new Callable<NA, TArgs> { InfoArgsWithoutResult = action, args = args });
+            Show(owner, title, subtitle, new Callable<NA, TArgs> { InfoArgsWithoutResult = action, _args = args });
         }
 
         internal static TResult Show<TResult>(Form owner, string title, string subtitle, Func<TResult> action)
@@ -153,12 +157,12 @@ namespace MetaboliteLevels.Forms.Generic
 
         internal static TResult Show<TResult, TArgs>(Form owner, string title, string subtitle, Func<TArgs, TResult> action, TArgs args)
         {
-            return (TResult)Show(owner, title, subtitle, new Callable<TResult, TArgs> { ArgsWithResult = action, args = args });
+            return (TResult)Show(owner, title, subtitle, new Callable<TResult, TArgs> { ArgsWithResult = action, _args = args });
         }
 
         internal static TResult Show<TResult, TArgs>(Form owner, string title, string subtitle, Func<ProgressReporter, TArgs, TResult> action, TArgs args)
         {
-            return (TResult)Show(owner, title, subtitle, new Callable<TResult, TArgs> { InfoArgsWithResult = action, args = args });
+            return (TResult)Show(owner, title, subtitle, new Callable<TResult, TArgs> { InfoArgsWithResult = action, _args = args });
         }
 
         private static object Show(Form owner, string title, string subtitle, Callable callable)
@@ -187,7 +191,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             this.ctlTitleBar1.Text = title;
             this.ctlTitleBar1.SubText = subtitle;
-            this.function = callable;                           
+            this._function = callable;                           
             // UiControls.CompensateForVisualStyles(this);
             backgroundWorker1.RunWorkerAsync();
         }
@@ -197,7 +201,7 @@ namespace MetaboliteLevels.Forms.Generic
             _info = new Info(this);
             _thread = Thread.CurrentThread;
             _prog = new ProgressReporter(_info);
-            function.Invoke(_prog);
+            _function.Invoke(_prog);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -247,7 +251,7 @@ namespace MetaboliteLevels.Forms.Generic
 
             if (e.Error != null)
             {
-                function.Error = e.Error;
+                _function.Error = e.Error;
             }
 
             DialogResult = DialogResult.OK;

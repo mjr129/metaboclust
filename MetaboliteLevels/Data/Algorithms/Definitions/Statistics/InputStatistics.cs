@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Settings;
-using MGui.Helpers;
-using MGui.Datatypes;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MGui.Datatypes;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Inputs
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 {
     /// <summary>
     /// Inputs required by the StatisticBase calculation methods.
@@ -96,7 +97,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Inputs
 
             // TODO: This whole section is awful legacy stuff, why do we keep looking this stuff up!
             Vector srcV = Args.SourceMatrix.Find( peak );
-            IEnumerable<int> indices = srcV.Observations.Which( λ => con.Test( λ ) );
+            IEnumerable<int> indices = srcV.Observations.Which( λ => con.Test( (ObservationInfo) λ ) );
             IEnumerable<ObservationInfo> srcC = srcV.Observations.At( indices);
 
             if (getIntensity)

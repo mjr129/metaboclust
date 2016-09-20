@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using MetaboliteLevels.Controls;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Forms.Editing
 {

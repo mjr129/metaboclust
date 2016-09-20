@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Inputs;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.General;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Corrections
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
 {
     /// <summary>
     /// Base class for corrections - algorithms that transform the input vector.

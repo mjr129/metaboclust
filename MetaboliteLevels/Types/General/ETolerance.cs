@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Data.General
+namespace MetaboliteLevels.Types.General
 {
     public enum ETolerance
     {

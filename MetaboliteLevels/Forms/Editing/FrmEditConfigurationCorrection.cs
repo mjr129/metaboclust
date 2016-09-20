@@ -1,30 +1,27 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Trends;
 using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Charts;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Corrections;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Forms.Editing;
-using MGui.Helpers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Corrections;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Algorithms
+namespace MetaboliteLevels.Forms.Editing
 {
     public partial class FrmEditConfigurationCorrection : Form
     {
@@ -36,8 +33,8 @@ namespace MetaboliteLevels.Forms.Algorithms
         private Peak _selectedPeak;
         private string _comments;
 
-        private List<GroupInfo> vTypes = new List<GroupInfo>();
-        private List<BatchInfo> vBatches = new List<BatchInfo>();
+        private List<GroupInfo> _vTypes = new List<GroupInfo>();
+        private List<BatchInfo> _vBatches = new List<BatchInfo>();
         private FlowLayoutPanel _flpBatchButtons;
         private FlowLayoutPanel _flpGroupButtons;
         private EditableComboBox<ObsFilter> _ecbFilter;
@@ -355,8 +352,8 @@ namespace MetaboliteLevels.Forms.Algorithms
             orig.OverrideDefaultOptions = new StylisedPeakOptions( _core )
             {
                 ShowAcqisition = isBatchMode,
-                ViewBatches = vBatches,
-                ViewGroups = vTypes,
+                ViewBatches = _vBatches,
+                ViewGroups = _vTypes,
                 ConditionsSideBySide = true,
                 ShowPoints = true,
                 ShowTrend = sel.IsUsingTrend,
@@ -378,8 +375,8 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void GenerateTypeButtons()
         {
-            vTypes.AddRange( _core.Groups );
-            vBatches.Add( _core.Batches.OrderBy( z => z.DisplayPriority ).First() );
+            _vTypes.AddRange( _core.Groups );
+            _vBatches.Add( _core.Batches.OrderBy( z => z.DisplayPriority ).First() );
 
             _flpBatchButtons = new FlowLayoutPanel();
             _flpGroupButtons = new FlowLayoutPanel();
@@ -427,26 +424,26 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (g != null)
             {
-                if (vTypes.Contains( g ))
+                if (_vTypes.Contains( g ))
                 {
-                    vTypes.Remove( g );
+                    _vTypes.Remove( g );
                 }
                 else
                 {
-                    vTypes.Add( g );
+                    _vTypes.Add( g );
                 }
             }
             else
             {
                 BatchInfo b = (BatchInfo)btn.Tag;
 
-                if (vBatches.Contains( b ))
+                if (_vBatches.Contains( b ))
                 {
-                    vBatches.Remove( b );
+                    _vBatches.Remove( b );
                 }
                 else
                 {
-                    vBatches.Add( b );
+                    _vBatches.Add( b );
                 }
             }
 
@@ -467,12 +464,12 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (g != null)
             {
-                vis = vTypes.Contains( g );
+                vis = _vTypes.Contains( g );
             }
             else
             {
                 BatchInfo b = (BatchInfo)btn.Tag;
-                vis = vBatches.Contains( b );
+                vis = _vBatches.Contains( b );
             }
 
             btn.Image = UiControls.CreateExperimentalGroupImage( vis, (GroupInfoBase)btn.Tag, false );

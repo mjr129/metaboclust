@@ -1,8 +1,13 @@
 ﻿using System;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Inputs;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
+using MetaboliteLevels.Data.Algorithms.General;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Metrics
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Metrics.Implementations
 {
     /// <summary>
     /// Inbuilt metrics.

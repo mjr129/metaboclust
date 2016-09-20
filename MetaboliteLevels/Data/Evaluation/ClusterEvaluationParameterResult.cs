@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Properties;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
+namespace MetaboliteLevels.Data.Evaluation
 {
     /// <summary>
     /// Results for an individual parameter (see ClusterEvaluationResults)

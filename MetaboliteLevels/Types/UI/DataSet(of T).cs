@@ -1,20 +1,21 @@
-﻿using MetaboliteLevels.Controls;
-using MetaboliteLevels.Utilities;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Controls;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Utilities;
 using MGui.Controls;
-using System.Drawing;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Types.UI
 {
     /// <summary>
     /// Holds a list of objects alongside additional information on how to represent that list
@@ -34,6 +35,8 @@ namespace MetaboliteLevels.Forms.Generic
     {
         public delegate bool ComparatorDelegate(string name, T item);
         public delegate bool RetrieverDelegate(string name, out T item);
+
+        public Type DataType { get; set; }
 
         /// <summary>
         /// (MANDATORY) Title of the dataset
@@ -252,7 +255,8 @@ namespace MetaboliteLevels.Forms.Generic
         {
             ItemTitle = z => z.ToString();
             ItemDescription = z => null;
-            CancelValue = typeof(T) == typeof(int) ? (T)(object)int.MinValue : default(T);
+            DataType = typeof( T );
+            CancelValue = DataType == typeof( int ) ? (T)(object)int.MinValue : default( T );
         }
 
         /// <summary>
@@ -451,6 +455,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// IMPLEMENTS IListValueSet.
         /// </summary>    
+        [XColumn(EColumn.Visible, "List editable")]
         bool IDataSet.ListSupportsChanges
         {
             get
@@ -462,6 +467,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// IMPLEMENTS IListValueSet.
         /// </summary>    
+        [XColumn( EColumn.Visible, "Items editable" )]
         bool IDataSet.HasItemEditor
         {
             get

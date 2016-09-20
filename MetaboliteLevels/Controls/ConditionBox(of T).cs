@@ -9,17 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Forms;
 using System.Drawing;
 using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Settings;
 using MGui.Helpers;
 using MGui;
 using MGui.Controls;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Controls
 {

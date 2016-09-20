@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Charts;
-using MetaboliteLevels.Viewers.Lists;
 
-namespace MetaboliteLevels.Forms.Editing
+namespace MetaboliteLevels.Forms.Activities
 {
     public partial class FrmPopoutClusterSheet : Form
     {

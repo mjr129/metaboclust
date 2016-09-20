@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Design;
 using MetaboliteLevels.Forms;
-using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Utilities;
 using MetaboliteLevels.Properties;
 

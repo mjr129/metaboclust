@@ -1,19 +1,16 @@
-﻿using MetaboliteLevels.Data.Visualisables;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
-using MetaboliteLevels.Data.Session.Associational;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations
 {
     /// <summary>
     /// A clusterer that assigns observations to existing centres.
@@ -41,7 +38,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
                 Cluster cluster = config.Results.Clusters[index];
                 prog.SetProgress(index, config.Results.Clusters.Length);
 
-                if (!cluster.States.HasFlag(Data.Visualisables.Cluster.EStates.Insignificants))
+                if (!cluster.States.HasFlag(Session.Associational.Cluster.EStates.Insignificants))
                 {
                     // Get the centre
                     double[] centre = cluster.GetCentre(ECentreMode.Average, ECandidateMode.Assignments)[0];
@@ -62,7 +59,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             prog.Leave();
 
             Cluster matchCluster = new Cluster("Matches", tag);
-            matchCluster.States |= Data.Visualisables.Cluster.EStates.Insignificants;
+            matchCluster.States |= Session.Associational.Cluster.EStates.Insignificants;
 
             return myClusters;
         }      

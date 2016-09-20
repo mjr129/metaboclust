@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Utilities;
-using MGui;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms
+namespace MetaboliteLevels.Utilities
 {
     internal interface ISelectionHolder
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Singular;
 
-namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
+namespace MetaboliteLevels.Data.Evaluation
 {
     /// <summary>
     /// A configuration and results.
@@ -33,11 +33,11 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// CONSTRUCTOR
         /// </summary> 
-        public ClusterEvaluationResults(Core core, ClusterEvaluationConfiguration Configuration, List<ClusterEvaluationParameterResult> Results)
+        public ClusterEvaluationResults(Core core, ClusterEvaluationConfiguration configuration, List<ClusterEvaluationParameterResult> results)
         {
             this.CoreGuid = core.CoreGuid;
-            this.Configuration = Configuration;
-            this.Results = Results;
+            this.Configuration = configuration;
+            this.Results = results;
         }
 
         /// <summary>

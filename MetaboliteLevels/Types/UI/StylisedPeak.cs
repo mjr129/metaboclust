@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
 
-namespace MetaboliteLevels.Data
+namespace MetaboliteLevels.Types.UI
 {
     /// <summary>
     /// A peak with extra information for plotting graphs.

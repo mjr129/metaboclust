@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Data.Session.General
 {

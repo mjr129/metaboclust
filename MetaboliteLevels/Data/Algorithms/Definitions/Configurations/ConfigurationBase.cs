@@ -1,17 +1,16 @@
 ﻿using System;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using System.Collections.Generic;
-using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Viewers.Lists;
-using MetaboliteLevels.Utilities;
-using System.Diagnostics;
 using System.Drawing;
-using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Configurations
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 {
     /// <summary>
     /// Used to track data used by a configuration.

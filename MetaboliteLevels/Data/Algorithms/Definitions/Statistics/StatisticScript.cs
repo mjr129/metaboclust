@@ -1,8 +1,13 @@
-﻿using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Inputs;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Statistics
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 {
     /// <summary>
     /// Script-based statistics.

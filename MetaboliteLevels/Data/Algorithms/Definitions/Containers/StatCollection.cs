@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Containers
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Containers
 {
     /// <summary>
     /// Collection of statistical methods identifiable by ID.

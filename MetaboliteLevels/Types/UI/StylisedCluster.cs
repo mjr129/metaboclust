@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Viewers;
-using MetaboliteLevels.Viewers.Charts;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
 
-namespace MetaboliteLevels.Data
+namespace MetaboliteLevels.Types.UI
 {
     /// <summary>
     /// A cluster with extra information for plotting graphs.

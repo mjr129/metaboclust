@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data;
-using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session.General;
 
-namespace MetaboliteLevels.Algorithms
+namespace MetaboliteLevels.Data.Algorithms.General
 {
     /// <summary>
     /// An input vector

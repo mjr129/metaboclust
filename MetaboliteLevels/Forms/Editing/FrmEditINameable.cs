@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Forms.Editing
 {
     internal partial class FrmEditINameable : Form
     {

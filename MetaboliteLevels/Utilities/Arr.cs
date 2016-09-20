@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.General;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.General;
 using MGui;
 using MGui.Helpers;
 using RDotNet;
@@ -23,7 +21,7 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// R.NET Engine
         /// </summary>
-        readonly REngine R;
+        readonly REngine _r;
 
         private string _origEnvPath;
 
@@ -52,15 +50,15 @@ namespace MetaboliteLevels.Utilities
 
             try
             {
-                R = REngine.GetInstance();
+                _r = REngine.GetInstance();
             }
             catch
             {
                 // Looks like an error with the adapter that causes a fail first time if the path isn't in the registry
-                R = REngine.GetInstance();
+                _r = REngine.GetInstance();
             }
 
-            R.Initialize();
+            _r.Initialize();
             TestR();
         }
 
@@ -69,7 +67,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>
         public void TestR()
         {
-            if (R.Evaluate("2+2").AsNumeric()[0] != 4)
+            if (_r.Evaluate("2+2").AsNumeric()[0] != 4)
             {
                 throw new InvalidOperationException("Unexpected result from R.");
             }
@@ -196,16 +194,16 @@ namespace MetaboliteLevels.Utilities
 
             // Now do that R stuff...
 
-            var rMatrix = R.CreateNumericMatrix(matrix);
-            var rVector = R.CreateNumericVector(groups);
-            R.SetSymbol("a", rMatrix);
-            R.SetSymbol("g", rVector);
+            var rMatrix = _r.CreateNumericMatrix(matrix);
+            var rVector = _r.CreateNumericVector(groups);
+            _r.SetSymbol("a", rMatrix);
+            _r.SetSymbol("g", rVector);
 
             //R.Evaluate("write.csv(a, file = \"E:/MJR/Project/05. PEAS/AbstressData/Leaf/Positive/CCor/LP1131.cs.csv\")");
 
             try
             {
-                double result = R.Evaluate(
+                double result = _r.Evaluate(
     @"p = prcomp(a)
 f = data.frame(y = p$x[,1], group = factor(g))
 fit = lm(y ~ group, f)
@@ -225,14 +223,14 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
         /// </summary>
         public void Pca(double[,] m, out double[,] scores, out double[,] loadings)
         {
-            using (var v1 = R.CreateNumericMatrix(m))
+            using (var v1 = _r.CreateNumericMatrix(m))
             {
-                R.SetSymbol("a", v1);
+                _r.SetSymbol("a", v1);
 
-                R.Evaluate(@"p = prcomp(a)");
+                _r.Evaluate(@"p = prcomp(a)");
 
-                scores = R.Evaluate(@"p$x").AsNumericMatrix().ToArray();
-                loadings = R.Evaluate(@"p$rotation").AsNumericMatrix().ToArray();
+                scores = _r.Evaluate(@"p$x").AsNumericMatrix().ToArray();
+                loadings = _r.Evaluate(@"p$rotation").AsNumericMatrix().ToArray();
             }
         }
 
@@ -241,16 +239,16 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
         /// </summary>
         public void Plsr( double[,] m, double[] r, out double[,] scores, out double[,] loadings )
         {
-            using (var v1 = R.CreateNumericMatrix( m ))
-            using (var v2 = R.CreateNumericVector( r ))
+            using (var v1 = _r.CreateNumericMatrix( m ))
+            using (var v2 = _r.CreateNumericVector( r ))
             {
-                R.SetSymbol( "a", v1 );
-                R.SetSymbol( "b", v2 );
+                _r.SetSymbol( "a", v1 );
+                _r.SetSymbol( "b", v2 );
 
-                R.Evaluate( "library(pls)\r\np = plsr(b ~ a)" );
+                _r.Evaluate( "library(pls)\r\np = plsr(b ~ a)" );
 
-                scores = R.Evaluate( @"p$scores" ).AsNumericMatrix().ToArray();
-                loadings = R.Evaluate( @"p$loadings" ).AsNumericMatrix().ToArray();
+                scores = _r.Evaluate( @"p$scores" ).AsNumericMatrix().ToArray();
+                loadings = _r.Evaluate( @"p$loadings" ).AsNumericMatrix().ToArray();
             }
         }
 
@@ -260,7 +258,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
 
         internal double Evaluate(string text)
         {
-            return R.Evaluate(text).AsNumeric()[0];
+            return _r.Evaluate(text).AsNumeric()[0];
         }
 
         /// <summary>
@@ -271,7 +269,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             ApplyInputs(script, inputs);
             ApplyArgs(script, args);
 
-            return R.Evaluate(script.Script).AsNumeric()[0];
+            return _r.Evaluate(script.Script).AsNumeric()[0];
         }
 
         /// <summary>
@@ -282,7 +280,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             ApplyInputs(script, inputs);
             ApplyArgs(script, args);
 
-            return R.Evaluate(script.Script).AsInteger();
+            return _r.Evaluate(script.Script).AsInteger();
         }
 
         /// <summary>
@@ -293,7 +291,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
             ApplyInputs(script, inputs);
             ApplyArgs(script, args);
 
-            return R.Evaluate(script.Script).AsNumeric();
+            return _r.Evaluate(script.Script).AsNumeric();
         }
 
         /// <summary>
@@ -314,34 +312,34 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
 
                     if (obj is double[])
                     {
-                        sym = R.CreateNumericVector((double[])obj);
+                        sym = _r.CreateNumericVector((double[])obj);
                     }
                     else if (obj is double[,])
                     {
-                        sym = R.CreateNumericMatrix((double[,])obj);
+                        sym = _r.CreateNumericMatrix((double[,])obj);
                     }
                     else if (obj is IEnumerable<double>)
                     {
-                        sym = R.CreateNumericVector((IEnumerable<double>)obj);
+                        sym = _r.CreateNumericVector((IEnumerable<double>)obj);
                     }
                     else if (obj is int[])
                     {
-                        sym = R.CreateIntegerVector( (int[])obj );
+                        sym = _r.CreateIntegerVector( (int[])obj );
                     }
                     else if (obj is int[,])
                     {
-                        sym = R.CreateIntegerMatrix( (int[,])obj );
+                        sym = _r.CreateIntegerMatrix( (int[,])obj );
                     }
                     else if (obj is IEnumerable<int>)
                     {
-                        sym = R.CreateIntegerVector( (IEnumerable<int>)obj );
+                        sym = _r.CreateIntegerVector( (IEnumerable<int>)obj );
                     }
                     else
                     {
                         throw new InvalidOperationException("Cannot create R object for obj: " + obj);
                     }
 
-                    R.SetSymbol(name, sym);
+                    _r.SetSymbol(name, sym);
                 }
             }
         }
@@ -369,11 +367,11 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
                     switch (p.Type)
                     {
                         case EAlgoParameterType.Double:
-                            R.SetSymbol(p.Name, R.CreateNumeric((double)v));
+                            _r.SetSymbol(p.Name, _r.CreateNumeric((double)v));
                             break;
 
                         case EAlgoParameterType.Integer:
-                            R.SetSymbol(p.Name, R.CreateInteger((int)v));
+                            _r.SetSymbol(p.Name, _r.CreateInteger((int)v));
                             break;
 
                         default:

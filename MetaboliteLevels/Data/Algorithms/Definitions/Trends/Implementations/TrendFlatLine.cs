@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.General;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Trends
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends.Implementations
 {
     /// <summary>
     /// Trend which is constant across X.

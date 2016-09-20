@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Results
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 {
     [Serializable]
     class ResultBase

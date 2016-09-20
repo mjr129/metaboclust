@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Arguments
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 {
     /// <summary>
     /// Base class for algorithm arguments

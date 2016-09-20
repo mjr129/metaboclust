@@ -1,14 +1,17 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Controls;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
-using System;
-using MetaboliteLevels.Settings;
-using System.Collections.Generic;
-using MetaboliteLevels.Controls;
-using System.Linq;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Forms.Selection
 {
     public partial class FrmMsgBox : Form
     {

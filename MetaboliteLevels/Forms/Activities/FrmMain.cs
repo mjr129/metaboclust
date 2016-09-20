@@ -3,39 +3,38 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data;
-using MetaboliteLevels.Properties;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Viewers;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Forms.Algorithms;
-using MetaboliteLevels.Forms.Wizards;
-using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Forms.Startup;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Charts;
-using MetaboliteLevels.Viewers.Lists;
-using System.Drawing.Imaging;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MGui.Controls;
-using System.Reflection;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Setup;
+using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Forms.Wizards;
+using MetaboliteLevels.Properties;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms
+namespace MetaboliteLevels.Forms.Activities
 {
     // This is a comment, please remove it
 
@@ -68,7 +67,7 @@ namespace MetaboliteLevels.Forms
         private string _printTitle;
         private int _waitCounter;
 
-        EDataSet _primaryListView;
+        Either<IDataSet, DataSet.Provider> _primaryListView;
         EVisualClass _secondaryListView;
 
         // Selection
@@ -152,13 +151,13 @@ namespace MetaboliteLevels.Forms
             _coreWatchers.Add( _secondaryList );
 
             // Pagers
-            _btnPrimPeak.Tag = EDataSet.Peaks;
-            _btnPrimPath.Tag = EDataSet.Pathways;
-            _btnPrimComp.Tag = EDataSet.Compounds;
-            _btnPrimAssig.Tag = EDataSet.Assignments;
-            _btnPrimClust.Tag = EDataSet.Clusters;
-            _btnPrimAdduct.Tag = EDataSet.Adducts;
-            _btnPrimAnnot.Tag = EDataSet.Annotations;
+            _btnPrimPeak.Tag = new DataSet.Provider(DataSet.ForPeaks);
+            _btnPrimPath.Tag = new DataSet.Provider( DataSet.ForPathways );
+            _btnPrimComp.Tag = new DataSet.Provider( DataSet.ForCompounds );
+            _btnPrimAssig.Tag = new DataSet.Provider( DataSet.ForAssignments );
+            _btnPrimClust.Tag = new DataSet.Provider( DataSet.ForClusters );
+            _btnPrimAdduct.Tag = new DataSet.Provider( DataSet.ForAdducts );
+            _btnPrimAnnot.Tag = new DataSet.Provider( DataSet.ForAnnotations );
 
             _btnSubAdd.Tag = EVisualClass.Adduct;
             _btnSubAnnot.Tag = EVisualClass.Annotation;
@@ -181,7 +180,7 @@ namespace MetaboliteLevels.Forms
 
                 ToolStripMenuItem tsi = dict.GetOrCreate( text[0], z => (ToolStripMenuItem)databaseToolStripMenuItem.DropDownItems.Add( z ) );
 
-                ToolStripMenuItem tsmi = new ToolStripMenuItem( text[1], Resources.MnuViewList, dataManagerMenuItem );
+                ToolStripMenuItem tsmi = new ToolStripMenuItem( text[1], Resources.MnuViewList, DataManagerMenuItem );
                 tsmi.Tag = dm;
 
                 tsi.DropDownItems.Add( tsmi );
@@ -196,7 +195,7 @@ namespace MetaboliteLevels.Forms
         /// <summary>
         /// Handles menu click.
         /// </summary>aram>
-        private void dataManagerMenuItem( object sender, EventArgs e )
+        private void DataManagerMenuItem( object sender, EventArgs e )
         {
             ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
             EDataSet tag = (EDataSet)tsmi.Tag;
@@ -208,8 +207,8 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void list_ShowContextMenu(object sender, ShowContextMenuEventArgs e)
         {
-            _selectionMenuOpenedFromList = e.selection;
-            _cmsSelectionButton.Show(e.control, e.x, e.y);
+            _selectionMenuOpenedFromList = e.Selection;
+            _cmsSelectionButton.Show(e.Control, e.X, e.Y);
         }
 
         /// <summary>
@@ -330,6 +329,7 @@ namespace MetaboliteLevels.Forms
         {   
             // Update stuff
             _coreWatchers.ForEach(z => z.ChangeCore(_core));
+            _primaryListView = new DataSet.Provider( DataSet.ForPeaks );
 
             // Clear selection
             CommitSelection(new VisualisableSelection(null));
@@ -339,7 +339,7 @@ namespace MetaboliteLevels.Forms
             UpdateVisualOptions();
 
             // Refresh lists
-            UpdateAll("Data loaded", EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged);
+            UpdateAll("Data loaded");
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace MetaboliteLevels.Forms
         {
             if (!_autoChangingSelection)
             {
-                CommitSelection(new VisualisableSelection(this._chartCluster.SelectedCluster?.ActualElement, e.peak));
+                CommitSelection(new VisualisableSelection(this._chartCluster.SelectedCluster?.ActualElement, e._peak));
             }
         }
 
@@ -513,19 +513,25 @@ namespace MetaboliteLevels.Forms
 
         private void UpdatePrimaryList()
         {
-            IDataSet dataSet = DataSet.For( _primaryListView, _core );
-            HighlightByTag( _tsBarBrowser, _primaryListView, _btnPrimOther );
-            _primaryList.DivertList( dataSet );
+            IDataSet dataSet = GetPrimaryDataSet();
 
+            HighlightByTag( _tsDatasetsPrimary, _primaryListView.Item2, dataSet.Title, _btnPrimOther );
+
+            _primaryList.DivertList( dataSet );
         }
 
-        private void HighlightByTag( ToolStrip bar, Enum sel, ToolStripButton other )
+        private IDataSet GetPrimaryDataSet()
+        {
+            return _primaryListView.Item1 ?? _primaryListView.Item2?.Invoke( _core );
+        }
+
+        private void HighlightByTag( ToolStrip bar, object sel, string selText, ToolStripButton other )
         {
             bool any = false;
 
             foreach (ToolStripItem tsi in bar.Items)
             {
-                bool x = sel.Equals( tsi.Tag );
+                bool x = object.Equals( sel, tsi.Tag );
                 tsi.BackgroundImage = x ? Resources.TabSel : Resources.TabUnsel;
                 any |= x;     
             }
@@ -533,7 +539,7 @@ namespace MetaboliteLevels.Forms
             if (!any)
             {
                 other.BackgroundImage = Resources.TabSel;
-                other.Text = sel.ToUiString();
+                other.Text = selText;
             }
             else
             {
@@ -543,7 +549,7 @@ namespace MetaboliteLevels.Forms
 
         private void UpdateSecondaryList()
         {
-            HighlightByTag( _tsBarSelection, _secondaryListView, _btnSubOther );
+            HighlightByTag( _tsBarSelection, _secondaryListView, _secondaryListView.ToUiString(), _btnSubOther );
 
             var selection = _selection?.Primary as Associational;
                  
@@ -555,7 +561,7 @@ namespace MetaboliteLevels.Forms
             }
 
             ContentsRequest request = selection.GetContents( _core, _secondaryListView );      
-            _secondaryList.DivertList( request.Results );     
+            _secondaryList.DivertList<Association>( request.Results );     
 
             if (request != null && request.Text != null)
             {
@@ -929,13 +935,13 @@ namespace MetaboliteLevels.Forms
         /// </summary>
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UpdateAll("Manual refresh", EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged);
+            UpdateAll("Manual refresh");
         }
 
         /// <summary>
         /// Updates stuff.
         /// </summary>
-        private void UpdateAll(string reason, EListInvalids peak, EListInvalids cluster, EListInvalids assignments, EListInvalids compounds)
+        private void UpdateAll(string reason)
         {
             this.UseWaitCursor = true;
             _lblChanges.Text = "PLEASE WAIT...";
@@ -1305,7 +1311,7 @@ namespace MetaboliteLevels.Forms
         {
             FrmEditCoreOptions.Show(this, _core, false);
             UpdateVisualOptions();
-            UpdateAll("Changed options", EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged);
+            UpdateAll("Changed options");
             Replot();
         }
 
@@ -1316,7 +1322,7 @@ namespace MetaboliteLevels.Forms
         {
             if (FrmWizConfigurationCluster.Show(this, _core))
             {
-                UpdateAll("Autogenerated clusters", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
+                UpdateAll("Autogenerated clusters");
             }
         }
 
@@ -1412,7 +1418,7 @@ namespace MetaboliteLevels.Forms
 
             // TODO: Lazy - what's actually changed?
             // Probably doesn't matter these are all fast refreshes
-            UpdateAll("Comment changed", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ValuesChanged);
+            UpdateAll("Comment changed");
         }
 
         /// <summary>
@@ -1502,7 +1508,7 @@ namespace MetaboliteLevels.Forms
         {
             if (FrmDebug.Show(this, _core))
             {
-                UpdateAll("Potential changes", EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged, EListInvalids.SourceChanged);
+                UpdateAll("Potential changes");
             }
         }
 
@@ -1639,7 +1645,7 @@ namespace MetaboliteLevels.Forms
 
             if (DataSet.ForClusterers(_core).ShowListEditor(this, FrmBigList.EShow.Default, template) != null)
             {
-                UpdateAll("Clusters changed", EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged, EListInvalids.None);
+                UpdateAll("Clusters changed");
             }
         }
 
@@ -1706,30 +1712,18 @@ namespace MetaboliteLevels.Forms
                 {
                     case EDataSet.Groups:
                         UpdateVisualOptions();
-                        UpdateAll( "Experimental groups changed",
-                            peak:           EListInvalids.ValuesChanged, 
-                            cluster:        EListInvalids.ValuesChanged,
-                            assignments:    EListInvalids.ValuesChanged,
-                            compounds:      EListInvalids.None );
+                        UpdateAll( "Experimental groups changed" );
                         break;
 
                     case EDataSet.Statistics:
-                        UpdateAll( "Statistics changed", 
-                            peak:           EListInvalids.SourceChanged, 
-                            cluster:        EListInvalids.ContentsChanged, 
-                            assignments:    EListInvalids.ContentsChanged,
-                            compounds:      EListInvalids.None );
+                        UpdateAll( "Statistics changed" );
                         break;
 
 
                     case EDataSet.Clusterers:
                     case EDataSet.Trends:
                     case EDataSet.Corrections:
-                        UpdateAll( "Database changes",
-                            peak:           EListInvalids.ValuesChanged, 
-                            cluster:        EListInvalids.ContentsChanged, 
-                            assignments:    EListInvalids.ContentsChanged, 
-                            compounds:      EListInvalids.None );
+                        UpdateAll( "Database changes");
                         break;
                 }
             }
@@ -1799,7 +1793,7 @@ namespace MetaboliteLevels.Forms
                 FrmInputMultiLine.ShowFixed( this, "Load identifications", "Warnings", "One or more warnings were reported", warnings.JoinAsString( "\r\n" ) );
             }
 
-            UpdateAll( "Identifications loaded", EListInvalids.ValuesChanged, EListInvalids.ValuesChanged, EListInvalids.ContentsChanged, EListInvalids.ContentsChanged );
+            UpdateAll( "Identifications loaded" );
         }
 
         private void _lstMatrix_Click( object sender, EventArgs e )
@@ -1843,7 +1837,7 @@ namespace MetaboliteLevels.Forms
             {
                 _core.Options.SelectedMatrixProvider = sel;
 
-                UpdateAll( "Data matrix changed", EListInvalids.ContentsChanged, EListInvalids.None, EListInvalids.None, EListInvalids.None );
+                UpdateAll( "Data matrix changed" );
                 UpdateVisualOptions();
                 Replot();
             }
@@ -1865,20 +1859,20 @@ namespace MetaboliteLevels.Forms
         private void _btnPrimPeak_Click( object sender, EventArgs e )
         {
             ToolStripItem tsmi = (ToolStripItem)sender;
-            _primaryListView = (EDataSet)tsmi.Tag;            
+            _primaryListView = (DataSet.Provider)tsmi.Tag;
             UpdatePrimaryList();
         }
 
         private void _btnPrimOther_Click( object sender, EventArgs e )
         {
-            EDataSet dataSet = DataSet.ForDiscreteEnum<EDataSet>( "Data sets", (EDataSet)(-1) ).ShowButtons( this, (EDataSet)(-1) );
+            IDataSet dataSet = DataSet.ForDatasetProviders( _core ).ShowList( this, GetPrimaryDataSet() ); ;
 
-            if (dataSet == (EDataSet)(-1))
+            if (dataSet == null)
             {
                 return;
             }
-                     
-            _primaryListView = dataSet;
+
+            _primaryListView = new Either<IDataSet, DataSet.Provider>( dataSet );
             UpdatePrimaryList();
         }
 

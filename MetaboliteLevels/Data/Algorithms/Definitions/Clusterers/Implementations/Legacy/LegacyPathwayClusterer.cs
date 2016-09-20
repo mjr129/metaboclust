@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy
 {
     class LegacyPathwayClusterer : ClustererBase
     {
@@ -47,7 +45,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
                         if (!d.TryGetValue(p, out pat))
                         {
                             pat = new Cluster(p.DefaultDisplayName, tag);
-                            pat.States |= Data.Visualisables.Cluster.EStates.Pathway;
+                            pat.States |= Session.Associational.Cluster.EStates.Pathway;
                             result.Add(pat);
                             d.Add(p, pat);
                         }

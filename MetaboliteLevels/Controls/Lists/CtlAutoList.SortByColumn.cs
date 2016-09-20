@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using MetaboliteLevels.Data.Visualisables;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Viewers.Lists
+namespace MetaboliteLevels.Controls.Lists
 {
     partial class CtlAutoList
     {
         class SortByColumn : IComparer<object>
         {
-            public Column col;
-            public bool ascending;
+            public Column _col;
+            public bool _ascending;
 
             public SortByColumn(Column c, bool ascending)
             {
-                this.col = c;
-                this.ascending = ascending;
+                this._col = c;
+                this._ascending = ascending;
             }
 
             public int Compare(object x, object y )
             {
-                if (ascending)
+                if (_ascending)
                 {
                     return DoCompare(x, y);
                 }
@@ -33,8 +36,8 @@ namespace MetaboliteLevels.Viewers.Lists
 
             private int DoCompare( object x, object y )
             {
-                object xv = col.GetRow(x);
-                object yv = col.GetRow(y);
+                object xv = _col.GetRow(x);
+                object yv = _col.GetRow(y);
 
                 // Compare nulls
                 if (xv == null)

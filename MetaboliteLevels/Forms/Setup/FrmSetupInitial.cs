@@ -1,15 +1,18 @@
 ﻿using System;
-using System.IO;
-using System.Windows.Forms;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
+using System.Collections.Generic;
 using System.Diagnostics;
-using MetaboliteLevels.Forms.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Utilities;
 using MGui.Helpers;
-using MGui.Controls;
 
-namespace MetaboliteLevels.Forms.Startup
+namespace MetaboliteLevels.Forms.Setup
 {
     /// <summary>
     /// Handles initial setup (currently just the R path)
@@ -152,10 +155,10 @@ namespace MetaboliteLevels.Forms.Startup
         private void something_Changed(object sender, EventArgs e)
         {
             bool validRPath = File.Exists(Path.Combine(_txtDataSetData.Text, "R.dll"));
-            bool validPTPath = Directory.Exists(_txtPathwayTools.Text);
+            bool validPtPath = Directory.Exists(_txtPathwayTools.Text);
 
             errorProvider1.Check(_txtDataSetData, validRPath, "A valid path to R is mandatory.");
-            errorProvider1.Check( _txtPathwayTools, validPTPath, "The folder must exist.");
+            errorProvider1.Check( _txtPathwayTools, validPtPath, "The folder must exist.");
 
             _btnOk.Enabled = !errorProvider1.HasErrors;
         }

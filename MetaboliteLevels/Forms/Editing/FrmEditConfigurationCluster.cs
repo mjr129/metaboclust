@@ -1,31 +1,25 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Clusterers;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Metrics;
-using MetaboliteLevels.Algorithms.Statistics.Statistics;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Data.Visualisables;
+using System.Linq;
 using System.Text;
-using MetaboliteLevels.Algorithms.Statistics.Results;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using MetaboliteLevels.Controls;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Data.General;
-using MGui;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
 using MGui.Helpers;
-using MetaboliteLevels.Data.Session.Associational;
 
-namespace MetaboliteLevels.Forms.Algorithms
+namespace MetaboliteLevels.Forms.Editing
 {
     public partial class FrmEditConfigurationCluster : Form
     {

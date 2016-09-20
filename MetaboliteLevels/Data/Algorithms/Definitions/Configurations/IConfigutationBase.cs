@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 {

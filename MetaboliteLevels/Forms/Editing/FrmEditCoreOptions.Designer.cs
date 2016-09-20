@@ -1,4 +1,6 @@
-﻿namespace MetaboliteLevels.Forms.Editing
+﻿using MetaboliteLevels.Data.Session.Singular;
+
+namespace MetaboliteLevels.Forms.Editing
 {
     partial class FrmEditCoreOptions
     {
@@ -1566,7 +1568,7 @@
             // 
             // coreOptionsBindingSource
             // 
-            this.coreOptionsBindingSource.DataSource = typeof(MetaboliteLevels.Settings.CoreOptions);
+            this.coreOptionsBindingSource.DataSource = typeof(CoreOptions);
             // 
             // contextMenuStrip1
             // 

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
 
-namespace MetaboliteLevels.Forms.Startup
+namespace MetaboliteLevels.Forms.Setup
 {
     public partial class FrmSetupWorkspace : Form
     {

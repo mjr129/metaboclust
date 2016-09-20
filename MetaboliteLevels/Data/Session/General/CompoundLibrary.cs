@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics;
 
-namespace MetaboliteLevels.Data.General
+namespace MetaboliteLevels.Data.Session.General
 {
     [Serializable]
     class CompoundLibrary

@@ -1,21 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using MetaboliteLevels.Data;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Utilities;
-using System;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Forms;
-using MCharting;
-using System.Drawing.Drawing2D;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using MCharting;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Viewers.Charts
+namespace MetaboliteLevels.Controls.Charts
 {
     class LineInfo
     {

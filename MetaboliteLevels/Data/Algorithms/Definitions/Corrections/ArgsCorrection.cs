@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using MetaboliteLevels.Algorithms.Statistics.Corrections;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
+using MetaboliteLevels.Data.Session.General;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Arguments
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
 {
     /// <summary>
     /// Arguments for CorrectionBase derivatives.

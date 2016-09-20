@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.General;
+using MetaboliteLevels.Types.General;
 using MSerialisers;
 
-namespace MetaboliteLevels.Data.DataInfo
+namespace MetaboliteLevels.Data.Session.General
 {
     /// <summary>
     /// Experimental group information.

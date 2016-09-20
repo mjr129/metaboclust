@@ -1,17 +1,17 @@
 ﻿using System;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
 using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Settings;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
-using MetaboliteLevels.Data.Session.Associational;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
 {
     /// <summary>
     /// Clustering algorithm base class.
@@ -69,7 +69,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             }
 
             // FILTER PEAKS
-            PeakFilter pfilter = args.PeakFilter ?? Settings.PeakFilter.Empty;
+            PeakFilter pfilter = args.PeakFilter ?? PeakFilter.Empty;
 
             IntensityMatrix src = args.SourceMatrix;
             Filter<Peak>.Results filter = pfilter.Test(peaks);
@@ -82,7 +82,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
             else
             {
                 insigs = new Cluster("Insig", tag);
-                insigs.States |= Data.Visualisables.Cluster.EStates.Insignificants;
+                insigs.States |= Session.Associational.Cluster.EStates.Insignificants;
 
                 // We still need the vmatrix for plotting later
                 IntensityMatrix operational = src.Subset( args.PeakFilter, args.ObsFilter, args.SplitGroups, true );

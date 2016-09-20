@@ -1,13 +1,12 @@
-﻿using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Inputs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Corrections
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementations
 {
     class CorrectionScript : CorrectionBase
     {

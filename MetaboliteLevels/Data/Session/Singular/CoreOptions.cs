@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.Serialization;
-using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using System.Text;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Datatypes;
 using MGui.Helpers;
-using System.Linq;
-using JetBrains.Annotations;
-using MetaboliteLevels.Viewers.Charts;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Data.Session.Singular
 {
     /// <summary>
     /// User customisable options.
@@ -359,7 +357,7 @@ namespace MetaboliteLevels.Settings
             public string DisplayName;
         }
 
-        internal PlotSetup GetUserText( Core core, Associational visualisable )
+        internal PlotSetup GetUserText( Core core, Associational.Associational visualisable )
         {
             if (visualisable == null)
             {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Associational;
 
-namespace MetaboliteLevels.Data.General
+namespace MetaboliteLevels.Data.Session.Collections
 {
     [Serializable]
     class AssignmentList

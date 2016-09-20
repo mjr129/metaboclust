@@ -1,5 +1,4 @@
-﻿using MetaboliteLevels.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Types.General
 {
     [Flags]
     enum EStatisticalMethods

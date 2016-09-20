@@ -1,24 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Trends;
-using MetaboliteLevels.Data;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Charts;
-using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Controls;
+using MetaboliteLevels.Controls.Charts;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MGui.Helpers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Algorithms
+namespace MetaboliteLevels.Forms.Editing
 {
     public partial class FrmEditConfigurationTrend : Form
     {

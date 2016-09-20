@@ -1,5 +1,4 @@
-﻿using MetaboliteLevels.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 

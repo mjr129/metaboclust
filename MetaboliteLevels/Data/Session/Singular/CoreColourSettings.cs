@@ -6,10 +6,9 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Data.Session.Singular
 {
     [Serializable]
     public class CoreColourSettings

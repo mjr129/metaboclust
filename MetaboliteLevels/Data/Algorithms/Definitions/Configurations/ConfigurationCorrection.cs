@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Trends;
 using System.Linq;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Algorithms.Statistics.Corrections;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Algorithms.Statistics.Inputs;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Corrections;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Viewers.Lists;
-using MGui.Helpers;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Configurations
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 {
     [Name("Correction configuration")]
     [Serializable]

@@ -1,23 +1,16 @@
-﻿using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
-using System.Collections.ObjectModel;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Viewers.Lists;
-using MGui.Helpers;
 using MGui.Datatypes;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Data.Session.General
 {
     /// <summary>
     /// Filters (Peak and Observations)
@@ -311,10 +304,10 @@ namespace MetaboliteLevels.Settings
             public readonly ReadOnlyCollection<T> Passed;
             public readonly ReadOnlyCollection<T> Failed;
 
-            public Results(ReadOnlyCollection<T> Passed, ReadOnlyCollection<T> Failed)
+            public Results(ReadOnlyCollection<T> passed, ReadOnlyCollection<T> failed)
             {
-                this.Passed = Passed;
-                this.Failed = Failed;
+                this.Passed = passed;
+                this.Failed = failed;
             }
         }
 

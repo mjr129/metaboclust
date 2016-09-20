@@ -4,12 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 
-namespace MetaboliteLevels.Algorithms.Statistics
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 {                  
     /// <summary>
     /// Base class for all algorithms

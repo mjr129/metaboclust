@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Properties;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using System.Drawing;
-using MetaboliteLevels.Data.DataInfo;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
-using MSerialisers;
 using MGui.Helpers;
-using MetaboliteLevels.Data.Session.Associational;
+using MSerialisers;
 
-namespace MetaboliteLevels.Data.Visualisables
+namespace MetaboliteLevels.Data.Session.Associational
 {
     /// <summary>
     /// Variables

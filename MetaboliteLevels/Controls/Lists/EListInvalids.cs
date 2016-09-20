@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Viewers.Lists
+namespace MetaboliteLevels.Controls.Lists
 {
     /// <summary>
     /// Indicates what has changed inside a list

@@ -3,21 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Data.Visualisables
+namespace MetaboliteLevels.Data.Session.Associational
 {
     /// <summary>
     /// Stuff that shows in lists.
     /// </summary>
     [Serializable]
-    internal abstract class Visualisable
+    internal abstract class Visualisable : IColumnProvider
     {
         /// <summary>
         /// Displayed name of this item.
@@ -75,113 +74,7 @@ namespace MetaboliteLevels.Data.Visualisables
             return null;
         }
 
-        public virtual EPrevent SupportsHide => EPrevent.None;
-
-        public IEnumerable<Column> GetColumns( Core core )
-        {
-            return GetColumns( GetXColumns(core ), this.GetType(), core );
-        }
-
-        public static IEnumerable<Column> GetColumns( Type vis, Core core )
-        {
-            return GetColumns( null, vis, core );
-        }
-
-        private static IEnumerable<Column> GetColumns( IEnumerable<Column> extra, Type type, Core core )
-        {
-            List<Column> results = new List<Column>();
-
-            if (extra != null)
-            {
-                results.AddRange( extra );
-            }
-
-            foreach (MemberInfo x in type.GetMembers( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ))
-            {
-                XColumnAttribute attr = x.GetCustomAttribute<XColumnAttribute>();
-
-                string name;
-
-                if (attr != null)
-                {
-                    name = attr.Name ?? StringHelper.UndoCamelCase( x.Name );
-                }
-                else
-                {
-                    name = null;
-                }
-
-                string pname = "<DATA>\\" + x.Name;
-                string pdesc = "Internal field: " + x.DeclaringType.Name + "." + x.Name;
-
-                Column<object>.ColumnProvider provider;
-                Type provType;
-
-                if (x is MethodInfo)
-                {
-                    if (attr != null)
-                    {
-                        MethodInfo method = (MethodInfo)x;
-                        provider = z => method.Invoke( z, null );
-                        provType = method.ReturnType;
-                    }
-                    else
-                    {
-                        provider = null;
-                        provType = null;
-                    }
-                }
-                else if (x is PropertyInfo)
-                {
-                    PropertyInfo property = (PropertyInfo)x;
-                    provider = z => property.GetValue( z );
-                    provType = property.PropertyType;
-
-                }
-                else if (x is FieldInfo)
-                {
-                    FieldInfo field = (FieldInfo)x;
-                    provider = z => field.GetValue( z );
-                    provType = field.FieldType;
-                }
-                else
-                {
-                    provider = null;
-                    provType = null;
-                }
-
-                if (provider != null)
-                {
-                    if (attr != null)
-                    {
-                        if (attr.Special.Has( EColumn.Decompose ))
-                        {
-                            ColumnExtensions.AddSubObject<object>( results, attr.Special, core, attr.Name, provider, provType );
-                        }
-                        else
-                        {
-                            results.Add( new Column<object>( name, attr.Special, attr.Description, provider, null ) );
-                        }
-                    }
-
-                    results.Add( new Column<object>( pname, EColumn.Advanced, pdesc, provider, null ) );
-                }
-            }
-
-            return results;
-        }
-
-        public object QueryProperty( string value, Core core )
-        {
-            var col = GetColumns( core ).FirstOrDefault( z => z.DefaultDisplayName == value );
-
-            if (col == null)
-            {
-                return "{MISSING: \"" + value + "\"}";
-            }
-
-            return col.GetRowAsString( this );
-        }
+        public virtual EPrevent SupportsHide => EPrevent.None;       
     }
 
     internal class XColumnAttribute : NameAttribute
@@ -430,13 +323,16 @@ namespace MetaboliteLevels.Data.Visualisables
         {
             List<Column<Association>> results = new List<Column<Association>>();
 
-            for (int n = 0; n < _owner.ExtraColumns.Count; ++n)
+            if (_owner?.ExtraColumns != null)
             {
-                var closure = n;
-                var c = _owner.ExtraColumns[n];
+                for (int n = 0; n < _owner.ExtraColumns.Count; ++n)
+                {
+                    var closure = n;
+                    var c = _owner.ExtraColumns[n];
 
-                results.Add( new Column<Association>( c.Item1, EColumn.Visible, c.Item2, z => z._extraColumns[closure], z => Color.Blue ) );
+                    results.Add( new Column<Association>( c.Item1, EColumn.Visible, c.Item2, z => z._extraColumns[closure], z => Color.Blue ) );
 
+                }
             }
 
             return results.Cast<Column>().Concat( GetExtraColumns( core ) );

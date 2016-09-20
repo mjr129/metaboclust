@@ -24,9 +24,9 @@ namespace MetaboliteLevels.Utilities
     /// </summary>
     class ProgressParallelHandler
     {
-        private readonly ProgressReporter progressReporter;
-        private readonly int count;
-        private int current;
+        private readonly ProgressReporter _progressReporter;
+        private readonly int _count;
+        private int _current;
 
         /// <summary>
         /// Creates a ProgressParallelHandler.
@@ -35,8 +35,8 @@ namespace MetaboliteLevels.Utilities
         /// <param name="count">How many operations will take place.</param>
         public ProgressParallelHandler(ProgressReporter progressReporter, int count)
         {
-            this.progressReporter = progressReporter;
-            this.count = count;
+            this._progressReporter = progressReporter;
+            this._count = count;
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace MetaboliteLevels.Utilities
         {
             lock (this)
             {
-                ++current;
-                progressReporter.SetProgress(current, count);
+                ++_current;
+                _progressReporter.SetProgress(_current, _count);
             }
         }
     }
@@ -61,7 +61,7 @@ namespace MetaboliteLevels.Utilities
         class ProgSection : IDisposable
         {
             private readonly ProgressReporter _owner;
-            private bool disposedValue = false; // To detect redundant calls
+            private bool _disposedValue = false; // To detect redundant calls
 
             public ProgSection( ProgressReporter owner )
             {
@@ -70,10 +70,10 @@ namespace MetaboliteLevels.Utilities
                                                                          
             public void Dispose()
             {
-                if (!disposedValue)
+                if (!_disposedValue)
                 {                      
                     _owner.Leave();
-                    disposedValue = true;
+                    _disposedValue = true;
                 }
             }                      
         }
@@ -270,11 +270,11 @@ namespace MetaboliteLevels.Utilities
             public string CText;
             public int Percent;
 
-            public ProgInfo(string text, int _percent, string _bytes)
+            public ProgInfo(string text, int percent, string bytes)
             {
                 this.Text = text;
-                this.Percent = _percent;
-                this.CText = _bytes;
+                this.Percent = percent;
+                this.CText = bytes;
             }
         }
 

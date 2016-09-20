@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Settings;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Collections;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 using MSerialisers;
 
-namespace MetaboliteLevels.Data.Visualisables
+namespace MetaboliteLevels.Data.Session.Associational
 {
     /// <summary>
     /// Clusters (aka Patterns)

@@ -3,31 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Controls;
+using MetaboliteLevels.Controls.Charts;
 using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Viewers.Charts;
 using MetaboliteLevels.Data;
-using MetaboliteLevels.Algorithms.Statistics.Metrics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Types.UI;
 
 namespace MetaboliteLevels.Forms.Wizards
 {
     public partial class FrmWizConfigurationCluster : Form
     {
-        CtlWizard wizard;
+        CtlWizard _wizard;
         private Core _core;
         Peak _lowestPeak;
         Peak _highestPeak;
-        Peak current;
+        Peak _current;
         private EditableComboBox<ObsFilter> _ecbFilter;
         private EditableComboBox<MetricBase> _ecbDistance;
         private EditableComboBox<PeakFilter> _ecbPeakFilter;
@@ -64,18 +65,18 @@ namespace MetaboliteLevels.Forms.Wizards
             _ecbDistance = DataSet.ForMetricAlgorithms( core ).CreateComboBox( _lstDistanceMeasure, _btnDistanceMeasure, ENullItemName.NoNullItem );
             _lstDistanceMeasure.SelectedIndexChanged += _lstDistanceMeasure_SelectedIndexChanged;
 
-            this.current = current;
+            this._current = current;
             _lblSeedCurrent.Text = current != null ? current.DisplayName : "None";
             _radSeedCurrent.Enabled = current != null;
             _lblSeedCurrent.Enabled = current != null;
 
             _lstStat.Items.AddRange( NamedItem.GetRange( core.AllStatistics.WhereEnabled(), GetStatName ).ToArray() );
 
-            wizard = CtlWizard.BindNew( this, tabControl1, CtlWizardOptions.DEFAULT | CtlWizardOptions.DialogResultCancel | CtlWizardOptions.HandleBasicChanges );
-            wizard.OkClicked += wizard_OkClicked;
-            wizard.TitleHelpText = Manual.DKMeansPlusPlus;
-            wizard.PermitAdvance += this.ValidatePage;
-            wizard.Revalidate();
+            _wizard = CtlWizard.BindNew( this, tabControl1, CtlWizardOptions.DEFAULT | CtlWizardOptions.DialogResultCancel | CtlWizardOptions.HandleBasicChanges );
+            _wizard.OkClicked += wizard_OkClicked;
+            _wizard.TitleHelpText = Manual.DKMeansPlusPlus;
+            _wizard.PermitAdvance += this.ValidatePage;
+            _wizard.Revalidate();
 
             UpdateStatBox();
 
@@ -173,7 +174,7 @@ namespace MetaboliteLevels.Forms.Wizards
         void wizard_OkClicked( object sender, EventArgs e )
         {
             // Check
-            if (!wizard.RevalidateAll())
+            if (!_wizard.RevalidateAll())
             {
                 FrmMsgBox.ShowError( this, "Not all options have been selected." );
                 return;
@@ -181,7 +182,7 @@ namespace MetaboliteLevels.Forms.Wizards
 
             int param1_numClusters = _radStopN.Checked ? int.Parse( _txtStopN.Text ) : int.MinValue;
             double param2_distanceLimit = _radStopD.Checked ? double.Parse( _txtStopD.Text ) : double.MinValue;
-            WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>( _radSeedCurrent.Checked ? current : _radSeedHighest.Checked ? _highestPeak : _lowestPeak );
+            WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>( _radSeedCurrent.Checked ? _current : _radSeedHighest.Checked ? _highestPeak : _lowestPeak );
             GroupInfo param4_seedGroup = NamedItem<GroupInfo>.Extract( _lstGroups.SelectedItem );
             int param5_doKMeans = _radFinishK.Checked ? 1 : 0;
             IMatrixProvider source = _ecbSource.SelectedItem;
@@ -238,7 +239,7 @@ namespace MetaboliteLevels.Forms.Wizards
                                                        };
 
 
-                trueFilter = new Settings.ObsFilter( null, null, conditions );
+                trueFilter = new ObsFilter( null, null, conditions );
                 _core.AddObsFilter( trueFilter );
             }
             else
@@ -271,14 +272,14 @@ namespace MetaboliteLevels.Forms.Wizards
 
         private void OptionChanged( object sender, EventArgs e )
         {
-            if (wizard != null)
+            if (_wizard != null)
             {
-                wizard.Revalidate();
+                _wizard.Revalidate();
             }
 
             if (_radSeedCurrent.Checked)
             {
-                _chart.Plot( new StylisedPeak( current ) );
+                _chart.Plot( new StylisedPeak( _current ) );
             }
             else if (_radSeedHighest.Checked)
             {

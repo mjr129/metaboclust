@@ -1,34 +1,25 @@
-﻿using MCharting;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Data.Visualisables;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Forms.Algorithms;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Viewers.Lists;
-using MetaboliteLevels.Properties;
-using System.Collections.ObjectModel;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MCharting;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Data.General;
-using MGui.Helpers;
-using MGui.Datatypes;
-using MetaboliteLevels.Viewers.Charts;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Editing
+namespace MetaboliteLevels.Forms.Activities
 {
     /// <summary>
     /// Shows a PCA plot.
@@ -444,12 +435,12 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void editPeakFilters_Click(object sender, EventArgs e)
         {
-            Generic.DataSet.ForPeakFilter(this._core).ShowListEditor(this);
+            DataSet.ForPeakFilter(this._core).ShowListEditor(this);
         }
 
         private void editObsFilters_Click(object sender, EventArgs e)
         {
-            Generic.DataSet.ForObsFilter(this._core).ShowListEditor(this);
+            DataSet.ForObsFilter(this._core).ShowListEditor(this);
         }
 
         void setFilter_Click(object sender, EventArgs e)

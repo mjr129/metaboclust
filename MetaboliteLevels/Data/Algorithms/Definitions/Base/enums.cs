@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Arguments
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 {
     // Enums used by some ArgsBase derivatives.
 

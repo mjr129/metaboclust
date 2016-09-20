@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy
 {
     internal class LegacyKMeansClusterer : ClustererBase
     {
@@ -55,7 +54,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
 
             // Assign to exemplars
             prog.Enter("Initialising assignments");
-            LegacyClustererHelper.Assign(vmatrix, clusters, Settings.ECandidateMode.Exemplars, args.Distance, prog);
+            LegacyClustererHelper.Assign(vmatrix, clusters, ECandidateMode.Exemplars, args.Distance, prog);
             prog.Leave();
 
             // Centre

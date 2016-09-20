@@ -8,17 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Algorithms;
-using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
-using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Properties;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Editing
@@ -81,7 +79,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnCancel.Visible = false;
             }
 
-            if (!config.HasItemEditor)
+            if (!config.HasItemEditor)  // Required for ADD EDIT VIEW DUPLICATE
             {
                 _btnAdd.Visible = false;
                 _btnEdit.Visible = false;
@@ -89,13 +87,13 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnDuplicate.Visible = false;
             }
 
-            if (!config.ListSupportsReorder)
+            if (!config.ListSupportsReorder) // Required for UP DOWN
             {
                 _btnUp.Visible = false;
                 _btnDown.Visible = false;
             }
 
-            if ((!config.ListSupportsChanges && !config.ListIsSelfUpdating) && show != EShow.Acceptor)
+            if ((!config.ListSupportsChanges && !config.ListIsSelfUpdating) && show != EShow.Acceptor) // Required for ANY MODIFICATION
             {
                 _btnAdd.Visible = false;
                 _btnDuplicate.Visible = false;
@@ -104,7 +102,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnCancel.Text = "Close";
             }
 
-            if (show == EShow.ReadOnly) // || !hasEditor
+            if (show == EShow.ReadOnly) // || Required for ANY MODIFICATION
             {
                 _btnAdd.Visible = false;
                 _btnEdit.Visible = false;
@@ -123,7 +121,7 @@ namespace MetaboliteLevels.Forms.Editing
         private void UpdateListFromSource()
         {
             _list = new List<object>( _config.UntypedGetList( false ).Cast<object>() );
-            _listViewHelper.DivertList(_list);
+            _listViewHelper.DivertList(_list, _config.DataType);
             _originalList = new List<object>( _list );
         }               
 

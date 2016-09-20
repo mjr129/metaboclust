@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Forms.Startup
+namespace MetaboliteLevels.Forms.Activities
 {
     /// <summary>
     /// Warns user about using data saved using a previous version of the software.
     /// </summary>
     public partial class FrmActOldData : Form
     {
-        bool allowSaveSetting;
+        bool _allowSaveSetting;
         string _breakingChanges;
-        DataFileNames dfn;
+        DataFileNames _dfn;
 
         public FrmActOldData()
         {
@@ -40,8 +41,8 @@ namespace MetaboliteLevels.Forms.Startup
             Text = dfn.Title;
             _chkNotAgain.Visible = !bc;
             _chkNotAgain.Checked = false;
-            allowSaveSetting = !bc;
-            this.dfn = dfn;
+            _allowSaveSetting = !bc;
+            this._dfn = dfn;
 
             // UiControls.CompensateForVisualStyles(this);
         }
@@ -105,7 +106,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void _chkNotAgain_CheckedChanged(object sender, EventArgs e)
         {
-            if (allowSaveSetting)
+            if (_allowSaveSetting)
             {
                 DoNotShowAgain = _chkNotAgain.Checked;
             }
@@ -113,7 +114,7 @@ namespace MetaboliteLevels.Forms.Startup
 
         private void _btnDetails_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            FrmInputMultiLine.ShowFixed(this, Text, "Data file sources", "These were the files used to create the initial dataset. Note that these files may have been moved or renamed since the dataset's creation.", dfn.GetDetails());
+            FrmInputMultiLine.ShowFixed(this, Text, "Data file sources", "These were the files used to create the initial dataset. Note that these files may have been moved or renamed since the dataset's creation.", _dfn.GetDetails());
         }
     }
 }

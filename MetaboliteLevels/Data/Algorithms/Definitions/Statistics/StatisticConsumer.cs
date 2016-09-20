@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Inputs;
-using System;
-using MetaboliteLevels.Utilities;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.General;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Statistics
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 {
     /// <summary>
     /// Special case of Statistic that take other statistics as inputs.

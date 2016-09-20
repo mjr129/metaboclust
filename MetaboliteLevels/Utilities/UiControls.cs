@@ -12,31 +12,25 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.DataInfo;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Properties;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Algorithms.Statistics.Statistics;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.General;
 using System.Diagnostics;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Forms.Algorithms;
 using Microsoft.Win32;
 using MetaboliteLevels.Forms;
 using MGui;
 using MGui.Datatypes;
 using MGui.Helpers;
-using MetaboliteLevels.Forms.Startup;
 using MGui.Controls;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
-using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Types.UI;
 using MCharting;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -60,8 +54,8 @@ namespace MetaboliteLevels.Utilities
         private const string STARTUPPATH_REGVALUE = "WorkingDirectory";
 
         // Where the application stores its data.
-        private static string __startupPath;
-        private static EStartupPath __startupPathMode;
+        private static string _startupPath;
+        private static EStartupPath _startupPathMode;
 
         public static readonly Color TitleBackColour = Color.White; // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color TitleForeColour = Color.Purple; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
@@ -1296,12 +1290,12 @@ namespace MetaboliteLevels.Utilities
         {
             get
             {
-                if (__startupPath == null)
+                if (_startupPath == null)
                 {
                     FindStartupPath();
                 }
 
-                return __startupPathMode;
+                return _startupPathMode;
             }
         }
 
@@ -1312,12 +1306,12 @@ namespace MetaboliteLevels.Utilities
         {
             get
             {
-                if (__startupPath == null)
+                if (_startupPath == null)
                 {
                     FindStartupPath();
                 }
 
-                return __startupPath;
+                return _startupPath;
             }
         }
 
@@ -1330,29 +1324,29 @@ namespace MetaboliteLevels.Utilities
 
             if (File.Exists(rerouteFile))
             {
-                __startupPath = File.ReadAllText(rerouteFile).Trim();
-                __startupPathMode = EStartupPath.Local;
+                _startupPath = File.ReadAllText(rerouteFile).Trim();
+                _startupPathMode = EStartupPath.Local;
             }
             else
             {
-                __startupPath = Registry.GetValue(Registry.CurrentUser.Name + "\\" + STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE, null) as string;
+                _startupPath = Registry.GetValue(Registry.CurrentUser.Name + "\\" + STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE, null) as string;
 
-                if (__startupPath != null)
+                if (_startupPath != null)
                 {
-                    __startupPathMode = EStartupPath.User;
+                    _startupPathMode = EStartupPath.User;
                 }
                 else
                 {
-                    __startupPath = Registry.GetValue(Registry.LocalMachine.Name + "\\" + STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE, null) as string;
+                    _startupPath = Registry.GetValue(Registry.LocalMachine.Name + "\\" + STARTUPPATH_REGKEY, STARTUPPATH_REGVALUE, null) as string;
 
-                    if (__startupPath != null)
+                    if (_startupPath != null)
                     {
-                        __startupPathMode = EStartupPath.Machine;
+                        _startupPathMode = EStartupPath.Machine;
                     }
                     else
                     {
-                        __startupPath = Application.StartupPath;
-                        __startupPathMode = EStartupPath.None;
+                        _startupPath = Application.StartupPath;
+                        _startupPathMode = EStartupPath.None;
                     }
                 }
             }

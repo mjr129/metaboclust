@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Trends
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends.Implementations
 {
     /// <summary>
     /// Base class for Trends which provides a nice wrapper to smooth each point individually.

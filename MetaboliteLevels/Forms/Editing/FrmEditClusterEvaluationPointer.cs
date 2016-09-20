@@ -1,42 +1,35 @@
-﻿using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Properties;
-using MGui;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Evaluation;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Algorithms
+namespace MetaboliteLevels.Forms.Editing
 {
     public partial class FrmEvaluateClusteringOptions : Form
     {
         private Core _core;
-        private ArgsClusterer __backingField_selectedAlgorithm;
+        private ArgsClusterer _backingField_selectedAlgorithm;
         private bool _readonly;                                           
 
         internal ArgsClusterer SelectedAlgorithm
         {
             get
             {
-                return __backingField_selectedAlgorithm;
+                return _backingField_selectedAlgorithm;
             }
             set
             {
-                __backingField_selectedAlgorithm = value;
+                _backingField_selectedAlgorithm = value;
 
                 if (value == null)
                 {

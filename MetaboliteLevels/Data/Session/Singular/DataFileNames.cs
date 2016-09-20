@@ -1,19 +1,17 @@
-﻿using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.General;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
-using System.Runtime.Serialization;
-using System.Diagnostics;
-using MetaboliteLevels.Data.Visualisables;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Data.Session.Singular
 {
     [Serializable]
     class DataFileNames

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Singular;
 
-namespace MetaboliteLevels.Controls
+namespace MetaboliteLevels.Controls.Lists
 {
-    interface ICoreWatcher
+    interface IColumnProvider
     {
-        void ChangeCore(Core newCore);
+        IEnumerable<Column> GetXColumns(Core core);
     }
 }

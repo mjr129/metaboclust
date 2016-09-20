@@ -5,20 +5,19 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Viewers.Lists;
-using System.ComponentModel;
-using MGui;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Data.Session.General
 {
     /// <summary>
     /// Used to allow the user to "flag" variables with quick comments.
     /// </summary>
     [Serializable]
-    internal class PeakFlag : Associational
+    internal class PeakFlag : Associational.Associational
     {
         private char _key;
 

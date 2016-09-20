@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MCharting;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Properties;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MGui;
 using MGui.Datatypes;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Viewers.Charts
+namespace MetaboliteLevels.Controls.Charts
 {
     class ChartHelper : ICoreWatcher
     {
@@ -624,15 +620,15 @@ namespace MetaboliteLevels.Viewers.Charts
 
     class ChartSelectionEventArgs : EventArgs
     {
-        public readonly Peak peak;
-        public readonly IntensityInfo dataPoint;
-        public readonly string seriesName;
+        public readonly Peak _peak;
+        public readonly IntensityInfo _dataPoint;
+        public readonly string _seriesName;
 
         public ChartSelectionEventArgs(Peak variable, IntensityInfo dataPoint, string seriesName)
         {
-            this.peak       = variable;
-            this.dataPoint  = dataPoint;
-            this.seriesName = seriesName;
+            this._peak       = variable;
+            this._dataPoint  = dataPoint;
+            this._seriesName = seriesName;
         }
     }
 }

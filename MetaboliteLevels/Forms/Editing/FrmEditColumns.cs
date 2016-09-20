@@ -7,16 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Editing
 {
     internal partial class FrmEditColumns : Form
     {
-        private readonly List<Column> Available;
-        private readonly HashSet<Column> Selected;
+        private readonly List<Column> _available;
+        private readonly HashSet<Column> _selected;
 
         public static HashSet<Column> Show( IWin32Window owner, IEnumerable<Column> available, IEnumerable<Column> selected )
         {
@@ -24,7 +24,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 if (frm.ShowDialog( owner ) == DialogResult.OK)
                 {
-                    return frm.Selected;
+                    return frm._selected;
                 }
 
                 return null;
@@ -36,8 +36,8 @@ namespace MetaboliteLevels.Forms.Editing
             InitializeComponent();
             UiControls.SetIcon( this );
 
-            this.Available = available.ToList();
-            this.Selected = selected.Unique();
+            this._available = available.ToList();
+            this._selected = selected.Unique();
 
             RefreshView();
 
@@ -48,9 +48,9 @@ namespace MetaboliteLevels.Forms.Editing
         {
             treeView1.Nodes.Clear();
 
-            foreach (Column col in Available)
+            foreach (Column col in _available)
             {
-                bool isSelected = Selected.Contains( col );
+                bool isSelected = _selected.Contains( col );
 
                 if (!isSelected && !_chkShowAdvanced.Checked && col.Special == EColumn.Advanced)
                 {
@@ -102,13 +102,13 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnDefaults_Click( object sender, EventArgs e )
         {
-            Selected.Clear();
+            _selected.Clear();
 
-            foreach (Column col in Available)
+            foreach (Column col in _available)
             {
                 if (col.Special == EColumn.Visible)
                 {
-                    Selected.Add( col );
+                    _selected.Add( col );
                 }
             }
 
@@ -151,11 +151,11 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 if (e.Node.Checked)
                 {
-                    Selected.Add( col );
+                    _selected.Add( col );
                 }
                 else
                 {
-                    Selected.Remove( col );
+                    _selected.Remove( col );
                 }
 
                 UpdateParent( e.Node.Parent );

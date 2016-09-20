@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -455,9 +454,9 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Retuns the Qian distance between two vectors.
         /// </summary>                                   
-        public static double QianDistance(double[] X, double[] Y)
+        public static double QianDistance(double[] X, double[] y)
         {
-            return -Qian(X, Y);
+            return -Qian(X, y);
         }
 
         /// <summary>
@@ -468,12 +467,12 @@ namespace MetaboliteLevels.Utilities
         /// gene expression profiles identifies new, biologically relevant interactions. Journal of
         /// molecular biology, 314(5):1053–1066, 2001.
         /// </summary>
-        public static double Qian(double[] X, double[] Y)
+        public static double Qian(double[] X, double[] y)
         {
-            UiControls.Assert(X.Length == Y.Length, "Qian metric, X and Y lengths differ");
+            UiControls.Assert(X.Length == y.Length, "Qian metric, X and Y lengths differ");
 
             X = Normalise(X);
-            Y = Normalise(Y);
+            y = Normalise(y);
 
             int c = X.Length;
 
@@ -485,7 +484,7 @@ namespace MetaboliteLevels.Utilities
             {
                 for (int j = 0; j < c; j++)
                 {
-                    M[i, j] = X[i] * Y[j];
+                    M[i, j] = X[i] * y[j];
                 }
             }
 

@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using MetaboliteLevels.Utilities;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Settings;
+using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Viewers.Lists
+namespace MetaboliteLevels.Controls.Lists
 {
     partial class CtlAutoList
     {
         class ColumnFilter
         {
-            private readonly CtlAutoList Owner;
-            public readonly Column column;
+            private readonly CtlAutoList _owner;
+            public readonly Column _column;
             public readonly ListVieweHelper.EOperator Operator;
             public readonly double NumValue;
             public readonly string TextValue;
 
             public ColumnFilter(CtlAutoList owner, Column column, ListVieweHelper.EOperator op, string va)
             {
-                this.Owner = owner;
+                this._owner = owner;
                 this.Operator = op;
-                this.column = column;
+                this._column = column;
                 this.TextValue = va.ToUpper();
 
                 if (!double.TryParse(va, out this.NumValue))
@@ -33,7 +33,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
             public bool FilterRemove(object value)
             {
-                object v = column.GetRow(value);
+                object v = _column.GetRow(value);
 
                 switch (Operator)
                 {

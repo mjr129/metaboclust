@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MSerialisers;
 
-namespace MetaboliteLevels.Data.DataInfo
+namespace MetaboliteLevels.Data.Session.General
 {
     [Serializable]
     class Acquisition

@@ -1,16 +1,14 @@
-﻿using System.Linq;
-using MetaboliteLevels.Utilities;
+﻿using System;
 using System.Collections.Generic;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Data.Session;
-using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations
 {
     /// <summary>
     /// Represents script-based clustering algorithms.

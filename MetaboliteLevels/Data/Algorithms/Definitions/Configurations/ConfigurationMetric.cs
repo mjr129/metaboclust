@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Metrics;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Data.Session;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Configurations
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 {
     /// <summary>
     /// Configured metric algorithm (see ConfigurationBase).

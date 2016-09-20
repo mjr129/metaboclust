@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Properties;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
-using System.Drawing;
-using MSerialisers;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Utilities;
+using MSerialisers;
 
-namespace MetaboliteLevels.Data.Visualisables
+namespace MetaboliteLevels.Data.Session.Associational
 {
     /// <summary>
     /// Adducts
@@ -143,7 +143,7 @@ namespace MetaboliteLevels.Data.Visualisables
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override IEnumerable<Column> GetXColumns(Session.Core core)
+        public override IEnumerable<Column> GetXColumns(Core core)
         {                                                
             List<Column<Adduct>> result = new List<Column<Adduct>>();       
 

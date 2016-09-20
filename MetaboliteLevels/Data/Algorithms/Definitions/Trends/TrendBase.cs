@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Utilities;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.General;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Trends
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
 {
     /// <summary>
     /// Base class for trends.

@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Charts;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Forms.Activities
 {
     internal partial class FrmActExportImage : Form
     {

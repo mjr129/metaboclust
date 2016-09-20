@@ -1,7 +1,11 @@
-﻿using MetaboliteLevels.Utilities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Viewers.Lists
+namespace MetaboliteLevels.Controls.Lists
 {
     abstract partial class ListVieweHelper
     {

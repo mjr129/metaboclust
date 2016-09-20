@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
+using MetaboliteLevels.Data.Algorithms.General;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Corrections
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementations
 {
     class CorrectionDirtyRectify : CorrectionBase
     {

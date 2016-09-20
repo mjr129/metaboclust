@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
-using MSerialisers;
 
-namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
+namespace MetaboliteLevels.Data.Evaluation
 {
     /// <summary>
     /// Points to a clustering configuration OR result.

@@ -5,33 +5,27 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MCharting;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Evaluation;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Properties;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Charts;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
-using MSerialisers;
 using MSerialisers.Serialisers;
 
-namespace MetaboliteLevels.Forms.Algorithms
+namespace MetaboliteLevels.Forms.Activities
 {
     /// <summary>
     /// Allows the user to evaluate clustering
@@ -92,12 +86,12 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         class ColumnWrapper : Visualisable
         {                                                     
-            private readonly ClusterEvaluationResults Results;
+            private readonly ClusterEvaluationResults _results;
             public readonly Column<ClusterEvaluationParameterResult> Column;
 
             public ColumnWrapper(ClusterEvaluationResults rs, Column<ClusterEvaluationParameterResult> col)
             {
-                this.Results = rs;
+                this._results = rs;
                 this.Column = col;
             }
 
@@ -111,10 +105,10 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 List<Column<ColumnWrapper>> cols = new List<Column<ColumnWrapper>>();
 
-                foreach (ClusterEvaluationParameterResult v in Results.Results)
+                foreach (ClusterEvaluationParameterResult v in _results.Results)
                 {
                     var closure = v;
-                    cols.Add(Results.Configuration.ParameterName + " = " + closure.DisplayName, EColumn.None, z => z.Column.GetRow(closure));
+                    cols.Add(_results.Configuration.ParameterName + " = " + closure.DisplayName, EColumn.None, z => z.Column.GetRow(closure));
                 }
 
                 return cols;
@@ -142,7 +136,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             ctlTitleBar1.SubText = config.ToString();
             this.Text = "Evaluate Clustering - " + fileName;
-            _lvhConfigs.DivertList(config.Results);
+            _lvhConfigs.DivertList<ClusterEvaluationParameterResult>( config.Results);
 
             List<ColumnWrapper> cols2 = new List<ColumnWrapper>();
 
@@ -169,7 +163,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 _lstSel.Items.Add("Test " + (n + 1));
             }
 
-            _lvhStatistics.DivertList(cols2);
+            _lvhStatistics.DivertList<ColumnWrapper>(cols2);
             PopulateTreeView(config, cols2);
 
             _infoLabel.Text = "Loaded results";
@@ -250,7 +244,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     }
 
                     _lvhClusters.Visible = false;
-                    _lvhClusters.DivertList(all);
+                    _lvhClusters.DivertList<Cluster>(all);
                     _lvhClusters.Visible = true;
                     panel2.Visible = success;
 
@@ -268,7 +262,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                     ResultClusterer rep = sel.Repetitions[_lstSel.SelectedIndex - 1];
 
                     _lstClusters.Visible = false;
-                    _lvhClusters.DivertList(rep.Clusters);
+                    _lvhClusters.DivertList<Cluster>(rep.Clusters);
                     _lstClusters.Visible = true;
 
                     _infoLabel.Text = "There are " + rep.Clusters.Length + " clusters when " + sel.Owner.ParameterName + " = " + sel.DisplayName + " for " + _lstSel.SelectedItem;
@@ -452,7 +446,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// </summary>              
         private void _btnNewTest_Click(object sender, EventArgs e)
         {
-            if (!Generic.DataSet.ForTests(this._core).ShowListEditor(this))
+            if (!DataSet.ForTests(this._core).ShowListEditor(this))
             {
                 return;
             }
@@ -936,14 +930,14 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void updateResultsDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EUpdateResults options = EnumHelper.SumEnum(Generic.DataSet.ForFlagsEnum<EUpdateResults>("Batch Options").ShowCheckBox(this, null));
+            EUpdateResults options = EnumHelper.SumEnum(DataSet.ForFlagsEnum<EUpdateResults>("Batch Options").ShowCheckBox(this, null));
 
             if (options == EUpdateResults.None)
             {
                 return;
             }
 
-            IEnumerable<ClusterEvaluationPointer> tests = Generic.DataSet.ForTests(this._core).ShowCheckBox(this, null);
+            IEnumerable<ClusterEvaluationPointer> tests = DataSet.ForTests(this._core).ShowCheckBox(this, null);
 
             if (tests == null)
             {
@@ -954,7 +948,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (options.Has(EUpdateResults.Statistics))
             {
-                stats = EnumHelper.SumEnum(Generic.DataSet.ForFlagsEnum<EClustererStatistics>("Statistics").ShowCheckBox(this, null));
+                stats = EnumHelper.SumEnum(DataSet.ForFlagsEnum<EClustererStatistics>("Statistics").ShowCheckBox(this, null));
             }
             else
             {

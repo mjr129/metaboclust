@@ -1,18 +1,16 @@
-﻿using MetaboliteLevels.Data.Visualisables;
-using System;
-using System.Text;
-using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using MGui.Helpers;
-using MGui.Datatypes;
-using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Viewers.Lists;
-using MetaboliteLevels.Data.Session;
+﻿using System;
 using System.Collections.Generic;
-using MetaboliteLevels.Algorithms.Statistics.Statistics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MGui.Datatypes;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Arguments
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 {
     /// <summary>
     /// Arguments for statistics (see StatisticBase).

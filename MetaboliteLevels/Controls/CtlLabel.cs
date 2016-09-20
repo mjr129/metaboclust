@@ -11,7 +11,7 @@ namespace MetaboliteLevels.Controls
 {
     class CtlLabel : Label
     {
-        private ELabelStyle _LabelStyle;
+        private ELabelStyle _labelStyle;
 
         public CtlLabel()
         {
@@ -23,18 +23,18 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return _LabelStyle;
+                return _labelStyle;
             }
             set
             {
-                _LabelStyle = value;
+                _labelStyle = value;
                 ApplyStyle();
             }
         }
 
         private void ApplyStyle()
         {
-            switch (_LabelStyle)
+            switch (_labelStyle)
             {
                 case ELabelStyle.Normal:
                     base.ForeColor = Color.Black;

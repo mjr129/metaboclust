@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Data.Session;
-using MGui.Helpers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Results
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
 {
     /// <summary>
     /// Cache of clustering results.
@@ -158,13 +157,15 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
 
             prog.Enter("Input vectors");
             ProgressParallelHandler progP = prog.CreateParallelHandler(groupFilters.Count);
-            Parallel.ForEach(groupFilters, obsFilter => Thread_AddFilterToCalculationList(core, metric, vmatrix, dmatrix, statistics, realClusters, obsFilter, needsCalculating, progP));
+            ProgressParallelHandler closure1 = progP;
+            Parallel.ForEach(groupFilters, obsFilter => Thread_AddFilterToCalculationList(core, metric, vmatrix, dmatrix, statistics, realClusters, obsFilter, needsCalculating, closure1));
             prog.Leave();
 
             // ASSIGNMENT STATS
             prog.Enter("Assignments");
             progP = prog.CreateParallelHandler(needsCalculating.Count);
-            Parallel.ForEach(needsCalculating, z => Thread_CalculateAssignmentStatistics(statistics, z, realClusters, metric, progP));
+            ProgressParallelHandler closure2 = progP;
+            Parallel.ForEach(needsCalculating, z => Thread_CalculateAssignmentStatistics(statistics, z, realClusters, metric, closure2));
             prog.Leave();
 
             // CLUSTER STATS

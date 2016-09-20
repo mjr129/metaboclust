@@ -1,22 +1,17 @@
-﻿using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Properties;
-using MetaboliteLevels.Viewers.Lists;
-using System.IO;
-using MetaboliteLevels.Data.DataInfo;
-using MSerialisers;
-using MetaboliteLevels.Viewers.Charts;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using MSerialisers;
 
-namespace MetaboliteLevels.Data.Visualisables
+namespace MetaboliteLevels.Data.Session.Associational
 {
     [Serializable]
     [DeferSerialisation]

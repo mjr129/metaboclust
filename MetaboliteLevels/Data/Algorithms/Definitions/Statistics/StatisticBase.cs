@@ -1,6 +1,11 @@
-﻿using MetaboliteLevels.Algorithms.Statistics.Inputs;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Statistics
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 {
     /// <summary>
     /// Base class for statistics.

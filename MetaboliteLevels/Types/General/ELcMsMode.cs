@@ -1,7 +1,11 @@
-﻿using MetaboliteLevels.Utilities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Data.General
+namespace MetaboliteLevels.Types.General
 {
     /// <summary>
     /// LC-MS modes.

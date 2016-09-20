@@ -3,22 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Properties;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Charts;
-using System.Text;
 using System.Linq;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Settings;
-using MGui.Helpers;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using MetaboliteLevels.Controls.Charts;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Activities;
-using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
+using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Properties;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Viewers.Lists
+namespace MetaboliteLevels.Controls.Lists
 {
     /// <summary>
     /// Attaches to a listview and manages its contents, columns and menu options.
@@ -190,7 +190,7 @@ namespace MetaboliteLevels.Viewers.Lists
             _lblFilter.Click += _filterm_Click;
         }
 
-        internal void DivertList<T>( IEnumerable<T> results )
+        internal void DivertList<T>( IEnumerable<T> results ) 
         {                        
             DivertList( new DataSet<T>()
             {
@@ -200,6 +200,20 @@ namespace MetaboliteLevels.Viewers.Lists
                 ItemTitle = z => z.ToString(),
                 ItemDescription = z => (z as Visualisable)?.Comment,
                 ListIcon = Resources.IconData,
+            } );
+        }
+
+        internal void DivertList( IEnumerable results, Type type )
+        {
+            DivertList( new DataSet<object>()
+            {
+                Core = _core,
+                ListTitle = "List",
+                ListSource = results.Cast<object>(),
+                ItemTitle = z => z.ToString(),
+                ItemDescription = z => (z as Visualisable)?.Comment,
+                ListIcon = Resources.IconData,
+                DataType = type,
             } );
         }
 
@@ -379,10 +393,10 @@ namespace MetaboliteLevels.Viewers.Lists
             Column col = GetColumnDefinition(e.Column);
             _clickedColumn = col;
 
-            _mnuSortAscending.Checked = _sortOrder != null && _sortOrder.col == col && _sortOrder.ascending;
+            _mnuSortAscending.Checked = _sortOrder != null && _sortOrder._col == col && _sortOrder._ascending;
             _mnuSortAscending.Enabled = !col.DisableMenu;
 
-            _mnuSortDescending.Checked = _sortOrder != null && _sortOrder.col == col && !_sortOrder.ascending;
+            _mnuSortDescending.Checked = _sortOrder != null && _sortOrder._col == col && !_sortOrder._ascending;
             _mnuSortDescending.Enabled = !col.DisableMenu;
 
             _mnuFilterColumn.Text = _filter != null ? "Remove filter" : "Create filter...";
@@ -565,7 +579,7 @@ namespace MetaboliteLevels.Viewers.Lists
         {
             bool ascending = sender == _mnuSortAscending;
 
-            if (_sortOrder != null && _sortOrder.col == _clickedColumn && _sortOrder.ascending == ascending)
+            if (_sortOrder != null && _sortOrder._col == _clickedColumn && _sortOrder._ascending == ascending)
             {
                 _sortOrder = null;
             }
@@ -855,9 +869,9 @@ namespace MetaboliteLevels.Viewers.Lists
                 Column c = (Column)h.Tag;
                 h.Width = c.Width;
 
-                if (_sortOrder != null && _sortOrder.col == c)
+                if (_sortOrder != null && _sortOrder._col == c)
                 {
-                    if (_sortOrder.ascending)
+                    if (_sortOrder._ascending)
                     {
                         h.ImageIndex = (int)UiControls.ImageListOrder.ListSortUp;
                     }
@@ -866,7 +880,7 @@ namespace MetaboliteLevels.Viewers.Lists
                         h.ImageIndex = (int)UiControls.ImageListOrder.ListSortDown;
                     }
                 }
-                else if (_filter != null && _filter.column == c)
+                else if (_filter != null && _filter._column == c)
                 {
                     h.ImageIndex = (int)UiControls.ImageListOrder.ListFilter;
                 }
@@ -1010,19 +1024,19 @@ namespace MetaboliteLevels.Viewers.Lists
             _availableColumns.Clear();
 
             // Get the type
-            object firstElement = GetSourceContent().Cast<object>().FirstOrDefault();
+            Type dataType = _source?.DataType;
 
-            if (firstElement == null)
+            if (dataType == null) // TODO: Is this ever the case?
             {
                 _listViewOptionsKey = null;
                 return;
             }
 
             // Save the ID (this is used to load/save columns)
-            _listViewOptionsKey = _listView.FindForm().Name + "\\" + _listView.Name + "\\" + firstElement.GetType().Name;
+            _listViewOptionsKey = _listView.FindForm().Name + "\\" + _listView.Name + "\\" + dataType.Name;
 
             // Get columns for the type "T"
-            IEnumerable<Column> cols = ColumnManager.GetColumns( _core, firstElement );
+            IEnumerable<Column> cols = ColumnManager.GetColumns( dataType, _core );
 
             if (cols == null)
             {

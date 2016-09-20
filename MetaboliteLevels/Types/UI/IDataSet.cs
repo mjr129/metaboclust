@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Types.UI
 {
     /// <summary>
     /// This provides weak wrappers around DataSet(of T).
@@ -17,14 +17,21 @@ namespace MetaboliteLevels.Forms.Generic
     /// </summary>
     internal interface IDataSet
     {
+        [XColumn(EColumn.Visible)]
         string Title { get; }
+
+        [XColumn]
         string SubTitle { get; }
+
         IEnumerable UntypedGetList(bool onlyEnabled);
 
         string UntypedName(object x);
         string UntypedDescription(object x);
 
+        [XColumn("List editable")]
         bool ListSupportsChanges { get; }
+
+        [XColumn( "Items editable" )]
         bool HasItemEditor { get; }
 
         object UntypedEdit(Form owner, object @default, bool readOnly, bool workOnCopy);
@@ -38,5 +45,8 @@ namespace MetaboliteLevels.Forms.Generic
         bool DynamicEntries { get; }
 
         bool ItemsReferenceList { get; }
+
+        [XColumn( EColumn.Visible )]
+        Type DataType { get; }
     }
 }

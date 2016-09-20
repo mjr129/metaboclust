@@ -1,7 +1,10 @@
-﻿using MetaboliteLevels.Controls;
-using MetaboliteLevels.Utilities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Forms
+namespace MetaboliteLevels.Forms.Activities
 {
     partial class FrmMain
     {
@@ -115,7 +118,7 @@ namespace MetaboliteLevels.Forms
             this.splitContainer2 = new MGui.Controls.CtlSplitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this._lstPrimary = new System.Windows.Forms.ListView();
-            this._tsBarBrowser = new System.Windows.Forms.ToolStrip();
+            this._tsDatasetsPrimary = new System.Windows.Forms.ToolStrip();
             this._btnPrimPeak = new System.Windows.Forms.ToolStripButton();
             this._btnPrimClust = new System.Windows.Forms.ToolStripButton();
             this._btnPrimAssig = new System.Windows.Forms.ToolStripButton();
@@ -157,7 +160,7 @@ namespace MetaboliteLevels.Forms
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this._tsBarBrowser.SuspendLayout();
+            this._tsDatasetsPrimary.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this._tsBarSelection.SuspendLayout();
@@ -926,7 +929,7 @@ namespace MetaboliteLevels.Forms
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.panel3);
-            this.splitContainer2.Panel1.Controls.Add(this._tsBarBrowser);
+            this.splitContainer2.Panel1.Controls.Add(this._tsDatasetsPrimary);
             // 
             // splitContainer2.Panel2
             // 
@@ -965,10 +968,10 @@ namespace MetaboliteLevels.Forms
             // 
             // _tsBarBrowser
             // 
-            this._tsBarBrowser.BackColor = System.Drawing.SystemColors.Control;
-            this._tsBarBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._tsBarBrowser.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this._tsBarBrowser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._tsDatasetsPrimary.BackColor = System.Drawing.SystemColors.Control;
+            this._tsDatasetsPrimary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._tsDatasetsPrimary.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this._tsDatasetsPrimary.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnPrimPeak,
             this._btnPrimClust,
             this._btnPrimAssig,
@@ -977,13 +980,13 @@ namespace MetaboliteLevels.Forms
             this._btnPrimAdduct,
             this._btnPrimPath,
             this._btnPrimOther});
-            this._tsBarBrowser.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this._tsBarBrowser.Location = new System.Drawing.Point(0, 0);
-            this._tsBarBrowser.Name = "_tsBarBrowser";
-            this._tsBarBrowser.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this._tsBarBrowser.Size = new System.Drawing.Size(457, 44);
-            this._tsBarBrowser.TabIndex = 19;
-            this._tsBarBrowser.Text = "toolStrip7";
+            this._tsDatasetsPrimary.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this._tsDatasetsPrimary.Location = new System.Drawing.Point(0, 0);
+            this._tsDatasetsPrimary.Name = "_tsBarBrowser";
+            this._tsDatasetsPrimary.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this._tsDatasetsPrimary.Size = new System.Drawing.Size(457, 44);
+            this._tsDatasetsPrimary.TabIndex = 19;
+            this._tsDatasetsPrimary.Text = "toolStrip7";
             // 
             // _btnPrimPeak
             // 
@@ -1432,8 +1435,8 @@ namespace MetaboliteLevels.Forms
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            this._tsBarBrowser.ResumeLayout(false);
-            this._tsBarBrowser.PerformLayout();
+            this._tsDatasetsPrimary.ResumeLayout(false);
+            this._tsDatasetsPrimary.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -1480,7 +1483,7 @@ namespace MetaboliteLevels.Forms
         private System.Windows.Forms.ToolStrip _tsBarSelection;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.ToolStrip _tsBarBrowser;
+        private System.Windows.Forms.ToolStrip _tsDatasetsPrimary;
         private System.Windows.Forms.ToolStripButton _btnPrimAssig;
         private System.Windows.Forms.ToolStripButton _btnPrimComp;
         private System.Windows.Forms.ToolStripButton _btnPrimAdduct;

@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Data.DataInfo;
-using MGui.Helpers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy
 {
-    class LegacyDKMeansPPClusterer : ClustererBase
+    class LegacyDkMeansPpClusterer : ClustererBase
     {
         /// <summary>
         /// Constructor.
         /// </summary>  
-        public LegacyDKMeansPPClusterer(string id, string name)
+        public LegacyDkMeansPpClusterer(string id, string name)
             : base(id, name)
         {
             Comment = "k-means clustering using the k-means++ initial centre assignment, always choosing the most likley (most distant) centre.";

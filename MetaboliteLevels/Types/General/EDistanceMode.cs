@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Types.General
 {
     /// <summary>
     /// How the cluster centres are used to define the distance.

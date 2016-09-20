@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Trends
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends.Implementations
 {
     sealed class TrendAverage : TrendInbuilt
     {

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Forms.Startup
+namespace MetaboliteLevels.Forms.Selection
 {
     public partial class FrmSelectClosure : Form
     {

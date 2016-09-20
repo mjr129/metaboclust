@@ -1,17 +1,15 @@
-﻿using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Forms.Wizards;
+using MetaboliteLevels.Utilities;
 
-namespace MetaboliteLevels.Forms.Startup
+namespace MetaboliteLevels.Forms.Editing
 {
     public partial class FrmEditCompoundLibrary : Form
     {

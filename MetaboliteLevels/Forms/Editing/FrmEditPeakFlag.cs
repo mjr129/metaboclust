@@ -1,6 +1,4 @@
 ﻿using MetaboliteLevels.Controls;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Data.Session.General;
 using MGui;
 using MGui.Controls;
 
@@ -20,7 +19,7 @@ namespace MetaboliteLevels.Forms.Editing
     {
         private string _comment;
         private readonly bool _readOnly;
-        private readonly CtlBinder<PeakFlag> binder1 = new CtlBinder<PeakFlag>();
+        private readonly CtlBinder<PeakFlag> _binder1 = new CtlBinder<PeakFlag>();
 
         /// <summary>
         /// Shows the PeakFlag editor
@@ -33,7 +32,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
-                    frm.binder1.Commit();
+                    frm._binder1.Commit();
                     flag.Comment = frm._comment;
                     return true;
                 }
@@ -51,13 +50,13 @@ namespace MetaboliteLevels.Forms.Editing
 
             _readOnly = readOnly;
 
-            binder1.GenerateRevertButtons = false;
-            binder1.Bind(_txtName, z=> z.OverrideDisplayName);
-            binder1.Bind(_txtKey, z => z.Key);
-            binder1.Bind(_numDuration, z => z.BeepDuration);
-            binder1.Bind(_numFrequency, z => z.BeepFrequency);
-            binder1.Bind(_btnColour, z => z.Colour);
-            binder1.Read(flag);
+            _binder1.GenerateRevertButtons = false;
+            _binder1.Bind(_txtName, z=> z.OverrideDisplayName);
+            _binder1.Bind(_txtKey, z => z.Key);
+            _binder1.Bind(_numDuration, z => z.BeepDuration);
+            _binder1.Bind(_numFrequency, z => z.BeepFrequency);
+            _binder1.Bind(_btnColour, z => z.Colour);
+            _binder1.Read(flag);
 
             _comment = flag.Comment;
 

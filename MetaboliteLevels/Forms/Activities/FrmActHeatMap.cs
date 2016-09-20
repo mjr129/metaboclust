@@ -9,15 +9,17 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui;
-using MGui.Controls;   
+using MGui.Controls;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Activities
 {                    

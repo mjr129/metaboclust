@@ -2,14 +2,16 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
 using System.Collections.Generic;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Types.UI;
 using MGui.Helpers;
 using MGui.Datatypes;
 

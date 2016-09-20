@@ -6,20 +6,22 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.DataInfo;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
+using MetaboliteLevels.Data.Algorithms.General;
 using MGui;
 using MGui.Helpers;
 using MGui.Datatypes;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Types.UI;
 
 // ReSharper disable UnusedMember.Local
 

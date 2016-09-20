@@ -1,21 +1,17 @@
-﻿using MetaboliteLevels.Data.Visualisables;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.Session;
-using System.Runtime.Serialization;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
-using System.Collections;
-using MetaboliteLevels.Settings;
-using System.Reflection;
 using MGui.Helpers;
-using MetaboliteLevels.Types.UI;
 
-namespace MetaboliteLevels.Viewers.Lists
+namespace MetaboliteLevels.Controls.Lists
 {
     [Flags]
     public enum EColumn
@@ -269,6 +265,23 @@ namespace MetaboliteLevels.Viewers.Lists
                 }
             }
 
+            if (result is bool)
+            {
+                if ((bool)result)
+                {
+                    return "☑";
+                }
+                else
+                {
+                    return "☐";
+                }
+            }
+
+            if (result is Type)
+            {
+                return ((Type)result).ToUiString();
+            }
+
             return result.ToString();
         }
 
@@ -354,38 +367,7 @@ namespace MetaboliteLevels.Viewers.Lists
         }
     }
 
-    internal static class ColumnManager
-    {
-        public static IEnumerable<Column> GetColumns(Core core, object @object)
-        {
-            Visualisable vis = @object as Visualisable;
-
-            if (vis != null)
-            {
-                return vis.GetColumns( core );
-            }
-            else
-            {
-                return Visualisable.GetColumns( @object.GetType(), core );
-            }
-        }
-
-        public static IEnumerable<Column> GetColumns<T>(Core core)
-        {
-            return GetColumns( typeof(T), core );
-        }
-
-        public static IEnumerable<Column> GetColumns( Type type, Core core )
-        {
-            // Unfortunately this won't work if T is abstract
-            if (type.IsAbstract || !typeof( Visualisable ).IsAssignableFrom( type ))
-            {
-                return Visualisable.GetColumns( type, core );
-            }
-
-            return GetColumns( core, (Visualisable)(FormatterServices.GetUninitializedObject( type )) );
-        }
-    }     
+       
 
     static class ColumnExtensions
     {

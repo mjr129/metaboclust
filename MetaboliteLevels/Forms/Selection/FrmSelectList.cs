@@ -1,30 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Clusterers;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Data.DataInfo;
 using System.Diagnostics;
-using MetaboliteLevels.Viewers.Lists;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.UI;
+using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Forms.Selection
 {
     internal partial class FrmSelectList : Form
     {
         const string MISSING_LABEL = "𝑴𝒊𝒔𝒔𝒊𝒏𝒈";
 
         private IFormList _handler;
-        private IDataSet opts; 
+        private IDataSet _opts; 
         private bool _multiSelect;
         private readonly List<object> _objects = new List<object>();
         private readonly List<int> _invalidIndices = new List<int>();
@@ -52,7 +47,7 @@ namespace MetaboliteLevels.Forms.Generic
             this._btnEdit.Visible = opts.ListSupportsChanges;
 
             this._handler = handler;                               
-            this.opts = opts;
+            this._opts = opts;
             this._multiSelect = multiSelect;            
             _flpSelectAll.Visible = multiSelect;
 
@@ -75,11 +70,17 @@ namespace MetaboliteLevels.Forms.Generic
         {
             private ListView _listBox;
             CtlAutoList _lvh;
-            List<Visualisable> _list = new List<Visualisable>();
+            List<object> _list = new List<object>();
+            Type _dataType;
 
-            public void AddItem(object item, string text, string description)
+            public FormListBigListBox( Type dataType )
             {
-                _list.Add((Visualisable)item);
+                _dataType = dataType;
+            }
+
+            public void AddItem(object item, string text, string description )
+            {
+                _list.Add(item);
             }
 
             public void ClearItems()
@@ -105,7 +106,7 @@ namespace MetaboliteLevels.Forms.Generic
 
             public void Ready()
             {
-                _lvh.DivertList(_list);
+                _lvh.DivertList(_list, _dataType);
             }
 
             public void SetState(int n, bool state)
@@ -119,53 +120,53 @@ namespace MetaboliteLevels.Forms.Generic
 
         class FormListListBox : IFormList
         {
-            protected ListView listBox;
+            protected ListView _listBox;
 
             public virtual void Initialise(FrmSelectList form, Core core)
             {
-                listBox = new ListView();
+                _listBox = new ListView();
 
-                listBox.Columns.Add(new ColumnHeader());
+                _listBox.Columns.Add(new ColumnHeader());
 
-                listBox.View = View.Details;
-                listBox.HeaderStyle = ColumnHeaderStyle.None;
-                listBox.FullRowSelect = true;
-                listBox.GridLines = true;
-                listBox.MultiSelect = false;
-                listBox.ShowItemToolTips = true;
+                _listBox.View = View.Details;
+                _listBox.HeaderStyle = ColumnHeaderStyle.None;
+                _listBox.FullRowSelect = true;
+                _listBox.GridLines = true;
+                _listBox.MultiSelect = false;
+                _listBox.ShowItemToolTips = true;
 
-                listBox.Dock = DockStyle.Fill;
-                listBox.Margin = new Padding(8, 8, 8, 8);
-                listBox.Visible = true;
+                _listBox.Dock = DockStyle.Fill;
+                _listBox.Margin = new Padding(8, 8, 8, 8);
+                _listBox.Visible = true;
 
-                form.panel1.Controls.Add(listBox);
+                form.panel1.Controls.Add(_listBox);
             }
 
             void IFormList.Ready()
             {
-                listBox.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+                _listBox.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             }
 
             void IFormList.ClearItems()
             {
-                listBox.Items.Clear();
+                _listBox.Items.Clear();
             }
 
             bool IFormList.GetState(int n)
             {
-                return listBox.Items[n].Selected;
+                return _listBox.Items[n].Selected;
             }
 
             void IFormList.SetState(int n, bool state)
             {
-                listBox.Items[n].Selected = state;
+                _listBox.Items[n].Selected = state;
             }
 
             void IFormList.AddItem(object item, string text, string description)
             {
                 ListViewItem lvi = new ListViewItem(text);
                 lvi.ToolTipText = description;
-                listBox.Items.Add(lvi);
+                _listBox.Items.Add(lvi);
             }
         }
 
@@ -174,48 +175,48 @@ namespace MetaboliteLevels.Forms.Generic
             public override void Initialise(FrmSelectList form, Core core)
             {
                 base.Initialise(form, core);
-                base.listBox.CheckBoxes = true;
+                base._listBox.CheckBoxes = true;
             }
 
             bool IFormList.GetState(int n)
             {
-                return listBox.Items[n].Checked;
+                return _listBox.Items[n].Checked;
             }
 
             void IFormList.SetState(int n, bool state)
             {
-                listBox.Items[n].Checked = state;
+                _listBox.Items[n].Checked = state;
             }
         }
 
         abstract class FormListControlArray<T> : IFormList
             where T : Control, new()
         {
-            FlowLayoutPanel listBox;
-            ToolTip toolTip;
-            protected List<T> checkBoxes = new List<T>();
+            FlowLayoutPanel _listBox;
+            ToolTip _toolTip;
+            protected List<T> _checkBoxes = new List<T>();
 
             void IFormList.Initialise(FrmSelectList form, Core core)
             {
-                listBox = new FlowLayoutPanel();
-                listBox.FlowDirection = FlowDirection.TopDown;
-                listBox.Dock = DockStyle.Fill;
-                listBox.WrapContents = false;
-                listBox.AutoScroll = true;
-                listBox.Location = new System.Drawing.Point(0, 0);
-                listBox.Margin = new Padding(0, 0, 0, 0);
-                listBox.Visible = true;
+                _listBox = new FlowLayoutPanel();
+                _listBox.FlowDirection = FlowDirection.TopDown;
+                _listBox.Dock = DockStyle.Fill;
+                _listBox.WrapContents = false;
+                _listBox.AutoScroll = true;
+                _listBox.Location = new System.Drawing.Point(0, 0);
+                _listBox.Margin = new Padding(0, 0, 0, 0);
+                _listBox.Visible = true;
 
-                toolTip = new ToolTip();
-                toolTip.Active = true;
+                _toolTip = new ToolTip();
+                _toolTip.Active = true;
 
-                form.panel1.Controls.Add(listBox);
+                form.panel1.Controls.Add(_listBox);
             }
 
             void IFormList.ClearItems()
             {
-                listBox.Controls.Clear();
-                checkBoxes.Clear();
+                _listBox.Controls.Clear();
+                _checkBoxes.Clear();
             }
 
             void IFormList.Ready()
@@ -225,12 +226,12 @@ namespace MetaboliteLevels.Forms.Generic
 
             bool IFormList.GetState(int n)
             {
-                return GetState(checkBoxes[n]);
+                return GetState(_checkBoxes[n]);
             }
 
             void IFormList.SetState(int n, bool value)
             {
-                SetState(checkBoxes[n], value);
+                SetState(_checkBoxes[n], value);
             }
 
             public abstract bool GetState(T control);
@@ -243,9 +244,9 @@ namespace MetaboliteLevels.Forms.Generic
                 cb.Text = text;
                 cb.Visible = true;
                 cb.Margin = new Padding(8, 8, 8, 0);
-                toolTip.SetToolTip(cb, text);
-                listBox.Controls.Add(cb);
-                checkBoxes.Add(cb);
+                _toolTip.SetToolTip(cb, text);
+                _listBox.Controls.Add(cb);
+                _checkBoxes.Add(cb);
                 InitialiseItem(cb);
 
                 Label lb = new Label();
@@ -254,7 +255,7 @@ namespace MetaboliteLevels.Forms.Generic
                 lb.Margin = new Padding(64, 0, 8, 8);
                 lb.ForeColor = System.Drawing.Color.SteelBlue;
                 lb.Font = new System.Drawing.Font(lb.Font.FontFamily.Name, 8);
-                listBox.Controls.Add(lb);
+                _listBox.Controls.Add(lb);
             }
 
             protected virtual void InitialiseItem(T item)
@@ -324,7 +325,7 @@ namespace MetaboliteLevels.Forms.Generic
 
             // Get the current items, and the selected items
             int n = 0;
-            IEnumerable<object> source = opts.UntypedGetList(true).Cast<object>();
+            IEnumerable<object> source = _opts.UntypedGetList(true).Cast<object>();
             IEnumerable<object> selected = selectedItems != null ? selectedItems.Cast<object>() : new object[0];
             HashSet<int> selectedIndices = new HashSet<int>();
 
@@ -332,7 +333,7 @@ namespace MetaboliteLevels.Forms.Generic
             foreach (object item in source)
             {
                 _objects.Add( item );
-                _handler.AddItem(item, opts.UntypedName(item), opts.UntypedDescription(item));
+                _handler.AddItem(item, _opts.UntypedName(item), _opts.UntypedDescription(item));
 
                 if (selected.Contains( item ))
                 {
@@ -347,14 +348,14 @@ namespace MetaboliteLevels.Forms.Generic
             {
                 if (!source.Contains(item))
                 {
-                    if (opts.DynamicEntries)
+                    if (_opts.DynamicEntries)
                     {
-                        _handler.AddItem( item, opts.UntypedName( item ), opts.UntypedDescription( item ) );
+                        _handler.AddItem( item, _opts.UntypedName( item ), _opts.UntypedDescription( item ) );
                         _objects.Add( item );
                     }
                     else
                     {
-                        _handler.AddItem( item, MISSING_LABEL + " " + opts.UntypedName( item ), opts.UntypedDescription( item ) );
+                        _handler.AddItem( item, MISSING_LABEL + " " + _opts.UntypedName( item ), _opts.UntypedDescription( item ) );
                         _invalidIndices.Add( n );
                     }
 
@@ -398,7 +399,7 @@ namespace MetaboliteLevels.Forms.Generic
 
         private void _btnEdit_Click(object sender, EventArgs e)
         {
-            opts.ShowListEditor(this);
+            _opts.ShowListEditor(this);
 
             RefreshList(null);
         }
@@ -429,14 +430,7 @@ namespace MetaboliteLevels.Forms.Generic
 
         internal static T ShowList<T>(Form owner, DataSet<T> listValueSet, T defaultSelection)
         {
-            if (typeof(Visualisable).IsAssignableFrom(typeof(T)))
-            {
-                return Show<T>(owner, new FormListBigListBox(), listValueSet, false, AsArray(defaultSelection, listValueSet)).FirstOrDefault(listValueSet.CancelValue);
-            }
-            else
-            {
-                return Show<T>(owner, new FormListListBox(), listValueSet, false, AsArray(defaultSelection, listValueSet)).FirstOrDefault(listValueSet.CancelValue);
-            }
+            return Show<T>(owner, new FormListBigListBox(typeof(T)), listValueSet, false, AsArray(defaultSelection, listValueSet)).FirstOrDefault(listValueSet.CancelValue);
         }
 
         private static IEnumerable<T> AsArray<T>(T defaultSelection, DataSet<T> listValueSet)

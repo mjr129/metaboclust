@@ -7,7 +7,7 @@ using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
 using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics
+namespace MetaboliteLevels.Data.Algorithms.General
 {
     /// <summary>
     /// An R script.
@@ -105,7 +105,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
             RScriptMarkup markup = new RScriptMarkup( inputs );
 
-            List<AlgoParameter> Parameters = new List<AlgoParameter>();
+            List<AlgoParameter> parameters = new List<AlgoParameter>();
 
             while (true)
             {
@@ -130,7 +130,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
 
                             if (conv.TryGetValue(type, out etype))
                             {
-                                Parameters.Add(new AlgoParameter(name, etype));
+                                parameters.Add(new AlgoParameter(name, etype));
                             }
                             else
                             {
@@ -159,7 +159,7 @@ namespace MetaboliteLevels.Algorithms.Statistics
             this.Script = text;
             this.InputNames = inputNamesA;     
 
-            RequiredParameters = new AlgoParameterCollection(Parameters.ToArray());
+            RequiredParameters = new AlgoParameterCollection(parameters.ToArray());
         }
 
         /// <summary>

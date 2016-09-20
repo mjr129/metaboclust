@@ -1,6 +1,4 @@
-﻿using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Utilities;
+﻿using MetaboliteLevels.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +10,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MGui;
 using MetaboliteLevels.Controls;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Types.UI;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Editing
 {

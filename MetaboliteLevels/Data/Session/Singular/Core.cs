@@ -3,31 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.General;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Generic;
-using MetaboliteLevels.Forms.Startup;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using System.Diagnostics;
-using MetaboliteLevels.Algorithms.Statistics.Clusterers;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Forms.Algorithms;
-using System.Collections;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MSerialisers;
-using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
-using MSerialisers.Serialisers;
-using MGui.Helpers;
+using MetaboliteLevels.Data.Evaluation;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
-using MetaboliteLevels.Viewers.Lists;
+using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Utilities;
+using MGui.Helpers;
+using MSerialisers;
+using MSerialisers.Serialisers;
 
-namespace MetaboliteLevels.Data.Session
+namespace MetaboliteLevels.Data.Session.Singular
 {
     /// <summary>
     /// The session - everything!

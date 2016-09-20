@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using MetaboliteLevels.Algorithms.Statistics.Inputs;
-using MetaboliteLevels.Data.DataInfo;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Utilities;
-using MGui.Helpers;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Statistics
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 {
     /// <summary>
     /// Statistic specialisation just for PCA-ANOVA.

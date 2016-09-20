@@ -1,9 +1,12 @@
 ﻿using System;
-using MetaboliteLevels.Algorithms.Statistics.Metrics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Data.Session.Associational;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Arguments
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Metrics
 {
     /// <summary>
     /// Arguments for metrics (See MetricBase).

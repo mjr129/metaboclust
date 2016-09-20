@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Settings;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Forms.Generic;
 using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Viewers.Lists;
 using System.IO;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Types.UI;
 using MGui;
 using MGui.Controls;
 using MGui.Datatypes;
@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Forms.Editing
         private CoreOptions _target;
         private readonly Core _core;
         private readonly bool _readOnly;
-        private readonly CtlBinder<CoreOptions> binder1 = new CtlBinder<CoreOptions>();
+        private readonly CtlBinder<CoreOptions> _binder1 = new CtlBinder<CoreOptions>();
 
         public static bool Show(Form owner, Core core, bool readOnly)
         {
@@ -55,68 +55,68 @@ namespace MetaboliteLevels.Forms.Editing
             _readOnly = readOnly;
             _target = core.Options;
 
-            binder1.Bind(_txtClusterXAxis, λ => λ.ClusterDisplay.AxisX);
-            binder1.Bind(_txtClusterYAxis, λ => λ.ClusterDisplay.AxisY);
-            binder1.Bind(_txtClusterInfo, λ => λ.ClusterDisplay.Information);
-            binder1.Bind(_txtClusterSubtitle, λ => λ.ClusterDisplay.SubTitle);
-            binder1.Bind(_txtClusterTitle, λ => λ.ClusterDisplay.Title);
+            _binder1.Bind(_txtClusterXAxis, λ => λ.ClusterDisplay.AxisX);
+            _binder1.Bind(_txtClusterYAxis, λ => λ.ClusterDisplay.AxisY);
+            _binder1.Bind(_txtClusterInfo, λ => λ.ClusterDisplay.Information);
+            _binder1.Bind(_txtClusterSubtitle, λ => λ.ClusterDisplay.SubTitle);
+            _binder1.Bind(_txtClusterTitle, λ => λ.ClusterDisplay.Title);
 
-            binder1.Bind(_txtEvalFilename, λ => λ.ClusteringEvaluationResultsFileName);
+            _binder1.Bind(_txtEvalFilename, λ => λ.ClusteringEvaluationResultsFileName);
 
-            binder1.Bind(_btnColourAxisTitle, λ => λ.Colours.AxisTitle);
-            binder1.Bind(_btnColourCentre, λ => λ.Colours.ClusterCentre);
-            binder1.Bind(_btnColourUntypedElements, λ => λ.Colours.InputVectorJoiners);
-            binder1.Bind(_btnColourMajorGrid, λ => λ.Colours.MajorGrid);
-            binder1.Bind(_btnColourMinorGrid, λ => λ.Colours.MinorGrid);
-            binder1.Bind(_btnColourHighlight, λ => λ.Colours.NotableHighlight);
-            binder1.Bind(_btnColourBackground, λ => λ.Colours.PlotBackground);
-            binder1.Bind(_btnColourPreviewBackground, λ => λ.Colours.PreviewBackground);
-            binder1.Bind(_btnColourSeries, λ => λ.Colours.SelectedSeries);
+            _binder1.Bind(_btnColourAxisTitle, λ => λ.Colours.AxisTitle);
+            _binder1.Bind(_btnColourCentre, λ => λ.Colours.ClusterCentre);
+            _binder1.Bind(_btnColourUntypedElements, λ => λ.Colours.InputVectorJoiners);
+            _binder1.Bind(_btnColourMajorGrid, λ => λ.Colours.MajorGrid);
+            _binder1.Bind(_btnColourMinorGrid, λ => λ.Colours.MinorGrid);
+            _binder1.Bind(_btnColourHighlight, λ => λ.Colours.NotableHighlight);
+            _binder1.Bind(_btnColourBackground, λ => λ.Colours.PlotBackground);
+            _binder1.Bind(_btnColourPreviewBackground, λ => λ.Colours.PreviewBackground);
+            _binder1.Bind(_btnColourSeries, λ => λ.Colours.SelectedSeries);
 
-            binder1.Bind(_txtCompXAxis, λ => λ.CompoundDisplay.AxisX);
-            binder1.Bind(_txtCompYAxis, λ => λ.CompoundDisplay.AxisY);
-            binder1.Bind(_txtCompInfo, λ => λ.CompoundDisplay.Information);
-            binder1.Bind(_txtCompSubtitle, λ => λ.CompoundDisplay.SubTitle);
-            binder1.Bind(_txtCompTitle, λ => λ.CompoundDisplay.Title);
+            _binder1.Bind(_txtCompXAxis, λ => λ.CompoundDisplay.AxisX);
+            _binder1.Bind(_txtCompYAxis, λ => λ.CompoundDisplay.AxisY);
+            _binder1.Bind(_txtCompInfo, λ => λ.CompoundDisplay.Information);
+            _binder1.Bind(_txtCompSubtitle, λ => λ.CompoundDisplay.SubTitle);
+            _binder1.Bind(_txtCompTitle, λ => λ.CompoundDisplay.Title);
 
-            binder1.Bind(_lstPeakPlotting, λ => λ.ConditionsSideBySide);
-            binder1.Bind(_chkPeakFlag, λ => λ.EnablePeakFlagging);
-            binder1.Bind(_numClusterMaxPlot, λ => λ.MaxPlotVariables);
-            binder1.Bind(_numSizeLimit, λ => λ.ObjectSizeLimit);
+            _binder1.Bind(_lstPeakPlotting, λ => λ.ConditionsSideBySide);
+            _binder1.Bind(_chkPeakFlag, λ => λ.EnablePeakFlagging);
+            _binder1.Bind(_numClusterMaxPlot, λ => λ.MaxPlotVariables);
+            _binder1.Bind(_numSizeLimit, λ => λ.ObjectSizeLimit);
 
-            binder1.Bind(_txtPathXAxis, λ => λ.PathwayDisplay.AxisX);
-            binder1.Bind(_txtPathYAxis, λ => λ.PathwayDisplay.AxisY);
-            binder1.Bind(_txtPathInfo, λ => λ.PathwayDisplay.Information);
-            binder1.Bind(_txtPathSubtitle, λ => λ.PathwayDisplay.SubTitle);
-            binder1.Bind(_txtPathTitle, λ => λ.PathwayDisplay.Title);
+            _binder1.Bind(_txtPathXAxis, λ => λ.PathwayDisplay.AxisX);
+            _binder1.Bind(_txtPathYAxis, λ => λ.PathwayDisplay.AxisY);
+            _binder1.Bind(_txtPathInfo, λ => λ.PathwayDisplay.Information);
+            _binder1.Bind(_txtPathSubtitle, λ => λ.PathwayDisplay.SubTitle);
+            _binder1.Bind(_txtPathTitle, λ => λ.PathwayDisplay.Title);
 
-            binder1.Bind(_txtPeakXAxis, λ => λ.PeakDisplay.AxisX);
-            binder1.Bind(_txtPeakYAxis, λ => λ.PeakDisplay.AxisY);
-            binder1.Bind(_txtPeakInfo, λ => λ.PeakDisplay.Information);
-            binder1.Bind(_txtPeakSubtitle, λ => λ.PeakDisplay.SubTitle);
-            binder1.Bind(_txtPeakTitle, λ => λ.PeakDisplay.Title);
+            _binder1.Bind(_txtPeakXAxis, λ => λ.PeakDisplay.AxisX);
+            _binder1.Bind(_txtPeakYAxis, λ => λ.PeakDisplay.AxisY);
+            _binder1.Bind(_txtPeakInfo, λ => λ.PeakDisplay.Information);
+            _binder1.Bind(_txtPeakSubtitle, λ => λ.PeakDisplay.SubTitle);
+            _binder1.Bind(_txtPeakTitle, λ => λ.PeakDisplay.Title);
 
-            binder1.Bind(numericUpDown2, λ => λ.PopoutThumbnailSize);
-            binder1.Bind(_chkClusterCentres, λ => λ.ShowCentres);
-            binder1.Bind(_chkPeakData, λ => λ.ShowPoints);
-            binder1.Bind(_chkPeakTrend, λ => λ.ShowTrend);
-            binder1.Bind(_chkPeakMean, λ => λ.ShowVariableMean);
-            binder1.Bind(_chkPeakRanges, λ => λ.ShowVariableRanges);
-            binder1.Bind( _chkPeakMinMax, λ => λ.ShowVariableMinMax );
+            _binder1.Bind(numericUpDown2, λ => λ.PopoutThumbnailSize);
+            _binder1.Bind(_chkClusterCentres, λ => λ.ShowCentres);
+            _binder1.Bind(_chkPeakData, λ => λ.ShowPoints);
+            _binder1.Bind(_chkPeakTrend, λ => λ.ShowTrend);
+            _binder1.Bind(_chkPeakMean, λ => λ.ShowVariableMean);
+            _binder1.Bind(_chkPeakRanges, λ => λ.ShowVariableRanges);
+            _binder1.Bind( _chkPeakMinMax, λ => λ.ShowVariableMinMax );
 
-            binder1.Bind(_numThumbnail, λ => λ.ThumbnailSize);
+            _binder1.Bind(_numThumbnail, λ => λ.ThumbnailSize);
 
-            binder1.Bind(_lstPeakOrder, λ => λ.ViewAcquisition);           
+            _binder1.Bind(_lstPeakOrder, λ => λ.ViewAcquisition);           
 
-            binder1.Bind( _chkGroupNames, λ => λ.DrawExperimentalGroupAxisLabels );
+            _binder1.Bind( _chkGroupNames, λ => λ.DrawExperimentalGroupAxisLabels );
 
 
-            binder1.Bind( _btnHhMax, λ => λ.HeatMapMaxColour );
-            binder1.Bind( _btnHhMin, λ => λ.HeatMapMinColour );
-            binder1.Bind( _btnHhNan, λ => λ.HeatMapNanColour );
-            binder1.Bind( _btnHhOor, λ => λ.HeatMapOorColour );
+            _binder1.Bind( _btnHhMax, λ => λ.HeatMapMaxColour );
+            _binder1.Bind( _btnHhMin, λ => λ.HeatMapMinColour );
+            _binder1.Bind( _btnHhNan, λ => λ.HeatMapNanColour );
+            _binder1.Bind( _btnHhOor, λ => λ.HeatMapOorColour );
 
-            binder1.Read(_target);
+            _binder1.Read(_target);
 
             if (readOnly)
             {
@@ -133,7 +133,7 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void SaveAndClose(DialogResult result)
         {
-            binder1.Commit();
+            _binder1.Commit();
 
             DialogResult = result;
         }   
@@ -187,7 +187,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                     foreach (var v in z.List)
                     {
-                        _target._defaultValues.Add( v.arg.Key, v.arg.Value );
+                        _target._defaultValues.Add( v._arg.Key, v._arg.Value );
                     }
                 }
             };
@@ -197,14 +197,14 @@ namespace MetaboliteLevels.Forms.Editing
 
         private class _btnEditDefaults_Click__Kvp : Visualisable
         {
-            public KeyValuePair<string, object> arg;
+            public KeyValuePair<string, object> _arg;
 
             public _btnEditDefaults_Click__Kvp( KeyValuePair<string, object> arg )
             {
-                this.arg = arg;
+                this._arg = arg;
             }
 
-            public override string DefaultDisplayName => arg.Key;   
+            public override string DefaultDisplayName => _arg.Key;   
 
             public override EPrevent SupportsHide => EPrevent.Hide | EPrevent.Name | EPrevent.Comment;
 
@@ -217,8 +217,8 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 List<Column<_btnEditDefaults_Click__Kvp>> result = new List<Column<_btnEditDefaults_Click__Kvp>>();
 
-                result.Add( "Key"  , z => this.arg.Key );
-                result.Add( "Value", z => Column.AsString( this.arg.Value, EListDisplayMode.CountAndContent ) );
+                result.Add( "Key"  , z => this._arg.Key );
+                result.Add( "Value", z => Column.AsString( this._arg.Value, EListDisplayMode.CountAndContent ) );
 
                 return result;
             }

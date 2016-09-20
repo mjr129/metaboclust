@@ -1,29 +1,28 @@
-﻿using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data;
-using MetaboliteLevels.Settings;
-using System;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using MetaboliteLevels.Algorithms.Statistics.Clusterers;
-using MetaboliteLevels.Algorithms.Statistics.Clusterers.Legacy;
-using MetaboliteLevels.Algorithms.Statistics.Containers;
-using MetaboliteLevels.Algorithms.Statistics.Corrections;
-using MetaboliteLevels.Algorithms.Statistics.Metrics;
-using MetaboliteLevels.Algorithms.Statistics.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Trends;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy;
+using MetaboliteLevels.Data.Algorithms.Definitions.Containers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Corrections;
+using MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics.Implementations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends.Implementations;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
-using System.Resources;
-using System.Globalization;
-using System.Collections;
 
-namespace MetaboliteLevels.Algorithms
+namespace MetaboliteLevels.Data.Algorithms.General
 {
     /// <summary>
     /// Holds the list of all algorithms available to the user.
@@ -160,7 +159,7 @@ namespace MetaboliteLevels.Algorithms
 
             // Clusterers                                                           
             Clusterers.Add(new LegacyKMeansClusterer(ID_KMEANSWIZ, "k-means (LLoyd algorithm, using random starting centroids)"));
-            Clusterers.Add(new LegacyDKMeansPPClusterer(ID_DKMEANSPPWIZ, "k-means (LLoyd algorithm, using d-means++ starting centroids)" ) );
+            Clusterers.Add(new LegacyDkMeansPpClusterer(ID_DKMEANSPPWIZ, "k-means (LLoyd algorithm, using d-means++ starting centroids)" ) );
             Clusterers.Add( new ClustererReclusterer( "RECLUSTERER", "k-means (LLoyd algorithm, starting with existing cluster centroids)" ) );
             Clusterers.Add(new LegacyPathwayClusterer(ID_PATFROMPATH, "*Cluster to pathways"));
             Clusterers.Add( new ClustererExisting( "EXISTING", "*Cluster new vectors based on existing clusters" ) );

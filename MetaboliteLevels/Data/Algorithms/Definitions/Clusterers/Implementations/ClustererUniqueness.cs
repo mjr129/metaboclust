@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Data.DataInfo;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
-using RefAss = System.Tuple<MetaboliteLevels.Data.DataInfo.GroupInfo, MetaboliteLevels.Data.Visualisables.Cluster>;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Clusterers
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations
 {
     /// <summary>
     /// A clusterer that finds the unique combinations of existing clusters.

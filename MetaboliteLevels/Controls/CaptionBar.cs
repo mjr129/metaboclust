@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Data.Visualisables;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 

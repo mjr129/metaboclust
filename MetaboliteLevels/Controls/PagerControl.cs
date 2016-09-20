@@ -10,25 +10,25 @@ namespace MetaboliteLevels.Controls
 {
     sealed class PagerControl
     {
-        private readonly Panel MainPanel;
+        private readonly Panel _mainPanel;
         public readonly List<Panel> Pages = new List<Panel>();
         public readonly List<string> PageTitles = new List<string>();
         public readonly List<string> PageSubTitles = new List<string>();
         public readonly List<string> PageFlags = new List<string>();
-        int pageno = -1;
-        Panel current;
+        int _pageno = -1;
+        Panel _current;
         public event EventHandler PageChanged;
-        ToolStripButton[] buttons;
+        ToolStripButton[] _buttons;
 
         public PagerControl(ref TabControl tc, Panel panel = null)
         {
             if (panel != null)
             {
-                MainPanel = panel;
+                _mainPanel = panel;
             }
             else if (tc.Parent is Panel)
             {
-                MainPanel = (Panel)tc.Parent;
+                _mainPanel = (Panel)tc.Parent;
             }
             else
             {
@@ -48,7 +48,7 @@ namespace MetaboliteLevels.Controls
                     AutoScroll = true,
                 };
 
-                MainPanel.Controls.Add(p);
+                _mainPanel.Controls.Add(p);
                 ArrayList controls = new ArrayList(tabPage.Controls);
 
                 foreach (Control c in controls)
@@ -128,7 +128,7 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return PageFlags[pageno];
+                return PageFlags[_pageno];
             }
         }
 
@@ -136,7 +136,7 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return PageTitles[pageno];
+                return PageTitles[_pageno];
             }
         }
 
@@ -144,7 +144,7 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return PageSubTitles[pageno];
+                return PageSubTitles[_pageno];
             }
         }
 
@@ -184,7 +184,7 @@ namespace MetaboliteLevels.Controls
         {
             get
             {
-                return pageno;
+                return _pageno;
             }
             set
             {
@@ -196,26 +196,26 @@ namespace MetaboliteLevels.Controls
         {
             if (p >= 0 && p < Pages.Count)
             {
-                if (p == pageno)
+                if (p == _pageno)
                 {
                     return true;
                 }
 
                 OnPageChanging();
 
-                MainPanel.SuspendDrawingAndLayout();
+                _mainPanel.SuspendDrawingAndLayout();
 
-                if (current != null)
+                if (_current != null)
                 {
-                    current.Visible = false;
+                    _current.Visible = false;
                 }
 
-                pageno = p;
-                current = Pages[p];
-                current.Visible = true;
+                _pageno = p;
+                _current = Pages[p];
+                _current.Visible = true;
                 OnPageChanged(EventArgs.Empty);
 
-                MainPanel.ResumeDrawingAndLayout();
+                _mainPanel.ResumeDrawingAndLayout();
 
                 return true;
             }
@@ -227,11 +227,11 @@ namespace MetaboliteLevels.Controls
 
         private void OnPageChanging()
         {
-            MainPanel.SuspendLayout();
+            _mainPanel.SuspendLayout();
 
-            if (buttons != null)
+            if (_buttons != null)
             {
-                buttons[Page].BackgroundImage = Resources.TabUnsel;
+                _buttons[Page].BackgroundImage = Resources.TabUnsel;
             }
         }
 
@@ -240,11 +240,11 @@ namespace MetaboliteLevels.Controls
         /// </summary>
         private void OnPageChanged(EventArgs e)
         {
-            MainPanel.ResumeLayout();
+            _mainPanel.ResumeLayout();
 
-            if (buttons != null)
+            if (_buttons != null)
             {
-                buttons[Page].BackgroundImage = Resources.TabSel;
+                _buttons[Page].BackgroundImage = Resources.TabSel;
             }
 
             if (PageChanged != null)
@@ -255,7 +255,7 @@ namespace MetaboliteLevels.Controls
 
         internal void BindToButtons(params ToolStripButton[] buttons)
         {
-            this.buttons = buttons;
+            this._buttons = buttons;
 
             for (int n = 0; n < buttons.Length; n++)
             {

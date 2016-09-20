@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Forms;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
-using MetaboliteLevels.Utilities;
+using MetaboliteLevels.Data.Session.Singular;
 using MGui.Datatypes;
 using MGui.Helpers;
 using MSerialisers;
 using MSerialisers.Serialisers;
 using MSerialisers.Streams;
 
-namespace MetaboliteLevels.Settings
+namespace MetaboliteLevels.Utilities
 {
     /// <summary>
     /// Type of file to read/write data.

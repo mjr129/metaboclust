@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Text;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Algorithms.Statistics.Results;
-using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MGui.Helpers;
-using MetaboliteLevels.Data.Session.Associational;
 using System.Collections.Generic;
-using MetaboliteLevels.Viewers.Lists;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Algorithms.Statistics.Clusterers;
-using MetaboliteLevels.Data.Visualisables;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Types.General;
 
-namespace MetaboliteLevels.Algorithms.Statistics.Arguments
+namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
 {
     /// <summary>
     /// ArgsBase for clusterers.

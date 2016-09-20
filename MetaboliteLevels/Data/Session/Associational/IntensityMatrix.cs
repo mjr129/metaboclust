@@ -6,13 +6,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Algorithms;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Settings;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
 using MGui.Helpers;
 using MSerialisers;
 
@@ -134,23 +131,23 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// TODO: Horrible workaround, remove it!
         /// </summary>
-        public class VectorCollection : IEnumerable<MetaboliteLevels.Algorithms.Vector>
+        public class VectorCollection : IEnumerable<Vector>
         {
-            private IntensityMatrix owner;
+            private IntensityMatrix _owner;
 
             public VectorCollection( IntensityMatrix intensityMatrix )
             {
-                this.owner = intensityMatrix;
+                this._owner = intensityMatrix;
             }
                         
-            public MetaboliteLevels.Algorithms.Vector this[int rowIndex]
+            public Vector this[int rowIndex]
             {
-                get { return new MetaboliteLevels.Algorithms.Vector( owner, rowIndex ); } // TODO: This is okay if it's a one-off, but shouldn't be used all the time
+                get { return new Vector( _owner, rowIndex ); } // TODO: This is okay if it's a one-off, but shouldn't be used all the time
             }
 
             public IEnumerator<Vector> GetEnumerator() // TODO: This is okay if it's a one-off, but shouldn't be used all the time
             {
-                for (int n = 0; n < owner.NumRows; n++)
+                for (int n = 0; n < _owner.NumRows; n++)
                 {
                     yield return this[n];
                 }

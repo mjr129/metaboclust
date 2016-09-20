@@ -1,38 +1,36 @@
-﻿using MetaboliteLevels.Algorithms.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Configurations;
-using MetaboliteLevels.Controls;
-using MetaboliteLevels.Data.DataInfo;
-using MetaboliteLevels.Data.Session;
-using MetaboliteLevels.Data.Visualisables;
-using MetaboliteLevels.Forms.Algorithms;
-using MetaboliteLevels.Forms.Editing;
-using MetaboliteLevels.Settings;
-using MetaboliteLevels.Utilities;
-using MetaboliteLevels.Viewers.Lists;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
-using MetaboliteLevels.Properties;
-using MetaboliteLevels.Algorithms;
-using MetaboliteLevels.Algorithms.Statistics.Metrics;
-using MetaboliteLevels.Algorithms.Statistics.Clusterers;
-using MetaboliteLevels.Algorithms.Statistics.Trends;
-using MetaboliteLevels.Algorithms.Statistics.Statistics;
-using MetaboliteLevels.Algorithms.Statistics.Corrections;
-using System.IO;
-using MetaboliteLevels.Algorithms.Statistics.Arguments;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
+using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
-using MGui;
-using MGui.Helpers;
-using MGui.Datatypes;
+using MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics.Implementations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends.Implementations;
+using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Evaluation;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Properties;
+using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
+using MGui.Helpers;
 
-namespace MetaboliteLevels.Forms.Generic
+namespace MetaboliteLevels.Types.UI
 {
     /// <summary>
     /// This class maps pretty much everything to the DataSet class, which specifies how things
@@ -42,6 +40,8 @@ namespace MetaboliteLevels.Forms.Generic
     /// </summary>
     static class DataSet
     {
+        public delegate IDataSet Provider( Core core );
+
         /// <summary>
         /// An enum with flags
         /// </summary>
@@ -168,7 +168,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's experimental groups
         /// </summary>
-        internal static DataSet<GroupInfo> ForGroups( Core core )
+        public static DataSet<GroupInfo> ForGroups( Core core )
         {
             return new DataSet<GroupInfo>()
             {
@@ -237,7 +237,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The headers for a particular metadata (misc user data) set
         /// </summary>
-        internal static DataSet<string> ForMetaHeaders( MetaInfoHeader headerCollection )
+        public static DataSet<string> ForMetaHeaders( MetaInfoHeader headerCollection )
         {
             return new DataSet<string>()
             {
@@ -250,7 +250,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The parameters for an agrotithm
         /// </summary>
-        internal static DataSet<int> ForParameters( Core core, AlgoParameter[] parameters, int selectedIndex, string message = null )
+        public static DataSet<int> ForParameters( Core core, AlgoParameter[] parameters, int selectedIndex, string message = null )
         {
             return new DataSet<int>()
             {
@@ -266,7 +266,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's clusters
         /// </summary>
-        internal static DataSet<Cluster> ForClusters( Core core )
+        public static DataSet<Cluster> ForClusters( Core core )
         {
             return new DataSet<Cluster>()
             {
@@ -279,7 +279,7 @@ namespace MetaboliteLevels.Forms.Generic
             };
         }
 
-        internal static DataSet<Pathway> ForPathways( Core core )
+        public static DataSet<Pathway> ForPathways( Core core )
         {
             return new DataSet<Pathway>()
             {
@@ -292,7 +292,7 @@ namespace MetaboliteLevels.Forms.Generic
             };
         }
 
-        internal static DataSet<Adduct> ForAdducts( Core core )
+        public static DataSet<Adduct> ForAdducts( Core core )
         {
             return new DataSet<Adduct>()
             {
@@ -305,7 +305,7 @@ namespace MetaboliteLevels.Forms.Generic
             };
         }
 
-        internal static DataSet<Compound> ForCompounds( Core core )
+        public static DataSet<Compound> ForCompounds( Core core )
         {
             return new DataSet<Compound>()
             {
@@ -321,7 +321,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's peaks
         /// </summary>
-        internal static DataSet<Peak> ForPeaks( Core core )
+        public static DataSet<Peak> ForPeaks( Core core )
         {
             return new DataSet<Peak>()
             {
@@ -334,7 +334,52 @@ namespace MetaboliteLevels.Forms.Generic
             };
         }
 
-        private static DataSet<Annotation> ForAnnotations( Core core )
+        /// <summary>
+        /// Datasets
+        /// </summary>         
+        public static DataSet<IDataSet> ForDatasetProviders(Core core)
+        {
+            return new DataSet<IDataSet>()
+            {
+                Core = core,
+                ListTitle = "Datasets",
+                ListSource = _EnumerateDatasetProviders( core ),
+                ItemTitle = z => z.Title,
+                ItemDescription = z => z.SubTitle,
+                ListIcon = Resources.IconPeak,
+            };
+        }
+
+        private static IEnumerable<IDataSet> _EnumerateDatasetProviders( Core core)
+        {
+            List<IDataSet> results = new List<IDataSet>();
+
+            foreach (MethodInfo method in typeof( DataSet ).GetMethods( BindingFlags.Public | BindingFlags.Static ))
+            {
+                if (!typeof( IDataSet ).IsAssignableFrom( method.ReturnType ))
+                {
+                    continue;
+                }
+
+                var mParams = method.GetParameters();
+
+                if (mParams.Length != 1 || mParams[0].ParameterType != typeof( Core ))
+                {
+                    continue;
+                }
+
+                if (method.Name == nameof( ForDatasetProviders ))
+                {
+                    continue;
+                }
+
+                results.Add( (IDataSet)method.Invoke( null, new object[] { core } ) );
+            }
+
+            return results;
+        }
+
+        public static DataSet<Annotation> ForAnnotations( Core core )
         {
             return new DataSet<Annotation>()
             {
@@ -347,7 +392,7 @@ namespace MetaboliteLevels.Forms.Generic
             };
         }
 
-        private static DataSet<Assignment> ForAllAssignments( Core core )
+        public static DataSet<Assignment> ForAssignments( Core core )
         {
             return new DataSet<Assignment>()
             {
@@ -363,7 +408,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's peaks
         /// </summary>
-        internal static DataSet<Vector> ForVectors( Core core, IntensityMatrix matrix )
+        public static DataSet<Vector> ForVectors( Core core, IntensityMatrix matrix )
         {
             return new DataSet<Vector>()
             {
@@ -379,29 +424,14 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// Pretty much everything in the session in one go (all IVisualisables in Core).
         /// </summary>
-        internal static DataSet<object> ForEverything( Core core )
+        public static DataSet<object> ForEverything( Core core )
         {
-            var all = core.Peaks.Cast<object>()
-                        .Concat( core.Clusters )
-                        .Concat( core.Compounds )
-                        .Concat( core.Adducts )
-                        .Concat( core.Pathways )
-                        .Concat( core.Assignments )
-                        .Concat( core.AllClusterers )
-                        .Concat( core.AllCorrections )
-                        .Concat( core.AllObsFilters )
-                        .Concat( core.AllPeakFilters )
-                        .Concat( core.AllStatistics )
-                        .Concat( core.AllTrends )
-                        .Concat( core.Annotations )
-                        .Concat( core.Batches )
-                        .Concat( core.Conditions )
-                        .Concat( core.EvaluationResultFiles )
-                        .Concat( core.Groups )
-                        .Concat( core.Observations )
-                        .Concat( core.Reps.Cast<object>() )
-                        .Concat( core.Times.Cast<object>() )
-                        .Concat( Algo.Instance.All );
+            List<object> all = new List<object>();
+
+            foreach (EDataSet x in Enum.GetValues( typeof( EDataSet ) ))
+            {
+                all.AddRange( For( x, core ).UntypedGetList(false).Cast<object>() );
+            }
 
             return new DataSet<object>()
             {
@@ -417,7 +447,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's trends
         /// </summary>
-        internal static DataSet<ConfigurationTrend> ForTrends( Core core )
+        public static DataSet<ConfigurationTrend> ForTrends( Core core )
         {
             return new DataSet<ConfigurationTrend>()
             {
@@ -482,7 +512,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's clustering algorithms
         /// </summary>
-        internal static DataSet<ConfigurationClusterer> ForClusterers( Core core )
+        public static DataSet<ConfigurationClusterer> ForClusterers( Core core )
         {
             return new DataSet<ConfigurationClusterer>()
             {
@@ -511,7 +541,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available metrics (not just those in use)
         /// </summary>            
-        internal static DataSet<MetricBase> ForMetricAlgorithms( Core core )
+        public static DataSet<MetricBase> ForMetricAlgorithms( Core core )
         {
             return new DataSet<MetricBase>()
             {
@@ -527,7 +557,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All intensity matrix providers
         /// </summary>            
-        internal static DataSet<IMatrixProvider> ForMatrixProviders( Core core )
+        public static DataSet<IMatrixProvider> ForMatrixProviders( Core core )
         {
             return new DataSet<IMatrixProvider>()
             {
@@ -542,7 +572,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available trend algorithms (not just those in use)
         /// </summary>            
-        internal static DataSet<TrendBase> ForTrendAlgorithms( Core core )
+        public static DataSet<TrendBase> ForTrendAlgorithms( Core core )
         {
             return new DataSet<TrendBase>()
             {
@@ -558,7 +588,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available algorithms (not just those in use)
         /// </summary>            
-        internal static DataSet<AlgoBase> ForAllAlgorithms( Core core )
+        public static DataSet<AlgoBase> ForAllAlgorithms( Core core )
         {
             return new DataSet<AlgoBase>()
             {
@@ -574,7 +604,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available clustering algorithms (not just those in use)
         /// </summary>            
-        internal static DataSet<ClustererBase> ForClustererAlgorithms( Core core )
+        public static DataSet<ClustererBase> ForClustererAlgorithms( Core core )
         {
             return new DataSet<ClustererBase>()
             {
@@ -590,7 +620,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available trend and correction algorithms (not just those in use)
         /// </summary>            
-        internal static DataSet<AlgoBase> ForTrendAndCorrectionAlgorithms( Core core )
+        public static DataSet<AlgoBase> ForTrendAndCorrectionAlgorithms( Core core )
         {
             return new DataSet<AlgoBase>()
             {
@@ -606,7 +636,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All available statistics (not just those in use)
         /// </summary>                  
-        internal static DataSet<StatisticBase> ForStatisticsAlgorithms( Core core )
+        public static DataSet<StatisticBase> ForStatisticsAlgorithms( Core core )
         {
             return new DataSet<StatisticBase>()
             {
@@ -622,7 +652,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's statistics (those in use)
         /// </summary>
-        internal static DataSet<ConfigurationStatistic> ForStatistics( Core core )
+        public static DataSet<ConfigurationStatistic> ForStatistics( Core core )
         {
             return new DataSet<ConfigurationStatistic>()
             {
@@ -674,7 +704,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's peak (user-comment) flags
         /// </summary>
-        internal static DataSet<PeakFlag> ForPeakFlags( Core core )
+        public static DataSet<PeakFlag> ForPeakFlags( Core core )
         {
             return new DataSet<PeakFlag>()
             {
@@ -696,7 +726,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All session's peak-filters
         /// </summary>
-        internal static DataSet<PeakFilter> ForPeakFilter( Core core )
+        public static DataSet<PeakFilter> ForPeakFilter( Core core )
         {
             return new DataSet<PeakFilter>()
             {
@@ -723,7 +753,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All the filters for a particular observation filter
         /// </summary>
-        internal static DataSet<ObsFilter.Condition> ForObsFilterConditions( Core core, ObsFilter of )
+        public static DataSet<ObsFilter.Condition> ForObsFilterConditions( Core core, ObsFilter of )
         {
             return new DataSet<ObsFilter.Condition>()
             {
@@ -738,7 +768,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// All the filters for a particular peak filter
         /// </summary>
-        internal static DataSet<PeakFilter.Condition> ForPeakFilterConditions( Core core, PeakFilter of )
+        public static DataSet<PeakFilter.Condition> ForPeakFilterConditions( Core core, PeakFilter of )
         {
             return new DataSet<PeakFilter.Condition>()
             {
@@ -753,7 +783,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// The session's observation filters
         /// </summary>
-        internal static DataSet<ObsFilter> ForObsFilter( Core core )
+        public static DataSet<ObsFilter> ForObsFilter( Core core )
         {
             return new DataSet<ObsFilter>()
             {
@@ -923,12 +953,10 @@ namespace MetaboliteLevels.Forms.Generic
             switch (dataSet)
             {
                 case EDataSet.Acquisitions:
-                    return DataSet.ForAcquisitions( core );
-
+                    return DataSet.ForAcquisitions( core );  
 
                 case EDataSet.Batches:
-                    return DataSet.ForBatches( core );
-
+                    return DataSet.ForBatches( core );  
 
                 case EDataSet.Clusterers:
                     return DataSet.ForClusterers( core );
@@ -947,68 +975,54 @@ namespace MetaboliteLevels.Forms.Generic
 
                 case EDataSet.ObservationFilters:
                     return DataSet.ForObsFilter( core );
-
-
+                                                 
                 case EDataSet.PeakFilters:
                     return DataSet.ForPeakFilter( core );
-
-
+                                                   
                 case EDataSet.PeakFlags:
                     return DataSet.ForPeakFlags( core );
-
-
+                                                   
                 case EDataSet.Peaks:
                     return DataSet.ForPeaks( core );
-
-
+                                                   
                 case EDataSet.Replicates:
                     return DataSet.ForReplicates( core );
-
-
+                                                   
                 case EDataSet.Statistics:
                     return DataSet.ForStatistics( core );
-
-
+                                                   
                 case EDataSet.Evaluations:
                     return DataSet.ForTests( core );
-
-
+                                                   
                 case EDataSet.Times:
                     return DataSet.ForTimes( core );
-
-
+                                                   
                 case EDataSet.Trends:
                     return DataSet.ForTrends( core );
-
-
+                                                   
                 case EDataSet.Corrections:
                     return DataSet.ForCorrections( core );
 
                 case EDataSet.ClusteringAlgorithms:
                     return DataSet.ForClustererAlgorithms( core );
-
-
+                                               
                 case EDataSet.MetricAlgorithms:
                     return DataSet.ForMetricAlgorithms( core );
-
-
+                                                   
                 case EDataSet.StatisticsAlgorithms:
                     return DataSet.ForStatisticsAlgorithms( core );
-
-
+                             
                 case EDataSet.TrendAlgorithms:
                     return DataSet.ForTrendAlgorithms( core );
-
-
+                                      
                 case EDataSet.TrendAndCorrectionAlgorithms:
                     return DataSet.ForTrendAndCorrectionAlgorithms( core );
-
-
+                                      
                 case EDataSet.AllAlgorithms:
                     return DataSet.ForAllAlgorithms( core );
 
                 case EDataSet.Assignments:
-                    return DataSet.ForAllAssignments( core );
+                    return DataSet.ForAssignments( core );
 
                 case EDataSet.Annotations:
                     return DataSet.ForAnnotations( core );
@@ -1143,7 +1157,7 @@ namespace MetaboliteLevels.Forms.Generic
             Algo.Instance.Rebuild();
             string id = Algo.GetId( folder, newFile, false );
             return (T)Algo.Instance.All.First( zz => zz.Id == id );
-        }
+        }    
     }
 
     /// <summary>

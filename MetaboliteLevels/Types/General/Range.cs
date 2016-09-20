@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MetaboliteLevels.Data.General
+namespace MetaboliteLevels.Types.General
 {
     /// <summary>
     /// A range from Min --> Max
