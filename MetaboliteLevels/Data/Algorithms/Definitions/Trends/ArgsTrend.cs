@@ -11,11 +11,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// Nothing special here!
     /// </summary>
     [Serializable]
-    class ArgsTrend : ArgsBase
+    class ArgsTrend : ArgsBase<TrendBase>
     {
         public ArgsTrend( string id, IMatrixProvider source, object[] parameters)
             : base(id, source, parameters)
         {
-        }            
+        }                                                                          
     }
 }

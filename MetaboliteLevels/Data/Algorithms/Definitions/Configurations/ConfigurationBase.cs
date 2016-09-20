@@ -13,29 +13,69 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
     /// <summary>
-    /// Represents a configurared algorithm, containing the configuration and results.
+    /// Used to track data used by a configuration.
+    /// When inputs change this class detects that an update is required.
+    /// </summary>
+    internal class SourceTracker
+    {
+        /// <summary>
+        /// Tracks <see cref="ArgsBase.SourceMatrix"/>
+        /// </summary>
+        private Guid _argsBase_SourceMatrix;
+
+        /// <summary>
+        /// CONSTRUCTOR
+        /// Remembers the data specified by <paramref name="source"/>.
+        /// </summary>    
+        public SourceTracker( ArgsBase source )
+        {
+            _argsBase_SourceMatrix = source.SourceMatrix.Guid;
+        }
+
+        /// <summary>
+        /// Checks for update.
+        /// </summary>
+        /// <param name="source">Should be the same object this was constructed with</param>
+        /// <returns>true if an update is required, otherwise false.</returns>
+        public bool NeedsUpdate( ArgsBase source )
+        {
+            if (_argsBase_SourceMatrix != source.SourceMatrix.Guid)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Represents a configurared algorithm, containing the parameters and results.
     /// 
     /// This is a mutable object and can be modified by the user by changing the arguments.
     /// The results are discarded upon modification.
     /// 
-    /// The arguments comprise an immutable object with the intention of all changes going through ConfigurationBase.
-    /// 
-    /// 
+    /// The arguments comprise an immutable object with the intention of all changes going through ConfigurationBase.  
     /// </summary>
     /// <typeparam name="TAlgo">Type of statistic</typeparam>
     /// <typeparam name="TArgs">Type of arguments</typeparam>
     /// <typeparam name="TResults">Type of results</typeparam>
+    /// <typeparam name="TTracker">Type of source tracker</typeparam>
     [Serializable]
-    internal abstract class ConfigurationBase<TAlgo, TArgs, TResults> : ConfigurationBase
+    internal abstract class ConfigurationBase<TAlgo, TArgs, TResults, TTracker> : ConfigurationBase, IBackup, IConfigurationBase<TArgs>
         where TAlgo : AlgoBase
-        where TArgs : ArgsBase
+        where TArgs : ArgsBase, IArgsBase<TAlgo>
         where TResults : ResultBase
+        where TTracker : SourceTracker
     {
+        /// <summary>
+        /// Contains user parameters
+        /// </summary>
+        private TArgs _args;
+
         /// <summary>
         /// Flagged if the algorithm is disposed
         /// </summary>
-        [NonSerialized]
-        private bool _isDisposed;
+        [NonSerialized] private bool _isDisposed;
 
         /// <summary>
         /// Contains error text (when run unsuccessfully)
@@ -43,32 +83,23 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         private string _error;
 
         /// <summary>
-        /// Contains user parameters
-        /// </summary>
-        private TArgs _args;
-
-        /// <summary>
         /// Contains results (when run successfully)
         /// </summary>
         private TResults _results;
-                              
+
         /// <summary>
-        /// Contains GUID of matrix used (when run)
+        /// The data with which the results were generated (when run)
         /// </summary>
-        private Guid _sourceGuid;                       
+        private TTracker _tracker;
 
         public override ArgsBase UntypedArgs => _args;
 
         /// <summary>
         /// Retrieves the algorithm arguments
         /// </summary>
-        [XColumn("Configuration\\", EColumn.Decompose )]
-        public TArgs Args
+        [XColumn( "Configuration\\", EColumn.Decompose )] public TArgs Args
         {
-            get
-            {
-                return _args;
-            }
+            get { return _args; }
             set
             {
                 _args = value;
@@ -79,14 +110,12 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// <summary>
         /// Retrieves the algorithm results
         /// </summary>
-        [XColumn( "Results\\",EColumn.Decompose )]
-        public TResults Results => _results;
+        [XColumn( "Results\\", EColumn.Decompose )] public TResults Results => _results;
 
         /// <summary>
         /// Retrieves the Error (if Results is null)
         /// </summary>
-        [XColumn]
-        public override string Error => _error;
+        [XColumn] public sealed override string Error => _error;
 
         /// <summary>
         /// Retrieves if Dispose has been called
@@ -94,69 +123,66 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         public bool IsDisposed => _isDisposed;
 
         /// <summary>
-        /// Called by the implementing class to register an error
-        /// </summary>                                           
-        protected void SetError( Exception ex )
+        /// Implements IVisualisable
+        /// </summary>
+        public sealed override string DisplayName => Args.DisplayName;
+
+        /// <summary>
+        /// Implements IVisualisable
+        /// </summary>
+        public sealed override string DefaultDisplayName => Args.DefaultDisplayName;
+
+        /// <summary>
+        /// Implements IVisualisable
+        /// </summary>
+        public sealed override string OverrideDisplayName
         {
-            SetError( ex.Message );
+            get { return Args.OverrideDisplayName; }
+            set { Args.OverrideDisplayName = value; }
         }
 
         /// <summary>
-        /// Called by the implementing class to register an error
-        /// </summary>   
-        protected void SetError( string error )
+        /// Implements IVisualisable
+        /// </summary>
+        public sealed override string Comment
         {
-            _results = null;
-            _error = error;
-            _sourceGuid = UntypedArgs.SourceMatrix.Guid;
+            get { return Args.Comment; }
+            set { Args.Comment = value; }
         }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
-        public override string DisplayName => Args.DisplayName;
-
-        /// <summary>
-        /// Implements IVisualisable
-        /// </summary>
-        public override string DefaultDisplayName => Args.DefaultDisplayName;
-
-        /// <summary>
-        /// Implements IVisualisable
-        /// </summary>
-        public override string OverrideDisplayName { get { return Args.OverrideDisplayName; } set { Args.OverrideDisplayName = value; } }
-
-        /// <summary>
-        /// Implements IVisualisable
-        /// </summary>
-        public override string Comment { get { return Args.Comment; } set { Args.Comment = value; } }
-
-        /// <summary>
-        /// Implements IVisualisable
-        /// </summary>
-        public override bool Hidden { get { return Args.Hidden; } set { Args.Hidden = value; } }
+        public sealed override bool Hidden
+        {
+            get { return Args.Hidden; }
+            set { Args.Hidden = value; }
+        }
 
         /// <summary>
         /// Disposes of the configuration
         /// (Not required - for sanity checking only)
         /// </summary>
-        public override void Dispose()
+        public sealed override void Dispose()
         {
             if (!_isDisposed)
             {
                 _isDisposed = true;
                 ClearResults();
             }
-        }            
+        }
 
-        [XColumn(EColumn.Visible )]
-        public EAlgoStatus Status
+        [XColumn( EColumn.Visible )] public EAlgoStatus Status
         {
             get
             {
-                if (_results != null)
+                if (_isDisposed)
                 {
-                    return EAlgoStatus.Success;
+                    return EAlgoStatus.Disposed;
+                }
+                else if (_results != null)
+                {
+                    return EAlgoStatus.Completed;
                 }
                 else if (_error != null)
                 {
@@ -172,8 +198,9 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         public enum EAlgoStatus
         {
             Pending,
-            Success,
+            Completed,
             Failed,
+            Disposed
         }
 
         /// <summary>
@@ -183,7 +210,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         {
             _results = null;
             _error = null;
-            _sourceGuid = new Guid();
+            _tracker = null;
         }
 
         /// <summary>
@@ -191,50 +218,102 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         /// </summary>                                         
         protected void SetResults( TResults results )
         {
+            if (Status != EAlgoStatus.Pending)
+            {
+                throw new InvalidOperationException( $"Attempt to call {{{nameof( SetResults )}}} when {{{nameof( Status )}}} is {{{Status}}}." );
+            }
+
             _results = results;
             _error = null;
-            _sourceGuid = Args.SourceMatrix.Guid;
+            _tracker = GetTracker();
+        }
+
+        /// <summary>
+        /// Called by the derived class to register the results
+        /// </summary>                                         
+        protected void SetError( Exception error )
+        {
+            SetError( error.Message );
+        }
+
+        /// <summary>
+        /// Called by the derived class to register the results
+        /// </summary>                                         
+        protected void SetError( string errorMessage )
+        {
+            if (Status != EAlgoStatus.Pending)
+            {
+                throw new InvalidOperationException( $"Attempt to call {{{nameof( SetError )}}} when {{{nameof( Status )}}} is {{{Status}}}." );
+            }
+
+            _results = null;
+            _error = errorMessage;
+            _tracker = GetTracker();
+        }
+
+        /// <summary>
+        /// Asks the derived class to remember the data source (for update tracking)
+        /// </summary>
+        /// <returns></returns>
+        protected abstract TTracker GetTracker();
+
+        /// <summary>
+        /// Runs the algorithm.
+        /// </summary>         
+        public sealed override bool Run( Core core, ProgressReporter prog )
+        {
+            ClearResults();
+
+            try
+            {
+                OnRun( core, prog );
+            }
+            catch (Exception ex)
+            {
+                SetError( ex );
+            }
+
+            switch (Status)
+            {
+                case EAlgoStatus.Completed:
+                    return true;
+                case EAlgoStatus.Failed:
+                    return false;
+
+                default:
+                    throw new ArgumentOutOfRangeException($"Expected Status to be Completed or Failed after {{{nameof( OnRun )}}} called, but {{{nameof( Status)}}} is {{{Status}}}.");
+            }               
         }
 
         /// <summary>
         /// Runs the algorithm.
         /// The derived class should perform its calculations and call EITHER <see cref="SetResults"/> OR <see cref="SetError"/>.
         /// </summary>
-        public abstract override bool Run( Core core, ProgressReporter prog );
-                           
+        protected abstract void OnRun( Core core, ProgressReporter prog );
+
         /// <summary>
         /// Returns if the algorithm completed with an error
         /// </summary>
-        public override bool HasError => Error != null;
+        public sealed override bool HasError => Error != null;
 
         /// <summary>
         /// Returns if the algorithm completed successfully
         /// </summary>
-        public override bool HasResults => Results != null;
-                                  
+        public sealed override bool HasResults => Results != null;
+
         /// <summary>
         /// Determines if the configuration needs recalculating, either because it
-        /// hasn't ever been calculated, or its inputs have changed since they're creation.
-        /// 
-        /// The base class takes care of the input matrix, but derived classes should account for
-        /// any additional inputs they accept.
-        /// 
-        /// Changes to actual parameter values result in a call to <see cref="ClearResults"/>
-        /// and do NOT need to be accounted for. Only indirect inputs where the target
-        /// has since changed need to be accounted for.
+        /// hasn't ever been calculated, or its inputs have changed since they're creation.   
         /// </summary>
-        public override bool NeedsUpdate
+        public sealed override bool NeedsUpdate
         {
-            get
-            {
-                return Args != null && !Args.Hidden && Args.SourceMatrix != null && _sourceGuid != Args.SourceMatrix.Guid;
-            }
+            get { return Args != null && !Args.Hidden && (_tracker == null || _tracker.NeedsUpdate( Args )); }
         }
 
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-        public override UiControls.ImageListOrder Icon
+        public sealed override UiControls.ImageListOrder Icon
         {
             get
             {
@@ -253,9 +332,26 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             }
         }
 
-        public TAlgo GetAlgorithmOrThrow()
+        void IBackup.Backup( BackupData data )
+        {   
+            data.Push( this._args );
+            data.Push( this._error );
+            data.Push( this._isDisposed );
+            data.Push( this._results );
+            data.Push( this._tracker );
+            data.Push( this.OverrideDisplayName );
+            data.Push( this.Comment );         
+        }
+
+        void IBackup.Restore( BackupData data )
         {
-            return (TAlgo)Args.GetAlgorithmOrThrow();
+            data.Pull( ref this._args );
+            data.Pull( ref this._error );
+            data.Pull( ref this._isDisposed );
+            data.Pull( ref this._results );
+            data.Pull( ref this._tracker );
+            this.OverrideDisplayName = data.Pull<string>(  );
+            this.Comment = data.Pull<string>( );
         }
     }
 }

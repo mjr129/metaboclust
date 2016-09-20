@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
 using MetaboliteLevels.Utilities;
@@ -214,18 +216,65 @@ namespace MetaboliteLevels.Data.Visualisables
         void Restore( BackupData data );
     }
 
+    class BackupManager
+    {
+        private Dictionary<IBackup, BackupData> _data = new Dictionary<IBackup, BackupData>();
+
+        public void Backup( object item, string reason )
+        {
+            var itemt = item as IBackup;
+
+            if (itemt == null)
+            {
+                return;
+            }
+
+            if (!_data.ContainsKey( itemt ))
+            {
+                _data.Add( itemt, new BackupData( itemt ) );
+            }
+        }
+
+        public void RestoreAll()
+        {
+            foreach (var kvp in _data)
+            {
+                kvp.Value.Restore();
+            }
+
+            _data.Clear();
+        }
+    }
+
     class BackupData
     {
-        private IBackup iBackup;
+        private IBackup _target;
+        private Queue _data = new Queue();
 
-        public BackupData( IBackup iBackup )
+        public BackupData( IBackup target )
         {
-            this.iBackup = iBackup;
+            _target = target;
+            _target.Backup( this );
         }
 
         public void Restore()
         {
-        // TODO
+            _target.Restore( this );
+        }
+
+        public void Push( object x )
+        {
+            _data.Enqueue( x );
+        }
+
+        public void Pull<T>( ref T x )
+        {
+            x = (T)_data.Dequeue();
+        }
+
+        internal T Pull<T>()
+        {
+            return (T)_data.Dequeue();
         }
     }
 

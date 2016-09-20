@@ -193,7 +193,7 @@ namespace MetaboliteLevels.Controls
                             sb.Append(", ");
                         }
 
-                        sb.Append( _args.ItemNameProvider( choice ));
+                        sb.Append( _args.ItemTitle( choice ));
                         sel.Remove(choice);
                     }
                 }
@@ -206,7 +206,7 @@ namespace MetaboliteLevels.Controls
                         sb.Append(", ");
                     }
 
-                    sb.Append( _args.ItemNameProvider( extraChoice ) );
+                    sb.Append( _args.ItemTitle( extraChoice ) );
                 }
 
                 TextBox.Text = sb.ToString();
@@ -293,7 +293,7 @@ namespace MetaboliteLevels.Controls
 
             foreach (var choice in choices)
             {
-                if (_args.ItemNameProvider != null && _args.ItemNameProvider(choice).ToUpper() == name)
+                if (_args.ItemTitle != null && _args.ItemTitle(choice).ToUpper() == name)
                 {
                     result = choice;
                     return true;

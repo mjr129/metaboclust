@@ -38,53 +38,55 @@ namespace MetaboliteLevels.Forms.Generic
         /// <summary>
         /// (MANDATORY) Title of the dataset
         /// </summary>
-        public string Title { get; set; }
+        public string ListTitle { get; set; }
 
         /// <summary>
         /// (OPTIONAL) Image of the dataset
         /// </summary>
-        public Image Icon { get; set; }
+        public Image ListIcon { get; set; }
 
         /// <summary>
         /// (OPTIONAL) Subtitle of the dataset
         /// </summary>
-        public string SubTitle { get; set; }
+        public string ListDescription { get; set; }
 
         /// <summary>
         /// (MANDATORY) Where to find the items
         /// </summary>
-        public IEnumerable<T> Source { private get; set; }
+        public IEnumerable<T> ListSource { private get; set; }
 
         /// <summary>
         /// (MANDATORY) How the items should be named in simple lists
         /// </summary>
-        public Converter<T, string> ItemNameProvider { get; set; }
+        public Converter<T, string> ItemTitle { get; set; }
 
         /// <summary>
         /// (MANDATORY) How the items should be described in simple lists
         /// 
         /// This is mandatory but may return NULL.
         /// </summary>
-        public Converter<T, string> ItemDescriptionProvider { get; set; }    
+        public Converter<T, string> ItemDescription { get; set; }    
 
         /// <summary>
         /// (MANDATORY) The core (only a convenience for data which needs a reference to the core to be meaningful).
         /// </summary>
-        public Core Core { get; set; }
+        public Core Core { get; set; }                                           
 
         /// <summary>
-        /// (OPTIONAL) Called before the source list is changed via a call to ListModifier.
+        /// (OPTIONAL) Called after the source list is changed via a call to <see cref="HandleCommit"/>.
         /// 
         /// Options are unaffected.
         /// </summary>
-        public Converter<BeforeApplyArgs, bool> BeforeListChangesApplied { get; set; }
+        public Action<AfterApplyArgs> HandleFinished { get; set; }
 
         /// <summary>
-        /// (OPTIONAL) Called after the source list is changed via a call to ListModifier.
+        /// (OPTIONAL) When set list updates will be performed DURING list editing.
+        /// This is used when list items require references the list itself as it is being modified.
         /// 
-        /// Options are unaffected.
+        /// The <see cref="ApplyArgs.Transient"/> field of the <see cref="HandleCommit"/> call will be TRUE during transient updates.
+        /// The original list will be restored if the user cancels with another call to <see cref="HandleCommit"/>.
         /// </summary>
-        public Action<AfterApplyArgs> AfterListChangesApplied { get; set; }
+        public bool ItemsReferenceList { get; set; }
 
         /// <summary>
         /// Called to apply changes to the source list.
@@ -93,7 +95,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// <para/>
         /// Options Add/Remove require this or ListChangesOnEdit.
         /// </summary>
-        public Action<ApplyArgs> ListChangeApplicator { get; set; }
+        public Action<ApplyArgs> HandleCommit { get; set; }
 
         /// <summary>
         /// When set signifies the list changes when items are edited.
@@ -101,7 +103,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// 
         /// Options Add/Remove require this or ListChangeApplicator.
         /// </summary>
-        public bool ListChangesOnEdit { get; set; }
+        public bool ListIsSelfUpdating { get; set; }
 
         /// <summary>
         /// How to edit items in the list
@@ -109,7 +111,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// 
         /// Options Add/Edit/View require this.
         /// </summary>
-        public Converter<EditItemArgs, T> ItemEditor { get; set; }
+        public Converter<EditItemArgs, T> HandleEdit { get; set; }
 
         /// <summary>
         /// Gets or sets the Integerbehaviour (for conversion to/from text only).
@@ -155,31 +157,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// When items are added, replaced or removed in the list this is called.
         /// If ListChangesOnEdit is true this can handle remove events.
         /// </summary>                                                           
-        public Action<Form, T, T> BeforeItemChanged { get; set; }
-
-        public class BeforeApplyArgs
-        {
-            /// <summary>
-            /// Form to show dialogues on
-            /// </summary>
-            public readonly Form Owner;
-
-            /// <summary>
-            /// New list that will be applied
-            /// </summary>
-            public readonly IEnumerable<T> List;
-
-            /// <summary>
-            /// Arbitrary object the receiver can send to Apply and AfterApply.
-            /// </summary>
-            public object Status;
-
-            public BeforeApplyArgs(Form owner, IEnumerable<T> list)
-            {
-                this.Owner = owner;
-                this.List = list;
-            }
-        }
+        public Action<Form, T, T> BeforeItemChanged { get; set; }      
 
         public class ApplyArgs
         {
@@ -193,16 +171,13 @@ namespace MetaboliteLevels.Forms.Generic
             /// </summary>
             public readonly ProgressReporter Progress;
 
-            /// <summary>
-            /// Arbitrary object from BeforeApply
-            /// </summary>
-            public readonly object Status;
+            public bool Transient; 
 
-            public ApplyArgs(IEnumerable<T> newList, ProgressReporter prog, object status)
+            public ApplyArgs(IEnumerable<T> newList, ProgressReporter prog, bool transient)
             {
                 this.List = newList;
                 this.Progress = prog;
-                this.Status = status;
+                this.Transient = transient;
             }
         }
 
@@ -211,23 +186,17 @@ namespace MetaboliteLevels.Forms.Generic
             /// <summary>
             /// Form to show dialogues on
             /// </summary>
-            public readonly Form owner;
+            public readonly Form Owner;
 
             /// <summary>
             /// Status of the list
             /// </summary>
-            public readonly IEnumerable<T> List;
+            public readonly IEnumerable<T> List;    
 
-            /// <summary>
-            /// Arbitrary object from BeforeApply
-            /// </summary>
-            public readonly object Status;
-
-            public AfterApplyArgs(Form owner, IEnumerable<T> list, object status)
+            public AfterApplyArgs(Form owner, IEnumerable<T> list)
             {
-                this.owner = owner;
-                this.List = list;
-                this.Status = status;
+                this.Owner = owner;
+                this.List = list;          
             }
         }
 
@@ -246,23 +215,20 @@ namespace MetaboliteLevels.Forms.Generic
             /// <summary>
             /// Whether to disallow editing
             /// </summary>
-            public readonly bool ReadOnly;
+            public readonly bool ReadOnly;                   
 
             /// <summary>
-            /// When set the caller intends to create a new item, when not set the caller intends
-            /// to replace DefaultValue. Always false when DefaultValue is NULL.
-            /// 
-            /// Used to avoid filename conflicts and ensure a deep copy is taken, if the editor
-            /// only uses a shallow copy.
+            /// When set the caller intends to create a new item
+            /// -- the callee is responsible to ensure work is carried out on a copy, not the original.
             /// </summary>
             public readonly bool WorkOnCopy;
 
-            public EditItemArgs(Form owner, T @default, bool readOnly, bool workOnCopy)
+            public EditItemArgs(Form owner, T @default, bool readOnly, bool workOnCopy )
             {
                 this.Owner = owner;
                 this.DefaultValue = @default;
                 this.ReadOnly = readOnly;
-                this.WorkOnCopy = workOnCopy;
+                this.WorkOnCopy = workOnCopy;               
             }
 
             public DataSet<T2>.EditItemArgs Cast<T2>()
@@ -284,8 +250,8 @@ namespace MetaboliteLevels.Forms.Generic
         /// </summary>
         public DataSet()
         {
-            ItemNameProvider = z => z.ToString();
-            ItemDescriptionProvider = z => null;
+            ItemTitle = z => z.ToString();
+            ItemDescription = z => null;
             CancelValue = typeof(T) == typeof(int) ? (T)(object)int.MinValue : default(T);
         }
 
@@ -304,10 +270,10 @@ namespace MetaboliteLevels.Forms.Generic
         {
             if (onlyEnabled)
             {
-                return this.Source.Where(EnabledFitler);
+                return this.ListSource.Where(EnabledFitler);
             }
 
-            return this.Source;
+            return this.ListSource;
         }
 
         /// <summary>
@@ -325,7 +291,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// </summary>
         string IDataSet.UntypedName(object x)
         {
-            return ItemNameProvider((T)x);
+            return ItemTitle((T)x);
         }
 
         /// <summary>
@@ -333,7 +299,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// </summary>
         string IDataSet.UntypedDescription(object x)
         {
-            return ItemDescriptionProvider((T)x);
+            return ItemDescription((T)x);
         }
 
         /// <summary>
@@ -422,7 +388,7 @@ namespace MetaboliteLevels.Forms.Generic
         /// </summary>
         internal DataSet<T> IncludeMessage(string subTitle)
         {
-            SubTitle = subTitle;
+            ListDescription = subTitle;
             return this;
         }
 
@@ -431,50 +397,33 @@ namespace MetaboliteLevels.Forms.Generic
         /// </summary>               
         object IDataSet.UntypedEdit(Form owner, object @default, bool readOnly, bool workOnCopy)
         {
-            return this.ItemEditor(new EditItemArgs(owner, (T)@default, readOnly, workOnCopy));
-        }
+            return this.HandleEdit(new EditItemArgs(owner, (T)@default, readOnly, workOnCopy) );
+        }        
 
         /// <summary>
         /// IMPLEMENTS IListValueSet.
         /// </summary>               
-        bool IDataSet.UntypedPrepareForApply(Form owner, IEnumerable list, out object status)
+        void IDataSet.UntypedAfterApply(Form owner, IEnumerable list)
         {
-            if (BeforeListChangesApplied == null)
-            {
-                status = null;
-                return true;
-            }
-
-            var args = new BeforeApplyArgs(owner, list.Cast<T>());
-            bool success = this.BeforeListChangesApplied(args);
-            status = args.Status;
-            return success;
-        }
-
-        /// <summary>
-        /// IMPLEMENTS IListValueSet.
-        /// </summary>               
-        void IDataSet.UntypedAfterApply(Form owner, IEnumerable list, object status)
-        {
-            if (AfterListChangesApplied == null)
+            if (HandleFinished == null)
             {
                 return;
             }
 
-            this.AfterListChangesApplied(new AfterApplyArgs(owner, list.Cast<T>(), status));
+            this.HandleFinished(new AfterApplyArgs(owner, list.Cast<T>()));
         }
 
         /// <summary>
         /// IMPLEMENTS IListValueSet.
         /// </summary>               
-        void IDataSet.UntypedApplyChanges(IEnumerable list, ProgressReporter prog, object status)
+        void IDataSet.UntypedApplyChanges(IEnumerable list, ProgressReporter prog, bool transient)
         {
-            if (this.ListChangeApplicator == null)
+            if (this.HandleCommit == null)
             {
                 return;
             }
 
-            this.ListChangeApplicator(new ApplyArgs(list.Cast<T>(), prog, status));
+            this.HandleCommit(new ApplyArgs(list.Cast<T>(), prog, transient));
         }
 
         /// <summary>
@@ -484,7 +433,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             get
             {
-                return this.Title;
+                return this.ListTitle;
             }
         }
 
@@ -495,7 +444,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             get
             {
-                return this.SubTitle;
+                return this.ListDescription;
             }
         }
 
@@ -506,7 +455,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             get
             {
-                return this.ListChangeApplicator != null;
+                return this.HandleCommit != null;
             }
         }
 
@@ -517,7 +466,7 @@ namespace MetaboliteLevels.Forms.Generic
         {
             get
             {
-                return this.ItemEditor != null;
+                return this.HandleEdit != null;
             }
         }
 

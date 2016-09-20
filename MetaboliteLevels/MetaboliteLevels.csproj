@@ -164,7 +164,6 @@
     <Compile Include="Data\Algorithms\General\DistanceMatrix.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameterCollection.cs" />
     <Compile Include="Data\Algorithms\Definitions\Corrections\ArgsCorrection.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Corrections\ArgsTrendAsCorrection.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererAffinityPropagation.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererExisting.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererReclusterer.cs" />
@@ -520,6 +519,7 @@
     <Compile Include="Data\Session\Singular\MainSettings.cs" />
     <Compile Include="Data\Session\General\PeakFlag.cs" />
     <Compile Include="Data\Session\General\GroupInfoBase.cs" />
+    <Compile Include="Utilities\StrRes.cs" />
     <Compile Include="Utilities\UiControls.cs" />
     <Compile Include="Controls\Charts\ChartHelper.cs" />
     <Compile Include="Controls\Charts\ChartHelperForClusters.cs" />

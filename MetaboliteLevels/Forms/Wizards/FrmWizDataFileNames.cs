@@ -1100,10 +1100,10 @@ namespace MetaboliteLevels.Forms.Startup
         {
             return new DataSet<string>()
             {
-                Title = "Experimental Conditions",
-                Source = new TypeCacheIdsWrapper( this ),        
-                ItemNameProvider = ConditionBox_ItemNameProvider,
-                ItemDescriptionProvider = ConditionBox_ItemDescriptionProvider,
+                ListTitle = "Experimental Conditions",
+                ListSource = new TypeCacheIdsWrapper( this ),        
+                ItemTitle = ConditionBox_ItemNameProvider,
+                ItemDescription = ConditionBox_ItemDescriptionProvider,
                 DynamicItemRetriever = ConditionBox_DynamicItemRetriever,
             }.CreateConditionBox( textBox, button );
         }

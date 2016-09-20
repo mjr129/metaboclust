@@ -79,7 +79,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override string DefaultDisplayName => Configuration.ClustererConfiguration.Args.DisplayName;
+        public override string DefaultDisplayName => Configuration.ClustererConfiguration.DisplayName;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable

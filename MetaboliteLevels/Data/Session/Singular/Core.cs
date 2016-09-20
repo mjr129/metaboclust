@@ -362,10 +362,7 @@ namespace MetaboliteLevels.Data.Session
             bool result = false;
 
             // Report                        
-            info.Enter( "Applying " + title + "..." );
-
-            // Add new results
-            T[] needsUpdate = current.Where( z => z.NeedsUpdate ).ToArray();
+            info.Enter( "Applying " + title + "..." );                           
 
             foreach (T item in current)
             {
@@ -399,10 +396,14 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Sets the correction methods
         /// </summary>              
-        internal void SetCorrections( IEnumerable<ConfigurationCorrection> newList, ProgressReporter prog )
+        internal void SetCorrections( IEnumerable<ConfigurationCorrection> newList, ProgressReporter prog, bool noUpdate )
         {
             GenericReplace( _corrections, newList, prog );
-            UpdateAll( prog );
+
+            if (!noUpdate)
+            {
+                UpdateAll( prog );
+            }
         }
 
         /// <summary>
@@ -426,10 +427,14 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Sets the statistics.
         /// </summary>
-        internal void SetStatistics( IEnumerable<ConfigurationStatistic> newList, ProgressReporter prog )
+        internal void SetStatistics( IEnumerable<ConfigurationStatistic> newList, ProgressReporter prog, bool noUpdate )
         {
             GenericReplace( _statistics, newList, prog );
-            UpdateAll( prog );
+
+            if (!noUpdate)
+            {
+                UpdateAll( prog );
+            }
 
             // TODO: x.CalculateAveragedStatistics();
         }
@@ -437,19 +442,27 @@ namespace MetaboliteLevels.Data.Session
         /// <summary>
         /// Sets the trends.
         /// </summary>
-        internal void SetTrends( IEnumerable<ConfigurationTrend> newList, ProgressReporter prog )
+        internal void SetTrends( IEnumerable<ConfigurationTrend> newList, ProgressReporter prog, bool noUpdate )
         {
             GenericReplace( _trends, newList, prog );
-            UpdateAll( prog );
+
+            if (!noUpdate)
+            {
+                UpdateAll( prog );
+            }
         }
 
         /// <summary>
         /// Sets clusters and applies clustering algorithm.
         /// </summary>
-        public void SetClusterers( IEnumerable<ConfigurationClusterer> newList, ProgressReporter prog )
+        public void SetClusterers( IEnumerable<ConfigurationClusterer> newList, ProgressReporter prog, bool noUpdate )
         {
             GenericReplace( _clusterers, newList, prog );
-            UpdateAll( prog );
+
+            if (!noUpdate)
+            {
+                UpdateAll( prog );
+            }
         }
 
         /// <summary>
@@ -459,7 +472,7 @@ namespace MetaboliteLevels.Data.Session
         {
             List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>( AllClusterers );
             existing.Add( toAdd );
-            this.SetClusterers( existing.ToArray(), setProgress );
+            this.SetClusterers( existing.ToArray(), setProgress, false );
         }
 
         /// <summary>

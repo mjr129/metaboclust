@@ -18,49 +18,45 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// Configured statistic algorithm (see ConfigurationBase).
     /// </summary>
     [Serializable]
-    sealed class ConfigurationStatistic : ConfigurationBase<StatisticBase, ArgsStatistic, ResultStatistic>
+    sealed class ConfigurationStatistic : ConfigurationBase<StatisticBase, ArgsStatistic, ResultStatistic, SourceTracker>
     {                      
         internal double Calculate(Core core, Peak a)
         {
-            return GetAlgorithmOrThrow().Calculate(new InputStatistic(core, a, a, Args));
+            return Args.GetAlgorithmOrThrow().Calculate(new InputStatistic(core, a, a, Args));
         }
 
         internal double Calculate(Core core, Peak a, Peak b) // TODO: What is this for?!
         {
-            return GetAlgorithmOrThrow().Calculate(new InputStatistic(core, a, b, Args));
-        }                       
+            return Args.GetAlgorithmOrThrow().Calculate(new InputStatistic(core, a, b, Args));
+        }
 
-        public override bool Run( Core core, ProgressReporter prog )
+        protected override SourceTracker GetTracker()
+        {
+            return new SourceTracker( Args );
+        }
+
+        protected override void OnRun( Core core, ProgressReporter prog )
         {
             IntensityMatrix source = Args.SourceMatrix;
-                                                                      
+
             double max = double.MinValue;
             double min = double.MaxValue;
 
-            try
+            Dictionary<Peak, double> results = new Dictionary<Peak, double>();
+
+            for (int peakIndex = 0; peakIndex < source.Rows.Length; peakIndex++)
             {
-                Dictionary<Peak, double> results = new Dictionary<Peak, double>();
+                prog.SetProgress( peakIndex, source.Rows.Length );
 
-                for (int peakIndex = 0; peakIndex < source.Rows.Length; peakIndex++)
-                {
-                    prog.SetProgress( peakIndex, source.Rows.Length );
+                Peak peak = source.Rows[peakIndex].Peak;
+                double value = this.Calculate( core, peak );
+                max = Math.Max( max, value );
+                min = Math.Min( min, value );
 
-                    Peak peak = source.Rows[peakIndex].Peak;
-                    double value = this.Calculate( core, peak );
-                    max = Math.Max( max, value );
-                    min = Math.Min( min, value );
-
-                    results.Add( peak, value );
-                }
-
-                SetResults( new ResultStatistic( results, min, max ) );
-                return true;
+                results.Add( peak, value );
             }
-            catch (Exception ex)
-            {                                   
-                this.SetError( ex );
-                return false;
-            }
+
+            SetResults( new ResultStatistic( results, min, max ) );
         }
     }
 }

@@ -18,7 +18,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// Arguments for statistics (see StatisticBase).
     /// </summary>
     [Serializable]
-    internal class ArgsStatistic : ArgsBase
+    internal class ArgsStatistic : ArgsBase<StatisticBase>
     {
         [XColumn]
         public readonly EAlgoInputBSource VectorBSource;            // Where the second input vector comes from

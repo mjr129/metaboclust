@@ -25,6 +25,7 @@ using MetaboliteLevels.Algorithms.Statistics.Trends;
 using MetaboliteLevels.Algorithms.Statistics.Statistics;
 using MetaboliteLevels.Algorithms.Statistics.Corrections;
 using System.IO;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MGui;
 using MGui.Helpers;
@@ -49,10 +50,10 @@ namespace MetaboliteLevels.Forms.Generic
         {
             return new DataSet<T>()
             {
-                Title = title,
-                Source = EnumHelper.GetEnumFlags<T>(),
-                ItemNameProvider = z => EnumHelper.ToUiString( (Enum)(object)z ),
-                ItemDescriptionProvider = z => EnumHelper.ToDescription( (Enum)(object)z ),
+                ListTitle = title,
+                ListSource = EnumHelper.GetEnumFlags<T>(),
+                ItemTitle = z => EnumHelper.ToUiString( (Enum)(object)z ),
+                ItemDescription = z => EnumHelper.ToDescription( (Enum)(object)z ),
                 StringComparator = _EnumComparator<T>,
             };
         }
@@ -64,9 +65,9 @@ namespace MetaboliteLevels.Forms.Generic
         {
             return new DataSet<int>()
             {
-                Title = title,
-                Source = options.Indices(),
-                ItemNameProvider = z => options[z]
+                ListTitle = title,
+                ListSource = options.Indices(),
+                ItemTitle = z => options[z]
             };
         }
 
@@ -78,10 +79,10 @@ namespace MetaboliteLevels.Forms.Generic
         {
             return new DataSet<T>()
             {
-                Title = title,
-                Source = Enum.GetValues( typeof( T ) ).Cast<T>().Except( new T[] { cancelValue } ),
-                ItemNameProvider = z => EnumHelper.ToUiString( (Enum)(object)z ),
-                ItemDescriptionProvider = z => EnumHelper.ToDescription( (Enum)(object)z ),
+                ListTitle = title,
+                ListSource = Enum.GetValues( typeof( T ) ).Cast<T>().Except( new T[] { cancelValue } ),
+                ItemTitle = z => EnumHelper.ToUiString( (Enum)(object)z ),
+                ItemDescription = z => EnumHelper.ToDescription( (Enum)(object)z ),
                 StringComparator = _EnumComparator<T>,
                 CancelValue = cancelValue,
             };
@@ -95,10 +96,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ObservationInfo>()
             {
                 Core = core,
-                Title = "Observations",
-                Source = core.Observations,
-                ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition,
-                Icon = Resources.IconObservation,
+                ListTitle = "Observations",
+                ListSource = core.Observations,
+                ItemDescription = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition,
+                ListIcon = Resources.IconObservation,
             };
         }
 
@@ -110,10 +111,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ObservationInfo>()
             {
                 Core = core,
-                Title = "Conditions",
-                Source = core.Conditions,
-                ItemDescriptionProvider = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition,
-                Icon = Resources.IconCondition,
+                ListTitle = "Conditions",
+                ListSource = core.Conditions,
+                ItemDescription = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition,
+                ListIcon = Resources.IconCondition,
             };
         }
 
@@ -124,10 +125,10 @@ namespace MetaboliteLevels.Forms.Generic
         {
             return new DataSet<Column>()
             {
-                Title = "Columns",
-                Source = columns.Where( z => !z.IsAlwaysEmpty ),
-                ItemNameProvider = z => z.Id,
-                ItemDescriptionProvider = z => z.OverrideDisplayName,
+                ListTitle = "Columns",
+                ListSource = columns.Where( z => !z.IsAlwaysEmpty ),
+                ItemTitle = z => z.Id,
+                ItemDescription = z => z.OverrideDisplayName,
             };
         }
 
@@ -139,12 +140,12 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ClusterEvaluationPointer>()
             {
                 Core = core,
-                Title = "Test Results",
-                Source = core.EvaluationResultFiles,
-                ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
-                ItemEditor = z => FrmEvaluateClusteringOptions.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
-                ListChangeApplicator = z => core.EvaluationResultFiles.ReplaceAll( z.List ),
+                ListTitle = "Test Results",
+                ListSource = core.EvaluationResultFiles,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = z => "- CLUSTERER: " + z.Configuration.ParameterConfigAsString + "\r\n- VALUES: " + z.Configuration.ParameterValuesAsString + (z.FileName != null ? ("\r\n- FILENAME: " + z.FileName) : ""),
+                HandleEdit = z => FrmEvaluateClusteringOptions.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
+                HandleCommit = z => core.EvaluationResultFiles.ReplaceAll( z.List ),
                 ListSupportsReorder = true,
             };
         }
@@ -157,8 +158,8 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<int>()
             {
                 Core = core,
-                Title = "Time Points",
-                Source = core.Acquisitions,
+                ListTitle = "Time Points",
+                ListSource = core.Acquisitions,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
             };
@@ -172,13 +173,13 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<GroupInfo>()
             {
                 Core = core,
-                Title = "Experimental Groups",
-                Source = core.Groups,
-                ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = z => z.DisplayShortName + ": " + z.DisplayName,
+                ListTitle = "Experimental Groups",
+                ListSource = core.Groups,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = z => z.DisplayShortName + ": " + z.DisplayName,
                 StringComparator = _TypeNameComparator,
-                ItemEditor = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
-                Icon = Resources.IconGroups,
+                HandleEdit = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
+                ListIcon = Resources.IconGroups,
             };
         }
 
@@ -191,13 +192,13 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<BatchInfo>()
             {
                 Core = core,
-                Title = "Batches",
-                Source = core.Batches,
-                ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = z => z.DisplayShortName + z.Comment.FormatIf( "\r\nComment: " ),
+                ListTitle = "Batches",
+                ListSource = core.Batches,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = z => z.DisplayShortName + z.Comment.FormatIf( "\r\nComment: " ),
                 StringComparator = _TypeNameComparator,
-                ItemEditor = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
-                Icon = Resources.IconGroups,
+                HandleEdit = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
+                ListIcon = Resources.IconGroups,
             };
         }
 
@@ -209,11 +210,11 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<int>()
             {
                 Core = core,
-                Title = "Time Points",
-                Source = core.Times,
+                ListTitle = "Time Points",
+                ListSource = core.Times,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
-                Icon = Resources.IconTime,
+                ListIcon = Resources.IconTime,
             };
         }
 
@@ -225,11 +226,11 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<int>()
             {
                 Core = core,
-                Title = "Replicates",
-                Source = core.Reps,
+                ListTitle = "Replicates",
+                ListSource = core.Reps,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
-                Icon = Resources.IconReplicate,
+                ListIcon = Resources.IconReplicate,
             };
         }
 
@@ -240,9 +241,9 @@ namespace MetaboliteLevels.Forms.Generic
         {
             return new DataSet<string>()
             {
-                Title = "Headers",
-                Source = headerCollection.Headers,
-                Icon = Resources.IconInformation,
+                ListTitle = "Headers",
+                ListSource = headerCollection.Headers,
+                ListIcon = Resources.IconInformation,
             };
         }
 
@@ -254,10 +255,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<int>()
             {
                 Core = core,
-                Title = "Parameters",
-                Source = parameters.Indices(),
-                ItemNameProvider = z => parameters[z].Name + " (" + parameters[z].Type.ToUiString() + ")",
-                ItemDescriptionProvider = z => "Parameter " + z.ToString(),
+                ListTitle = "Parameters",
+                ListSource = parameters.Indices(),
+                ItemTitle = z => parameters[z].Name + " (" + parameters[z].Type.ToUiString() + ")",
+                ItemDescription = z => "Parameter " + z.ToString(),
                 CancelValue = int.MinValue,
             };
         }
@@ -270,11 +271,11 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<Cluster>()
             {
                 Core = core,
-                Title = "Clusters",
-                Source = core.Clusters,
-                ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = _GetComment,
-                Icon = Resources.IconCluster,
+                ListTitle = "Clusters",
+                ListSource = core.Clusters,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = _GetComment,
+                ListIcon = Resources.IconCluster,
             };
         }
 
@@ -286,11 +287,11 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<Peak>()
             {
                 Core = core,
-                Title = "Peaks",
-                Source = core.Peaks,
-                ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = _GetComment,
-                Icon = Resources.IconPeak,
+                ListTitle = "Peaks",
+                ListSource = core.Peaks,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = _GetComment,
+                ListIcon = Resources.IconPeak,
             };
         }
 
@@ -299,11 +300,11 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<Annotation>()
             {
                 Core = core,
-                Title = "Annotations",
-                Source = core.Annotations,
-                ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = _GetComment,
-                Icon = Resources.IconAnnotation,
+                ListTitle = "Annotations",
+                ListSource = core.Annotations,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = _GetComment,
+                ListIcon = Resources.IconAnnotation,
             };
         }
 
@@ -312,11 +313,11 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<Assignment>()
             {
                 Core = core,
-                Title = "Assignments",
-                Source = core.Assignments,
-                ItemNameProvider = _GetDisplayName,
-                ItemDescriptionProvider = _GetComment,
-                Icon = Resources.IconPeak,
+                ListTitle = "Assignments",
+                ListSource = core.Assignments,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = _GetComment,
+                ListIcon = Resources.IconPeak,
             };
         }
 
@@ -328,11 +329,11 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<Vector>()
             {
                 Core = core,
-                Title = "Vectors",
-                Source = matrix.Vectors,
-                ItemNameProvider = z => z.ToString(),
-                ItemDescriptionProvider = z => z.Peak.Comment,
-                Icon = Resources.IconPeak,
+                ListTitle = "Vectors",
+                ListSource = matrix.Vectors,
+                ItemTitle = z => z.ToString(),
+                ItemDescription = z => z.Peak.Comment,
+                ListIcon = Resources.IconPeak,
             };
         }
 
@@ -366,11 +367,11 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<object>()
             {
                 Core = core,
-                Title = "All items",
-                Source = all,
-                ItemNameProvider = z => z.GetType().Name.ToSmallCaps() + ": " + z.ToString(),
-                ItemDescriptionProvider = z => (z is Visualisable) ? "Selectable" : "Not selectable",
-                Icon = Resources.IconCore,
+                ListTitle = "All items",
+                ListSource = all,
+                ItemTitle = z => z.GetType().Name.ToSmallCaps() + ": " + z.ToString(),
+                ItemDescription = z => (z is Visualisable) ? "Selectable" : "Not selectable",
+                ListIcon = Resources.IconCore,
             };
         }
 
@@ -382,43 +383,26 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ConfigurationTrend>()
             {
                 Core = core,
-                Title = "Trends",
-                Source = core.AllTrends,
-                ItemDescriptionProvider = _GetComment,
+                ListTitle = "Trends",
+                ListSource = core.AllTrends,
+                ItemDescription = _GetComment,
                 ListSupportsReorder = true,
-                Icon = Resources.IconScriptTrend,
-                BeforeListChangesApplied = z =>
-                {
-                    int numEnabledX = z.List.Count( zz => !zz.Args.Hidden );
-
-                    if (numEnabledX == 0)
-                    {
-                        FrmMsgBox.ShowError( z.Owner, "A trendline must be defined." );
-                        return false;
-                    }
-                    else if (numEnabledX > 1)
-                    {
-                        FrmMsgBox.ShowError( z.Owner, "Only one trend can be activated at once." );
-                        return false;
-                    }
-
-                    return true;
+                ListIcon = Resources.IconScriptTrend,  
+                ItemsReferenceList = true,
+                HandleCommit = z =>
+                {             
+                    core.SetTrends( z.List, z.Progress, z.Transient );
                 },
-                ListChangeApplicator = z =>
-                {
-
-                    core.SetTrends( z.List, z.Progress );
-                },
-                ItemEditor = z =>
-                    {
+                HandleEdit = z =>
+                    {   
                         if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
                         {
                             return null;
                         }
 
-                        return FrmEditConfigurationTrend.Show( z.Owner, core, z.DefaultValue, z.ReadOnly );
+                        return CommitEdit( FrmEditConfigurationTrend.Show( z.Owner, core, z.DefaultValue?.Args, z.ReadOnly ), z );   
                     },
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted( z.owner, "Trends", "Update complete" ),
+                HandleFinished = z => FrmMsgBox.ShowCompleted( z.Owner, "Trends", "Update complete" ),
             };
         }
 
@@ -430,27 +414,28 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ConfigurationCorrection>()
             {
                 Core = core,
-                Title = "Corrections",
-                Source = core.AllCorrections,
-                ItemDescriptionProvider = _GetComment,
+                ListTitle = "Corrections",
+                ListSource = core.AllCorrections,
+                ItemDescription = _GetComment,
                 ListSupportsReorder = true,
-                Icon = Resources.IconScriptCorrect,
-                AfterListChangesApplied = z =>
+                ListIcon = Resources.IconScriptCorrect,
+                ItemsReferenceList = true,
+                HandleFinished = z =>
                 {
-                    FrmMsgBox.ShowCompleted( z.owner, "Data Corrections", "Update complete" );
+                    FrmMsgBox.ShowCompleted( z.Owner, "Data Corrections", "Update complete" );
                 },
-                ListChangeApplicator = z =>
+                HandleCommit = z =>
                 {
-                    core.SetCorrections( z.List, z.Progress );
+                    core.SetCorrections( z.List, z.Progress, z.Transient );
                 },
-                ItemEditor = z =>
+                HandleEdit = z =>
                 {
                     if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
                     {
                         return null;
                     }
 
-                    return FrmEditConfigurationCorrection.Show( z.Owner, core, z.DefaultValue, z.ReadOnly );
+                    return CommitEdit( FrmEditConfigurationCorrection.Show( z.Owner, core, z.DefaultValue?.Args, z.ReadOnly ), z );
                 }
             };
         }
@@ -463,23 +448,24 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ConfigurationClusterer>()
             {
                 Core = core,
-                Title = "Clusterers",
-                Source = core.AllClusterers,
-                ItemDescriptionProvider = _GetComment,
+                ListTitle = "Clusterers",
+                ListSource = core.AllClusterers,
+                ItemDescription = _GetComment,
                 ListSupportsReorder = true,
-                ListChangeApplicator = z => core.SetClusterers( z.List, z.Progress ),
-                Icon = Resources.IconScriptCluster,
-                ItemEditor = z =>
+                HandleCommit = z => core.SetClusterers( z.List, z.Progress, z.Transient ),
+                ListIcon = Resources.IconScriptCluster,
+                ItemsReferenceList = true,
+                HandleEdit = z =>
                 {
                     if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
                     {
                         return null;
                     }
 
-                    return FrmEditConfigurationCluster.Show( z.Owner, core, z.DefaultValue, z.ReadOnly, false );
+                    return CommitEdit( FrmEditConfigurationCluster.Show( z.Owner, core, z.DefaultValue?.Args, z.ReadOnly, false ), z );
                 },
 
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted( z.owner, "Clustering", "Update complete" )
+                HandleFinished = z => FrmMsgBox.ShowCompleted( z.Owner, "Clustering", "Update complete" )
             };
         }
 
@@ -491,10 +477,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<MetricBase>()
             {
                 Core = core,
-                Title = "Distance metrics",
-                Source = Algo.Instance.Metrics,
-                ItemEditor = z => _ShowScriptEditor<MetricBase>( z, UiControls.EInitialFolder.FOLDER_METRICS ),
-                ListChangesOnEdit = true,
+                ListTitle = "Distance metrics",
+                ListSource = Algo.Instance.Metrics,
+                HandleEdit = z => _ShowScriptEditor<MetricBase>( z, UiControls.EInitialFolder.FOLDER_METRICS ),
+                ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
             };
         }
@@ -507,10 +493,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<IMatrixProvider>()
             {
                 Core = core,
-                Title = "Intensity matrices",
-                Source = core.Matrices,
-                ItemNameProvider = λ => λ.ToString(),
-                ItemDescriptionProvider = λ => λ.GetType().ToUiString(),
+                ListTitle = "Intensity matrices",
+                ListSource = core.Matrices,
+                ItemTitle = λ => λ.ToString(),
+                ItemDescription = λ => λ.GetType().ToUiString(),
             };
         }
 
@@ -522,10 +508,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<TrendBase>()
             {
                 Core = core,
-                Title = "Trend algorithms",
-                Source = Algo.Instance.Trends,
-                ItemEditor = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_TRENDS ),
-                ListChangesOnEdit = true,
+                ListTitle = "Trend algorithms",
+                ListSource = Algo.Instance.Trends,
+                HandleEdit = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_TRENDS ),
+                ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
             };
         }
@@ -538,10 +524,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<AlgoBase>()
             {
                 Core = core,
-                Title = "Algorithms",
-                Source = Algo.Instance.All,
-                ItemEditor = z => _ShowScriptEditor( z ),
-                ListChangesOnEdit = true,
+                ListTitle = "Algorithms",
+                ListSource = Algo.Instance.All,
+                HandleEdit = z => _ShowScriptEditor( z ),
+                ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
             };
         }
@@ -554,10 +540,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ClustererBase>()
             {
                 Core = core,
-                Title = "Clustering algorithms",
-                Source = Algo.Instance.Clusterers,
-                ItemEditor = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_CLUSTERERS ),
-                ListChangesOnEdit = true,
+                ListTitle = "Clustering algorithms",
+                ListSource = Algo.Instance.Clusterers,
+                HandleEdit = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_CLUSTERERS ),
+                ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
             };
         }
@@ -570,10 +556,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<AlgoBase>()
             {
                 Core = core,
-                Title = "Correction algorithms",
-                Source = Algo.Instance.Trends.Cast<AlgoBase>().Concat( Algo.Instance.Corrections ),
-                ItemEditor = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_TRENDS, UiControls.EInitialFolder.FOLDER_CORRECTIONS ),
-                ListChangesOnEdit = true,
+                ListTitle = "Correction algorithms",
+                ListSource = Algo.Instance.Trends.Cast<AlgoBase>().Concat( Algo.Instance.Corrections ),
+                HandleEdit = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_TRENDS, UiControls.EInitialFolder.FOLDER_CORRECTIONS ),
+                ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
             };
         }
@@ -586,10 +572,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<StatisticBase>()
             {
                 Core = core,
-                Title = "Statistics",
-                Source = Algo.Instance.Statistics,
-                ItemEditor = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_STATISTICS, UiControls.EInitialFolder.FOLDER_METRICS ),
-                ListChangesOnEdit = true,
+                ListTitle = "Statistics",
+                ListSource = Algo.Instance.Statistics,
+                HandleEdit = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_STATISTICS, UiControls.EInitialFolder.FOLDER_METRICS ),
+                ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
             };
         }
@@ -602,23 +588,48 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ConfigurationStatistic>()
             {
                 Core = core,
-                Title = "Statistics",
-                Source = core.AllStatistics,
-                ItemDescriptionProvider = _GetComment,
-                ListChangeApplicator = z => core.SetStatistics( z.List, z.Progress ),
+                ListTitle = "Statistics",
+                ListSource = core.AllStatistics,
+                ItemDescription = _GetComment,
+                ItemsReferenceList = true,
+                HandleCommit = z => core.SetStatistics( z.List, z.Progress, z.Transient ),
                 ListSupportsReorder = true,
-                Icon = Resources.IconScriptStatistic,
-                ItemEditor = z =>
+                ListIcon = Resources.IconScriptStatistic,
+                HandleEdit = z =>
                 {
                     if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
                     {
                         return null;
                     }
 
-                    return FrmEditConfigurationStatistic.Show( z.Owner, z.DefaultValue, core, z.ReadOnly );
+                    return CommitEdit(FrmEditConfigurationStatistic.Show( z.Owner, z.DefaultValue?.Args, core, z.ReadOnly ), z );
                 },
-                AfterListChangesApplied = z => FrmMsgBox.ShowCompleted( z.owner, "Staticics", "Update complete" ),
+                HandleFinished = z => FrmMsgBox.ShowCompleted( z.Owner, "Staticics", "Update complete" ),
             };
+        }
+
+        private static T CommitEdit<T, U>( U result, DataSet<T>.EditItemArgs args )
+            where T : class, IConfigurationBase<U>, new()
+        {
+            if (result == null)
+            {
+                return null;
+            }
+
+            T t;
+
+            if (args.WorkOnCopy || args.DefaultValue == null)
+            {
+                t = new T();
+            }
+            else
+            {
+                t = args.DefaultValue;
+            }
+
+            t.Args = result;
+
+            return t;
         }
 
         /// <summary>
@@ -629,17 +640,17 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<PeakFlag>()
             {
                 Core = core,
-                Title = "Peak Flags",
-                SubTitle = "These flags can be used to assign categories or labels to data",
-                Source = core.Options.PeakFlags,
-                ItemDescriptionProvider = _GetComment,
+                ListTitle = "Peak Flags",
+                ListDescription = "These flags can be used to assign categories or labels to data",
+                ListSource = core.Options.PeakFlags,
+                ItemDescription = _GetComment,
                 ListSupportsReorder = true,
-                ItemEditor = z =>
+                HandleEdit = z =>
                 {
                     var val = z.WorkOnCopy ? z.DefaultValue.Clone() : (z.DefaultValue ?? new PeakFlag());
                     return FrmEditPeakFlag.Show( z.Owner, val, z.ReadOnly ) ? val : null;
                 },
-                ListChangesOnEdit = true,
+                ListIsSelfUpdating = true,
             };
         }
 
@@ -651,12 +662,12 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<PeakFilter>()
             {
                 Core = core,
-                Title = "Peak Filters",
-                Source = core.AllPeakFilters,
-                ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
-                ListChangeApplicator = z => core.SetPeakFilters( z.List ),
+                ListTitle = "Peak Filters",
+                ListSource = core.AllPeakFilters,
+                ItemDescription = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
+                HandleCommit = z => core.SetPeakFilters( z.List ),
                 ListSupportsReorder = true,
-                ItemEditor = z =>
+                HandleEdit = z =>
                 {
                     var newList = DataSet.ForPeakFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
 
@@ -678,9 +689,9 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ObsFilter.Condition>()
             {
                 Core = core,
-                Title = "Observation filter conditions",
-                Source = of != null ? of.Conditions.Cast<ObsFilter.Condition>() : new ObsFilter.Condition[0],
-                ItemEditor = z => FrmEditObsFilterCondition.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
+                ListTitle = "Observation filter conditions",
+                ListSource = of != null ? of.Conditions.Cast<ObsFilter.Condition>() : new ObsFilter.Condition[0],
+                HandleEdit = z => FrmEditObsFilterCondition.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
                 ListSupportsReorder = true,
             };
         }
@@ -693,9 +704,9 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<PeakFilter.Condition>()
             {
                 Core = core,
-                Title = "Peak filter conditions",
-                Source = of != null ? of.Conditions.Cast<PeakFilter.Condition>() : new PeakFilter.Condition[0],
-                ItemEditor = z => FrmEditPeakFilterCondition.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
+                ListTitle = "Peak filter conditions",
+                ListSource = of != null ? of.Conditions.Cast<PeakFilter.Condition>() : new PeakFilter.Condition[0],
+                HandleEdit = z => FrmEditPeakFilterCondition.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
                 ListSupportsReorder = true,
             };
         }
@@ -708,10 +719,10 @@ namespace MetaboliteLevels.Forms.Generic
             return new DataSet<ObsFilter>()
             {
                 Core = core,
-                Title = "Observation Filters",
-                Source = core.AllObsFilters,
-                ItemDescriptionProvider = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
-                ItemEditor = z =>
+                ListTitle = "Observation Filters",
+                ListSource = core.AllObsFilters,
+                ItemDescription = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
+                HandleEdit = z =>
                 {
                     var newlist = DataSet.ForObsFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
 
@@ -722,7 +733,7 @@ namespace MetaboliteLevels.Forms.Generic
 
                     return new ObsFilter( z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newlist );
                 },
-                ListChangeApplicator = z => core.SetObsFilters( z.List ),
+                HandleCommit = z => core.SetObsFilters( z.List ),
                 ListSupportsReorder = true,
             };
         }

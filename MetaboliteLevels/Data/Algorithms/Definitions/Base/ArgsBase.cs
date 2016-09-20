@@ -18,8 +18,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// These usually contain some sort of filter for the inputs (e.g. only the control group)
     /// and parameters for the algorithm itself (e.g. k = 3).
     /// </summary>
-    [Serializable]
-    internal abstract class ArgsBase : Visualisable
+    internal abstract class ArgsBase : Visualisable, IArgsBase<AlgoBase>
     {
         /// <summary>
         /// The user-inputtable parameters.
@@ -33,7 +32,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         public IMatrixProvider SourceProvider => _sourceProvider.GetTarget();
 
         [XColumn( "Source matrix", EColumn.None )]
-        public IntensityMatrix SourceMatrix => SourceProvider?.Provide;                     
+        public IntensityMatrix SourceMatrix => SourceProvider?.Provide;
 
         public override string DefaultDisplayName
         {
@@ -45,27 +44,27 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
                     + " (" + SourceMatrix.ToStringSafe() + ") "
                     + AlgoParameterCollection.ParamsToHumanReadableString( Parameters, algorithm );
             }
-        }                      
+        }
 
         /// <summary>
         /// Constructor
         /// </summary> 
-        protected ArgsBase( string id, IMatrixProvider sourceProvider, object[] parameters)
+        protected ArgsBase( string id, IMatrixProvider sourceProvider, object[] parameters )
         {
             _sourceProvider = new WeakReference<IMatrixProvider>( sourceProvider );
             Id = id;
             Parameters = parameters;
         }
 
-        public readonly string Id;       
+        public readonly string Id;
 
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;   
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;
 
         /// <summary>
         /// Returns the display name of algorithm, or the ID if not found
         /// </summary>  
-        [XColumn("Algorithm", EColumn.Visible)]        
-        public string AlgoName => GetAlgorithmOrNull()?.DisplayName ?? Id ;
+        [XColumn( "Algorithm", EColumn.Visible )]
+        public string AlgoName => GetAlgorithmOrNull()?.DisplayName ?? Id;
 
         /// <summary>
         /// Gets cached algorithm or throws an exception if not found.
@@ -95,5 +94,32 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         {
             return GetAlgorithmOrNull() != null;
         }
+    }
+
+    internal class ArgsBase<TAlgo> :ArgsBase, IArgsBase<TAlgo>
+        where TAlgo : AlgoBase
+    {
+        public new TAlgo GetAlgorithmOrThrow() => (TAlgo)base.GetAlgorithmOrThrow();
+
+        public new TAlgo GetAlgorithmOrNull() => (TAlgo)base.GetAlgorithmOrNull();
+
+        public ArgsBase( string id, IMatrixProvider sourceProvider, object[] parameters ) : base( id, sourceProvider, parameters )
+        {
+        }
+    }
+
+
+    internal interface IArgsBase<TAlgo>
+        where TAlgo : AlgoBase
+    {
+        /// <summary>
+        /// Strong typed version of base class.
+        /// </summary>
+        TAlgo GetAlgorithmOrThrow();
+
+        /// <summary>
+        /// Strong typed version of base class.
+        /// </summary>
+        TAlgo GetAlgorithmOrNull();
     }
 }

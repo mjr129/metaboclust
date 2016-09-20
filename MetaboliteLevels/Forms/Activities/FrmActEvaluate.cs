@@ -44,13 +44,13 @@ namespace MetaboliteLevels.Forms.Algorithms
         private readonly CtlAutoList _lvhStatistics;
 
         private readonly Core _core;
-        private readonly ConfigurationClusterer _templateConfig;
+        private readonly ArgsClusterer _templateConfig;
         private ClusterEvaluationResults _selectedResults;
 
         /// <summary>
         /// Shows the form
         /// </summary>                        
-        internal static void Show(Form owner, Core core, ConfigurationClusterer config)
+        internal static void Show(Form owner, Core core, ArgsClusterer config )
         {
             using (FrmActEvaluate frm = new FrmActEvaluate(core, config))
             {
@@ -71,7 +71,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             UiControls.PopulateImageList(imageList1);
         }
 
-        internal FrmActEvaluate(Core core, ConfigurationClusterer config)
+        internal FrmActEvaluate(Core core, ArgsClusterer config )
             : this()
         {
             this._core = core;
@@ -602,20 +602,20 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                     // Create config
                     string newName = AlgoParameterCollection.ParamToString( false, null, value ) + " " + StringHelper.Circle( repetition + 1 );
-                    object[] copyOfParameters = test.ClustererConfiguration.Args.Parameters.ToArray();
+                    object[] copyOfParameters = test.ClustererConfiguration.Parameters.ToArray();
                     copyOfParameters[test.ParameterIndex] = value;
                     ArgsClusterer copyOfArgs = new ArgsClusterer(
-                        test.ClustererConfiguration.Args.Id,
-                        test.ClustererConfiguration.Args.SourceProvider,
-                        test.ClustererConfiguration.Args.PeakFilter,
-                        test.ClustererConfiguration.Args.Distance,
-                        test.ClustererConfiguration.Args.ObsFilter,
-                        test.ClustererConfiguration.Args.SplitGroups,
-                        test.ClustererConfiguration.Args.Statistics,
+                        test.ClustererConfiguration.Id,
+                        test.ClustererConfiguration.SourceProvider,
+                        test.ClustererConfiguration.PeakFilter,
+                        test.ClustererConfiguration.Distance,
+                        test.ClustererConfiguration.ObsFilter,
+                        test.ClustererConfiguration.SplitGroups,
+                        test.ClustererConfiguration.Statistics,
                         copyOfParameters )
                     {
                         OverrideDisplayName = newName,
-                        Comment = test.ClustererConfiguration.Args.Comment
+                        Comment = test.ClustererConfiguration.Comment
                     };
                     var copyOfConfig = new ConfigurationClusterer()
                                        {  

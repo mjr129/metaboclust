@@ -28,14 +28,15 @@ namespace MetaboliteLevels.Forms.Generic
         bool HasItemEditor { get; }
 
         object UntypedEdit(Form owner, object @default, bool readOnly, bool workOnCopy);
-        bool UntypedPrepareForApply(Form owner, IEnumerable list, out object status);
-        void UntypedAfterApply(Form owner, IEnumerable list, object status);
-        void UntypedApplyChanges(IEnumerable newList, ProgressReporter prog, object status);
+        void UntypedAfterApply(Form owner, IEnumerable list);
+        void UntypedApplyChanges(IEnumerable newList, ProgressReporter prog, bool transient );
         bool ShowListEditor(Form owner);   
-        bool ListChangesOnEdit { get; }
+        bool ListIsSelfUpdating { get; }
         bool ListSupportsReorder { get; }
 
         void UntypedBeforeReplace(Form owner, object remove, object create);
         bool DynamicEntries { get; }
+
+        bool ItemsReferenceList { get; }
     }
 }

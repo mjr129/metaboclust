@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Algorithms.Statistics;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Visualisables;
@@ -25,7 +26,7 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// The configuration of the clusterer to use
         /// </summary>
         [XColumn( "Configuration\\", EColumn.Decompose )]
-        public readonly ConfigurationClusterer ClustererConfiguration;
+        public readonly ArgsClusterer ClustererConfiguration;
 
         /// <summary>
         /// Index of the parameter to manipulate
@@ -64,17 +65,17 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// CONSTRUCTOR
         /// </summary> 
-        public ClusterEvaluationConfiguration(ConfigurationClusterer clustererConfiguration, int parameterIndex, object[] values, int numberOfRepeats)
+        public ClusterEvaluationConfiguration( ArgsClusterer clustererConfiguration, int parameterIndex, object[] values, int numberOfRepeats)
         {
             // Make sure we have no results here, they will make the save massive and are never used!
-            UiControls.Assert(!clustererConfiguration.HasResults, "Didn't expect any results in ClusterEvaluationConfiguration::ClustererConfiguration.");
+            //UiControls.Assert(!clustererConfiguration.HasResults, "Didn't expect any results in ClusterEvaluationConfiguration::ClustererConfiguration.");
 
             this.ClustererConfiguration = clustererConfiguration;
             this.ParameterIndex = parameterIndex;
             this.ParameterValues = values;
             this._guid = Guid.NewGuid();
             this.NumberOfRepeats = numberOfRepeats;
-            this.ParameterName = clustererConfiguration.Args.GetAlgorithmOrThrow().Parameters[ParameterIndex].Name;
+            this.ParameterName = clustererConfiguration.GetAlgorithmOrThrow().Parameters[ParameterIndex].Name;
         }        
 
         /// <summary>
@@ -109,6 +110,6 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override string DefaultDisplayName => ClustererConfiguration.Args.DisplayName + " : " + ParameterConfigAsString;             
+        public override string DefaultDisplayName => ClustererConfiguration.DisplayName + " : " + ParameterConfigAsString;             
     }
 }

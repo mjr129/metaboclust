@@ -46,7 +46,7 @@ namespace MetaboliteLevels.Controls
                 ComboBox.Items.Add(_none);
             }
 
-            ComboBox.Items.AddRange(NamedItem.GetRange<T>(_config.TypedGetList(true), _config.ItemNameProvider).ToArray());
+            ComboBox.Items.AddRange(NamedItem.GetRange<T>(_config.TypedGetList(true), _config.ItemTitle).ToArray());
         }
 
         void _button_Click(object sender, EventArgs e)

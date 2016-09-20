@@ -175,12 +175,12 @@ namespace MetaboliteLevels.Forms.Activities
             DataSet<OtherExportInfo> dex = new DataSet<OtherExportInfo>()
             {
                 Core = _core,
-                Title = "Export dataset",
-                Source = _otherExports,
-                ItemDescriptionProvider = z => z.FileName,
-                ItemNameProvider = z => z.DataSet.ToUiString(),
-                ItemEditor = EditOtherExport,
-                ListChangeApplicator = z => _otherExports.ReplaceAll(z.List),
+                ListTitle = "Export dataset",
+                ListSource = _otherExports,
+                ItemDescription = z => z.FileName,
+                ItemTitle = z => z.DataSet.ToUiString(),
+                HandleEdit = EditOtherExport,
+                HandleCommit = z => _otherExports.ReplaceAll(z.List),
             };
 
             if (dex.ShowListEditor( this ) )

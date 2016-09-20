@@ -11,7 +11,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// Nothing really special here!
     /// </summary>
     [Serializable]
-    class ArgsMetric : ArgsBase
+    class ArgsMetric : ArgsBase<MetricBase>
     {
         public ArgsMetric( string id, IMatrixProvider source, object[] parameters)
             : base( id, source, parameters )

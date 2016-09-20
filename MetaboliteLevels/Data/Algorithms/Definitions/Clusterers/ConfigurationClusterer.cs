@@ -15,7 +15,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// Configured clustering algorithm (see ConfigurationBase).
     /// </summary>
     [Serializable]
-    sealed class ConfigurationClusterer : ConfigurationBase<ClustererBase, ArgsClusterer, ResultClusterer>
+    sealed class ConfigurationClusterer : ConfigurationBase<ClustererBase, ArgsClusterer, ResultClusterer, SourceTracker>
     {         
         /// <summary>
         /// ACTION!
@@ -25,28 +25,24 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             // Get results
             IntensityMatrix vmatrix;
             DistanceMatrix dmatrix;
-            ResultClusterer results = this.GetAlgorithmOrThrow().ExecuteAlgorithm(core, isPreview, false, this.Args, this, prog, out vmatrix, out dmatrix);
+            ResultClusterer results = this.Args.GetAlgorithmOrThrow().ExecuteAlgorithm(core, isPreview, false, this.Args, this, prog, out vmatrix, out dmatrix);
 
             // Finalize statistics
             results.FinalizeResults(core, this.Args.Distance, vmatrix, dmatrix, this.Args.Statistics, prog);
 
             // Return results
             return results;
-        }                       
+        }
 
-        public override bool Run( Core core, ProgressReporter prog )
+        protected override SourceTracker GetTracker()
         {
-            try
-            {
-                ResultClusterer results = this.Cluster( core, -1, prog );
-                this.SetResults( results );
-                return true;
-            }
-            catch (Exception ex)
-            {                                
-                this.SetError( ex );
-                return false;
-            }
+            return new SourceTracker( Args );
+        }
+
+        protected override void OnRun( Core core, ProgressReporter prog )
+        {                      
+            ResultClusterer results = this.Cluster( core, -1, prog );
+            this.SetResults( results );
         }
     }
 }

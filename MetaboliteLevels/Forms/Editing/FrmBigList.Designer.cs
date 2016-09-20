@@ -135,6 +135,7 @@
             this._btnCancel.Text = "Cancel";
             this._btnCancel.UseDefaultSize = true;
             this._btnCancel.UseVisualStyleBackColor = true;
+            this._btnCancel.Click += new System.EventHandler(this._btnCancel_Click);
             // 
             // flowLayoutPanel2
             // 
@@ -235,7 +236,7 @@
             // 
             this._btnRename.Enabled = false;
             this._btnRename.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this._btnRename.Image = global::MetaboliteLevels.Properties.Resources.MnuComment;
+            this._btnRename.Image = global::MetaboliteLevels.Properties.Resources.MnuDescribe;
             this._btnRename.Location = new System.Drawing.Point(0, 208);
             this._btnRename.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this._btnRename.Name = "_btnRename";

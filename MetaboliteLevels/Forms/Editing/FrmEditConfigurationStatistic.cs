@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<StatisticBase> _ecbMeasure;
         private readonly EditableComboBox<IMatrixProvider> _ecbSource;
 
-        internal static ConfigurationStatistic Show(Form owner, ConfigurationStatistic def, Core core, bool readOnly)
+        internal static ArgsStatistic Show(Form owner, ArgsStatistic def, Core core, bool readOnly)
         {
             if (ShowCannotEditError(owner, def)) return null;
 
@@ -49,9 +49,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        internal static bool ShowCannotEditError(Form owner, ConfigurationBase def)
+        internal static bool ShowCannotEditError(Form owner, ArgsBase def )
         {
-            if (def != null && !def.UntypedArgs.CheckIsAvailable())
+            if (def != null && !def.CheckIsAvailable())
             {
                 FrmMsgBox.ShowWarning(owner, "Missing algorithm",
                                       "This algorithm uses an algorithm not installed on this machine and its parameters cannot be modified.");
@@ -61,7 +61,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             return false;
         }
 
-        private ConfigurationStatistic GetSelection()
+        private ArgsStatistic GetSelection()
         {
             StatisticBase sel = this._ecbMeasure.SelectedItem;
             IMatrixProvider src;
@@ -169,9 +169,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             ArgsStatistic args = new ArgsStatistic( sel.Id, src, filter1, bsrc, filter2, bpeak, parameters);
             args.OverrideDisplayName = title;
             args.Comment = _comments;
-            ConfigurationStatistic result = new ConfigurationStatistic();
-            result.Args = args;
-            return result;
+            return args;
         }
 
         public FrmEditConfigurationStatistic()
@@ -191,10 +189,10 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             try
             {
-                ConfigurationStatistic sel = GetSelection();
+                ArgsStatistic sel = GetSelection();
                 GeneratePreview(sel);
                 previewSucceeded = sel != null;
-                _txtName.Watermark = sel != null ? sel.Args.DefaultDisplayName : "Default";
+                _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
             }
             catch
             {
@@ -205,7 +203,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             _tlpPreivew.Visible = previewSucceeded;
         }
 
-        private FrmEditConfigurationStatistic(Core core, ConfigurationStatistic defaultSelection, Peak defaultPeak, bool readOnly)
+        private FrmEditConfigurationStatistic(Core core, ArgsStatistic defaultSelection, Peak defaultPeak, bool readOnly)
             : this()
         {
             this._core = core;
@@ -222,23 +220,23 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (defaultSelection != null)
             {
-                _txtName.Text = defaultSelection.Args.OverrideDisplayName;
-                ctlTitleBar1.SubText = defaultSelection.Args.AlgoName;
-                _comments = defaultSelection.Args.Comment;
-                _ecbMeasure.SelectedItem =(StatisticBase) defaultSelection.Args.GetAlgorithmOrNull();
-                _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Args.Parameters, _core);
+                _txtName.Text = defaultSelection.OverrideDisplayName;
+                ctlTitleBar1.SubText = defaultSelection.AlgoName;
+                _comments = defaultSelection.Comment;
+                _ecbMeasure.SelectedItem =(StatisticBase) defaultSelection.GetAlgorithmOrNull();
+                _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(defaultSelection.Parameters, _core);
 
-                _ecbSource.SelectedItem = defaultSelection.Args.SourceProvider;
-                _radBCorTime.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.Time;
-                _radBDiffPeak.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.AltPeak;
-                _radSamePeak.Checked = defaultSelection.Args.VectorBSource == EAlgoInputBSource.SamePeak;
+                _ecbSource.SelectedItem = defaultSelection.SourceProvider;
+                _radBCorTime.Checked = defaultSelection.VectorBSource == EAlgoInputBSource.Time;
+                _radBDiffPeak.Checked = defaultSelection.VectorBSource == EAlgoInputBSource.AltPeak;
+                _radSamePeak.Checked = defaultSelection.VectorBSource == EAlgoInputBSource.SamePeak;
 
-                _ecbFilter1.SelectedItem = defaultSelection.Args.VectorAConstraint;
-                _ecbFilter2.SelectedItem = defaultSelection.Args.VectorBConstraint;
+                _ecbFilter1.SelectedItem = defaultSelection.VectorAConstraint;
+                _ecbFilter2.SelectedItem = defaultSelection.VectorBConstraint;
 
-                if (defaultSelection.Args.VectorBPeak != null)
+                if (defaultSelection.VectorBPeak != null)
                 {
-                    _lstDiffPeak.SelectedItem = defaultSelection.Args.VectorBPeak;
+                    _lstDiffPeak.SelectedItem = defaultSelection.VectorBPeak;
                 }
             }
 
@@ -380,7 +378,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        private void GeneratePreview(ConfigurationStatistic sel)
+        private void GeneratePreview( ArgsStatistic sel )
         {
             if (sel == null)
             {
@@ -396,7 +394,8 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             try
             {
-                double v = sel.Calculate(_core, _previewPeak);
+                ConfigurationStatistic temp = new ConfigurationStatistic() { Args = sel };
+                double v = temp.Calculate(_core, _previewPeak);
 
                 _lblPreview2.Text = v.ToString();
                 _lblPreview2.ForeColor = System.Drawing.Color.Gray;

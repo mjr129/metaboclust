@@ -48,6 +48,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// </summary>
     public enum ECorrectionMode
     {
+        None = 0,
         /// <summary>Correct batchwise</summary>
         Batch = 1,
         /// <summary>Correct for the control group</summary>
@@ -59,6 +60,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// </summary>
     public enum ECorrectionMethod
     {
+        None,
         /// <summary>Correct via subtraction</summary>
         Subtract,
         /// <summary>Correct via division</summary>

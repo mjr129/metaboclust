@@ -45,7 +45,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private EditableComboBox<GroupInfo> _ecbTypes;
         private EditableComboBox<IMatrixProvider> _ecbSource;
 
-        internal static ConfigurationCorrection Show( Form owner, Core core, ConfigurationCorrection def, bool readOnly )
+        internal static ArgsCorrection Show( Form owner, Core core, ArgsCorrection def, bool readOnly )
         {
             using (FrmEditConfigurationCorrection frm = new FrmEditConfigurationCorrection( core, def, readOnly, FrmMain.SearchForSelectedPeak( owner ) ))
             {
@@ -58,7 +58,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        internal FrmEditConfigurationCorrection( Core core, ConfigurationCorrection def, bool readOnly, Peak previewPeak )
+        internal FrmEditConfigurationCorrection( Core core, ArgsCorrection def, bool readOnly, Peak previewPeak )
         {
             InitializeComponent();
             UiControls.SetIcon( this );
@@ -88,26 +88,20 @@ namespace MetaboliteLevels.Forms.Algorithms
             // Default
             if (def != null)
             {
-                _txtName.Text = def.Args.OverrideDisplayName;
-                _txtParameters.Text = AlgoParameterCollection.ParamsToReversableString( def.Args.Parameters, core );
-                _ecbMethod.SelectedItem = def.Args.GetAlgorithmOrNull();
-                _comments = def.Args.Comment;
+                _txtName.Text = def.OverrideDisplayName;
+                _txtParameters.Text = AlgoParameterCollection.ParamsToReversableString( def.Parameters, core );
+                _ecbMethod.SelectedItem = def.GetAlgorithmOrNull();
+                _comments = def.Comment;
 
                 if (def.IsUsingTrend)
-                {
-                    ArgsTrendAsCorrection args = (ArgsTrendAsCorrection)def.Args;
-                    _radBatch.Checked = args.Mode == ECorrectionMode.Batch;
-                    _radType.Checked = args.Mode == ECorrectionMode.Control;
-                    _radDivide.Checked = args.Method == ECorrectionMethod.Divide;
-                    _radSubtract.Checked = args.Method == ECorrectionMethod.Subtract;
-                    _ecbTypes.SelectedItem = args.ControlGroup;
-                    _ecbFilter.SelectedItem = args.Constraint;
-                }
-                else
-                {
-                    ArgsCorrection args = (ArgsCorrection)def.Args;
-                    // NA
-                }
+                {                                                                   
+                    _radBatch.Checked = def.Mode == ECorrectionMode.Batch;
+                    _radType.Checked = def.Mode == ECorrectionMode.Control;
+                    _radDivide.Checked = def.Method == ECorrectionMethod.Divide;
+                    _radSubtract.Checked = def.Method == ECorrectionMethod.Subtract;
+                    _ecbTypes.SelectedItem = def.ControlGroup;
+                    _ecbFilter.SelectedItem = def.Constraint;
+                }     
             }
 
             CheckAndChange();
@@ -120,7 +114,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             // UiControls.CompensateForVisualStyles(this);
         }     
 
-        private ConfigurationCorrection GetSelection()
+        private ArgsCorrection GetSelection()
         {
             _checker.Clear();
 
@@ -199,12 +193,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return null;
                 }
 
-                ArgsTrendAsCorrection args = new ArgsTrendAsCorrection( ((TrendBase)algo).Id, source, mode, met, controlGroup, filter, parameters )
+                ArgsCorrection args = new ArgsCorrection( ((TrendBase)algo).Id, source, parameters, mode, met, controlGroup, filter )
                 {
                     OverrideDisplayName = _txtName.Text,
                     Comment = _comments
                 };
-                return new ConfigurationCorrection() {  Args = args };
+                return args;
             }
             else if (algo is CorrectionBase)
             {
@@ -213,12 +207,12 @@ namespace MetaboliteLevels.Forms.Algorithms
                     return null;
                 }
 
-                ArgsCorrection args = new ArgsCorrection( ((CorrectionBase)algo).Id, source, parameters )
+                ArgsCorrection args = new ArgsCorrection( ((CorrectionBase)algo).Id, source, parameters, ECorrectionMode.None, ECorrectionMethod.None, null, null )
                 {
                     OverrideDisplayName = _txtName.Text,
                     Comment = _comments
                 };
-                return new ConfigurationCorrection() { Args = args };
+                return args;
             }
             else
             {
@@ -259,8 +253,8 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             bool readyToGo = (usingTrend && operatorVisible && (_radDivide.Checked || _radSubtract.Checked)) || (!usingTrend);
 
-            ConfigurationCorrection sel = GetSelection();
-            _txtName.Watermark = sel != null ? sel.Args.DefaultDisplayName : "Default";
+            ArgsCorrection sel = GetSelection();
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
             bool valid = sel != null;
 
             _tlpPreview.Visible = valid;
@@ -289,7 +283,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         /// <summary>
         /// Generates the preview image.
         /// </summary>
-        private void GeneratePreview( ConfigurationCorrection sel )
+        private void GeneratePreview( ArgsCorrection sel )
         {
             _lnkError.Visible = false;
 
@@ -308,7 +302,17 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             _lblPreviewTitle.Text = "Preview (" + _selectedPeak.DisplayName + ")";
 
-            IntensityMatrix source = sel.Args.SourceMatrix;
+            IntensityMatrix source = sel.SourceMatrix;
+
+            if (source == null)
+            {
+                _chartOrig.Plot( null );
+                _chartChanged.Plot( null );
+                _lnkError.Text = StrRes.NoPreview;
+                _lnkError.Tag = StrRes.MissingSourceDetails( sel );
+                _lnkError.Visible = true;
+                return;
+            }
 
             var orig = new StylisedPeak( _selectedPeak );
             var changed = new StylisedPeak( _selectedPeak );
@@ -318,18 +322,20 @@ namespace MetaboliteLevels.Forms.Algorithms
             Vector corrected;
 
 
+            ConfigurationCorrection temp = new ConfigurationCorrection() { Args = sel };
 
             try
             {
                 IReadOnlyList<ObservationInfo> order;
-                double[] trendData = sel.ExtractTrend( _core, original.Values, out order );
+                double[] trendData = temp.ExtractTrend( _core, original.Values, out order );
                 trend = (trendData != null) ? new Vector( trendData, original.Header, order.Select( z => new IntensityMatrix.ColumnHeader( z ) ).ToArray() ) : null;
-                corrected = new Vector( sel.Calculate( _core, original.Values ), original.Header, original.ColHeaders );
+                corrected = new Vector( temp.Calculate( _core, original.Values ), original.Header, original.ColHeaders );
             }
             catch (Exception ex)
             {
                 _chartOrig.Plot( null );
                 _chartChanged.Plot( null );
+                _lnkError.Text = StrRes.PreviewError;
                 _lnkError.Tag = ex.ToString();
                 _lnkError.Visible = true;
                 return;
@@ -339,7 +345,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (sel.IsUsingTrend)
             {
-                isBatchMode = sel.ArgsT.Mode == ECorrectionMode.Batch;
+                isBatchMode = sel.Mode == ECorrectionMode.Batch;
             }
             else
             {

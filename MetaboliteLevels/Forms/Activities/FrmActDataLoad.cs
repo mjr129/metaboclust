@@ -1319,7 +1319,7 @@ namespace MetaboliteLevels.Forms.Startup
 
             // Calculate values
             ConfigurationStatistic[] allTests = allTTests.Concat(allPearson).ToArray();
-            core.SetStatistics(allTests, prog);
+            core.SetStatistics(allTests, prog, false);
         }
 
         /// <summary>

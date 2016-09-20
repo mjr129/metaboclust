@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// ArgsBase for clusterers.
     /// </summary>
     [Serializable]
-    class ArgsClusterer : ArgsBase
+    class ArgsClusterer : ArgsBase<ClustererBase>
     {
         /// <summary>
         /// Defines what peaks go into the "insignificants" cluster.

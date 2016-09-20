@@ -29,4 +29,9 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 
         public abstract void Dispose();
     }
+
+    interface IConfigurationBase<TArgs>
+    {
+        TArgs Args { get; set; }
+    }
 }

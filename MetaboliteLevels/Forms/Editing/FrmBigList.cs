@@ -28,25 +28,11 @@ namespace MetaboliteLevels.Forms.Editing
     /// </summary>
     internal partial class FrmBigList : Form
     {
-        private sealed class OriginalStatus
-        {
-            public bool Required;
-            public string OriginalComment;
-            public bool OriginalEnabled;
-            public string OriginalOverrideDisplayName;
-
-            public OriginalStatus(string name, string comments, bool hidden )
-            {
-                this.OriginalOverrideDisplayName = name;
-                this.OriginalComment = comments;
-                this.OriginalEnabled = hidden;
-            }
-        }
-
+        private BackupManager _backups = new BackupManager();
         private object _automaticAddTemplate;
         private readonly IDataSet _config;
+        private List<object> _originalList;
         private List<object> _list;
-        private readonly Dictionary<Visualisable, OriginalStatus> _originalStatuses = new Dictionary<Visualisable, OriginalStatus>();
         private bool _activated;
         private readonly CtlAutoList _listViewHelper;
         private bool _keepChanges;
@@ -90,7 +76,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             UpdateListFromSource();
 
-            if (config.ListChangesOnEdit)
+            if (config.ListIsSelfUpdating)
             {
                 _btnCancel.Visible = false;
             }
@@ -109,7 +95,7 @@ namespace MetaboliteLevels.Forms.Editing
                 _btnDown.Visible = false;
             }
 
-            if ((!config.ListSupportsChanges && !config.ListChangesOnEdit) && show != EShow.Acceptor)
+            if ((!config.ListSupportsChanges && !config.ListIsSelfUpdating) && show != EShow.Acceptor)
             {
                 _btnAdd.Visible = false;
                 _btnDuplicate.Visible = false;
@@ -138,51 +124,8 @@ namespace MetaboliteLevels.Forms.Editing
         {
             _list = new List<object>( _config.UntypedGetList( false ).Cast<object>() );
             _listViewHelper.DivertList(_list);
-
-            BackupList();
-        }
-
-        private List<BackupData> _backup;
-
-        /// <summary>
-        /// Creates a backup of the list items (this will be restored if the user cancels)
-        /// </summary>
-        private bool BackupList()
-        {
-            _backup = new List<BackupData>();
-
-            foreach (object item in _list)
-            {
-                IBackup iBackup = item as IBackup;
-
-                if (iBackup == null)
-                {
-                    return false;
-                }
-
-                BackupData data = new BackupData( iBackup );
-                iBackup.Backup( data );
-                _backup.Add( data );
-            }
-
-            return true;
-        }
-                                                           
-        /// <summary>
-        /// Restores the values of the original list items after the user cancels.
-        /// </summary>
-        private void RestoreContents()
-        {
-            if (_backup == null)
-            {
-                throw new InvalidOperationException( "Attempt to restore list values when the list cannot be restored." );
-            }
-
-            foreach (BackupData item in _backup)
-            {
-                item.Restore();
-            }
-        }
+            _originalList = new List<object>( _list );
+        }               
 
         public static IEnumerable Show(Form owner, Core core, IDataSet config, EShow show, object automaticAddTemplate)
         {
@@ -208,15 +151,22 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (!_keepChanges)
             {
-                foreach (var kvp in this._originalStatuses)
+                // Restore any backups (only needed if items are mutable)
+                _backups.RestoreAll();
+
+                // Restore the original list (only needed if source list was modified)
+                if (_config.ItemsReferenceList)
                 {
-                    if (kvp.Value.Required)
-                    {
-                        kvp.Key.OverrideDisplayName = kvp.Value.OriginalOverrideDisplayName;
-                        kvp.Key.Comment = kvp.Value.OriginalComment;
-                        kvp.Key.Hidden = kvp.Value.OriginalEnabled;
-                    }
+                    FrmWait.Show( this, "Reverting changes", null, z => _config.UntypedApplyChanges( _originalList, z, true ) );
                 }
+            }
+        }
+
+        private void HandleBackreferencing()
+        {
+            if (_config.ItemsReferenceList)
+            {    
+                FrmWait.Show( this, "Updating source", null, z => _config.UntypedApplyChanges( _list, z, true ) );
             }
         }
 
@@ -242,6 +192,8 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnAdd_Click(object sender, EventArgs e)
         {
+            HandleBackreferencing();
+
             Visualisable o = (Visualisable)(_config.UntypedEdit( this, null, false, false ));
 
             if (o != null)
@@ -251,38 +203,26 @@ namespace MetaboliteLevels.Forms.Editing
         }
 
         private void Rename( Visualisable item )
-        {
-            OriginalStatus origStatus = Get(item);
-
+        {   
             string name = item.OverrideDisplayName;
             string comment = item.Comment;
 
             if (FrmEditINameable.Show(this, item.DefaultDisplayName, "Rename", item.ToString(), item.DefaultDisplayName, ref name, ref comment, false, item))
             {
-                item.OverrideDisplayName = name;
-                item.Comment = comment;
+                _backups.Backup( item , "Name changed" );
 
-                origStatus.Required = true;
+                item.OverrideDisplayName = name;
+                item.Comment = comment;        
 
                 _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
             }
-        }
-
-        private OriginalStatus Get( Visualisable o )
-        {
-            return _originalStatuses.GetOrCreate<Visualisable, OriginalStatus>(o, GetUnchanged);
-        }
-
-        private OriginalStatus GetUnchanged( Visualisable input )
-        {
-            return new OriginalStatus(input.OverrideDisplayName, input.Comment, input.Hidden );
-        }
+        }     
 
         private void Replace(object remove, object create )
         {
             _config.UntypedBeforeReplace(this, remove, create);
 
-            if (!_config.ListChangesOnEdit)
+            if (!_config.ListIsSelfUpdating)
             {
                 if (remove != null)
                 {
@@ -331,6 +271,9 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 return;
             }
+
+            HandleBackreferencing();
+            _backups.Backup( toEdit, "Edited" );
 
             Visualisable modified = (Visualisable)_config.UntypedEdit(this, toEdit, false, false);
 
@@ -418,17 +361,11 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnOk_Click(object sender, EventArgs e)
         {
-            _keepChanges = true;
-            object status;
+            _keepChanges = true;  
 
-            if (!_config.UntypedPrepareForApply(this, _list, out status))
-            {
-                return;
-            }
+            FrmWait.Show(this, "Applying changes", null, z => _config.UntypedApplyChanges(_list, z, false));
 
-            FrmWait.Show(this, "Applying changes", null, z => _config.UntypedApplyChanges(_list, z, status));
-
-            _config.UntypedAfterApply(this, _list, status);
+            _config.UntypedAfterApply(this, _list);
 
             DialogResult = DialogResult.OK;
         }
@@ -442,10 +379,8 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
-            OriginalStatus change = Get(first);
-
-            first.Hidden = !first.Hidden;
-            change.Required = true;
+            _backups.Backup( first, "Toggled enabled" );
+            first.Hidden = !first.Hidden;         
 
             _listViewHelper.Rebuild(EListInvalids.ValuesChanged);
             _listViewHelper.Selection = first;
@@ -466,7 +401,7 @@ namespace MetaboliteLevels.Forms.Editing
             _btnDuplicate.Enabled = itemSelected;
             _btnEnableDisable.Enabled = itemSelected && IVisualisableExtensions.SupportsDisable( p as Visualisable );
 
-            if (itemSelected && (Get(p as Visualisable)?.OriginalEnabled ?? false))
+            if ((p as Visualisable)?.Hidden ?? false)
             {
                 _btnEnableDisable.Text = "Disable";
                 _btnEnableDisable.Image = Resources.MnuDisable;
@@ -487,12 +422,19 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
+            HandleBackreferencing();
+
             Visualisable o = (Visualisable)_config.UntypedEdit(this, p, false, true);
 
             if (o != null)
             {
                 Replace(null, o);
             }
+        }
+
+        private void _btnCancel_Click( object sender, EventArgs e )
+        {
+
         }
     }
 }

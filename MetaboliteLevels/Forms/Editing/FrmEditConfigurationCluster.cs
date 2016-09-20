@@ -39,7 +39,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private readonly bool _readOnly;
         private EditableComboBox<IMatrixProvider> _ecbSource;
 
-        internal static ConfigurationClusterer Show(Form owner, Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
+        internal static ArgsClusterer Show(Form owner, Core core, ArgsClusterer def, bool readOnly, bool hideOptimise)
         {
             using (FrmEditConfigurationCluster frm = new FrmEditConfigurationCluster(core, def, readOnly, hideOptimise))
             {
@@ -59,7 +59,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             UiControls.SetIcon(this);    
         }
 
-        private FrmEditConfigurationCluster(Core core, ConfigurationClusterer def, bool readOnly, bool hideOptimise)
+        private FrmEditConfigurationCluster(Core core, ArgsClusterer def, bool readOnly, bool hideOptimise)
             : this()
         {
             _core = core;
@@ -74,37 +74,37 @@ namespace MetaboliteLevels.Forms.Algorithms
             if (def != null)
             {
                 // Name
-                _txtName.Text = def.Args.OverrideDisplayName;
+                _txtName.Text = def.OverrideDisplayName;
 
                 // Comment
-                _comment = def.Args.Comment;
+                _comment = def.Comment;
 
                 // Method
-                _ecbMethod.SelectedItem =(ClustererBase) def.Args.GetAlgorithmOrNull();
+                _ecbMethod.SelectedItem =(ClustererBase) def.GetAlgorithmOrNull();
 
                 // Params
-                _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
+                _txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Parameters, core);
 
                 // PeakFilter
-                _ecbPeakFilter.SelectedItem = def.Args.PeakFilter;
+                _ecbPeakFilter.SelectedItem = def.PeakFilter;
 
                 // Distance
-                _ecbMeasure.SelectedItem = def.Args.Distance != null ? (MetricBase)def.Args.Distance.Args.GetAlgorithmOrNull() : null;
+                _ecbMeasure.SelectedItem = def.Distance != null ? (MetricBase)def.Distance.Args.GetAlgorithmOrNull() : null;
 
                 // Distance params
-                _txtMeasureParams.Text = StringHelper.ArrayToString(def.Args.Distance?.Args.Parameters);
+                _txtMeasureParams.Text = StringHelper.ArrayToString(def.Distance?.Args.Parameters);
 
                 // Suppress distance
-                _cbStatistics.SelectedItems = EnumHelper.SplitEnum<EClustererStatistics>(def.Args.Statistics);
+                _cbStatistics.SelectedItems = EnumHelper.SplitEnum<EClustererStatistics>(def.Statistics);
 
                 // Input vector
-                _ecbSource.SelectedItem = def.Args.SourceProvider;
+                _ecbSource.SelectedItem = def.SourceProvider;
 
                 // ObsFilter
-                _ecbObsFilter.SelectedItem = def.Args.ObsFilter;
+                _ecbObsFilter.SelectedItem = def.ObsFilter;
 
                 // Seperate groups
-                _chkSepGroups.Checked = def.Args.SplitGroups;
+                _chkSepGroups.Checked = def.SplitGroups;
             }
 
             if (readOnly)
@@ -135,7 +135,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        private ConfigurationClusterer GetSelection()
+        private ArgsClusterer GetSelection()
         {
             IMatrixProvider src;
             PeakFilter peakFilter;
@@ -241,9 +241,9 @@ namespace MetaboliteLevels.Forms.Algorithms
             {
                 OverrideDisplayName = title,
                 Comment = _comment
-            };
-            ConfigurationClusterer result = new ConfigurationClusterer() { Args = args};
-            return result;
+            };                                                                          
+
+            return args;
         }
 
         private void CheckAndChange(object sender, EventArgs e)
@@ -284,7 +284,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         private void Check(object sender, EventArgs e)
         {
             var sel = GetSelection();
-            _txtName.Watermark = sel != null ? sel.Args.DefaultDisplayName : "Default";
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
             _btnOk.Enabled = sel != null;
         }      
 

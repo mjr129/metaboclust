@@ -195,11 +195,11 @@ namespace MetaboliteLevels.Viewers.Lists
             DivertList( new DataSet<T>()
             {
                 Core = _core,
-                Title = "List",
-                Source = results,
-                ItemNameProvider = z => z.ToString(),
-                ItemDescriptionProvider = z => (z as Visualisable)?.Comment,
-                Icon = Resources.IconData,
+                ListTitle = "List",
+                ListSource = results,
+                ItemTitle = z => z.ToString(),
+                ItemDescription = z => (z as Visualisable)?.Comment,
+                ListIcon = Resources.IconData,
             } );
         }
 

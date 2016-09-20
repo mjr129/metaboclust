@@ -21,37 +21,26 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
 {
     [Name("Correction configuration")]
     [Serializable]
-    internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsBase, ResultCorrection>, IMatrixProvider
-    {               
-        public bool IsUsingTrend
+    internal class ConfigurationCorrection : ConfigurationBase<AlgoBase, ArgsCorrection, ResultCorrection, SourceTracker>, IMatrixProvider
+    {              
+        protected override SourceTracker GetTracker()
         {
-            get
-            {
-                return Args is ArgsTrendAsCorrection;
-            }
-        }              
-
-        public ArgsTrendAsCorrection ArgsT
-        {
-            get
-            {
-                return (ArgsTrendAsCorrection)Args;
-            }
-        }               
+            return new SourceTracker( Args );
+        }
 
         /// <summary>
         /// Like Correct(), but just gets the trend (for plots).
         /// </summary>
         internal double[] ExtractTrend(Core core, double[] raw, out IReadOnlyList<ObservationInfo> trendOrder)
         {
-            if (!IsUsingTrend)
+            if (!Args.IsUsingTrend)
             {
                 trendOrder = null;
                 return null;
             }
 
-            var args = base.Args as ArgsTrendAsCorrection;
-            var algo = base.GetAlgorithmOrThrow() as TrendBase;
+            var args = base.Args;
+            var algo = args.GetAlgorithmOrThrow() as TrendBase;
 
             switch (args.Mode)
             {
@@ -66,7 +55,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                             double[] y = raw.At(xI).ToArray();
 
                             trendOrder = xOut;
-                            return algo.SmoothByBatch(x, xOut, g, y, args);
+                            return algo.SmoothByBatch(x, xOut, g, y, args.ToTrend());
                         }
                         else
                         {
@@ -76,7 +65,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                             IReadOnlyList<BatchInfo> g = core.Batches;
 
                             trendOrder = xOut;
-                            return algo.SmoothByBatch(x, xOut, g, y, args);
+                            return algo.SmoothByBatch(x, xOut, g, y, args.ToTrend());
                         }
                     }
 
@@ -89,7 +78,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
                         GroupInfo[] g = new[] { args.ControlGroup };
 
                         trendOrder = xOut;
-                        return algo.SmoothByType(x, xOut, g, y, args);
+                        return algo.SmoothByType(x, xOut, g, y, args.ToTrend());
                     }
 
                 default:
@@ -104,17 +93,17 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
         {
             double[] result;
 
-            if (!IsUsingTrend)
+            if (!Args.IsUsingTrend)
             {
                 var args = base.Args as ArgsCorrection;
-                var algo = base.GetAlgorithmOrThrow() as CorrectionBase;
+                var algo = base.Args.GetAlgorithmOrThrow() as CorrectionBase;
 
                 result = algo.Calculate(raw, args);
             }
             else
             {
-                var args = base.Args as ArgsTrendAsCorrection;
-                var algo = base.GetAlgorithmOrThrow() as TrendBase;
+                var args = base.Args;
+                var algo = base.Args.GetAlgorithmOrThrow() as TrendBase;
 
                 IReadOnlyList<ObservationInfo> trendOrder;
                 double[] trend = ExtractTrend(core, raw, out trendOrder);
@@ -191,33 +180,24 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             return result;
         }                                 
 
-        public override bool Run( Core core, ProgressReporter prog )
-        {
-            try
+        protected override void OnRun( Core core, ProgressReporter prog )
+        {         
+            // For each peak
+            IntensityMatrix source = this.Args.SourceMatrix;
+            double[][] results = new double[source.NumRows][];
+
+            for (int peakIndex = 0; peakIndex < source.NumRows; peakIndex++)
             {
-                // For each peak
-                IntensityMatrix source = this.Args.SourceMatrix;
-                double[][] results = new double[source.NumRows][];
-
-                for (int peakIndex = 0; peakIndex < source.NumRows; peakIndex++)
-                {
-                    prog.SetProgress( peakIndex, source.NumRows );
-                    Peak x = source.Rows[peakIndex].Peak;
-                    results[peakIndex] =this.Calculate( core, source.Values[peakIndex] );
-                }
-
-                IntensityMatrix imresult = new IntensityMatrix( source.Rows, source.Columns, results );
-
-                this.SetResults( new ResultCorrection( imresult ) );
-                return true;
+                prog.SetProgress( peakIndex, source.NumRows );
+                Peak x = source.Rows[peakIndex].Peak;
+                results[peakIndex] =this.Calculate( core, source.Values[peakIndex] );
             }
-            catch (Exception ex)
-            {
-                this.SetError( ex );
-                return false;
-            }
+
+            IntensityMatrix imresult = new IntensityMatrix( source.Rows, source.Columns, results );
+
+            this.SetResults( new ResultCorrection( imresult ) );
         }
 
-        public IntensityMatrix Provide => Results.Matrix;
+        public IntensityMatrix Provide => Results?.Matrix;
     }
 }

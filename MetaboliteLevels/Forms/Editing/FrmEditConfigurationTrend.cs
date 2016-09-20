@@ -32,7 +32,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         EditableComboBox<TrendBase> _ecbMethod;
         private EditableComboBox<IMatrixProvider> _ecbSource;
 
-        internal static ConfigurationTrend Show(Form owner, Core core, ConfigurationTrend def, bool readOnly)
+        internal static ArgsTrend Show(Form owner, Core core, ArgsTrend def, bool readOnly)
         {
             if (FrmEditConfigurationStatistic.ShowCannotEditError(owner, def))
             {
@@ -50,7 +50,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
         }
 
-        internal FrmEditConfigurationTrend(Core core, Peak previewPeak, ConfigurationTrend def, bool readOnly)
+        internal FrmEditConfigurationTrend(Core core, Peak previewPeak, ArgsTrend def, bool readOnly)
             : this()
         {
             _core = core;
@@ -63,10 +63,10 @@ namespace MetaboliteLevels.Forms.Algorithms
 
             if (def != null)
             {
-                this._txtName.Text = def.Args.OverrideDisplayName;
-                this._ecbMethod.SelectedItem = (TrendBase)def.Args.GetAlgorithmOrNull();
-                this._comments = def.Args.Comment;
-                this._txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Args.Parameters, core);
+                this._txtName.Text = def.OverrideDisplayName;
+                this._ecbMethod.SelectedItem = (TrendBase)def.GetAlgorithmOrNull();
+                this._comments = def.Comment;
+                this._txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Parameters, core);
             }
 
             CheckAndChange(null, null);
@@ -94,7 +94,7 @@ namespace MetaboliteLevels.Forms.Algorithms
         }
 
 
-        private ConfigurationTrend GetSelection()
+        private ArgsTrend GetSelection()
         {
             TrendBase sel = (TrendBase)this._ecbMethod.SelectedItem;
             string title;
@@ -134,7 +134,7 @@ namespace MetaboliteLevels.Forms.Algorithms
                 return null;
             }
 
-            return new ConfigurationTrend() { Args = new ArgsTrend( sel.Id, src, args ) { OverrideDisplayName = title, Comment = _comments } };
+            return new ArgsTrend( sel.Id, src, args ) { OverrideDisplayName = title, Comment = _comments };
         }
 
         public FrmEditConfigurationTrend()
@@ -150,7 +150,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void Check(object sender, EventArgs e)
         {
-            ConfigurationTrend sel;
+            ArgsTrend sel;
 
             try
             {
@@ -162,7 +162,7 @@ namespace MetaboliteLevels.Forms.Algorithms
             }
 
             bool valid = sel != null;
-            _txtName.Watermark = sel != null ? sel.Args.DefaultDisplayName : "Default";
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
 
             _lnkError.Visible = false;
 

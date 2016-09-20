@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Algorithms.Statistics.Arguments;
 using MetaboliteLevels.Forms.Algorithms.ClusterEvaluation;
 using MetaboliteLevels.Algorithms.Statistics.Configurations;
 using MetaboliteLevels.Properties;
@@ -24,10 +25,10 @@ namespace MetaboliteLevels.Forms.Algorithms
     public partial class FrmEvaluateClusteringOptions : Form
     {
         private Core _core;
-        private ConfigurationClusterer __backingField_selectedAlgorithm;
+        private ArgsClusterer __backingField_selectedAlgorithm;
         private bool _readonly;                                           
 
-        internal ConfigurationClusterer SelectedAlgorithm
+        internal ArgsClusterer SelectedAlgorithm
         {
             get
             {
@@ -51,12 +52,12 @@ namespace MetaboliteLevels.Forms.Algorithms
 
                 _txtAlgorithm.Text = value.ToString();
 
-                foreach (AlgoParameter param in value.Args.GetAlgorithmOrThrow().Parameters)
+                foreach (AlgoParameter param in value.GetAlgorithmOrThrow().Parameters)
                 {
                     _lstParameters.Items.Add(param);
                 }
 
-                _txtStatistics.Text = StringHelper.ArrayToString(EnumHelper.SplitEnum(value.Args.Statistics));
+                _txtStatistics.Text = StringHelper.ArrayToString(EnumHelper.SplitEnum(value.Statistics));
 
                 if (prevParam != null && _lstParameters.Items.Contains(prevParam))
                 {
@@ -173,7 +174,7 @@ namespace MetaboliteLevels.Forms.Algorithms
 
         private void _btnSetAlgorithm_Click(object sender, EventArgs e)
         {
-            ConfigurationClusterer newAlgo = FrmEditConfigurationCluster.Show(this, _core, SelectedAlgorithm, this._readonly, true);
+            ArgsClusterer newAlgo = FrmEditConfigurationCluster.Show(this, _core, SelectedAlgorithm, this._readonly, true);
 
             if (newAlgo != null)
             {

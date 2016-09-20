@@ -109,8 +109,8 @@ namespace MetaboliteLevels.Forms.Algorithms.ClusterEvaluation
             {
                 IntensityMatrix vmatrix;
                 DistanceMatrix dmatrix;
-                Owner.ClustererConfiguration.GetAlgorithmOrThrow().ExecuteAlgorithm(core, -1, true, Owner.ClustererConfiguration.Args, null, prog, out vmatrix, out dmatrix);
-                result.RecalculateStatistics(core, Owner.ClustererConfiguration.Args.Distance, vmatrix, dmatrix, stats, prog);
+                Owner.ClustererConfiguration.GetAlgorithmOrThrow().ExecuteAlgorithm(core, -1, true, Owner.ClustererConfiguration, null, prog, out vmatrix, out dmatrix);
+                result.RecalculateStatistics(core, Owner.ClustererConfiguration.Distance, vmatrix, dmatrix, stats, prog);
             }
         }
     }

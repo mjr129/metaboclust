@@ -158,9 +158,9 @@ namespace MetaboliteLevels.Forms.Editing
             DataSet<_btnEditColumns_Click__ColumnDisplay> dataSet = new DataSet<_btnEditColumns_Click__ColumnDisplay>()
             {
                 Core                 = _core,
-                Title                = "Columns",
-                Source                 = _target._columnDisplayStatuses.Select( _btnEditColumns_Click__ColumnDisplay.New),
-                ListChangeApplicator = z =>
+                ListTitle                = "Columns",
+                ListSource                 = _target._columnDisplayStatuses.Select( _btnEditColumns_Click__ColumnDisplay.New),
+                HandleCommit = z =>
                                        {
                                            _target._columnDisplayStatuses.Clear();
                                        
@@ -179,9 +179,9 @@ namespace MetaboliteLevels.Forms.Editing
             DataSet<_btnEditDefaults_Click__Kvp> dataSet = new DataSet<_btnEditDefaults_Click__Kvp>()
             {
                 Core = _core,
-                Title = "Default selections",
-                Source = _target._defaultValues.Select( _btnEditDefaults_Click__Kvp.New ),
-                ListChangeApplicator = z =>
+                ListTitle = "Default selections",
+                ListSource = _target._defaultValues.Select( _btnEditDefaults_Click__Kvp.New ),
+                HandleCommit = z =>
                 {
                     _target._defaultValues.Clear();
 

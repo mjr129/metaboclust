@@ -13,14 +13,19 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// Configured metric algorithm (see ConfigurationBase).
     /// </summary>
     [Serializable]
-    sealed class ConfigurationMetric : ConfigurationBase<MetricBase, ArgsMetric, ResultStatistic>
+    sealed class ConfigurationMetric : ConfigurationBase<MetricBase, ArgsMetric, ResultStatistic, SourceTracker>
     {        
         internal double Calculate(double[] a, double[] b)
         {
-            return GetAlgorithmOrThrow().QuickCalculate(a, b, this.Args.Parameters);
-        }               
+            return Args.GetAlgorithmOrThrow().QuickCalculate(a, b, this.Args.Parameters);
+        }
 
-        public override bool Run( Core core, ProgressReporter prog )
+        protected override SourceTracker GetTracker()
+        {
+            return new SourceTracker( Args );
+        }
+
+        protected override void OnRun( Core core, ProgressReporter prog )
         {
             throw new InvalidOperationException("Metrics serve as part of another algorithm and cannot be run alone.");
         }
