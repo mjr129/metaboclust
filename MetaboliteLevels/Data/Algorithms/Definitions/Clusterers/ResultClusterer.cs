@@ -12,6 +12,7 @@ using MetaboliteLevels.Settings;
 using MetaboliteLevels.Data.Session;
 using MGui.Helpers;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Viewers.Lists;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Results
 {
@@ -45,16 +46,18 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         /// <summary>
         /// Clusters (inc. insignificants)
         /// </summary>
+        [XColumn( "Clusters (inc. filtered)")]
         public readonly Cluster[] Clusters;
 
         /// <summary>
         /// Assignments (exc. insignificants)
-        /// </summary>
+        /// </summary>     
         public readonly List<Assignment> Assignments = new List<Assignment>();
 
         /// <summary>
         /// Statistics
         /// </summary>
+        [XColumn]
         public Dictionary<string, double> ClustererStatistics = new Dictionary<string, double>();
 
         /// <summary>
@@ -68,6 +71,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
         /// <summary>
         /// Clusters (exc. insignificants)
         /// </summary>
+        [XColumn("Clusters (exc. filtered)")]
         public IEnumerable<Cluster> RealClusters
         {
             get { return Clusters.Where(z => z.States == Cluster.EStates.None); }
@@ -96,6 +100,11 @@ namespace MetaboliteLevels.Algorithms.Statistics.Results
             }
 
             RecalculateStatistics(core, metric, vmatrix, dmatrix, statistics, prog);
+        }
+
+        public override string ToString()
+        {
+            return Assignments.Count + " : " + RealClusters.Count();
         }
 
         /// <summary>

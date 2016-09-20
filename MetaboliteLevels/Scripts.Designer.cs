@@ -63,9 +63,9 @@ namespace MetaboliteLevels {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] scripts_clusterers_k_means__Hartigan_Wong_algorithm_ {
+        internal static byte[] scripts_clustering_k_means__Hartigan_Wong_algorithm_ {
             get {
-                object obj = ResourceManager.GetObject("scripts~clusterers~k-means (Hartigan-Wong algorithm)", resourceCulture);
+                object obj = ResourceManager.GetObject("scripts~clustering~k-means (Hartigan-Wong algorithm)", resourceCulture);
                 return ((byte[])(obj));
             }
         }

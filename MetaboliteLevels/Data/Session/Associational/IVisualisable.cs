@@ -79,20 +79,28 @@ namespace MetaboliteLevels.Data.Visualisables
 
         public IEnumerable<Column> GetColumns( Core core )
         {
-            List<Column> results = new List<Column>();
+            return GetColumns( GetXColumns(core ), this.GetType(), core );
+        }
 
-            var extra = GetXColumns( core );
+        public static IEnumerable<Column> GetColumns( Type vis, Core core )
+        {
+            return GetColumns( null, vis, core );
+        }
+
+        private static IEnumerable<Column> GetColumns( IEnumerable<Column> extra, Type type, Core core )
+        {
+            List<Column> results = new List<Column>();
 
             if (extra != null)
             {
-                results.AddRange(extra);
+                results.AddRange( extra );
             }
 
-            foreach (MemberInfo x in this.GetType().GetMembers( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ))
+            foreach (MemberInfo x in type.GetMembers( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ))
             {
                 XColumnAttribute attr = x.GetCustomAttribute<XColumnAttribute>();
 
-                string name;  
+                string name;
 
                 if (attr != null)
                 {
@@ -106,34 +114,58 @@ namespace MetaboliteLevels.Data.Visualisables
                 string pname = "<DATA>\\" + x.Name;
                 string pdesc = "Internal field: " + x.DeclaringType.Name + "." + x.Name;
 
+                Column<object>.ColumnProvider provider;
+                Type provType;
+
                 if (x is MethodInfo)
                 {
                     if (attr != null)
                     {
                         MethodInfo method = (MethodInfo)x;
-                        results.Add( new Column<Visualisable>( name, attr.Special, attr.Description, z => method.Invoke( z, null ), null ) );
+                        provider = z => method.Invoke( z, null );
+                        provType = method.ReturnType;
+                    }
+                    else
+                    {
+                        provider = null;
+                        provType = null;
                     }
                 }
                 else if (x is PropertyInfo)
                 {
                     PropertyInfo property = (PropertyInfo)x;
-                    if (attr != null)
-                    {
-                        results.Add( new Column<Visualisable>( name, attr.Special, attr.Description, z => property.GetValue( z ), null ) );
-                    }
+                    provider = z => property.GetValue( z );
+                    provType = property.PropertyType;
 
-                    results.Add( new Column<Visualisable>( pname, EColumn.Advanced, pdesc, z => property.GetValue( z ), null ) );
                 }
                 else if (x is FieldInfo)
                 {
                     FieldInfo field = (FieldInfo)x;
+                    provider = z => field.GetValue( z );
+                    provType = field.FieldType;
+                }
+                else
+                {
+                    provider = null;
+                    provType = null;
+                }
+
+                if (provider != null)
+                {
                     if (attr != null)
                     {
-                        results.Add( new Column<Visualisable>( name, attr.Special, attr.Description, z => field.GetValue( z ), null ) );
+                        if (attr.Special.Has( EColumn.Decompose ))
+                        {
+                            ColumnExtensions.AddSubObject<object>( results, attr.Special, core, attr.Name, provider, provType );
+                        }
+                        else
+                        {
+                            results.Add( new Column<object>( name, attr.Special, attr.Description, provider, null ) );
+                        }
                     }
 
-                    results.Add( new Column<Visualisable>( pname, EColumn.Advanced, pdesc, z => field.GetValue( z ), null ) );
-                }    
+                    results.Add( new Column<object>( pname, EColumn.Advanced, pdesc, provider, null ) );
+                }
             }
 
             return results;

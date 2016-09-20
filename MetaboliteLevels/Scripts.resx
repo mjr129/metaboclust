@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="scripts~clusterers~k-means (Hartigan-Wong algorithm)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="scripts~clustering~k-means (Hartigan-Wong algorithm)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\scripts~clusterers~k-means (Hartigan-Wong algorithm).r;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="scripts~empty file" type="System.Resources.ResXFileRef, System.Windows.Forms">

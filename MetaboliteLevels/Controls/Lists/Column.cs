@@ -287,7 +287,6 @@ namespace MetaboliteLevels.Viewers.Lists
     }
 
     sealed class Column<T> : Column
-        where T : Visualisable
     {
         public delegate object ColumnProvider(T item);
         public delegate Color ColourProvider(T item);                
@@ -307,18 +306,16 @@ namespace MetaboliteLevels.Viewers.Lists
             return typeof( T );
         }
 
-        public override object GetRow( object line )
-        {
-            T x = line as T;
-
-            if (x == null || Provider == null)
+        public override object GetRow( object x )
+        {                                      
+            if (x == null || Provider == null || !(x is T))
             {
                 return null;
             }    
 
             try
             {   
-                return Provider( x );
+                return Provider( (T)x );
             }
             catch (Exception)
             {
@@ -331,18 +328,21 @@ namespace MetaboliteLevels.Viewers.Lists
             get { return Provider == null; }
         }
 
-        public override Color GetColour( object line )
+        public override Color GetColour( object x )
         {
-            T x = line as T;
-
-            if (x != null && Colour != null)
-            {
-                return Colour(x);
-            }
-            else
+            if (x == null || Colour == null || !(x is T))
             {
                 return Color.Black;
             }
+
+            try
+            {
+                return Colour( (T)x );
+            }
+            catch (Exception)
+            {
+                return Color.Magenta;
+            }                       
         }          
 
         public override bool HasColourSupport
@@ -356,61 +356,94 @@ namespace MetaboliteLevels.Viewers.Lists
 
     internal static class ColumnManager
     {
-        public static IEnumerable<Column> GetColumns(Core core, object visualisable)
+        public static IEnumerable<Column> GetColumns(Core core, object @object)
         {
-            return (visualisable as Visualisable)?.GetColumns( core );
+            Visualisable vis = @object as Visualisable;
+
+            if (vis != null)
+            {
+                return vis.GetColumns( core );
+            }
+            else
+            {
+                return Visualisable.GetColumns( @object.GetType(), core );
+            }
         }
 
         public static IEnumerable<Column> GetColumns<T>(Core core)
-            where T : Visualisable
-        {                                
+        {
+            return GetColumns( typeof(T), core );
+        }
+
+        public static IEnumerable<Column> GetColumns( Type type, Core core )
+        {
             // Unfortunately this won't work if T is abstract
-            if (typeof(T).IsAbstract)
+            if (type.IsAbstract || !typeof( Visualisable ).IsAssignableFrom( type ))
             {
-                return new Column[0]; // TODO: Fix this
+                return Visualisable.GetColumns( type, core );
             }
 
-            return GetColumns( core, (Visualisable)(T)(FormatterServices.GetUninitializedObject( typeof( T ) )));
-        }   
+            return GetColumns( core, (Visualisable)(FormatterServices.GetUninitializedObject( type )) );
+        }
     }     
 
     static class ColumnExtensions
     {
         public static void Add<T>(this List<Column<T>> self, string name, EColumn special, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null)
-             where T : Visualisable
         {
             self.Add(new Column<T>(name, special, null, provider, colour));
         }
 
         public static void Add<T>(this List<Column<T>> self, string name, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null )
-          where T : Visualisable
         {
             self.Add(new Column<T>(name, EColumn.None, null, provider, colour));
         }
 
-        public static void AddSubObject<T, U>(this List<Column<T>> self, Core core, string prefix, Converter<T, U> convertor)
-            where T : Visualisable
-            where U : Visualisable
+        public static void AddSubObject<TList>( this List<Column> self, EColumn special, Core core, string prefix, Column<TList>.ColumnProvider convertor, Type targetType )
         {
-            Add(self, prefix, EColumn.None, new Column<T>.ColumnProvider(convertor));
+            self.Add( new Column<TList>( prefix + "(value)", special, null, z => convertor( z ), null ) );
 
-            foreach (Column column in ColumnManager.GetColumns<U>(core))
+            foreach (Column column in ColumnManager.GetColumns( targetType, core ))
             {
-                self.Add(new Column<T>(
-                            prefix + "\\" + column.Id,
-                            EColumn.None,
+                self.Add( new Column<TList>(
+                            prefix + column.Id,
+                            column.Special,
                             column.Comment,
                             z =>
                             {
-                                var x = convertor(z);
-                                return x != null ? column.GetRow(x) : null;
+                                var x = convertor( z );
+                                return x != null ? column.GetRow( x ) : null;
                             },
                             z =>
                             {
-                                var x = convertor(z);
-                                return x != null ? column.GetColour(x) : Color.Black;
-                            }  
+                                var x = convertor( z );
+                                return x != null ? column.GetColour( x ) : Color.Black;
+                            }
                     ) );
+            }
+        }
+
+        public static void AddSubObject<TList, TTarget>(this List<Column<TList>> self, EColumn special, Core core, string prefix, Converter<TList, object> convertor)
+        {
+            Add( self, prefix + "(value)", special, new Column<TList>.ColumnProvider( convertor ) );
+
+            foreach (Column column in ColumnManager.GetColumns<TTarget>( core ))
+            {
+                self.Add( new Column<TList>(
+                              prefix + "\\" + column.Id,
+                              column.Special,
+                              column.Comment,
+                              z =>
+                              {
+                                  var x = convertor( z );
+                                  return x != null ? column.GetRow( x ) : null;
+                              },
+                              z =>
+                              {
+                                  var x = convertor( z );
+                                  return x != null ? column.GetColour( x ) : Color.Black;
+                              }
+                              ) );
             }
         }
     }

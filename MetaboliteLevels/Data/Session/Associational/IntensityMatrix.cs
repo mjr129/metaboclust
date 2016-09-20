@@ -90,7 +90,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
             if (!splitGroups)
             {  
-                int[] colIndices = Columns.Which( z => columnFilter( z.Observation ) ).ToArray();
+                int[] colIndices = (columnFilter !=null)? Columns.Which( z => columnFilter( z.Observation ) ).ToArray() : Columns.Indices().ToArray();
                 ColumnHeader[] newCols = Columns.At( colIndices ).ToArray();
                 double[][] newValues = Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ).ToArray(); 
 

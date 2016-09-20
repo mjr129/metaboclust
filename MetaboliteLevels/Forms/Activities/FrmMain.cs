@@ -1004,7 +1004,7 @@ namespace MetaboliteLevels.Forms
         private bool PromptPrintTitle()
         {
             Core core = _core;
-            _printTitle = core.FileNames.Title + "\r\n" + core.Clusters.Count + " clusters, " + core.Peaks.Count + " variables";
+            _printTitle = core.FileNames.Title + "\r\n" + core.Clusters.Count() + " clusters, " + core.Peaks.Count + " variables";
 
             string pt = FrmInputMultiLine.Show(this, "Printing", "Print", "Enter or change the title for the print", _printTitle);
 

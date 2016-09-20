@@ -440,7 +440,7 @@ namespace MetaboliteLevels.Viewers.Lists
             }
 
             // Create new
-            Dictionary<string, ToolStripDropDownItem> folders = new Dictionary<string, ToolStripDropDownItem>();
+            var folders = new Dictionary<string, object[]>();
 
             foreach (Column col in toShow)
             {
@@ -459,18 +459,24 @@ namespace MetaboliteLevels.Viewers.Lists
                         {
                             colFolderName += elems[n] + "\\";
 
-                            ToolStripDropDownItem newMenuTarget;
+                            object[] newMenuTarget;
 
                             if (!folders.TryGetValue(colFolderName, out newMenuTarget))
                             {
-                                newMenuTarget = new ToolStripMenuItem("• " + elems[n]);
-                                menuTarget.DropDownItems.Add(newMenuTarget);
+                                newMenuTarget = new object[] { new ToolStripMenuItem( "• " + elems[n] ), elems[n], 0 };
+                                menuTarget.DropDownItems.Add((ToolStripMenuItem)newMenuTarget[0]);
                                 folders.Add(colFolderName, newMenuTarget);
-                                menuTarget = newMenuTarget;
+                                menuTarget = (ToolStripMenuItem)newMenuTarget[0];
                             }
                             else
                             {
-                                menuTarget = newMenuTarget;
+                                menuTarget = (ToolStripMenuItem)newMenuTarget[0];
+                            }
+
+                            if (col.Visible)
+                            {
+                                newMenuTarget[2] = (int)newMenuTarget[2] + 1;
+                                menuTarget.Text = "• " + newMenuTarget[1] + " [" + newMenuTarget[2] + "]";
                             }
                         }
                     }
@@ -494,7 +500,7 @@ namespace MetaboliteLevels.Viewers.Lists
 
                     menuTarget.DropDownItems.Insert(addAt, tsmi);
 
-                    tsmi.Checked = col.Visible;
+                    tsmi.Checked = col.Visible;   
                 }
             }
         }    

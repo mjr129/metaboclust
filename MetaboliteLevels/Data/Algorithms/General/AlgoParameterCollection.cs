@@ -479,9 +479,9 @@ namespace MetaboliteLevels.Algorithms.Statistics
                             return null;
                         }
 
-                        IReadOnlyList<Cluster> opts = core.Clusters;
+                        Cluster[] opts = core.Clusters.ToArray(); // TODO: Efficient?
 
-                        if (ival < 0 || ival >= opts.Count)
+                        if (ival < 0 || ival >= opts.Length)
                         {
                             return null;
                         }

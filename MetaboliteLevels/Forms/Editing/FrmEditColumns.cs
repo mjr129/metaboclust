@@ -87,23 +87,13 @@ namespace MetaboliteLevels.Forms.Editing
                 node.Tag = col;
                 node.Checked = isSelected;
 
-                switch (col.Special)
+                if (col.Special.Has( EColumn.Visible ))
                 {
-                    case EColumn.None:
-                    case EColumn.Statistic:
-                    case EColumn.Meta:
-                        break;
-
-                    case EColumn.Visible:
-                        node.NodeFont = FontHelper.BoldFont;
-                        break;                 
-
-                    case EColumn.Advanced:
-                        node.ForeColor = Color.Olive;
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    node.NodeFont = FontHelper.BoldFont;
+                }
+                else if (col.Special.Has( EColumn.Advanced ))
+                {
+                    node.ForeColor = Color.Olive;
                 }
 
                 parent.Add( node );

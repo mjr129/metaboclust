@@ -279,6 +279,45 @@ namespace MetaboliteLevels.Forms.Generic
             };
         }
 
+        internal static DataSet<Pathway> ForPathways( Core core )
+        {
+            return new DataSet<Pathway>()
+            {
+                Core = core,
+                ListTitle = "Pathways",
+                ListSource = core.Pathways,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = _GetComment,
+                ListIcon = Resources.IconPathway,
+            };
+        }
+
+        internal static DataSet<Adduct> ForAdducts( Core core )
+        {
+            return new DataSet<Adduct>()
+            {
+                Core = core,
+                ListTitle = "Adducts",
+                ListSource = core.Adducts,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = _GetComment,
+                ListIcon = Resources.IconAdduct,
+            };
+        }
+
+        internal static DataSet<Compound> ForCompounds( Core core )
+        {
+            return new DataSet<Compound>()
+            {
+                Core = core,
+                ListTitle = "Compounds",
+                ListSource = core.Compounds,
+                ItemTitle = _GetDisplayName,
+                ItemDescription = _GetComment,
+                ListIcon = Resources.IconCompound,
+            };
+        }
+
         /// <summary>
         /// The session's peaks
         /// </summary>
@@ -897,17 +936,14 @@ namespace MetaboliteLevels.Forms.Generic
                 case EDataSet.Clusters:
                     return DataSet.ForClusters( core );
 
-
                 case EDataSet.Conditions:
                     return DataSet.ForConditions( core );
-
 
                 case EDataSet.Groups:
                     return DataSet.ForGroups( core );
 
                 case EDataSet.Observations:
                     return DataSet.ForObservations( core );
-
 
                 case EDataSet.ObservationFilters:
                     return DataSet.ForObsFilter( core );
@@ -976,6 +1012,15 @@ namespace MetaboliteLevels.Forms.Generic
 
                 case EDataSet.Annotations:
                     return DataSet.ForAnnotations( core );
+
+                case EDataSet.Pathways:
+                    return DataSet.ForPathways( core );
+
+                case EDataSet.Compounds:
+                    return DataSet.ForCompounds( core );
+
+                case EDataSet.Adducts:
+                    return DataSet.ForAdducts( core );
 
                 default:
                     throw new SwitchException( dataSet );

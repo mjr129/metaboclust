@@ -8,6 +8,7 @@ using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Viewers.Lists;
 using MetaboliteLevels.Utilities;
 using System.Diagnostics;
+using System.Drawing;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 
 namespace MetaboliteLevels.Algorithms.Statistics.Configurations
@@ -16,6 +17,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
     /// Used to track data used by a configuration.
     /// When inputs change this class detects that an update is required.
     /// </summary>
+    [Serializable]
     internal class SourceTracker
     {
         /// <summary>
@@ -172,7 +174,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             }
         }
 
-        [XColumn( EColumn.Visible )] public EAlgoStatus Status
+        public EAlgoStatus Status
         {
             get
             {
@@ -332,15 +334,39 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             }
         }
 
+        public override IEnumerable<Column> GetXColumns( Core core )
+        {
+            var results = new List<Column<ConfigurationBase<TAlgo, TArgs, TResults, TTracker>>>();
+
+            results.Add( "Status", EColumn.Visible, z => z.Status, z =>
+                                                                   {
+                                                                       switch (z.Status)
+                                                                       {
+                                                                           case EAlgoStatus.Pending:
+                                                                               return Color.Olive;
+                                                                           case EAlgoStatus.Completed:
+                                                                               return Color.Green;
+                                                                           case EAlgoStatus.Failed:
+                                                                               return Color.Red;
+                                                                           case EAlgoStatus.Disposed:
+                                                                               return Color.Magenta;
+                                                                           default:
+                                                                               throw new ArgumentOutOfRangeException();
+                                                                       }
+                                                                   } );
+
+            return results;
+        }
+
         void IBackup.Backup( BackupData data )
-        {   
+        {
             data.Push( this._args );
             data.Push( this._error );
             data.Push( this._isDisposed );
             data.Push( this._results );
             data.Push( this._tracker );
             data.Push( this.OverrideDisplayName );
-            data.Push( this.Comment );         
+            data.Push( this.Comment );
         }
 
         void IBackup.Restore( BackupData data )
@@ -350,8 +376,8 @@ namespace MetaboliteLevels.Algorithms.Statistics.Configurations
             data.Pull( ref this._isDisposed );
             data.Pull( ref this._results );
             data.Pull( ref this._tracker );
-            this.OverrideDisplayName = data.Pull<string>(  );
-            this.Comment = data.Pull<string>( );
+            this.OverrideDisplayName = data.Pull<string>();
+            this.Comment = data.Pull<string>();
         }
     }
 }

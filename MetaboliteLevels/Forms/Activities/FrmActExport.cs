@@ -289,11 +289,12 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void ExportAssignments( string fileName )
         {
-            Spreadsheet<string> ss = new Spreadsheet<string>( _core.Peaks.Count, _core.Clusters.Count );
+            Cluster[] clu = _core.Clusters.ToArray();
+            Spreadsheet<string> ss = new Spreadsheet<string>( _core.Peaks.Count, clu.Length );
 
-            for (int nClust = 0; nClust < _core.Clusters.Count; ++nClust)
+            for (int nClust = 0; nClust < clu.Length; ++nClust)
             {
-                ss.ColNames[nClust] = _uniqueTable.Name( _core.Clusters[nClust]);
+                ss.ColNames[nClust] = _uniqueTable.Name( clu[nClust]);
             }
 
             for (int nPeak = 0; nPeak < _core.Peaks.Count; ++nPeak)
@@ -301,9 +302,9 @@ namespace MetaboliteLevels.Forms.Activities
                 Peak peak = _core.Peaks[nPeak];
                 ss.RowNames[nPeak] = _uniqueTable.Name( peak);
 
-                for (int nClust = 0; nClust < _core.Clusters.Count; ++nClust)
+                for (int nClust = 0; nClust < clu.Length; ++nClust)
                 {
-                    Cluster cluster = _core.Clusters[nClust];
+                    Cluster cluster = clu[nClust];
                     ss[nPeak, nClust] = string.Join( "; ", peak.FindAssignments( _core ).Where( z => z.Cluster == cluster ).Select(AssignmentToString) );
                 }
             }

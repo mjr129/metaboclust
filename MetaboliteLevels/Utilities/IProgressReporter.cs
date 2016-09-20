@@ -328,6 +328,7 @@ namespace MetaboliteLevels.Utilities
 
             if (!_allowContinue && (_throwOnCancel == 0))
             {
+                DisableThrowOnCancel(); // Only throw one exception
                 throw new TaskCanceledException("The task was cancelled.");
             }
 

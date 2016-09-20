@@ -119,13 +119,6 @@ namespace MetaboliteLevels.Data.Session
         [UndeferSerialisation( typeof( BatchInfo ) )]
         private readonly List<BatchInfo> _batches;
 
-        /// <summary>
-        /// Currently visible clusters
-        /// (The complete set of clusters, including disabled ones can be obtained by iterating _clusterers::results)
-        /// </summary>
-        [UndeferSerialisation( typeof( Cluster ) )]
-        private readonly List<Cluster> _clusters;
-
         //
         // META HEADERS
         // We store the header titles only once (here) rather than with each item, because there
@@ -223,7 +216,7 @@ namespace MetaboliteLevels.Data.Session
         public Range TimeRange { get { return _cache._timeRange; } }
         public IReadOnlyList<GroupInfo> Groups { get { return _groups; } }
         public IReadOnlyList<BatchInfo> Batches { get { return _batches; } }
-        public IReadOnlyList<Cluster> Clusters { get { return _clusters; } }
+        public IEnumerable<Cluster> Clusters => this._clusterers.WhereEnabled().SelectMany( z => z.Results.Clusters );
         public IReadOnlyList<Peak> Peaks { get { return _peaks; } }
         public List<Compound> Compounds { get { return _compounds; } }
         public IReadOnlyList<Pathway> Pathways { get { return _pathways; } }
@@ -306,8 +299,7 @@ namespace MetaboliteLevels.Data.Session
             this.Options = new CoreOptions() { Core = this };
             this.Options.ViewTypes = new List<GroupInfo>( data.Types.OrderBy( z => z.DisplayPriority ) );
 
-            this._adducts = adducts;
-            this._clusters = new List<Cluster>();
+            this._adducts = adducts;             
             this._peaks = data.Peaks;
             this._compounds = compounds;
             this._pathways = pathways;

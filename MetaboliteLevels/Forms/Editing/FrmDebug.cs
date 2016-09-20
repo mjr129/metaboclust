@@ -551,7 +551,7 @@ namespace MetaboliteLevels.Forms.Editing
             sb.AppendLine();
 
             sb.AppendLine( "Clusters:" );
-            sb.AppendLine( "    № clusters = " + core.Clusters.Count );
+            sb.AppendLine( "    № clusters = " + core.Clusters.Count() );
             sb.AppendLine( "    Active count = " + core.Clusters.Count( p => p.States == Cluster.EStates.None ) );
             sb.AppendLine();
 

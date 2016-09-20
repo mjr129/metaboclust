@@ -18,6 +18,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
     /// These usually contain some sort of filter for the inputs (e.g. only the control group)
     /// and parameters for the algorithm itself (e.g. k = 3).
     /// </summary>
+    [Serializable]
     internal abstract class ArgsBase : Visualisable, IArgsBase<AlgoBase>
     {
         /// <summary>
@@ -96,6 +97,7 @@ namespace MetaboliteLevels.Algorithms.Statistics.Arguments
         }
     }
 
+    [Serializable]
     internal class ArgsBase<TAlgo> :ArgsBase, IArgsBase<TAlgo>
         where TAlgo : AlgoBase
     {
