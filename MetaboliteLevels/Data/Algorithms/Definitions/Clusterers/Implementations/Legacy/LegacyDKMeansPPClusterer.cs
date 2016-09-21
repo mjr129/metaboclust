@@ -139,11 +139,11 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         /// </summary>
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection( new AlgoParameter("k", EAlgoParameterType.Integer),
-                                                new AlgoParameter("d", EAlgoParameterType.Double),
-                                                new AlgoParameter("seed.peak", EAlgoParameterType.WeakRefPeak),
-                                                new AlgoParameter("seed.group", EAlgoParameterType.Group),
-                                                new AlgoParameter("use.kmeans", EAlgoParameterType.Integer)
+            return new AlgoParameterCollection( new AlgoParameter("k", AlgoParameterTypes.Integer),
+                                                new AlgoParameter("d", AlgoParameterTypes.Double),
+                                                new AlgoParameter("seed.peak", AlgoParameterTypes.WeakRefPeak),
+                                                new AlgoParameter("seed.group", AlgoParameterTypes.Group),
+                                                new AlgoParameter("use.kmeans", AlgoParameterTypes.Integer)
                                               );
         }    
 

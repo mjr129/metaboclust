@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Controls.Charts;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Forms.Activities

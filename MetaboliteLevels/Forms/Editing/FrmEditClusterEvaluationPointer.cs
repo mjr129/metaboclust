@@ -116,7 +116,7 @@ namespace MetaboliteLevels.Forms.Editing
 
             AlgoParameter pa = (AlgoParameter)_lstParameters.SelectedItem;
 
-            object[] opts = StringHelper.StringToArray(_txtValues.Text, z => AlgoParameterCollection.TryReadParameter(_core, z, pa.Type), "\r\n");
+            object[] opts = StringHelper.StringToArray(_txtValues.Text, z => pa.Type.FromString(_core, z), "\r\n");
             int num = (int)_numNumTimes.Value;
             _txtNumberOfValues.Text = opts.Length.ToString();
 

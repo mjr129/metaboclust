@@ -40,8 +40,6 @@ namespace MetaboliteLevels.Forms.Editing
             this._selected = selected.Unique();
 
             RefreshView();
-
-            treeView1.ExpandAll();
         }
 
         private void RefreshView(  )
@@ -52,7 +50,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 bool isSelected = _selected.Contains( col );
 
-                if (!isSelected && !_chkShowAdvanced.Checked && col.Special == EColumn.Advanced)
+                if (!isSelected && !_chkShowAdvanced.Checked && col.Special.Has( EColumn.Advanced ))
                 {
                     continue;
                 }
@@ -78,6 +76,8 @@ namespace MetaboliteLevels.Forms.Editing
                     if (!found)
                     {
                         TreeNode newNode = new TreeNode( elements[n] );
+                        newNode.NodeFont = FontHelper.ItalicFont;
+                        newNode.ForeColor = Color.Orange;
                         parent.Add( newNode );
                         parent = newNode.Nodes;
                     }
@@ -86,18 +86,12 @@ namespace MetaboliteLevels.Forms.Editing
                 TreeNode node = new TreeNode( elements[elements.Length - 1] );
                 node.Tag = col;
                 node.Checked = isSelected;
-
-                if (col.Special.Has( EColumn.Visible ))
-                {
-                    node.NodeFont = FontHelper.BoldFont;
-                }
-                else if (col.Special.Has( EColumn.Advanced ))
-                {
-                    node.ForeColor = Color.Olive;
-                }
+                node.ForeColor = ColumnManager.GetColumnColour( col );
 
                 parent.Add( node );
             }
+
+            treeView1.ExpandAll();
         }
 
         private void _btnDefaults_Click( object sender, EventArgs e )

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;

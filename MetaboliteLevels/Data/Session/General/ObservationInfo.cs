@@ -3,29 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
 using MSerialisers;
 
 namespace MetaboliteLevels.Data.Session.General
-{
-    [Serializable]
-    class Acquisition
-    {
-        public readonly int Replicate;
-        public readonly BatchInfo Batch;
-        public readonly int Order;
-        public readonly string Id;   
-
-        public Acquisition( string v, int repId, BatchInfo batchInfo, int acquisition )
-        {
-            this.Id = v;
-            this.Replicate = repId;
-            this.Batch = batchInfo;
-            this.Order = acquisition;
-        }
-    }
-
+{   
     /// <summary>
     /// Observation information.
     /// 
@@ -37,7 +21,7 @@ namespace MetaboliteLevels.Data.Session.General
     [DeferSerialisation]
     class ObservationInfo : Visualisable
     {                                                  
-        [XColumn]
+        [XColumn( "Acquisition\\", EColumn.Decompose)]
         public readonly Acquisition Acquisition;
         [XColumn]
         public readonly GroupInfo Group;
@@ -50,14 +34,10 @@ namespace MetaboliteLevels.Data.Session.General
             this.Group = group;
             this.Time = time;
         }
-
-        [XColumn]
-        public string Id => Acquisition?.Id;
-        [XColumn]
+        
+        public string Id => Acquisition?.Id;         
         public BatchInfo Batch => Acquisition?.Batch;
-        [XColumn]
         public int Order => Acquisition?.Order ?? 0;
-        [XColumn]
         public int Rep => Acquisition?.Replicate ?? 0;          
 
         /// <summary>
@@ -111,16 +91,16 @@ namespace MetaboliteLevels.Data.Session.General
                 return i;
             }
 
-            i = a.Time.CompareTo(b.Time);
+            i = a.Time.CompareTo( b.Time );
 
             if (i != 0)
             {
                 return i;
             }
 
-            return a.Rep.CompareTo(b.Rep);
+            return a.Rep.CompareTo( b.Rep );
         }
 
-        public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.Point;       
+        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;
     }
 }

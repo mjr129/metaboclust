@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
@@ -46,6 +48,12 @@ namespace MetaboliteLevels.Controls.Lists
             List<Column> results = new List<Column>();
             results.AddRange( GetCustomColumns( type, @object, core ) ?? new Column[0] );
             results.AddRange( GetReflectedColumns(type, core) );
+
+            bool anyVisible = results.Any( z => z.Special.Has( EColumn.Visible ) );
+
+            results.Add( new Column<object>( "Value", anyVisible ? EColumn.Advanced : EColumn.Visible, null, z => z.ToStringSafe(), null ) );
+            results.Add( new Column<object>( "DataType", EColumn.Advanced, null, z => z.GetType().ToUiString(), null ) );
+
             return results;
         }
 
@@ -135,7 +143,7 @@ namespace MetaboliteLevels.Controls.Lists
                     {
                         if (attr.Special.Has( EColumn.Decompose ))
                         {
-                            ColumnExtensions.AddSubObject<object>( results, attr.Special, core, attr.Name, provider, provType );
+                            results.AddRange( ColumnExtensions.AddSubObject<object>( attr.Special, core, attr.Name, provider, provType ) );
                         }
                         else
                         {
@@ -143,11 +151,37 @@ namespace MetaboliteLevels.Controls.Lists
                         }
                     }
 
-                    results.Add( new Column<object>( pname, EColumn.Advanced, pdesc, provider, null ) );
+                    results.Add( new Column<object>( pname, EColumn.Advanced | EColumn.IsProperty, pdesc, provider, null ) );
                 }
             }
 
             return results;
+        }
+
+        public static Color GetColumnColour( Column col )
+        {
+            if (col.Special.Has( EColumn.Visible ))
+            {
+                return Color.Blue;
+            }
+            else if (col.Special.Has( EColumn.IsStatistic ))
+            {
+                return Color.DarkCyan;
+            }
+            else if (col.Special.Has( EColumn.IsMeta ))
+            {
+                return Color.Green;
+            }
+            else if (col.Special.Has( EColumn.IsProperty ))
+            {
+                return Color.DimGray;
+            }
+            else if (col.Special.Has( EColumn.Advanced ))
+            {
+                return Color.Olive;
+            }
+
+            return Color.Black;
         }
     }
 }

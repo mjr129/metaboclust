@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Utilities;
+using Visualisable = MetaboliteLevels.Data.Session.Associational.Visualisable;
 
 namespace MetaboliteLevels.Forms.Editing
 {

@@ -10,12 +10,12 @@ namespace MetaboliteLevels.Data.Algorithms.General
     /// <summary>
     /// Parameter (e.g. k for k-means)
     /// </summary>
-    public class AlgoParameter
+    internal class AlgoParameter
     {
         public readonly string Name; // name
-        public readonly EAlgoParameterType Type; // type
+        public readonly IAlgoParameterType Type; // type
 
-        public AlgoParameter(string name, EAlgoParameterType type)
+        public AlgoParameter(string name, IAlgoParameterType type)
         {
             Name = name;
             Type = type;
@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// </summary>
         public override string ToString()
         {
-            return Name + " (" + Type.ToUiString().ToSmallCaps() + ")";
+            return Name + " (" + Type + ")";
         }
     }
 }

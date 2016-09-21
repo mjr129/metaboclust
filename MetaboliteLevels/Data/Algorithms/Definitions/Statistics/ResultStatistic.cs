@@ -13,7 +13,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
     class ResultStatistic : ResultBase
     {
         public readonly double Min;
-        public readonly double Max;
+        public readonly double Max;                
 
         public IReadOnlyDictionary<Peak, double> Results => _results;
 
@@ -26,6 +26,11 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
             this._results = results;
             this.Min = min;
             this.Max = max;
+        }
+
+        public override string ToString()
+        {
+            return Results.Count.ToString();
         }
     }
 }

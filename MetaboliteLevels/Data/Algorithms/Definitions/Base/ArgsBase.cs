@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         /// <summary>
         /// The user-inputtable parameters.
         /// </summary>
-        [XColumn( "Parameters", EColumn.Visible | EColumn.Content )]
+        [XColumn( "Parameters" )]
         public readonly object[] Parameters;
 
         private WeakReference<IMatrixProvider> _sourceProvider;
@@ -41,11 +41,22 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         {
             get
             {
-                var algorithm = GetAlgorithmOrNull();
+                AlgoBase algorithm = GetAlgorithmOrNull();
 
-                return (algorithm?.DisplayName ?? Id)
-                    + " (" + SourceMatrix.ToStringSafe() + ") "
-                    + AlgoParameterCollection.ParamsToHumanReadableString( Parameters, algorithm );
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append( algorithm?.DisplayName ?? Id );
+
+                if (Parameters != null && Parameters.Length != 0)
+                {
+                    sb.Append( " where " );
+                    sb.Append( AlgoParameterCollection.ParamsToHumanReadableString( Parameters, algorithm ) );
+                }
+
+                //sb.Append( " using " );
+                //sb.Append( SourceProvider.ToStringSafe() );
+
+                return sb.ToString();
             }
         }
 
@@ -107,7 +118,8 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 
         public new TAlgo GetAlgorithmOrNull() => (TAlgo)base.GetAlgorithmOrNull();
 
-        public ArgsBase( string id, IMatrixProvider sourceProvider, object[] parameters ) : base( id, sourceProvider, parameters )
+        public ArgsBase( string id, IMatrixProvider sourceProvider, object[] parameters ) 
+            : base( id, sourceProvider, parameters )
         {
         }
     }

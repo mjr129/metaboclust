@@ -53,7 +53,9 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
                 results[index] = this.CreateTrend( core.Observations, core.Conditions, core.Groups, source.Values[index] ); // obs
             }
 
-            IntensityMatrix result = new IntensityMatrix( source.Rows, source.Columns, results );
+            IntensityMatrix.RowHeader[] rows = source.Rows;
+            IntensityMatrix.ColumnHeader[] cols = core.Conditions.Select( z => new IntensityMatrix.ColumnHeader( z ) ).ToArray();
+            IntensityMatrix result = new IntensityMatrix( rows, cols, results );
 
             SetResults( new ResultTrend( result ) );
         }

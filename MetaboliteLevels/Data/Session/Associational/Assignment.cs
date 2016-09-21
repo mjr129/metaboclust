@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.General;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
@@ -116,16 +117,17 @@ namespace MetaboliteLevels.Data.Session.Associational
         {
             var cols = new List<Column<Assignment>>();      
 
-            foreach (var kvp in this.AssignmentStatistics.Keys)
-            {
-                var closure = kvp;
-                cols.Add("Assignment statistic\\" + closure, EColumn.Statistic, z => z.AssignmentStatistics.GetOrNan(closure));
-            }                                                                                               
+            // TODO: Put this back!
+            //foreach (var kvp in this.AssignmentStatistics.Keys)
+            //{
+            //    var closure = kvp;
+            //    cols.Add("Assignment statistic\\" + closure, EColumn.IsStatistic, z => z.AssignmentStatistics.GetOrNan(closure));
+            //}                                                                                               
 
             return cols;
         }
 
-        public override void FindAssociations(ContentsRequest request)
+        protected override void OnFindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {

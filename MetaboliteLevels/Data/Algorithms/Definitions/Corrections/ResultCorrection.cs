@@ -20,5 +20,10 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
         {
             Matrix = result;
         }
+
+        public override string ToString()
+        {
+            return Matrix.ToString();
+        }
     }
 }

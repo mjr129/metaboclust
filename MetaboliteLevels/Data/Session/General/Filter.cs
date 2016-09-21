@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;

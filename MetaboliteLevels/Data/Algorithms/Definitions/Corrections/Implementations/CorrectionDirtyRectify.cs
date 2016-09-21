@@ -38,7 +38,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementatio
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {                                                                                          
-            return new AlgoParameterCollection(new AlgoParameter("zero", EAlgoParameterType.Double));
+            return new AlgoParameterCollection(new AlgoParameter("zero", AlgoParameterTypes.Double));
         }
     }
 }

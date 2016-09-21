@@ -87,7 +87,7 @@ namespace MetaboliteLevels.Forms.Editing
                     tableLayoutPanel1.Controls.Add(label, 0, row);
 
                     Label label2 = new Label();
-                    label2.Text = param.Type.ToUiString();
+                    label2.Text = param.Type.ToString();
                     label2.AutoSize = true;
                     label2.Visible = true;
                     label2.Margin = new Padding(8, 8, 8, 8);
@@ -129,105 +129,9 @@ namespace MetaboliteLevels.Forms.Editing
             TextBox textBox = _textBoxes[index];
             var param = this._parameters[index];
 
-            object value = AlgoParameterCollection.TryReadParameter(_core, textBox.Text, param.Type);
+            object value = param.Type.FromString(_core, textBox.Text );
 
-            switch (param.Type)
-            {
-                case EAlgoParameterType.WeakRefClusterArray:
-
-                    {
-                        Cluster def = ((WeakReference<Cluster>)value).GetTarget();
-                        var sel = DataSet.ForClusters( _core ).ShowList( this, def );
-
-                        if (sel == null)
-                        {
-                            return;
-                        }
-
-                        value = new WeakReference<Cluster>( sel );
-                    }
-                    break;
-
-                case EAlgoParameterType.WeakRefConfigurationClusterer:
-                    {
-                        ConfigurationClusterer def = ((WeakReference<ConfigurationClusterer>)value).GetTarget();
-                        var sel = DataSet.ForClusterers(_core).ShowList(this, def);
-
-                        if (sel == null)
-                        {
-                            return;
-                        }
-
-                        value = new WeakReference<ConfigurationClusterer>(sel);
-                    }
-                    break;
-
-                case EAlgoParameterType.Group:
-                    value = DataSet.ForGroups(_core).ShowList(this, (GroupInfo)value);
-                    break;
-
-                case EAlgoParameterType.WeakRefPeak:
-                    {
-                        var sel = DataSet.ForPeaks(_core).ShowList(this, ((WeakReference<Peak>)value).GetTarget());
-
-                        if (sel == null)
-                        {
-                            return;
-                        }
-
-                        value = new WeakReference<Peak>(sel);
-                    }
-                    break;
-
-                case EAlgoParameterType.WeakRefStatisticArray:
-                    {
-                        var tvalue = (WeakReference<ConfigurationStatistic>[])value;
-                        IEnumerable<ConfigurationStatistic> def = tvalue.Select(z => z.GetTarget()).Where(z => z != null);
-                        IEnumerable<ConfigurationStatistic> sel = DataSet.ForStatistics(this._core).ShowCheckList(this, def);
-
-                        if (sel == null)
-                        {
-                            return;
-                        }
-
-                        value = sel.Select(z => new WeakReference<ConfigurationStatistic>(z)).ToArray();
-                    }
-                    break;
-
-                case EAlgoParameterType.Integer:
-                case EAlgoParameterType.Double:
-                    {
-                        FrmMsgBox.ButtonSet[] btns =
-                    {
-                        new FrmMsgBox.ButtonSet("MAX", Resources.MnuUp, DialogResult.Yes),
-                        new FrmMsgBox.ButtonSet("MIN", Resources.MnuDown, DialogResult.No),
-                        new FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)
-                    };
-
-                        bool isInt = param.Type == EAlgoParameterType.Integer;
-
-                        switch (FrmMsgBox.Show(this, "Select Integer", null, "Select a value or enter a custom value into the textbox", Resources.MsgHelp, btns, DialogResult.Cancel, DialogResult.Cancel))
-                        {
-                            case DialogResult.Yes:
-                                value = isInt ? (object)int.MaxValue : (object)double.MaxValue;
-                                break;
-
-                            case DialogResult.No:
-                                value = isInt ? (object)int.MinValue : (object)double.MinValue;
-                                break;
-
-                            default:
-                                return;
-                        }
-                    }
-                    break;
-
-                default:
-                    {
-                        FrmMsgBox.ShowInfo(this, param.Type.ToUiString(), "There is no editor associated with this type.\r\nPlease enter a valid value directly into the textbox.");
-                    }
-                    return;
-            }
+            value = param.Type.Browse( this, _core, value );
 
             if (value == null)
             {
@@ -245,7 +149,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 var param = _parameters[index];
 
-                results[index] = AlgoParameterCollection.TryReadParameter(_core, _textBoxes[index].Text, param.Type);
+                results[index] = param.Type.FromString( _core, _textBoxes[index].Text );
 
                 if (results[index] == null)
                 {

@@ -98,7 +98,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// <param name="quickCalcCheck">If set then this corresponds to which input parameters must be set for the script to support QuickCalc mode. This should be a string of "0" and "1" the same length as the input parameter array.</param>
         public RScript(string text, string inputs, string fileName)
         {
-            Dictionary<string, EAlgoParameterType> conv = EnumHelper.GetEnumKeys<EAlgoParameterType>();
+            Dictionary<string, IAlgoParameterType> conv = AlgoParameterTypes.GetKeys();
             int pos = 0;
             int lpos;
             this.FileName = fileName;
@@ -126,7 +126,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                             name = name.Trim();
                             type = type.Trim().ToUpper();
 
-                            EAlgoParameterType etype;
+                            IAlgoParameterType etype;
 
                             if (conv.TryGetValue(type, out etype))
                             {

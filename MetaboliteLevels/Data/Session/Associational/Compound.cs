@@ -210,7 +210,7 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>
-        public override void FindAssociations(ContentsRequest request)
+        protected override void OnFindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {

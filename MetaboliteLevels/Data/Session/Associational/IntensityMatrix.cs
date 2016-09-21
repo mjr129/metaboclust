@@ -16,13 +16,11 @@ using MSerialisers;
 namespace MetaboliteLevels.Data.Session.Associational
 {         
     [Serializable]       
-    class IntensityMatrix : ITransient
+    class IntensityMatrix
     {                           
         public readonly double[][] Values;
         public readonly RowHeader[] Rows;
         public readonly ColumnHeader[] Columns;
-        private readonly Guid _guid;
-        public Guid Guid => _guid;
 
         public int NumRows => Rows.Length;
         public int NumVectors => Rows.Length;
@@ -37,12 +35,16 @@ namespace MetaboliteLevels.Data.Session.Associational
             // NA
         }
 
+        public override string ToString()
+        {
+            return NumRows + " vectors of " + NumCols + " values";
+        }
+
         public IntensityMatrix( RowHeader[] rows, ColumnHeader[] columns, double[][] values )
         {
             Debug.Assert( rows.Length == values.Length, "IntensityMatrix number of rows mismatch." );
             Debug.Assert( values.Length == 0 || columns.Length == values[0].Length, "IntensityMatrix number of columns mismatch." );
-
-            _guid = Guid.NewGuid();
+                                   
             Rows = rows;
             Columns = columns;
             Values = values;

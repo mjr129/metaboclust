@@ -114,7 +114,7 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override void FindAssociations(ContentsRequest request)
+        protected override void OnFindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -264,7 +264,7 @@ namespace MetaboliteLevels.Data.Session.Associational
             foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
             {
                 var closure = stat;
-                columns.Add("Statistic\\" + stat.ToString(), EColumn.Statistic, λ => λ.GetStatistic(closure));
+                columns.Add("Statistic\\" + stat.ToString(), EColumn.IsStatistic, λ => λ.GetStatistic(closure));
                 columns[columns.Count - 1].Colour = z => UiControls.StatisticColour( z.GetStatistic( closure ), stat.Results.Min, stat.Results.Max);
             }
 

@@ -257,7 +257,7 @@ namespace MetaboliteLevels.Types.UI
                 Core = core,
                 ListTitle = "Parameters",
                 ListSource = parameters.Indices(),
-                ItemTitle = z => parameters[z].Name + " (" + parameters[z].Type.ToUiString() + ")",
+                ItemTitle = z => parameters[z].Name + " (" + parameters[z].Type.ToString() + ")",
                 ItemDescription = z => "Parameter " + z.ToString(),
                 CancelValue = int.MinValue,
             };

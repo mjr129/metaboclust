@@ -48,7 +48,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection(new AlgoParameter("statistics", EAlgoParameterType.WeakRefStatisticArray));
+            return new AlgoParameterCollection(new AlgoParameter("statistics", AlgoParameterTypes.WeakRefStatisticArray));
         }
 
         public override bool SupportsInputFilters { get { return false; } }

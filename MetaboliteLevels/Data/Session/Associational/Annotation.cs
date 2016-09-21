@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
@@ -76,7 +77,7 @@ namespace MetaboliteLevels.Data.Session.Associational
             }
         }           
 
-        public override void FindAssociations( ContentsRequest list )
+        protected override void OnFindAssociations( ContentsRequest list )
         {
             switch (list.Type)
             {

@@ -18,6 +18,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using Visualisable = MetaboliteLevels.Data.Session.Associational.Visualisable;
 
 namespace MetaboliteLevels.Forms.Editing
 {

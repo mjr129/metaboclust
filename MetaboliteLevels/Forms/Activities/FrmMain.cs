@@ -151,7 +151,7 @@ namespace MetaboliteLevels.Forms.Activities
             _coreWatchers.Add( _secondaryList );
 
             // Pagers
-            _btnPrimPeak.Tag = new DataSet.Provider(DataSet.ForPeaks);
+            _btnPrimPeak.Tag = new DataSet.Provider( DataSet.ForPeaks );
             _btnPrimPath.Tag = new DataSet.Provider( DataSet.ForPathways );
             _btnPrimComp.Tag = new DataSet.Provider( DataSet.ForCompounds );
             _btnPrimAssig.Tag = new DataSet.Provider( DataSet.ForAssignments );
@@ -164,7 +164,7 @@ namespace MetaboliteLevels.Forms.Activities
             _btnSubAss.Tag = EVisualClass.Assignment;
             _btnSubComp.Tag = EVisualClass.Compound;
             _btnSubInfo.Tag = EVisualClass.Info;
-            _btnSubPat.Tag = EVisualClass.Pathway;
+            _btnSubPat.Tag = EVisualClass.Cluster;
             _btnSubPeak.Tag = EVisualClass.Peak;
             _btnSubPath.Tag = EVisualClass.Pathway;
 
@@ -222,8 +222,8 @@ namespace MetaboliteLevels.Forms.Activities
 
             if (wrapped != null)
             {
-                secondaryTarget = wrapped.SourceValue;
-                primaryTarget = wrapped.WrappedValue;
+                secondaryTarget = wrapped.OriginalRequest.Owner;
+                primaryTarget = wrapped.Associated as Associational; // Meta fields provide stuff like strings, let's assume we only plot Associational associations
             }
             else
             {
@@ -330,6 +330,7 @@ namespace MetaboliteLevels.Forms.Activities
             // Update stuff
             _coreWatchers.ForEach(z => z.ChangeCore(_core));
             _primaryListView = new DataSet.Provider( DataSet.ForPeaks );
+            _secondaryListView = EVisualClass.Info;
 
             // Clear selection
             CommitSelection(new VisualisableSelection(null));
@@ -560,7 +561,7 @@ namespace MetaboliteLevels.Forms.Activities
                 return;
             }
 
-            ContentsRequest request = selection.GetContents( _core, _secondaryListView );      
+            ContentsRequest request = selection.FindAssociations( _core, _secondaryListView );      
             _secondaryList.DivertList<Association>( request.Results );     
 
             if (request != null && request.Text != null)

@@ -192,12 +192,15 @@ namespace MetaboliteLevels.Forms.Selection
         abstract class FormListControlArray<T> : IFormList
             where T : Control, new()
         {
+            protected FrmSelectList _form;
             FlowLayoutPanel _listBox;
             ToolTip _toolTip;
             protected List<T> _checkBoxes = new List<T>();
 
             void IFormList.Initialise(FrmSelectList form, Core core)
             {
+                _form = form;
+
                 _listBox = new FlowLayoutPanel();
                 _listBox.FlowDirection = FlowDirection.TopDown;
                 _listBox.Dock = DockStyle.Fill;
@@ -261,7 +264,7 @@ namespace MetaboliteLevels.Forms.Selection
             protected virtual void InitialiseItem(T item)
             {
                 // NA
-            }
+            }   
         }
 
         class FormListCheckBoxArray : FormListControlArray<CheckBox>
@@ -292,8 +295,7 @@ namespace MetaboliteLevels.Forms.Selection
             protected override void InitialiseItem(Button control)
             {
                 control.FlatStyle = FlatStyle.Flat;
-                control.FlatAppearance.BorderSize = 0;
-                control.DialogResult = DialogResult.OK;
+                control.FlatAppearance.BorderSize = 0; 
                 control.ForeColor = System.Drawing.Color.Blue;
                 control.Click += cb_Click;
                 control.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -301,7 +303,8 @@ namespace MetaboliteLevels.Forms.Selection
 
             void cb_Click(object sender, EventArgs e)
             {
-                ((Button)sender).Tag = sender;
+                ((Button)sender).Tag = 1;
+                _form.CommitSelection();
             }
         }
 
@@ -406,26 +409,33 @@ namespace MetaboliteLevels.Forms.Selection
 
         private void button1_Click(object sender, EventArgs e)
         {
+            CommitSelection();
+        }
+
+        private bool CommitSelection()
+        {
             foreach (int invalidIndex in _invalidIndices)
             {
                 if (_handler.GetState( invalidIndex ))
                 {
                     FrmMsgBox.ShowError( this, $"One or more items marked \"{MISSING_LABEL}\" have been selected. Please review and deselect these items before continuing." );
-                    return;
+                    return false;
                 }
             }
 
             if (!_multiSelect)
             {
-                if (!GetStates().Any(z => z))
+                if (!GetStates().Any( z => z ))
                 {
-                    FrmMsgBox.ShowError(this, "Please make a selection before continuing.");
-                    return;
+                    FrmMsgBox.ShowError( this, "Please make a selection before continuing." );
+                    return false;
                 }
             }
 
             _result = _objects.At( GetStates() ).ToArray();
             DialogResult = DialogResult.OK;
+            Close();
+            return true;
         }
 
         internal static T ShowList<T>(Form owner, DataSet<T> listValueSet, T defaultSelection)

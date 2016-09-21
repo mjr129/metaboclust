@@ -364,19 +364,7 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
                     var p = req[i];
                     object v = args[i];
 
-                    switch (p.Type)
-                    {
-                        case EAlgoParameterType.Double:
-                            _r.SetSymbol(p.Name, _r.CreateNumeric((double)v));
-                            break;
-
-                        case EAlgoParameterType.Integer:
-                            _r.SetSymbol(p.Name, _r.CreateInteger((int)v));
-                            break;
-
-                        default:
-                            throw new InvalidOperationException("ApplyArgs: " + p.Type + " on " + p.Name);
-                    }
+                    p.Type.SetSymbol( _r, p.Name, v );
                 }
             }
         }     

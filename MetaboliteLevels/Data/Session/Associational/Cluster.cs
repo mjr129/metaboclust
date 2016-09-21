@@ -150,7 +150,7 @@ namespace MetaboliteLevels.Data.Session.Associational
                         break;
 
                     case EVisualClass.Pathway:
-                        highlight = toHighlight.GetContents(core, EVisualClass.Peak).Results.Cast<Peak>().Select(StylisedCluster.HighlightElement.FromPeak).ToArray();
+                        highlight = toHighlight.FindAssociations(core, EVisualClass.Peak).Results.Cast<Peak>().Select(StylisedCluster.HighlightElement.FromPeak).ToArray();
                         caption += " Peaks potentially representing compounds in {1} are {HIGHLIGHTED}.";
                         break;
 
@@ -379,7 +379,7 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override void FindAssociations(ContentsRequest request)
+        protected override void OnFindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
@@ -527,13 +527,13 @@ namespace MetaboliteLevels.Data.Session.Associational
             foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
             {
                 ConfigurationStatistic closure = stat;
-                result.Add("Average Statistic\\" + closure, EColumn.Statistic, λ => λ.Statistics.GetOrNan(closure));
+                result.Add("Average Statistic\\" + closure, EColumn.IsStatistic, λ => λ.Statistics.GetOrNan(closure));
             }
 
             foreach (string stat in core.GetClusterStatistics()) // TODO: No!
             {
                 string closure = stat;
-                result.Add("Cluster statistic\\" + closure, EColumn.Statistic, λ => λ.ClusterStatistics.GetOrNan(closure));
+                result.Add("Cluster statistic\\" + closure, EColumn.IsStatistic, λ => λ.ClusterStatistics.GetOrNan(closure));
             }                                                        
 
             return result;

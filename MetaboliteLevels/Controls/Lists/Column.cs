@@ -18,11 +18,11 @@ namespace MetaboliteLevels.Controls.Lists
     {
         None,
         Visible = 1,
-        Meta = 2,
-        Statistic = 4,
-        Advanced = 8,
-        Decompose = 16,
-        Content = 32
+        Advanced = 2,
+        Decompose = 4,
+        IsMeta = 8,
+        IsStatistic = 16,
+        IsProperty = 32,
     }
 
     enum EListDisplayMode
@@ -180,7 +180,7 @@ namespace MetaboliteLevels.Controls.Lists
             return double.NaN;
         }
 
-        public static string AsString(object result, EListDisplayMode listDisplayMode)
+        public static string AsString( object result, EListDisplayMode listDisplayMode )
         {
             if (result == null)
             {
@@ -212,7 +212,7 @@ namespace MetaboliteLevels.Controls.Lists
                     case EListDisplayMode.Smart:
                         if (count == 1)
                         {
-                            return AsString(enu.FirstOrDefault2());
+                            return AsString( enu.FirstOrDefault2() );
                         }
                         else if (count == 0)
                         {
@@ -227,10 +227,10 @@ namespace MetaboliteLevels.Controls.Lists
                         return count.ToString();
 
                     case EListDisplayMode.CountAndContent:
-                        return "(" + count.ToString() + ") " + StringHelper.ArrayToString(enu, AsString);
+                        return "(" + count.ToString() + ") " + StringHelper.ArrayToString( enu, AsString );
 
                     case EListDisplayMode.Content:
-                        return StringHelper.ArrayToString(enu, AsString);
+                        return StringHelper.ArrayToString( enu, AsString );
                 }
             }
 
@@ -239,18 +239,18 @@ namespace MetaboliteLevels.Controls.Lists
                 Visualisable v = (Visualisable)result;
 
                 return v.DisplayName;
-            }          
+            }
 
             if (result is double)
             {
                 double d = (double)result;
 
-                if (double.IsNaN(d))
+                if (double.IsNaN( d ))
                 {
                     return "";
                 }
 
-                return Maths.SignificantDigits(d);
+                return Maths.SignificantDigits( d );
             }
 
             if (result is int)
@@ -280,6 +280,30 @@ namespace MetaboliteLevels.Controls.Lists
             if (result is Type)
             {
                 return ((Type)result).ToUiString();
+            }
+
+            if (result is WeakReference)
+            {
+                object t = ((WeakReference)result).Target;
+
+                if (t == null)
+                {
+                    return "(Expired reference)";
+                }
+
+                return "&" + AsString( t, listDisplayMode );
+            }
+
+            if (ReflectionHelper.IsOfGenericType( result, typeof(WeakReference<>) ))
+            {
+                object t = WeakReferenceHelper.GetUntypedTarget( result );
+
+                if (t == null)
+                {
+                    return "(Expired reference)";
+                }
+
+                return "&" + AsString( t, listDisplayMode );
             }
 
             return result.ToString();
@@ -381,15 +405,17 @@ namespace MetaboliteLevels.Controls.Lists
             self.Add(new Column<T>(name, EColumn.None, null, provider, colour));
         }
 
-        public static void AddSubObject<TList>( this List<Column> self, EColumn special, Core core, string prefix, Column<TList>.ColumnProvider convertor, Type targetType )
+        public static IEnumerable<Column<TList>> AddSubObject<TList>( EColumn ownerVisibility, Core core, string prefix, Column<TList>.ColumnProvider convertor, Type targetType )
         {
-            self.Add( new Column<TList>( prefix + "(value)", special, null, z => convertor( z ), null ) );
+            ownerVisibility = ownerVisibility & ~EColumn.Decompose;
+
+            yield return new Column<TList>( prefix + "(value)", ownerVisibility, null, z => convertor( z ), null );
 
             foreach (Column column in ColumnManager.GetColumns( targetType, core ))
             {
-                self.Add( new Column<TList>(
+                yield return new Column<TList>(
                             prefix + column.Id,
-                            column.Special,
+                            InheritVisibility(ownerVisibility, column.Special),
                             column.Comment,
                             z =>
                             {
@@ -401,32 +427,28 @@ namespace MetaboliteLevels.Controls.Lists
                                 var x = convertor( z );
                                 return x != null ? column.GetColour( x ) : Color.Black;
                             }
-                    ) );
+                    );
             }
         }
 
-        public static void AddSubObject<TList, TTarget>(this List<Column<TList>> self, EColumn special, Core core, string prefix, Converter<TList, object> convertor)
+        public static IEnumerable<Column<TList>> AddSubObject<TList, TTarget>(EColumn ownerVisibility, Core core, string prefix, Converter<TList, object> convertor)
         {
-            Add( self, prefix + "(value)", special, new Column<TList>.ColumnProvider( convertor ) );
+            return AddSubObject<TList>( ownerVisibility, core, prefix, new Column<TList>.ColumnProvider( convertor ), typeof(TTarget) );
+        }
 
-            foreach (Column column in ColumnManager.GetColumns<TTarget>( core ))
+        private static EColumn InheritVisibility( EColumn parent, EColumn child )
+        {
+            if (!parent.Has( EColumn.Visible ))
             {
-                self.Add( new Column<TList>(
-                              prefix + "\\" + column.Id,
-                              column.Special,
-                              column.Comment,
-                              z =>
-                              {
-                                  var x = convertor( z );
-                                  return x != null ? column.GetRow( x ) : null;
-                              },
-                              z =>
-                              {
-                                  var x = convertor( z );
-                                  return x != null ? column.GetColour( x ) : Color.Black;
-                              }
-                              ) );
+                child &= ~EColumn.Visible;
             }
+
+            if (parent.Has( EColumn.Advanced ))
+            {
+                child |= EColumn.Advanced;
+            }
+
+            return child;
         }
     }
 }

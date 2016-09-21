@@ -104,7 +104,7 @@ namespace MetaboliteLevels.Data.Session.General
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>     
-        public override void FindAssociations(ContentsRequest list)
+        protected override void OnFindAssociations(ContentsRequest list)
         {
             switch (list.Type)
             {

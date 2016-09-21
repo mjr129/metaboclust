@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 {
     [Serializable]
-    class ResultBase
+    abstract class ResultBase
     {
+        public abstract override string ToString();
     }
 }

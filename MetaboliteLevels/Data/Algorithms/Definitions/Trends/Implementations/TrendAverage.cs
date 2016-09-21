@@ -23,7 +23,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends.Implementations
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {                                          
-            return new AlgoParameterCollection(new AlgoParameter("w", EAlgoParameterType.Integer));
+            return new AlgoParameterCollection(new AlgoParameter("w", AlgoParameterTypes.Integer));
         }
 
         protected override double SmoothPoint(IEnumerable<int> x, double[] y, int xTarget, object arg)

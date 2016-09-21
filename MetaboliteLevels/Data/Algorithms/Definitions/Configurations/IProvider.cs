@@ -16,14 +16,5 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
     {
         [CanBeNull]
         IntensityMatrix Provide { get; }
-    }         
-
-    /// <summary>
-    /// Classes that are replacable.
-    /// The GUID identifies the particular instance.
-    /// </summary>
-    internal interface ITransient
-    {
-        Guid Guid { get; }
-    }
+    }     
 }

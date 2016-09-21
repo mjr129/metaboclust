@@ -62,11 +62,11 @@ namespace MetaboliteLevels.Forms.Editing
             this._flpPreviewButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this._lnkError = new System.Windows.Forms.LinkLabel();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
-            this._checker = new MGui.Controls.CtlError(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this._lstSource = new System.Windows.Forms.ComboBox();
             this._btnSource = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
+            this._checker = new MGui.Controls.CtlError(this.components);
             this.contextMenuStrip1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -328,10 +328,10 @@ namespace MetaboliteLevels.Forms.Editing
             // 
             this._txtParams.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtParams.ForeColor = System.Drawing.Color.Blue;
-            this._txtParams.Location = new System.Drawing.Point(1025, 143);
+            this._txtParams.Location = new System.Drawing.Point(150, 143);
             this._txtParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtParams.Name = "_txtParams";
-            this._txtParams.Size = new System.Drawing.Size(1, 29);
+            this._txtParams.Size = new System.Drawing.Size(859, 29);
             this._txtParams.TabIndex = 6;
             this._txtParams.Watermark = null;
             this._txtParams.TextChanged += new System.EventHandler(this.CheckAndChange);
@@ -425,24 +425,6 @@ namespace MetaboliteLevels.Forms.Editing
             this._lnkError.Visible = false;
             this._lnkError.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._lnkError_LinkClicked);
             // 
-            // ctlTitleBar1
-            // 
-            this.ctlTitleBar1.AutoSize = true;
-            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = "Select the method and parameters for your smoothing algorithm.\r\n\r\nOnce configured" +
-    " you can preview the effects of your algorithm on individual peaks before commit" +
-    "ting it.";
-            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
-            this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(9, 13, 9, 13);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(864, 0);
-            this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(1062, 87);
-            this.ctlTitleBar1.SubText = "Select the options for your smoothing algorithm";
-            this.ctlTitleBar1.TabIndex = 13;
-            this.ctlTitleBar1.Text = "Select Smoothing Algorithm";
-            this.ctlTitleBar1.WarningText = null;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -455,6 +437,7 @@ namespace MetaboliteLevels.Forms.Editing
             // 
             // _lstSource
             // 
+            this.tableLayoutPanel1.SetColumnSpan(this._lstSource, 2);
             this._lstSource.Dock = System.Windows.Forms.DockStyle.Top;
             this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lstSource.ForeColor = System.Drawing.Color.Blue;
@@ -476,6 +459,24 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnSource.TabIndex = 16;
             this._btnSource.UseDefaultSize = true;
             this._btnSource.UseVisualStyleBackColor = true;
+            // 
+            // ctlTitleBar1
+            // 
+            this.ctlTitleBar1.AutoSize = true;
+            this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlTitleBar1.HelpText = "Select the method and parameters for your smoothing algorithm.\r\n\r\nOnce configured" +
+    " you can preview the effects of your algorithm on individual peaks before commit" +
+    "ting it.";
+            this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
+            this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(9, 13, 9, 13);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(864, 0);
+            this.ctlTitleBar1.Name = "ctlTitleBar1";
+            this.ctlTitleBar1.Size = new System.Drawing.Size(1062, 87);
+            this.ctlTitleBar1.SubText = "Select the options for your smoothing algorithm";
+            this.ctlTitleBar1.TabIndex = 13;
+            this.ctlTitleBar1.Text = "Select Smoothing Algorithm";
+            this.ctlTitleBar1.WarningText = null;
             // 
             // FrmEditConfigurationTrend
             // 

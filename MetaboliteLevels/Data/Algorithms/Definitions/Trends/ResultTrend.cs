@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Session.Associational;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
 {
@@ -16,6 +17,11 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
         public ResultTrend( IntensityMatrix result )
         {
             this.Matrix = result;
+        }
+
+        public override string ToString()
+        {
+            return Matrix.ToString();
         }
     }
 }

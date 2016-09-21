@@ -66,7 +66,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection(new AlgoParameter("Existing clusters (input vector size must match)", EAlgoParameterType.WeakRefConfigurationClusterer));
+            return new AlgoParameterCollection(new AlgoParameter("Existing clusters (input vector size must match)", AlgoParameterTypes.WeakRefConfigurationClusterer));
         }
 
         public override bool RequiresDistanceMatrix { get { return false; } }

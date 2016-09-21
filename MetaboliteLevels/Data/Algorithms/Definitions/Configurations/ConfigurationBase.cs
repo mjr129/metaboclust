@@ -6,49 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 {
-    /// <summary>
-    /// Used to track data used by a configuration.
-    /// When inputs change this class detects that an update is required.
-    /// </summary>
-    [Serializable]
-    internal class SourceTracker
-    {
-        /// <summary>
-        /// Tracks <see cref="ArgsBase.SourceMatrix"/>
-        /// </summary>
-        private Guid _argsBase_SourceMatrix;
-
-        /// <summary>
-        /// CONSTRUCTOR
-        /// Remembers the data specified by <paramref name="source"/>.
-        /// </summary>    
-        public SourceTracker( ArgsBase source )
-        {
-            _argsBase_SourceMatrix = source.SourceMatrix.Guid;
-        }
-
-        /// <summary>
-        /// Checks for update.
-        /// </summary>
-        /// <param name="source">Should be the same object this was constructed with</param>
-        /// <returns>true if an update is required, otherwise false.</returns>
-        public bool NeedsUpdate( ArgsBase source )
-        {
-            if (_argsBase_SourceMatrix != source.SourceMatrix.Guid)
-            {
-                return true;
-            }
-
-            return false;
-        }
-    }
-
     /// <summary>
     /// Represents a configurared algorithm, containing the parameters and results.
     /// 
@@ -131,6 +96,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
         /// <summary>
         /// Implements IVisualisable
         /// </summary>
+        [XColumn( "Description", EColumn.Visible)]
         public sealed override string DefaultDisplayName => Args.DefaultDisplayName;
 
         /// <summary>
@@ -308,7 +274,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
         /// </summary>
         public sealed override bool NeedsUpdate
         {
-            get { return Args != null && !Args.Hidden && (_tracker == null || _tracker.NeedsUpdate( Args )); }
+            get { return Args != null && !Args.Hidden && (_tracker == null || _tracker.NeedsUpdate(GetTracker())); }
         }
 
         /// <summary>

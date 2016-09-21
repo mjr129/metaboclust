@@ -68,7 +68,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         /// </summary>
         protected override AlgoParameterCollection CreateParamaterDesription()
         {                                                                                        
-            return new AlgoParameterCollection(new AlgoParameter("k", EAlgoParameterType.Integer));
+            return new AlgoParameterCollection(new AlgoParameter("k", AlgoParameterTypes.Integer));
         }          
     }
 }

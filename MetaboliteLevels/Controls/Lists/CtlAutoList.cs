@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Controls.Charts;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Forms.Editing;
@@ -1079,7 +1080,7 @@ namespace MetaboliteLevels.Controls.Lists
             }
             else
             {                
-                lvi.ImageIndex = (int)(vis?.Icon ?? UiControls.ImageListOrder.Point);
+                lvi.ImageIndex = (int)((tag as IIconProvider)?.Icon ?? UiControls.ImageListOrder.Unknown);
             }
 
             // Update columns

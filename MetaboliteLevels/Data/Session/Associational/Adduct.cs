@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
 using MSerialisers;
@@ -102,12 +103,12 @@ namespace MetaboliteLevels.Data.Session.Associational
         public override EVisualClass AssociationalClass
         {
             get { return EVisualClass.Adduct; }
-        }        
+        }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override void FindAssociations(ContentsRequest request)
+        protected override void OnFindAssociations(ContentsRequest request)
         {
             switch (request.Type)
             {
