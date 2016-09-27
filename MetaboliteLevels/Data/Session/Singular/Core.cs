@@ -343,19 +343,20 @@ namespace MetaboliteLevels.Data.Session.Singular
             bool result = false;
 
             // Report                        
-            info.Enter( "Applying " + title + "..." );                           
-
-            foreach (T item in current)
+            using (info.Section( title ))
             {
-                if (item.NeedsUpdate)
+                foreach (T item in current)
                 {
-                    result = true;
-                    item.Run( this, info );
+                    if (item.NeedsUpdate)
+                    {
+                        using (info.Section( item.DisplayName ))
+                        {
+                            result = true;
+                            item.Run( this, info );
+                        }
+                    }
                 }
             }
-
-            // Set result 
-            info.Leave();
 
             return result;
         }
@@ -367,10 +368,10 @@ namespace MetaboliteLevels.Data.Session.Singular
             do
             {
                 anyUpdated = false;
-                anyUpdated |= GenericUpdate( "corrections", _corrections, prog );
-                anyUpdated |= GenericUpdate( "trends", _trends, prog );
-                anyUpdated |= GenericUpdate( "statistics", _statistics, prog );
-                anyUpdated |= GenericUpdate( "clusters", _clusterers, prog );
+                anyUpdated |= GenericUpdate( "Updating corrections", _corrections, prog );
+                anyUpdated |= GenericUpdate( "Updating trends", _trends, prog );
+                anyUpdated |= GenericUpdate( "Updating statistics", _statistics, prog );
+                anyUpdated |= GenericUpdate( "Updating clusters", _clusterers, prog );
             } while (anyUpdated);
         }
 

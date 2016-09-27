@@ -163,7 +163,8 @@ namespace MetaboliteLevels.Forms.Activities
             _btnSubAnnot.Tag = EVisualClass.Annotation;
             _btnSubAss.Tag = EVisualClass.Assignment;
             _btnSubComp.Tag = EVisualClass.Compound;
-            _btnSubInfo.Tag = EVisualClass.Info;
+            _btnSubInfo.Tag = EVisualClass.SpecialMeta;
+            _btnSubStat.Tag = EVisualClass.SpecialStatistic;
             _btnSubPat.Tag = EVisualClass.Cluster;
             _btnSubPeak.Tag = EVisualClass.Peak;
             _btnSubPath.Tag = EVisualClass.Pathway;
@@ -216,14 +217,14 @@ namespace MetaboliteLevels.Forms.Activities
         /// </summary>
         Image IPreviewProvider.ProvidePreview(Size s, object @object)
         {
-            Association wrapped = @object as Association;
+            IAssociation wrapped = @object as IAssociation;
             Associational primaryTarget;
             Associational secondaryTarget;
 
             if (wrapped != null)
             {
-                secondaryTarget = wrapped.OriginalRequest.Owner;
-                primaryTarget = wrapped.Associated as Associational; // Meta fields provide stuff like strings, let's assume we only plot Associational associations
+                secondaryTarget = wrapped.OriginalRequest.Owner as Associational;
+                primaryTarget = wrapped.Associated as Associational; // Meta fields provide stuff like strings, let's assume we only draw Associational associations!
             }
             else
             {
@@ -330,7 +331,7 @@ namespace MetaboliteLevels.Forms.Activities
             // Update stuff
             _coreWatchers.ForEach(z => z.ChangeCore(_core));
             _primaryListView = new DataSet.Provider( DataSet.ForPeaks );
-            _secondaryListView = EVisualClass.Info;
+            _secondaryListView = EVisualClass.SpecialMeta;
 
             // Clear selection
             CommitSelection(new VisualisableSelection(null));
@@ -413,7 +414,7 @@ namespace MetaboliteLevels.Forms.Activities
                 UpdateSecondaryList();
 
                 // Icons
-                if (selection.Primary != null)
+                if (selection?.Primary != null)
                 {
                     _btnSelection.Text = selection.Primary.ToString();
                     _btnSelection.Image = UiControls.GetImage( selection.Primary, true );
@@ -424,7 +425,7 @@ namespace MetaboliteLevels.Forms.Activities
                     _btnSelection.Visible = false;
                 }
 
-                if (selection.Secondary != null)
+                if (selection?.Secondary != null)
                 {
                     _btnSelectionExterior.Text = selection.Secondary.ToString();
                     _btnSelectionExterior.Image = UiControls.GetImage( selection.Secondary, true );
@@ -438,7 +439,7 @@ namespace MetaboliteLevels.Forms.Activities
                 }
 
                 // Null selection?
-                if (selection.Primary == null)
+                if (selection?.Primary == null)
                 {
                     PlotPeak( null );
                     PlotCluster( null );
@@ -552,17 +553,17 @@ namespace MetaboliteLevels.Forms.Activities
         {
             HighlightByTag( _tsBarSelection, _secondaryListView, _secondaryListView.ToUiString(), _btnSubOther );
 
-            var selection = _selection?.Primary as Associational;
-                 
+            object selection = _selection?.Primary;
+
             if (selection == null)
             {
-                _captSecondary.SetText( "No data - no associational selection");
-                _secondaryList.Clear();   
+                _captSecondary.SetText( "No selection.");
+                _secondaryList.Clear();
                 return;
             }
 
-            ContentsRequest request = selection.FindAssociations( _core, _secondaryListView );      
-            _secondaryList.DivertList<Association>( request.Results );     
+            ContentsRequest request = Associational.FindAssociations( selection, _core, _secondaryListView );      
+            _secondaryList.DivertList( request.Results, typeof(Association<>).MakeGenericType(request.TypeAsType));     
 
             if (request != null && request.Text != null)
             {
@@ -1761,7 +1762,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void peakidentificationsToolStripMenuItem_Click( object sender, EventArgs e )
         {
-            EAnnotation annotation = DataSet.ForDiscreteEnum<EAnnotation>( "Default annotation status", (EAnnotation)( - 1) ).ShowRadio( this, EAnnotation.Confirmed );
+            EAnnotation annotation = DataSet.ForDiscreteEnum<EAnnotation>( _core, "Default annotation status", (EAnnotation)( - 1) ).ShowRadio( this, EAnnotation.Confirmed );
 
             if (annotation == (EAnnotation) (- 1))
             {
@@ -1886,7 +1887,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void _btnSubOther_Click( object sender, EventArgs e )
         {
-            EVisualClass dataSet = DataSet.ForDiscreteEnum<EVisualClass>( "Associations", (EVisualClass)(-1) ).ShowButtons( this, (EVisualClass)(-1) );
+            EVisualClass dataSet = DataSet.ForDiscreteEnum<EVisualClass>( _core, "Associations", (EVisualClass)(-1) ).ShowRadio( this, (EVisualClass)(-1) );
 
             if (dataSet == (EVisualClass)(-1))
             {

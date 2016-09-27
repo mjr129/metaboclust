@@ -295,7 +295,7 @@ namespace MetaboliteLevels.Utilities
                 // Update!
 
                 // Get text
-                string text = StringHelper.ArrayToString(_texts.Reverse(), " → ");
+                string text = StringHelper.ArrayToString(_texts.Reverse(), " – " );
 
                 // Get continue text
                 string ctext;

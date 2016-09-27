@@ -54,5 +54,22 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 
             SetResults( new ResultStatistic( results, min, max ) );
         }
+
+        public double Get( Peak peak )
+        {
+            if (Results == null)
+            {
+                return double.NaN;
+            }
+
+            double result;
+
+            if (!Results.Results.TryGetValue( peak, out result ))
+            {
+                return double.NaN;
+            }
+
+            return result;
+        }
     }
 }

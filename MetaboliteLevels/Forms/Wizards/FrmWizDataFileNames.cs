@@ -150,8 +150,9 @@ namespace MetaboliteLevels.Forms.Wizards
             _cbExp = CreateExpConditionBox( _txtExps, _btnBrowseExpCond );
 
             // Setup annotations
-            _cbAutomaticFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox(_automaticFlag, null, ENullItemName.NoNullItem);
-            _cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox( _manualFlag, null, ENullItemName.NoNullItem );               
+            // -- Passing a null core is okay here provided we don't try to show any columns
+            _cbAutomaticFlag = DataSet.ForDiscreteEnum<EAnnotation>( null, "Annotation", (EAnnotation) (- 1) ).CreateComboBox(_automaticFlag, null, ENullItemName.NoNullItem);
+            _cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( null, "Annotation", (EAnnotation) (- 1) ).CreateComboBox( _manualFlag, null, ENullItemName.NoNullItem );               
 
             // Setup help
             splitContainer1.Panel2Collapsed = true;

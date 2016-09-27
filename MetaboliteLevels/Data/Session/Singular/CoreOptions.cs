@@ -304,7 +304,7 @@ namespace MetaboliteLevels.Data.Session.Singular
             CompoundDisplay = new PlotSetup();
             PathwayDisplay = new PlotSetup();
 
-            PeakDisplay.Information = new ParseElementCollection( "m/z = {m/z}, rt = {meta\\rt}" );
+            PeakDisplay.Information = new ParseElementCollection( "m/z = {m/z}, rt = {tʀ}" );
         }
 
         [OnDeserializing]

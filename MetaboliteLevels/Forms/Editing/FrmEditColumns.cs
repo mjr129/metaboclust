@@ -88,6 +88,11 @@ namespace MetaboliteLevels.Forms.Editing
                 node.Checked = isSelected;
                 node.ForeColor = ColumnManager.GetColumnColour( col );
 
+                if (_chkShowAdvanced.Checked)
+                {
+                    node.Text += " = " + col.FunctionDescription;
+                }
+
                 parent.Add( node );
             }
 

@@ -966,7 +966,7 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstPrimary.View = System.Windows.Forms.View.Details;
             this._lstPrimary.KeyDown += new System.Windows.Forms.KeyEventHandler(this._lstVariables_KeyDown);
             // 
-            // _tsBarBrowser
+            // _tsDatasetsPrimary
             // 
             this._tsDatasetsPrimary.BackColor = System.Drawing.SystemColors.Control;
             this._tsDatasetsPrimary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -982,7 +982,7 @@ namespace MetaboliteLevels.Forms.Activities
             this._btnPrimOther});
             this._tsDatasetsPrimary.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this._tsDatasetsPrimary.Location = new System.Drawing.Point(0, 0);
-            this._tsDatasetsPrimary.Name = "_tsBarBrowser";
+            this._tsDatasetsPrimary.Name = "_tsDatasetsPrimary";
             this._tsDatasetsPrimary.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this._tsDatasetsPrimary.Size = new System.Drawing.Size(457, 44);
             this._tsDatasetsPrimary.TabIndex = 19;
@@ -1181,7 +1181,7 @@ namespace MetaboliteLevels.Forms.Activities
             this._btnSubInfo.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubInfo.Name = "_btnSubInfo";
             this._btnSubInfo.Size = new System.Drawing.Size(44, 44);
-            this._btnSubInfo.Text = "Info";
+            this._btnSubInfo.Text = "Meta";
             this._btnSubInfo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this._btnSubInfo.ToolTipText = "Information";
             this._btnSubInfo.Click += new System.EventHandler(this._btnSubPeak_Click);

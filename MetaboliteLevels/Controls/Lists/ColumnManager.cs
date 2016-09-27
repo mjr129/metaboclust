@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -33,7 +34,8 @@ namespace MetaboliteLevels.Controls.Lists
 
         public static object QueryProperty( Core core, object target, string propertyId )
         {
-            var col = GetColumns(core, target).FirstOrDefault( z => z.DefaultDisplayName == propertyId );
+            string propertyIdU = propertyId.ToUpper();
+            var col = GetColumns(core, target).FirstOrDefault( z => z.Id.ToUpper() == propertyIdU );
 
             if (col == null)
             {
@@ -51,8 +53,10 @@ namespace MetaboliteLevels.Controls.Lists
 
             bool anyVisible = results.Any( z => z.Special.Has( EColumn.Visible ) );
 
-            results.Add( new Column<object>( "Value", anyVisible ? EColumn.Advanced : EColumn.Visible, null, z => z.ToStringSafe(), null ) );
-            results.Add( new Column<object>( "DataType", EColumn.Advanced, null, z => z.GetType().ToUiString(), null ) );
+            results.Add( new Column<object>( "Data", anyVisible ? EColumn.Advanced : EColumn.Visible, null, z => z.ToStringSafe(), null ) );
+            results.Add( new Column<object>( "Type", EColumn.Advanced, null, z => z.GetType().ToUiString(), null ) );
+
+            Debug.Assert( results.Any( z => results.Count( y => y.Id == z.Id ) != 1 ), "Duplicate column IDs." );
 
             return results;
         }
@@ -143,7 +147,10 @@ namespace MetaboliteLevels.Controls.Lists
                     {
                         if (attr.Special.Has( EColumn.Decompose ))
                         {
-                            results.AddRange( ColumnExtensions.AddSubObject<object>( attr.Special, core, attr.Name, provider, provType ) );
+                            var xx = attr.Special;
+                            xx = xx & ~EColumn.Decompose;
+
+                            results.AddRange( ColumnManager.AddSubObject<object>( xx, xx, core, attr.Name, provider, provType ) );
                         }
                         else
                         {
@@ -182,6 +189,60 @@ namespace MetaboliteLevels.Controls.Lists
             }
 
             return Color.Black;
+        }
+
+        public static void Add<T>( this List<Column<T>> self, string name, EColumn special, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null )
+        {
+            self.Add( new Column<T>( name, special, null, provider, colour ) );
+        }
+
+        public static void Add<T>( this List<Column<T>> self, string name, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null )
+        {
+            self.Add( new Column<T>( name, EColumn.None, null, provider, colour ) );
+        }
+
+        public static IEnumerable<Column<T>> AddSubObject<T>( EColumn valueVisibility, EColumn descendentVisibility, Core core, string prefix, Column<T>.ColumnProvider convertor, Type targetType )
+        {   
+            yield return new Column<T>( prefix + "(value)", valueVisibility, null, z => convertor( z ), null );
+
+            foreach (Column column in ColumnManager.GetColumns( targetType, core ))
+            {
+                yield return new Column<T>(
+                            prefix + column.Id,
+                            InheritVisibility( descendentVisibility, column.Special ),
+                            column.Comment,
+                            z =>
+                            {
+                                var x = convertor( z );
+                                return x != null ? column.GetRow( x ) : null;
+                            },
+                            z =>
+                            {
+                                var x = convertor( z );
+                                return x != null ? column.GetColour( x ) : Color.Black;
+                            }
+                    );
+            }
+        }
+
+        public static IEnumerable<Column<TList>> AddSubObject<TList, TTarget>( EColumn valueVisibility, EColumn descendentVisibility, Core core, string prefix, Converter<TList, object> convertor )
+        {
+            return AddSubObject<TList>( valueVisibility, descendentVisibility, core, prefix, new Column<TList>.ColumnProvider( convertor ), typeof( TTarget ) );
+        }
+
+        private static EColumn InheritVisibility( EColumn parent, EColumn child )
+        {
+            if (!parent.Has( EColumn.Visible ))
+            {
+                child &= ~EColumn.Visible;
+            }
+
+            if (parent.Has( EColumn.Advanced ))
+            {
+                child |= EColumn.Advanced;
+            }
+
+            return child;
         }
     }
 }

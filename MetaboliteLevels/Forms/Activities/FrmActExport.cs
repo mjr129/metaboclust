@@ -201,7 +201,7 @@ namespace MetaboliteLevels.Forms.Activities
             var invalid = (EDataSet)(-1);
             var existing = (input.DefaultValue != null) ? input.DefaultValue.DataSet : invalid;
             var existingFn = (input.DefaultValue != null) ? input.DefaultValue.FileName : null;
-            EDataSet value = DataSet.ForDiscreteEnum<EDataSet>( "Datasets", EDataSet.Acquisitions ).ShowList( input.Owner, existing );
+            EDataSet value = DataSet.ForDiscreteEnum<EDataSet>( _core, "Datasets", EDataSet.Acquisitions ).ShowList( input.Owner, existing );
 
             if (value == invalid)
             {

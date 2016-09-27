@@ -75,7 +75,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
                     continue;
                 }
 
-                Assert( oldArray.Length != newArray.Length, "oldArray.Length" );
+                Assert( oldArray.Length == newArray.Length, "oldArray.Length" );
 
                 for (int iArray = 0; iArray < oldArray.Length; ++iArray)
                 {
@@ -123,7 +123,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
                 return false;
             }
 
-            return object.ReferenceEquals( oldT, newT );
+            return !object.ReferenceEquals( oldT, newT );
         }
     }
 }

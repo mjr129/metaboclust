@@ -340,7 +340,6 @@
       <DependentUpon>Manual.resx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\ConstAttribute.cs" />
-    <Compile Include="Utilities\Counter.cs" />
     <Compile Include="Data\Algorithms\Definitions\Configurations\ConfigurationBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ArgsClusterer.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ClustererBase.cs" />

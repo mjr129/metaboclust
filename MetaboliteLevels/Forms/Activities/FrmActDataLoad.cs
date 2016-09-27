@@ -1322,6 +1322,8 @@ namespace MetaboliteLevels.Forms.Activities
                 allPearson.Add(CreateAbsMaxStatistic(src, allPearson, "r.max"));
             }
 
+            core.SetCorrections( corrections, prog, false );
+
             // Set filters
             core.SetObsFilters(allFilters);
 
