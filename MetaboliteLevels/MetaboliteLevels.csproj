@@ -529,7 +529,7 @@
     <Compile Include="Types\General\ECandidateMode.cs" />
     <Compile Include="Types\General\ECentreMode.cs" />
     <Compile Include="Types\General\EDistanceMode.cs" />
-    <Compile Include="Types\General\EStatisticalMethods.cs" />
+    <Compile Include="Types\General\EAutoCreateOptions.cs" />
     <Compile Include="Data\Session\General\Filter.cs" />
     <Compile Include="Data\Session\Singular\MainSettings.cs" />
     <Compile Include="Data\Session\General\PeakFlag.cs" />
@@ -1123,6 +1123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\IconInputError.png" />
     <None Include="Resources\IconUnknown.png" />
     <None Include="Resources\MnuHelpBar.png" />
     <None Include="Resources\IconMatrix.png" />

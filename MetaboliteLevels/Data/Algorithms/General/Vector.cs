@@ -45,14 +45,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
         public override string ToString()
         {
-            if (Group == null)
-            {
-                return Peak.DisplayName;
-            }
-            else
-            {
-                return Peak.DisplayName + "∩" + Group.DisplayName;
-            }
+            return Header.ToString();
         }
 
         /// <summary>

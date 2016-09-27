@@ -8,6 +8,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
@@ -107,7 +108,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         public bool CheckIsAvailable()
         {
             return GetAlgorithmOrNull() != null;
-        }
+        }                                              
     }
 
     [Serializable]
@@ -137,5 +138,5 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         /// Strong typed version of base class.
         /// </summary>
         TAlgo GetAlgorithmOrNull();
-    }
+    }             
 }

@@ -10,7 +10,9 @@ using System.Windows.Forms;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Corrections;
 using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
@@ -161,7 +163,7 @@ namespace MetaboliteLevels.Forms.Activities
             _result = new Core(_fileNames, data, compounds, pathways, compoundHeader, pathwayHeader, adducts, adductsHeader, annotationsHeader);
 
             // STATISTICS
-            Load_6_CalculateDefaultStatistics( data.IntensityMatrix, _result, _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.TTest), _fileNames.StandardStatisticalMethods.HasFlag(EStatisticalMethods.Pearson), _prog);
+            Load_6_CalculateDefaultStatistics( data.IntensityMatrix, _result, _fileNames._standardAutoCreateOptions, _prog);
         }
 
         /// <summary>
@@ -1208,7 +1210,7 @@ namespace MetaboliteLevels.Forms.Activities
             return result;                                                        
         }
 
-        private static void Load_6_CalculateDefaultStatistics( IMatrixProvider src, Core core, bool calcT, bool calcP, ProgressReporter prog)
+        private static void Load_6_CalculateDefaultStatistics( IMatrixProvider src, Core core, EAutoCreateOptions opts, ProgressReporter prog)
         {
             // Create filters
             List<ObsFilter> allFilters = new List<ObsFilter>();
@@ -1245,39 +1247,47 @@ namespace MetaboliteLevels.Forms.Activities
                     break;
             }
 
-            // Conditions of interest filter
-            ObsFilter filterConditionsOfInterest;
-
-            switch (core.ConditionsOfInterest.Count)
-            {
-                case 0:
-                    filterConditionsOfInterest = null;
-                    break;
-
-                case 1:
-                    filterConditionsOfInterest = singleGroupFilters[core.ConditionsOfInterest[0]];
-                    break;
-
-                default:
-                    {
-                        var condition = new ObsFilter.ConditionGroup(Filter.ELogicOperator.And, false, Filter.EElementOperator.Is, core.ConditionsOfInterest);
-                        filterConditionsOfInterest = new ObsFilter(null, null, new[] { condition });
-                        allFilters.Add(filterConditionsOfInterest);
-                    }
-                    break;
+            // Conditions of interest filter  
+            if (core.ConditionsOfInterest.Count>1)
+            {                                    
+                var condition = new ObsFilter.ConditionGroup(Filter.ELogicOperator.And, false, Filter.EElementOperator.Is, core.ConditionsOfInterest);
+                ObsFilter filterConditionsOfInterest = new ObsFilter(null, null, new[] { condition });
+                allFilters.Add(filterConditionsOfInterest);
             }
 
             // Decide which tests
-            if (core.ConditionsOfInterest.Count == 0)
+            bool calcT = opts.Has( EAutoCreateOptions.TTest ) && core.ConditionsOfInterest.Count!=0 && core.ControlConditions.Count!=0;
+            bool calcP = opts.Has( EAutoCreateOptions.Pearson ) && core.ConditionsOfInterest.Count != 0;
+            bool calcMed = opts.Has( EAutoCreateOptions.MedianTrend );
+            bool calcMean = opts.Has( EAutoCreateOptions.MeanTrend );
+            bool calcUVSc = opts.Has( EAutoCreateOptions.UvScaleAndCentre );
+
+            List<ConfigurationTrend> trends = new List<ConfigurationTrend>();
+
+            List<ConfigurationCorrection> corrections = new List<ConfigurationCorrection>();
+
+            // UV Scale and Centre
+            if (calcUVSc)
             {
-                calcT = false;
+                ArgsCorrection args = new ArgsCorrection( Algo.ID_CORRECTION_UV_SCALE_AND_CENTRE, src, new object[0], ECorrectionMode.None,
+                                                          ECorrectionMethod.None, null, null );
+                corrections.Add( new ConfigurationCorrection() { Args = args } );
             }
 
-            if (core.ConditionsOfInterest.Count == 0)
-            {
-                calcT = false;
-                calcP = false;
+            src = core.FindMatrixAlias( EProviderAlias.LastCorrection );
+
+            // MEDIAN
+            if (calcMed)
+            {   
+                ArgsTrend args = new ArgsTrend( Algo.ID_TREND_MOVING_MEDIAN, src, new object[] { 1 } );
+                trends.Add( new ConfigurationTrend() { Args = args } );
             }
+
+            if (calcMean)
+            {
+                ArgsTrend args = new ArgsTrend( Algo.ID_TREND_MOVING_MEAN, src, new object[] { 1 } );
+                trends.Add( new ConfigurationTrend() { Args = args } );
+            }  
 
             // Create default tests
             List<ConfigurationStatistic> allTTests = new List<ConfigurationStatistic>();

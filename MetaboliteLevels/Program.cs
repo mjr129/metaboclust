@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using MetaboliteLevels.Forms;
 using System.Threading;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
+using MGui.Controls;
 
 namespace MetaboliteLevels
 {
@@ -40,6 +43,7 @@ namespace MetaboliteLevels
 
             UiControls.Initialise(new System.Drawing.Font("Segoe UI", 12));
             MainSettings.Initialise();
+            CtlError.DefaultIcon = Icon.FromHandle( Resources.IconInputError.GetHicon() );
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FrmMain());

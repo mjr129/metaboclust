@@ -106,9 +106,7 @@ namespace MetaboliteLevels.Forms.Editing
             if (readOnly)
             {
                 UiControls.MakeReadOnly( this, _tlpPreview );
-            }
-
-            // UiControls.CompensateForVisualStyles(this);
+            }                                             
         }     
 
         private ArgsCorrection GetSelection()
@@ -280,45 +278,43 @@ namespace MetaboliteLevels.Forms.Editing
         /// <summary>
         /// Generates the preview image.
         /// </summary>
+        /// <param name="sel">Correction to generate the preview for</param>
         private void GeneratePreview( ArgsCorrection sel )
         {
+            // No error unless otherwise
             _lnkError.Visible = false;
 
+            // No selection, no preview
             if (sel == null)
             {
+                SetPreviewError( "Nothing to preview", null );   
                 return;
             }
 
+            // No peak, no preview
             if (_selectedPeak == null)
             {
-                _lblPreviewTitle.Text = "Preview (please select peak)";
-                _chartOrig.ClearPlot();
-                _chartChanged.ClearPlot();
+                SetPreviewError( "No peak selected", null );          
                 return;
             }
 
+            // Title
             _lblPreviewTitle.Text = "Preview (" + _selectedPeak.DisplayName + ")";
 
+            // Get source matrix
             IntensityMatrix source = sel.SourceMatrix;
 
             if (source == null)
-            {
-                _chartOrig.Plot( null );
-                _chartChanged.Plot( null );
-                _lnkError.Text = StrRes.NoPreview;
-                _lnkError.Tag = StrRes.MissingSourceDetails( sel );
-                _lnkError.Visible = true;
+            {                                      
+                SetPreviewError( StrRes.NoPreview, StrRes.MissingSourceDetails( sel ) );
                 return;
-            }
+            }                
 
-            var orig = new StylisedPeak( _selectedPeak );
-            var changed = new StylisedPeak( _selectedPeak );
-
+            // Get vectors
             Vector original = source.Find( _selectedPeak );
             Vector trend;
             Vector corrected;
-
-
+            
             ConfigurationCorrection temp = new ConfigurationCorrection() { Args = sel };
 
             try
@@ -338,6 +334,7 @@ namespace MetaboliteLevels.Forms.Editing
                 return;
             }
 
+            // Special flag for batch ordering
             bool isBatchMode;
 
             if (sel.IsUsingTrend)
@@ -349,28 +346,50 @@ namespace MetaboliteLevels.Forms.Editing
                 isBatchMode = false;
             }
 
-            orig.OverrideDefaultOptions = new StylisedPeakOptions( _core )
+            // Create displays
+            StylisedPeak oldDisplay = new StylisedPeak( _selectedPeak )
             {
-                ShowAcqisition = isBatchMode,
-                ViewBatches = _vBatches,
-                ViewGroups = _vTypes,
-                ConditionsSideBySide = true,
-                ShowPoints = true,
-                ShowTrend = sel.IsUsingTrend,
-                ShowRanges = false,
+                OverrideDefaultOptions = new StylisedPeakOptions( _core )
+                {
+                    ShowAcqisition = isBatchMode,
+                    ViewBatches = _vBatches,
+                    ViewGroups = _vTypes,
+                    ConditionsSideBySide = true,
+                    ShowPoints = true,
+                    ShowTrend = sel.IsUsingTrend,
+                    ShowRanges = false,
+                },
+
+                ForceTrend = trend
             };
 
-            changed.OverrideDefaultOptions = new StylisedPeakOptions( orig.OverrideDefaultOptions )
+            StylisedPeak newDisplay = new StylisedPeak( _selectedPeak )
             {
-                ShowTrend = false
-            };
+                OverrideDefaultOptions = new StylisedPeakOptions( oldDisplay.OverrideDefaultOptions )
+                {
+                    ShowTrend = false
+                },
 
-            orig.ForceTrend = trend;
+                ForceObservations = corrected
+            };                               
 
-            changed.ForceObservations = corrected;
+            // Draw it!
+            _chartOrig.Plot( oldDisplay );
+            _chartChanged.Plot( newDisplay );
+        }
 
-            _chartOrig.Plot( orig );
-            _chartChanged.Plot( changed );
+        /// <summary>
+        /// Sets the preview error text and clears the preview window.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="details"></param>
+        private void SetPreviewError( string message, string details )
+        {
+            _lnkError.Text = message;
+            _lnkError.Tag = details;
+            _lnkError.Visible = true;
+            _chartOrig.ClearPlot();
+            _chartChanged.ClearPlot();
         }
 
         private void GenerateTypeButtons()

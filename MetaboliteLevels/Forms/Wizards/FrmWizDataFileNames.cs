@@ -95,8 +95,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private readonly ToolStripSeparator _mnuBrowseWorkspaceSep;
         private readonly FileLoadInfo _fileLoadInfo;
         private EditableComboBox<EAnnotation> _cbAutomaticFlag;
-        private EditableComboBox<EAnnotation> _cbManualFlag;
-        private readonly EditableComboBox<EDefaultTrendGenerator> _cbTrend;
+        private EditableComboBox<EAnnotation> _cbManualFlag;                
 
         /// <summary>
         /// Constructor.
@@ -152,8 +151,7 @@ namespace MetaboliteLevels.Forms.Wizards
 
             // Setup annotations
             _cbAutomaticFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox(_automaticFlag, null, ENullItemName.NoNullItem);
-            _cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox( _manualFlag, null, ENullItemName.NoNullItem );
-            _cbTrend = DataSet.ForDiscreteEnum<EDefaultTrendGenerator>( "Trend", (EDefaultTrendGenerator)(-1) ).CreateComboBox( _lstDefaultTrend, null, ENullItemName.NoNullItem );
+            _cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( "Annotation", (EAnnotation) (- 1) ).CreateComboBox( _manualFlag, null, ENullItemName.NoNullItem );               
 
             // Setup help
             splitContainer1.Panel2Collapsed = true;
@@ -393,7 +391,7 @@ namespace MetaboliteLevels.Forms.Wizards
             }
         }
 
-        void _wizard_PageChanged( object sender, EventArgs e )
+        void _wizard_PageChanged( object sender, EventArgs args )
         {
             if (_wizard.Page != 0)
             {
@@ -406,9 +404,90 @@ namespace MetaboliteLevels.Forms.Wizards
 
             UpdateHelpButton();
 
-            if (_wizard.Page == 4)
-            {
-                UpdateCacheOfTypes();
+            switch (_wizard.Page)
+            {          
+                case 4: // Conditions
+                    UpdateCacheOfTypes();
+                    break;
+
+                case 5: // Statistics
+                    _chkAutoTTest.Enabled = _chkConditions.Checked && _cbExp.SelectedItems.Any() && _cbControl.SelectedItems.Any();
+
+                    if (!_chkAutoTTest.Enabled)
+                    {
+                        _lblTTUnavail.Text = "Not available - requires experimental and control conditions to be specified";
+                    }
+                    else
+                    {                                               
+                        string controlText = string.Join( ", ", _cbControl.SelectedItems );
+                        _lblTTUnavail.Text = "Calculates for each peak:\r\n* t-tests against the " + _cbControl.TextBox.Text + " group for each of: " + _cbExp.TextBox.Text + "\r\n* Minimum of all p-values";
+                    }
+
+                    _chkAutoPearson.Enabled = _chkConditions.Checked && _cbExp.SelectedItems.Any();
+
+                    if (!_chkAutoPearson.Enabled)
+                    {
+                        _lblPearsonUnavail.Text = "Not available - requires experimental conditions to be specified";
+                    }
+                    else
+                    {
+                        _lblPearsonUnavail.Text = "Calculates for each peak:\r\n* Correlations against time for each of: " + _cbExp.TextBox.Text + "\r\n* Absolute maximum value of all correlations" ;
+                    }
+                    
+                    break;
+
+                case 7: // Annotations
+                    ELcmsMode e = EnumComboBox.Get( _lstLcmsMode, ELcmsMode.None );
+                    string msg;
+                    string msg2;
+
+                    if (e == ELcmsMode.None)
+                    {
+                        msg = "Requires an LC-MS mode to be specified";
+                        msg2 = msg;
+                    }
+                    else if (_lstCompounds.Items.Count == 0)
+                    {
+                        msg = "Requires at least one compound database to be specified";
+                        msg2 = null;
+                    }
+                    else if (_lstAdducts.Items.Count == 0)
+                    {
+                        msg = "Requires at least one adduct database to be specified";
+                        msg2 = null;
+                    }
+                    else
+                    {
+                        msg = null;
+                        msg2 = null;
+                    }
+
+                    bool en = msg == null;
+
+                    _chkAutoIdentify.Enabled = en;
+                    _lblMzMatchUnavail.Visible = !en;
+                    ctlLabel1.Visible = en;
+                    _cbAutomaticFlag.ComboBox.Visible = en;
+
+                    if (!en)
+                    {                                    
+                        _chkAutoIdentify.Checked = false;
+                        _lblMzMatchUnavail.Text = msg;
+                    }
+
+                    bool en2 = msg2 == null;
+                                                                        
+                    _chkPeakPeakMatch.Enabled = en2;
+                    _lblPeakPeakMatchUnavail.Visible = !en2;
+
+
+                    if (!en2)
+                    {
+                        _chkPeakPeakMatch.Checked = false;
+                        _lblPeakPeakMatchUnavail.Text = msg2;
+                    }
+
+                    break;
             }
         }
 
@@ -457,22 +536,24 @@ namespace MetaboliteLevels.Forms.Wizards
                     _checker.Check( _chkCondInfo, !_chkCondInfo.Checked || File.Exists( _txtCondInfo.Text ), "Filename not provided or file not found." );
                     break;
 
-                case 4: // Statistics
-                    _checker.Check( _cbExp.TextBox, !_chkStatT.Checked || _cbExp.SelectedItems != null, "Experimental conditions must be provided to conduct t-tests." );
-                    _checker.Check( _cbControl.TextBox, !_chkStatT.Checked || _cbControl.SelectedItems != null, "Control conditions must be provided to conduct t-tests." );
+                case 4: // Conditions
+                    _checker.Check( _chkConditions, !_chkConditions.Checked || _cbExp.SelectedItems.Any() || _cbControl.SelectedItems.Any(), "Checking this box suggests at least one condition will be specified." );
                     break;
 
-                case 5: // Compounds
+                case 5: // Statistics
                     break;
 
-                case 6: // Annotations
+                case 6: // Compounds
+                    break;
+
+                case 7: // Annotations
                     bool doesntNeedTol = !_chkAutoIdentify.Checked && !_chkPeakPeakMatch.Checked;
                     _checker.Check( _numTolerance, doesntNeedTol || _numTolerance.Value != 0, "A tolerance of zero is probably a mistake." );
                     _checker.Check( _lstTolerance, doesntNeedTol || _lstTolerance.SelectedIndex != -1, "A unit must be specified." );
                     _checker.Check( _txtIdentifications, !_chkIdentifications.Checked || File.Exists( _txtIdentifications.Text ), "Filename not provided or file not found." );
                     break;
 
-                case 7: // Ready
+                case 8: // Ready
                     break;
 
                 default: // ???
@@ -529,14 +610,16 @@ namespace MetaboliteLevels.Forms.Wizards
             SetText( _txtIdentifications, _chkIdentifications, lfn.Identifications );
             SetText( _txtAltVals, _chkAltVals, lfn.AltData );
             SetText( _txtCondInfo, _chkCondInfo, lfn.ConditionInfo );
-            SetCheck( _chkStatT, lfn.StandardStatisticalMethods, EStatisticalMethods.TTest );
-            SetCheck( _chkStatP, lfn.StandardStatisticalMethods, EStatisticalMethods.Pearson );
+            SetCheck( _chkAutoTTest, lfn._standardAutoCreateOptions, EAutoCreateOptions.TTest );
+            SetCheck( _chkAutoPearson, lfn._standardAutoCreateOptions, EAutoCreateOptions.Pearson );
+            SetCheck( _chkAutoMeanTrend, lfn._standardAutoCreateOptions, EAutoCreateOptions.MeanTrend );
+            SetCheck( _chkAutoMedianTrend, lfn._standardAutoCreateOptions, EAutoCreateOptions.MedianTrend );
+            SetCheck( _chkAutoUvSC, lfn._standardAutoCreateOptions, EAutoCreateOptions.UvScaleAndCentre );
 
             _chkAutoIdentify.Checked = lfn.AutomaticIdentifications;
             _chkPeakPeakMatch.Checked = lfn.PeakPeakMatching;
             _cbAutomaticFlag.SelectedItem = lfn.AutomaticIdentificationsStatus;
             _cbManualFlag.SelectedItem = lfn.ManualIdentificationsStatus;
-            _cbTrend.SelectedItem = lfn.DefaultTrendGenerator;
 
             if (lfn.AutomaticIdentifications || lfn.PeakPeakMatching)
             {
@@ -553,15 +636,17 @@ namespace MetaboliteLevels.Forms.Wizards
             if (!string.IsNullOrWhiteSpace( lfn.Data ))
             {
                 EnumComboBox.Set( _lstLcmsMode, lfn.LcmsMode, true );
-
+                
                 _cbExp.SelectedItems = lfn.ConditionsOfInterestString.Where( z => z != null ); // deal with legacy invalid data
-                _cbControl.SelectedItems = lfn.ControlConditionsString.Where( z => z != null );
+                _cbControl.SelectedItems = lfn.ControlConditionsString.Where( z => z != null );       
+                _chkConditions.Checked = _cbExp.SelectedItems.Any() || _cbControl.SelectedItems.Any();
             }
             else
             {
                 EnumComboBox.Clear( _lstLcmsMode );
                 _txtExps.Text = "";
                 _txtControls.Text = "";
+                _chkConditions.Checked = false;
             }
 
             UpdateAvailableCompoundsList();
@@ -572,7 +657,7 @@ namespace MetaboliteLevels.Forms.Wizards
             _txtPreviousConfig.Text = lfn.Title;
         }
 
-        private void SetCheck( CheckBox cb, EStatisticalMethods current, EStatisticalMethods toCheck )
+        private void SetCheck( CheckBox cb, EAutoCreateOptions current, EAutoCreateOptions toCheck )
         {
             cb.Checked = current.HasFlag( toCheck );
         }
@@ -705,14 +790,16 @@ namespace MetaboliteLevels.Forms.Wizards
                 fileNames.Session                    = null;
                 fileNames.AltData                    = _chkAltVals.Checked ? _txtAltVals.Text : null;
                 fileNames.ConditionInfo              = CondInfoFileName;
-                fileNames.ConditionsOfInterestString = _cbExp.GetSelectedItemsOrThrow().ToList();
-                fileNames.ControlConditionsString    = _cbControl.GetSelectedItemsOrThrow().ToList();
-                fileNames.StandardStatisticalMethods = EStatisticalMethods.None;
-                fileNames.StandardStatisticalMethods = GetCheck( _chkStatT, fileNames.StandardStatisticalMethods, EStatisticalMethods.TTest );
-                fileNames.StandardStatisticalMethods = GetCheck( _chkStatP, fileNames.StandardStatisticalMethods, EStatisticalMethods.Pearson );
+                fileNames.ConditionsOfInterestString = _chkConditions.Checked ? _cbExp.GetSelectedItemsOrThrow().ToList() : new List<string>();
+                fileNames.ControlConditionsString = _chkConditions.Checked ? _cbControl.GetSelectedItemsOrThrow().ToList() : new List<string>();
+                fileNames._standardAutoCreateOptions = EAutoCreateOptions.None;
+                fileNames._standardAutoCreateOptions = GetCheck( _chkAutoTTest, fileNames._standardAutoCreateOptions, EAutoCreateOptions.TTest );
+                fileNames._standardAutoCreateOptions = GetCheck( _chkAutoPearson, fileNames._standardAutoCreateOptions, EAutoCreateOptions.Pearson );
+                fileNames._standardAutoCreateOptions = GetCheck( _chkAutoMedianTrend, fileNames._standardAutoCreateOptions, EAutoCreateOptions.MedianTrend );
+                fileNames._standardAutoCreateOptions = GetCheck( _chkAutoMeanTrend, fileNames._standardAutoCreateOptions, EAutoCreateOptions.MeanTrend );
+                fileNames._standardAutoCreateOptions = GetCheck( _chkAutoUvSC, fileNames._standardAutoCreateOptions, EAutoCreateOptions.UvScaleAndCentre );
                 fileNames.AutomaticIdentificationsToleranceUnit  = EnumComboBox.Get<ETolerance>( _lstTolerance, ETolerance.PartsPerMillion );
                 fileNames.AutomaticIdentificationsToleranceValue = _numTolerance.Value;
-                fileNames.DefaultTrendGenerator      = _cbTrend.SelectedItem;
             }
             catch (Exception ex)
             {
@@ -740,7 +827,7 @@ namespace MetaboliteLevels.Forms.Wizards
             DialogResult = DialogResult.OK;
         }
 
-        private EStatisticalMethods GetCheck( CheckBox cb, EStatisticalMethods current, EStatisticalMethods added )
+        private EAutoCreateOptions GetCheck( CheckBox cb, EAutoCreateOptions current, EAutoCreateOptions added )
         {
             if (cb.Checked)
             {
@@ -792,8 +879,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private void _btnIdentifications_Click( object sender, EventArgs e )
         {
             _lstCompounds.Items.AddRange( _lstAvailCompounds.SelectedItems.Cast<CompoundLibrary>().ToArray() );
-            UpdateAvailableCompoundsList();
-            UpdateAutoIdentifyButton();
+            UpdateAvailableCompoundsList();     
         }
 
         private void UpdateAvailableCompoundsList()
@@ -849,16 +935,7 @@ namespace MetaboliteLevels.Forms.Wizards
         {
             CheckTheBox( _chkIdentifications, _txtIdentifications, _btnIdentifications );
             _cbManualFlag.Enabled = ctlLabel3.Enabled = _chkIdentifications.Checked;
-        }
-
-        private void UpdateAutoIdentifyButton()
-        {
-            var e = EnumComboBox.Get( _lstLcmsMode, ELcmsMode.None );
-            _chkAutoIdentify.Enabled = _lstCompounds.Items.Count != 0 && _lstAdducts.Items.Count != 0 && e != ELcmsMode.None;
-            _chkAutoIdentify.Checked = _chkAutoIdentify.Enabled;
-            _chkPeakPeakMatch.Enabled = e != ELcmsMode.None;
-            _chkPeakPeakMatch.Checked = _chkPeakPeakMatch.Checked && _chkPeakPeakMatch.Enabled;
-        }
+        }   
 
         private void _chkAltVals_CheckedChanged( object sender, EventArgs e )
         {
@@ -1021,8 +1098,7 @@ namespace MetaboliteLevels.Forms.Wizards
         }
 
         private void _lstLcmsMode_SelectedIndexChanged( object sender, EventArgs e )
-        {
-            UpdateAutoIdentifyButton();
+        {                                   
         }
 
         private void linkLabel1_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
@@ -1211,8 +1287,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private void ctlButton2_Click( object sender, EventArgs e )
         {
             RemoveSelected( _lstCompounds );
-            UpdateAvailableCompoundsList();
-            UpdateAutoIdentifyButton();
+            UpdateAvailableCompoundsList();    
         }
 
         private void RemoveSelected( ListBox list )
@@ -1240,24 +1315,20 @@ namespace MetaboliteLevels.Forms.Wizards
 
             if (sel != null)
             {
-                _lstCompounds.Items.Add( sel );
-
-                UpdateAutoIdentifyButton();
+                _lstCompounds.Items.Add( sel );  
             }
         }
 
         private void _btnAddAdduct_Click( object sender, EventArgs e )
         {
             _lstAdducts.Items.AddRange( _lstAvailableAdducts.SelectedItems.Cast<NamedItem<string>>().ToArray() );
-            UpdateAvailableAdductsList();
-            UpdateAutoIdentifyButton();
+            UpdateAvailableAdductsList(); 
         }
 
         private void ctlButton3_Click( object sender, EventArgs e )
         {
             RemoveSelected( _lstAdducts );
-            UpdateAvailableAdductsList();
-            UpdateAutoIdentifyButton();
+            UpdateAvailableAdductsList();  
         }
 
         private void _btnBrowseAdducts_Click( object sender, EventArgs e )
@@ -1286,8 +1357,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private void _btnAddAllCompounds_Click( object sender, EventArgs e )
         {
             _lstCompounds.Items.AddRange( _lstAvailCompounds.Items.Cast<CompoundLibrary>().ToArray() );
-            UpdateAvailableCompoundsList();
-            UpdateAutoIdentifyButton();
+            UpdateAvailableCompoundsList();  
         }
 
         private void _chkAutoIdentify_CheckedChanged( object sender, EventArgs e )
@@ -1352,6 +1422,16 @@ namespace MetaboliteLevels.Forms.Wizards
         private void ctlTitleBar1_HelpClicked( object sender, CancelEventArgs e )
         {
             ToggleHelp();
+        }
+
+        private void tableLayoutPanel5_Paint( object sender, PaintEventArgs e )
+        {
+
+        }
+
+        private void _chkConditions_CheckedChanged( object sender, EventArgs e )
+        {
+            _lblConditions.Enabled = label3.Enabled = _cbExp.Enabled = _cbControl.Enabled = _chkConditions.Checked;
         }
     }
 }

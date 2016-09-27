@@ -197,28 +197,28 @@ namespace MetaboliteLevels.Data.Session.Singular
         //
         // ACCESSOR WRAPPERS
         //
-        public IReadOnlyList<int> Reps { get { return _cache._reps; } }
-        public IReadOnlyList<int> Times { get { return _cache._times; } }
-        public IReadOnlyList<GroupInfo> ConditionsOfInterest { get { return _cache._conditionsOfInterest; } }
-        public IReadOnlyList<int> Acquisitions { get { return _cache._acquisitions; } }
-        public IReadOnlyList<GroupInfo> ControlConditions { get { return _cache._controlConditions; } }
-        public Range TimeRange { get { return _cache._timeRange; } }
-        public IReadOnlyList<GroupInfo> Groups { get { return _groups; } }
-        public IReadOnlyList<BatchInfo> Batches { get { return _batches; } }
-        public IEnumerable<Cluster> Clusters => this._clusterers.WhereEnabled().SelectMany( z => z.Results.Clusters );
-        public IReadOnlyList<Peak> Peaks { get { return _peaks; } }
-        public List<Compound> Compounds { get { return _compounds; } }
-        public IReadOnlyList<Pathway> Pathways { get { return _pathways; } }
-        public List<Adduct> Adducts { get { return _adducts; } }
-        public IReadOnlyList<ObservationInfo> Observations { get { return _observations; } }
-        public IReadOnlyList<ObservationInfo> Conditions { get { return _conditions; } }
-
-        public IReadOnlyList<ConfigurationCorrection> AllCorrections { get { return _corrections; } }
-        public IReadOnlyList<ConfigurationStatistic> AllStatistics { get { return _statistics; } }
-        public IReadOnlyList<ConfigurationClusterer> AllClusterers { get { return _clusterers; } }
-        public IReadOnlyList<ConfigurationTrend> AllTrends { get { return _trends; } }
-        public IReadOnlyList<PeakFilter> AllPeakFilters { get { return _peakFilters; } }
-        public IReadOnlyList<ObsFilter> AllObsFilters { get { return _obsFilters; } }
+        public IReadOnlyList<OriginalData> OriginalData              => _originalData;
+        public IReadOnlyList<int> Reps                               => _cache._reps;
+        public IReadOnlyList<int> Times                              => _cache._times;
+        public IReadOnlyList<GroupInfo> ConditionsOfInterest         => _cache._conditionsOfInterest;
+        public IReadOnlyList<int> Acquisitions                       => _cache._acquisitions;
+        public IReadOnlyList<GroupInfo> ControlConditions            => _cache._controlConditions;
+        public Range TimeRange                                       => _cache._timeRange;
+        public IReadOnlyList<GroupInfo> Groups                       => _groups;
+        public IReadOnlyList<BatchInfo> Batches                      => _batches;
+        public IEnumerable<Cluster> Clusters                         => this._clusterers.WhereEnabled().SelectMany( z => z.Results.Clusters );
+        public IReadOnlyList<Peak> Peaks                             => _peaks;
+        public List<Compound> Compounds                              => _compounds;
+        public IReadOnlyList<Pathway> Pathways                       => _pathways;
+        public List<Adduct> Adducts                                  => _adducts;
+        public IReadOnlyList<ObservationInfo> Observations           => _observations;
+        public IReadOnlyList<ObservationInfo> Conditions             => _conditions;
+        public IReadOnlyList<ConfigurationCorrection> AllCorrections => _corrections;
+        public IReadOnlyList<ConfigurationStatistic> AllStatistics   => _statistics;
+        public IReadOnlyList<ConfigurationClusterer> AllClusterers   => _clusterers;
+        public IReadOnlyList<ConfigurationTrend> AllTrends           => _trends;
+        public IReadOnlyList<PeakFilter> AllPeakFilters              => _peakFilters;
+        public IReadOnlyList<ObsFilter> AllObsFilters                => _obsFilters;
 
         class CachedData
         {
@@ -552,6 +552,11 @@ namespace MetaboliteLevels.Data.Session.Singular
             }
 
             return false;
+        }
+
+        public ProviderAlias FindMatrixAlias(EProviderAlias source)
+        {
+            return _alises.Where( z => z.Source == source ).First();
         }
 
         public IEnumerable<IMatrixProvider> Matrices

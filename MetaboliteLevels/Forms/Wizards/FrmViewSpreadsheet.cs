@@ -51,24 +51,24 @@ namespace MetaboliteLevels.Forms.Wizards
             string data = null;
             StringBuilder description = new StringBuilder();
 
-            foreach (string line in lines.Skip(1))
-            {   
+            foreach (string line in lines.Skip( 1 ))
+            {
                 if (line.StartsWith( "{" ) && line.EndsWith( "}" ))
-                {
+                {                
                     AddDescription( data, description.ToString() );
                     string name = line.Substring( 1, line.Length - 2 );
 
                     if (name.StartsWith( "=" ))
                     {
-                        data =  name.Substring( 1 ) ;
+                        data = name.Substring( 1 );
                     }
                     else if (name == "")
                     {
-                        data =  "This is the first cell of the spreadsheet and must be left empty." ;
+                        data = "This is the first cell of the spreadsheet and must be left empty.";
                     }
                     else if (name == "META")
                     {
-                        data =  "All further columns -->" ;
+                        data = "All further columns -->";
                     }
                     else
                     {
@@ -97,13 +97,18 @@ namespace MetaboliteLevels.Forms.Wizards
                 return;
             }
 
+            data = data.Replace( "¶", "\r\n" );
+            description = description.Replace( "¶", "\r\n" );
+
+
             int i = _descs;
             _descs++;
             tableLayoutPanel1.ColumnCount = _descs;
             tableLayoutPanel1.RowCount = Math.Max( 4, _descs );
-            tableLayoutPanel1.ColumnStyles.Add( new ColumnStyle( SizeType.Percent, 100 ) );  
+            tableLayoutPanel1.ColumnStyles.Add( new ColumnStyle( SizeType.Percent, 100 ) );
 
             bool noDesc = string.IsNullOrWhiteSpace( description );
+            var padding = new Padding( 8, 8, 8, 8 );
 
             Label labelTitle = new Label()
             {
@@ -113,6 +118,7 @@ namespace MetaboliteLevels.Forms.Wizards
                 AutoSize = true,
                 Font = FontHelper.SmallBoldFont,
                 ForeColor = noDesc ? Color.Blue : Color.Black,
+                Padding = padding,
             };
 
             Label labelDescription = new Label()
@@ -123,6 +129,7 @@ namespace MetaboliteLevels.Forms.Wizards
                 AutoSize = true,
                 Font = FontHelper.SmallRegularFont,
                 ForeColor = Color.Black,
+                Padding = padding,
             };
 
             string quote = noDesc ? "" : "\"";
@@ -135,17 +142,19 @@ namespace MetaboliteLevels.Forms.Wizards
                 AutoSize = true,
                 Font = FontHelper.SmallRegularFont,
                 ForeColor = Color.Gray,
+                Padding = padding,
             };
 
-        Label labelDescription3 = new Label()
-        {
-            Text = quote,
-            Visible = true,
-            Dock = DockStyle.Fill,
-            AutoSize = true,
-            Font = FontHelper.SmallRegularFont,
-            ForeColor = Color.Silver,
-    };
+            Label labelDescription3 = new Label()
+            {
+                Text = quote,
+                Visible = true,
+                Dock = DockStyle.Fill,
+                AutoSize = true,
+                Font = FontHelper.SmallRegularFont,
+                ForeColor = Color.Silver,
+                Padding = padding,
+            };
 
             tableLayoutPanel1.Controls.Add( labelTitle, i, 0 );
             tableLayoutPanel1.Controls.Add( labelDescription, i, 1 );

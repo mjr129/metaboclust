@@ -159,6 +159,11 @@ namespace MetaboliteLevels.Data.Session.Associational
             {
                 return GetEnumerator();
             }
+
+            public override string ToString()
+            {
+                return $"Vectors of {{{_owner}}}";
+            }
         }
 
         [Serializable]
@@ -172,6 +177,18 @@ namespace MetaboliteLevels.Data.Session.Associational
                 Peak = peak;
                 Group = groupInfo;
             }
+
+            public override string ToString()
+            {
+                if (Group == null)
+                {
+                    return Peak.ToString();
+                }
+                else
+                {
+                    return Peak.ToString() + "∩" + Group.ToString();
+                }
+            }
         }
 
         [Serializable]
@@ -182,6 +199,11 @@ namespace MetaboliteLevels.Data.Session.Associational
             public ColumnHeader( ObservationInfo observation )
             {
                 Observation = observation;
+            }
+
+            public override string ToString()
+            {
+                return Observation.ToString();
             }
         }
 
