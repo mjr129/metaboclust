@@ -22,57 +22,110 @@ namespace MetaboliteLevels.Data.Session.Associational
     {
         public ContentsRequest FindAssociations( Core core, EVisualClass type )
         {
-            ContentsRequest request = new ContentsRequest( core, this, type );
-            FindAssociations( request );
-            return request;
+            return FindAssociations( this, new ContentsRequest( core, this, type ) );
         }
 
-        private class FieldValuePair : IColumnProvider, IIconProvider
+        public ContentsRequest FindAssociations( ContentsRequest request )
         {
-            private string Field;
-            private string Value;
-            private Color Colour;
-            public UiControls.ImageListOrder Icon { get; }
-
-            public FieldValuePair( string field, string value, Color colour, UiControls.ImageListOrder icon )
-            {
-                this.Field = field;
-                this.Value = value;
-                this.Colour = colour;
-                this.Icon = icon;
-            }
-
-            public IEnumerable<Column> GetXColumns( Core core )
-            {
-                List<Column<FieldValuePair>> result = new List<Column<FieldValuePair>>();
-
-                result.Add( "Field", EColumn.Visible, z => z.Field, z => z.Colour );
-                result.Add( "Value", EColumn.Visible, z => z.Value, z => z.Colour );
-
-                return result;
-            }
+            return FindAssociations( this, request );
         }
 
-        public void FindAssociations( ContentsRequest request )
+        public static ContentsRequest FindAssociations( object target, Core core, EVisualClass type )
+        {
+            return FindAssociations( target, new ContentsRequest( core, target, type ) );
+        }
+
+        public static ContentsRequest FindAssociations( object target, ContentsRequest request )
         {
             switch (request.Type)
             {
-                case EVisualClass.Info:
+                case EVisualClass.SpecialAdvanced:
+                case EVisualClass.SpecialMeta:
+                case EVisualClass.SpecialAll:
+                case EVisualClass.SpecialStatistic:
                     request.AddExtraColumn( "Value", "Value of the field" );
 
-                    var cols = ColumnManager.GetColumns( request.Core, this ).OrderBy( z => z.Special.Has( EColumn.Visible ) );
+                    IEnumerable<Column> cols = ColumnManager.GetColumns( request.Core, target ).OrderBy( z => z.Special.Has( EColumn.Visible ) );
+                    bool shortName;
+
+                    switch (request.Type)
+                    {
+                        case EVisualClass.SpecialAll:
+                            request.Text = "All data fields for {0}";
+                            cols = cols.Where( z => !z.Special.Has( EColumn.Advanced ) );
+                            shortName = false;
+                            break;
+
+                        case EVisualClass.SpecialStatistic:
+                            request.Text = "Statistics fields for {0}";
+                            cols = cols.Where( z => !z.Special.Has( EColumn.Advanced ) && z.Special.Has( EColumn.IsStatistic ) );
+                            shortName = true;
+                            break;
+
+                        case EVisualClass.SpecialMeta:
+                            request.Text = "Meta-data fields for {0}";
+                            cols = cols.Where( z => !z.Special.Has( EColumn.Advanced ) && z.Special.Has( EColumn.IsMeta ) );
+                            shortName = true;
+                            break;
+
+                        default:
+                        case EVisualClass.SpecialAdvanced:
+                            request.Text = "Internal data for {0}";
+                            shortName = false;
+                            break;
+                    }
 
                     foreach (var c in cols)
                     {
-                        request.Add( new FieldValuePair( c.DisplayName, c.GetRowAsString( this ), ColumnManager.GetColumnColour( c ), UiControls.ImageListOrder.Info ) );
+                        request.Add( new ColumnValuePair( c, target, ColumnManager.GetColumnColour( c ), UiControls.ImageListOrder.Info, shortName ) );
                     }
                     break;
 
                 default:
-                    OnFindAssociations( request );
+                    if (target is Associational)
+                    {
+                        ((Associational)target).OnFindAssociations( request );
+                    }
                     break;
             }
-        }
+
+            return request;
+        }         
+
+        public class ColumnValuePair : IColumnProvider, IIconProvider
+        {    
+            [XColumn("Field\\", EColumn.Decompose)]
+            private Column Column;
+
+            private object Target;
+            private readonly Color ColumnColour;
+            private readonly bool _shortName;
+
+            public UiControls.ImageListOrder Icon { get; }
+
+            public string Field => _shortName ? Column.DisplayName : Column.Id;
+            public Color Colour => Column.GetColour( Target );
+            public object Value => Column.GetRow( Target );
+
+            public ColumnValuePair( Column column, object target, Color colour, UiControls.ImageListOrder icon, bool shortName )
+            {
+                this.Column = column;
+                this.Target = target;      
+                this.Icon = icon;
+                this.ColumnColour = colour;
+                this._shortName = shortName;
+            }
+
+            public IEnumerable<Column> GetXColumns( Core core )
+            {
+                List<Column<ColumnValuePair>> result = new List<Column<ColumnValuePair>>();
+
+                result.Add( "Field", EColumn.Visible, z => z.Field, z => z.ColumnColour );
+                result.Add( "Value", EColumn.Visible, z => z.Value, z => z.Colour );
+
+                return result;
+            }
+        }    
 
         /// <summary>
         /// Gets related items.

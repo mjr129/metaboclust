@@ -45,11 +45,12 @@ namespace MetaboliteLevels.Types.UI
         /// <summary>
         /// An enum with flags
         /// </summary>
-        public static DataSet<T> ForFlagsEnum<T>( string title )
+        public static DataSet<T> ForFlagsEnum<T>( Core core, string title )
             where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
         {
             return new DataSet<T>()
             {
+                Core = core,
                 ListTitle = title,
                 ListSource = EnumHelper.GetEnumFlags<T>(),
                 ItemTitle = z => EnumHelper.ToUiString( (Enum)(object)z ),
@@ -61,10 +62,11 @@ namespace MetaboliteLevels.Types.UI
         /// <summary>
         /// An arbitrary list of strings
         /// </summary>
-        public static DataSet<int> ForString( string title, params string[] options )
+        public static DataSet<int> ForString( Core core, string title, params string[] options )
         {
             return new DataSet<int>()
             {
+                Core = core,
                 ListTitle = title,
                 ListSource = options.Indices(),
                 ItemTitle = z => options[z]
@@ -74,11 +76,12 @@ namespace MetaboliteLevels.Types.UI
         /// <summary>
         /// An enum without flags
         /// </summary>
-        public static DataSet<T> ForDiscreteEnum<T>( string title, T cancelValue )
+        public static DataSet<T> ForDiscreteEnum<T>( Core core, string title, T cancelValue )
             where T : struct, IComparable, IFormattable, IConvertible // aka. Enum
         {
             return new DataSet<T>()
             {
+                Core = core,
                 ListTitle = title,
                 ListSource = Enum.GetValues( typeof( T ) ).Cast<T>().Except( new T[] { cancelValue } ),
                 ItemTitle = z => EnumHelper.ToUiString( (Enum)(object)z ),
@@ -158,7 +161,7 @@ namespace MetaboliteLevels.Types.UI
             return new DataSet<int>()
             {
                 Core = core,
-                ListTitle = "Time Points",
+                ListTitle = "Acquisition Indices",
                 ListSource = core.Acquisitions,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,

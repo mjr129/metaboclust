@@ -70,19 +70,27 @@ namespace MetaboliteLevels {
         ///EXPECTS: CSVFILE
         ///
         ///{}
-        ///Text. Row names. Ignored. Mandatory.
+        ///Text.
+        ///Row names.
+        ///Unused by software.
+        ///Mandatory.
         ///
         ///{ADDUCTFILE_NAME_HEADER}
-        ///Text. The name of the adduct. Optional.
+        ///Text.
+        ///The name of the adduct.
+        ///Optional.
         ///
         ///{ADDUCTFILE_CHARGE_HEADER}
-        ///Numeric. The charge of the adduct (-1 = negative mode LC-MS, 1 = positive mode LS-MS). Required.
+        ///Numeric.
+        ///The charge of the adduct (-1 = negative mode LC-MS, 1 = positive mode LS-MS).
+        ///Mandatory.
         ///
         ///{ADDUCTFILE_MASS_DIFFERENCE_HEADER}
-        ///The mass of the adduct. Required.
+        ///The mass of the adduct.
+        ///Mandatory.
         ///
         ///{META}
-        ///Any additional data the user wishes to provide, unus [rest of string was truncated]&quot;;.
+        ///Any additional data the user wishes to  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Adducts {
             get {
@@ -103,9 +111,12 @@ namespace MetaboliteLevels {
         ///EXPECTS: CSVFILE
         ///
         ///{}
-        ///Text. Observation names. Must be unique. Mandatory
+        ///Text.
+        ///Observation names.
+        ///Must be unique.
+        ///Mandatory
         ///
-        ///{=Text. Peak names. Must be unique. Mandatory.}
+        ///{=Text.¶Peak names.¶Must be unique.¶Mandatory.}
         ///One row per observation.
         ///One column per peak.
         ///.
@@ -164,12 +175,17 @@ namespace MetaboliteLevels {
         ///EXPECTS: CSVFILE
         ///
         ///{}
-        ///Text. Row names. Ignored. Mandatory.
+        ///Text.
+        ///Row names.
+        ///Unused by software.
+        ///Mandatory.
         ///
         ///{CONDITIONFILE_ID_HEADER}
-        ///Text. The ID corresponding to the &quot;type&quot; column of the observation info file.
+        ///Text.
+        ///The ID corresponding to the &quot;type&quot; column of the observation info file.
         ///
         ///{CONDITIONFILE_NAME_HEADER}
+        ///Text.
         ///The name of the experimental condition.
         /// </summary>
         internal static string ConditionNames {
@@ -242,7 +258,8 @@ namespace MetaboliteLevels {
         ///EXPECTS: CSVFILE
         ///
         ///{}
-        ///Text. Row names. [rest of string was truncated]&quot;;.
+        ///Text.
+        ///Row names [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Identifications {
             get {
@@ -260,11 +277,19 @@ namespace MetaboliteLevels {
         ///EXPECTS: CSVFILE
         ///
         ///{}
-        ///Text. Observation names. Must be unique. Mandatory
+        ///ONE ROW PER OBSERVATION
+        ///Text.
+        ///The name of the observation.
+        ///Must be unique.
+        ///Mandatory.
         ///
-        ///{=Text. Peak names. Must be unique. Mandatory.}
-        ///One row per observation.
-        ///One column per peak..
+        ///
+        ///{=ONE COLUMN PER PEAK¶Text.¶The name of the peak.¶Must be unique¶Mandatory¶}
+        ///
+        ///Numeric.
+        ///The values of the intensity matrix.
+        ///Mandatory.
+        ///.
         /// </summary>
         internal static string Intensities {
             get {
@@ -298,19 +323,30 @@ namespace MetaboliteLevels {
         ///EXPECTS: CSVFILE
         ///
         ///{}
-        ///Text. The name of the observation. Must be unique. Mandatory.
+        ///Text.
+        ///The name of the observation.
+        ///Must be unique.
+        ///Mandatory.
         ///
         ///{OBSFILE_TIME_HEADER}
-        ///Integer. The timestep of the obervation. Optional.
+        ///Integer.
+        ///The timestep of the obervation.
+        ///Optional.
         ///
         ///{OBSFILE_REPLICATE_HEADER}
-        ///Integer. The replicate index of the observation. Optional.
+        ///Integer.
+        ///The replicate index of the observation.
+        ///Optional.
         ///
         ///{OBSFILE_GROUP_HEADER}
-        ///Text. The experimental group of the observation. Optional.
+        ///Text.
+        ///The experimental group of the observation.
+        ///Optional.
         ///
         ///{OBSFILE_BATCH_HEADER}
-        ///Integer. Batch. Option [rest of string was truncated]&quot;;.
+        ///Integer.
+        ///Batch.
+        ///Option [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Observations {
             get {
@@ -455,10 +491,13 @@ namespace MetaboliteLevels {
         ///Text. The name of the variable. Must be unique. Mandatory.
         ///    
         ///{VARFILE_MZ_HEADER}
-        ///Numeric. m/z value for the peak. Optional.
+        ///Numeric.
+        ///m/z value for the peak.
+        ///Optional.
         ///
         ///{VARFILE_MODE_HEADER}
-        ///Numeric. LC-MS mode for th [rest of string was truncated]&quot;;.
+        ///Numeric.
+        ///LC-MS mode for th [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Variables {
             get {

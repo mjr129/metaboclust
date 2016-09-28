@@ -68,6 +68,7 @@ namespace MetaboliteLevels.Controls.Lists
         private readonly ToolStripMenuItem _tsThumbNails;
         private string _listViewOptionsKey;
         private readonly ToolStripMenuItem _mnuViewAsHeatMap;
+        private bool _suspendVirtual;
 
         /// <summary>
         /// Constructor
@@ -896,10 +897,13 @@ namespace MetaboliteLevels.Controls.Lists
         /// <param name="checks">What to reinitialise</param>
         public void Rebuild(EListInvalids checks)
         {
-            // since we now use a virtual list when the list changes we can just refresh the source
+            // Suspend updates otherwise we'll get columns for the wrong items (or vice versa)
+            _suspendVirtual = true;
+
+            // Since we now use a virtual list when the list changes we can just refresh the source
             if (checks.HasFlag(EListInvalids._SourceChanged) | checks.HasFlag(EListInvalids._ContentsChanged))
             {
-                checks = GetFilteredList(checks);
+                checks = Rebuild__GetFilteredList(checks);
             }
 
             // If we have not yet got the columns we always need to get them regardless
@@ -924,9 +928,13 @@ namespace MetaboliteLevels.Controls.Lists
                 ClearPreviewList();
             }
 
+            // Resume updates
+            _suspendVirtual = false;
+
+
             // Redraw everything
             if (_listView.VirtualListSize != 0)
-            {
+            {   
                 _listView.RedrawItems(0, _listView.VirtualListSize - 1, true);
             }
         }
@@ -939,7 +947,7 @@ namespace MetaboliteLevels.Controls.Lists
         /// <summary>
         /// Gets the source list, accounting for sort-order, filter, etc.
         /// </summary>
-        private EListInvalids GetFilteredList(EListInvalids checks)
+        private EListInvalids Rebuild__GetFilteredList(EListInvalids checks)
         {
             this._filteredList = GetSourceContent().Cast<object>().ToList();
 
@@ -961,7 +969,7 @@ namespace MetaboliteLevels.Controls.Lists
             {
                 this._filteredList.Sort(this._sortOrder);
             }
-
+            
             this._listView.VirtualListSize = this._filteredList.Count;
             return checks;
         }
@@ -1060,6 +1068,12 @@ namespace MetaboliteLevels.Controls.Lists
 
         void _listView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
+            if (_suspendVirtual)
+            {
+                e.Item = new ListViewItem( new string[_listView.Columns.Count] );
+                return;
+            }
+
             object tag = _filteredList[e.ItemIndex];
             e.Item = CreateNewListViewItem(tag);
             DoUpdate(e.Item, tag);

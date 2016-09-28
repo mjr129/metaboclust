@@ -26,13 +26,13 @@ namespace MetaboliteLevels.Data.Session.General
     internal class ProviderAlias : Visualisable, IMatrixProvider
     {
         private readonly Core _core;
-        private readonly EProviderAlias _source;
+        public readonly EProviderAlias Source;
         private  WeakReference<IMatrixProvider> _userTarget;
 
         public ProviderAlias( Core core, EProviderAlias source, IMatrixProvider userTarget )
         {
             this._core = core;
-            this._source = source;
+            this.Source = source;
             this._userTarget = new WeakReference<IMatrixProvider>(userTarget);
         }             
 
@@ -43,10 +43,12 @@ namespace MetaboliteLevels.Data.Session.General
         {
             get
             {
-                switch (_source)
+                switch (Source)
                 {
                     case EProviderAlias.LastCorrection:
-                        return _core.AllCorrections.WhereEnabled().LastOrDefault();
+                        {
+                            return (IMatrixProvider)_core.AllCorrections.WhereEnabled().LastOrDefault() ?? (IMatrixProvider)_core.OriginalData.First();
+                        }
                     case EProviderAlias.LastTrend:
                         return _core.AllTrends.WhereEnabled().LastOrDefault();
                     case EProviderAlias.User:
@@ -57,13 +59,13 @@ namespace MetaboliteLevels.Data.Session.General
             }
             set
             {
-                if (_source == EProviderAlias.User)
+                if (Source == EProviderAlias.User)
                 {
                     _userTarget = new WeakReference<IMatrixProvider>( value );
                 }
                 else
                 {
-                    throw new InvalidOperationException( $"Attempt to set {nameof( Target )} on a {nameof( ProviderAlias )} when the {nameof( _source )} is {_source.ToUiString()}." );
+                    throw new InvalidOperationException( $"Attempt to set {nameof( Target )} on a {nameof( ProviderAlias )} when the {nameof( Source )} is {Source.ToUiString()}." );
                 }
             }
         }

@@ -343,6 +343,6 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
             data.Pull( ref this._tracker );
             this.OverrideDisplayName = data.Pull<string>();
             this.Comment = data.Pull<string>();
-        }
+        }   
     }
 }

@@ -38,9 +38,7 @@ namespace MetaboliteLevels.Data.Session.Singular
         // stats
         public List<string> ConditionsOfInterestString;  // for stats - conditions of interest
         public List<string> ControlConditionsString;  // for stats - conditions of interest
-        public EStatisticalMethods StandardStatisticalMethods;  // for stats - what methods to apply
-
-        public EDefaultTrendGenerator DefaultTrendGenerator; // ID of default trend generator
+        public EAutoCreateOptions _standardAutoCreateOptions;  // for stats - what methods to apply
 
         // session info
         public string Title;                    // session title
@@ -140,7 +138,7 @@ namespace MetaboliteLevels.Data.Session.Singular
             sb.AppendLine("ConditionInfo: " + ConditionInfo);
             sb.AppendLine("ConditionsOfInterest: " + StringHelper.ArrayToString(ConditionsOfInterestString));
             sb.AppendLine("ControlConditions: " + StringHelper.ArrayToString(ControlConditionsString));
-            sb.AppendLine("StandardStatisticalMethods: " + StandardStatisticalMethods.ToString());
+            sb.AppendLine("_standardAutoCreateOptions: " + _standardAutoCreateOptions.ToString());
 
             return sb.ToString();
         }

@@ -46,6 +46,12 @@ namespace MetaboliteLevels.Data.Algorithms.General
         [NotNull] string Name { get; }
 
         /// <summary>
+        /// Things the user can call this type.
+        /// </summary>
+        [NotNull]
+        IEnumerable <string> Aliases { get; }
+
+        /// <summary>
         /// Obtains tracking details (i.e. pointers to the current results held by objects).
         /// See <see cref="SourceTracker"/> for details.
         /// </summary>
@@ -69,7 +75,17 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
         public static Dictionary<string, IAlgoParameterType> GetKeys()
         {
-            return GetAll().ToDictionary( z => z.Name );
+            Dictionary<string, IAlgoParameterType> result = new Dictionary<string, IAlgoParameterType>();
+
+            foreach (IAlgoParameterType x in GetAll())
+            {
+                foreach (string name in x.Aliases)
+                {
+                    result.Add( name.ToUpper(), x );
+                }
+            }
+
+            return result;
         }
 
         public static IEnumerable<IAlgoParameterType> GetAll()
@@ -85,7 +101,9 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
         private abstract class _AlgoParameterType<T> : IAlgoParameterType
         {
-            public virtual string Name => GetType().ToUiString();
+            public virtual string Name => Aliases.First();
+
+            public abstract IEnumerable<string> Aliases { get; }
 
             public WeakReference[] TrackChanges( object param )
             {
@@ -122,10 +140,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return Name.ToSmallCaps();
             }
         }
-
-        [Name( "Integer" )]
+                                  
         private class _Integer : _AlgoParameterType<int>
         {
+            public override IEnumerable<string> Aliases => new[] { "Integer", "Int" };
+
             protected override object OnFromString( Core core, string text )
             {
                 int vi;
@@ -175,10 +194,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 rEngine.SetSymbol( name, rEngine.CreateInteger( (int)value ) );
             }
         }
-
-        [Name( "Double" )]
+                                         
         private class _Double : _AlgoParameterType<double>
         {
+            public override IEnumerable<string> Aliases => new[] { "Double", "Numeric", "Real" };
+
             protected override object OnFromString( Core core, string text )
             {
                 double vd;
@@ -234,6 +254,8 @@ namespace MetaboliteLevels.Data.Algorithms.General
         [Name( "Statistic[]" )]
         private class _WeakRefStatisticArray : _AlgoParameterType<WeakReference<ConfigurationStatistic>[]>
         {
+            public override IEnumerable<string> Aliases => new[] { "Statistic[]", "ConfigurationStatistic[]", "WeakReference<ConfigurationStatistic>[]" };
+
             protected override WeakReference[] OnTrackChanges( WeakReference<ConfigurationStatistic>[] param )
             {
                 return param.Select( z => new WeakReference( z.GetTargetOrThrow().Results) ).ToArray();
@@ -287,10 +309,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return sel.Select( z => new WeakReference<ConfigurationStatistic>( z ) ).ToArray();
             }
         }
-
-        [Name( "Peak" )]     
+                                  
         private class _WeakRefPeak : _AlgoParameterType<WeakReference<Peak>>
         {
+            public override IEnumerable<string> Aliases => new[] { "Peak", "WeakReference<Peak>" };
+
             protected override object OnBrowse( Form owner, Core _core, object value )
             {
                 var sel = DataSet.ForPeaks( _core ).ShowList( owner, ((WeakReference<Peak>)value).GetTarget() );
@@ -319,10 +342,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 }
             }
         }
-
-        [Name( "Group" )]
+                                   
         private class _Group : _AlgoParameterType<GroupInfo>
         {
+            public override IEnumerable<string> Aliases => new[] { "Group", "GroupInfo" };
+
             protected override object OnFromString( Core core, string text )
             {
                 string el = text.Trim();
@@ -334,10 +358,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return DataSet.ForGroups( _core ).ShowList( owner, (GroupInfo)value );
             }
         }
-
-        [Name( "Clusterer" )]
+                    
         private class _WeakRefConfigurationClusterer : _AlgoParameterType<WeakReference<ConfigurationClusterer>>
         {
+            public override IEnumerable<string> Aliases => new[] { "Clusterer", "ConfigurationClusterer", "WeakReference<ConfigurationClusterer>" };
+
             protected override WeakReference[] OnTrackChanges( WeakReference<ConfigurationClusterer> param )
             {
                 return new[] { new WeakReference( param.GetTargetOrThrow().Results) };
@@ -375,10 +400,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return new WeakReference<ConfigurationClusterer>( opts[ival] );
             }
         }
-
-        [Name( "Cluster[]" )]
+                                   
         private class _WeakRefClusterArray : _AlgoParameterType<WeakReference<Cluster>[]>
         {
+            public override IEnumerable<string> Aliases => new[] { "Cluster[]", "WeakReference<Cluster>[]" };
+
             protected override object OnFromString( Core core, string text )
             {
                 int ival;

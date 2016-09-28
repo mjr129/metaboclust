@@ -32,6 +32,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
     class Algo
     {
         // IDs of some algorithms so we can retrieve them elsewhere in the program
+        public const string ID_CORRECTION_UV_SCALE_AND_CENTRE = @"UV_SCALE_AND_CENTRE";
         public const string ID_METRIC_EUCLIDEAN = @"EUCLIDEAN";
         public const string ID_METRIC_TTEST = @"T_TEST";
         public const string ID_METRIC_PEARSON = @"PEARSON";
@@ -152,7 +153,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
             Trends.Add(new TrendAverage(Maths.Max, ID_TREND_MOVING_MAXIMUM, "Moving maximum"));
 
             // Corrections
-            Corrections.Add(new CorrectionScript(@"scale(y)", @"SCALE", "UV Scale and centre", null));
+            Corrections.Add(new CorrectionScript(@"scale(y)", ID_CORRECTION_UV_SCALE_AND_CENTRE, "UV Scale and centre", null));
             Corrections.Add(new CorrectionScript(@"scale(y, center = FALSE)", @"SCALE_NO_C", "UV Scale", null));
             Corrections.Add(new CorrectionScript(@"scale(y, scale = FALSE)", @"CENTRE_NO_S", "Center", null));
             Corrections.Add(new CorrectionDirtyRectify(@"ZERO_MISSING", "Zero invalid values"));

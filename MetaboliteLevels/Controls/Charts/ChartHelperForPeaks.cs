@@ -118,7 +118,7 @@ namespace MetaboliteLevels.Controls.Charts
                         legendEntry2.Style.DrawLines.Width = 4;
                         plot.LegendEntries.Add( legendEntry2 );
 
-                        AddToPlot( plot, peak, seriesNames, vector, "Trend data", opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2 );
+                        AddToPlot( plot, peak, seriesNames, stylisedPeak.ForceTrend, "Trend data", opts, EPlot.ByBatch | EPlot.DrawLine | EPlot.DrawBold, groupLegends, legendEntry2 );
                     }
 
                     DrawLabels( plot, opts.ConditionsSideBySide, order, opts.DrawExperimentalGroupAxisLabels );

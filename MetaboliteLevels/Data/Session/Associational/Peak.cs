@@ -42,14 +42,14 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// M/Z
         /// </summary>
-        [XColumn("m/z")]
+        [XColumn("m/z", EColumn.Visible)]
         public readonly decimal Mz;
 
         /// <summary>
         /// Retention time
         /// </summary>
-        [XColumn("RT")]
-        public decimal Rt;
+        [XColumn( "tʀ", EColumn.Visible )]
+        public readonly decimal Rt;
 
         /// <summary>
         /// Other information the user loaded and may want to view in but the program doesn't actually need.
@@ -117,7 +117,7 @@ namespace MetaboliteLevels.Data.Session.Associational
         protected override void OnFindAssociations(ContentsRequest request)
         {
             switch (request.Type)
-            {
+            {            
                 case EVisualClass.Peak:
                     request.Text = "Peaks with similar m/z to {0} (" + Maths.SignificantDigits((double)this.Mz, 5) + ")";
                     request.AddRange(this.SimilarPeaks);

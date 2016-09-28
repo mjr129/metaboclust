@@ -62,7 +62,7 @@ namespace MetaboliteLevels.Forms.Editing
             _ecbMethod = DataSet.ForClustererAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.None);
             _ecbMeasure = DataSet.ForMetricAlgorithms(core).CreateComboBox(_lstMeasure, _btnNewDistance, ENullItemName.None);
             _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
-            _cbStatistics = DataSet.ForFlagsEnum<EClustererStatistics>("Cluster Statistics").CreateConditionBox(_txtStatistics, _btnSetStatistics);
+            _cbStatistics = DataSet.ForFlagsEnum<EClustererStatistics>( _core, "Cluster Statistics" ).CreateConditionBox(_txtStatistics, _btnSetStatistics);
             _readOnly = readOnly;
 
             if (def != null)

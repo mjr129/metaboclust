@@ -227,7 +227,7 @@ namespace MetaboliteLevels.Data.Session.Associational
                     request.Text = "Clusters representing potential peaks of {0}";
                     request.AddExtraColumn("Num. in compound", "Number of peaks in {0} in this cluster");
 
-                    Utilities.Counter<Cluster> counts = new Utilities.Counter<Cluster>();
+                    Counter<Cluster> counts = new Counter<Cluster>();
 
                     foreach (Annotation p in Annotations)
                     {

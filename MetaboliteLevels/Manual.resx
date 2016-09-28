@@ -127,16 +127,24 @@ OPTIONAL: If not specified then no automatic identifications will be performed.
 EXPECTS: CSVFILE
 
 {}
-Text. Row names. Ignored. Mandatory.
+Text.
+Row names.
+Unused by software.
+Mandatory.
 
 {ADDUCTFILE_NAME_HEADER}
-Text. The name of the adduct. Optional.
+Text.
+The name of the adduct.
+Optional.
 
 {ADDUCTFILE_CHARGE_HEADER}
-Numeric. The charge of the adduct (-1 = negative mode LC-MS, 1 = positive mode LS-MS). Required.
+Numeric.
+The charge of the adduct (-1 = negative mode LC-MS, 1 = positive mode LS-MS).
+Mandatory.
 
 {ADDUCTFILE_MASS_DIFFERENCE_HEADER}
-The mass of the adduct. Required.
+The mass of the adduct.
+Mandatory.
 
 {META}
 Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
@@ -154,9 +162,12 @@ OPTIONAL: If not specified no alternative data will be available.
 EXPECTS: CSVFILE
 
 {}
-Text. Observation names. Must be unique. Mandatory
+Text.
+Observation names.
+Must be unique.
+Mandatory
 
-{=Text. Peak names. Must be unique. Mandatory.}
+{=Text.¶Peak names.¶Must be unique.¶Mandatory.}
 One row per observation.
 One column per peak.
 </value>
@@ -184,19 +195,30 @@ CSV FILE LAYOUT: Click the button below for specific details.
 {=Compound file fomat}
 
 {}
-Text. Column names. Ignored. Mandatory.
+Text.
+Column names.
+Unused by software.
+Mandatory.
 
 {COMPOUNDFILE_NAME_HEADER}
-Text. The name of the compound. Optional.
+Text.
+The name of the compound.
+Optional.
 
 {COMPOUNDFILE_FRAME_ID_HEADER}
-Text. A unique ID for the compound. Optional. Required for automatic or manual annotations.
+Text. A unique ID for the compound.
+Optional. Required for automatic or manual annotations.
 
 {COMPOUNDFILE_MASS_HEADER}
-Numeric. The mass of the compound. Optional. Required for automatic annotations.
+Numeric.
+The mass of the compound.
+Optional. Required for automatic annotations.
 
 {COMPOUNDFILE_PATHWAYS_HEADER}
-Text. The "id"s of the pathways the compound is implicated in. Comma delimited. NOTE: CSV files use commas as their internal delimiter, enclosed this list in quotes to avoid confusion. Required for pathway analysis.
+List. Text. Comma delimited.
+The "id"s of the pathways the compound is implicated in.
+NOTE: CSV files use commas as their internal delimiter, enclosed this list in quotes to avoid errors.
+Required for pathway analysis.
 
 {META}
 Any additional data the user wishes to provide, unused but will be available for viewing in the software.
@@ -207,10 +229,14 @@ Any additional data the user wishes to provide, unused but will be available for
 Text. Column names. Ignored. Mandatory.
     
 {PATHWAYFILE_FRAME_ID_HEADER}
-Text. The unique ID of the pathway. Mandatory.
+Text.
+The unique ID of the pathway.
+Mandatory.
 
 {PATHWAYFILE_NAME_HEADER}
-Text. The name of the pathway. Optional.
+Text.
+The name of the pathway.
+Optional.
 
 {META}
 Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
@@ -225,12 +251,17 @@ OPTIONAL: If not specified conditions will be referred to by their index.
 EXPECTS: CSVFILE
 
 {}
-Text. Row names. Ignored. Mandatory.
+Text.
+Row names.
+Unused by software.
+Mandatory.
 
 {CONDITIONFILE_ID_HEADER}
-Text. The ID corresponding to the "type" column of the observation info file.
+Text.
+The ID corresponding to the "type" column of the observation info file.
 
 {CONDITIONFILE_NAME_HEADER}
+Text.
 The name of the experimental condition</value>
   </data>
   <data name="ControlConditions" xml:space="preserve">
@@ -264,24 +295,40 @@ NOTEL Automatic identifications can be performed by selecting the "𝙿𝚎𝚛�
 EXPECTS: CSVFILE
 
 {}
-Text. Row names. (Ignored. Mandatory.)
+Text.
+Row names.
+Unused by software.
+Mandatory.
 
 {IDFILE_PEAK_HEADER}   
-Text. The name of the peak. Optional. Must specify m/z and r.t. if not set.
+Text.
+The name of the peak. Optional.
+Must specify m/z and r.t. if this value is not specified.
 
 {VARFILE_MZ_HEADER}   
-Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.
+Text.
+The m/z of the peak to be identified.
+Optional.
+Must specify peak name if this value is not specified.
 	
 {VARFILE_RT_HEADER}   
-Text. The m/z of the peak to be identified. Optional. Must specify peak name if not set.
+Text.
+The m/z of the peak to be identified.
+Optional.
+Must specify peak name if this value is not specified.
 
 {ID_COMPOUNDS_HEADER}
-List of text values. Comma delmited list of compounds. These should correspond to the "id" or "name" of loaded compounds.
+List of text values.
+Comma delmited list of compounds.
+These should correspond to the "id" or "name" of loaded compounds.
 
 NOTE: CSV files use commas as their internal delimiter, enclose this list in quotes to avoid confusion. 
 
 {VARFILE_STATUS_HEADER}   
-Enumeration. The status of the annotation. This can be one of "confirmed", "affirmed" or "tentative". If this column is not present the default specified by the user when loading the file is used.
+Text (specified values only).
+The status of the annotation.
+This can be one of "confirmed", "affirmed" or "tentative".
+If this column is not present the default specified by the user when loading the file is used.
 
 {META}
 All other columns are discarded.</value>
@@ -296,11 +343,19 @@ MANDATORY: An intensity matrix must be provided.
 EXPECTS: CSVFILE
 
 {}
-Text. Observation names. Must be unique. Mandatory
+ONE ROW PER OBSERVATION
+Text.
+The name of the observation.
+Must be unique.
+Mandatory.
 
-{=Text. Peak names. Must be unique. Mandatory.}
-One row per observation.
-One column per peak.</value>
+
+{=ONE COLUMN PER PEAK¶Text.¶The name of the peak.¶Must be unique¶Mandatory¶}
+
+Numeric.
+The values of the intensity matrix.
+Mandatory.
+</value>
   </data>
   <data name="LcMsMode" xml:space="preserve">
     <value>Specifies the LC-MS mode.
@@ -322,22 +377,36 @@ MANDATORY: A file must be provided to describe the observations
 EXPECTS: CSVFILE
 
 {}
-Text. The name of the observation. Must be unique. Mandatory.
+Text.
+The name of the observation.
+Must be unique.
+Mandatory.
 
 {OBSFILE_TIME_HEADER}
-Integer. The timestep of the obervation. Optional.
+Integer.
+The timestep of the obervation.
+Optional.
 
 {OBSFILE_REPLICATE_HEADER}
-Integer. The replicate index of the observation. Optional.
+Integer.
+The replicate index of the observation.
+Optional.
 
 {OBSFILE_GROUP_HEADER}
-Text. The experimental group of the observation. Optional.
+Text.
+The experimental group of the observation.
+Optional.
 
 {OBSFILE_BATCH_HEADER}
-Integer. Batch. Optional.
+Integer.
+Batch.
+Optional.
 
 {OBSFILE_ACQUISITION_HEADER}
-Integer. Acquisition order index. Must be unique. Optional.
+Integer.
+Acquisition order index.
+Must be unique.
+Optional.
 
 {META}
 Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
@@ -441,10 +510,14 @@ MANDATORY: Peak information must be provided.
 Text. The name of the variable. Must be unique. Mandatory.
     
 {VARFILE_MZ_HEADER}
-Numeric. m/z value for the peak. Optional.
+Numeric.
+m/z value for the peak.
+Optional.
 
 {VARFILE_MODE_HEADER}
-Numeric. LC-MS mode for the peak (-1, 1). Required when MODE = Mixed Mode LC-MS.
+Numeric.
+LC-MS mode for the peak (-1, 1).
+Required when MODE = Mixed Mode LC-MS.
 
 {META}
 Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>

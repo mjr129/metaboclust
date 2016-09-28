@@ -930,7 +930,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void updateResultsDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EUpdateResults options = EnumHelper.SumEnum(DataSet.ForFlagsEnum<EUpdateResults>("Batch Options").ShowCheckBox(this, null));
+            EUpdateResults options = EnumHelper.SumEnum(DataSet.ForFlagsEnum<EUpdateResults>(_core, "Batch Options").ShowCheckBox(this, null));
 
             if (options == EUpdateResults.None)
             {
@@ -948,7 +948,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             if (options.Has(EUpdateResults.Statistics))
             {
-                stats = EnumHelper.SumEnum(DataSet.ForFlagsEnum<EClustererStatistics>("Statistics").ShowCheckBox(this, null));
+                stats = EnumHelper.SumEnum(DataSet.ForFlagsEnum<EClustererStatistics>( _core, "Statistics" ).ShowCheckBox(this, null));
             }
             else
             {

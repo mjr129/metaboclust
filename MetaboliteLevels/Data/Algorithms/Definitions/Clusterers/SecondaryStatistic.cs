@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
 {
@@ -96,8 +97,8 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
             }
 
             // hpeak, num comps
-            numPathways = paths.Counts.Count;
-            highestPeaks = paths.FindHighest().Value;
+            numPathways = paths.Count;
+            highestPeaks = paths.FindMax().Value;
         }
 
         /// <summary>
@@ -128,7 +129,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
 
             // hcomp, num comps
             numCompounds = compounds.Count;
-            highestCompounds = paths.FindHighest().Value;
+            highestCompounds = paths.FindMax().Value;
         }
 
         /// <summary>

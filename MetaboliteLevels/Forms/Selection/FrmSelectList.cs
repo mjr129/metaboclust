@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -195,7 +196,7 @@ namespace MetaboliteLevels.Forms.Selection
             protected FrmSelectList _form;
             FlowLayoutPanel _listBox;
             ToolTip _toolTip;
-            protected List<T> _checkBoxes = new List<T>();
+            protected List<T> _checkBoxes = new List<T>();           
 
             void IFormList.Initialise(FrmSelectList form, Core core)
             {
@@ -242,24 +243,27 @@ namespace MetaboliteLevels.Forms.Selection
 
             void IFormList.AddItem(object item, string text, string description)
             {
-                T cb = new T();
-                cb.AutoSize = true;
-                cb.Text = text;
-                cb.Visible = true;
-                cb.Margin = new Padding(8, 8, 8, 0);
-                _toolTip.SetToolTip(cb, text);
-                _listBox.Controls.Add(cb);
-                _checkBoxes.Add(cb);
-                InitialiseItem(cb);
+                T control = new T();
+                control.AutoSize = true;
+                control.Text = text;
+                control.Visible = true;
+                control.Margin = new Padding(8, 8, 8, 0);
+                _toolTip.SetToolTip(control, text);
+                _listBox.Controls.Add(control);
+                _checkBoxes.Add(control);
+                InitialiseItem(control);
 
-                Label lb = new Label();
-                lb.Text = description;
-                lb.AutoSize = true;
-                lb.Margin = new Padding(64, 0, 8, 8);
-                lb.ForeColor = System.Drawing.Color.SteelBlue;
-                lb.Font = new System.Drawing.Font(lb.Font.FontFamily.Name, 8);
-                _listBox.Controls.Add(lb);
-            }
+                if (description != null)
+                {
+                    Label lb = new Label();
+                    lb.Text = description;
+                    lb.AutoSize = true;
+                    lb.Margin = new Padding( 64, 0, 8, 8 );
+                    lb.ForeColor = System.Drawing.Color.SteelBlue;
+                    lb.Font = new System.Drawing.Font( lb.Font.FontFamily.Name, 8 );
+                    _listBox.Controls.Add( lb );
+                }
+            }   
 
             protected virtual void InitialiseItem(T item)
             {
@@ -294,10 +298,11 @@ namespace MetaboliteLevels.Forms.Selection
 
             protected override void InitialiseItem(Button control)
             {
-                control.FlatStyle = FlatStyle.Flat;
-                control.FlatAppearance.BorderSize = 0; 
-                control.ForeColor = System.Drawing.Color.Blue;
+                //control.FlatStyle = FlatStyle.Flat;
+                //control.FlatAppearance.BorderSize = 0; 
+                //control.ForeColor = System.Drawing.Color.Blue;
                 control.Click += cb_Click;
+                control.Dock = DockStyle.Top;
                 control.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             }
 
@@ -318,6 +323,25 @@ namespace MetaboliteLevels.Forms.Selection
             public override void SetState(RadioButton control, bool state)
             {
                 control.Checked = state;
+            }
+
+            protected override void InitialiseItem( RadioButton item )
+            {
+                base.InitialiseItem( item );
+
+                MethodInfo m = typeof( RadioButton ).GetMethod( "SetStyle", BindingFlags.Instance | BindingFlags.NonPublic );
+
+                if (m != null)
+                {
+                    m.Invoke( item, new object[] { ControlStyles.StandardClick | ControlStyles.StandardDoubleClick, true } );
+                }
+
+                item.DoubleClick += item_DoubleClick;
+            }
+
+            private void item_DoubleClick( object sender, EventArgs e )
+            {
+                _form.CommitSelection();
             }
         }
 

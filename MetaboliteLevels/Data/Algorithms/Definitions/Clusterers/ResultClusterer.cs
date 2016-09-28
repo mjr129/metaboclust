@@ -12,6 +12,7 @@ using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
@@ -500,7 +501,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
                 {
                     string statKey = CreateAveragedKey(kvp.Key, g);
 
-                    stats[statKey] = kvp.Value / totals.Counts[kvp.Key];
+                    stats[statKey] = kvp.Value / totals[kvp.Key];
                 }
             }
         }

@@ -148,28 +148,7 @@ namespace MetaboliteLevels.Forms.Editing
             lvi.SubItems[1].ForeColor = Color.Gray;
 
             listView1.Items.Add( lvi );
-        }
-
-        [InList]
-        [Description( "Sets RT values from meta data (required for old file versions when RTs are needed)." )]
-        void update_rt_from_old_version()
-        {
-            BeginWait( "Update RT from old version", false );
-
-            int rtIndex = DataSet.ForString( "Set RT from...", _core._peakMeta.Headers ).ShowRadio( this, 0 );
-
-            if (rtIndex == -1)
-            {
-                return;
-            }
-
-            foreach (Peak peak in _core.Peaks)
-            {
-                peak.Rt = decimal.Parse( peak.MetaInfo.Read( rtIndex ).First() );
-            }
-
-            EndWait();
-        }
+        }                
 
         [InList]
         [Description( "Creates a cluster from each of the pathways, allowing you to explore pathways as you do with clusters." )]

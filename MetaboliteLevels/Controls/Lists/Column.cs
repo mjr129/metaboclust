@@ -321,6 +321,8 @@ namespace MetaboliteLevels.Controls.Lists
 
         [XColumn( EColumn.None )]
         public abstract bool HasColourSupport { get; }
+
+        public abstract string FunctionDescription { get; }
     }
 
     sealed class Column<T> : Column
@@ -336,6 +338,19 @@ namespace MetaboliteLevels.Controls.Lists
         {
             Provider = provider;
             Colour = colour;             
+        }
+
+        public override string FunctionDescription
+        {
+            get
+            {
+                if (Provider == null)
+                {
+                    return "null";
+                }
+
+                return Provider.Method.ReturnType.ToUiString();
+            }
         }
 
         public override Type GetTemplateType()
@@ -389,66 +404,5 @@ namespace MetaboliteLevels.Controls.Lists
                 return Colour != null;
             }
         }
-    }
-
-       
-
-    static class ColumnExtensions
-    {
-        public static void Add<T>(this List<Column<T>> self, string name, EColumn special, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null)
-        {
-            self.Add(new Column<T>(name, special, null, provider, colour));
-        }
-
-        public static void Add<T>(this List<Column<T>> self, string name, Column<T>.ColumnProvider provider, Column<T>.ColourProvider colour = null )
-        {
-            self.Add(new Column<T>(name, EColumn.None, null, provider, colour));
-        }
-
-        public static IEnumerable<Column<TList>> AddSubObject<TList>( EColumn ownerVisibility, Core core, string prefix, Column<TList>.ColumnProvider convertor, Type targetType )
-        {
-            ownerVisibility = ownerVisibility & ~EColumn.Decompose;
-
-            yield return new Column<TList>( prefix + "(value)", ownerVisibility, null, z => convertor( z ), null );
-
-            foreach (Column column in ColumnManager.GetColumns( targetType, core ))
-            {
-                yield return new Column<TList>(
-                            prefix + column.Id,
-                            InheritVisibility(ownerVisibility, column.Special),
-                            column.Comment,
-                            z =>
-                            {
-                                var x = convertor( z );
-                                return x != null ? column.GetRow( x ) : null;
-                            },
-                            z =>
-                            {
-                                var x = convertor( z );
-                                return x != null ? column.GetColour( x ) : Color.Black;
-                            }
-                    );
-            }
-        }
-
-        public static IEnumerable<Column<TList>> AddSubObject<TList, TTarget>(EColumn ownerVisibility, Core core, string prefix, Converter<TList, object> convertor)
-        {
-            return AddSubObject<TList>( ownerVisibility, core, prefix, new Column<TList>.ColumnProvider( convertor ), typeof(TTarget) );
-        }
-
-        private static EColumn InheritVisibility( EColumn parent, EColumn child )
-        {
-            if (!parent.Has( EColumn.Visible ))
-            {
-                child &= ~EColumn.Visible;
-            }
-
-            if (parent.Has( EColumn.Advanced ))
-            {
-                child |= EColumn.Advanced;
-            }
-
-            return child;
-        }
-    }
+    }      
 }

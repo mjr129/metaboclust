@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Data.Session.General
 {
@@ -23,12 +24,17 @@ namespace MetaboliteLevels.Data.Session.General
         /// <summary>
         /// Request - Called upon
         /// </summary>
-        public readonly Associational.Associational Owner;
+        public readonly object Owner;
 
         /// <summary>
         /// Request - Type of results to get.
         /// </summary>
         public readonly EVisualClass Type;
+
+        /// <summary>
+        /// Request - Type of results to get.
+        /// </summary>
+        public readonly Type TypeAsType;
 
         /// <summary>
         /// Response - Title of the results.
@@ -38,7 +44,7 @@ namespace MetaboliteLevels.Data.Session.General
         /// <summary>
         /// Response - List of results
         /// </summary>
-        public readonly List<Association> Results = new List<Association>();
+        public readonly List<IAssociation> Results = new List<IAssociation>();
 
         /// <summary>
         /// Extra columns
@@ -48,40 +54,66 @@ namespace MetaboliteLevels.Data.Session.General
         /// <summary>
         /// CONSTRUCTOR
         /// </summary> 
-        public ContentsRequest( Core core, Associational.Associational owner, EVisualClass type )
+        public ContentsRequest( Core core, object owner, EVisualClass type )
         {
             this.Core = core;
             this.Owner = owner;
             this.Type = type;
+            this.TypeAsType = Translate( type );
         }
 
-        public void Add( object item, params object[] extraColumns )
+        private static Type Translate( EVisualClass type )
         {
-            Results.Add( new Association( this, item, extraColumns ) );
+            switch (type)
+            {                      
+                case EVisualClass.SpecialAll:
+                case EVisualClass.SpecialMeta:
+                case EVisualClass.SpecialAdvanced:
+                case EVisualClass.SpecialStatistic: return typeof( Associational.Associational.ColumnValuePair );
+                case EVisualClass.Peak: return typeof( Peak );
+                case EVisualClass.Cluster: return typeof( Cluster );
+                case EVisualClass.Compound: return typeof( Compound );
+                case EVisualClass.Adduct: return typeof( Adduct );
+                case EVisualClass.Pathway: return typeof( Pathway );
+                case EVisualClass.Assignment: return typeof( Assignment );
+                case EVisualClass.Annotation: return typeof( Annotation );
+                case EVisualClass.None: return typeof( object ); // Doesn't matter, the list will be empty. Can't be null.
+                default: throw new SwitchException( type );
+            }
+        }
+
+        public void Add<T>( T item, params object[] extraColumns )
+        {
+            if (typeof(T) != TypeAsType)
+            {
+                throw new InvalidOperationException( $"Expected the type of item {{{typeof( T ).ToString()}}} added to ContentsRequest to match the request {{{TypeAsType.Name}}}." );
+            }
+
+            Results.Add( new Association<T>( this, item, extraColumns ) );
         }
 
         /// <summary>
         /// Adds a range of items (this can't be done if there are unique columns).
         /// </summary>                                                             
-        public void AddRange( IEnumerable items )
+        public void AddRange<T>( IEnumerable<T> items )
         {
             if (items != null)
             {
-                foreach (object item in items)
+                foreach (T item in items)
                 {
-                    Add( item );
+                    Add<T>( item );
                 }
             }
         }
 
-        internal void AddExtraColumn( string title, string description )
+        internal void AddExtraColumn( string title, string description = null )
         {
             ExtraColumns.Add( Tuple.Create( title, description ) );
         }
 
         internal void AddRangeWithCounts<T>( Counter<T> counts )
         {
-            foreach (KeyValuePair<T, int> kvp in counts.Counts)
+            foreach (KeyValuePair<T, int> kvp in counts)
             {
                 Add( kvp.Key, kvp.Value );
             }
