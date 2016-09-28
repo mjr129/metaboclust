@@ -140,7 +140,7 @@ namespace MetaboliteLevels.Forms.Activities
             MetaInfoHeader annotationsHeader = new MetaInfoHeader();
 
             // DATA SETS
-            DataSet data = Load_1_DataSets(_dataInfo, _fileNames, _prog);
+            DataSet data = Load_1_DataSets(_dataInfo, _fileNames, _prog, _warnings );
 
             // COMPOUNDS & PATHWAYS
             Load_2_Compounds( _dataInfo, compounds, pathways, pathwayHeader, compoundHeader, _fileNames.CompoundLibraies, _prog);
@@ -881,7 +881,7 @@ namespace MetaboliteLevels.Forms.Activities
         /// <param name="files">Names of files to load</param>
         /// <param name="prog">Progress reporter</param>
         /// <returns>A DataSet object containing the loaded datasets</returns>
-        private static DataSet Load_1_DataSets(FileLoadInfo dataInfo, DataFileNames files, ProgressReporter prog)
+        private static DataSet Load_1_DataSets(FileLoadInfo dataInfo, DataFileNames files, ProgressReporter prog, List<string> warnings)
         {
             // Generate a SpreadsheetReader to read the CSV files
             SpreadsheetReader reader = new SpreadsheetReader()
@@ -940,11 +940,11 @@ namespace MetaboliteLevels.Forms.Activities
             prog.Enter( "Formatting data" );
 
             // Get the columns
-            int ssObsDayCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_TIME_HEADER );
-            int ssObsRepCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_REPLICATE_HEADER );
-            int ssObsTypCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_GROUP_HEADER );
-            int ssObsBatCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_BATCH_HEADER );
-            int ssObsAcqCol = ssObservations.TryFindColumn( dataInfo.OBSFILE_ACQUISITION_HEADER );
+            int ssObsDayCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_TIME_HEADER );
+            int ssObsRepCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_REPLICATE_HEADER );
+            int ssObsTypCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_GROUP_HEADER );
+            int ssObsBatCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_BATCH_HEADER, "Some batch correction options may not function correctly." );
+            int ssObsAcqCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_ACQUISITION_HEADER, "Some batch correction options may not function correctly." );
 
             int ssPeakMzCol;
             int ssPeakRtCol;
@@ -1089,6 +1089,18 @@ namespace MetaboliteLevels.Forms.Activities
             }
 
             prog.Leave();
+
+            return result;
+        }
+
+        private static int TryFindColumn( Spreadsheet<string> matrix, List<string> warnings, string[] header, string extraWarning = null )
+        {
+            int result= matrix.TryFindColumn( header );
+
+            if (result == -1)
+            {
+                warnings.Add( $"The file {{{matrix.Title}}} does not contain any of the columns {{{string.Join( ", ", header )}}}. This information may show as missing or zero in your analysis." + (extraWarning != null ? (" " + extraWarning) : "") );
+            }
 
             return result;
         }

@@ -76,7 +76,7 @@ namespace MetaboliteLevels.Forms.Setup
             this.browseToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.errorProvider1 = new MGui.Controls.CtlError( this.components);
+            this.errorProvider1 = new MGui.Controls.CtlError(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -85,7 +85,7 @@ namespace MetaboliteLevels.Forms.Setup
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
             this._cmsR.SuspendLayout();
-            this._cmsPathwayTools.SuspendLayout();                                        
+            this._cmsPathwayTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -156,7 +156,7 @@ namespace MetaboliteLevels.Forms.Setup
             this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 579);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(137, 37);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(164, 37);
             this.flowLayoutPanel4.TabIndex = 9;
             // 
             // label5
@@ -166,17 +166,17 @@ namespace MetaboliteLevels.Forms.Setup
             this.label5.Location = new System.Drawing.Point(8, 8);
             this.label5.Margin = new System.Windows.Forms.Padding(8);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 21);
+            this.label5.Size = new System.Drawing.Size(119, 21);
             this.label5.TabIndex = 0;
-            this.label5.Text = "Useful links";
+            this.label5.Text = "Useful links -->";
             this.label5.Click += new System.EventHandler(this.ctlButton3_Click);
             // 
             // ctlButton3
             // 
             this.ctlButton3.FlatAppearance.BorderSize = 0;
             this.ctlButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ctlButton3.Image = global::MetaboliteLevels.Properties.Resources.MnuDescribe;
-            this.ctlButton3.Location = new System.Drawing.Point(108, 8);
+            this.ctlButton3.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
+            this.ctlButton3.Location = new System.Drawing.Point(135, 8);
             this.ctlButton3.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
             this.ctlButton3.Name = "ctlButton3";
             this.ctlButton3.Size = new System.Drawing.Size(21, 21);
@@ -212,7 +212,7 @@ namespace MetaboliteLevels.Forms.Setup
             // 
             this.ctlButton2.FlatAppearance.BorderSize = 0;
             this.ctlButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ctlButton2.Image = global::MetaboliteLevels.Properties.Resources.MnuDescribe;
+            this.ctlButton2.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this.ctlButton2.Location = new System.Drawing.Point(259, 8);
             this.ctlButton2.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
             this.ctlButton2.Name = "ctlButton2";
@@ -249,7 +249,7 @@ namespace MetaboliteLevels.Forms.Setup
             // 
             this.ctlButton1.FlatAppearance.BorderSize = 0;
             this.ctlButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ctlButton1.Image = global::MetaboliteLevels.Properties.Resources.MnuDescribe;
+            this.ctlButton1.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this.ctlButton1.Location = new System.Drawing.Point(92, 8);
             this.ctlButton1.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
             this.ctlButton1.Name = "ctlButton1";
@@ -505,7 +505,7 @@ namespace MetaboliteLevels.Forms.Setup
             // 
             this.ctlButton5.FlatAppearance.BorderSize = 0;
             this.ctlButton5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ctlButton5.Image = global::MetaboliteLevels.Properties.Resources.MnuDescribe;
+            this.ctlButton5.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
             this.ctlButton5.Location = new System.Drawing.Point(159, 8);
             this.ctlButton5.Margin = new System.Windows.Forms.Padding(0, 8, 8, 8);
             this.ctlButton5.Name = "ctlButton5";
@@ -631,7 +631,7 @@ namespace MetaboliteLevels.Forms.Setup
             this.flowLayoutPanel5.ResumeLayout(false);
             this.flowLayoutPanel5.PerformLayout();
             this._cmsR.ResumeLayout(false);
-            this._cmsPathwayTools.ResumeLayout(false);                                  
+            this._cmsPathwayTools.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
