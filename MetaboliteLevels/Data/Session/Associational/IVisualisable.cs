@@ -72,9 +72,8 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// STATIC
         /// Gets columns
         /// </summary>
-        public virtual IEnumerable<Column> GetXColumns( Core core )
-        {
-            return null;
+        public virtual void GetXColumns( ColumnCollection results, Core core )
+        {                                                   
         }
 
         public virtual EPrevent SupportsHide => EPrevent.None;       

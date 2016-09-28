@@ -80,14 +80,12 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-       public override IEnumerable<Column> GetXColumns(Core core)
+       public override void GetXColumns(ColumnCollection list, Core core)
         {
-            List<Column<AlgoBase>> result = new List<Column<AlgoBase>>();
+            var result = list.Cast<AlgoBase>();
                                                
             result.Add("R", z => z.Script != null ? 1 : 0);
             result.Add("File", z => z.Script?.FileName);
-
-            return result;
         }
     }
 }

@@ -90,7 +90,7 @@ namespace MetaboliteLevels.Utilities
             get { return _headers; }
         }      
 
-        internal void ReadAllColumns<T>(Converter<T, MetaInfoCollection> collectionRetriever, List<Column<T>> columns)
+        internal void ReadAllColumns<T>(Converter<T, MetaInfoCollection> collectionRetriever, ColumnCollection<T> columns)
             where T : Visualisable
         {
             for (int index = 0; index < this._headers.Length; index++)

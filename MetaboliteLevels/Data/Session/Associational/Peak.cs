@@ -231,9 +231,9 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override IEnumerable<Column> GetXColumns(Core core)
+        public override void GetXColumns(ColumnCollection list, Core core)
         {
-            var columns = new List<Column<Peak>>();
+            var columns = list .Cast< Peak>();
                                                            
 
             columns.Add("Cluster assignments", EColumn.None, λ => λ.FindAssignments( core ).Select(z=> z.Cluster ));
@@ -264,8 +264,11 @@ namespace MetaboliteLevels.Data.Session.Associational
             foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
             {
                 var closure = stat;
-                columns.Add("Statistic\\" + stat.ToString(), EColumn.IsStatistic, λ => λ.GetStatistic(closure));
-                columns[columns.Count - 1].Colour = z => UiControls.StatisticColour( z.GetStatistic( closure ), stat.Results.Min, stat.Results.Max);
+                columns.Add(
+                    "Statistic\\" + stat.ToString(),
+                    EColumn.IsStatistic,
+                    λ => λ.GetStatistic(closure),
+                    z => UiControls.StatisticColour( z.GetStatistic( closure ), stat.Results.Min, stat.Results.Max ) );   
             }
 
             columns.Add( "Annotations\\As compounds", EColumn.Advanced, λ => λ.Annotations.Select(λλ => λλ.Compound));
@@ -278,9 +281,7 @@ namespace MetaboliteLevels.Data.Session.Associational
             {
                 var closure = fi;
                 columns.Add("Passes filter\\" + fi.ToString(), EColumn.Advanced, z => fi.Test(z));
-            }
-
-            return columns;
+            }                        
         }
 
         [XColumn("Best annotation")]

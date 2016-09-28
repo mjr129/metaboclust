@@ -299,9 +299,9 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
             }
         }
 
-        public override IEnumerable<Column> GetXColumns( Core core )
+        public override void GetXColumns( ColumnCollection list, Core core )
         {
-            var results = new List<Column<ConfigurationBase<TAlgo, TArgs, TResults, TTracker>>>();
+            var results = list.Cast<ConfigurationBase<TAlgo, TArgs, TResults, TTracker>>();
 
             results.Add( "Status", EColumn.Visible, z => z.Status, z =>
                                                                    {
@@ -319,8 +319,6 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
                                                                                throw new ArgumentOutOfRangeException();
                                                                        }
                                                                    } );
-
-            return results;
         }
 
         void IBackup.Backup( BackupData data )

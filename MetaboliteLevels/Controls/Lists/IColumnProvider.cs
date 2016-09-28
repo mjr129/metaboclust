@@ -10,6 +10,6 @@ namespace MetaboliteLevels.Controls.Lists
 {
     interface IColumnProvider
     {
-        IEnumerable<Column> GetXColumns(Core core);
+        void GetXColumns( ColumnCollection results, Core core);
     }
 }

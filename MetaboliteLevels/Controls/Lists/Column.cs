@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -60,6 +61,7 @@ namespace MetaboliteLevels.Controls.Lists
         }
     }
 
+    [DebuggerDisplay( "{Id}" )]
     abstract class Column : Visualisable
     {
         [XColumn(EColumn.Visible)]

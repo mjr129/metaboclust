@@ -101,17 +101,15 @@ namespace MetaboliteLevels.Forms.Activities
 
             public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Statistic;
 
-            public override IEnumerable<Column> GetXColumns(Core core)
+            public override void GetXColumns(ColumnCollection list, Core core)
             {
-                List<Column<ColumnWrapper>> cols = new List<Column<ColumnWrapper>>();
+                var cols = list .Cast< ColumnWrapper>();
 
                 foreach (ClusterEvaluationParameterResult v in _results.Results)
                 {
                     var closure = v;
                     cols.Add(_results.Configuration.ParameterName + " = " + closure.DisplayName, EColumn.None, z => z.Column.GetRow(closure));
-                }
-
-                return cols;
+                }              
             }    
         }
 

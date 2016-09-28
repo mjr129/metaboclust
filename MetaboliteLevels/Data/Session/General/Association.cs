@@ -46,12 +46,12 @@ namespace MetaboliteLevels.Data.Session.General
             Icon = (target as IIconProvider)?.Icon ?? UiControls.ImageListOrder.Unknown;
         }
 
-        public IEnumerable<Column> GetXColumns( Core core )
+        public void GetXColumns( ColumnCollection list, Core core )
         {
-            List<Column<Association<T>>> results = new List<Column<Association<T>>>();
+            ColumnCollection<Association<T>> results = list.Cast<Association<T>>();
 
             // Add association as-is
-            results.AddRange( ColumnManager.AddSubObject<Association<T>>( EColumn.Advanced, EColumn.Visible, core, "", z => z.Associated, typeof(T) ) );
+            results.AddRange( ColumnManager.AddSubObject<Association<T>>( EColumn.Advanced, EColumn.Visible, core, "Association\\", z => z.Associated, typeof(T) ) );
 
             // Add extra columns from original request
             if (OriginalRequest?.ExtraColumns != null)
@@ -63,9 +63,7 @@ namespace MetaboliteLevels.Data.Session.General
 
                     results.Add( new Column<Association<T>>( c.Item1, EColumn.Visible, c.Item2, z => z._extraColumnValues[closure], z => Color.Blue ) );
                 }
-            }
-
-            return results;
+            }                
         }
 
         public UiControls.ImageListOrder Icon { get; private set; }

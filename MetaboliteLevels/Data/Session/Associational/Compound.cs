@@ -277,17 +277,15 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPELEMENTS IVisualisable
         /// </summary>               
-        public override IEnumerable<Column> GetXColumns(Core core)
+        public override void GetXColumns(ColumnCollection list, Core core)
         {
-            List<Column<Compound>> columns = new List<Column<Compound>>();
+            var columns = list .Cast< Compound>();
                                                                                               
             columns.Add( "Annotations\\As peaks", EColumn.Visible, λ => λ.Annotations.Select( z => z.Peak ) );
             columns.Add( "Annotations\\As statuses", EColumn.None, λ => λ.Annotations.Select( z => z.Status ) );
             columns.Add( "Annotations\\As compounds", EColumn.None, λ => λ.Annotations.Select( z => z.Compound ) );
             
             core._compoundsMeta.ReadAllColumns(z => z.MetaInfo, columns);
-
-            return columns;
         }
 
         [XColumn("Best annotation")]

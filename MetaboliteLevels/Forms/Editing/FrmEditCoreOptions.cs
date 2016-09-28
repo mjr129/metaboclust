@@ -213,14 +213,12 @@ namespace MetaboliteLevels.Forms.Editing
                 return new _btnEditDefaults_Click__Kvp( arg );
             }
 
-            public override IEnumerable<Column> GetXColumns( Core core )
+            public override void GetXColumns(ColumnCollection list, Core core )
             {
-                List<Column<_btnEditDefaults_Click__Kvp>> result = new List<Column<_btnEditDefaults_Click__Kvp>>();
+                var result = list.Cast<_btnEditDefaults_Click__Kvp>();
 
                 result.Add( "Key"  , z => this._arg.Key );
                 result.Add( "Value", z => Column.AsString( this._arg.Value, EListDisplayMode.CountAndContent ) );
-
-                return result;
             }
 
             public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;     
@@ -262,16 +260,14 @@ namespace MetaboliteLevels.Forms.Editing
                 return new _btnEditColumns_Click__ColumnDisplay( arg );
             }
 
-            public override IEnumerable<Column> GetXColumns( Core core )
+            public override void GetXColumns( ColumnCollection ulist, Core core )
             {
-                List<Column<_btnEditColumns_Click__ColumnDisplay>> list = new List<Column<_btnEditColumns_Click__ColumnDisplay>>();
+                var list = ulist.Cast< _btnEditColumns_Click__ColumnDisplay>();
 
                 list.Add( "Display index", EColumn.Visible, z => z._col.DisplayIndex );
                 list.Add( "Display name", EColumn.Visible, z => z._col.DisplayName );
                 list.Add( "Visible", EColumn.Visible, z => z._col.Visible );
                 list.Add( "Width", EColumn.Visible, z => z._col.Width );
-
-                return list;
             }
 
             public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;     

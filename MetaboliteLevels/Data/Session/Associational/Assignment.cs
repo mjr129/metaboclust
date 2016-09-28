@@ -113,10 +113,9 @@ namespace MetaboliteLevels.Data.Session.Associational
 
         public override EVisualClass AssociationalClass=> EVisualClass.Assignment;
 
-        public override IEnumerable<Column> GetXColumns(Core core)
+        public override void GetXColumns(ColumnCollection list, Core core)
         {
-            var cols = new List<Column<Assignment>>();      
-
+            
             // TODO: Put this back!
             //foreach (var kvp in this.AssignmentStatistics.Keys)
             //{
@@ -124,7 +123,7 @@ namespace MetaboliteLevels.Data.Session.Associational
             //    cols.Add("Assignment statistic\\" + closure, EColumn.IsStatistic, z => z.AssignmentStatistics.GetOrNan(closure));
             //}                                                                                               
 
-            return cols;
+            
         }
 
         protected override void OnFindAssociations(ContentsRequest request)

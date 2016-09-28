@@ -117,13 +117,11 @@ namespace MetaboliteLevels.Data.Session.Associational
             }
         }
 
-        public override IEnumerable<Column> GetXColumns( Core core )
+        public override void GetXColumns( ColumnCollection list, Core core )
         {
-            List<Column<Annotation>> results = new List<Column<Annotation>>();
+            ColumnCollection<Annotation> results = list .Cast< Annotation>();
 
             core._annotationsMeta.ReadAllColumns<Annotation>( z => z.Meta, results );
-
-            return results;
         }
     }
 }

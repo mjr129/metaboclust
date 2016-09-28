@@ -501,25 +501,31 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>    
-        public override IEnumerable<Column> GetXColumns(Core core)
+        public override void GetXColumns(ColumnCollection list, Core core)
         {
-            var result = new List<Column<Cluster>>();
-                                                                 
-            result.Add("Assignments\\As peaks", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
+            var result = list.Cast<Cluster>();
+
+            result.Add( "Assignments\\As peaks", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
             result.Add("Assignments\\As scores", EColumn.Advanced, λ => λ.Assignments.Scores.ToArray());
 
             foreach (GroupInfo group in core.Groups)
             {
                 GroupInfo closure = group;
-                result.Add("Assignments\\For " + group.DisplayName, EColumn.None, λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray());
-                result[result.Count - 1].Colour = z => closure.Colour;
+                result.Add(
+                    "Assignments\\For " + group.DisplayName, 
+                    EColumn.None,
+                    λ => λ.Assignments.List.Where(z => z.Vector.Group == closure).Select(z => z.Cluster).ToArray(),
+                    z => closure.Colour );
             }             
 
             foreach (PeakFlag flag in core.Options.PeakFlags)
             {
                 PeakFlag closure = flag;
-                result.Add("Flags\\" + flag, EColumn.Advanced, λ => λ.CommentFlags.ContainsKey(closure) ? λ.CommentFlags[closure] : 0);
-                result[result.Count - 1].Colour = z => closure.Colour;
+                result.Add(
+                    "Flags\\" + flag, 
+                    EColumn.Advanced, 
+                    λ => λ.CommentFlags.ContainsKey(closure) ? λ.CommentFlags[closure] : 0, 
+                    z => closure.Colour );
             }
 
             result.Add("Flags\\Summary", EColumn.None, λ => λ.CommentFlags.Select(z => z.Key + " = " + z.Value), z => z.CommentFlags.Count != 1 ? Color.Black : z.CommentFlags.Keys.First().Colour);
@@ -534,9 +540,7 @@ namespace MetaboliteLevels.Data.Session.Associational
             {
                 string closure = stat;
                 result.Add("Cluster statistic\\" + closure, EColumn.IsStatistic, λ => λ.ClusterStatistics.GetOrNan(closure));
-            }                                                        
-
-            return result;
+            }                
         }
 
         /// <summary>

@@ -401,16 +401,14 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override IEnumerable<Column> GetXColumns(Core core)
+        public override void GetXColumns(ColumnCollection list, Core core)
         {
-            var result = new List<Column<Pathway>>();
+            var result = list .Cast< Pathway>();
 
             result.Add("Compounds with peaks", EColumn.None, λ => λ.Compounds.Where(z => z.Annotations.Count != 0));
             result.Add("Related pathways", EColumn.None, λ => λ.RelatedPathways);
 
             core._pathwaysMeta.ReadAllColumns(z => z.MetaInfo, result);
-
-            return result;
         }
 
         /// <summary>

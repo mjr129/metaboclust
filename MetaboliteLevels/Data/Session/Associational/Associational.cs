@@ -116,14 +116,12 @@ namespace MetaboliteLevels.Data.Session.Associational
                 this._shortName = shortName;
             }
 
-            public IEnumerable<Column> GetXColumns( Core core )
+            public void GetXColumns( ColumnCollection uresults, Core core )
             {
-                List<Column<ColumnValuePair>> result = new List<Column<ColumnValuePair>>();
+                ColumnCollection<ColumnValuePair> result = uresults.Cast<ColumnValuePair>();
 
                 result.Add( "Field", EColumn.Visible, z => z.Field, z => z.ColumnColour );
                 result.Add( "Value", EColumn.Visible, z => z.Value, z => z.Colour );
-
-                return result;
             }
         }    
 

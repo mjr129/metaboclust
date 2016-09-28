@@ -144,13 +144,11 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override IEnumerable<Column> GetXColumns(Core core)
-        {                                                
-            List<Column<Adduct>> result = new List<Column<Adduct>>();       
+        public override void GetXColumns(ColumnCollection list, Core core)
+        {
+            ColumnCollection<Adduct> result = list.Cast<Adduct>();       
 
             core._annotationsMeta.ReadAllColumns(z => z.MetaInfo, result);
-
-            return result;
         }
 
         /// <summary>

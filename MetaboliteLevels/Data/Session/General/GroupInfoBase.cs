@@ -125,15 +125,13 @@ namespace MetaboliteLevels.Data.Session.General
             return a.DisplayPriority;
         }
 
-        public override IEnumerable<Column> GetXColumns(Core core)
+        public override void GetXColumns(ColumnCollection list, Core core)
         {
-            List<Column<GroupInfoBase>> columns = new List<Column<GroupInfoBase>>();
+            var columns = list .Cast< GroupInfoBase>();
                                                                                
             columns.Add("Colour", z => ColourHelper.ColourToName(z.Colour), z => z.Colour);
             columns.Add("Light colour", z => ColourHelper.ColourToName(z.ColourLight), z => z.ColourLight);
             columns.Add( "Graph icon", z => z.GraphIcon, z=> z.Colour );  
-
-            return columns;
         }
 
         public override  UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Group;

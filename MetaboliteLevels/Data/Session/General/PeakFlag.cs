@@ -175,13 +175,11 @@ namespace MetaboliteLevels.Data.Session.General
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>     
-        public override IEnumerable<Column> GetXColumns(Core core)
+        public override void GetXColumns(ColumnCollection list, Core core)
         {
-            List<Column<PeakFlag>> result = new List<Column<PeakFlag>>();
+            var result = list .Cast< PeakFlag>();
                                                                                              
             result.Add( "Colour", EColumn.None, z => ColourHelper.ColourToName( z.Colour ), z => z.Colour );
-
-            return result;
         }
 
         /// <summary>
