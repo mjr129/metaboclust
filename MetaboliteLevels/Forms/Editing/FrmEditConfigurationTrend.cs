@@ -14,6 +14,7 @@ using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Resx;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -162,7 +163,7 @@ namespace MetaboliteLevels.Forms.Editing
             }
 
             bool valid = sel != null;
-            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : Texts.default_name;
 
             _lnkError.Visible = false;
 

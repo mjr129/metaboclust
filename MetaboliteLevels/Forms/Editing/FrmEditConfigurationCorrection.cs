@@ -249,7 +249,7 @@ namespace MetaboliteLevels.Forms.Editing
             bool readyToGo = (usingTrend && operatorVisible && (_radDivide.Checked || _radSubtract.Checked)) || (!usingTrend);
 
             ArgsCorrection sel = GetSelection();
-            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : Resx.Texts.default_name;
             bool valid = sel != null;
 
             _tlpPreview.Visible = valid;

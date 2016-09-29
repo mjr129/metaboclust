@@ -14,6 +14,7 @@ using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Resx;
 using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
@@ -278,7 +279,7 @@ namespace MetaboliteLevels.Forms.Editing
         private void Check(object sender, EventArgs e)
         {
             var sel = GetSelection();
-            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+            _txtName.Watermark = sel != null ? sel.DefaultDisplayName : Texts.default_name;
             _btnOk.Enabled = sel != null;
         }      
 

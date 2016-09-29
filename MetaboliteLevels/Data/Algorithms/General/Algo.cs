@@ -191,7 +191,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
             string folder = UiControls.GetOrCreateFixedFolder( searchFolder );
             string resourcePrefix = "scripts~" + Path.GetFileName( folder ).ToLower() + "~";
                                                                                                                 
-            ResourceSet resources = Scripts.ResourceManager.GetResourceSet( CultureInfo.CurrentUICulture, true, true );
+            ResourceSet resources = Resx.Scripts.ResourceManager.GetResourceSet( CultureInfo.CurrentUICulture, true, true );
 
             // Search Scripts.resx
             foreach (DictionaryEntry resource in resources)

@@ -239,10 +239,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Scripts.Designer.cs">
+    <Compile Include="Resx\Scripts.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Scripts.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resx\Texts.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Texts.resx</DependentUpon>
     </Compile>
     <Compile Include="Types\General\ETolerance.cs" />
     <Compile Include="Forms\Activities\FrmActEvaluate.cs">
@@ -334,7 +339,7 @@
     <Compile Include="Forms\Setup\FrmSetupWorkspace.Designer.cs">
       <DependentUpon>FrmSetupWorkspace.cs</DependentUpon>
     </Compile>
-    <Compile Include="Manual.Designer.cs">
+    <Compile Include="Resx\Manual.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Manual.resx</DependentUpon>
@@ -723,7 +728,7 @@
     <EmbeddedResource Include="Forms\Wizards\FrmWizConfigurationCluster.resx">
       <DependentUpon>FrmWizConfigurationCluster.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Manual.resx">
+    <EmbeddedResource Include="Resx\Manual.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Manual.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -1122,6 +1127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\Separator.png" />
     <None Include="Resources\IconInputError.png" />
     <None Include="Resources\IconUnknown.png" />
     <None Include="Resources\MnuHelpBar.png" />
@@ -1145,10 +1151,14 @@
     <None Include="Resources\IconCompoundAffirmed.png" />
     <None Include="Resources\MnuGroup.png" />
     <None Include="Resources\zoom_16xLG.png" />
-    <EmbeddedResource Include="Scripts.resx">
+    <EmbeddedResource Include="Resx\Scripts.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Scripts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resx\Texts.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Texts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="VersionHistory.txt" />
   </ItemGroup>

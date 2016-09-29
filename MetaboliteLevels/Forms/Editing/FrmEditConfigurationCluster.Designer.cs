@@ -227,7 +227,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.toolTip1.SetToolTip(this._txtName, "Enter the title of the algorithm (this will also be the title of the resultant cl" +
         "usters).\r\nIf you don\'t enter a title one will be chosen for you.\r\nUse the button" +
         " to the right to add comments.");
-            this._txtName.Watermark = "Default";
+            this._txtName.Watermark = Resx.Texts.default_name;
             this._txtName.TextChanged += new System.EventHandler(this.Check);
             // 
             // tableLayoutPanel1

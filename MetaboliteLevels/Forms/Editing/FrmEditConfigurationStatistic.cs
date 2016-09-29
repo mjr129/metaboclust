@@ -192,7 +192,7 @@ namespace MetaboliteLevels.Forms.Editing
                 ArgsStatistic sel = GetSelection();
                 GeneratePreview(sel);
                 previewSucceeded = sel != null;
-                _txtName.Watermark = sel != null ? sel.DefaultDisplayName : "Default";
+                _txtName.Watermark = sel != null ? sel.DefaultDisplayName : Resx.Texts.default_name;
             }
             catch
             {

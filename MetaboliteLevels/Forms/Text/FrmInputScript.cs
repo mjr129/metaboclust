@@ -75,7 +75,7 @@ namespace MetaboliteLevels.Forms.Text
 
             helpText.AppendLine( "EXPECTED RESULT".PadRight( 16 ) + ": " + markup.ReturnValue );
             helpText.AppendLine();
-            helpText.AppendLine(Manual.RScript);
+            helpText.AppendLine(Resx.Manual.RScript);
             this._titleBar.HelpText = helpText.ToString();
 
             defaultCode.AppendLine(); 

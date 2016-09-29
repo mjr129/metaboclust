@@ -559,7 +559,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._radRecentWorkspace.TabIndex = 21;
             this._radRecentWorkspace.TabStop = true;
             this._radRecentWorkspace.Text = "Previous configuration";
-            this._tipSideBar.SetToolTip(this._radRecentWorkspace, global::MetaboliteLevels.Manual.RecentSessions);
+            this._tipSideBar.SetToolTip(this._radRecentWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             this._radRecentWorkspace.UseVisualStyleBackColor = true;
             this._radRecentWorkspace.CheckedChanged += new System.EventHandler(this._radRecentWorkspace_CheckedChanged);
             this._radRecentWorkspace.Click += new System.EventHandler(this.radioButton2_Click);
@@ -575,7 +575,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.ctlLabel6.Size = new System.Drawing.Size(524, 21);
             this.ctlLabel6.TabIndex = 13;
             this.ctlLabel6.Text = "^^Start with a blank configuration or use a previous session as a template";
-            this._tipSideBar.SetToolTip(this.ctlLabel6, global::MetaboliteLevels.Manual.RecentSessions);
+            this._tipSideBar.SetToolTip(this.ctlLabel6, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             // 
             // ctlLabel7
             // 
@@ -587,7 +587,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.ctlLabel7.Size = new System.Drawing.Size(74, 21);
             this.ctlLabel7.TabIndex = 13;
             this.ctlLabel7.Text = "Template";
-            this._tipSideBar.SetToolTip(this.ctlLabel7, global::MetaboliteLevels.Manual.RecentSessions);
+            this._tipSideBar.SetToolTip(this.ctlLabel7, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             // 
             // _radEmptyWorkspace
             // 
@@ -601,7 +601,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._radEmptyWorkspace.TabIndex = 20;
             this._radEmptyWorkspace.TabStop = true;
             this._radEmptyWorkspace.Text = "Blank template";
-            this._tipSideBar.SetToolTip(this._radEmptyWorkspace, global::MetaboliteLevels.Manual.RecentSessions);
+            this._tipSideBar.SetToolTip(this._radEmptyWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             this._radEmptyWorkspace.UseVisualStyleBackColor = true;
             this._radEmptyWorkspace.Click += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -614,7 +614,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnDeleteWorkspace.Size = new System.Drawing.Size(29, 29);
             this._btnDeleteWorkspace.TabIndex = 2;
             this._btnDeleteWorkspace.Text = "";
-            this._tipSideBar.SetToolTip(this._btnDeleteWorkspace, global::MetaboliteLevels.Manual.RecentSessions);
+            this._tipSideBar.SetToolTip(this._btnDeleteWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             this._tipPopup.SetToolTip(this._btnDeleteWorkspace, "Removes a previous configuration from the session history");
             this._btnDeleteWorkspace.UseDefaultSize = true;
             this._btnDeleteWorkspace.UseVisualStyleBackColor = true;
@@ -628,7 +628,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnRecentWorkspace.Name = "_btnRecentWorkspace";
             this._btnRecentWorkspace.Size = new System.Drawing.Size(28, 29);
             this._btnRecentWorkspace.TabIndex = 22;
-            this._tipSideBar.SetToolTip(this._btnRecentWorkspace, global::MetaboliteLevels.Manual.RecentSessions);
+            this._tipSideBar.SetToolTip(this._btnRecentWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             this._tipPopup.SetToolTip(this._btnRecentWorkspace, "Show drop down menu");
             this._btnRecentWorkspace.UseVisualStyleBackColor = true;
             this._btnRecentWorkspace.Click += new System.EventHandler(this.radioButton2_Click);
@@ -642,7 +642,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtPreviousConfig.ReadOnly = true;
             this._txtPreviousConfig.Size = new System.Drawing.Size(481, 29);
             this._txtPreviousConfig.TabIndex = 23;
-            this._tipSideBar.SetToolTip(this._txtPreviousConfig, global::MetaboliteLevels.Manual.RecentSessions);
+            this._tipSideBar.SetToolTip(this._txtPreviousConfig, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             // 
             // _tabSessionName
             // 
@@ -691,7 +691,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblTitle.Size = new System.Drawing.Size(106, 21);
             this._lblTitle.TabIndex = 20;
             this._lblTitle.Text = "Session name";
-            this._tipSideBar.SetToolTip(this._lblTitle, global::MetaboliteLevels.Manual.Session);
+            this._tipSideBar.SetToolTip(this._lblTitle, global::MetaboliteLevels.Resx.Manual.Session);
             // 
             // _txtTitle
             // 
@@ -702,7 +702,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtTitle.Name = "_txtTitle";
             this._txtTitle.Size = new System.Drawing.Size(574, 29);
             this._txtTitle.TabIndex = 16;
-            this._tipSideBar.SetToolTip(this._txtTitle, global::MetaboliteLevels.Manual.Session);
+            this._tipSideBar.SetToolTip(this._txtTitle, global::MetaboliteLevels.Resx.Manual.Session);
             this._txtTitle.Watermark = null;
             // 
             // label2
@@ -715,7 +715,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.label2.Size = new System.Drawing.Size(337, 21);
             this.label2.TabIndex = 13;
             this.label2.Text = "^^Provide a descriptive name for your session.";
-            this._tipSideBar.SetToolTip(this.label2, global::MetaboliteLevels.Manual.Session);
+            this._tipSideBar.SetToolTip(this.label2, global::MetaboliteLevels.Resx.Manual.Session);
             // 
             // _tabSelectData
             // 
@@ -789,7 +789,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnCondInfo.Name = "_btnCondInfo";
             this._btnCondInfo.Size = new System.Drawing.Size(28, 29);
             this._btnCondInfo.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnCondInfo, global::MetaboliteLevels.Manual.ConditionNames);
+            this._tipSideBar.SetToolTip(this._btnCondInfo, global::MetaboliteLevels.Resx.Manual.ConditionNames);
             this._tipPopup.SetToolTip(this._btnCondInfo, "Browse for file");
             this._btnCondInfo.UseVisualStyleBackColor = true;
             this._btnCondInfo.Click += new System.EventHandler(this._btnCondInfo_Click);
@@ -804,7 +804,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtCondInfo.Name = "_txtCondInfo";
             this._txtCondInfo.Size = new System.Drawing.Size(538, 29);
             this._txtCondInfo.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtCondInfo, global::MetaboliteLevels.Manual.ConditionNames);
+            this._tipSideBar.SetToolTip(this._txtCondInfo, global::MetaboliteLevels.Resx.Manual.ConditionNames);
             this._txtCondInfo.Watermark = null;
             // 
             // _lstLcmsMode
@@ -824,7 +824,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstLcmsMode.Name = "_lstLcmsMode";
             this._lstLcmsMode.Size = new System.Drawing.Size(514, 29);
             this._lstLcmsMode.TabIndex = 15;
-            this._tipSideBar.SetToolTip(this._lstLcmsMode, global::MetaboliteLevels.Manual.LcMsMode);
+            this._tipSideBar.SetToolTip(this._lstLcmsMode, global::MetaboliteLevels.Resx.Manual.LcMsMode);
             this._lstLcmsMode.SelectedIndexChanged += new System.EventHandler(this._lstLcmsMode_SelectedIndexChanged);
             // 
             // _chkCondInfo
@@ -836,7 +836,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkCondInfo.Size = new System.Drawing.Size(201, 25);
             this._chkCondInfo.TabIndex = 0;
             this._chkCondInfo.Text = "Provide condition names";
-            this._tipSideBar.SetToolTip(this._chkCondInfo, global::MetaboliteLevels.Manual.ConditionNames);
+            this._tipSideBar.SetToolTip(this._chkCondInfo, global::MetaboliteLevels.Resx.Manual.ConditionNames);
             this._chkCondInfo.UseVisualStyleBackColor = true;
             this._chkCondInfo.CheckedChanged += new System.EventHandler(this._chkCondInfo_CheckedChanged);
             // 
@@ -849,7 +849,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblLcmsMode.Size = new System.Drawing.Size(58, 21);
             this._lblLcmsMode.TabIndex = 13;
             this._lblLcmsMode.Text = "Source";
-            this._tipSideBar.SetToolTip(this._lblLcmsMode, global::MetaboliteLevels.Manual.LcMsMode);
+            this._tipSideBar.SetToolTip(this._lblLcmsMode, global::MetaboliteLevels.Resx.Manual.LcMsMode);
             // 
             // _btnDataSetVar
             // 
@@ -859,7 +859,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnDataSetVar.Name = "_btnDataSetVar";
             this._btnDataSetVar.Size = new System.Drawing.Size(28, 29);
             this._btnDataSetVar.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnDataSetVar, global::MetaboliteLevels.Manual.Variables);
+            this._tipSideBar.SetToolTip(this._btnDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
             this._tipPopup.SetToolTip(this._btnDataSetVar, "Browse for file");
             this._btnDataSetVar.UseVisualStyleBackColor = true;
             this._btnDataSetVar.Click += new System.EventHandler(this._btnDataSetVar_Click);
@@ -872,7 +872,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnDataSetObs.Name = "_btnDataSetObs";
             this._btnDataSetObs.Size = new System.Drawing.Size(28, 29);
             this._btnDataSetObs.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnDataSetObs, global::MetaboliteLevels.Manual.Observations);
+            this._tipSideBar.SetToolTip(this._btnDataSetObs, global::MetaboliteLevels.Resx.Manual.Observations);
             this._tipPopup.SetToolTip(this._btnDataSetObs, "Browse for file");
             this._btnDataSetObs.UseVisualStyleBackColor = true;
             this._btnDataSetObs.Click += new System.EventHandler(this._btnDataSetObs_Click);
@@ -885,7 +885,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnDataSetData.Name = "_btnDataSetData";
             this._btnDataSetData.Size = new System.Drawing.Size(28, 29);
             this._btnDataSetData.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnDataSetData, global::MetaboliteLevels.Manual.Intensities);
+            this._tipSideBar.SetToolTip(this._btnDataSetData, global::MetaboliteLevels.Resx.Manual.Intensities);
             this._tipPopup.SetToolTip(this._btnDataSetData, "Browse for file");
             this._btnDataSetData.UseVisualStyleBackColor = true;
             this._btnDataSetData.Click += new System.EventHandler(this._btnDataSet_Click);
@@ -899,7 +899,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtDataSetData.Name = "_txtDataSetData";
             this._txtDataSetData.Size = new System.Drawing.Size(514, 29);
             this._txtDataSetData.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtDataSetData, global::MetaboliteLevels.Manual.Intensities);
+            this._tipSideBar.SetToolTip(this._txtDataSetData, global::MetaboliteLevels.Resx.Manual.Intensities);
             this._txtDataSetData.Watermark = null;
             this._txtDataSetData.TextChanged += new System.EventHandler(this._txtDataSetData_TextChanged);
             // 
@@ -912,7 +912,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtDataSetObs.Name = "_txtDataSetObs";
             this._txtDataSetObs.Size = new System.Drawing.Size(514, 29);
             this._txtDataSetObs.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtDataSetObs, global::MetaboliteLevels.Manual.Observations);
+            this._tipSideBar.SetToolTip(this._txtDataSetObs, global::MetaboliteLevels.Resx.Manual.Observations);
             this._txtDataSetObs.Watermark = null;
             this._txtDataSetObs.TextChanged += new System.EventHandler(this._txtDataSetObs_TextChanged);
             // 
@@ -925,7 +925,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblDataSetData.Size = new System.Drawing.Size(80, 21);
             this._lblDataSetData.TabIndex = 13;
             this._lblDataSetData.Text = "Intensities";
-            this._tipSideBar.SetToolTip(this._lblDataSetData, global::MetaboliteLevels.Manual.Intensities);
+            this._tipSideBar.SetToolTip(this._lblDataSetData, global::MetaboliteLevels.Resx.Manual.Intensities);
             this._lblDataSetData.Click += new System.EventHandler(this._lblDataSetData_Click);
             // 
             // _lblDataSetObs
@@ -937,7 +937,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblDataSetObs.Size = new System.Drawing.Size(102, 21);
             this._lblDataSetObs.TabIndex = 13;
             this._lblDataSetObs.Text = "Observations";
-            this._tipSideBar.SetToolTip(this._lblDataSetObs, global::MetaboliteLevels.Manual.Observations);
+            this._tipSideBar.SetToolTip(this._lblDataSetObs, global::MetaboliteLevels.Resx.Manual.Observations);
             // 
             // _lblDataSetVar
             // 
@@ -949,7 +949,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblDataSetVar.Size = new System.Drawing.Size(50, 21);
             this._lblDataSetVar.TabIndex = 13;
             this._lblDataSetVar.Text = "Peaks";
-            this._tipSideBar.SetToolTip(this._lblDataSetVar, global::MetaboliteLevels.Manual.Variables);
+            this._tipSideBar.SetToolTip(this._lblDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
             // 
             // _txtDataSetVar
             // 
@@ -960,7 +960,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtDataSetVar.Name = "_txtDataSetVar";
             this._txtDataSetVar.Size = new System.Drawing.Size(514, 29);
             this._txtDataSetVar.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtDataSetVar, global::MetaboliteLevels.Manual.Variables);
+            this._tipSideBar.SetToolTip(this._txtDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
             this._txtDataSetVar.Watermark = null;
             // 
             // _chkAltVals
@@ -972,7 +972,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkAltVals.Size = new System.Drawing.Size(230, 25);
             this._chkAltVals.TabIndex = 0;
             this._chkAltVals.Text = "Include alternative intensities";
-            this._tipSideBar.SetToolTip(this._chkAltVals, global::MetaboliteLevels.Manual.AlternativeValues);
+            this._tipSideBar.SetToolTip(this._chkAltVals, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
             this._chkAltVals.UseVisualStyleBackColor = true;
             this._chkAltVals.CheckedChanged += new System.EventHandler(this._chkAltVals_CheckedChanged);
             // 
@@ -986,7 +986,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtAltVals.Name = "_txtAltVals";
             this._txtAltVals.Size = new System.Drawing.Size(538, 29);
             this._txtAltVals.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtAltVals, global::MetaboliteLevels.Manual.AlternativeValues);
+            this._tipSideBar.SetToolTip(this._txtAltVals, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
             this._txtAltVals.Watermark = null;
             // 
             // _btnAltVals
@@ -998,7 +998,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnAltVals.Name = "_btnAltVals";
             this._btnAltVals.Size = new System.Drawing.Size(28, 29);
             this._btnAltVals.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnAltVals, global::MetaboliteLevels.Manual.AlternativeValues);
+            this._tipSideBar.SetToolTip(this._btnAltVals, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
             this._tipPopup.SetToolTip(this._btnAltVals, "Browse for file");
             this._btnAltVals.UseVisualStyleBackColor = true;
             this._btnAltVals.Click += new System.EventHandler(this._btnAltVals_Click);
@@ -1073,7 +1073,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkConditions.Size = new System.Drawing.Size(155, 25);
             this._chkConditions.TabIndex = 21;
             this._chkConditions.Text = "Specify conditions";
-            this._tipSideBar.SetToolTip(this._chkConditions, global::MetaboliteLevels.Manual.AlternativeValues);
+            this._tipSideBar.SetToolTip(this._chkConditions, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
             this._chkConditions.UseVisualStyleBackColor = true;
             this._chkConditions.CheckedChanged += new System.EventHandler(this._chkConditions_CheckedChanged);
             // 
@@ -1097,7 +1097,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblConditions.Size = new System.Drawing.Size(309, 21);
             this._lblConditions.TabIndex = 13;
             this._lblConditions.Text = "Group(s) of interest (i.e. not control or QCs)";
-            this._tipSideBar.SetToolTip(this._lblConditions, global::MetaboliteLevels.Manual.ExperimentalConditions);
+            this._tipSideBar.SetToolTip(this._lblConditions, global::MetaboliteLevels.Resx.Manual.ExperimentalConditions);
             // 
             // _btnBrowseContCond
             // 
@@ -1107,7 +1107,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnBrowseContCond.Name = "_btnBrowseContCond";
             this._btnBrowseContCond.Size = new System.Drawing.Size(28, 29);
             this._btnBrowseContCond.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnBrowseContCond, global::MetaboliteLevels.Manual.ControlConditions);
+            this._tipSideBar.SetToolTip(this._btnBrowseContCond, global::MetaboliteLevels.Resx.Manual.ControlConditions);
             this._tipPopup.SetToolTip(this._btnBrowseContCond, "Show options in new window");
             this._btnBrowseContCond.UseVisualStyleBackColor = true;
             // 
@@ -1120,7 +1120,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtControls.Name = "_txtControls";
             this._txtControls.Size = new System.Drawing.Size(516, 29);
             this._txtControls.TabIndex = 7;
-            this._tipSideBar.SetToolTip(this._txtControls, global::MetaboliteLevels.Manual.ControlConditions);
+            this._tipSideBar.SetToolTip(this._txtControls, global::MetaboliteLevels.Resx.Manual.ControlConditions);
             this._txtControls.Watermark = null;
             // 
             // _btnBrowseExpCond
@@ -1131,7 +1131,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnBrowseExpCond.Name = "_btnBrowseExpCond";
             this._btnBrowseExpCond.Size = new System.Drawing.Size(28, 29);
             this._btnBrowseExpCond.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnBrowseExpCond, global::MetaboliteLevels.Manual.ExperimentalConditions);
+            this._tipSideBar.SetToolTip(this._btnBrowseExpCond, global::MetaboliteLevels.Resx.Manual.ExperimentalConditions);
             this._tipPopup.SetToolTip(this._btnBrowseExpCond, "Show options in new window");
             this._btnBrowseExpCond.UseVisualStyleBackColor = true;
             // 
@@ -1144,7 +1144,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtExps.Name = "_txtExps";
             this._txtExps.Size = new System.Drawing.Size(516, 29);
             this._txtExps.TabIndex = 1;
-            this._tipSideBar.SetToolTip(this._txtExps, global::MetaboliteLevels.Manual.ExperimentalConditions);
+            this._tipSideBar.SetToolTip(this._txtExps, global::MetaboliteLevels.Resx.Manual.ExperimentalConditions);
             this._txtExps.Watermark = null;
             // 
             // label3
@@ -1156,7 +1156,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.label3.Size = new System.Drawing.Size(125, 21);
             this.label3.TabIndex = 13;
             this.label3.Text = "Control group(s)";
-            this._tipSideBar.SetToolTip(this.label3, global::MetaboliteLevels.Manual.ControlConditions);
+            this._tipSideBar.SetToolTip(this.label3, global::MetaboliteLevels.Resx.Manual.ControlConditions);
             // 
             // _tabStatistics
             // 
@@ -1443,7 +1443,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnAddAdduct.Size = new System.Drawing.Size(28, 29);
             this._btnAddAdduct.TabIndex = 2;
             this._btnAddAdduct.Text = "";
-            this._tipSideBar.SetToolTip(this._btnAddAdduct, global::MetaboliteLevels.Manual.Adducts);
+            this._tipSideBar.SetToolTip(this._btnAddAdduct, global::MetaboliteLevels.Resx.Manual.Adducts);
             this._tipPopup.SetToolTip(this._btnAddAdduct, "Add selected library");
             this._btnAddAdduct.UseVisualStyleBackColor = true;
             this._btnAddAdduct.Click += new System.EventHandler(this._btnAddAdduct_Click);
@@ -1457,7 +1457,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnBrowseAdducts.Name = "_btnBrowseAdducts";
             this._btnBrowseAdducts.Size = new System.Drawing.Size(28, 29);
             this._btnBrowseAdducts.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnBrowseAdducts, global::MetaboliteLevels.Manual.Adducts);
+            this._tipSideBar.SetToolTip(this._btnBrowseAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
             this._tipPopup.SetToolTip(this._btnBrowseAdducts, "Browse for library");
             this._btnBrowseAdducts.UseVisualStyleBackColor = true;
             this._btnBrowseAdducts.Click += new System.EventHandler(this._btnBrowseAdducts_Click);
@@ -1470,7 +1470,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnDelAdduct.Name = "_btnDelAdduct";
             this._btnDelAdduct.Size = new System.Drawing.Size(28, 29);
             this._btnDelAdduct.TabIndex = 3;
-            this._tipSideBar.SetToolTip(this._btnDelAdduct, global::MetaboliteLevels.Manual.Adducts);
+            this._tipSideBar.SetToolTip(this._btnDelAdduct, global::MetaboliteLevels.Resx.Manual.Adducts);
             this._tipPopup.SetToolTip(this._btnDelAdduct, "Remove selected library");
             this._btnDelAdduct.UseVisualStyleBackColor = true;
             this._btnDelAdduct.Click += new System.EventHandler(this.ctlButton3_Click);
@@ -1500,7 +1500,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstAdducts.Size = new System.Drawing.Size(252, 270);
             this._lstAdducts.TabIndex = 7;
             this._tipPopup.SetToolTip(this._lstAdducts, "Selected libraries");
-            this._tipSideBar.SetToolTip(this._lstAdducts, global::MetaboliteLevels.Manual.Adducts);
+            this._tipSideBar.SetToolTip(this._lstAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
             // 
             // _lstAvailableAdducts
             // 
@@ -1516,7 +1516,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstAvailableAdducts.Size = new System.Drawing.Size(253, 270);
             this._lstAvailableAdducts.TabIndex = 5;
             this._tipPopup.SetToolTip(this._lstAvailableAdducts, "Available libraries");
-            this._tipSideBar.SetToolTip(this._lstAvailableAdducts, global::MetaboliteLevels.Manual.Adducts);
+            this._tipSideBar.SetToolTip(this._lstAvailableAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
             // 
             // _lstCompounds
             // 
@@ -1530,7 +1530,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstCompounds.Name = "_lstCompounds";
             this._lstCompounds.Size = new System.Drawing.Size(252, 269);
             this._lstCompounds.TabIndex = 5;
-            this._tipSideBar.SetToolTip(this._lstCompounds, global::MetaboliteLevels.Manual.Compounds);
+            this._tipSideBar.SetToolTip(this._lstCompounds, global::MetaboliteLevels.Resx.Manual.Compounds);
             // 
             // flowLayoutPanel3
             // 
@@ -1557,7 +1557,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnAddCompound.Size = new System.Drawing.Size(28, 29);
             this._btnAddCompound.TabIndex = 2;
             this._btnAddCompound.Text = "";
-            this._tipSideBar.SetToolTip(this._btnAddCompound, global::MetaboliteLevels.Manual.Compounds);
+            this._tipSideBar.SetToolTip(this._btnAddCompound, global::MetaboliteLevels.Resx.Manual.Compounds);
             this._tipPopup.SetToolTip(this._btnAddCompound, "Add selected library");
             this._btnAddCompound.UseVisualStyleBackColor = true;
             this._btnAddCompound.Click += new System.EventHandler(this._btnIdentifications_Click);
@@ -1571,7 +1571,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnAddAllCompounds.Size = new System.Drawing.Size(28, 29);
             this._btnAddAllCompounds.TabIndex = 2;
             this._btnAddAllCompounds.Text = "";
-            this._tipSideBar.SetToolTip(this._btnAddAllCompounds, global::MetaboliteLevels.Manual.Compounds);
+            this._tipSideBar.SetToolTip(this._btnAddAllCompounds, global::MetaboliteLevels.Resx.Manual.Compounds);
             this._tipPopup.SetToolTip(this._btnAddAllCompounds, "Add all libraries");
             this._btnAddAllCompounds.UseVisualStyleBackColor = true;
             this._btnAddAllCompounds.Click += new System.EventHandler(this._btnAddAllCompounds_Click);
@@ -1585,7 +1585,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnAddCompoundLibrary.Size = new System.Drawing.Size(28, 29);
             this._btnAddCompoundLibrary.TabIndex = 4;
             this._btnAddCompoundLibrary.Text = "";
-            this._tipSideBar.SetToolTip(this._btnAddCompoundLibrary, global::MetaboliteLevels.Manual.Compounds);
+            this._tipSideBar.SetToolTip(this._btnAddCompoundLibrary, global::MetaboliteLevels.Resx.Manual.Compounds);
             this._tipPopup.SetToolTip(this._btnAddCompoundLibrary, "Browse for librar");
             this._btnAddCompoundLibrary.UseVisualStyleBackColor = true;
             this._btnAddCompoundLibrary.Click += new System.EventHandler(this._btnAddCompoundLibrary_Click);
@@ -1598,7 +1598,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnRemoveLibrary.Name = "_btnRemoveLibrary";
             this._btnRemoveLibrary.Size = new System.Drawing.Size(28, 29);
             this._btnRemoveLibrary.TabIndex = 3;
-            this._tipSideBar.SetToolTip(this._btnRemoveLibrary, global::MetaboliteLevels.Manual.Compounds);
+            this._tipSideBar.SetToolTip(this._btnRemoveLibrary, global::MetaboliteLevels.Resx.Manual.Compounds);
             this._tipPopup.SetToolTip(this._btnRemoveLibrary, "Remove selected library");
             this._btnRemoveLibrary.UseVisualStyleBackColor = true;
             this._btnRemoveLibrary.Click += new System.EventHandler(this.ctlButton2_Click);
@@ -1616,7 +1616,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstAvailCompounds.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this._lstAvailCompounds.Size = new System.Drawing.Size(253, 269);
             this._lstAvailCompounds.TabIndex = 5;
-            this._tipSideBar.SetToolTip(this._lstAvailCompounds, global::MetaboliteLevels.Manual.Compounds);
+            this._tipSideBar.SetToolTip(this._lstAvailCompounds, global::MetaboliteLevels.Resx.Manual.Compounds);
             // 
             // _lblAdducts
             // 
@@ -1628,7 +1628,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblAdducts.Size = new System.Drawing.Size(214, 21);
             this._lblAdducts.TabIndex = 4;
             this._lblAdducts.Text = "Adduct libraries (LC-MS only)";
-            this._tipSideBar.SetToolTip(this._lblAdducts, global::MetaboliteLevels.Manual.Adducts);
+            this._tipSideBar.SetToolTip(this._lblAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
             // 
             // label6
             // 
@@ -1640,7 +1640,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.label6.Size = new System.Drawing.Size(148, 21);
             this.label6.TabIndex = 4;
             this.label6.Text = "Compound libraries";
-            this._tipSideBar.SetToolTip(this.label6, global::MetaboliteLevels.Manual.Compounds);
+            this._tipSideBar.SetToolTip(this.label6, global::MetaboliteLevels.Resx.Manual.Compounds);
             // 
             // _tabAnnotations
             // 
@@ -1706,7 +1706,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnIdentifications.Name = "_btnIdentifications";
             this._btnIdentifications.Size = new System.Drawing.Size(28, 29);
             this._btnIdentifications.TabIndex = 6;
-            this._tipSideBar.SetToolTip(this._btnIdentifications, global::MetaboliteLevels.Manual.Identifications);
+            this._tipSideBar.SetToolTip(this._btnIdentifications, global::MetaboliteLevels.Resx.Manual.Identifications);
             this._tipPopup.SetToolTip(this._btnIdentifications, "Browse for file");
             this._btnIdentifications.UseVisualStyleBackColor = true;
             this._btnIdentifications.Click += new System.EventHandler(this._btnIdentifications_Click_1);
@@ -1763,7 +1763,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkIdentifications.Size = new System.Drawing.Size(205, 25);
             this._chkIdentifications.TabIndex = 3;
             this._chkIdentifications.Text = "Load manual annotations";
-            this._tipSideBar.SetToolTip(this._chkIdentifications, global::MetaboliteLevels.Manual.Identifications);
+            this._tipSideBar.SetToolTip(this._chkIdentifications, global::MetaboliteLevels.Resx.Manual.Identifications);
             this._chkIdentifications.UseVisualStyleBackColor = true;
             this._chkIdentifications.CheckedChanged += new System.EventHandler(this._chkIdentifications_CheckedChanged);
             // 
@@ -1829,7 +1829,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtIdentifications.Name = "_txtIdentifications";
             this._txtIdentifications.Size = new System.Drawing.Size(467, 29);
             this._txtIdentifications.TabIndex = 5;
-            this._tipSideBar.SetToolTip(this._txtIdentifications, global::MetaboliteLevels.Manual.Identifications);
+            this._tipSideBar.SetToolTip(this._txtIdentifications, global::MetaboliteLevels.Resx.Manual.Identifications);
             this._txtIdentifications.Watermark = null;
             // 
             // ctlLabel3

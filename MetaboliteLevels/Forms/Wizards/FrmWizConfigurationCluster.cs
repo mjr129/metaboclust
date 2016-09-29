@@ -74,7 +74,7 @@ namespace MetaboliteLevels.Forms.Wizards
 
             _wizard = CtlWizard.BindNew( this, tabControl1, CtlWizardOptions.DEFAULT | CtlWizardOptions.DialogResultCancel | CtlWizardOptions.HandleBasicChanges );
             _wizard.OkClicked += wizard_OkClicked;
-            _wizard.TitleHelpText = Manual.DKMeansPlusPlus;
+            _wizard.TitleHelpText = Resx.Manual.DKMeansPlusPlus;
             _wizard.PermitAdvance += this.ValidatePage;
             _wizard.Revalidate();
 

@@ -304,12 +304,14 @@ namespace MetaboliteLevels.Forms.Activities
 
             _lblLegend.Text = column.DisplayName;
 
+            bool isGroup = false;
+
             // Iterate scores
             for (int r = 0; r < plotPoints.GetLength( 0 ); r++)
             {
                 enSources.MoveNext();
 
-                MCharting.Series series = GetOrCreateSeriesForValue( plot, column, (Visualisable)enSources.Current );
+                MCharting.Series series = GetOrCreateSeriesForValue( plot, column, (Visualisable)enSources.Current, ref isGroup );
 
                 var coord = new MCharting.DataPoint( plotPoints[r, _component], plotPoints[r, _component + 1] );
                 coord.Tag = enSources.Current;
@@ -318,7 +320,7 @@ namespace MetaboliteLevels.Forms.Activities
             }
 
             // Assign colours     
-            if (!column.HasColourSupport)
+            if (!column.HasColourSupport && !isGroup)
             {
                 foreach (var colour in PlotCreator.AutoColour( plot.Series ))
                 {
@@ -368,7 +370,7 @@ namespace MetaboliteLevels.Forms.Activities
             }
         }
 
-        private static MCharting.Series GetOrCreateSeriesForValue( MCharting.Plot plot, Column column, Visualisable vis)
+        private static MCharting.Series GetOrCreateSeriesForValue( MCharting.Plot plot, Column column, Visualisable vis, ref bool isGroup)
         {
             object value = column.GetRow(vis);
             MCharting.Series series = plot.Series.FirstOrDefault(z => (z.Tag == null && value == null) || (z.Tag != null && z.Tag.Equals(value)));
@@ -382,7 +384,8 @@ namespace MetaboliteLevels.Forms.Activities
                 if (value is GroupInfoBase)
                 {
                     GroupInfoBase group = (GroupInfoBase)value;
-                    UiControls.CreateIcon(  series, group );                                                
+                    UiControls.CreateIcon(  series, group );
+                    isGroup = true;
                 }
                 else
                 {

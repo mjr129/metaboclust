@@ -90,30 +90,25 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this._btnOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton9 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this._tssInsertViews = new System.Windows.Forms.ToolStripSeparator();
-            this._lstMatrix = new System.Windows.Forms.ToolStripButton();
-            this._lstDatasetCb = new System.Windows.Forms.ToolStripComboBox();
-            this._lstTrend = new System.Windows.Forms.ToolStripButton();
-            this._lstTrendCb = new System.Windows.Forms.ToolStripComboBox();
             this._btnSession = new System.Windows.Forms.ToolStripDropDownButton();
             this.editNameAndCommentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sessionInformationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._tssInsertViewsEnd = new System.Windows.Forms.ToolStripLabel();
+            this._tssInsertViews = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+            this._lstTrendCb = new System.Windows.Forms.ToolStripComboBox();
+            this._lstTrend = new System.Windows.Forms.ToolStripButton();
+            this._lstDatasetCb = new System.Windows.Forms.ToolStripComboBox();
+            this._lstMatrix = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1 = new MGui.Controls.CtlSplitter();
             this.splitContainer2 = new MGui.Controls.CtlSplitter();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -602,28 +597,23 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnOpen,
             this.toolStripButton1,
-            this.toolStripSeparator4,
             this.toolStripButton5,
-            this.toolStripButton8,
-            this.toolStripButton7,
-            this.toolStripSeparator2,
-            this.toolStripButton2,
-            this.toolStripLabel2,
-            this.toolStripButton3,
-            this.toolStripLabel3,
-            this.toolStripButton4,
             this.toolStripLabel1,
+            this.toolStripButton7,
+            this.toolStripButton2,
+            this.toolStripButton3,
+            this.toolStripButton4,
             this.toolStripButton6,
-            this.toolStripSeparator7,
-            this.toolStripButton9,
-            this.toolStripButton10,
-            this.toolStripSeparator3,
+            this._btnSession,
+            this._tssInsertViewsEnd,
             this._tssInsertViews,
-            this._lstMatrix,
-            this._lstDatasetCb,
-            this._lstTrend,
+            this.toolStripButton8,
+            this.toolStripLabel4,
             this._lstTrendCb,
-            this._btnSession});
+            this._lstTrend,
+            this._lstDatasetCb,
+            this._lstMatrix,
+            this.toolStripLabel2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
@@ -657,12 +647,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton1.ToolTipText = "Save the session";
             this.toolStripButton1.Click += new System.EventHandler(this.saveExemplarsToolStripMenuItem_Click);
             // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.AutoSize = false;
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 36);
-            // 
             // toolStripButton5
             // 
             this.toolStripButton5.ForeColor = System.Drawing.Color.Purple;
@@ -675,17 +659,12 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton5.ToolTipText = "Show the program preferences";
             this.toolStripButton5.Click += new System.EventHandler(this.visualOptionsToolStripMenuItem_Click);
             // 
-            // toolStripButton8
+            // toolStripLabel1
             // 
-            this.toolStripButton8.ForeColor = System.Drawing.Color.Purple;
-            this.toolStripButton8.Image = global::MetaboliteLevels.Properties.Resources.IconGroups;
-            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(49, 43);
-            this.toolStripButton8.Text = "Groups";
-            this.toolStripButton8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton8.ToolTipText = "Modify experimental group information";
-            this.toolStripButton8.Click += new System.EventHandler(this.experimentalGroupsToolStripMenuItem_Click);
+            this.toolStripLabel1.Image = global::MetaboliteLevels.Properties.Resources.Separator;
+            this.toolStripLabel1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(16, 43);
             // 
             // toolStripButton7
             // 
@@ -699,12 +678,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton7.ToolTipText = "Perform PCA and PLS on the data";
             this.toolStripButton7.Click += new System.EventHandler(this.pCAToolStripMenuItem_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.AutoSize = false;
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 36);
-            // 
             // toolStripButton2
             // 
             this.toolStripButton2.ForeColor = System.Drawing.Color.Purple;
@@ -716,14 +689,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButton2.ToolTipText = "Define data corrections";
             this.toolStripButton2.Click += new System.EventHandler(this.editCorrectionsToolStripMenuItem_Click);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel2.ForeColor = System.Drawing.Color.Purple;
-            this.toolStripLabel2.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(24, 43);
             // 
             // toolStripButton3
             // 
@@ -737,14 +702,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton3.ToolTipText = "Define trend functions";
             this.toolStripButton3.Click += new System.EventHandler(this.edittrendToolStripMenuItem_Click);
             // 
-            // toolStripLabel3
-            // 
-            this.toolStripLabel3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel3.ForeColor = System.Drawing.Color.Purple;
-            this.toolStripLabel3.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(24, 43);
-            // 
             // toolStripButton4
             // 
             this.toolStripButton4.ForeColor = System.Drawing.Color.Purple;
@@ -757,13 +714,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton4.ToolTipText = "Define statistics";
             this.toolStripButton4.Click += new System.EventHandler(this.editStatisticsToolStripMenuItem_Click);
             // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLabel1.Image = global::MetaboliteLevels.Properties.Resources.MnuWorkflowSeparator;
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(24, 43);
-            // 
             // toolStripButton6
             // 
             this.toolStripButton6.ForeColor = System.Drawing.Color.Purple;
@@ -775,96 +725,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButton6.ToolTipText = "Define clustering algorithms";
             this.toolStripButton6.Click += new System.EventHandler(this.createclustersToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.AutoSize = false;
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 36);
-            // 
-            // toolStripButton9
-            // 
-            this.toolStripButton9.ForeColor = System.Drawing.Color.Purple;
-            this.toolStripButton9.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
-            this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton9.Name = "toolStripButton9";
-            this.toolStripButton9.Size = new System.Drawing.Size(47, 43);
-            this.toolStripButton9.Text = "Wizard";
-            this.toolStripButton9.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton9.ToolTipText = "Start the d-k-means++ cluster wizard";
-            this.toolStripButton9.Click += new System.EventHandler(this.autogenerateToolStripMenuItem_Click);
-            // 
-            // toolStripButton10
-            // 
-            this.toolStripButton10.ForeColor = System.Drawing.Color.Purple;
-            this.toolStripButton10.Image = global::MetaboliteLevels.Properties.Resources.IconScriptCluster;
-            this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton10.Name = "toolStripButton10";
-            this.toolStripButton10.Size = new System.Drawing.Size(59, 43);
-            this.toolStripButton10.Text = "Optimise";
-            this.toolStripButton10.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton10.ToolTipText = "Optimise clustering";
-            this.toolStripButton10.Click += new System.EventHandler(this.clustererOptimiserToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.AutoSize = false;
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 36);
-            // 
-            // _tssInsertViews
-            // 
-            this._tssInsertViews.AutoSize = false;
-            this._tssInsertViews.Name = "_tssInsertViews";
-            this._tssInsertViews.Size = new System.Drawing.Size(6, 36);
-            // 
-            // _lstMatrix
-            // 
-            this._lstMatrix.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this._lstMatrix.ForeColor = System.Drawing.Color.Purple;
-            this._lstMatrix.Image = global::MetaboliteLevels.Properties.Resources.IconMatrix;
-            this._lstMatrix.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._lstMatrix.Name = "_lstMatrix";
-            this._lstMatrix.Size = new System.Drawing.Size(48, 43);
-            this._lstMatrix.Text = "Dataset";
-            this._lstMatrix.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._lstMatrix.ToolTipText = "Select the intensity matrix you\'d like to use in the plots.\r\n(Note that cluster p" +
-    "lots will always use the intensity matrix they were created with)";
-            this._lstMatrix.Click += new System.EventHandler(this._lstMatrix_Click);
-            // 
-            // _lstDatasetCb
-            // 
-            this._lstDatasetCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstDatasetCb.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._lstDatasetCb.Name = "_lstDatasetCb";
-            this._lstDatasetCb.Size = new System.Drawing.Size(121, 46);
-            this._lstDatasetCb.ToolTipText = "Select the intensity matrix you\'d like to use in the plots.\r\n(Note that cluster p" +
-    "lots will always use the intensity matrix they were created with)";
-            this._lstDatasetCb.SelectedIndexChanged += new System.EventHandler(this._lstDatasetCb_SelectedIndexChanged);
-            // 
-            // _lstTrend
-            // 
-            this._lstTrend.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this._lstTrend.ForeColor = System.Drawing.Color.Purple;
-            this._lstTrend.Image = global::MetaboliteLevels.Properties.Resources.IconMatrix;
-            this._lstTrend.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._lstTrend.Name = "_lstTrend";
-            this._lstTrend.Size = new System.Drawing.Size(39, 43);
-            this._lstTrend.Text = "Trend";
-            this._lstTrend.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._lstTrend.ToolTipText = "Select the trend algorithm you\'d like to use in the plots.\r\n(Note that cluster pl" +
-    "ots will always use the trend function they were created with)";
-            this._lstTrend.Click += new System.EventHandler(this._lstTrend_Click);
-            // 
-            // _lstTrendCb
-            // 
-            this._lstTrendCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstTrendCb.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._lstTrendCb.Name = "_lstTrendCb";
-            this._lstTrendCb.Size = new System.Drawing.Size(121, 46);
-            this._lstTrendCb.ToolTipText = "Select the trend algorithm you\'d like to use in the plots.\r\n(Note that cluster pl" +
-    "ots will always use the trend function they were created with)";
-            this._lstTrendCb.SelectedIndexChanged += new System.EventHandler(this._lstTrendCb_SelectedIndexChanged);
             // 
             // _btnSession
             // 
@@ -896,6 +756,102 @@ namespace MetaboliteLevels.Forms.Activities
             this.sessionInformationToolStripMenuItem.Size = new System.Drawing.Size(237, 22);
             this.sessionInformationToolStripMenuItem.Text = "&Session information...";
             this.sessionInformationToolStripMenuItem.Click += new System.EventHandler(this.sessionInformationToolStripMenuItem_Click);
+            // 
+            // _tssInsertViewsEnd
+            // 
+            this._tssInsertViewsEnd.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._tssInsertViewsEnd.Image = global::MetaboliteLevels.Properties.Resources.Separator;
+            this._tssInsertViewsEnd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this._tssInsertViewsEnd.Name = "_tssInsertViewsEnd";
+            this._tssInsertViewsEnd.Size = new System.Drawing.Size(16, 43);
+            // 
+            // _tssInsertViews
+            // 
+            this._tssInsertViews.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._tssInsertViews.AutoSize = false;
+            this._tssInsertViews.Name = "_tssInsertViews";
+            this._tssInsertViews.Size = new System.Drawing.Size(6, 36);
+            // 
+            // toolStripButton8
+            // 
+            this.toolStripButton8.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton8.ForeColor = System.Drawing.Color.Purple;
+            this.toolStripButton8.Image = global::MetaboliteLevels.Properties.Resources.IconGroups;
+            this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton8.Name = "toolStripButton8";
+            this.toolStripButton8.Size = new System.Drawing.Size(49, 43);
+            this.toolStripButton8.Text = "Groups";
+            this.toolStripButton8.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton8.ToolTipText = "Modify experimental group information";
+            this.toolStripButton8.Click += new System.EventHandler(this.experimentalGroupsToolStripMenuItem_Click);
+            // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel4.Image = global::MetaboliteLevels.Properties.Resources.Separator;
+            this.toolStripLabel4.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(16, 43);
+            // 
+            // _lstTrendCb
+            // 
+            this._lstTrendCb.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._lstTrendCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstTrendCb.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._lstTrendCb.Name = "_lstTrendCb";
+            this._lstTrendCb.Size = new System.Drawing.Size(121, 46);
+            this._lstTrendCb.ToolTipText = "Select the trend algorithm you\'d like to use in the plots.\r\n(Note that cluster pl" +
+    "ots will always use the trend function they were created with)";
+            this._lstTrendCb.SelectedIndexChanged += new System.EventHandler(this._lstTrendCb_SelectedIndexChanged);
+            // 
+            // _lstTrend
+            // 
+            this._lstTrend.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._lstTrend.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this._lstTrend.ForeColor = System.Drawing.Color.Purple;
+            this._lstTrend.Image = global::MetaboliteLevels.Properties.Resources.IconMatrix;
+            this._lstTrend.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._lstTrend.Name = "_lstTrend";
+            this._lstTrend.Size = new System.Drawing.Size(39, 43);
+            this._lstTrend.Text = "Trend";
+            this._lstTrend.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._lstTrend.ToolTipText = "Select the trend algorithm you\'d like to use in the plots.\r\n(Note that cluster pl" +
+    "ots will always use the trend function they were created with)";
+            this._lstTrend.Click += new System.EventHandler(this._lstTrend_Click);
+            // 
+            // _lstDatasetCb
+            // 
+            this._lstDatasetCb.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._lstDatasetCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstDatasetCb.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._lstDatasetCb.Name = "_lstDatasetCb";
+            this._lstDatasetCb.Size = new System.Drawing.Size(121, 46);
+            this._lstDatasetCb.ToolTipText = "Select the intensity matrix you\'d like to use in the plots.\r\n(Note that cluster p" +
+    "lots will always use the intensity matrix they were created with)";
+            this._lstDatasetCb.SelectedIndexChanged += new System.EventHandler(this._lstDatasetCb_SelectedIndexChanged);
+            // 
+            // _lstMatrix
+            // 
+            this._lstMatrix.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._lstMatrix.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this._lstMatrix.ForeColor = System.Drawing.Color.Purple;
+            this._lstMatrix.Image = global::MetaboliteLevels.Properties.Resources.IconMatrix;
+            this._lstMatrix.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._lstMatrix.Name = "_lstMatrix";
+            this._lstMatrix.Size = new System.Drawing.Size(48, 43);
+            this._lstMatrix.Text = "Dataset";
+            this._lstMatrix.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this._lstMatrix.ToolTipText = "Select the intensity matrix you\'d like to use in the plots.\r\n(Note that cluster p" +
+    "lots will always use the intensity matrix they were created with)";
+            this._lstMatrix.Click += new System.EventHandler(this._lstMatrix_Click);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel2.Image = global::MetaboliteLevels.Properties.Resources.Separator;
+            this.toolStripLabel2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(16, 43);
             // 
             // splitContainer1
             // 
@@ -1511,19 +1467,13 @@ namespace MetaboliteLevels.Forms.Activities
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator _tssInsertViews;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripSeparator _tssInsertViews;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton8;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem peakFiltersToolStripMenuItem;
@@ -1531,12 +1481,9 @@ namespace MetaboliteLevels.Forms.Activities
         private System.Windows.Forms.ToolStripMenuItem autogenerateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pCAToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripButton toolStripButton9;
         private System.Windows.Forms.ToolStripButton _btnSubAss;
         private System.Windows.Forms.ToolStripButton _btnPrimPeak;
         private System.Windows.Forms.ToolStripButton _btnPrimClust;
-        private System.Windows.Forms.ToolStripButton toolStripButton10;
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem peakidentificationsToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton _btnSubAnnot;
@@ -1564,6 +1511,10 @@ namespace MetaboliteLevels.Forms.Activities
         private System.Windows.Forms.ToolStripComboBox _lstTrendCb;
         private System.Windows.Forms.ToolStripButton _btnPrimOther;
         private System.Windows.Forms.ToolStripButton _btnSubOther;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripLabel _tssInsertViewsEnd;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel4;
     }
 }
 

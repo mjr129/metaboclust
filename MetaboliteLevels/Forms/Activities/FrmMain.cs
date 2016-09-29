@@ -777,7 +777,8 @@ namespace MetaboliteLevels.Forms.Activities
                     Tag = ti,
                     Image = UiControls.CreateExperimentalGroupImage( e, ti, true ),
                     TextImageRelation = TextImageRelation.ImageAboveText,
-                    ForeColor = ti.Colour
+                    ForeColor = ti.Colour,
+                    Alignment = ToolStripItemAlignment.Right,
                 };
 
                 tsmi.Click += experimentTypeMenuItem_Click;

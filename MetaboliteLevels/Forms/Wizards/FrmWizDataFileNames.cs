@@ -1037,7 +1037,7 @@ namespace MetaboliteLevels.Forms.Wizards
 
             if (_result == null)
             {
-                FrmMsgBox.ShowError( this, Manual.UnableToLoadSession );
+                FrmMsgBox.ShowError( this, Resx.Manual.UnableToLoadSession );
                 return;
             }
 
