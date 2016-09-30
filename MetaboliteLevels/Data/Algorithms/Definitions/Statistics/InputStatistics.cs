@@ -102,22 +102,22 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 
             if (getIntensity)
             {
-                r.Intensity = srcV.Values.ToArray();
+                r.Intensity = srcV.Values.At( indices ).ToArray();
             }
 
             if (getTime)
             {
-                r.Time = srcV.Observations.Select(z => z.Time).ToArray();
+                r.Time = srcC.Select(z => z.Time).ToArray();
             }
 
             if (getGroup)
             {
-                r.Group = srcV.Observations.Select(z => z.Group).ToArray();
+                r.Group = srcC.Select(z => z.Group).ToArray();
             }
 
             if (getTime)
             {
-                r.Rep = srcV.Observations.Select(z => z.Rep).ToArray();
+                r.Rep = srcC.Select(z => z.Rep).ToArray();
             }  
 
             if (getPrimary)
