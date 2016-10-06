@@ -238,6 +238,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
             catch (Exception ex)
             {
                 SetError( ex );
+                prog.Log( $"The following algorithm failed to complete: {{{this}}} due to the error {{{ex.Message}}}. Please see the algorithm results for specific details.", ELogLevel.Error );
             }
 
             switch (Status)

@@ -456,6 +456,17 @@ namespace MetaboliteLevels.Forms.Activities
                 Peak peak = selection.Primary as Peak ?? selection.Secondary as Peak;
                 Associational cluster = (((!(selection.Primary is Peak)) ? selection.Primary : selection.Secondary) ?? peak.FindAssignments( _core ).Select( z => z.Cluster ).FirstOrDefault()) as Associational;
                 StylisedCluster sCluster;
+                string error = null;
+                Associational seca;
+
+                if (selection.Secondary is IAssociation)
+                {
+                    seca = ((IAssociation)selection.Secondary).Associated as Associational;
+                }
+                else
+                {
+                    seca = selection.Secondary as Associational;
+                }
 
                 // Plot that!
                 if (cluster == null)
@@ -467,19 +478,35 @@ namespace MetaboliteLevels.Forms.Activities
                     switch (cluster.AssociationalClass)
                     {
                         case EVisualClass.Assignment:
-                            sCluster = ((Assignment)cluster).CreateStylisedCluster( _core, selection.Secondary as Associational );
+                            sCluster = ((Assignment)cluster).CreateStylisedCluster( _core, seca );
                             break;
 
                         case EVisualClass.Cluster:
-                            sCluster = ((Cluster)cluster).CreateStylisedCluster( _core, selection.Secondary as Associational );
+                            sCluster = ((Cluster)cluster).CreateStylisedCluster( _core, seca );
                             break;
 
                         case EVisualClass.Compound:
-                            sCluster = ((Compound)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as Associational );
+                            if (SelectedTrend.Results != null)
+                            {
+                                sCluster = ((Compound)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, seca );
+                            }
+                            else
+                            {
+                                sCluster = null;
+                                error = "A trend must be created and selected in order to plot compounds.";
+                            }
                             break;
 
                         case EVisualClass.Pathway:
-                            sCluster = ((Pathway)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, selection.Secondary as Associational );
+                            if (SelectedTrend.Results != null)
+                            {
+                                sCluster = ((Pathway)cluster).CreateStylisedCluster( _core, SelectedTrend.Results.Matrix, seca );
+                            }
+                            else
+                            {
+                                sCluster = null;
+                                error = "A trend must be created and selected in order to plot compounds.";
+                            }
                             break;
 
                         default:
@@ -498,18 +525,53 @@ namespace MetaboliteLevels.Forms.Activities
                     _autoChangingSelection = true;
                     _chartCluster.SelectSeries( peak );
                     _autoChangingSelection = false;
-                }         
+                }
+
+                if (error != null)
+                {
+                    SetChangeLabel( $"WARNING: {error}", EChangeLabelFx.Warning );
+                }
+                else
+                {
+                    SetChangeLabel( $"Plotted {{{selection}}}", EChangeLabelFx.Information );
+                }
             }
             catch (Exception ex)
             {
                 // Error: Normal case is the target has been deleted, but it could be anything, either way there is no need to crash
                 CommitSelection( null );
 
-                _lblChanges.Text = "Error: " + ex.Message;
+                SetChangeLabel( "ERROR: " + ex.Message, EChangeLabelFx.Error );
             }
             finally
             {
                 EndWait();
+            }
+        }
+
+        private enum EChangeLabelFx
+        {
+            Information,
+            Warning,
+            Error
+        }
+
+        private void SetChangeLabel(string text, EChangeLabelFx fx )
+        {
+            _lblChanges.Text = text;
+
+            switch (fx)
+            {
+                case EChangeLabelFx.Error:
+                case EChangeLabelFx.Warning:
+                    _lblChanges.BackColor = Color.Red;
+                    _lblChanges.ForeColor = Color.White;
+                    break;
+
+                case EChangeLabelFx.Information:
+                    _lblChanges.BackColor = Color.Transparent;
+                    _lblChanges.ForeColor = Color.Black;
+                    break;
             }
         }
 
@@ -796,7 +858,7 @@ namespace MetaboliteLevels.Forms.Activities
             _lstDatasetCb.SelectedItem = _core.Options.SelectedMatrixProvider;
 
             _lstTrendCb.Items.Clear();
-            _lstTrendCb.Items.AddRange( _core.AllTrends.Cast<object>().ToArray() );
+            _lstTrendCb.Items.AddRange( _core.Trends.Cast<object>().ToArray() );
             _lstTrendCb.SelectedItem = _core.Options.SelectedTrend;
         }
 
@@ -881,14 +943,14 @@ namespace MetaboliteLevels.Forms.Activities
 
                 FileInfo fi = new FileInfo( fileName );
                 double mb = fi.Length / (1024d * 1024d);
-                _lblChanges.Text = "Saved data, " + (mb.ToString( "F01" ) + "Mb");
+                SetChangeLabel( $"Saved data, {mb.ToString( "F01" )}Mb", EChangeLabelFx.Information);
 
                 return true;
             }
             catch (Exception ex)
             {
                 FrmMsgBox.ShowError( this, ex );
-                _lblChanges.Text = "FAILED TO SAVE DATA";
+                SetChangeLabel( "FAILED TO SAVE DATA", EChangeLabelFx.Error );
                 return false;
             }                                             
         }
@@ -945,17 +1007,15 @@ namespace MetaboliteLevels.Forms.Activities
         /// Updates stuff.
         /// </summary>
         private void UpdateAll(string reason)
-        {
-            this.UseWaitCursor = true;
-            _lblChanges.Text = "PLEASE WAIT...";
+        {                             
+            BeginWait( "PLEASE WAIT..." );
 
             UpdatePrimaryList();
             UpdateSecondaryList();         
-
             Replot();
 
-            this.UseWaitCursor = false;
-            _lblChanges.Text = reason;
+            EndWait();
+            SetChangeLabel( reason, EChangeLabelFx.Information );
         }
 
         /// <summary>
@@ -1620,7 +1680,7 @@ namespace MetaboliteLevels.Forms.Activities
             Cluster clu = (Cluster)_selectionMenuOpenedFromList;
             PeakFilter filter = null;
 
-            foreach (PeakFilter pf in _core.AllPeakFilters)
+            foreach (PeakFilter pf in _core.PeakFilters)
             {
                 if (pf.Conditions.Count == 1)
                 {
@@ -1811,7 +1871,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void _lstTrend_Click( object sender, EventArgs e )
         {
-            if (_core.AllTrends.Count == 0)
+            if (_core.Trends.Count == 0)
             {
                 FrmMsgBox.ShowInfo( this, "Trends", "No trends have been defined, the default trend (median) will be used in the interim." );
                 return;

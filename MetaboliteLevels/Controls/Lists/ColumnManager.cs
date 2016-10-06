@@ -56,7 +56,7 @@ namespace MetaboliteLevels.Controls.Lists
 
         internal void Add( Column column )
         {
-            Debug.Assert( !_list.Any( z => z.Id == column.Id ), "Duplicate column ID." );
+            Debug.Assert( !_list.Any( z => z.Id == column.Id ), $"Duplicate column ID: {{{column.Id}}}" );
             _list.Add( column );
         }
 

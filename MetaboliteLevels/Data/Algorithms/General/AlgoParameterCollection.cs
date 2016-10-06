@@ -177,7 +177,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                                                                    return "?";
                                                                }
 
-                                                               int tmp = IVisualisableExtensions.WhereEnabled(core.AllStatistics).IndexOf(targ);
+                                                               int tmp = IVisualisableExtensions.WhereEnabled(core.Statistics).IndexOf(targ);
 
                                                                return tmp == -1 ? "?" : tmp.ToString();
                                                            },
@@ -213,7 +213,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 }
                 else if (reversable)
                 {
-                    return (IVisualisableExtensions.WhereEnabled(core.AllClusterers).IndexOf(c).ToString());
+                    return (IVisualisableExtensions.WhereEnabled(core.Clusterers).IndexOf(c).ToString());
                 }
                 else
                 {

@@ -171,20 +171,24 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 StylisedPeak sPeak = new StylisedPeak(_previewPeak);
 
+                ConfigurationTrend temporary = new ConfigurationTrend() { Args = sel };
                 IntensityMatrix source = _ecbSource.SelectedItem.Provide;
 
                 if (_previewPeak != null)
                 {
                     try
-                    {
-                        sPeak.ForceObservations = source.Find( _previewPeak);
-                        _chart1.Plot(sPeak);
+                    {                                                        
+                        sPeak.OverrideDefaultOptions = new StylisedPeakOptions( _core )
+                        {
+                            SelectedTrend = temporary
+                        };
+                        _chart1.Plot(sPeak);                         
                     }
                     catch (Exception ex)
                     {
                         _lnkError.Visible = true;
                         _lnkError.Tag = ex.ToString();
-                        sPeak.ForceObservations = null;
+                        sPeak.OverrideDefaultOptions = null;
                         _chart1.Plot( sPeak );
                     }
                 }

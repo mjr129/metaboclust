@@ -59,14 +59,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Metrics.Implementations
 
             object[] inputs = { a.Primary, b.Primary, a.Intensity, b.Intensity, a.Group, b.Group, a.Time, b.Time, a.Rep, b.Rep };
 
-            try
-            {
-                return Arr.Instance.RunScriptDouble(_script, inputs, input.Args.Parameters);
-            }
-            catch
-            {
-                return double.NaN;
-            }
+            return Arr.Instance.RunScriptDouble(_script, inputs, input.Args.Parameters);
         }
 
         protected override AlgoParameterCollection CreateParamaterDesription()

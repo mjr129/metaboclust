@@ -266,7 +266,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 string[] e2 = text.Split( ",;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries );
 
                 WeakReference<ConfigurationStatistic>[] r = new WeakReference<ConfigurationStatistic>[e2.Length];
-                ConfigurationStatistic[] opts = IVisualisableExtensions.WhereEnabled( core.AllStatistics ).ToArray();
+                ConfigurationStatistic[] opts = IVisualisableExtensions.WhereEnabled( core.Statistics ).ToArray();
 
                 for (int n = 0; n < e2.Length; n++)
                 {
@@ -297,16 +297,16 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             protected override object OnBrowse( Form owner, Core _core, object value )
             {
-                var tvalue = (WeakReference<ConfigurationStatistic>[])value;
-                IEnumerable<ConfigurationStatistic> def = tvalue.Select( z => z.GetTarget() ).Where( z => z != null );
-                IEnumerable<ConfigurationStatistic> sel = DataSet.ForStatistics( _core ).ShowCheckList( owner, def );
+                WeakReference<ConfigurationStatistic>[] typedValue = (WeakReference<ConfigurationStatistic>[])value;
+                IEnumerable<ConfigurationStatistic> validSelection = typedValue.Select( z => z.GetTarget() ).Where( z => z != null );
+                IEnumerable<ConfigurationStatistic> newSelection = DataSet.ForStatistics( _core ).ShowCheckList( owner, validSelection );
 
-                if (sel == null)
+                if (newSelection == null)
                 {
                     return null;
                 }
 
-                return sel.Select( z => new WeakReference<ConfigurationStatistic>( z ) ).ToArray();
+                return newSelection.Select( z => new WeakReference<ConfigurationStatistic>( z ) ).ToArray();
             }
         }
                                   
@@ -390,7 +390,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                     return null;
                 }
 
-                ConfigurationClusterer[] opts = IVisualisableExtensions.WhereEnabled( core.AllClusterers ).ToArray();
+                ConfigurationClusterer[] opts = IVisualisableExtensions.WhereEnabled( core.Clusterers ).ToArray();
 
                 if (ival < 0 || ival >= opts.Length)
                 {

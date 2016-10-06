@@ -456,7 +456,7 @@ namespace MetaboliteLevels.Types.UI
             {
                 Core = core,
                 ListTitle = "Trends",
-                ListSource = core.AllTrends,
+                ListSource = core.Trends,
                 ItemDescription = _GetComment,
                 ListSupportsReorder = true,
                 ListIcon = Resources.IconScriptTrend,  
@@ -473,8 +473,7 @@ namespace MetaboliteLevels.Types.UI
                         }
 
                         return CommitEdit( FrmEditConfigurationTrend.Show( z.Owner, core, z.DefaultValue?.Args, z.ReadOnly ), z );   
-                    },
-                HandleFinished = z => FrmMsgBox.ShowCompleted( z.Owner, "Trends", "Update complete" ),
+                    },                                                                                
             };
         }
 
@@ -487,15 +486,11 @@ namespace MetaboliteLevels.Types.UI
             {
                 Core = core,
                 ListTitle = "Corrections",
-                ListSource = core.AllCorrections,
+                ListSource = core.Corrections,
                 ItemDescription = _GetComment,
                 ListSupportsReorder = true,
                 ListIcon = Resources.IconScriptCorrect,
-                ItemsReferenceList = true,
-                HandleFinished = z =>
-                {
-                    FrmMsgBox.ShowCompleted( z.Owner, "Data Corrections", "Update complete" );
-                },
+                ItemsReferenceList = true,        
                 HandleCommit = z =>
                 {
                     core.SetCorrections( z.List, z.Progress, z.Transient );
@@ -521,7 +516,7 @@ namespace MetaboliteLevels.Types.UI
             {
                 Core = core,
                 ListTitle = "Clusterers",
-                ListSource = core.AllClusterers,
+                ListSource = core.Clusterers,
                 ItemDescription = _GetComment,
                 ListSupportsReorder = true,
                 HandleCommit = z => core.SetClusterers( z.List, z.Progress, z.Transient ),
@@ -535,9 +530,7 @@ namespace MetaboliteLevels.Types.UI
                     }
 
                     return CommitEdit( FrmEditConfigurationCluster.Show( z.Owner, core, z.DefaultValue?.Args, z.ReadOnly, false ), z );
-                },
-
-                HandleFinished = z => FrmMsgBox.ShowCompleted( z.Owner, "Clustering", "Update complete" )
+                }
             };
         }
 
@@ -661,7 +654,7 @@ namespace MetaboliteLevels.Types.UI
             {
                 Core = core,
                 ListTitle = "Statistics",
-                ListSource = core.AllStatistics,
+                ListSource = core.Statistics,
                 ItemDescription = _GetComment,
                 ItemsReferenceList = true,
                 HandleCommit = z => core.SetStatistics( z.List, z.Progress, z.Transient ),
@@ -675,8 +668,7 @@ namespace MetaboliteLevels.Types.UI
                     }
 
                     return CommitEdit(FrmEditConfigurationStatistic.Show( z.Owner, z.DefaultValue?.Args, core, z.ReadOnly ), z );
-                },
-                HandleFinished = z => FrmMsgBox.ShowCompleted( z.Owner, "Staticics", "Update complete" ),
+                }
             };
         }
 
@@ -735,7 +727,7 @@ namespace MetaboliteLevels.Types.UI
             {
                 Core = core,
                 ListTitle = "Peak Filters",
-                ListSource = core.AllPeakFilters,
+                ListSource = core.PeakFilters,
                 ItemDescription = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
                 HandleCommit = z => core.SetPeakFilters( z.List ),
                 ListSupportsReorder = true,
@@ -792,7 +784,7 @@ namespace MetaboliteLevels.Types.UI
             {
                 Core = core,
                 ListTitle = "Observation Filters",
-                ListSource = core.AllObsFilters,
+                ListSource = core.ObsFilters,
                 ItemDescription = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
                 HandleEdit = z =>
                 {
@@ -872,7 +864,7 @@ namespace MetaboliteLevels.Types.UI
                 if (args.DefaultValue.HasError)
                 {
                     FrmMsgBox.ButtonSet[] btns = {
-                                                     new   FrmMsgBox.ButtonSet("Continue", Resources.MnuAccept, DialogResult.Yes),
+                                                     new   FrmMsgBox.ButtonSet(args.ReadOnly ? "View" : "Edit", Resources.MnuAccept, DialogResult.Yes),
                                                      new   FrmMsgBox.ButtonSet("Clear error", Resources.MnuDelete, DialogResult.No),
                                                      new   FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
@@ -883,7 +875,7 @@ namespace MetaboliteLevels.Types.UI
 
                         case DialogResult.No:
                             args.DefaultValue.ClearResults();
-                            break;
+                            return false;
 
                         case DialogResult.Cancel:
                             return false;

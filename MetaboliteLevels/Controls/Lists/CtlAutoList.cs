@@ -287,6 +287,11 @@ namespace MetaboliteLevels.Controls.Lists
         /// </summary>
         private void SaveColumnUserPreferences()
         {
+            if (_core == null)
+            {
+                return;
+            }
+
             foreach (Column col in _availableColumns)
             {
                 _core.Options.OpenColumn(true, _listViewOptionsKey, col);
@@ -298,6 +303,12 @@ namespace MetaboliteLevels.Controls.Lists
         /// </summary>
         private void LoadColumnUserPreferences()
         {
+            // If we have no core just return the default
+            if (_core == null)
+            {
+                return;
+            }
+
             foreach (Column col in _availableColumns)
             {
                 _core.Options.OpenColumn(false, _listViewOptionsKey, col);

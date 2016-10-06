@@ -14,6 +14,7 @@ using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Activities;
+using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
@@ -360,9 +361,17 @@ namespace MetaboliteLevels.Forms.Editing
 
         private void _btnOk_Click(object sender, EventArgs e)
         {
-            _keepChanges = true;  
+            _keepChanges = true;
 
-            FrmWait.Show(this, "Applying changes", null, z => _config.UntypedApplyChanges(_list, z, false));
+            try
+            {
+                FrmWait.Show( this, "Applying changes", null, z => _config.UntypedApplyChanges( _list, z, false ) );
+            }
+            catch (TaskCanceledException ex)
+            {
+                FrmMsgBox.ShowError( this, ex );
+                return;
+            }
 
             _config.UntypedAfterApply(this, _list);
 

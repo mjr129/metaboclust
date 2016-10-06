@@ -97,7 +97,8 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 
             // TODO: This whole section is awful legacy stuff, why do we keep looking this stuff up!
             Vector srcV = Args.SourceMatrix.Find( peak );
-            IEnumerable<int> indices = srcV.Observations.Which( λ => con.Test( (ObservationInfo) λ ) );
+            // null condition just means "everything"
+            IEnumerable<int> indices = con == null ? srcV.Observations.Indices() : srcV.Observations.Which( λ => con.Test( (ObservationInfo) λ ) );
             IEnumerable<ObservationInfo> srcC = srcV.Observations.At( indices);
 
             if (getIntensity)

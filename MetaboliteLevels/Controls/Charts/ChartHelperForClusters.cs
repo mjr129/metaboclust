@@ -207,12 +207,13 @@ namespace MetaboliteLevels.Controls.Charts
 
                     MCharting.Series series = GetOrCreateSeries(plot, vecSeries, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, false);
 
-                    MCharting.Series seriesb = null;
+                    // When the series changes we create an intermediate series to join the two together
+                    //MCharting.Series seriesb = null;
 
-                    if (series != lastSeries && lastSeries != null)
-                    {
-                        seriesb = GetOrCreateSeries(plot, vec2Series, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, true);
-                    }
+                    //if (series != lastSeries && lastSeries != null)
+                    //{
+                    //    seriesb = GetOrCreateSeries(plot, vec2Series, group, vec, stylisedCluster, groupLegends, legendEntry, toBringToFront, true);
+                    //}
 
                     lastSeries = series;
 
@@ -224,11 +225,11 @@ namespace MetaboliteLevels.Controls.Charts
                     dataPoint.Tag = new IntensityInfo(obs.Time, obs.Rep, obs.Group, v);
                     series.Points.Add(dataPoint);
 
-                    if (seriesb != null)
-                    {
-                        seriesb.Points.Add(lastPoint);
-                        seriesb.Points.Add(dataPoint);
-                    }
+                    //if (seriesb != null)
+                    //{
+                    //    seriesb.Points.Add(lastPoint);
+                    //    seriesb.Points.Add(dataPoint);
+                    //}
 
                     lastPoint = dataPoint;
                 }     

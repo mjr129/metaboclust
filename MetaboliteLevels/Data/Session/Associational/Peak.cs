@@ -261,7 +261,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
             columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.CommentFlags), z=> z.CommentFlags.Count == 1 ? z.CommentFlags[0].Colour : Color.Black );
                                    
-            foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
+            foreach (ConfigurationStatistic stat in core.Statistics.WhereEnabled())
             {
                 var closure = stat;
                 columns.Add(
@@ -277,7 +277,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
             core._peakMeta.ReadAllColumns(z => z.MetaInfo, columns);
 
-            foreach (PeakFilter fi in core.AllPeakFilters)
+            foreach (PeakFilter fi in core.PeakFilters)
             {
                 var closure = fi;
                 columns.Add("Passes filter\\" + fi.ToString(), EColumn.Advanced, z => fi.Test(z));

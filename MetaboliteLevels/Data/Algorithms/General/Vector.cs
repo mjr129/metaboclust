@@ -12,7 +12,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
     /// An input vector
     /// </summary>
     [Serializable]
-    internal class Vector
+    internal sealed class Vector
     {
         public readonly IntensityMatrix Source;
         public readonly int RowIndex;
@@ -29,6 +29,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
         public Vector( IntensityMatrix source, int rowIndex )
         {
+            if (rowIndex < 0 || rowIndex >= source.NumRows)
+            {
+                throw new InvalidOperationException( $"Attempt to create a vector reference where the rowIndex {{{rowIndex}}} is outside the source dimensions: {{{source}}}." );
+            }
+
             Source = source;
             RowIndex = rowIndex;
         }
@@ -55,6 +60,29 @@ namespace MetaboliteLevels.Data.Algorithms.General
         public IntensityMatrix ToIntensityMatrix()
         {
             return new IntensityMatrix(  new[] { Source.Rows[RowIndex] }, Source.Columns, new[] { Values } );
+        }
+
+        /// <summary>
+        /// Since vectors are created on-demand they need to have a deep Equals.
+        /// </summary>                                                          
+        public override bool Equals( object obj )
+        {
+            Vector b = obj as Vector;
+
+            if (b == null)
+            {
+                return false;
+            }                      
+
+            return b.Source == Source && b.RowIndex == RowIndex;
+        }
+
+        /// <summary>
+        /// As implements Equals.
+        /// </summary>           
+        public override int GetHashCode()
+        {
+            return RowIndex << 16 ^ Source.GetHashCode();
         }
     }
 }

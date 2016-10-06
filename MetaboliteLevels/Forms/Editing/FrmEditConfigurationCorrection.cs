@@ -287,14 +287,14 @@ namespace MetaboliteLevels.Forms.Editing
             // No selection, no preview
             if (sel == null)
             {
-                SetPreviewError( "Nothing to preview", null );   
+                SetPreviewError( "Nothing to preview", null );
                 return;
             }
 
             // No peak, no preview
             if (_selectedPeak == null)
             {
-                SetPreviewError( "No peak selected", null );          
+                SetPreviewError( "No peak selected", null );
                 return;
             }
 
@@ -305,16 +305,16 @@ namespace MetaboliteLevels.Forms.Editing
             IntensityMatrix source = sel.SourceMatrix;
 
             if (source == null)
-            {                                      
+            {
                 SetPreviewError( StrRes.NoPreview, StrRes.MissingSourceDetails( sel ) );
                 return;
-            }                
+            }
 
             // Get vectors
             Vector original = source.Find( _selectedPeak );
             Vector trend;
             Vector corrected;
-            
+
             ConfigurationCorrection temp = new ConfigurationCorrection() { Args = sel };
 
             try
@@ -365,13 +365,11 @@ namespace MetaboliteLevels.Forms.Editing
 
             StylisedPeak newDisplay = new StylisedPeak( _selectedPeak )
             {
-                OverrideDefaultOptions = new StylisedPeakOptions( oldDisplay.OverrideDefaultOptions )
-                {
-                    ShowTrend = false
-                },
-
+                OverrideDefaultOptions = oldDisplay.OverrideDefaultOptions.Clone(),
                 ForceObservations = corrected
-            };                               
+            };
+
+            newDisplay.OverrideDefaultOptions.ShowTrend = false;
 
             // Draw it!
             _chartOrig.Plot( oldDisplay );

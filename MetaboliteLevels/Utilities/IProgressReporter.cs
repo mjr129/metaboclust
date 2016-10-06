@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Session.General;
 using MGui;
 using MGui.Helpers;
 using MSerialisers;
@@ -53,6 +55,13 @@ namespace MetaboliteLevels.Utilities
         }
     }
 
+    public enum ELogLevel
+    {
+        Information,
+        Warning,
+        Error,
+    }
+
     /// <summary>
     /// Contains functions for reporting progress and handling cancellation safely.
     /// </summary>
@@ -83,13 +92,48 @@ namespace MetaboliteLevels.Utilities
         private Stack<string> _texts = new Stack<string>();
         private int _throwOnCancel = 0;
         private Stopwatch _lastUpdate = Stopwatch.StartNew();
-        private Stopwatch _lastLaze = Stopwatch.StartNew();
         private int _percent;
-        private string _continue;
-        private volatile bool _lazyMode;
+        private string _continue;       
         private volatile bool _allowContinue;
         private bool _forceUpdate;
         private long _bytes;
+        private List<LogRecord> _logs = new List<LogRecord>();
+
+        public IReadOnlyList<LogRecord> Logs => _logs;
+                    
+        public class LogRecord : IIconProvider
+        {
+            [XColumn( EColumn.Visible)]
+            public readonly ELogLevel Level;
+
+            [XColumn( EColumn.Visible )]
+            public readonly string Message;
+
+            public LogRecord( string message, ELogLevel level )
+            {
+                this.Message = message;
+                this.Level = level;
+            }
+
+            UiControls.ImageListOrder IIconProvider.Icon
+            {
+                get
+                {
+                    switch (Level)
+                    {   
+                        case ELogLevel.Information: return UiControls.ImageListOrder.Info;
+                        default:
+                        case ELogLevel.Error: 
+                        case ELogLevel.Warning: return UiControls.ImageListOrder.Warning;
+                    }
+                }
+            }
+        }
+
+        public void Log( string message, ELogLevel level )
+        {
+            _logs.Add( new LogRecord( message, level ) );
+        }
 
         /// <summary>
         /// Constructor
@@ -244,16 +288,7 @@ namespace MetaboliteLevels.Utilities
         public void ReenableThrowOnCancel()
         {
             _throwOnCancel--;
-        }
-
-        /// <summary>
-        /// This function is used to control the reporter by the UI and is not for reporting progress.
-        /// Tells the progress reporter to create periodic rests when [lazy] is true.
-        /// </summary>                 
-        public void SetLazyModeAsync(bool lazy)
-        {
-            _lazyMode = lazy;
-        }
+        }        
 
         /// <summary>
         /// This function is used to control the reporter by the UI and is not for reporting progress.
@@ -311,14 +346,7 @@ namespace MetaboliteLevels.Utilities
                 else
                 {
                     ctext = null;
-                }
-
-                if (_lazyMode && _lastLaze.ElapsedMilliseconds > 10000)
-                {
-                    _destination.ReportProgressDetails(new ProgInfo("[LAZE] " + text, _percent, ctext));
-                    Thread.Sleep(1000);
-                    _lastLaze.Restart();
-                }
+                }   
 
                 _destination.ReportProgressDetails(new ProgInfo(text, _percent, ctext));
 
@@ -327,8 +355,7 @@ namespace MetaboliteLevels.Utilities
             }
 
             if (!_allowContinue && (_throwOnCancel == 0))
-            {
-                DisableThrowOnCancel(); // Only throw one exception
+            {                                                        
                 throw new TaskCanceledException("The task was cancelled.");
             }
 

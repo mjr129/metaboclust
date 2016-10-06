@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
@@ -72,6 +73,7 @@ namespace MetaboliteLevels.Types.UI
         public bool ShowAcqisition;                         // See CoreVisualOptions
         public bool ShowVariableMean;                       // See CoreVisualOptions
         public bool DrawExperimentalGroupAxisLabels;
+        public ConfigurationTrend SelectedTrend;
 
         public StylisedPeakOptions(Core core)
         {
@@ -87,19 +89,12 @@ namespace MetaboliteLevels.Types.UI
             ShowAcqisition = visualOptions.ViewAcquisition;
             ShowVariableMean = visualOptions.ShowVariableMean;
             DrawExperimentalGroupAxisLabels = visualOptions.DrawExperimentalGroupAxisLabels;
+            SelectedTrend = visualOptions.SelectedTrend;
         }
 
-        public StylisedPeakOptions(StylisedPeakOptions copyFrom)
-        {                                                                         
-            ShowRanges = copyFrom.ShowRanges;
-            ShowRanges = copyFrom.ShowRanges;
-            ViewGroups = copyFrom.ViewGroups;
-            ViewBatches = copyFrom.ViewBatches;
-            ConditionsSideBySide = copyFrom.ConditionsSideBySide;
-            ShowPoints = copyFrom.ShowPoints;
-            ShowTrend = copyFrom.ShowTrend;
-            ShowAcqisition = copyFrom.ShowAcqisition;
-            DrawExperimentalGroupAxisLabels = copyFrom.DrawExperimentalGroupAxisLabels;
+        public StylisedPeakOptions Clone()
+        {
+            return (StylisedPeakOptions)this.MemberwiseClone();
         }
     }
 }

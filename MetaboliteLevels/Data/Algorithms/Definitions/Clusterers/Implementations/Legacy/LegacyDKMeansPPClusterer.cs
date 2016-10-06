@@ -49,7 +49,14 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
             // Create the seed cluster
             Cluster seedCluster = new Cluster("1", tag);
             List<Cluster> seedList = new List<Cluster> { seedCluster };
-            seedCluster.Exemplars.Add( vmatrix.Values[ vmatrix.FindIndex(new IntensityMatrix.RowHeader( seedPeak, args.SplitGroups ? groupInfo : null))]);
+            int seedIndex = vmatrix.FindIndex( new IntensityMatrix.RowHeader( seedPeak, args.SplitGroups ? groupInfo : null ) );
+
+            if (seedIndex == -1)
+            {
+                throw new InvalidOperationException( $"The chosen peak {{{seedPeak}}} cannot be used a seed because it is not present in the value matrix. Please check that this peak has not been excluded by the filter condition {{{args.PeakFilter}}}.");
+            }
+
+            seedCluster.Exemplars.Add( vmatrix.Values[seedIndex]);
 
             // Autogenerate the clusters
             int? nCountLimit = (countLimit != Int32.MinValue) ? countLimit : (int?)null;

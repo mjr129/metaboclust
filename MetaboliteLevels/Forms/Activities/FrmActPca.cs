@@ -142,7 +142,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             _lblPlsrSource.Visible = _mnuPlsrSource.Visible = _method == EMethod.Plsr;
 
-            int corIndex = IVisualisableExtensions.WhereEnabled( this._core.AllCorrections ).IndexOf( this._selectedCorrection );
+            int corIndex = IVisualisableExtensions.WhereEnabled( this._core.Corrections ).IndexOf( this._selectedCorrection );
                                   
             Column plsrColumn;
             GetSource( _regressAgainst,  out plsrColumn );
@@ -401,7 +401,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void toolStripDropDownButton3_DropDownOpening(object sender, EventArgs e)
         {
             ClearCmsFilter(_mnuObsFilter);
-            AddFilters(_mnuObsFilter, _core.AllObsFilters, true);
+            AddFilters(_mnuObsFilter, _core.ObsFilters, true);
         }
 
         private void AddFilters(ToolStripDropDownButton button, IEnumerable source, bool isObservationFilter)
@@ -433,7 +433,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void toolStripDropDownButton1_DropDownOpening(object sender, EventArgs e)
         {
             ClearCmsFilter(_mnuPeakFilter);
-            AddFilters(_mnuPeakFilter, _core.AllPeakFilters, false);
+            AddFilters(_mnuPeakFilter, _core.PeakFilters, false);
         }
 
         private void editPeakFilters_Click(object sender, EventArgs e)
@@ -622,11 +622,11 @@ namespace MetaboliteLevels.Forms.Activities
 
                 if (safeToReplace)
                 {
-                    _core.SetPeakFilters(_core.AllPeakFilters.ReplaceSingle(_peakFilter, newFilter).ToArray());
+                    _core.SetPeakFilters(_core.PeakFilters.ReplaceSingle(_peakFilter, newFilter).ToArray());
                 }
                 else
                 {
-                    _core.SetPeakFilters(_core.AllPeakFilters.ConcatSingle(newFilter).ToArray());
+                    _core.SetPeakFilters(_core.PeakFilters.ConcatSingle(newFilter).ToArray());
                 }
 
                 _peakFilter = newFilter;
@@ -668,11 +668,11 @@ namespace MetaboliteLevels.Forms.Activities
 
                 if (safeToReplace)
                 {
-                    _core.SetObsFilters( _core.AllObsFilters.ReplaceSingle( _obsFilter, obsFilter ).ToArray() );
+                    _core.SetObsFilters( _core.ObsFilters.ReplaceSingle( _obsFilter, obsFilter ).ToArray() );
                 }
                 else
                 {
-                    _core.SetObsFilters( _core.AllObsFilters.ConcatSingle( obsFilter ).ToArray() );
+                    _core.SetObsFilters( _core.ObsFilters.ConcatSingle( obsFilter ).ToArray() );
                 }
 
                 _obsFilter = obsFilter;

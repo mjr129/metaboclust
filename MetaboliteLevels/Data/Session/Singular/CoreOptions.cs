@@ -279,9 +279,9 @@ namespace MetaboliteLevels.Data.Session.Singular
                 }
 
                 // Fallback    
-                if (_core.AllTrends.Count != 0)
+                if (_core.Trends.Count != 0)
                 {
-                    return _core.AllTrends[0];
+                    return _core.Trends[0];
                 }
 
                 return ChartHelperForPeaks.FallbackSmoother;

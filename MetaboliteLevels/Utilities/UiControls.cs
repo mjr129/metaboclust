@@ -626,6 +626,7 @@ namespace MetaboliteLevels.Utilities
                 case ImageListOrder.Group           : return bold ? Resources.MnuGroup : Resources.MnuGroup;
                 case ImageListOrder.Matrix: return Resources.IconMatrix;
                 case ImageListOrder.Unknown: return Resources.IconUnknown;
+                case ImageListOrder.Error: return Resources.MnuCancel;
                 default: throw new SwitchException(v);
             }
         }
@@ -670,6 +671,7 @@ namespace MetaboliteLevels.Utilities
             Group,
             Matrix,
             Unknown,
+            Error,
         }
 
         /// <summary>

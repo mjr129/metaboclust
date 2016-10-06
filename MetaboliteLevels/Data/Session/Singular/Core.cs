@@ -206,19 +206,19 @@ namespace MetaboliteLevels.Data.Session.Singular
         public Range TimeRange                                       => _cache._timeRange;
         public IReadOnlyList<GroupInfo> Groups                       => _groups;
         public IReadOnlyList<BatchInfo> Batches                      => _batches;
-        public IEnumerable<Cluster> Clusters                         => this._clusterers.WhereEnabled().SelectMany( z => z.Results.Clusters );
+        public IEnumerable<Cluster> Clusters                         => this._clusterers.WhereEnabled().Where( z => z.Results != null ).SelectMany( z => z.Results.Clusters );
         public IReadOnlyList<Peak> Peaks                             => _peaks;
         public List<Compound> Compounds                              => _compounds;
         public IReadOnlyList<Pathway> Pathways                       => _pathways;
         public List<Adduct> Adducts                                  => _adducts;
         public IReadOnlyList<ObservationInfo> Observations           => _observations;
         public IReadOnlyList<ObservationInfo> Conditions             => _conditions;
-        public IReadOnlyList<ConfigurationCorrection> AllCorrections => _corrections;
-        public IReadOnlyList<ConfigurationStatistic> AllStatistics   => _statistics;
-        public IReadOnlyList<ConfigurationClusterer> AllClusterers   => _clusterers;
-        public IReadOnlyList<ConfigurationTrend> AllTrends           => _trends;
-        public IReadOnlyList<PeakFilter> AllPeakFilters              => _peakFilters;
-        public IReadOnlyList<ObsFilter> AllObsFilters                => _obsFilters;
+        public IReadOnlyList<ConfigurationCorrection> Corrections => _corrections;
+        public IReadOnlyList<ConfigurationStatistic> Statistics   => _statistics;
+        public IReadOnlyList<ConfigurationClusterer> Clusterers   => _clusterers;
+        public IReadOnlyList<ConfigurationTrend> Trends           => _trends;
+        public IReadOnlyList<PeakFilter> PeakFilters              => _peakFilters;
+        public IReadOnlyList<ObsFilter> ObsFilters                => _obsFilters;
 
         class CachedData
         {
@@ -352,6 +352,7 @@ namespace MetaboliteLevels.Data.Session.Singular
                         using (info.Section( item.DisplayName ))
                         {
                             result = true;
+                            info.Log( $"Updating: {item.DisplayName}", ELogLevel.Information );
                             item.Run( this, info );
                         }
                     }
@@ -452,7 +453,7 @@ namespace MetaboliteLevels.Data.Session.Singular
         /// </summary>
         public void AddClusterer( ConfigurationClusterer toAdd, ProgressReporter setProgress )
         {
-            List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>( AllClusterers );
+            List<ConfigurationClusterer> existing = new List<ConfigurationClusterer>( Clusterers );
             existing.Add( toAdd );
             this.SetClusterers( existing.ToArray(), setProgress, false );
         }
@@ -480,7 +481,7 @@ namespace MetaboliteLevels.Data.Session.Singular
         /// </summary>
         internal void AddObsFilter( ObsFilter toAdd )
         {
-            List<ObsFilter> existing = new List<ObsFilter>( AllObsFilters );
+            List<ObsFilter> existing = new List<ObsFilter>( ObsFilters );
             existing.Add( toAdd );
             this.SetObsFilters( existing.ToArray() );
         }
@@ -490,7 +491,7 @@ namespace MetaboliteLevels.Data.Session.Singular
         /// </summary>
         internal void AddPeakFilter( PeakFilter toAdd )
         {
-            List<PeakFilter> existing = new List<PeakFilter>( AllPeakFilters );
+            List<PeakFilter> existing = new List<PeakFilter>( PeakFilters );
             existing.Add( toAdd );
             this.SetPeakFilters( existing.ToArray() );
         }

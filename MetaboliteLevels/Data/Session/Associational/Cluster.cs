@@ -150,7 +150,7 @@ namespace MetaboliteLevels.Data.Session.Associational
                         break;
 
                     case EVisualClass.Pathway:
-                        highlight = toHighlight.FindAssociations(core, EVisualClass.Peak).Results.Cast<Peak>().Select(StylisedCluster.HighlightElement.FromPeak).ToArray();
+                        highlight = toHighlight.FindAssociations(core, EVisualClass.Peak).Results.Cast<Association<Peak>>().Select(z=>StylisedCluster.HighlightElement.FromPeak(z.Associated)).ToArray();
                         caption += " Peaks potentially representing compounds in {1} are {HIGHLIGHTED}.";
                         break;
 
@@ -530,7 +530,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
             result.Add("Flags\\Summary", EColumn.None, λ => λ.CommentFlags.Select(z => z.Key + " = " + z.Value), z => z.CommentFlags.Count != 1 ? Color.Black : z.CommentFlags.Keys.First().Colour);
 
-            foreach (ConfigurationStatistic stat in core.AllStatistics.WhereEnabled())
+            foreach (ConfigurationStatistic stat in core.Statistics.WhereEnabled())
             {
                 ConfigurationStatistic closure = stat;
                 result.Add("Average Statistic\\" + closure, EColumn.IsStatistic, λ => λ.Statistics.GetOrNan(closure));

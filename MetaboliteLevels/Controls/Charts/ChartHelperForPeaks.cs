@@ -126,7 +126,7 @@ namespace MetaboliteLevels.Controls.Charts
                 }
 
                 // Sort data                                                
-                ConfigurationTrend trend = _core.Options.SelectedTrend;
+                ConfigurationTrend trend = opts.SelectedTrend;
                 Vector avg = stylisedPeak.ForceTrend ?? trend.CreateTrend( _core, vector );
                 Vector min = MinSmoother.CreateTrend( _core, vector );
                 Vector max = MaxSmoother.CreateTrend( _core, vector );

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -170,10 +171,35 @@ namespace MetaboliteLevels.Forms.Activities
             using (FrmWait frm = new FrmWait(title, subtitle, callable))
             {
                 UiControls.ShowWithDim(owner, frm);
-
+                  
                 if (callable.Error != null)
                 {
-                    throw new Exception(callable.Error.Message, callable.Error);
+                    if (callable.Error is TaskCanceledException)
+                    {
+                        throw new TaskCanceledException( "The task was cancelled.", callable.Error );
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException( "The background process encountered an error: " + callable.Error.Message, callable.Error );
+                    }
+                }
+
+                if (frm._prog.Logs.Count == 1)
+                {
+                    var l = frm._prog.Logs[0];
+                    FrmMsgBox.Show( owner, l.Level, l.Message );
+                }
+                else if (frm._prog.Logs.Count != 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    DataSet<ProgressReporter.LogRecord> ds = new DataSet<ProgressReporter.LogRecord>()
+                    {
+                        ListSource = frm._prog.Logs,
+                        ListTitle = "Logs",
+                    };
+
+                    ds.ShowListEditor( owner, Editing.FrmBigList.EShow.ReadOnly, null );
                 }
 
                 return callable.Result;
@@ -210,7 +236,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             if (!_allowClose)
             {
-                flowLayoutPanel1.Visible = true;
+                MessageBox.Show( this, "Cannot close the window while the task is still running." );                        
                 e.Cancel = true;
             }
         }
@@ -255,19 +281,7 @@ namespace MetaboliteLevels.Forms.Activities
             }
 
             DialogResult = DialogResult.OK;
-        }
-
-        private void _chkStop_CheckedChanged(object sender, EventArgs e)
-        {
-            if (_chkStop.Checked)
-            {
-                _prog.SetCancelAsync(true);
-            }
-            else
-            {
-                _prog.SetCancelAsync(false);
-            }
-        }
+        }      
 
         private void _chkSuspend_CheckedChanged(object sender, EventArgs e)
         {
@@ -310,19 +324,24 @@ namespace MetaboliteLevels.Forms.Activities
                 _thread.Priority = ThreadPriority.Normal;
             }
 
-        }
-
-        private void _chkLazy_CheckedChanged(object sender, EventArgs e)
-        {
-            _prog.SetLazyModeAsync(_chkLazy.Checked);
-        }
+        }    
 
         private void ctlTitleBar1_HelpClicked( object sender, CancelEventArgs e )
         {
             if (FrmMsgBox.ShowYesNo( this, "Cancel", "Are you sure you wish to cancel the task?" ))
             {
-                _chkStop.Checked = true;
+                _prog.SetCancelAsync( true );
             }
+        }
+
+        private void label1_Click( object sender, EventArgs e )
+        {
+
+        }
+
+        private void label1_DoubleClick( object sender, EventArgs e )
+        {
+            flowLayoutPanel1.Visible = true;
         }
     }
 }

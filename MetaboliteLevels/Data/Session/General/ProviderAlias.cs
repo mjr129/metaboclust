@@ -47,10 +47,10 @@ namespace MetaboliteLevels.Data.Session.General
                 {
                     case EProviderAlias.LastCorrection:
                         {
-                            return (IMatrixProvider)_core.AllCorrections.WhereEnabled().LastOrDefault() ?? (IMatrixProvider)_core.OriginalData.First();
+                            return (IMatrixProvider)_core.Corrections.WhereEnabled().LastOrDefault() ?? (IMatrixProvider)_core.OriginalData.First();
                         }
                     case EProviderAlias.LastTrend:
-                        return _core.AllTrends.WhereEnabled().LastOrDefault();
+                        return _core.Trends.WhereEnabled().LastOrDefault();
                     case EProviderAlias.User:
                         return _userTarget.GetTarget();
                     default:

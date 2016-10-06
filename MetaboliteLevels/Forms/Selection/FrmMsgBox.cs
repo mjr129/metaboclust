@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Selection
 {
@@ -157,6 +158,24 @@ namespace MetaboliteLevels.Forms.Selection
 
         List<CtlButton> _buttons = new List<CtlButton>();
         private readonly DialogResult? _notAgainConstraint;
+
+        internal static void Show( Form owner, ELogLevel level, string message )
+        {                   
+            switch (level)
+            {
+                case ELogLevel.Information:
+                    FrmMsgBox.ShowInfo( owner, level.ToUiString(), message );
+                    break;
+
+                case ELogLevel.Error:
+                    FrmMsgBox.ShowError( owner, level.ToUiString(), message );
+                    break;
+
+                case ELogLevel.Warning:
+                    FrmMsgBox.ShowWarning( owner, level.ToUiString(), message );
+                    break;
+            }
+        }
 
         /// <summary>
         /// Constructor. See Show method for parameter descriptions.
