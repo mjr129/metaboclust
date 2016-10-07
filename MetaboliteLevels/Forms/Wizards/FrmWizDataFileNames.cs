@@ -1095,7 +1095,7 @@ namespace MetaboliteLevels.Forms.Wizards
         private void button1_Click( object sender, EventArgs e )
         {
             _wizard.Page += 1;
-            FrmMsgBox.Show( this, "Hint", null, "Select the help button to display the help side-bar describing file-format details, etc.", Resources.MnuHelpBar, new[] { new FrmMsgBox.ButtonSet( "OK", Resources.MnuAccept, DialogResult.OK ) }, FrmMsgBox.EDontShowAgainId.HelpSideBar, DialogResult.OK );
+            FrmMsgBox.ShowHint( this, "Select the help button to display the help side-bar describing file-format details, etc.", FrmMsgBox.EDontShowAgainId.HelpSideBar, Resources.MnuHelpBar );
         }
 
         private void _lstLcmsMode_SelectedIndexChanged( object sender, EventArgs e )

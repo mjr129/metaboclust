@@ -460,26 +460,26 @@ namespace MetaboliteLevels.Forms.Activities
                     return;
                 }
 
-                FrmMsgBox.ButtonSet[] buttons;
+                MsgBoxButton[] buttons;
                 string msg;
 
                 if (loop2)
                 {
-                    buttons = new FrmMsgBox.ButtonSet[]
+                    buttons = new MsgBoxButton[]
                         {
-                            new FrmMsgBox.ButtonSet("Continue", Resources.MnuAccept, DialogResult.Yes),
-                            new FrmMsgBox.ButtonSet("Later", Resources.MnuAdd, DialogResult.No),
-                            new FrmMsgBox.ButtonSet("Discard", Resources.MnuDelete, DialogResult.Abort),
+                            new MsgBoxButton("Continue", Resources.MnuAccept, DialogResult.Yes),
+                            new MsgBoxButton("Later", Resources.MnuAdd, DialogResult.No),
+                            new MsgBoxButton("Discard", Resources.MnuDelete, DialogResult.Abort),
                        };
 
                     msg = "An error occured but " + toRun.Length.ToString() + " tests are still queued. You can continue running them now, save them for later, or discard them.";
                 }
                 else
                 {
-                    buttons = new FrmMsgBox.ButtonSet[]
+                    buttons = new MsgBoxButton[]
                          {
-                            new FrmMsgBox.ButtonSet("Now", Resources.MnuAccept, DialogResult.Yes),
-                            new FrmMsgBox.ButtonSet("Later", Resources.MnuAdd, DialogResult.No)
+                            new MsgBoxButton("Now", Resources.MnuAccept, DialogResult.Yes),
+                            new MsgBoxButton("Later", Resources.MnuAdd, DialogResult.No)
                        };
 
                     msg = toRun.Length.ToString() + " tests are ready to run. You can save these for later or run them now.";
@@ -864,11 +864,11 @@ namespace MetaboliteLevels.Forms.Activities
         {
             if (_core.EvaluationResultFiles.Count == 0)
             {
-                FrmMsgBox.ButtonSet[] buttons =
+                MsgBoxButton[] buttons =
                     {
-                        new FrmMsgBox.ButtonSet("Create", Resources.MnuAccept, DialogResult.Yes),
-                        new FrmMsgBox.ButtonSet("Import", Resources.MnuFile, DialogResult.No),
-                        new FrmMsgBox.ButtonSet("Cancel", Resources.MnuAccept, DialogResult.Cancel),
+                        new MsgBoxButton("Create", Resources.MnuAccept, DialogResult.Yes),
+                        new MsgBoxButton("Import", Resources.MnuFile, DialogResult.No),
+                        new MsgBoxButton("Cancel", Resources.MnuAccept, DialogResult.Cancel),
                     };
 
                 switch (FrmMsgBox.Show(this, "Select Test", null, "It appears you don't have any tests! Would you like to create a new one?", Resources.MsgHelp, buttons))

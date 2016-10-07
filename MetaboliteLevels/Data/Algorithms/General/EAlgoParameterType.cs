@@ -13,11 +13,25 @@ using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
+using MGui.Datatypes;
 using MGui.Helpers;
 using RDotNet;
 
 namespace MetaboliteLevels.Data.Algorithms.General
 {
+    class FromStringArgs
+    {
+        public readonly string Text;
+        public readonly Core Core;
+        public string Error;
+
+        public FromStringArgs( Core core, string text )
+        {
+            this.Core = core;
+            this.Text = text;
+        }
+    }
+
     /// <summary>
     /// Represents a type of parameter requested for an algorithm.
     /// </summary>
@@ -27,7 +41,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// Converts text (from user input) to the parameter type.
         /// </summary>                                            
         /// <returns>Result, or null on failure.</returns>
-        [CanBeNull] object FromString( Core core, string text );
+        [CanBeNull] object FromString( FromStringArgs args );
 
         /// <summary>
         /// Opens a GUI browse to select a value for the parameter type.
@@ -56,8 +70,10 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// See <see cref="SourceTracker"/> for details.
         /// </summary>
         /// <param name="param">Parameter value to track</param>
-        /// <returns>Null, or one or more references which will be used to test for changes to this parameter.</returns>
+        /// <returns>Null, or one or more references which will be used to test for changes to this parameter. Note: Use NULL for paramters that are actually NULL, not WeakReference(null), since it is null may be interpreted as an expired reference.</returns>
         [CanBeNull] WeakReference[] TrackChanges( object param );
+
+        string TryToString( object x );
     }
 
     /// <summary>
@@ -88,6 +104,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
             return result;
         }
 
+        internal static string ToString( bool reversable, Core core, object param )
+        {                                                                         
+            return GetAll().Select( z => z.TryToString( param ) ).FirstOrDefault( z => z != null );
+        }
+
         public static IEnumerable<IAlgoParameterType> GetAll()
         {
             yield return Integer;
@@ -115,10 +136,9 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return null;
             }
 
-            public object FromString( Core core, string text )
-            {
-                text = text.Trim().ToUpper();
-                return OnFromString( core, text );
+            public object FromString( FromStringArgs args )
+            {                                  
+                return OnFromString( args );
             }
 
             public object Browse( Form owner, Core core, object value )
@@ -133,47 +153,65 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             protected abstract object OnBrowse( Form owner, Core _core, object value );
 
-            protected abstract object OnFromString( Core core, string text );
+            protected abstract object OnFromString( FromStringArgs args );
 
             public override string ToString()
             {
                 return Name.ToSmallCaps();
             }
-        }
-                                  
+
+            public string TryToString( object x )
+            {
+                if (x is T)
+                {
+                    return OnTryToString( (T)x );
+                }
+
+                return null;
+            }
+
+            internal abstract string OnTryToString( T x );
+        }        
+
         private class _Integer : _AlgoParameterType<int>
         {
             public override IEnumerable<string> Aliases => new[] { "Integer", "Int" };
 
-            protected override object OnFromString( Core core, string text )
+            protected override object OnFromString( FromStringArgs args )
             {
                 int vi;
 
-                if (text == "MAX")
+                if (args.Text == "MAX")
                 {
                     return int.MaxValue;
                 }
-                else if (text == "MIN")
+                else if (args.Text == "MIN")
                 {
                     return int.MinValue;
                 }
-                else if (int.TryParse( text, out vi ))
+                else if (int.TryParse( args.Text, out vi ))
                 {
                     return vi;
                 }
                 else
                 {
+                    args.Error = $"{{{args.Text}}} is not a valid integer.";
                     return null;
                 }
             }
 
+            internal override string OnTryToString( int x )
+            {
+                return x.ToString();
+            }
+
             protected override object OnBrowse( Form owner, Core _core, object value )
             {
-                FrmMsgBox.ButtonSet[] btns =
+                MsgBoxButton[] btns =
                 {
-                    new FrmMsgBox.ButtonSet( "MAX", Resources.MnuUp, DialogResult.Yes ),
-                    new FrmMsgBox.ButtonSet( "MIN", Resources.MnuDown, DialogResult.No ),
-                    new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel )
+                    new MsgBoxButton( "MAX", Resources.MnuUp, DialogResult.Yes ),
+                    new MsgBoxButton( "MIN", Resources.MnuDown, DialogResult.No ),
+                    new MsgBoxButton( "Cancel", Resources.MnuCancel, DialogResult.Cancel )
                 };
 
                 switch (FrmMsgBox.Show( owner, "Select Integer", null, "Select a value or enter a custom value into the textbox", Resources.MsgHelp, btns, DialogResult.Cancel, DialogResult.Cancel ))
@@ -199,26 +237,32 @@ namespace MetaboliteLevels.Data.Algorithms.General
         {
             public override IEnumerable<string> Aliases => new[] { "Double", "Numeric", "Real" };
 
-            protected override object OnFromString( Core core, string text )
+            protected override object OnFromString( FromStringArgs args )
             {
                 double vd;
 
-                if (text == "MAX")
+                if (args.Text == "MAX")
                 {
                     return double.MaxValue;
                 }
-                else if (text == "MIN")
+                else if (args.Text == "MIN")
                 {
                     return double.MinValue;
                 }
-                else if (double.TryParse( text, out vd ))
+                else if (double.TryParse( args.Text, out vd ))
                 {
                     return vd;
                 }
                 else
                 {
+                    args.Error = $"{{{args.Text}}} is not a valid number.";
                     return null;
                 }
+            }
+
+            internal override string OnTryToString( double x )
+            {
+                return x.ToString();
             }
 
             public override void SetSymbol( REngine rEngine, string name, object value )
@@ -229,11 +273,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
             protected override object OnBrowse( Form owner, Core _core, object value )
             {
                 {
-                    FrmMsgBox.ButtonSet[] btns =
+                    MsgBoxButton[] btns =
                     {
-                        new FrmMsgBox.ButtonSet( "MAX", Resources.MnuUp, DialogResult.Yes ),
-                        new FrmMsgBox.ButtonSet( "MIN", Resources.MnuDown, DialogResult.No ),
-                        new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel )
+                        new MsgBoxButton( "MAX", Resources.MnuUp, DialogResult.Yes ),
+                        new MsgBoxButton( "MIN", Resources.MnuDown, DialogResult.No ),
+                        new MsgBoxButton( "Cancel", Resources.MnuCancel, DialogResult.Cancel )
                     };
 
                     switch (FrmMsgBox.Show( owner, "Select Double", null, "Select a value or enter a custom value into the textbox", Resources.MsgHelp, btns, DialogResult.Cancel, DialogResult.Cancel ))
@@ -251,6 +295,25 @@ namespace MetaboliteLevels.Data.Algorithms.General
             }
         }
 
+        private static SpreadsheetReader _WeakRefStatisticArraySr = new SpreadsheetReader()
+        {
+            Delimiter = ';',
+            WriteSpaces = 1,
+        };
+
+        private static string ElementToString<T>( WeakReference<T> arg )
+                 where T : Visualisable
+        {
+            var arga = arg.GetTarget();
+
+            if (arga == null)
+            {
+                return "(missing)";
+            }
+
+            return arga.DisplayName;
+        }
+
         [Name( "Statistic[]" )]
         private class _WeakRefStatisticArray : _AlgoParameterType<WeakReference<ConfigurationStatistic>[]>
         {
@@ -258,38 +321,32 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             protected override WeakReference[] OnTrackChanges( WeakReference<ConfigurationStatistic>[] param )
             {
-                return param.Select( z => new WeakReference( z.GetTargetOrThrow().Results) ).ToArray();
+                return param.Select( z => z.GetTargetOrThrow().Results.ToWeakReferenceO() ).ToArray();
             }
 
-            protected override object OnFromString( Core core, string text )
+            internal override string OnTryToString( WeakReference<ConfigurationStatistic>[] x )
             {
-                string[] e2 = text.Split( ",;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries );
+                return _WeakRefStatisticArraySr.WriteFields( x.Select( ElementToString ) );
+            }
+
+            protected override object OnFromString( FromStringArgs args )
+            {                 
+                string[] e2 = _WeakRefStatisticArraySr.ReadFields( args.Text );
 
                 WeakReference<ConfigurationStatistic>[] r = new WeakReference<ConfigurationStatistic>[e2.Length];
-                ConfigurationStatistic[] opts = IVisualisableExtensions.WhereEnabled( core.Statistics ).ToArray();
+                var opts = args.Core.Statistics;
 
                 for (int n = 0; n < e2.Length; n++)
                 {
-                    int uid;
+                    var x = opts.FirstOrDefault( z => z.DisplayName == e2[n] );
 
-                    if (!int.TryParse( e2[n].Trim(), out uid ))
+                    if (x == null)
                     {
+                        args.Error = $"There is no statistic with the name {{{e2[n]}}}.";
                         return null;
                     }
 
-                    if (uid < 0 || uid >= opts.Length)
-                    {
-                        return null;
-                    }
-
-                    ConfigurationStatistic stat = opts[uid];
-
-                    if (stat == null)
-                    {
-                        return null;
-                    }
-
-                    r[n] = new WeakReference<ConfigurationStatistic>( stat );
+                    r[n] = new WeakReference<ConfigurationStatistic>(x);    
                 }
 
                 return r;
@@ -298,7 +355,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
             protected override object OnBrowse( Form owner, Core _core, object value )
             {
                 WeakReference<ConfigurationStatistic>[] typedValue = (WeakReference<ConfigurationStatistic>[])value;
-                IEnumerable<ConfigurationStatistic> validSelection = typedValue.Select( z => z.GetTarget() ).Where( z => z != null );
+                IEnumerable<ConfigurationStatistic> validSelection = typedValue?.Select( z => z.GetTarget() ).Where( z => z != null );
                 IEnumerable<ConfigurationStatistic> newSelection = DataSet.ForStatistics( _core ).ShowCheckList( owner, validSelection );
 
                 if (newSelection == null)
@@ -326,11 +383,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return new WeakReference<Peak>( sel );
             }
 
-            protected override object OnFromString( Core core, string text )
+            protected override object OnFromString( FromStringArgs args )
             {
-                string peakName = text;
+                string peakName = args.Text;
 
-                Peak peak = core.Peaks.FirstOrDefault( z => z.DisplayName.ToUpper() == peakName );
+                Peak peak = args.Core.Peaks.FirstOrDefault( z => z.DisplayName == peakName );
 
                 if (peak != null)
                 {
@@ -338,8 +395,21 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 }
                 else
                 {
+                    args.Error = $"There is no peak with the name {{{peakName}}}.";
                     return null;
                 }
+            }
+
+            internal override string OnTryToString( WeakReference<Peak> x )
+            {
+                var xx = x.GetTarget();
+
+                if (xx == null)
+                {
+                    return "(Missing)";
+                }
+
+                return xx.DisplayName;
             }
         }
                                    
@@ -347,15 +417,27 @@ namespace MetaboliteLevels.Data.Algorithms.General
         {
             public override IEnumerable<string> Aliases => new[] { "Group", "GroupInfo" };
 
-            protected override object OnFromString( Core core, string text )
+            protected override object OnFromString( FromStringArgs args )
             {
-                string el = text.Trim();
-                return core.Groups.FirstOrDefault( z => z.Id == el );
+                string el = args.Text.Trim();
+                var res= args.Core.Groups.FirstOrDefault( z => z.Id == el );
+
+                if (res == null)
+                {
+                    args.Error = $"There is no group with the name {{{el}}}";
+                }
+
+                return res;
             }
 
             protected override object OnBrowse( Form owner, Core _core, object value )
             {
                 return DataSet.ForGroups( _core ).ShowList( owner, (GroupInfo)value );
+            }
+
+            internal override string OnTryToString( GroupInfo x )
+            {
+                return x.Id;
             }
         }
                     
@@ -365,7 +447,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             protected override WeakReference[] OnTrackChanges( WeakReference<ConfigurationClusterer> param )
             {
-                return new[] { new WeakReference( param.GetTargetOrThrow().Results) };
+                return new[] { param.GetTargetOrThrow().Results.ToWeakReferenceO() };
             }
 
             protected override object OnBrowse( Form owner, Core _core, object value )
@@ -381,23 +463,29 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return new WeakReference<ConfigurationClusterer>( sel );
             }
 
-            protected override object OnFromString( Core core, string text )
+            protected override object OnFromString( FromStringArgs args )
             {
-                int ival;
+                var x = args.Core.Clusterers.FirstOrDefault( z => z.DisplayName == args.Text );
 
-                if (!int.TryParse( text, out ival ))
+                if (x == null)
                 {
+                    args.Error = $"There is no clusterer with the name {{{args.Text}}}.";
                     return null;
                 }
 
-                ConfigurationClusterer[] opts = IVisualisableExtensions.WhereEnabled( core.Clusterers ).ToArray();
+                return new WeakReference<ConfigurationClusterer>( x );
+            }   
 
-                if (ival < 0 || ival >= opts.Length)
+            internal override string OnTryToString( WeakReference<ConfigurationClusterer> x )
+            {
+                var xx = x.GetTarget();
+
+                if (xx == null)
                 {
-                    return null;
+                    return "(Missing)";
                 }
 
-                return new WeakReference<ConfigurationClusterer>( opts[ival] );
+                return xx.DisplayName;
             }
         }
                                    
@@ -405,23 +493,31 @@ namespace MetaboliteLevels.Data.Algorithms.General
         {
             public override IEnumerable<string> Aliases => new[] { "Cluster[]", "WeakReference<Cluster>[]" };
 
-            protected override object OnFromString( Core core, string text )
+            internal override string OnTryToString( WeakReference<Cluster>[] x )
             {
-                int ival;
+                return _WeakRefStatisticArraySr.WriteFields( x.Select( ElementToString ) );
+            }
 
-                if (!int.TryParse( text, out ival ))
+            protected override object OnFromString( FromStringArgs args )
+            {
+                string[] elems = _WeakRefStatisticArraySr.ReadFields( args.Text );
+
+                WeakReference<Cluster>[] r = new WeakReference<Cluster>[elems.Length];
+
+                for (int n = 0; n < elems.Length; ++n)
                 {
-                    return null;
+                    Cluster c = args.Core.Clusters.FirstOrDefault( z => z.DisplayName == elems[n] );
+
+                    if (c == null)
+                    {
+                        args.Error = $"There is no cluster with the name {{{elems[n]}}}.";
+                        return null;
+                    }
+
+                    r[n] = new WeakReference<Cluster>( c );
                 }
 
-                Cluster[] opts = core.Clusters.ToArray(); // TODO: Efficient?
-
-                if (ival < 0 || ival >= opts.Length)
-                {
-                    return null;
-                }
-
-                return new WeakReference<Cluster>( opts[ival] );
+                return r;
             }
 
             protected override object OnBrowse( Form owner, Core _core, object value )

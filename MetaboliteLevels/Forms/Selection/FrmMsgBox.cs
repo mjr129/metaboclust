@@ -8,8 +8,10 @@ using System.Windows.Forms;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Forms.Wizards;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Selection
@@ -31,22 +33,8 @@ namespace MetaboliteLevels.Forms.Selection
             ExportDataNotice,
             PlsrMode,
             HeatmapColumnNotNumerical,
-            HelpSideBar
-        }
-
-        public class ButtonSet
-        {
-            public string Text;
-            public Image Image;
-            public DialogResult Result;
-
-            public ButtonSet(string text, Image image, DialogResult result)
-            {
-                this.Text = text;
-                this.Image = image;
-                this.Result = result;
-            }
-        }
+            HelpSideBar,
+        }                  
 
         internal static bool ShowOkCancel(Form owner, string title, string message, Image image = null)
         {
@@ -60,8 +48,8 @@ namespace MetaboliteLevels.Forms.Selection
                 image = Resources.MsgHelp;
             }
 
-            ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK)
-                                  , new ButtonSet("Cancel", Resources.MnuBack, DialogResult.Cancel) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK)
+                                  , new MsgBoxButton("Cancel", Resources.MnuBack, DialogResult.Cancel) };
 
             return Show(owner, title, null, message, image, buttons, null, null, dontShowAgainId, DialogResult.OK) == DialogResult.OK;
         }
@@ -73,9 +61,9 @@ namespace MetaboliteLevels.Forms.Selection
                 image = Resources.MsgHelp;
             }
 
-            ButtonSet[] buttons = { new ButtonSet("Yes", Resources.MnuAccept, DialogResult.Yes)
-                                  , new ButtonSet("No", Resources.MnuCancel, DialogResult.No)
-                                  , new ButtonSet("Cancel", Resources.MnuBack, DialogResult.Cancel) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("Yes", Resources.MnuAccept, DialogResult.Yes)
+                                  , new MsgBoxButton("No", Resources.MnuCancel, DialogResult.No)
+                                  , new MsgBoxButton("Cancel", Resources.MnuBack, DialogResult.Cancel) };
 
             return Show(owner, title, null, message, image, buttons);
         }
@@ -87,8 +75,8 @@ namespace MetaboliteLevels.Forms.Selection
                 image = Resources.MsgHelp;
             }
 
-            ButtonSet[] buttons = { new ButtonSet("Yes", Resources.MnuAccept, DialogResult.Yes)
-                                  , new ButtonSet("No", Resources.MnuCancel, DialogResult.No) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("Yes", Resources.MnuAccept, DialogResult.Yes)
+                                  , new MsgBoxButton("No", Resources.MnuCancel, DialogResult.No) };
 
             return Show(owner, title, subTitle, message, image, buttons) == DialogResult.Yes;
         }
@@ -100,43 +88,43 @@ namespace MetaboliteLevels.Forms.Selection
 
         public static void ShowCompleted(Form owner, string title, string message)
         {
-            ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK) };
             Show(owner, title, null, message, Resources.MsgAccept, buttons);
         }
 
         public static void ShowHelp(Form owner, string title, string message)
         {
-            ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK) };
             Show(owner, title, null, message, Resources.MsgHelp, buttons);
         }
 
         public static void ShowInfo(Form owner, string title, string message)
         {
-            ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK) };
             Show(owner, title, null, message, Resources.MsgInfo, buttons);
         }
 
         public static void ShowInfo(Form owner, string title, string message, EDontShowAgainId dontShowAgainId )
         {
-            ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK) };
             Show(owner, title, null, message, Resources.MsgInfo, buttons, null, null, dontShowAgainId, null);
         }
 
         public static void ShowWarning(Form owner, string title, string message, EDontShowAgainId dontShowAgainId = EDontShowAgainId.None )
         {
-            ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK) };
             Show(owner, title, null, message, Resources.MsgWarning, buttons, dontShowAgainId, null);
         }
 
         public static void ShowError(Form owner, string title, string message)
         {
-            ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK) };
             Show(owner, title, null, message, Resources.MsgError, buttons);
         }
 
         public static void ShowError(Form owner, string message)
         {
-            ButtonSet[] buttons = { new ButtonSet("OK", Resources.MnuAccept, DialogResult.OK) };
+            MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK) };
             Show(owner, "Error", null, message, Resources.MsgError, buttons);
         }
 
@@ -147,8 +135,8 @@ namespace MetaboliteLevels.Forms.Selection
 
         internal static void ShowError(Form owner, string subTitle, Exception ex)
         {
-            ButtonSet[] buttons = { new ButtonSet("Abort", Resources.MnuAccept, DialogResult.No) ,
-                                    new ButtonSet("Details", Resources.MnuAccept, DialogResult.Yes)  };
+            MsgBoxButton[] buttons = { new MsgBoxButton("Abort", Resources.MnuAccept, DialogResult.No) ,
+                                    new MsgBoxButton("Details", Resources.MnuAccept, DialogResult.Yes)  };
 
             if (Show(owner, "Error", subTitle, ex.Message, Resources.MsgError, buttons) == DialogResult.Yes)
             {
@@ -180,7 +168,7 @@ namespace MetaboliteLevels.Forms.Selection
         /// <summary>
         /// Constructor. See Show method for parameter descriptions.
         /// </summary>                                                                                           
-        private FrmMsgBox(string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, DialogResult? defaultButton, DialogResult? cancelButton, bool notAgainVisible, DialogResult? notAgainConstraint)
+        private FrmMsgBox(string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton, bool notAgainVisible, DialogResult? notAgainConstraint)
             : this()
         {
             this.ctlTitleBar1.Text = title;
@@ -190,7 +178,7 @@ namespace MetaboliteLevels.Forms.Selection
             this._chkNotAgain.Visible = notAgainVisible;
             this._notAgainConstraint = notAgainConstraint;
 
-            foreach (ButtonSet s in buttons)
+            foreach (MsgBoxButton s in buttons)
             {
                 CtlButton b = new CtlButton();
 
@@ -226,18 +214,38 @@ namespace MetaboliteLevels.Forms.Selection
             // UiControls.CompensateForVisualStyles(this);
         }
 
-        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons)
+        /// <summary>
+        /// Gets the messagebox icon associated with a particular log level.
+        /// </summary>                                                
+        public static Image GetIcon( ELogLevel level )
+        {
+            switch (level)
+            {
+                case ELogLevel.Information: return Resources.MsgInfo;
+                case ELogLevel.Error: return Resources.MsgError;     
+                case ELogLevel.Warning: return Resources.MsgWarning;
+                default: throw new SwitchException( "level", level );
+            }
+        }
+
+        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons)
         {
             return Show(owner, title, subTitle, message, image, buttons, null, null, EDontShowAgainId.None, null);
         }
-        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue)
+        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue)
         {
             return Show(owner, title, subTitle, message, image, buttons, null, null, dontShowAgainId, dontShowAgainValue);
         }
 
-        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, DialogResult? defaultButton, DialogResult? cancelButton)
+        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton)
         {
             return Show(owner, title, subTitle, message, image, buttons, defaultButton, cancelButton, EDontShowAgainId.None, null);
+        }
+
+        public static DialogResult Show( Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue )
+        {
+            string dontShowAgainStringValue = dontShowAgainId == EDontShowAgainId.None ? null : dontShowAgainId.ToString();
+            return Show( owner, title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainStringValue, dontShowAgainValue );
         }
 
         /// <summary>
@@ -254,11 +262,11 @@ namespace MetaboliteLevels.Forms.Selection
         /// <param name="dontShowAgainId">ID of don't show again status (or NULL to disable option).</param>
         /// <param name="dontShowAgainValue">Which button to enable if dontShowAgainId is set (or NULL to allow any and remember the result)</param>
         /// <returns>Dialog result of selected button, or dontShowAgainValue if previously set to not show again.</returns>
-        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<ButtonSet> buttons, DialogResult? defaultButton, DialogResult? cancelButton, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue)
+        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton, string dontShowAgainId, DialogResult? dontShowAgainValue)
         {
             string id = null;
 
-            if (dontShowAgainId != EDontShowAgainId.None)
+            if (dontShowAgainValue != null)
             {
                 id = "FrmMsgBox." + dontShowAgainId;
                 int v;
@@ -276,13 +284,13 @@ namespace MetaboliteLevels.Forms.Selection
                 }
             }
 
-            using (FrmMsgBox frm = new FrmMsgBox(title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainId != EDontShowAgainId.None, dontShowAgainValue))
+            using (FrmMsgBox frm = new FrmMsgBox(title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainId != null, dontShowAgainValue))
             {
                 DialogResult result = UiControls.ShowWithDim(owner, frm);
 
                 if (frm._chkNotAgain.Checked)
                 {
-                    MainSettings.Instance.DoNotShowAgain.Add("FrmMsgBox." + dontShowAgainId, (int)result);
+                    MainSettings.Instance.DoNotShowAgain.Add(id, (int)result);
                     MainSettings.Instance.Save();
                 }
 
@@ -327,5 +335,24 @@ namespace MetaboliteLevels.Forms.Selection
                 }
             }
         }
+
+        internal static void ShowHint( Form owner, string text, EDontShowAgainId id, Image image = null )
+        {
+            if (image == null)
+            {
+                image = Resources.MsgHelp;
+            }
+                                                                             
+            FrmMsgBox.Show( owner,
+                            "Hint",
+                            null,
+                            text,
+                            image,
+                            new[] { new MsgBoxButton( DialogResult.OK ) },
+                            id,
+                            DialogResult.OK );
+        }
     }
+
+   
 }

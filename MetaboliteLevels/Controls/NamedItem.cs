@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Controls
 {
@@ -11,7 +13,7 @@ namespace MetaboliteLevels.Controls
     /// An item of type "T" with a name.
     /// Useful for listboxes, or to name things.
     /// </summary>
-    class NamedItem<T>
+    class NamedItem<T> : IComparable<NamedItem<T>>, IComparable
     {
         public string DisplayName;
         public T Value;
@@ -80,6 +82,16 @@ namespace MetaboliteLevels.Controls
             }
 
             return v.Value;
+        }
+
+        public int CompareTo( NamedItem<T> other )
+        {
+            return StringHelper.StrCmpLogicalW( this.DisplayName, other?.DisplayName );
+        }
+
+        public int CompareTo( object other )
+        {
+            return StringHelper.StrCmpLogicalW( this.ToString(), other?.ToString() );
         }
     }
 

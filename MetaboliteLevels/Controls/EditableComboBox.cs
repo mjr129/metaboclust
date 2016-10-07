@@ -1,17 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using JetBrains.Annotations;
 using MetaboliteLevels.Data.Session;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Forms.Editing;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Controls
-{
+{     
+    /// <summary>
+    /// Manages a combo-box populated with a <see cref="DataSet{T}"/>.
+    /// Optionally possesses a button for editing the dataset.
+    /// 
+    /// This class manages a pre-created combobox and button, it does not create them.
+    /// </summary>
+    /// <typeparam name="T">Dataset type</typeparam>
     class EditableComboBox<T>
     {
         public readonly ComboBox ComboBox;
@@ -20,7 +31,14 @@ namespace MetaboliteLevels.Controls
         private ENullItemName _includeNull;
         private NamedItem<T> _none;
 
-        public EditableComboBox(ComboBox box, Button editButton, DataSet<T> items, ENullItemName includeNull)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="box">Box to manage (mandatory)</param>
+        /// <param name="editButton">Edit button (optional)</param>
+        /// <param name="items">Items to populate with</param>
+        /// <param name="includeNull">Whether to include an extra item for a "null" or empty selection.</param>
+        public EditableComboBox([NotNull] ComboBox box, [CanBeNull] Button editButton, [NotNull] DataSet<T> items, ENullItemName includeNull)
         {
             ComboBox = box;
             _button = editButton;             
@@ -32,30 +50,65 @@ namespace MetaboliteLevels.Controls
                 _button.Click += _button_Click;
             }
 
-            UpdateItems();
+            ComboBox.DrawMode = DrawMode.OwnerDrawFixed;    
+            ComboBox.DrawItem += ComboBox_DrawItem;
+            ComboBox.DropDown += ComboBox_DropDown; // Update on every drop-down in case something else modified the list
+            UpdateItemsNoPreserve(); // Don't do this yet or we'll NRE if the caller has events on the combobox
         }
 
+        private void ComboBox_DrawItem( object sender, DrawItemEventArgs e )
+        {
+            e.DrawBackground();
+            e.DrawFocusRectangle();
+
+            if (e.Index == -1)
+            {
+                return;
+            }
+
+            NamedItem<T> n = (NamedItem<T>)ComboBox.Items[e.Index];
+
+            Image image = UiControls.GetImage( n.Value, false );
+            int offset = e.Bounds.Height / 2 - image.Height / 2;
+            Rectangle imageDest = new Rectangle( e.Bounds.Left + offset, e.Bounds.Top + offset, image.Width, image.Height );
+            Rectangle imageSrc = new Rectangle( 0, 0, image.Width, image.Height );
+            e.Graphics.DrawImage( image, imageDest, imageSrc, GraphicsUnit.Pixel );
+            SizeF stringSize = e.Graphics.MeasureString( n.DisplayName, e.Font );
+            e.Graphics.DrawString( n.DisplayName, e.Font, new SolidBrush( e.ForeColor ), imageDest.Right + 4, e.Bounds.Top + e.Bounds.Height / 2 - stringSize.Height / 2 );
+        }
+
+        private void ComboBox_DropDown( object sender, EventArgs e )
+        {
+            UpdateItems();
+        }       
+
         private void UpdateItems()
+        {
+            T selection = SelectedItem;
+            UpdateItemsNoPreserve();
+            SelectedItem = selection; // Doesn't seem to care if "selection" isn't in the list (just doesn't do anything)
+        }
+
+        private void UpdateItemsNoPreserve()
         {
             ComboBox.Items.Clear();
 
             if (_includeNull != ENullItemName.NoNullItem)
             {
-                _none = new NamedItem<T>(default(T), _includeNull.ToUiString());
-                ComboBox.Items.Add(_none);
+                _none = new NamedItem<T>( default( T ), _includeNull.ToUiString() );
+                ComboBox.Items.Add( _none );
             }
 
-            ComboBox.Items.AddRange(NamedItem.GetRange<T>(_config.TypedGetList(true), _config.ItemTitle).ToArray());
+            NamedItem<T>[] source = NamedItem.GetRange<T>( _config.TypedGetList( true ), _config.ItemTitle ).ToArray();
+            Array.Sort<NamedItem<T>>( source ); // For Julie
+            ComboBox.Items.AddRange( source );
         }
 
         void _button_Click(object sender, EventArgs e)
-        {
-            T orig = SelectedItem;
-
+        {        
             if (_config.ShowListEditor(ComboBox.FindForm()))
             {
                 UpdateItems();
-                SelectedItem = orig;
             }
         }
 
@@ -77,13 +130,14 @@ namespace MetaboliteLevels.Controls
 
         /// <summary>
         /// Selected item
-        /// 
-        /// Note: Setting to NULL when _includeNull is active will set this to the null item rather than clear the selection.
-        /// In this case use ClearSelection() to clear the selection.
-        /// 
-        /// Null will be returned if the selection is clear OR if the null item is selected, HasSelection can be used to
-        /// determine a selection has been made.
         /// </summary>
+        /// <remarks>
+        /// Setting to NULL when <see cref="_includeNull"/> is set to <see cref="ENullItemName.NoNullItem"/> will clear the selection (since there is no null item).
+        /// Use <see cref="ClearSelection"/> to clear the selection in other cases.
+        /// 
+        /// Since NULL will be returned if the selection is clear OR if the null item is selected, use <see cref="HasSelection"/> to
+        /// determine a selection has been made when <see cref="_includeNull"/> is not <see cref="ENullItemName.NoNullItem"/>.
+        /// </remarks>
         public T SelectedItem
         {
             get
@@ -148,7 +202,11 @@ namespace MetaboliteLevels.Controls
     public enum ENullItemName
     {
         NoNullItem,
+
+        [Name( "(All)" )]
         All,
+
+        [Name( "(None)" )]
         None,
     }
 }

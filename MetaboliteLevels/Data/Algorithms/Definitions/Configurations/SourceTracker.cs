@@ -36,7 +36,8 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
         /// </summary>    
         public SourceTracker( ArgsBase source )
         {
-            _sourceMatrix = new WeakReference( source.SourceMatrix );
+            var prov = source.SourceProvider?.Provide;
+            _sourceMatrix = prov != null ? new WeakReference( prov ) : null;
 
             AlgoParameterCollection para = source.GetAlgorithmOrThrow().Parameters;
 
@@ -97,17 +98,20 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
             }
         }
 
+        /// <summary>
+        /// Determines if the value has changed since it was stored.
+        /// </summary>                                              
         private static bool HasChanged( WeakReference old, WeakReference @new )
         {
             if (old == null)
             {
-                throw new ArgumentNullException( "old", "HasChanged" );
+                return @new != null;
             }
 
             if (@new == null)
             {
-                throw new ArgumentNullException( "new", "HasChanged" );
-            }
+                return true;
+            }               
 
             object newT = @new.Target;
 
@@ -120,7 +124,8 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 
             if (oldT == null)
             {
-                return false;
+                // It's gone and we don't know what it was, it must have changed!
+                return true;
             }
 
             return !object.ReferenceEquals( oldT, newT );

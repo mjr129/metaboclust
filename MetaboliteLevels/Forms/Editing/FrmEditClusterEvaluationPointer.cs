@@ -116,12 +116,26 @@ namespace MetaboliteLevels.Forms.Editing
 
             AlgoParameter pa = (AlgoParameter)_lstParameters.SelectedItem;
 
-            object[] opts = StringHelper.StringToArray(_txtValues.Text, z => pa.Type.FromString(_core, z), "\r\n");
+            string[] lines = _txtValues.Text.Split( "\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries );
+            object[] opts = new object[lines.Length];
+            bool inputError = false;
+
+            for(int n=0; n < lines.Length; ++n)
+            {
+                var args = new FromStringArgs( _core, lines[n] );
+                opts[n] = pa.Type.FromString( args );
+
+                if (opts[n] == null && !inputError)
+                {
+                    _checker.Check( _txtValues, false, args.Error ?? "error" );
+                    inputError = true;
+                }
+            }
+                                                                        
             int num = (int)_numNumTimes.Value;
             _txtNumberOfValues.Text = opts.Length.ToString();
 
-            _checker.Check( _txtValues, opts.Length != 0 && !(opts.Length == 1 && opts[0] == null), "Enter a valid list of parameters");   
-            _checker.Check( _txtValues, !opts.Any( z => z == null ), "One or more values are invalid");   
+            _checker.Check( _txtValues, opts.Length != 0 || inputError, "Enter a valid list of parameters");   
             _checker.Check( _numNumTimes, num > 0 && num <100, "Repeat count is invalid");
 
             if (_checker.HasErrors)

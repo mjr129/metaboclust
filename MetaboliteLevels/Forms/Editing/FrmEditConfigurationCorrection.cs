@@ -125,9 +125,10 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (algo != null)
             {
-                parameters = algo.Parameters.TryStringToParams( _core, _txtParameters.Text );
+                string error;
+                parameters = algo.Parameters.TryStringToParams( _core, _txtParameters.Text, out error );
 
-                _checker.Check( _txtParameters, parameters != null, "Specify valid parameters for the algorithm." );
+                _checker.Check( _txtParameters, parameters != null, error ?? "error" );
             }
             else
             {
@@ -302,7 +303,7 @@ namespace MetaboliteLevels.Forms.Editing
             _lblPreviewTitle.Text = "Preview (" + _selectedPeak.DisplayName + ")";
 
             // Get source matrix
-            IntensityMatrix source = sel.SourceMatrix;
+            IntensityMatrix source = sel.SourceProvider?.Provide;
 
             if (source == null)
             {

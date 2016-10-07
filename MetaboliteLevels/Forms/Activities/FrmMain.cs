@@ -366,7 +366,7 @@ namespace MetaboliteLevels.Forms.Activities
             {
                 if (Debugger.IsAttached)
                 {
-                    if (FrmMsgBox.Show(this, "Error", null, "There was a problem initialising R (you have a debugger attached so you can ignore this - not recommended).\r\n\r\n" + ex.Message, Resources.MsgError, new[] { new FrmMsgBox.ButtonSet("Configure", Resources.MnuEdit, DialogResult.Cancel), new FrmMsgBox.ButtonSet("Ignore", Resources.MnuWarning, DialogResult.Ignore) }) == DialogResult.Ignore)
+                    if (FrmMsgBox.Show(this, "Error", null, "There was a problem initialising R (you have a debugger attached so you can ignore this - not recommended).\r\n\r\n" + ex.Message, Resources.MsgError, new[] { new MsgBoxButton("Configure", Resources.MnuEdit, DialogResult.Cancel), new MsgBoxButton("Ignore", Resources.MnuWarning, DialogResult.Ignore) }) == DialogResult.Ignore)
                     {
                         Algo.Initialise();
                         return true;

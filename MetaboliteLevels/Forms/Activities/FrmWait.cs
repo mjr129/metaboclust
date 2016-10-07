@@ -7,10 +7,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Selection;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using static MetaboliteLevels.Utilities.ProgressReporter;
 
 namespace MetaboliteLevels.Forms.Activities
 {
@@ -184,25 +187,56 @@ namespace MetaboliteLevels.Forms.Activities
                     }
                 }
 
-                if (frm._prog.Logs.Count == 1)
-                {
-                    var l = frm._prog.Logs[0];
-                    FrmMsgBox.Show( owner, l.Level, l.Message );
-                }
-                else if (frm._prog.Logs.Count != 0)
-                {
-                    StringBuilder sb = new StringBuilder();
-
-                    DataSet<ProgressReporter.LogRecord> ds = new DataSet<ProgressReporter.LogRecord>()
-                    {
-                        ListSource = frm._prog.Logs,
-                        ListTitle = "Logs",
-                    };
-
-                    ds.ShowListEditor( owner, Editing.FrmBigList.EShow.ReadOnly, null );
-                }
+                ShowLogMessage( owner, frm._prog.Logs );
 
                 return callable.Result;
+            }
+        }
+
+        /// <summary>
+        /// Shows a message describing the logs (if any)
+        /// </summary>                                  
+        private static void ShowLogMessage( Form owner, IReadOnlyList<LogRecord> logs )
+        {
+            if (logs.Count == 1)
+            {
+                // One line messagebox if one log
+                var l = logs[0];
+                FrmMsgBox.Show( owner, l.Level, l.Message );
+            }
+            else if (logs.Count != 0)
+            {
+                // Messagebox with "details" buttons for multiple logs
+                // (Messagebox icon reflects the highest log level)
+                StringBuilder sb = new StringBuilder();
+
+                DataSet<ProgressReporter.LogRecord> ds = new DataSet<ProgressReporter.LogRecord>()
+                {
+                    ListSource = logs,
+                    ListTitle = "Logs",
+                };
+
+                ELogLevel max = logs.Max( z => z.Level );
+                string msg;
+                MsgBoxButton[] bts;
+
+                if (max == ELogLevel.Information)
+                {
+                    msg = "Update complete.";
+                    bts = new MsgBoxButton[] { new MsgBoxButton( DialogResult.OK ),
+                                                new MsgBoxButton( "Details", Resources.MnuNext, DialogResult.Cancel ) };
+                }
+                else
+                {
+                    msg = $"One or more {max}s were reported.";
+                    bts = new MsgBoxButton[] { new MsgBoxButton( "Details", Resources.MnuNext, DialogResult.Cancel ),
+                                                new MsgBoxButton( "Ignore", Resources.MnuCancel, DialogResult.OK) };
+                }
+
+                if (FrmMsgBox.Show( owner, max.ToUiString(), null, msg, FrmMsgBox.GetIcon( max ), bts ) == DialogResult.Cancel)
+                {
+                    ds.ShowListEditor( owner, FrmBigList.EShow.ReadOnly, null );
+                }
             }
         }
 

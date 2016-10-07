@@ -111,9 +111,10 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 if (sel.Parameters.HasCustomisableParams)
                 {
-                    args = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
+                    string error;
+                    args = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out error );
 
-                    _checker.Check( _txtParams, args != null, "Specify valid parameters for the method" );
+                    _checker.Check( _txtParams, args != null, error ?? "error" );
                 }
                 else
                 {

@@ -137,6 +137,7 @@ namespace MetaboliteLevels.Forms.Wizards
         {
             double tmpd;
             int tmpi;
+            string tmps;
 
             switch (p)
             {
@@ -154,7 +155,7 @@ namespace MetaboliteLevels.Forms.Wizards
                 case 3:
                     return _ecbPeakFilter.HasSelection &&
                         _ecbDistance.HasSelection
-                        && _ecbDistance.SelectedItem.Parameters.TryStringToParams( _core, _txtDistanceParams.Text ) != null;
+                        && _ecbDistance.SelectedItem.Parameters.TryStringToParams( _core, _txtDistanceParams.Text, out tmps ) != null;
 
                 case 4:
                     return (_radStopN.Checked && int.TryParse( _txtStopN.Text, out tmpi ))

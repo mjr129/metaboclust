@@ -35,8 +35,26 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         [XColumn( "Source", EColumn.Visible )]
         public IMatrixProvider SourceProvider => _sourceProvider.GetTarget();
 
+        /// <summary>
+        /// Source matrix
+        /// This will throw if the matrix is not available, use <see cref="SourceProvider"/><c>?.Provide"</c> for the safe version.
+        /// </summary>
         [XColumn( "Source matrix", EColumn.None )]
-        public IntensityMatrix SourceMatrix => SourceProvider?.Provide;
+        public IntensityMatrix SourceMatrix
+        {
+            get
+            {
+                IntensityMatrix result = SourceProvider?.Provide;
+
+                if (result == null)
+                {
+                    throw new InvalidOperationException( $"The source intensity matrix is unavailable because the matrix provider ({SourceProvider}) has not executed." );
+                }
+
+                return result;
+            }
+        }
+
 
         public override string DefaultDisplayName
         {

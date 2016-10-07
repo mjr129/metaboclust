@@ -373,9 +373,16 @@ namespace MetaboliteLevels.Utilities
 
         internal static Image GetImage( object @object, bool bold )
         {
-            Visualisable vis = @object as Visualisable;
+            GroupInfoBase g = @object as GroupInfoBase;
 
-            return GetImage( vis?.Icon ?? ImageListOrder.Point, bold );
+            if (g != null)
+            {
+                return UiControls.CreateExperimentalGroupImage( true, g, false );
+            }
+
+            IIconProvider vis = @object as IIconProvider;
+
+            return GetImage( vis?.Icon ?? ImageListOrder.Unknown, bold );
         }
 
         /// <summary>

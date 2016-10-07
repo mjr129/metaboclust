@@ -863,10 +863,10 @@ namespace MetaboliteLevels.Types.UI
             {
                 if (args.DefaultValue.HasError)
                 {
-                    FrmMsgBox.ButtonSet[] btns = {
-                                                     new   FrmMsgBox.ButtonSet(args.ReadOnly ? "View" : "Edit", Resources.MnuAccept, DialogResult.Yes),
-                                                     new   FrmMsgBox.ButtonSet("Clear error", Resources.MnuDelete, DialogResult.No),
-                                                     new   FrmMsgBox.ButtonSet("Cancel", Resources.MnuCancel, DialogResult.Cancel)};
+                    MsgBoxButton[] btns = {
+                                                     new   MsgBoxButton(args.ReadOnly ? "View" : "Edit", Resources.MnuAccept, DialogResult.Yes),
+                                                     new   MsgBoxButton("Clear error", Resources.MnuDelete, DialogResult.No),
+                                                     new   MsgBoxButton("Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
                     switch (FrmMsgBox.Show( args.Owner, "Error report", "Last time this configuration was run it reported an error", args.DefaultValue.Error, Resources.MsgWarning, btns ))
                     {
@@ -890,8 +890,8 @@ namespace MetaboliteLevels.Types.UI
                     string text1 = "The configuration to be modified has results associated with it";
                     string text2 = "Changing this configuration will result in the loss of the associated results.";
 
-                    FrmMsgBox.ButtonSet[] btns = {  new FrmMsgBox.ButtonSet( "Replace", Resources.MnuAccept, DialogResult.No),
-                                                        new FrmMsgBox.ButtonSet( "Cancel", Resources.MnuCancel, DialogResult.Cancel)};
+                    MsgBoxButton[] btns = {  new MsgBoxButton( "Replace", Resources.MnuAccept, DialogResult.No),
+                                                        new MsgBoxButton( "Cancel", Resources.MnuCancel, DialogResult.Cancel)};
 
                     switch (FrmMsgBox.Show( args.Owner, args.Owner.Text, text1, text2, Resources.MsgHelp, btns, FrmMsgBox.EDontShowAgainId.EditWithResults, DialogResult.No ))
                     {

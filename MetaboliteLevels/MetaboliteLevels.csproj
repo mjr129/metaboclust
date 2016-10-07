@@ -228,6 +228,7 @@
     <Compile Include="Forms\Editing\FrmEditColumns.Designer.cs">
       <DependentUpon>FrmEditColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Selection\MsgBoxButton.cs" />
     <Compile Include="Forms\Wizards\FrmViewSpreadsheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -300,6 +301,7 @@
     </Compile>
     <Compile Include="Types\UI\EGraphIcon.cs" />
     <Compile Include="Types\UI\IDataSet.cs" />
+    <Compile Include="Utilities\ELogLevel.cs" />
     <Compile Include="Utilities\ISelectionHolder.cs" />
     <Compile Include="Forms\Editing\FrmEditGroupBase.cs">
       <SubType>Form</SubType>

@@ -83,9 +83,10 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 if (sel.Parameters.HasCustomisableParams)
                 {
-                    parameters = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
+                    string error;
+                    parameters = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out error );
 
-                    _checker.Check( _txtParams, parameters != null, "Specify valid parameters for the method." );
+                    _checker.Check( _txtParams, parameters != null, error ?? "error" );
                 }
                 else
                 {
@@ -98,21 +99,19 @@ namespace MetaboliteLevels.Forms.Editing
                 _checker.Check( _ecbMeasure.ComboBox, false, "Select a method" );
             }
 
+            // Obs source
+            src = _ecbSource.SelectedItem;             
+            _checker.Check( _ecbSource.ComboBox, src != null, "Select a source" );
+
             if (sel==null || !sel.SupportsInputFilters)
             {
                 filter1 = null;
-                filter2 = null;
-                src = null;
+                filter2 = null;       
                 bsrc = EAlgoInputBSource.None;
                 bpeak = null;
             }
             else
-            {
-                // Obs source
-                src = _ecbSource.SelectedItem;
-
-                _checker.Check( _ecbSource.ComboBox, src!=null, "Select a source" );
-
+            {   
                 // Vector A
                 filter1 = _ecbFilter1.SelectedItem;
                 _checker.Check( _ecbFilter1.ComboBox, _ecbFilter1.HasSelection, "Select a filter" );
@@ -318,11 +317,12 @@ namespace MetaboliteLevels.Forms.Editing
             _btnEditParameters.Visible = p;
             _lblParams.Visible = p;
             _lblParams.Text = p ? stat.Parameters.ParamNames() : "Parameters";
-                           
+            _lblApply.Visible = m;
+            _ecbSource.Visible = m;
+            linkLabel1.Visible = m && !stat.SupportsInputFilters;
+
             bool s = m && stat.SupportsInputFilters;
 
-            _lblApply.Visible = s;
-            _ecbSource.Visible = s;
 
             bool a = s && _ecbSource.HasSelection;
 
@@ -450,6 +450,11 @@ namespace MetaboliteLevels.Forms.Editing
         private void _btnTrend_Click(object sender, EventArgs e)
         {
             DataSet.ForTrends(_core).ShowListEditor(this);
+        }
+
+        private void linkLabel1_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        {
+            FrmMsgBox.ShowInfo( this, "Source", "The intensity matrix itself is not used for this algorithm, but a source must be specified to identify the peaks to calculate the statistic for." );
         }
     }
 }

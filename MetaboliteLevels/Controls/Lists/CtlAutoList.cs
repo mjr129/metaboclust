@@ -126,13 +126,13 @@ namespace MetaboliteLevels.Controls.Lists
 
             // Create columns button
             _btnColumns = new ToolStripDropDownButton("Columns", Resources.MnuColumn);
-            _btnColumns.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            _btnColumns.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             _btnColumns.DropDownOpening += columnSelectMenu_DropDownOpening;
             _toolStrip.Items.Add(_btnColumns);
 
             // Menu: Export
             ToolStripDropDownButton tsSaveMain = new ToolStripDropDownButton("Export", Resources.MnuSaveList);
-            tsSaveMain.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            tsSaveMain.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             _toolStrip.Items.Add(tsSaveMain);
 
             // Menu: Export\Save
@@ -155,7 +155,7 @@ namespace MetaboliteLevels.Controls.Lists
             if (previewProvider != null)
             {
                 ToolStripDropDownButton tsView = new ToolStripDropDownButton("View", Resources.MnuViewMode);
-                tsView.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                tsView.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
                 _toolStrip.Items.Add(tsView);
 
                 ToolStripMenuItem tsExpand = new ToolStripMenuItem("Popout", Resources.MnuEnlarge, tsExpand_Click);

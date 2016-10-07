@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Utilities;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Controls.Lists
 {
@@ -91,7 +92,7 @@ namespace MetaboliteLevels.Controls.Lists
                 if (xv is string)
                 {
                     // Compare strings using special method
-                    return NativeMethods.StrCmpLogicalW((string)xv, (string)yv);  // Will fail if not of the same type
+                    return StringHelper.StrCmpLogicalW((string)xv, (string)yv);  // Will fail if not of the same type
                 }
                 else if (xv is IComparable)
                 {
@@ -101,7 +102,7 @@ namespace MetaboliteLevels.Controls.Lists
                 {
                     // If we get here there is an error
                     // System.Diagnostics.Debug.Assert(false);
-                    return NativeMethods.StrCmpLogicalW(xv.ToString(), yv.ToString());
+                    return StringHelper.StrCmpLogicalW(xv.ToString(), yv.ToString());
                 }
             }
         }

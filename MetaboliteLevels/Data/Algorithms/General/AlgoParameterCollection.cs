@@ -158,120 +158,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// <returns>Parameter as string</returns>
         internal static string ParamToString(bool reversable, Core core, object param)
         {
-            if (param is WeakReference<ConfigurationStatistic>[])
-            {
-                WeakReference<ConfigurationStatistic>[] p = (WeakReference<ConfigurationStatistic>[])param;
-
-                if (!reversable)
-                {
-                    return "{" + StringHelper.ArrayToString(p, GetDisplayName, ", ") + "}";
-                }
-                else
-                {
-                    return "{" + StringHelper.ArrayToString(p, z =>
-                                                           {
-                                                               ConfigurationStatistic targ = z.GetTarget();
-
-                                                               if (targ == null)
-                                                               {
-                                                                   return "?";
-                                                               }
-
-                                                               int tmp = IVisualisableExtensions.WhereEnabled(core.Statistics).IndexOf(targ);
-
-                                                               return tmp == -1 ? "?" : tmp.ToString();
-                                                           },
-                                                        "; ") + "}";
-                }
-            }
-            else if (param is WeakReference<Cluster>)
-            {
-                WeakReference<Cluster> p = (WeakReference<Cluster>)param;
-                Cluster c = p.GetTarget();
-
-                if (c == null)
-                {
-                    return ("?");
-                }
-                else if (reversable)
-                {
-                    return core.Clusters.IndexOf( c ).ToString();
-                }
-                else
-                {
-                    return (c.ToString());
-                }
-            }
-            else if (param is WeakReference<ConfigurationClusterer>)
-            {
-                WeakReference<ConfigurationClusterer> p = (WeakReference<ConfigurationClusterer>)param;
-                ConfigurationClusterer c = p.GetTarget();
-
-                if (c == null)
-                {
-                    return ("?");
-                }
-                else if (reversable)
-                {
-                    return (IVisualisableExtensions.WhereEnabled(core.Clusterers).IndexOf(c).ToString());
-                }
-                else
-                {
-                    return (c.ToString());
-                }
-            }
-            else if (param is WeakReference<Peak>)
-            {
-                WeakReference<Peak> p = (WeakReference<Peak>)param;
-
-                Peak peak = p.GetTarget();
-
-                return (peak != null ? peak.DisplayName : "[MISSING PEAK]");
-            }
-            else if (param is GroupInfo)
-            {
-                GroupInfo p = (GroupInfo)param;
-
-                return (reversable ? p.Id : p.DisplayName);
-            }
-            else if (param is double)
-            {
-                double p = (double)param;
-
-                if (p == double.MaxValue)
-                {
-                    return ("MAX");
-                }
-                else if (p == double.MinValue)
-                {
-                    return ("MIN");
-                }
-                else
-                {
-                    return (param.ToString());
-                }
-            }
-            else if (param is int)
-            {
-                int p = (int)param;
-
-                if (p == int.MaxValue)
-                {
-                    return ("MAX");
-                }
-                else if (p == int.MinValue)
-                {
-                    return ("MIN");
-                }
-                else
-                {
-                    return (p.ToString());
-                }
-            }
-            else
-            {
-                return (param.ToString());
-            }
+            return AlgoParameterTypes.ToString( reversable, core, param );
         }
 
         private static string GetDisplayName(WeakReference<ConfigurationStatistic> a)
@@ -296,11 +183,12 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// <returns>Parameters</returns>
         public object[] StringToParams(Core core, string text)
         {
-            object[] parameters = TryStringToParams( core, text );
+            string error;
+            object[] parameters = TryStringToParams( core, text,  out error);
 
             if (parameters == null)
             {
-                throw new InvalidOperationException("Cannot parse parameters.");
+                throw new InvalidOperationException( "Cannot parse parameters, the following error was returned: " + error );
             }
 
             return parameters;
@@ -312,13 +200,14 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// <param name="core">Required</param>
         /// <param name="text">Text to convert</param>           
         /// <returns>Parameters or NULL on failure.</returns>
-        public object[] TryStringToParams(Core core, string text)
+        public object[] TryStringToParams(Core core, string text, out string error)
         {
             if (!HasCustomisableParams)
             {
                 // Any input is valid if there are no parameters
                 // This way we don't get errors from leftover text when inputs are hidden because
                 // there are no parameters
+                error = null;
                 return new object[0];
             }
 
@@ -327,6 +216,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
             if (elements.Count != _parameters.Length)
             {
                 // Count mismatch
+                error = $"This algorithm takes {{{_parameters.Length}}} parameters but {{{elements.Count}}} were provided.";
                 return null;
             }
 
@@ -334,15 +224,18 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             for (int i = 0; i < _parameters.Length; i++)
             {
-                result[i] = _parameters[i].Type.FromString( core, elements[i] );
+                var x = new FromStringArgs( core, elements[i] );
+                result[i] = _parameters[i].Type.FromString( x );
 
                 if (result[i] == null)
                 {
                     // Couldn't read parameter
+                    error = $"Error in parameter #{i + 1}: {x.Error}";
                     return null;
                 }
             }
 
+            error = null;
             return result;
         }
 

@@ -54,6 +54,7 @@ namespace MetaboliteLevels.Controls
             _selection = new HashSet<T>();
             _isSelectionValid = true;
         }
+
         /// <summary>
         /// Show list button clicked.
         /// </summary>

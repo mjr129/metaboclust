@@ -631,7 +631,7 @@ namespace MetaboliteLevels.Forms.Activities
             this._btnOpen.Size = new System.Drawing.Size(40, 43);
             this._btnOpen.Text = "Open";
             this._btnOpen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnOpen.ToolTipText = "Create a new session or open an existing one";
+            this._btnOpen.ToolTipText = "Create or open a session";
             this._btnOpen.Click += new System.EventHandler(this.loadDataSetToolStripMenuItem_Click);
             // 
             // toolStripButton1
@@ -644,7 +644,7 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton1.Size = new System.Drawing.Size(35, 43);
             this.toolStripButton1.Text = "Save";
             this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton1.ToolTipText = "Save the session";
+            this.toolStripButton1.ToolTipText = "Save the current session";
             this.toolStripButton1.Click += new System.EventHandler(this.saveExemplarsToolStripMenuItem_Click);
             // 
             // toolStripButton5
@@ -656,7 +656,7 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton5.Size = new System.Drawing.Size(37, 43);
             this.toolStripButton5.Text = "Prefs";
             this.toolStripButton5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton5.ToolTipText = "Show the program preferences";
+            this.toolStripButton5.ToolTipText = "Program preferences";
             this.toolStripButton5.Click += new System.EventHandler(this.visualOptionsToolStripMenuItem_Click);
             // 
             // toolStripLabel1
@@ -664,7 +664,8 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripLabel1.Image = global::MetaboliteLevels.Properties.Resources.Separator;
             this.toolStripLabel1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(16, 43);
+            this.toolStripLabel1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.toolStripLabel1.Size = new System.Drawing.Size(32, 43);
             // 
             // toolStripButton7
             // 
@@ -675,7 +676,7 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripButton7.Size = new System.Drawing.Size(34, 43);
             this.toolStripButton7.Text = "PCA";
             this.toolStripButton7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton7.ToolTipText = "Perform PCA and PLS on the data";
+            this.toolStripButton7.ToolTipText = "PCA / PLSR";
             this.toolStripButton7.Click += new System.EventHandler(this.pCAToolStripMenuItem_Click);
             // 
             // toolStripButton2
@@ -763,7 +764,8 @@ namespace MetaboliteLevels.Forms.Activities
             this._tssInsertViewsEnd.Image = global::MetaboliteLevels.Properties.Resources.Separator;
             this._tssInsertViewsEnd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this._tssInsertViewsEnd.Name = "_tssInsertViewsEnd";
-            this._tssInsertViewsEnd.Size = new System.Drawing.Size(16, 43);
+            this._tssInsertViewsEnd.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this._tssInsertViewsEnd.Size = new System.Drawing.Size(32, 43);
             // 
             // _tssInsertViews
             // 
@@ -791,7 +793,8 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripLabel4.Image = global::MetaboliteLevels.Properties.Resources.Separator;
             this.toolStripLabel4.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(16, 43);
+            this.toolStripLabel4.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.toolStripLabel4.Size = new System.Drawing.Size(32, 43);
             // 
             // _lstTrendCb
             // 
@@ -826,8 +829,8 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstDatasetCb.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._lstDatasetCb.Name = "_lstDatasetCb";
             this._lstDatasetCb.Size = new System.Drawing.Size(121, 46);
-            this._lstDatasetCb.ToolTipText = "Select the intensity matrix you\'d like to use in the plots.\r\n(Note that cluster p" +
-    "lots will always use the intensity matrix they were created with)";
+            this._lstDatasetCb.ToolTipText = "Select the intensity matrix you\'d like to use in the plots.\r\n(Note that clusters " +
+    "will always display using the intensity matrix they were created with)\r\n";
             this._lstDatasetCb.SelectedIndexChanged += new System.EventHandler(this._lstDatasetCb_SelectedIndexChanged);
             // 
             // _lstMatrix
@@ -841,8 +844,8 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstMatrix.Size = new System.Drawing.Size(48, 43);
             this._lstMatrix.Text = "Dataset";
             this._lstMatrix.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._lstMatrix.ToolTipText = "Select the intensity matrix you\'d like to use in the plots.\r\n(Note that cluster p" +
-    "lots will always use the intensity matrix they were created with)";
+            this._lstMatrix.ToolTipText = "Select the intensity matrix you\'d like to use in the plots.\r\n(Note that clusters " +
+    "will always display using the intensity matrix they were created with)";
             this._lstMatrix.Click += new System.EventHandler(this._lstMatrix_Click);
             // 
             // toolStripLabel2
@@ -851,7 +854,8 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStripLabel2.Image = global::MetaboliteLevels.Properties.Resources.Separator;
             this.toolStripLabel2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(16, 43);
+            this.toolStripLabel2.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.toolStripLabel2.Size = new System.Drawing.Size(32, 43);
             // 
             // splitContainer1
             // 

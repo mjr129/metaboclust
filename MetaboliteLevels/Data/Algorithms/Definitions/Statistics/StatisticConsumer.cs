@@ -27,19 +27,23 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
         {
             var src = (IEnumerable<WeakReference<ConfigurationStatistic>>)input.Args.Parameters[0];
 
-
-
+                                         
             double[] vals = src.Select(delegate (WeakReference<ConfigurationStatistic> z)
                                        {
                                            ConfigurationStatistic a = z.GetTarget();
 
                                            if (a != null)
                                            {
+                                               if (a.Results == null)
+                                               {
+                                                   throw new InvalidOperationException( $"This algorithm cannot currently execute because a referenced statistic ({a}) has not yet executed." );
+                                               }
+
                                                return a.Results.Results[ input.PeakA];
                                            }
                                            else
                                            {
-                                               throw new InvalidOperationException("Statistic in " + this.ToString() + " no longer exists.");
+                                               throw new InvalidOperationException($"The statistic referenced by this method ({this}) no longer exists.");
                                            }
                                        }).ToArray();
 

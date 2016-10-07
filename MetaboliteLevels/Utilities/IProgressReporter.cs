@@ -53,14 +53,7 @@ namespace MetaboliteLevels.Utilities
                 _progressReporter.SetProgress(_current, _count);
             }
         }
-    }
-
-    public enum ELogLevel
-    {
-        Information,
-        Warning,
-        Error,
-    }
+    }    
 
     /// <summary>
     /// Contains functions for reporting progress and handling cancellation safely.
@@ -103,14 +96,18 @@ namespace MetaboliteLevels.Utilities
                     
         public class LogRecord : IIconProvider
         {
+            [XColumn( EColumn.Visible )]
+            public int Order;
+
             [XColumn( EColumn.Visible)]
             public readonly ELogLevel Level;
 
             [XColumn( EColumn.Visible )]
             public readonly string Message;
 
-            public LogRecord( string message, ELogLevel level )
+            public LogRecord( int order, string message, ELogLevel level )
             {
+                this.Order = order;
                 this.Message = message;
                 this.Level = level;
             }
@@ -132,7 +129,7 @@ namespace MetaboliteLevels.Utilities
 
         public void Log( string message, ELogLevel level )
         {
-            _logs.Add( new LogRecord( message, level ) );
+            _logs.Add( new LogRecord( _logs.Count + 1, message, level ) );
         }
 
         /// <summary>

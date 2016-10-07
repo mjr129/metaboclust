@@ -127,9 +127,9 @@ namespace MetaboliteLevels.Forms.Editing
         {
             int index = (int)((Button)sender).Tag;
             TextBox textBox = _textBoxes[index];
-            var param = this._parameters[index];
+            var param = this._parameters[index];                                         
 
-            object value = param.Type.FromString(_core, textBox.Text );
+            object value = param.Type.FromString(new FromStringArgs( _core, textBox.Text) ); // error ignored
 
             value = param.Type.Browse( this, _core, value );
 
@@ -148,12 +148,13 @@ namespace MetaboliteLevels.Forms.Editing
             for (int index = 0; index < _parameters.Count; index++)
             {
                 var param = _parameters[index];
+                var args = new FromStringArgs( _core, _textBoxes[index].Text );
 
-                results[index] = param.Type.FromString( _core, _textBoxes[index].Text );
+                results[index] = param.Type.FromString(args );
 
                 if (results[index] == null)
                 {
-                    FrmMsgBox.ShowError(this, "Error", "Enter a valid value for " + param.Name);
+                    FrmMsgBox.ShowError( this, "Error", "The \"" + param.Name + "\" parameter is invalid.\r\n" + args.Error );
                     return;
                 }
             }

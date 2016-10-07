@@ -150,8 +150,9 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (sel != null)
             {
-                parameters = sel.Parameters.TryStringToParams( _core, _txtParams.Text );
-                _checker.Check( _txtParams, parameters != null, "Enter a set of valid parameters for your selected method" );
+                string error;
+                parameters = sel.Parameters.TryStringToParams( _core, _txtParams.Text, out error );
+                _checker.Check( _txtParams, parameters != null, error ?? "error" );
             }
             else
             {
@@ -186,8 +187,9 @@ namespace MetaboliteLevels.Forms.Editing
 
             if (dMet != null)
             {
-                dMetParams = dMet.Parameters.TryStringToParams( _core, _txtMeasureParams.Text );
-                _checker.Check( _txtMeasureParams, dMetParams != null, "Specify a set of valid parameters for your selected distance measure" );
+                string error;
+                dMetParams = dMet.Parameters.TryStringToParams( _core, _txtMeasureParams.Text, out error );
+                _checker.Check( _txtMeasureParams, dMetParams != null, error ?? "error" );
             }
             else
             {
