@@ -1129,6 +1129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\ListIconFlag.png" />
     <None Include="Resources\Separator.png" />
     <None Include="Resources\IconInputError.png" />
     <None Include="Resources\IconUnknown.png" />

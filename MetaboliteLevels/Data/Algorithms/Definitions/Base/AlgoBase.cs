@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
@@ -68,12 +70,11 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-        public override UiControls.ImageListOrder Icon
+        public override Image Icon
         {
             get
             {
-                return Script != null ? UiControls.ImageListOrder.ScriptFile
-                           : UiControls.ImageListOrder.ScriptInbuilt;
+                return Script != null ? Resources.IconR : Resources.IconBinary;
             }
         }
 

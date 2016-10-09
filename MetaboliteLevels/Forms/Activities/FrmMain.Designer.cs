@@ -76,8 +76,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this._imgList = new System.Windows.Forms.ImageList(this.components);
-            this._imgListClusters = new System.Windows.Forms.ImageList(this.components);
             this._cmsSelectionButton = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pLACEHOLDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._statusMain = new System.Windows.Forms.StatusStrip();
@@ -513,18 +511,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.aboutToolStripMenuItem1.Text = "&About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
-            // _imgList
-            // 
-            this._imgList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this._imgList.ImageSize = new System.Drawing.Size(24, 24);
-            this._imgList.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // _imgListClusters
-            // 
-            this._imgListClusters.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this._imgListClusters.ImageSize = new System.Drawing.Size(24, 24);
-            this._imgListClusters.TransparentColor = System.Drawing.Color.Transparent;
-            // 
             // _cmsSelectionButton
             // 
             this._cmsSelectionButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -914,13 +900,11 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstPrimary.Dock = System.Windows.Forms.DockStyle.Fill;
             this._lstPrimary.FullRowSelect = true;
             this._lstPrimary.GridLines = true;
-            this._lstPrimary.LargeImageList = this._imgList;
             this._lstPrimary.Location = new System.Drawing.Point(0, 0);
             this._lstPrimary.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstPrimary.MultiSelect = false;
             this._lstPrimary.Name = "_lstPrimary";
             this._lstPrimary.Size = new System.Drawing.Size(457, 308);
-            this._lstPrimary.SmallImageList = this._imgList;
             this._lstPrimary.TabIndex = 5;
             this._lstPrimary.UseCompatibleStateImageBehavior = false;
             this._lstPrimary.View = System.Windows.Forms.View.Details;
@@ -1096,13 +1080,11 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstSecondary.Dock = System.Windows.Forms.DockStyle.Fill;
             this._lstSecondary.FullRowSelect = true;
             this._lstSecondary.GridLines = true;
-            this._lstSecondary.LargeImageList = this._imgList;
             this._lstSecondary.Location = new System.Drawing.Point(0, 0);
             this._lstSecondary.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstSecondary.MultiSelect = false;
             this._lstSecondary.Name = "_lstSecondary";
             this._lstSecondary.Size = new System.Drawing.Size(457, 277);
-            this._lstSecondary.SmallImageList = this._imgList;
             this._lstSecondary.TabIndex = 6;
             this._lstSecondary.UseCompatibleStateImageBehavior = false;
             this._lstSecondary.View = System.Windows.Forms.View.Details;
@@ -1429,7 +1411,6 @@ namespace MetaboliteLevels.Forms.Activities
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripMenuItem printClusterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveClusterImageToolStripMenuItem;
-        private System.Windows.Forms.ImageList _imgList;
         private System.Windows.Forms.ToolStripMenuItem clusteringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem visualOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
@@ -1458,7 +1439,6 @@ namespace MetaboliteLevels.Forms.Activities
         private System.Windows.Forms.ListView _lstSecondary;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.ToolTip _toolTipMain;
-        private System.Windows.Forms.ImageList _imgListClusters;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip _cmsSelectionButton;
         private System.Windows.Forms.ToolStripMenuItem experimentalOptionsToolStripMenuItem;

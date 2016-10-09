@@ -14,6 +14,7 @@ using System.IO;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MGui;
 using MGui.Controls;
@@ -221,7 +222,7 @@ namespace MetaboliteLevels.Forms.Editing
                 result.Add( "Value", z => Column.AsString( this._arg.Value, EListDisplayMode.CountAndContent ) );
             }
 
-            public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;     
+            public override Image Icon => Resources.IconPoint;     
         }
 
         private class _btnEditColumns_Click__ColumnDisplay : Visualisable
@@ -270,7 +271,7 @@ namespace MetaboliteLevels.Forms.Editing
                 list.Add( "Width", EColumn.Visible, z => z._col.Width );
             }
 
-            public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;     
+            public override Image Icon => Resources.IconPoint;     
         }
 
      

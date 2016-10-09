@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBigList));
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -46,7 +45,6 @@
             this._btnUp = new MetaboliteLevels.Controls.CtlButton();
             this._btnDown = new MetaboliteLevels.Controls.CtlButton();
             this._btnEnableDisable = new MetaboliteLevels.Controls.CtlButton();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -292,12 +290,6 @@
             this._btnEnableDisable.UseVisualStyleBackColor = false;
             this._btnEnableDisable.Click += new System.EventHandler(this._btnEnableDisable_Click);
             // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
             // ctlTitleBar1
             // 
             this.ctlTitleBar1.AutoSize = true;
@@ -354,7 +346,6 @@
         private Controls.CtlButton _btnUp;
         private Controls.CtlButton _btnDown;
         private Controls.CtlButton _btnEnableDisable;
-        private System.Windows.Forms.ImageList imageList1;
         private Controls.CtlButton _btnDuplicate;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Panel panel1;

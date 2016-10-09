@@ -643,6 +643,16 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ListIconFlag {
+            get {
+                object obj = ResourceManager.GetObject("ListIconFlag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ListIconInformation {
             get {
                 object obj = ResourceManager.GetObject("ListIconInformation", resourceCulture);

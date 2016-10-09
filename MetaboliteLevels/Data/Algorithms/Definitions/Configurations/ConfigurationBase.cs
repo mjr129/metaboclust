@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
@@ -281,21 +282,21 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-        public sealed override UiControls.ImageListOrder Icon
+        public sealed override Image Icon
         {
             get
             {
                 if (HasError)
                 {
-                    return UiControls.ImageListOrder.Warning;
+                    return Resources.MnuWarning;
                 }
                 else if (HasResults)
                 {
-                    return UiControls.ImageListOrder.TestFull;
+                    return Resources.ListIconTestFull;
                 }
                 else
                 {
-                    return UiControls.ImageListOrder.TestEmpty;
+                    return Resources.ListIconTestEmpty;
                 }
             }
         }

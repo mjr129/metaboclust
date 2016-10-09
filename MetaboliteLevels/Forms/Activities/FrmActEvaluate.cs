@@ -40,6 +40,7 @@ namespace MetaboliteLevels.Forms.Activities
         private readonly Core _core;
         private readonly ArgsClusterer _templateConfig;
         private ClusterEvaluationResults _selectedResults;
+        private ImageListHelper _imageList;
 
         /// <summary>
         /// Shows the form
@@ -62,7 +63,7 @@ namespace MetaboliteLevels.Forms.Activities
             InitializeComponent();
 
             UiControls.SetIcon(this);
-            UiControls.PopulateImageList(imageList1);
+            _imageList= new ImageListHelper(imageList1);
         }
 
         internal FrmActEvaluate(Core core, ArgsClusterer config )
@@ -99,7 +100,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             public override EPrevent SupportsHide => EPrevent.Hide;
 
-            public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Statistic;
+            public override Image Icon => Resources.ListIconStatistics;
 
             public override void GetXColumns(ColumnCollection list, Core core)
             {
@@ -167,9 +168,15 @@ namespace MetaboliteLevels.Forms.Activities
             _infoLabel.Text = "Loaded results";
         }
 
+        private object _lineImage = new object();
+        private object _statImage = new object();
+
         private void PopulateTreeView(ClusterEvaluationResults rs, List<ColumnWrapper> cols2)
         {
-            var order = cols2.OrderBy(z => z.Column.Id.Count(zz => zz == '\\'));
+            IOrderedEnumerable<ColumnWrapper> order = cols2.OrderBy(z => z.Column.Id.Count(zz => zz == '\\'));
+
+            int lineImage = _imageList.GetAssociatedImageIndex( _lineImage, () => Resources.IconLine );
+            int statImage = _imageList.GetAssociatedImageIndex( _statImage, () => Resources.ListIconStatistics );
 
             foreach (var v in order)
             {
@@ -185,7 +192,7 @@ namespace MetaboliteLevels.Forms.Activities
                     if (node == null)
                     {
                         node = new TreeNode(elem);
-                        node.ImageIndex = (int)UiControls.ImageListOrder.Line;
+                        node.ImageIndex = lineImage;
                         node.SelectedImageIndex = node.ImageIndex;
                         node.Name = elem;
                         col.Add(node);
@@ -194,7 +201,7 @@ namespace MetaboliteLevels.Forms.Activities
                     col = node.Nodes;
                 }
 
-                node.ImageIndex = (int)UiControls.ImageListOrder.Statistic;
+                node.ImageIndex = statImage;
                 node.SelectedImageIndex = node.ImageIndex;
                 node.Tag = v.Column;
             }

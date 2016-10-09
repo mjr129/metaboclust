@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Session.General
@@ -43,7 +44,7 @@ namespace MetaboliteLevels.Data.Session.General
             OriginalRequest = source;
             Associated = target;       
             _extraColumnValues = extraColumnValues;
-            Icon = (target as IIconProvider)?.Icon ?? UiControls.ImageListOrder.Unknown;
+            Icon = (target as IIconProvider)?.Icon ?? Resources.IconUnknown;
         }
 
         public void GetXColumns( ColumnCollection list, Core core )
@@ -66,7 +67,7 @@ namespace MetaboliteLevels.Data.Session.General
             }                
         }
 
-        public UiControls.ImageListOrder Icon { get; private set; }
+        public Image Icon { get; private set; }
 
         object IAssociation.Associated => Associated;
     }

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Selection;
@@ -33,6 +34,11 @@ namespace MetaboliteLevels.Types.UI
     /// </summary>
     internal class DataSet<T> : IDataSet
     {
+        /// <summary>
+        /// Backing field for <see cref="Icon"/>.
+        /// </summary>
+        private Image _icon;
+
         public delegate bool ComparatorDelegate(string name, T item);
         public delegate bool RetrieverDelegate(string name, out T item);
 
@@ -42,11 +48,6 @@ namespace MetaboliteLevels.Types.UI
         /// (MANDATORY) Title of the dataset
         /// </summary>
         public string ListTitle { get; set; }
-
-        /// <summary>
-        /// (OPTIONAL) Image of the dataset
-        /// </summary>
-        public Image ListIcon { get; set; }
 
         /// <summary>
         /// (OPTIONAL) Subtitle of the dataset
@@ -484,6 +485,22 @@ namespace MetaboliteLevels.Types.UI
             if (BeforeItemChanged != null)
             {
                 this.BeforeItemChanged(owner, (T)remove, (T)create);
+            }
+        }
+                      
+        /// <summary>
+        /// IMPLEMENTS <see cref="IIconProvider"/>
+        /// Can also set the icon
+        /// </summary>
+        public Image Icon
+        {
+            get
+            {
+                return _icon ?? UiControls.GetImage( ListSource.FirstOrDefault() );
+            }
+            set
+            {
+                _icon = value;
             }
         }
     }

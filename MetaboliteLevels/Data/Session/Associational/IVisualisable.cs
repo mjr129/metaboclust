@@ -66,7 +66,7 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// Icon for this item (as an index).
         /// </summary>
-        public abstract UiControls.ImageListOrder Icon { get; }
+        public abstract Image Icon { get; }
 
         /// <summary>
         /// STATIC

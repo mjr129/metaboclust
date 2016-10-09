@@ -18,6 +18,7 @@ using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Controls.Lists
 {
@@ -29,11 +30,8 @@ namespace MetaboliteLevels.Controls.Lists
         public Core _core;  // link to core
         private IDataSet _source;
 
-        protected ListView _listView; // listview control to use
-        private Dictionary<object, int> _imgListPreviewIndexes = new Dictionary<object, int>(); // cached thumbnails
+        protected ListView _listView; // listview control to use                                                    
         private IPreviewProvider _previewProvider; // thumbnail provider
-        private ImageList _imgListNormal; // image list
-        private ImageList _imgListPreviews; // image list for thumbnails
         private bool _enablePreviews; // if in thumbnail mode
         protected readonly ToolStrip _toolStrip;
 
@@ -69,6 +67,7 @@ namespace MetaboliteLevels.Controls.Lists
         private string _listViewOptionsKey;
         private readonly ToolStripMenuItem _mnuViewAsHeatMap;
         private bool _suspendVirtual;
+        private ImageListHelper _imageList;
 
         /// <summary>
         /// Constructor
@@ -80,10 +79,7 @@ namespace MetaboliteLevels.Controls.Lists
         {
             this._listView = listView;
             this._previewProvider = previewProvider;
-            this._core = core;
-
-            _imgListNormal = listView.SmallImageList;
-            _imgListPreviews = new ImageList();
+            this._core = core;                    
 
             // Setup listview
             listView.VirtualMode = true;
@@ -100,17 +96,13 @@ namespace MetaboliteLevels.Controls.Lists
             listView.GridLines = true;
             listView.HideSelection = false;
 
-            if (listView.SmallImageList == null)
-            {
-                listView.SmallImageList = new ImageList();
-                listView.SmallImageList.ImageSize = new Size(24, 24);
-                UiControls.PopulateImageList(listView.SmallImageList);
-            }
+            Debug.Assert( listView.SmallImageList == null, "Didn't expect the listView to possess an imageList." );
+            Debug.Assert( listView.LargeImageList == null, "Didn't expect the listView to possess an imageList." );
 
-            if (listView.LargeImageList == null)
-            {
-                listView.LargeImageList = listView.SmallImageList;
-            }
+            listView.SmallImageList = new ImageList();
+            listView.SmallImageList.ImageSize = new Size( 24, 24 );
+            _imageList = new ImageListHelper( listView.SmallImageList );
+            listView.LargeImageList = listView.SmallImageList;
 
             _toolStrip = new ToolStrip();
             _toolStrip.Dock = DockStyle.Top;
@@ -201,7 +193,7 @@ namespace MetaboliteLevels.Controls.Lists
                 ListSource = results,
                 ItemTitle = z => z.ToString(),
                 ItemDescription = z => (z as Visualisable)?.Comment,
-                ListIcon = Resources.IconData,
+                Icon = Resources.IconData,
             } );
         }
 
@@ -214,7 +206,7 @@ namespace MetaboliteLevels.Controls.Lists
                 ListSource = results.Cast<object>(),
                 ItemTitle = z => z.ToString(),
                 ItemDescription = z => (z as Visualisable)?.Comment,
-                ListIcon = Resources.IconData,
+                Icon = Resources.IconData,
                 DataType = type,
             } );
         }
@@ -715,7 +707,7 @@ namespace MetaboliteLevels.Controls.Lists
             if (isDisposing)
             {
                 _toolStrip.Dispose();
-                _imgListPreviews.Dispose();
+                _imageList.Dispose();
                 _cmsColumns.Dispose();
             }
         }
@@ -785,43 +777,28 @@ namespace MetaboliteLevels.Controls.Lists
             }
         }
 
-        private int GeneratePreviewImage(object item)
+        private Image GeneratePreviewImage(object item)
         {
-            int index;
-
-            if (!_imgListPreviewIndexes.TryGetValue(item, out index))
+            if (!EnablePreviews)
             {
-                Image img = _previewProvider.ProvidePreview(_imgListPreviews.ImageSize, item);
-
-                if (img == null)
-                {
-                    img = ChartHelperForClusters.CreatePlaceholderBitmap(item, _imgListPreviews.ImageSize);
-                }
-
-                index = _imgListPreviews.Images.Count;
-
-                _imgListPreviews.Images.Add(img);
-                _imgListPreviewIndexes.Add(item, index);
+                return UiControls.GetImage( item );
             }
 
-            return index;
+            Image img = _previewProvider.ProvidePreview( _imageList.ImageList.ImageSize, item);
+
+            if (img == null)
+            {
+                return ChartHelperForClusters.CreatePlaceholderBitmap(item, _imageList.ImageList.ImageSize);
+            }
+
+            return img;
         }                                             
 
         void tsThumbNails_Click(object sender, EventArgs e)
         {
             EnablePreviews = !_enablePreviews;
             _tsThumbNails.Checked = EnablePreviews;
-        }
-
-        protected void ClearPreviewList()
-        {
-            if (_enablePreviews)
-            {
-                _imgListPreviews.Images.Clear();
-                _imgListPreviews.ImageSize = new Size(_core.Options.ThumbnailSize, _core.Options.ThumbnailSize);
-                _imgListPreviewIndexes.Clear();
-            }
-        }
+        }             
 
         public bool EnablePreviews
         {
@@ -840,10 +817,8 @@ namespace MetaboliteLevels.Controls.Lists
                 if (_enablePreviews != value)
                 {
                     _enablePreviews = value;
-                    this._listView.LargeImageList = value ? _imgListPreviews : _imgListNormal;
-                    this._listView.SmallImageList = value ? _imgListPreviews : _imgListNormal;
-                    _imgListPreviews.ImageSize = new Size(64, 64);
-
+                    _imageList.Clear();
+                    _imageList.ImageList.ImageSize = value ? new Size( 64, 64 ) : new Size( 24, 24 );
                     Rebuild(EListInvalids.PreviewsChanged);
                 }
             }
@@ -886,16 +861,16 @@ namespace MetaboliteLevels.Controls.Lists
                 {
                     if (_sortOrder._ascending)
                     {
-                        h.ImageIndex = (int)UiControls.ImageListOrder.ListSortUp;
+                        h.ImageIndex = _imageList.GetAssociatedImageIndex( "ListIconSortUp", () => Resources.ListIconSortUp );
                     }
                     else
                     {
-                        h.ImageIndex = (int)UiControls.ImageListOrder.ListSortDown;
+                        h.ImageIndex = _imageList.GetAssociatedImageIndex( "ListIconSortDown", () => Resources.ListIconSortDown );
                     }
                 }
                 else if (_filter != null && _filter._column == c)
                 {
-                    h.ImageIndex = (int)UiControls.ImageListOrder.ListFilter;
+                    h.ImageIndex = _imageList.GetAssociatedImageIndex( "ListIconFilter", () => Resources.ListIconFilter );
                 }
             }
 
@@ -936,7 +911,7 @@ namespace MetaboliteLevels.Controls.Lists
             if (checks.HasFlag(EListInvalids._ValuesChanged))
             {
                 // Since we now use a virtual list the only thing we need to update are the previews, the rest will update when we redraw
-                ClearPreviewList();
+                _imageList.Clear();
             }
 
             // Resume updates
@@ -1098,15 +1073,8 @@ namespace MetaboliteLevels.Controls.Lists
         {                       
             Visualisable vis = tag as Visualisable;
 
-            // Update icon
-            if (EnablePreviews)
-            {
-                lvi.ImageIndex = GeneratePreviewImage(tag);
-            }
-            else
-            {                
-                lvi.ImageIndex = (int)((tag as IIconProvider)?.Icon ?? UiControls.ImageListOrder.Unknown);
-            }
+            // Update icon                                                                                    
+            lvi.ImageIndex = _imageList.GetAssociatedImageIndex( tag, () => GeneratePreviewImage( tag ) );
 
             // Update columns
             foreach (ColumnHeader h in _listView.Columns)

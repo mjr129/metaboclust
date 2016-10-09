@@ -10,6 +10,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Collections;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
@@ -546,22 +547,22 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override UiControls.ImageListOrder Icon
+        public override Image Icon
         {
             get
             {
                 // IMAGE
                 if (this.States == EStates.Insignificants)
                 {
-                    return UiControls.ImageListOrder.ClusterU;
+                    return Resources.ListIconClusterInsignificant;
                 }
                 else if (this.States == EStates.Pathway)
                 {
-                    return UiControls.ImageListOrder.Pathway;
+                    return Resources.ListIconPathway;
                 }
                 else
                 {
-                    return UiControls.ImageListOrder.Cluster;
+                    return Resources.ListIconCluster;
                 }
             }
         }

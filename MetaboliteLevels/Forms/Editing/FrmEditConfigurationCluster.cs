@@ -58,10 +58,10 @@ namespace MetaboliteLevels.Forms.Editing
             : this()
         {
             _core = core;
-            _ecbPeakFilter = DataSet.ForPeakFilter(core).CreateComboBox(_lstPeakFilter, _btnPeakFilter,  ENullItemName.All);
-            _ecbObsFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstObsFilter, _btnObsFilter,  ENullItemName.All);
-            _ecbMethod = DataSet.ForClustererAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.None);
-            _ecbMeasure = DataSet.ForMetricAlgorithms(core).CreateComboBox(_lstMeasure, _btnNewDistance, ENullItemName.None);
+            _ecbPeakFilter = DataSet.ForPeakFilter(core).CreateComboBox(_lstPeakFilter, _btnPeakFilter,  ENullItemName.RepresentingAll);
+            _ecbObsFilter = DataSet.ForObsFilter(core).CreateComboBox(_lstObsFilter, _btnObsFilter,  ENullItemName.RepresentingAll);
+            _ecbMethod = DataSet.ForClustererAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.RepresentingNone);
+            _ecbMeasure = DataSet.ForMetricAlgorithms(core).CreateComboBox(_lstMeasure, _btnNewDistance, ENullItemName.RepresentingNone);
             _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
             _cbStatistics = DataSet.ForFlagsEnum<EClustererStatistics>( _core, "Cluster Statistics" ).CreateConditionBox(_txtStatistics, _btnSetStatistics);
             _readOnly = readOnly;

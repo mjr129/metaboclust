@@ -56,12 +56,12 @@ namespace MetaboliteLevels.Forms.Wizards
 
             _chart = new ChartHelperForPeaks( null, core, panel1 );
 
-            _ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( _lstFilters, _btnEditFilters, ENullItemName.All );
-            _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.None );
+            _ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( _lstFilters, _btnEditFilters, ENullItemName.RepresentingAll );
+            _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.RepresentingNone );
             _lstGroups.Items.AddRange( NamedItem.GetRange( core.Groups, z => z.DisplayName ).ToArray() );
             _lstGroups.SelectedIndex = 0;
 
-            _ecbPeakFilter = DataSet.ForPeakFilter( core ).CreateComboBox( _lstPeakFilter, _btnPeakFilter, ENullItemName.All );
+            _ecbPeakFilter = DataSet.ForPeakFilter( core ).CreateComboBox( _lstPeakFilter, _btnPeakFilter, ENullItemName.RepresentingAll );
             _ecbDistance = DataSet.ForMetricAlgorithms( core ).CreateComboBox( _lstDistanceMeasure, _btnDistanceMeasure, ENullItemName.NoNullItem );
             _lstDistanceMeasure.SelectedIndexChanged += _lstDistanceMeasure_SelectedIndexChanged;
 

@@ -17,6 +17,7 @@ using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
@@ -168,7 +169,7 @@ namespace MetaboliteLevels.Forms.Activities
 
             public override string DefaultDisplayName => DataSet.ToUiString();        
 
-            public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.File;
+            public override Image Icon=> Resources.MnuFile;
         }
 
         private void _btnOther_Click( object sender, EventArgs e )

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
 using MGui.Helpers;
@@ -91,7 +93,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 
         public readonly string Id;
 
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;
+        public override Image Icon => Resources.IconPoint;
 
         /// <summary>
         /// Returns the display name of algorithm, or the ID if not found

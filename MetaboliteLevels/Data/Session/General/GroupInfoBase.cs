@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
@@ -134,7 +135,10 @@ namespace MetaboliteLevels.Data.Session.General
             columns.Add( "Graph icon", z => z.GraphIcon, z=> z.Colour );  
         }
 
-        public override  UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Group;
+        public override Image Icon
+        {
+            get { return UiControls.CreateExperimentalGroupImage( true, this, false ); }
+        }
 
         [XColumn]
         public string Id

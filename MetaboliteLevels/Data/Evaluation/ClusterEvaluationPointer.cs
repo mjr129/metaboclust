@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Evaluation
@@ -80,17 +82,17 @@ namespace MetaboliteLevels.Data.Evaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override UiControls.ImageListOrder Icon
+        public override Image Icon
         {
             get
             {
                 if (this.HasResults)
                 {
-                    return UiControls.ImageListOrder.TestFull;
+                    return Resources.ListIconTestFull;
                 }
                 else
                 {
-                    return UiControls.ImageListOrder.TestEmpty;
+                    return Resources.ListIconTestEmpty;
                 }
             }
         } 

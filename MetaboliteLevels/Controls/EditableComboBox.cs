@@ -204,9 +204,9 @@ namespace MetaboliteLevels.Controls
         NoNullItem,
 
         [Name( "(All)" )]
-        All,
+        RepresentingAll,
 
         [Name( "(None)" )]
-        None,
+        RepresentingNone,
     }
 }

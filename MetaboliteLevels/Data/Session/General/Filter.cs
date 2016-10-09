@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
 using MGui.Helpers;
@@ -41,7 +43,7 @@ namespace MetaboliteLevels.Data.Session.General
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>
-        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Filter;    
+        public override Image Icon=> Resources.MnuFilter;    
 
         #endregion
 
@@ -188,7 +190,7 @@ namespace MetaboliteLevels.Data.Session.General
 
             public abstract override string DefaultDisplayName { get; }              
 
-            public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Filter;
+            public override Image Icon=> Resources.MnuFilter;
 
             public bool Preview(T target)
             {

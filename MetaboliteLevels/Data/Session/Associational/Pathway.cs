@@ -9,6 +9,7 @@ using MetaboliteLevels.Controls.Charts;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -414,6 +415,6 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Pathway;
+        public override Image Icon=> Resources.ListIconPathway;
     }
 }

@@ -12,6 +12,7 @@ using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -399,7 +400,7 @@ namespace MetaboliteLevels.Controls.Charts
                 g.Clear(Color.LightGray);
                 g.DrawLine(Pens.Silver, 0, 0, width, height);
                 g.DrawLine(Pens.Silver, width, 0, 0, height);
-                Image icon = UiControls.GetImage(xx?.Icon ?? UiControls.ImageListOrder.Point, true);
+                Image icon = UiControls.EmboldenImage(xx?.Icon ?? Resources.IconUnknown);
                 Rectangle rect = new Rectangle(sz.Width / 2 - icon.Width / 2, sz.Height / 2 - icon.Height / 2, icon.Width, icon.Height);
                 g.FillRectangle(Brushes.White, rect);
                 g.DrawImage(icon, rect);

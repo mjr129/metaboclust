@@ -115,10 +115,7 @@ namespace MetaboliteLevels.Forms.Activities
                 _ignoreConfirmClose = true;
                 this.BeginInvoke((MethodInvoker)this.Close);
                 return;
-            }
-
-            // Load image list
-            UiControls.PopulateImageList(_imgList);
+            }                                      
 
             // Main menu colours
             _mnuMain.BackColor = UiControls.TitleBackColour;

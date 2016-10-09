@@ -33,6 +33,7 @@ namespace MetaboliteLevels.Forms.Editing
         private EditableComboBox<ObsFilter> _ecbFilter2;
         private EditableComboBox<StatisticBase> _ecbMeasure;
         private readonly EditableComboBox<IMatrixProvider> _ecbSource;
+        private EditableComboBox<Peak> _ecbDiffPeak;
 
         internal static ArgsStatistic Show(Form owner, ArgsStatistic def, Core core, bool readOnly)
         {
@@ -135,7 +136,7 @@ namespace MetaboliteLevels.Forms.Editing
                 {
                     // Use alt peak is checked then we are comparing against another peak - use the same X points
                     bsrc = EAlgoInputBSource.AltPeak;
-                    bpeak = NamedItem<Peak>.Extract(_lstDiffPeak.SelectedItem);
+                    bpeak = _ecbDiffPeak.SelectedItem;
                     _checker.Check( _lstDiffPeak, bpeak != null, "Select a peak" );
                     filter2 = filter1;
                 }
@@ -209,13 +210,13 @@ namespace MetaboliteLevels.Forms.Editing
 
             _previewPeak = defaultPeak;
 
-            _ecbFilter1 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter1, _btnFilter1,  ENullItemName.All);
-            _ecbFilter2 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter2, _btnFilter2,  ENullItemName.All);
+            _ecbFilter1 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter1, _btnFilter1,  ENullItemName.RepresentingAll);
+            _ecbFilter2 = DataSet.ForObsFilter(core).CreateComboBox(_lstFilter2, _btnFilter2,  ENullItemName.RepresentingAll);
             _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );
             _ecbMeasure = DataSet.ForStatisticsAlgorithms(core).CreateComboBox(_lstMethod, _btnNewStatistic, ENullItemName.NoNullItem);
-
-            _lstDiffPeak.Items.AddRange(NamedItem.GetRange(_core.Peaks, z => z.DisplayName).ToArray());
-            _lstDiffPeak.SelectedItem = defaultPeak;  
+            _ecbDiffPeak = DataSet.ForPeaks( core ).CreateComboBox( _lstDiffPeak, _btnSelectDiffPeak, ENullItemName.NoNullItem );
+                        
+            _ecbDiffPeak.SelectedItem = defaultPeak;  
 
             if (defaultSelection != null)
             {
@@ -235,7 +236,7 @@ namespace MetaboliteLevels.Forms.Editing
 
                 if (defaultSelection.VectorBPeak != null)
                 {
-                    _lstDiffPeak.SelectedItem = defaultSelection.VectorBPeak;
+                    _ecbDiffPeak.SelectedItem = defaultSelection.VectorBPeak;
                 }
             }
 
