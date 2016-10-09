@@ -1,29 +1,15 @@
-## MetaboClust ##
-MetaboClust is a project to display and analyse metabolomics data, or similar.
+# MetaboClust #
+MetaboClust is a project to display and analyse time-course metabolomics data (or similar).
 It features data correction, cluster analysis and user interactive visualisation.
+The user guide in my thesis now contains all available information.
 
-## Getting Started from Binary ##
-
-* The application runs as a stand-alone application and doesn't require any special install.
-* Full instructions are contained in-line, just launch and go!
-
-## Getting Started from Source ##
-
-* The project should be compiled in Visual Studio 2015.
-* You'll need to get the MSerialiser and MChart library projects too (also in BitBucket)
-* If you haven't placed the projects adjacent to the MetaboliteLevels project
-  VS will complain that they are missing - you'll just have to fix the paths to point
-  at them correctly.
-* You will also get a notification about missing the Math.NET and RDotNet libraries,
-  NuGet (part of the latest VS) will automatically download the missing public libraries
-  when you first compile and these errors will disappear.
-
-## System Requirements ##
-
-* .NET (Microsoft Windows) (Mono Framework might work for Linux and Macs but is currently untested).
-* 4Gb RAM or 8Gb for cluster parameter optimisation, plus any additional required if you have a massive dataset.
+## Changes ##
+### 1.2 ###
+Following feedback version 1.2 uses an intensity matrix rather than a vector for each peak.
+The main effect from this, aside from speedier calculations, is that the user can select the input matrix allowing a "branched" workflow.
 
 ## Screenshots ##
+The screenshots below are from an older version (1.0). The current release is 1.2.
 
 ### Startup ###
 ![Startup.png](https://bitbucket.org/repo/44K5Kx/images/1908970895-Startup.png)
