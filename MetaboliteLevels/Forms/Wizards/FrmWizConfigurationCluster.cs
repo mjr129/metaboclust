@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -26,14 +27,13 @@ namespace MetaboliteLevels.Forms.Wizards
     {
         CtlWizard _wizard;
         private Core _core;
-        Peak _lowestPeak;
-        Peak _highestPeak;
-        Peak _current;
         private EditableComboBox<ObsFilter> _ecbFilter;
         private EditableComboBox<MetricBase> _ecbDistance;
         private EditableComboBox<PeakFilter> _ecbPeakFilter;
         private readonly ChartHelperForPeaks _chart;
         private readonly EditableComboBox<IMatrixProvider> _ecbSource;
+        private EditableComboBox<Peak> _ecbSeedPeak;
+        private EditableComboBox<GroupInfo> _ecbSeedGroup;
 
         internal static bool Show( Form owner, Core core )
         {
@@ -58,6 +58,8 @@ namespace MetaboliteLevels.Forms.Wizards
 
             _ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( _lstFilters, _btnEditFilters, ENullItemName.RepresentingAll );
             _ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.RepresentingNone );
+            _ecbSeedPeak = DataSet.ForPeaks( core ).CreateComboBox( _lstSeedPeak, _btnSeedPeak, ENullItemName.NoNullItem );
+            _ecbSeedGroup = DataSet.ForGroups( core ).CreateComboBox( _lstGroups, _btnGroups, ENullItemName.NoNullItem );
             _lstGroups.Items.AddRange( NamedItem.GetRange( core.Groups, z => z.DisplayName ).ToArray() );
             _lstGroups.SelectedIndex = 0;
 
@@ -65,22 +67,13 @@ namespace MetaboliteLevels.Forms.Wizards
             _ecbDistance = DataSet.ForMetricAlgorithms( core ).CreateComboBox( _lstDistanceMeasure, _btnDistanceMeasure, ENullItemName.NoNullItem );
             _lstDistanceMeasure.SelectedIndexChanged += _lstDistanceMeasure_SelectedIndexChanged;
 
-            this._current = current;
-            _lblSeedCurrent.Text = current != null ? current.DisplayName : "None";
-            _radSeedCurrent.Enabled = current != null;
-            _lblSeedCurrent.Enabled = current != null;
-
-            _lstStat.Items.AddRange( NamedItem.GetRange( core.Statistics.WhereEnabled(), GetStatName ).ToArray() );
+            this._ecbSeedPeak.SelectedItem = current;
 
             _wizard = CtlWizard.BindNew( this, tabControl1, CtlWizardOptions.DEFAULT | CtlWizardOptions.DialogResultCancel | CtlWizardOptions.HandleBasicChanges );
             _wizard.OkClicked += wizard_OkClicked;
             _wizard.TitleHelpText = Resx.Manual.DKMeansPlusPlus;
             _wizard.PermitAdvance += this.ValidatePage;
-            _wizard.Revalidate();
-
-            UpdateStatBox();
-
-            // UiControls.CompensateForVisualStyles(this);
+            _wizard.Revalidate();    
         }
 
         private void _lstDistanceMeasure_SelectedIndexChanged( object sender, EventArgs e )
@@ -92,84 +85,60 @@ namespace MetaboliteLevels.Forms.Wizards
         private string GetStatName( ConfigurationStatistic input )
         {
             return input.ToString();
-        }
-
-        private void UpdateStatBox()
-        {
-            ConfigurationStatistic stat = NamedItem<ConfigurationStatistic>.Extract( _lstStat.SelectedItem );
-            bool b = stat != null;
-
-            if (b)
-            {
-                _lowestPeak = _core.Peaks.Where( λ => λ.GetStatistic( stat ).IsValid() ).FindLowest( λ => λ.GetStatistic( stat ) );
-                _highestPeak = _core.Peaks.Where( λ => λ.GetStatistic( stat ).IsValid() ).FindHighest( λ => λ.GetStatistic( stat ) );
-                _lblSeedStudent.Text = _lowestPeak.DisplayName;
-                _lblSeedPearson.Text = _highestPeak.DisplayName;
-            }
-            else
-            {
-                _lblSeedStudent.Text = "None";
-                _lblSeedPearson.Text = "None";
-            }
-
-            _radSeedLowest.Enabled = b;
-            _radSeedHighest.Enabled = b;
-            _lblSeedStudent.Enabled = b;
-            _lblSeedPearson.Enabled = b;
-        }
-
-        private void _lblSeedStudent_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
-        {
-            _radSeedLowest.Checked = true;
-        }
-
-        private void _lblSeedPearson_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
-        {
-            _radSeedHighest.Checked = true;
-        }
-
-        private void _lblSeedCurrent_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
-        {
-            _radSeedCurrent.Checked = true;
-        }
+        }      
 
         private bool ValidatePage( int p )
         {
-            double tmpd;
-            int tmpi;
-            string tmps;
+            _txtStopN.Enabled = _radStopN.Checked;
+            _txtStopD.Enabled = _radStopD.Checked;
+            _ecbSeedGroup.Enabled = _chkClusterIndividually.Checked;
+
+            ctlError1.Clear();
 
             switch (p)
             {
                 case 0:
-                    return _ecbSource.HasSelection;
+                    ctlError1.Check( _ecbSource.ComboBox, _ecbSource.HasSelection, "Select an item" );
+                    break;
 
                 case 1:
-                    return _ecbFilter.HasSelection;
+                    ctlError1.Check( _ecbFilter.ComboBox, _ecbFilter.HasSelection, "Select an item" );
+                    ctlError1.Check( _chkClusterIndividually, _chkClusterIndividually.Checked || _chkClusterTogether.Checked, "Select an option" );
+                    break;
 
                 case 2:
-                    return ((_radSeedLowest.Checked || _radSeedHighest.Checked)
-                        && (_lstStat.SelectedItem != null) || _radSeedCurrent.Checked)
-                        && _lstGroups.SelectedItem != null;
+                    string errorMessage;
+                    ctlError1.Check( _ecbPeakFilter.ComboBox, _ecbPeakFilter.HasSelection, "Select an item" );
+                    ctlError1.Check( _ecbDistance.ComboBox, _ecbDistance.HasSelection, "Select an item" );
+                    object[] x = _ecbDistance.SelectedItem.Parameters.TryStringToParams( _core, _txtDistanceParams.Text, out errorMessage );
+                    ctlError1.Check( _txtDistanceParams, x != null, errorMessage );
+                    break;
 
                 case 3:
-                    return _ecbPeakFilter.HasSelection &&
-                        _ecbDistance.HasSelection
-                        && _ecbDistance.SelectedItem.Parameters.TryStringToParams( _core, _txtDistanceParams.Text, out tmps ) != null;
+                    ctlError1.Check(_ecbSeedPeak.ComboBox, _ecbSeedPeak.HasSelection, "Select an item");
+                    ctlError1.Check(_ecbSeedGroup.ComboBox, _chkClusterTogether.Checked || _ecbSeedGroup.HasSelection, "Select an item");
+                    ctlError1.Check( _ecbSeedPeak.ComboBox, !_ecbSeedPeak.HasSelection || _ecbPeakFilter.SelectedItem == null || _ecbPeakFilter.SelectedItem.Test( _ecbSeedPeak.SelectedItem ), $"The selected peak {{{_ecbSeedPeak.SelectedItem}}} is excluded by the peak filter {{{_ecbPeakFilter.SelectedItem}}} and cannot be clustered." ); // Catch a common problem early
+                    break;
 
                 case 4:
-                    return (_radStopN.Checked && int.TryParse( _txtStopN.Text, out tmpi ))
-                        || (_radStopD.Checked && double.TryParse( _txtStopD.Text, out tmpd ));
+                    int unused;
+                    ctlError1.Check( _radStopN, _radStopN.Checked || _radStopD.Checked, "Select an item" );
+                    ctlError1.Check( _txtStopN, !_radStopN.Checked || int.TryParse( _txtStopN.Text, out unused ), "Invalid" );
+                    ctlError1.Check( _radStopD, !_radStopD.Checked || int.TryParse( _txtStopD.Text, out unused ), "Invalid" );
+                    break;
 
                 case 5:
-                    return _radFinishK.Checked || _radFinishStop.Checked;
+                    ctlError1.Check( _radFinishK, _radFinishK.Checked || _radFinishStop.Checked, "Select an item" );
+                    break;
 
                 case 6:
-                    return true;
+                    break;
 
                 default:
-                    return false;
+                    break;
             }
+
+            return !ctlError1.HasErrors;
         }
 
         void wizard_OkClicked( object sender, EventArgs e )
@@ -183,7 +152,8 @@ namespace MetaboliteLevels.Forms.Wizards
 
             int param1_numClusters = _radStopN.Checked ? int.Parse( _txtStopN.Text ) : int.MinValue;
             double param2_distanceLimit = _radStopD.Checked ? double.Parse( _txtStopD.Text ) : double.MinValue;
-            WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>( _radSeedCurrent.Checked ? _current : _radSeedHighest.Checked ? _highestPeak : _lowestPeak );
+            Debug.Assert( _ecbSeedPeak.HasSelection, "Expected a seed peak to be selected" );
+            WeakReference<Peak> param3_seedPeak = new WeakReference<Peak>( _ecbSeedPeak.SelectedItem );
             GroupInfo param4_seedGroup = NamedItem<GroupInfo>.Extract( _lstGroups.SelectedItem );
             int param5_doKMeans = _radFinishK.Checked ? 1 : 0;
             IMatrixProvider source = _ecbSource.SelectedItem;
@@ -271,48 +241,9 @@ namespace MetaboliteLevels.Forms.Wizards
             DialogResult = DialogResult.OK;
         }
 
-        private void OptionChanged( object sender, EventArgs e )
+        private void _lstSeedPeak_SelectedIndexChanged( object sender, EventArgs e )
         {
-            if (_wizard != null)
-            {
-                _wizard.Revalidate();
-            }
-
-            if (_radSeedCurrent.Checked)
-            {
-                _chart.Plot( new StylisedPeak( _current ) );
-            }
-            else if (_radSeedHighest.Checked)
-            {
-                _chart.Plot( new StylisedPeak( _highestPeak ) );
-            }
-            else if (_radSeedLowest.Checked)
-            {
-                _chart.Plot( new StylisedPeak( _lowestPeak ) );
-            }
-        }
-
-        private void _radStopN_CheckedChanged( object sender, EventArgs e )
-        {
-            _txtStopN.Enabled = _radStopN.Checked;
-            OptionChanged( sender, e );
-        }
-
-        private void _radStopD_CheckedChanged( object sender, EventArgs e )
-        {
-            _txtStopD.Enabled = _radStopD.Checked;
-            OptionChanged( sender, e );
-        }
-
-        private void _lstStat_SelectedIndexChanged( object sender, EventArgs e )
-        {
-            UpdateStatBox();
-            OptionChanged( sender, e );
-        }
-
-        private void _chkClusterIndividually_CheckedChanged( object sender, EventArgs e )
-        {
-            _lstGroups.Enabled = _chkClusterIndividually.Checked;
+            _chart.Plot( new StylisedPeak( _ecbSeedPeak.SelectedItem ) );
         }
     }
 }

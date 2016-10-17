@@ -78,10 +78,10 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnSetStatistics = new MetaboliteLevels.Controls.CtlButton();
             this.label2 = new System.Windows.Forms.Label();
             this._btnExperimentalGroups = new MetaboliteLevels.Controls.CtlButton();
+            this._lstSource = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MGui.Controls.CtlError(this.components);
-            this._lstSource = new System.Windows.Forms.ComboBox();
             this.contextMenuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -102,7 +102,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lblApply.Margin = new System.Windows.Forms.Padding(8);
             this._lblApply.Name = "_lblApply";
             this._lblApply.Size = new System.Drawing.Size(58, 21);
-            this._lblApply.TabIndex = 2;
+            this._lblApply.TabIndex = 22;
             this._lblApply.Text = "Source";
             this.toolTip1.SetToolTip(this._lblApply, "Select the source for the clustering vectors - either all observations or just th" +
         "e trendline.\r\nUse the buttons to the right to view the data source.");
@@ -128,7 +128,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lblAVec.Margin = new System.Windows.Forms.Padding(8);
             this._lblAVec.Name = "_lblAVec";
             this._lblAVec.Size = new System.Drawing.Size(102, 21);
-            this._lblAVec.TabIndex = 4;
+            this._lblAVec.TabIndex = 26;
             this._lblAVec.Text = "Observations";
             this.toolTip1.SetToolTip(this._lblAVec, "Select the set of observations (or conditions for a trend) to enter into the clus" +
         "tering vectors.\r\nUse the button to the right to add or edit the sets of observat" +
@@ -141,7 +141,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewStatistic.Name = "_btnNewStatistic";
             this._btnNewStatistic.Size = new System.Drawing.Size(29, 29);
-            this._btnNewStatistic.TabIndex = 16;
+            this._btnNewStatistic.TabIndex = 5;
             this.toolTip1.SetToolTip(this._btnNewStatistic, "Select the clustering algorithm.\r\nUse the button to the right to open the databas" +
         "e and add new algorithms.");
             this._btnNewStatistic.UseDefaultSize = true;
@@ -154,7 +154,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnComment.Margin = new System.Windows.Forms.Padding(8);
             this._btnComment.Name = "_btnComment";
             this._btnComment.Size = new System.Drawing.Size(29, 29);
-            this._btnComment.TabIndex = 16;
+            this._btnComment.TabIndex = 2;
             this.toolTip1.SetToolTip(this._btnComment, "Enter the title of the algorithm (this will also be the title of the resultant cl" +
         "usters).\r\nIf you don\'t enter a title one will be chosen for you.\r\nUse the button" +
         " to the right to add comments.");
@@ -169,7 +169,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnObsFilter.Margin = new System.Windows.Forms.Padding(8);
             this._btnObsFilter.Name = "_btnObsFilter";
             this._btnObsFilter.Size = new System.Drawing.Size(29, 29);
-            this._btnObsFilter.TabIndex = 14;
+            this._btnObsFilter.TabIndex = 28;
             this.toolTip1.SetToolTip(this._btnObsFilter, "Select the set of observations (or conditions for a trend) to enter into the clus" +
         "tering vectors.\r\nUse the button to the right to add or edit the sets of observat" +
         "ions.");
@@ -183,7 +183,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label1.Margin = new System.Windows.Forms.Padding(8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 21);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 3;
             this.label1.Text = "Method";
             this.toolTip1.SetToolTip(this.label1, "Select the clustering algorithm.\r\nUse the button to the right to open the databas" +
         "e and add new algorithms.");
@@ -197,7 +197,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstMethod.Margin = new System.Windows.Forms.Padding(8);
             this._lstMethod.Name = "_lstMethod";
             this._lstMethod.Size = new System.Drawing.Size(789, 29);
-            this._lstMethod.TabIndex = 1;
+            this._lstMethod.TabIndex = 4;
             this.toolTip1.SetToolTip(this._lstMethod, "Select the clustering algorithm.\r\nUse the button to the right to open the databas" +
         "e and add new algorithms.");
             this._lstMethod.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
@@ -223,11 +223,11 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtName.Margin = new System.Windows.Forms.Padding(8);
             this._txtName.Name = "_txtName";
             this._txtName.Size = new System.Drawing.Size(789, 29);
-            this._txtName.TabIndex = 6;
+            this._txtName.TabIndex = 1;
             this.toolTip1.SetToolTip(this._txtName, "Enter the title of the algorithm (this will also be the title of the resultant cl" +
         "usters).\r\nIf you don\'t enter a title one will be chosen for you.\r\nUse the button" +
         " to the right to add comments.");
-            this._txtName.Watermark = Resx.Texts.default_name;
+            this._txtName.Watermark = global::MetaboliteLevels.Resx.Texts.default_name;
             this._txtName.TextChanged += new System.EventHandler(this.Check);
             // 
             // tableLayoutPanel1
@@ -306,23 +306,23 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(805, 45);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(805, 38);
             this.tableLayoutPanel2.TabIndex = 15;
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.linkLabel1.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel1.Image = global::MetaboliteLevels.Properties.Resources.MnuWarning;
             this.linkLabel1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(39, 4);
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(544, 10);
+            this.linkLabel1.Location = new System.Drawing.Point(491, 10);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(8, 10, 8, 8);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(253, 20);
-            this.linkLabel1.TabIndex = 21;
+            this.linkLabel1.Size = new System.Drawing.Size(306, 20);
+            this.linkLabel1.TabIndex = 1;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "       Distance metric not used, click here for details.";
             this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -339,8 +339,8 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstMeasure.Location = new System.Drawing.Point(8, 8);
             this._lstMeasure.Margin = new System.Windows.Forms.Padding(8);
             this._lstMeasure.Name = "_lstMeasure";
-            this._lstMeasure.Size = new System.Drawing.Size(520, 29);
-            this._lstMeasure.TabIndex = 1;
+            this._lstMeasure.Size = new System.Drawing.Size(467, 29);
+            this._lstMeasure.TabIndex = 0;
             this.toolTip1.SetToolTip(this._lstMeasure, "Select the distance metric algorithm.\r\nUse the button to the right to add or edit" +
         " the distance metric algorithms.");
             this._lstMeasure.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
@@ -352,7 +352,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnSource.Margin = new System.Windows.Forms.Padding(8);
             this._btnSource.Name = "_btnSource";
             this._btnSource.Size = new System.Drawing.Size(29, 29);
-            this._btnSource.TabIndex = 33;
+            this._btnSource.TabIndex = 24;
             this.toolTip1.SetToolTip(this._btnSource, "Select the source for the clustering vectors - either all observations or just th" +
         "e trendline.\r\nUse the buttons to the right to view the data source.");
             this._btnSource.UseDefaultSize = true;
@@ -387,7 +387,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnParameterOptimiser.Margin = new System.Windows.Forms.Padding(8);
             this._btnParameterOptimiser.Name = "_btnParameterOptimiser";
             this._btnParameterOptimiser.Size = new System.Drawing.Size(203, 39);
-            this._btnParameterOptimiser.TabIndex = 3;
+            this._btnParameterOptimiser.TabIndex = 0;
             this._btnParameterOptimiser.Text = "Parameter optimiser...";
             this.toolTip1.SetToolTip(this._btnParameterOptimiser, "Click to test the effects of multiple parameters on your clustering algorithm.");
             this._btnParameterOptimiser.UseVisualStyleBackColor = false;
@@ -417,7 +417,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
-            this._btnCancel.TabIndex = 19;
+            this._btnCancel.TabIndex = 1;
             this._btnCancel.Text = "  Cancel";
             this.toolTip1.SetToolTip(this._btnCancel, "Go back, discarding any changes you have made.");
             this._btnCancel.UseDefaultSize = true;
@@ -433,7 +433,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnOk.Margin = new System.Windows.Forms.Padding(4);
             this._btnOk.Name = "_btnOk";
             this._btnOk.Size = new System.Drawing.Size(128, 40);
-            this._btnOk.TabIndex = 18;
+            this._btnOk.TabIndex = 0;
             this._btnOk.Text = "  OK";
             this.toolTip1.SetToolTip(this._btnOk, "Click to apply your changes.\r\nYou will have a chance to make changes before your " +
         "algorithhm is run.");
@@ -447,7 +447,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnEditParameters.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditParameters.Name = "_btnEditParameters";
             this._btnEditParameters.Size = new System.Drawing.Size(29, 29);
-            this._btnEditParameters.TabIndex = 16;
+            this._btnEditParameters.TabIndex = 8;
             this.toolTip1.SetToolTip(this._btnEditParameters, "Select the parameters (if required) for the clustering algorithm.\r\nUse the button" +
         " to the right to open up the parameter editor.");
             this._btnEditParameters.UseDefaultSize = true;
@@ -462,7 +462,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtMeasureParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtMeasureParams.Name = "_txtMeasureParams";
             this._txtMeasureParams.Size = new System.Drawing.Size(789, 29);
-            this._txtMeasureParams.TabIndex = 6;
+            this._txtMeasureParams.TabIndex = 16;
             this.toolTip1.SetToolTip(this._txtMeasureParams, "Select the parameters for the distance metric (if required).\r\nSeparate your param" +
         "eters with commas.\r\nUse the button to the right to open the parameter editor.");
             this._txtMeasureParams.Watermark = null;
@@ -476,7 +476,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._chkSepGroups.Name = "_chkSepGroups";
             this._chkSepGroups.Padding = new System.Windows.Forms.Padding(4);
             this._chkSepGroups.Size = new System.Drawing.Size(280, 33);
-            this._chkSepGroups.TabIndex = 15;
+            this._chkSepGroups.TabIndex = 29;
             this._chkSepGroups.Text = "One vector per experimental group";
             this.toolTip1.SetToolTip(this._chkSepGroups, "Select this option to generate one clustering vector per experimental group, per " +
         "peak.\r\nIf not selected one vector will be created per peak, comprising all exper" +
@@ -491,7 +491,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label15.Margin = new System.Windows.Forms.Padding(8);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(14, 21);
-            this.label15.TabIndex = 4;
+            this.label15.TabIndex = 25;
             this.label15.Text = " ";
             // 
             // _txtParams
@@ -502,7 +502,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtParams.Name = "_txtParams";
             this._txtParams.Size = new System.Drawing.Size(789, 29);
-            this._txtParams.TabIndex = 6;
+            this._txtParams.TabIndex = 7;
             this.toolTip1.SetToolTip(this._txtParams, "Select the parameters (if required) for the clustering algorithm.\r\nSeparate your " +
         "parameters with commas.\r\nUse the button to the right to open up the parameter ed" +
         "itor.");
@@ -516,7 +516,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label7.Margin = new System.Windows.Forms.Padding(8);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(14, 21);
-            this.label7.TabIndex = 4;
+            this.label7.TabIndex = 9;
             this.label7.Text = " ";
             // 
             // _lblPeaks
@@ -526,7 +526,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lblPeaks.Margin = new System.Windows.Forms.Padding(8);
             this._lblPeaks.Name = "_lblPeaks";
             this._lblPeaks.Size = new System.Drawing.Size(50, 21);
-            this._lblPeaks.TabIndex = 2;
+            this._lblPeaks.TabIndex = 10;
             this._lblPeaks.Text = "Peaks";
             this.toolTip1.SetToolTip(this._lblPeaks, "Select the filter to generate the set of peaks you\'d like to cluster.\r\nSelect the" +
         " button to the right to add or edit peak filters.");
@@ -538,7 +538,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnPeakFilter.Margin = new System.Windows.Forms.Padding(8);
             this._btnPeakFilter.Name = "_btnPeakFilter";
             this._btnPeakFilter.Size = new System.Drawing.Size(29, 29);
-            this._btnPeakFilter.TabIndex = 16;
+            this._btnPeakFilter.TabIndex = 12;
             this.toolTip1.SetToolTip(this._btnPeakFilter, "Select the filter to generate the set of peaks you\'d like to cluster.\r\nSelect the" +
         " button to the right to add or edit peak filters.");
             this._btnPeakFilter.UseDefaultSize = true;
@@ -551,7 +551,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label3.Margin = new System.Windows.Forms.Padding(8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(14, 21);
-            this.label3.TabIndex = 4;
+            this.label3.TabIndex = 21;
             this.label3.Text = " ";
             // 
             // _lstObsFilter
@@ -562,7 +562,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstObsFilter.Margin = new System.Windows.Forms.Padding(8);
             this._lstObsFilter.Name = "_lstObsFilter";
             this._lstObsFilter.Size = new System.Drawing.Size(786, 29);
-            this._lstObsFilter.TabIndex = 1;
+            this._lstObsFilter.TabIndex = 27;
             this.toolTip1.SetToolTip(this._lstObsFilter, "Select the set of observations (or conditions for a trend) to enter into the clus" +
         "tering vectors.\r\nUse the button to the right to add or edit the sets of observat" +
         "ions.");
@@ -577,7 +577,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstPeakFilter.Margin = new System.Windows.Forms.Padding(8);
             this._lstPeakFilter.Name = "_lstPeakFilter";
             this._lstPeakFilter.Size = new System.Drawing.Size(789, 29);
-            this._lstPeakFilter.TabIndex = 1;
+            this._lstPeakFilter.TabIndex = 11;
             this.toolTip1.SetToolTip(this._lstPeakFilter, "Select the filter to generate the set of peaks you\'d like to cluster.\r\nSelect the" +
         " button to the right to add or edit peak filters.");
             this._lstPeakFilter.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
@@ -589,7 +589,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnNewDistance.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewDistance.Name = "_btnNewDistance";
             this._btnNewDistance.Size = new System.Drawing.Size(29, 29);
-            this._btnNewDistance.TabIndex = 16;
+            this._btnNewDistance.TabIndex = 14;
             this.toolTip1.SetToolTip(this._btnNewDistance, "Select the distance metric algorithm.\r\nUse the button to the right to add or edit" +
         " the distance metric algorithms.");
             this._btnNewDistance.UseDefaultSize = true;
@@ -602,7 +602,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnEditDistanceParameters.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditDistanceParameters.Name = "_btnEditDistanceParameters";
             this._btnEditDistanceParameters.Size = new System.Drawing.Size(29, 29);
-            this._btnEditDistanceParameters.TabIndex = 16;
+            this._btnEditDistanceParameters.TabIndex = 17;
             this.toolTip1.SetToolTip(this._btnEditDistanceParameters, "Select the parameters for the distance metric (if required).\r\nSeparate your param" +
         "eters with commas.\r\nUse the button to the right to open the parameter editor.");
             this._btnEditDistanceParameters.UseDefaultSize = true;
@@ -616,7 +616,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lblMeasure2.Margin = new System.Windows.Forms.Padding(8);
             this._lblMeasure2.Name = "_lblMeasure2";
             this._lblMeasure2.Size = new System.Drawing.Size(69, 21);
-            this._lblMeasure2.TabIndex = 2;
+            this._lblMeasure2.TabIndex = 13;
             this._lblMeasure2.Text = "Distance";
             this.toolTip1.SetToolTip(this._lblMeasure2, "Select the distance metric algorithm.\r\nUse the button to the right to add or edit" +
         " the distance metric algorithms.");
@@ -628,7 +628,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lblMeasureParams.Margin = new System.Windows.Forms.Padding(8);
             this._lblMeasureParams.Name = "_lblMeasureParams";
             this._lblMeasureParams.Size = new System.Drawing.Size(83, 21);
-            this._lblMeasureParams.TabIndex = 0;
+            this._lblMeasureParams.TabIndex = 15;
             this._lblMeasureParams.Text = "Where k =";
             this.toolTip1.SetToolTip(this._lblMeasureParams, "Select the parameters for the distance metric (if required).\r\nSeparate your param" +
         "eters with commas.\r\nUse the button to the right to open the parameter editor.");
@@ -640,7 +640,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lblParams.Margin = new System.Windows.Forms.Padding(8);
             this._lblParams.Name = "_lblParams";
             this._lblParams.Size = new System.Drawing.Size(83, 21);
-            this._lblParams.TabIndex = 0;
+            this._lblParams.TabIndex = 6;
             this._lblParams.Text = "Where k =";
             this.toolTip1.SetToolTip(this._lblParams, "Select the parameters (if required) for the clustering algorithm.\r\nUse the button" +
         " to the right to open up the parameter editor.");
@@ -653,7 +653,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtStatistics.Margin = new System.Windows.Forms.Padding(8);
             this._txtStatistics.Name = "_txtStatistics";
             this._txtStatistics.Size = new System.Drawing.Size(789, 29);
-            this._txtStatistics.TabIndex = 6;
+            this._txtStatistics.TabIndex = 19;
             this.toolTip1.SetToolTip(this._txtStatistics, "Select the set of statistics to generate on the clusters.\r\nEnter the values as a " +
         "comma delimited list.\r\nUse the button to the right to show the list editor.");
             this._txtStatistics.Watermark = null;
@@ -666,7 +666,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnSetStatistics.Margin = new System.Windows.Forms.Padding(8);
             this._btnSetStatistics.Name = "_btnSetStatistics";
             this._btnSetStatistics.Size = new System.Drawing.Size(29, 29);
-            this._btnSetStatistics.TabIndex = 16;
+            this._btnSetStatistics.TabIndex = 20;
             this.toolTip1.SetToolTip(this._btnSetStatistics, "Select the set of statistics to generate on the clusters.\r\nEnter the values as a " +
         "comma delimited list.\r\nUse the button to the right to show the list editor.");
             this._btnSetStatistics.UseDefaultSize = true;
@@ -679,7 +679,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label2.Margin = new System.Windows.Forms.Padding(8);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 21);
-            this.label2.TabIndex = 0;
+            this.label2.TabIndex = 18;
             this.label2.Text = "Statistics";
             this.toolTip1.SetToolTip(this.label2, "Select the set of statistics to generate on the clusters.\r\nEnter the values as a " +
         "comma delimited list.\r\nUse the button to the right to show the list editor.");
@@ -691,10 +691,21 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnExperimentalGroups.Margin = new System.Windows.Forms.Padding(8);
             this._btnExperimentalGroups.Name = "_btnExperimentalGroups";
             this._btnExperimentalGroups.Size = new System.Drawing.Size(29, 29);
-            this._btnExperimentalGroups.TabIndex = 34;
+            this._btnExperimentalGroups.TabIndex = 30;
             this._btnExperimentalGroups.UseDefaultSize = true;
             this._btnExperimentalGroups.UseVisualStyleBackColor = true;
             this._btnExperimentalGroups.Click += new System.EventHandler(this._btnExperimentalGroups_Click);
+            // 
+            // _lstSource
+            // 
+            this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstSource.FormattingEnabled = true;
+            this._lstSource.Location = new System.Drawing.Point(126, 397);
+            this._lstSource.Margin = new System.Windows.Forms.Padding(8);
+            this._lstSource.Name = "_lstSource";
+            this._lstSource.Size = new System.Drawing.Size(786, 29);
+            this._lstSource.TabIndex = 23;
+            this._lstSource.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // toolTip1
             // 
@@ -717,17 +728,6 @@ namespace MetaboliteLevels.Forms.Editing
             this.ctlTitleBar1.Text = "Text goes here";
             this.toolTip1.SetToolTip(this.ctlTitleBar1, "Click the ? button for more help.");
             this.ctlTitleBar1.WarningText = null;
-            // 
-            // _lstSource
-            // 
-            this._lstSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstSource.FormattingEnabled = true;
-            this._lstSource.Location = new System.Drawing.Point(126, 397);
-            this._lstSource.Margin = new System.Windows.Forms.Padding(8);
-            this._lstSource.Name = "_lstSource";
-            this._lstSource.Size = new System.Drawing.Size(786, 29);
-            this._lstSource.TabIndex = 1;
-            this._lstSource.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // FrmEditConfigurationCluster
             // 

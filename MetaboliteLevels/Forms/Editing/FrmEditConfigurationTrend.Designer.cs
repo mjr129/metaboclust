@@ -101,7 +101,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnNewStatistic.Margin = new System.Windows.Forms.Padding(8);
             this._btnNewStatistic.Name = "_btnNewStatistic";
             this._btnNewStatistic.Size = new System.Drawing.Size(29, 29);
-            this._btnNewStatistic.TabIndex = 16;
+            this._btnNewStatistic.TabIndex = 8;
             this.toolTip1.SetToolTip(this._btnNewStatistic, "New");
             this._btnNewStatistic.UseDefaultSize = true;
             this._btnNewStatistic.UseVisualStyleBackColor = true;
@@ -113,7 +113,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnComment.Margin = new System.Windows.Forms.Padding(8);
             this._btnComment.Name = "_btnComment";
             this._btnComment.Size = new System.Drawing.Size(29, 29);
-            this._btnComment.TabIndex = 16;
+            this._btnComment.TabIndex = 2;
             this.toolTip1.SetToolTip(this._btnComment, "Comments");
             this._btnComment.UseDefaultSize = true;
             this._btnComment.UseVisualStyleBackColor = true;
@@ -127,7 +127,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.ctlButton1.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.ctlButton1.Name = "ctlButton1";
             this.ctlButton1.Size = new System.Drawing.Size(29, 29);
-            this.ctlButton1.TabIndex = 2;
+            this.ctlButton1.TabIndex = 0;
             this.ctlButton1.Text = null;
             this.toolTip1.SetToolTip(this.ctlButton1, "Select preview peak");
             this.ctlButton1.UseDefaultSize = true;
@@ -142,7 +142,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.ctlButton2.Margin = new System.Windows.Forms.Padding(0);
             this.ctlButton2.Name = "ctlButton2";
             this.ctlButton2.Size = new System.Drawing.Size(29, 29);
-            this.ctlButton2.TabIndex = 2;
+            this.ctlButton2.TabIndex = 1;
             this.ctlButton2.Text = null;
             this.toolTip1.SetToolTip(this.ctlButton2, "Previous peak");
             this.ctlButton2.UseDefaultSize = true;
@@ -173,7 +173,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnCancel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(128, 40);
-            this._btnCancel.TabIndex = 19;
+            this._btnCancel.TabIndex = 1;
             this._btnCancel.Text = "Cancel";
             this._btnCancel.UseDefaultSize = true;
             this._btnCancel.UseVisualStyleBackColor = true;
@@ -188,7 +188,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnOk.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this._btnOk.Name = "_btnOk";
             this._btnOk.Size = new System.Drawing.Size(128, 40);
-            this._btnOk.TabIndex = 18;
+            this._btnOk.TabIndex = 0;
             this._btnOk.Text = "OK";
             this._btnOk.UseDefaultSize = true;
             this._btnOk.UseVisualStyleBackColor = true;
@@ -215,7 +215,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label1.Margin = new System.Windows.Forms.Padding(8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 21);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 6;
             this.label1.Text = "Method";
             // 
             // _lstMethod
@@ -228,7 +228,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstMethod.Margin = new System.Windows.Forms.Padding(8);
             this._lstMethod.Name = "_lstMethod";
             this._lstMethod.Size = new System.Drawing.Size(921, 29);
-            this._lstMethod.TabIndex = 1;
+            this._lstMethod.TabIndex = 7;
             this._lstMethod.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // label4
@@ -250,7 +250,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtName.Margin = new System.Windows.Forms.Padding(8);
             this._txtName.Name = "_txtName";
             this._txtName.Size = new System.Drawing.Size(921, 29);
-            this._txtName.TabIndex = 6;
+            this._txtName.TabIndex = 1;
             this._txtName.Watermark = null;
             this._txtName.TextChanged += new System.EventHandler(this.Check);
             // 
@@ -299,7 +299,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnEditParameters.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditParameters.Name = "_btnEditParameters";
             this._btnEditParameters.Size = new System.Drawing.Size(29, 29);
-            this._btnEditParameters.TabIndex = 16;
+            this._btnEditParameters.TabIndex = 11;
             this._btnEditParameters.UseDefaultSize = true;
             this._btnEditParameters.UseVisualStyleBackColor = true;
             this._btnEditParameters.Click += new System.EventHandler(this._btnEditParameters_Click);
@@ -311,7 +311,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label16.Margin = new System.Windows.Forms.Padding(8);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(14, 21);
-            this.label16.TabIndex = 4;
+            this.label16.TabIndex = 12;
             this.label16.Text = " ";
             // 
             // _lblParams
@@ -321,7 +321,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lblParams.Margin = new System.Windows.Forms.Padding(8);
             this._lblParams.Name = "_lblParams";
             this._lblParams.Size = new System.Drawing.Size(46, 21);
-            this._lblParams.TabIndex = 0;
+            this._lblParams.TabIndex = 9;
             this._lblParams.Text = "####";
             // 
             // _txtParams
@@ -332,7 +332,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._txtParams.Margin = new System.Windows.Forms.Padding(8);
             this._txtParams.Name = "_txtParams";
             this._txtParams.Size = new System.Drawing.Size(859, 29);
-            this._txtParams.TabIndex = 6;
+            this._txtParams.TabIndex = 10;
             this._txtParams.Watermark = null;
             this._txtParams.TextChanged += new System.EventHandler(this.CheckAndChange);
             // 
@@ -343,7 +343,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label2.Margin = new System.Windows.Forms.Padding(8);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 21);
-            this.label2.TabIndex = 4;
+            this.label2.TabIndex = 13;
             this.label2.Text = " ";
             // 
             // _tlpPreview
@@ -409,7 +409,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1046, 385);
-            this.panel1.TabIndex = 20;
+            this.panel1.TabIndex = 0;
             // 
             // _lnkError
             // 
@@ -419,7 +419,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lnkError.Location = new System.Drawing.Point(3, 418);
             this._lnkError.Name = "_lnkError";
             this._lnkError.Size = new System.Drawing.Size(487, 21);
-            this._lnkError.TabIndex = 21;
+            this._lnkError.TabIndex = 1;
             this._lnkError.TabStop = true;
             this._lnkError.Text = "An error occured whilst generating the preview. Click here for details.";
             this._lnkError.Visible = false;
@@ -432,7 +432,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label3.Margin = new System.Windows.Forms.Padding(8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 21);
-            this.label3.TabIndex = 0;
+            this.label3.TabIndex = 3;
             this.label3.Text = "Source";
             // 
             // _lstSource
@@ -446,7 +446,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstSource.Margin = new System.Windows.Forms.Padding(8);
             this._lstSource.Name = "_lstSource";
             this._lstSource.Size = new System.Drawing.Size(921, 29);
-            this._lstSource.TabIndex = 1;
+            this._lstSource.TabIndex = 4;
             this._lstSource.SelectedIndexChanged += new System.EventHandler(this.CheckAndChange);
             // 
             // _btnSource
@@ -456,7 +456,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnSource.Margin = new System.Windows.Forms.Padding(8);
             this._btnSource.Name = "_btnSource";
             this._btnSource.Size = new System.Drawing.Size(29, 29);
-            this._btnSource.TabIndex = 16;
+            this._btnSource.TabIndex = 5;
             this._btnSource.UseDefaultSize = true;
             this._btnSource.UseVisualStyleBackColor = true;
             // 

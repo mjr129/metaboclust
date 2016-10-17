@@ -755,7 +755,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LOESS.r" />
     <None Include="Resources\MnuNew.png" />
     <None Include="Resources\scripts~clusterers~k-means %28Hartigan-Wong algorithm%29.r" />
     <None Include="Resources\scripts~empty file.r" />
@@ -822,9 +821,6 @@
     <None Include="Resources\IconCompound.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IconCompoundWithAnnotation.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\IconCore.png" />
   </ItemGroup>
   <ItemGroup>
@@ -856,9 +852,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\IconPeak.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\IconPeakWithAnnotation.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\IconPoint.png" />
@@ -915,9 +908,6 @@
     <None Include="Resources\ListIconCompound.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ListIconCompoundWithAnnotation.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\ListIconFilter.png" />
   </ItemGroup>
   <ItemGroup>
@@ -931,9 +921,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ListIconPeak.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ListIconPeakWithAnnotation.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ListIconSortDown.png" />
@@ -1129,6 +1116,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\ListIconResultCorrection.png" />
+    <None Include="Resources\ListIconResultCluster.png" />
+    <None Include="Resources\ListIconResultShortcut.png" />
+    <None Include="Resources\ListIconResultOriginal.png" />
+    <None Include="Resources\ListIconResultVector.png" />
+    <None Include="Resources\ListIconResultTrend.png" />
+    <None Include="Resources\ListIconResultPending.png" />
+    <None Include="Resources\ListIconResultMatrix.png" />
+    <None Include="Resources\ClusterTogether.png" />
+    <None Include="Resources\ClusterIndividually.png" />
     <None Include="Resources\ListIconFlag.png" />
     <None Include="Resources\Separator.png" />
     <None Include="Resources\IconInputError.png" />

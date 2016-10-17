@@ -31,6 +31,6 @@ namespace MetaboliteLevels.Data.Session.Associational
         public IntensityMatrix Provide => _intentisyMatrix;
         public override string DefaultDisplayName => Path.GetFileName( _fileName );
 
-        public override Image Icon => Resources.ListIconTestFull;     
+        public override Image Icon => Resources.ListIconResultOriginal;
     }
 }

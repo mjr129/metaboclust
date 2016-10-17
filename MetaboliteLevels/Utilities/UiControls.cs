@@ -536,30 +536,27 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Shows a form, dimming the form behind it.
         /// </summary>                               
-        public static DialogResult ShowWithDim(Form owner, dynamic form)
-        {
-#if ENABLE_DIMMER
-            if (!owner.Visible)
+        public static DialogResult ShowWithDim( IWin32Window owner, dynamic form)
+        {            
+            Form ownerAsForm=owner as Form;
+              
+            if (ownerAsForm==null || !ownerAsForm.Visible)
             {
                 return form.ShowDialog(owner);
             }
 
             DialogResult result;
 
-            using (var dimmer = CreateDimmer(owner))
+            using (Form dimmer = CreateDimmer( ownerAsForm ))
             {
                 result = form.ShowDialog(dimmer);
             }
 
-            owner.Focus();
+            ownerAsForm.Focus();
 
             return result;
-#else
-            return form.ShowDialog(owner);
-#endif
         }
-
-#if ENABLE_DIMMER
+                      
         /// <summary>
         /// Creates the overlay that dims a form.
         /// </summary>  
@@ -581,8 +578,7 @@ namespace MetaboliteLevels.Utilities
             dimmer.Show(owner);
 
             return dimmer;
-        }
-#endif
+        }      
 
         /// <summary>
         /// Makes the form read-only by disabling text-boxes, etc.
@@ -697,9 +693,7 @@ namespace MetaboliteLevels.Utilities
                 case EImageListOrder.ListIconPeakConfirmed       : return Resources.ListIconPeakConfirmed;
                 case EImageListOrder.IconLine            : return Resources.IconLine;                     
                 case EImageListOrder.ListIconVector      : return Resources.ListIconVector;
-                case EImageListOrder.MnuWarning         : return Resources.MnuWarning;
-                case EImageListOrder.ListIconTestFull        : return Resources.ListIconTestFull;
-                case EImageListOrder.ListIconTestEmpty       : return Resources.ListIconTestEmpty;
+                case EImageListOrder.MnuWarning         : return Resources.MnuWarning;                  
                 case EImageListOrder.MnuFilter          : return Resources.MnuFilter;
                 case EImageListOrder.ListIconStatistics       : return Resources.ListIconStatistics;
                 case EImageListOrder.IconPoint           : return Resources.IconPoint;                    
@@ -710,7 +704,7 @@ namespace MetaboliteLevels.Utilities
                 case EImageListOrder.IconBinary   : return Resources.IconBinary;
                 case EImageListOrder.IconR      : return Resources.IconR;         
                 case EImageListOrder.MnuGroup           : return Resources.MnuGroup;
-                case EImageListOrder.IconMatrix          : return Resources.IconMatrix;
+                case EImageListOrder.IconMatrix          : return Resources.ListIconResultMatrix;
                 case EImageListOrder.IconUnknown         : return Resources.IconUnknown;
                 case EImageListOrder.MnuCancel           : return Resources.MnuCancel;
                 case EImageListOrder.IconObservation     : return Resources.IconObservation;
@@ -743,9 +737,7 @@ namespace MetaboliteLevels.Utilities
             ListIconPeakConfirmed,
             IconLine,
             ListIconVector,
-            MnuWarning,
-            ListIconTestFull,
-            ListIconTestEmpty,
+            MnuWarning,       
             MnuFilter,
             ListIconStatistics,
             IconPoint,

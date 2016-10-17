@@ -71,6 +71,26 @@ namespace MetaboliteLevels.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ClusterIndividually {
+            get {
+                object obj = ResourceManager.GetObject("ClusterIndividually", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ClusterTogether {
+            get {
+                object obj = ResourceManager.GetObject("ClusterTogether", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon ErrorSignifier {
@@ -306,16 +326,6 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap IconMathNet {
             get {
                 object obj = ResourceManager.GetObject("IconMathNet", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap IconMatrix {
-            get {
-                object obj = ResourceManager.GetObject("IconMatrix", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -733,6 +743,86 @@ namespace MetaboliteLevels.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ListIconResultCluster {
+            get {
+                object obj = ResourceManager.GetObject("ListIconResultCluster", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListIconResultCorrection {
+            get {
+                object obj = ResourceManager.GetObject("ListIconResultCorrection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListIconResultMatrix {
+            get {
+                object obj = ResourceManager.GetObject("ListIconResultMatrix", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListIconResultOriginal {
+            get {
+                object obj = ResourceManager.GetObject("ListIconResultOriginal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListIconResultPending {
+            get {
+                object obj = ResourceManager.GetObject("ListIconResultPending", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListIconResultShortcut {
+            get {
+                object obj = ResourceManager.GetObject("ListIconResultShortcut", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListIconResultTrend {
+            get {
+                object obj = ResourceManager.GetObject("ListIconResultTrend", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ListIconResultVector {
+            get {
+                object obj = ResourceManager.GetObject("ListIconResultVector", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ListIconSortDown {
             get {
                 object obj = ResourceManager.GetObject("ListIconSortDown", resourceCulture);
@@ -756,26 +846,6 @@ namespace MetaboliteLevels.Properties {
         internal static System.Drawing.Bitmap ListIconStatistics {
             get {
                 object obj = ResourceManager.GetObject("ListIconStatistics", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ListIconTestEmpty {
-            get {
-                object obj = ResourceManager.GetObject("ListIconTestEmpty", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ListIconTestFull {
-            get {
-                object obj = ResourceManager.GetObject("ListIconTestFull", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

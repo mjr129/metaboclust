@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
@@ -14,8 +15,9 @@ namespace MetaboliteLevels.Data.Session.General
 {
     interface IAssociation
     {
-        ContentsRequest OriginalRequest { get; }
-        object Associated { get; }
+        [NotNull] ContentsRequest OriginalRequest { get; }
+
+        [NotNull] object Associated { get; }
     }
 
     /// <summary>
@@ -28,14 +30,19 @@ namespace MetaboliteLevels.Data.Session.General
     /// </summary>
     internal sealed class Association<T> : IColumnProvider, IIconProvider, IAssociation
     {
-        public ContentsRequest OriginalRequest { get; }
-                                                                            
-        public T Associated { get; }
+        [NotNull] public ContentsRequest OriginalRequest { get; }
+                        
+        [NotNull] public T Associated { get; }
 
-        private readonly object[] _extraColumnValues;    
+        private readonly object[] _extraColumnValues;
 
-        public Association( ContentsRequest source, T target, object[] extraColumnValues )
+        public Association( [NotNull] ContentsRequest source, [NotNull] T target, object[] extraColumnValues )
         {
+            if (target == null)
+            {
+                throw new ArgumentNullException( "target" );
+            }
+
             if (source == null)
             {
                 throw new ArgumentNullException( "source" );
@@ -70,5 +77,10 @@ namespace MetaboliteLevels.Data.Session.General
         public Image Icon { get; private set; }
 
         object IAssociation.Associated => Associated;
+
+        public override string ToString()
+        {
+            return Associated.ToString();
+        }
     }
 }

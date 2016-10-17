@@ -74,12 +74,12 @@ namespace MetaboliteLevels.Data.Evaluation
             this._guid = Guid.NewGuid();
             this.NumberOfRepeats = numberOfRepeats;
             this.ParameterName = clustererConfiguration.GetAlgorithmOrThrow().Parameters[ParameterIndex].Name;
-        }        
+        }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>           
-        public override Image Icon => Resources.ListIconTestEmpty;  
+        public override Image Icon => Resources.ListIconResultCluster;
 
         /// <summary>
         /// The parameter configuation as a string.

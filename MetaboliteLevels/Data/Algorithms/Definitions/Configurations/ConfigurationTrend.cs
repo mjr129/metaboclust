@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -18,7 +20,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
     /// </summary>
     [Name("Trend configuration")]
     [Serializable]
-    sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend, SourceTracker>, IMatrixProvider
+    internal sealed class ConfigurationTrend : ConfigurationBase<TrendBase, ArgsTrend, ResultTrend, SourceTracker>, IMatrixProvider
     {        
         public Vector CreateTrend( Core core, Vector vector )
         {
@@ -59,5 +61,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 
             SetResults( new ResultTrend( result ) );
         }
+
+        protected override Image ResultIcon => Resources.ListIconResultTrend;
     }
 }

@@ -63,7 +63,7 @@ namespace MetaboliteLevels.Data.Evaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override Image Icon => Resources.ListIconTestFull;
+        public override Image Icon => Resources.ListIconResultVector;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable

@@ -292,14 +292,16 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
                 }
                 else if (HasResults)
                 {
-                    return Resources.ListIconTestFull;
+                    return ResultIcon;
                 }
                 else
                 {
-                    return Resources.ListIconTestEmpty;
+                    return Resources.ListIconResultPending;
                 }
             }
         }
+
+        protected abstract Image ResultIcon { get; }
 
         public override void GetXColumns( ColumnCollection list, Core core )
         {

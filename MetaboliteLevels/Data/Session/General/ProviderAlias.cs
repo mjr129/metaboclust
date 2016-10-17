@@ -80,6 +80,6 @@ namespace MetaboliteLevels.Data.Session.General
         [XColumn("Current target", EColumn.Visible)]
         public override string DefaultDisplayName => Target?.ToString() ?? "Unavailable".ToBold();
 
-        public override Image Icon => Resources.IconMatrix;
+        public override Image Icon => Resources.ListIconResultShortcut;
     }
 }

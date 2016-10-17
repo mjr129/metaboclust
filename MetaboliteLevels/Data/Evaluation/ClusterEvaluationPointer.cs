@@ -88,11 +88,11 @@ namespace MetaboliteLevels.Data.Evaluation
             {
                 if (this.HasResults)
                 {
-                    return Resources.ListIconTestFull;
+                    return Resources.ListIconResultVector;
                 }
                 else
                 {
-                    return Resources.ListIconTestEmpty;
+                    return Resources.ListIconResultPending;
                 }
             }
         } 

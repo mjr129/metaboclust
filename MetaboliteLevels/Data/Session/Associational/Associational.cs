@@ -124,6 +124,11 @@ namespace MetaboliteLevels.Data.Session.Associational
                 result.Add( "Field", EColumn.Visible, z => z.Field, z => z.ColumnColour );
                 result.Add( "Value", EColumn.Visible, z => z.Value, z => z.Colour );
             }
+
+            public override string ToString()
+            {
+                return Field + " = " + Column.AsString( Value );
+            }
         }    
 
         /// <summary>

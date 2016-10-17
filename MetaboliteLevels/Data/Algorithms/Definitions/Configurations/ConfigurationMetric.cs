@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
 using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
@@ -30,5 +32,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
         {
             throw new InvalidOperationException("Metrics serve as part of another algorithm and cannot be run alone.");
         }
+
+        protected override Image ResultIcon => Resources.ListIconResultVector;
     }
 }
