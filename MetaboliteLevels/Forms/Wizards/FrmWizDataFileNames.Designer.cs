@@ -48,127 +48,127 @@ namespace MetaboliteLevels.Forms.Wizards
             this._tipSideBar = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this._tabWelcome = new System.Windows.Forms.TabPage();
-            this.label15 = new MetaboliteLevels.Controls.CtlLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._imgPhotograph = new System.Windows.Forms.PictureBox();
             this._lbl32BitWarning = new System.Windows.Forms.Label();
-            this._btnMostRecent = new MetaboliteLevels.Controls.CtlButton();
-            this._btnNewSession = new MetaboliteLevels.Controls.CtlButton();
-            this._btnReturnToSession = new MetaboliteLevels.Controls.CtlButton();
-            this._btnReconfigure = new MetaboliteLevels.Controls.CtlButton();
             this._lblProgramDescription = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this._radRecentWorkspace = new System.Windows.Forms.RadioButton();
-            this.ctlLabel6 = new MetaboliteLevels.Controls.CtlLabel();
-            this.ctlLabel7 = new MetaboliteLevels.Controls.CtlLabel();
             this._radEmptyWorkspace = new System.Windows.Forms.RadioButton();
-            this._btnDeleteWorkspace = new MetaboliteLevels.Controls.CtlButton();
-            this._btnRecentWorkspace = new MetaboliteLevels.Controls.CtlButton();
             this._txtPreviousConfig = new System.Windows.Forms.TextBox();
             this._tabSessionName = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this._lblTitle = new MetaboliteLevels.Controls.CtlLabel();
             this._txtTitle = new MGui.Controls.CtlTextBox();
-            this.label2 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabSelectData = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this._btnCondInfo = new MetaboliteLevels.Controls.CtlButton();
             this._txtCondInfo = new MGui.Controls.CtlTextBox();
             this._lstLcmsMode = new System.Windows.Forms.ComboBox();
             this._chkCondInfo = new System.Windows.Forms.CheckBox();
-            this._lblLcmsMode = new MetaboliteLevels.Controls.CtlLabel();
-            this._btnDataSetVar = new MetaboliteLevels.Controls.CtlButton();
-            this._btnDataSetObs = new MetaboliteLevels.Controls.CtlButton();
-            this._btnDataSetData = new MetaboliteLevels.Controls.CtlButton();
             this._txtDataSetData = new MGui.Controls.CtlTextBox();
             this._txtDataSetObs = new MGui.Controls.CtlTextBox();
-            this._lblDataSetData = new MetaboliteLevels.Controls.CtlLabel();
-            this._lblDataSetObs = new MetaboliteLevels.Controls.CtlLabel();
-            this._lblDataSetVar = new MetaboliteLevels.Controls.CtlLabel();
             this._txtDataSetVar = new MGui.Controls.CtlTextBox();
             this._chkAltVals = new System.Windows.Forms.CheckBox();
             this._txtAltVals = new MGui.Controls.CtlTextBox();
-            this._btnAltVals = new MetaboliteLevels.Controls.CtlButton();
-            this.label7 = new MetaboliteLevels.Controls.CtlLabel();
-            this.label10 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabConditions = new System.Windows.Forms.TabPage();
             this._pnlConditions = new System.Windows.Forms.TableLayoutPanel();
             this._chkConditions = new System.Windows.Forms.CheckBox();
-            this.label5 = new MetaboliteLevels.Controls.CtlLabel();
-            this._lblConditions = new MetaboliteLevels.Controls.CtlLabel();
-            this._btnBrowseContCond = new MetaboliteLevels.Controls.CtlButton();
             this._txtControls = new MGui.Controls.CtlTextBox();
-            this._btnBrowseExpCond = new MetaboliteLevels.Controls.CtlButton();
             this._txtExps = new MGui.Controls.CtlTextBox();
-            this.label3 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabStatistics = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.label14 = new MetaboliteLevels.Controls.CtlLabel();
-            this.label4 = new MetaboliteLevels.Controls.CtlLabel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._chkAutoTTest = new System.Windows.Forms.CheckBox();
             this._lblTTUnavail = new System.Windows.Forms.Label();
             this._chkAutoPearson = new System.Windows.Forms.CheckBox();
             this._lblPearsonUnavail = new System.Windows.Forms.Label();
-            this.ctlLabel2 = new MetaboliteLevels.Controls.CtlLabel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this._chkAutoMeanTrend = new System.Windows.Forms.CheckBox();
             this._chkAutoMedianTrend = new System.Windows.Forms.CheckBox();
-            this.ctlLabel4 = new MetaboliteLevels.Controls.CtlLabel();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this._chkAutoUvSC = new System.Windows.Forms.CheckBox();
             this._tabCompounds = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnAddAdduct = new MetaboliteLevels.Controls.CtlButton();
-            this._btnBrowseAdducts = new MetaboliteLevels.Controls.CtlButton();
-            this._btnDelAdduct = new MetaboliteLevels.Controls.CtlButton();
-            this.label9 = new MetaboliteLevels.Controls.CtlLabel();
             this._lstAdducts = new System.Windows.Forms.ListBox();
             this._lstAvailableAdducts = new System.Windows.Forms.ListBox();
             this._lstCompounds = new System.Windows.Forms.ListBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnAddCompound = new MetaboliteLevels.Controls.CtlButton();
-            this._btnAddAllCompounds = new MetaboliteLevels.Controls.CtlButton();
-            this._btnAddCompoundLibrary = new MetaboliteLevels.Controls.CtlButton();
-            this._btnRemoveLibrary = new MetaboliteLevels.Controls.CtlButton();
             this._lstAvailCompounds = new System.Windows.Forms.ListBox();
-            this._lblAdducts = new MetaboliteLevels.Controls.CtlLabel();
-            this.label6 = new MetaboliteLevels.Controls.CtlLabel();
             this._tabAnnotations = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this._btnIdentifications = new MetaboliteLevels.Controls.CtlButton();
-            this.label11 = new MetaboliteLevels.Controls.CtlLabel();
             this._chkAutoIdentify = new System.Windows.Forms.CheckBox();
             this._chkPeakPeakMatch = new System.Windows.Forms.CheckBox();
             this._chkIdentifications = new System.Windows.Forms.CheckBox();
             this._lstTolerance = new System.Windows.Forms.ComboBox();
             this._lblPeakPeakMatchUnavail = new System.Windows.Forms.Label();
-            this._lblTolerance = new MetaboliteLevels.Controls.CtlLabel();
             this._numTolerance = new System.Windows.Forms.NumericUpDown();
             this._txtIdentifications = new MGui.Controls.CtlTextBox();
-            this.ctlLabel3 = new MetaboliteLevels.Controls.CtlLabel();
             this._manualFlag = new System.Windows.Forms.ComboBox();
-            this.ctlLabel5 = new MetaboliteLevels.Controls.CtlLabel();
             this._lblMzMatchUnavail = new System.Windows.Forms.Label();
-            this.ctlLabel1 = new MetaboliteLevels.Controls.CtlLabel();
             this._automaticFlag = new System.Windows.Forms.ComboBox();
             this._tabReady = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this._chkAlarm = new System.Windows.Forms.CheckBox();
-            this.label12 = new MetaboliteLevels.Controls.CtlLabel();
             this._txtHelp = new MGui.Controls.CtlTextBox();
             this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new MGui.Controls.CtlSplitter();
-            this._lblOrder = new MetaboliteLevels.Controls.CtlLabel();
             this._btnShowFf = new System.Windows.Forms.Button();
-            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._checker = new MGui.Controls.CtlError(this.components);
+            this.label15 = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnMostRecent = new MetaboliteLevels.Controls.CtlButton();
+            this._btnNewSession = new MetaboliteLevels.Controls.CtlButton();
+            this._btnReturnToSession = new MetaboliteLevels.Controls.CtlButton();
+            this._btnReconfigure = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlLabel6 = new MetaboliteLevels.Controls.CtlLabel();
+            this.ctlLabel7 = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnDeleteWorkspace = new MetaboliteLevels.Controls.CtlButton();
+            this._btnRecentWorkspace = new MetaboliteLevels.Controls.CtlButton();
+            this._lblTitle = new MetaboliteLevels.Controls.CtlLabel();
+            this.label2 = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnCondInfo = new MetaboliteLevels.Controls.CtlButton();
+            this._lblLcmsMode = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnDataSetVar = new MetaboliteLevels.Controls.CtlButton();
+            this._btnDataSetObs = new MetaboliteLevels.Controls.CtlButton();
+            this._btnDataSetData = new MetaboliteLevels.Controls.CtlButton();
+            this._lblDataSetData = new MetaboliteLevels.Controls.CtlLabel();
+            this._lblDataSetObs = new MetaboliteLevels.Controls.CtlLabel();
+            this._lblDataSetVar = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnAltVals = new MetaboliteLevels.Controls.CtlButton();
+            this.label7 = new MetaboliteLevels.Controls.CtlLabel();
+            this.label10 = new MetaboliteLevels.Controls.CtlLabel();
+            this.label5 = new MetaboliteLevels.Controls.CtlLabel();
+            this._lblConditions = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnBrowseContCond = new MetaboliteLevels.Controls.CtlButton();
+            this._btnBrowseExpCond = new MetaboliteLevels.Controls.CtlButton();
+            this.label3 = new MetaboliteLevels.Controls.CtlLabel();
+            this.label14 = new MetaboliteLevels.Controls.CtlLabel();
+            this.label4 = new MetaboliteLevels.Controls.CtlLabel();
+            this.ctlLabel2 = new MetaboliteLevels.Controls.CtlLabel();
+            this.ctlLabel4 = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnAddAdduct = new MetaboliteLevels.Controls.CtlButton();
+            this._btnBrowseAdducts = new MetaboliteLevels.Controls.CtlButton();
+            this._btnDelAdduct = new MetaboliteLevels.Controls.CtlButton();
+            this.label9 = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnAddCompound = new MetaboliteLevels.Controls.CtlButton();
+            this._btnAddAllCompounds = new MetaboliteLevels.Controls.CtlButton();
+            this._btnAddCompoundLibrary = new MetaboliteLevels.Controls.CtlButton();
+            this._btnRemoveLibrary = new MetaboliteLevels.Controls.CtlButton();
+            this._lblAdducts = new MetaboliteLevels.Controls.CtlLabel();
+            this.label6 = new MetaboliteLevels.Controls.CtlLabel();
+            this._btnIdentifications = new MetaboliteLevels.Controls.CtlButton();
+            this.label11 = new MetaboliteLevels.Controls.CtlLabel();
+            this._lblTolerance = new MetaboliteLevels.Controls.CtlLabel();
+            this.ctlLabel3 = new MetaboliteLevels.Controls.CtlLabel();
+            this.ctlLabel5 = new MetaboliteLevels.Controls.CtlLabel();
+            this.ctlLabel1 = new MetaboliteLevels.Controls.CtlLabel();
+            this.label12 = new MetaboliteLevels.Controls.CtlLabel();
+            this._lblOrder = new MetaboliteLevels.Controls.CtlLabel();
+            this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this._mnuDebug.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this._tabWelcome.SuspendLayout();
@@ -297,7 +297,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(669, 698);
-            this.tabControl1.TabIndex = 16;
+            this.tabControl1.TabIndex = 0;
             this._tipSideBar.SetToolTip(this.tabControl1, "*");
             // 
             // _tabWelcome
@@ -314,15 +314,6 @@ namespace MetaboliteLevels.Forms.Wizards
             this._tabWelcome.TabIndex = 5;
             this._tabWelcome.Text = "Welcome";
             this._tabWelcome.UseVisualStyleBackColor = true;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(536, 9);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(106, 21);
-            this.label15.TabIndex = 23;
-            this.label15.Text = "^^^[NOBAR]";
             // 
             // linkLabel1
             // 
@@ -415,85 +406,6 @@ namespace MetaboliteLevels.Forms.Wizards
     " optimisation 64 bit mode is recommended.";
             this._lbl32BitWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // _btnMostRecent
-            // 
-            this._btnMostRecent.BackColor = System.Drawing.Color.LightSteelBlue;
-            this._btnMostRecent.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnMostRecent.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
-            this._btnMostRecent.FlatAppearance.BorderSize = 8;
-            this._btnMostRecent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnMostRecent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnMostRecent.Image = ((System.Drawing.Image)(resources.GetObject("_btnMostRecent.Image")));
-            this._btnMostRecent.Location = new System.Drawing.Point(41, 230);
-            this._btnMostRecent.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
-            this._btnMostRecent.MaximumSize = new System.Drawing.Size(658, 672);
-            this._btnMostRecent.Name = "_btnMostRecent";
-            this._btnMostRecent.Size = new System.Drawing.Size(336, 74);
-            this._btnMostRecent.TabIndex = 3;
-            this._btnMostRecent.Text = "    Last file";
-            this._tipPopup.SetToolTip(this._btnMostRecent, "Load last used session");
-            this._btnMostRecent.UseVisualStyleBackColor = false;
-            this._btnMostRecent.Click += new System.EventHandler(this._btnMostRecent_Click);
-            // 
-            // _btnNewSession
-            // 
-            this._btnNewSession.BackColor = System.Drawing.Color.LightSteelBlue;
-            this._btnNewSession.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnNewSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
-            this._btnNewSession.FlatAppearance.BorderSize = 8;
-            this._btnNewSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnNewSession.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnNewSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnNewSession.Image")));
-            this._btnNewSession.Location = new System.Drawing.Point(41, 42);
-            this._btnNewSession.Margin = new System.Windows.Forms.Padding(41, 42, 10, 10);
-            this._btnNewSession.MaximumSize = new System.Drawing.Size(658, 672);
-            this._btnNewSession.Name = "_btnNewSession";
-            this._btnNewSession.Size = new System.Drawing.Size(336, 74);
-            this._btnNewSession.TabIndex = 1;
-            this._btnNewSession.Text = "    Create a new session";
-            this._tipPopup.SetToolTip(this._btnNewSession, "Show the new session creation wizard");
-            this._btnNewSession.UseVisualStyleBackColor = false;
-            this._btnNewSession.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // _btnReturnToSession
-            // 
-            this._btnReturnToSession.BackColor = System.Drawing.Color.LightSteelBlue;
-            this._btnReturnToSession.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnReturnToSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
-            this._btnReturnToSession.FlatAppearance.BorderSize = 8;
-            this._btnReturnToSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnReturnToSession.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnReturnToSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnReturnToSession.Image")));
-            this._btnReturnToSession.Location = new System.Drawing.Point(41, 136);
-            this._btnReturnToSession.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
-            this._btnReturnToSession.MaximumSize = new System.Drawing.Size(658, 672);
-            this._btnReturnToSession.Name = "_btnReturnToSession";
-            this._btnReturnToSession.Size = new System.Drawing.Size(336, 74);
-            this._btnReturnToSession.TabIndex = 2;
-            this._btnReturnToSession.Text = "    Return to an existing session";
-            this._tipPopup.SetToolTip(this._btnReturnToSession, "Show list of recent session or open the file browser to select a session from dis" +
-        "k");
-            this._btnReturnToSession.UseVisualStyleBackColor = false;
-            this._btnReturnToSession.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // _btnReconfigure
-            // 
-            this._btnReconfigure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._btnReconfigure.AutoSize = true;
-            this._btnReconfigure.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._btnReconfigure.FlatAppearance.BorderSize = 0;
-            this._btnReconfigure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnReconfigure.ForeColor = System.Drawing.Color.Silver;
-            this._btnReconfigure.Image = ((System.Drawing.Image)(resources.GetObject("_btnReconfigure.Image")));
-            this._btnReconfigure.Location = new System.Drawing.Point(557, 604);
-            this._btnReconfigure.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
-            this._btnReconfigure.MaximumSize = new System.Drawing.Size(658, 672);
-            this._btnReconfigure.Name = "_btnReconfigure";
-            this._btnReconfigure.Size = new System.Drawing.Size(38, 38);
-            this._btnReconfigure.TabIndex = 0;
-            this._tipPopup.SetToolTip(this._btnReconfigure, "Show settings menu");
-            this._btnReconfigure.Click += new System.EventHandler(this._btnReconfigure_Click);
-            // 
             // _lblProgramDescription
             // 
             this._lblProgramDescription.Dock = System.Windows.Forms.DockStyle.Top;
@@ -511,7 +423,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.tabPage1.Controls.Add(this.tableLayoutPanel8);
             this.tabPage1.Location = new System.Drawing.Point(4, 4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(642, 690);
+            this.tabPage1.Size = new System.Drawing.Size(605, 690);
             this.tabPage1.TabIndex = 9;
             this.tabPage1.Text = "Template";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -543,7 +455,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(642, 690);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(605, 690);
             this.tableLayoutPanel8.TabIndex = 1;
             this._tipSideBar.SetToolTip(this.tableLayoutPanel8, "*");
             // 
@@ -556,38 +468,13 @@ namespace MetaboliteLevels.Forms.Wizards
             this._radRecentWorkspace.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._radRecentWorkspace.Name = "_radRecentWorkspace";
             this._radRecentWorkspace.Size = new System.Drawing.Size(185, 25);
-            this._radRecentWorkspace.TabIndex = 21;
+            this._radRecentWorkspace.TabIndex = 3;
             this._radRecentWorkspace.TabStop = true;
             this._radRecentWorkspace.Text = "Previous configuration";
             this._tipSideBar.SetToolTip(this._radRecentWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             this._radRecentWorkspace.UseVisualStyleBackColor = true;
             this._radRecentWorkspace.CheckedChanged += new System.EventHandler(this._radRecentWorkspace_CheckedChanged);
             this._radRecentWorkspace.Click += new System.EventHandler(this.radioButton2_Click);
-            // 
-            // ctlLabel6
-            // 
-            this.ctlLabel6.AutoSize = true;
-            this.tableLayoutPanel8.SetColumnSpan(this.ctlLabel6, 3);
-            this.ctlLabel6.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
-            this.ctlLabel6.Location = new System.Drawing.Point(20, 23);
-            this.ctlLabel6.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this.ctlLabel6.Name = "ctlLabel6";
-            this.ctlLabel6.Size = new System.Drawing.Size(524, 21);
-            this.ctlLabel6.TabIndex = 13;
-            this.ctlLabel6.Text = "^^Start with a blank configuration or use a previous session as a template";
-            this._tipSideBar.SetToolTip(this.ctlLabel6, global::MetaboliteLevels.Resx.Manual.RecentSessions);
-            // 
-            // ctlLabel7
-            // 
-            this.ctlLabel7.AutoSize = true;
-            this.tableLayoutPanel8.SetColumnSpan(this.ctlLabel7, 3);
-            this.ctlLabel7.Location = new System.Drawing.Point(20, 58);
-            this.ctlLabel7.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this.ctlLabel7.Name = "ctlLabel7";
-            this.ctlLabel7.Size = new System.Drawing.Size(74, 21);
-            this.ctlLabel7.TabIndex = 13;
-            this.ctlLabel7.Text = "Template";
-            this._tipSideBar.SetToolTip(this.ctlLabel7, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             // 
             // _radEmptyWorkspace
             // 
@@ -598,40 +485,12 @@ namespace MetaboliteLevels.Forms.Wizards
             this._radEmptyWorkspace.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._radEmptyWorkspace.Name = "_radEmptyWorkspace";
             this._radEmptyWorkspace.Size = new System.Drawing.Size(131, 25);
-            this._radEmptyWorkspace.TabIndex = 20;
+            this._radEmptyWorkspace.TabIndex = 2;
             this._radEmptyWorkspace.TabStop = true;
             this._radEmptyWorkspace.Text = "Blank template";
             this._tipSideBar.SetToolTip(this._radEmptyWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             this._radEmptyWorkspace.UseVisualStyleBackColor = true;
             this._radEmptyWorkspace.Click += new System.EventHandler(this.radioButton1_CheckedChanged);
-            // 
-            // _btnDeleteWorkspace
-            // 
-            this._btnDeleteWorkspace.Image = global::MetaboliteLevels.Properties.Resources.MnuDeleteWorkspace;
-            this._btnDeleteWorkspace.Location = new System.Drawing.Point(589, 176);
-            this._btnDeleteWorkspace.Margin = new System.Windows.Forms.Padding(8);
-            this._btnDeleteWorkspace.Name = "_btnDeleteWorkspace";
-            this._btnDeleteWorkspace.Size = new System.Drawing.Size(29, 29);
-            this._btnDeleteWorkspace.TabIndex = 2;
-            this._btnDeleteWorkspace.Text = "";
-            this._tipSideBar.SetToolTip(this._btnDeleteWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
-            this._tipPopup.SetToolTip(this._btnDeleteWorkspace, "Removes a previous configuration from the session history");
-            this._btnDeleteWorkspace.UseDefaultSize = true;
-            this._btnDeleteWorkspace.UseVisualStyleBackColor = true;
-            this._btnDeleteWorkspace.Click += new System.EventHandler(this.ctlButton3_Click_1);
-            // 
-            // _btnRecentWorkspace
-            // 
-            this._btnRecentWorkspace.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnRecentWorkspace.Location = new System.Drawing.Point(545, 176);
-            this._btnRecentWorkspace.Margin = new System.Windows.Forms.Padding(8);
-            this._btnRecentWorkspace.Name = "_btnRecentWorkspace";
-            this._btnRecentWorkspace.Size = new System.Drawing.Size(28, 29);
-            this._btnRecentWorkspace.TabIndex = 22;
-            this._tipSideBar.SetToolTip(this._btnRecentWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
-            this._tipPopup.SetToolTip(this._btnRecentWorkspace, "Show drop down menu");
-            this._btnRecentWorkspace.UseVisualStyleBackColor = true;
-            this._btnRecentWorkspace.Click += new System.EventHandler(this.radioButton2_Click);
             // 
             // _txtPreviousConfig
             // 
@@ -640,8 +499,8 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtPreviousConfig.Margin = new System.Windows.Forms.Padding(32, 8, 8, 8);
             this._txtPreviousConfig.Name = "_txtPreviousConfig";
             this._txtPreviousConfig.ReadOnly = true;
-            this._txtPreviousConfig.Size = new System.Drawing.Size(481, 29);
-            this._txtPreviousConfig.TabIndex = 23;
+            this._txtPreviousConfig.Size = new System.Drawing.Size(444, 29);
+            this._txtPreviousConfig.TabIndex = 4;
             this._tipSideBar.SetToolTip(this._txtPreviousConfig, global::MetaboliteLevels.Resx.Manual.RecentSessions);
             // 
             // _tabSessionName
@@ -651,7 +510,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._tabSessionName.Margin = new System.Windows.Forms.Padding(4);
             this._tabSessionName.Name = "_tabSessionName";
             this._tabSessionName.Padding = new System.Windows.Forms.Padding(4);
-            this._tabSessionName.Size = new System.Drawing.Size(642, 690);
+            this._tabSessionName.Size = new System.Drawing.Size(605, 690);
             this._tabSessionName.TabIndex = 4;
             this._tabSessionName.Text = "Session name";
             this._tabSessionName.ToolTipText = "*";
@@ -678,20 +537,9 @@ namespace MetaboliteLevels.Forms.Wizards
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(634, 682);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(597, 682);
             this.tableLayoutPanel6.TabIndex = 0;
             this._tipSideBar.SetToolTip(this.tableLayoutPanel6, "*");
-            // 
-            // _lblTitle
-            // 
-            this._lblTitle.AutoSize = true;
-            this._lblTitle.Location = new System.Drawing.Point(20, 60);
-            this._lblTitle.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this._lblTitle.Name = "_lblTitle";
-            this._lblTitle.Size = new System.Drawing.Size(106, 21);
-            this._lblTitle.TabIndex = 20;
-            this._lblTitle.Text = "Session name";
-            this._tipSideBar.SetToolTip(this._lblTitle, global::MetaboliteLevels.Resx.Manual.Session);
             // 
             // _txtTitle
             // 
@@ -700,22 +548,10 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtTitle.Location = new System.Drawing.Point(40, 95);
             this._txtTitle.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
             this._txtTitle.Name = "_txtTitle";
-            this._txtTitle.Size = new System.Drawing.Size(574, 29);
-            this._txtTitle.TabIndex = 16;
+            this._txtTitle.Size = new System.Drawing.Size(537, 29);
+            this._txtTitle.TabIndex = 2;
             this._tipSideBar.SetToolTip(this._txtTitle, global::MetaboliteLevels.Resx.Manual.Session);
             this._txtTitle.Watermark = null;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
-            this.label2.Location = new System.Drawing.Point(20, 23);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(337, 21);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "^^Provide a descriptive name for your session.";
-            this._tipSideBar.SetToolTip(this.label2, global::MetaboliteLevels.Resx.Manual.Session);
             // 
             // _tabSelectData
             // 
@@ -724,7 +560,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._tabSelectData.Margin = new System.Windows.Forms.Padding(4);
             this._tabSelectData.Name = "_tabSelectData";
             this._tabSelectData.Padding = new System.Windows.Forms.Padding(4);
-            this._tabSelectData.Size = new System.Drawing.Size(642, 690);
+            this._tabSelectData.Size = new System.Drawing.Size(605, 690);
             this._tabSelectData.TabIndex = 0;
             this._tabSelectData.Text = "Select data";
             this._tabSelectData.ToolTipText = "*";
@@ -776,34 +612,20 @@ namespace MetaboliteLevels.Forms.Wizards
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(634, 682);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(597, 682);
             this.tableLayoutPanel2.TabIndex = 0;
             this._tipSideBar.SetToolTip(this.tableLayoutPanel2, "*");
-            // 
-            // _btnCondInfo
-            // 
-            this._btnCondInfo.Enabled = false;
-            this._btnCondInfo.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnCondInfo.Location = new System.Drawing.Point(586, 489);
-            this._btnCondInfo.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this._btnCondInfo.Name = "_btnCondInfo";
-            this._btnCondInfo.Size = new System.Drawing.Size(28, 29);
-            this._btnCondInfo.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnCondInfo, global::MetaboliteLevels.Resx.Manual.ConditionNames);
-            this._tipPopup.SetToolTip(this._btnCondInfo, "Browse for file");
-            this._btnCondInfo.UseVisualStyleBackColor = true;
-            this._btnCondInfo.Click += new System.EventHandler(this._btnCondInfo_Click);
             // 
             // _txtCondInfo
             // 
             this._txtCondInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtCondInfo.Enabled = false;
             this._txtCondInfo.ForeColor = System.Drawing.Color.Blue;
-            this._txtCondInfo.Location = new System.Drawing.Point(40, 489);
+            this._txtCondInfo.Location = new System.Drawing.Point(40, 497);
             this._txtCondInfo.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
             this._txtCondInfo.Name = "_txtCondInfo";
-            this._txtCondInfo.Size = new System.Drawing.Size(538, 29);
-            this._txtCondInfo.TabIndex = 1;
+            this._txtCondInfo.Size = new System.Drawing.Size(501, 29);
+            this._txtCondInfo.TabIndex = 17;
             this._tipSideBar.SetToolTip(this._txtCondInfo, global::MetaboliteLevels.Resx.Manual.ConditionNames);
             this._txtCondInfo.Watermark = null;
             // 
@@ -822,83 +644,33 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstLcmsMode.Location = new System.Drawing.Point(64, 137);
             this._lstLcmsMode.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._lstLcmsMode.Name = "_lstLcmsMode";
-            this._lstLcmsMode.Size = new System.Drawing.Size(514, 29);
-            this._lstLcmsMode.TabIndex = 15;
+            this._lstLcmsMode.Size = new System.Drawing.Size(477, 29);
+            this._lstLcmsMode.TabIndex = 3;
             this._tipSideBar.SetToolTip(this._lstLcmsMode, global::MetaboliteLevels.Resx.Manual.LcMsMode);
             this._lstLcmsMode.SelectedIndexChanged += new System.EventHandler(this._lstLcmsMode_SelectedIndexChanged);
             // 
             // _chkCondInfo
             // 
             this._chkCondInfo.AutoSize = true;
-            this._chkCondInfo.Location = new System.Drawing.Point(20, 450);
+            this._chkCondInfo.Location = new System.Drawing.Point(20, 458);
             this._chkCondInfo.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
             this._chkCondInfo.Name = "_chkCondInfo";
             this._chkCondInfo.Size = new System.Drawing.Size(201, 25);
-            this._chkCondInfo.TabIndex = 0;
+            this._chkCondInfo.TabIndex = 16;
             this._chkCondInfo.Text = "Provide condition names";
             this._tipSideBar.SetToolTip(this._chkCondInfo, global::MetaboliteLevels.Resx.Manual.ConditionNames);
             this._chkCondInfo.UseVisualStyleBackColor = true;
             this._chkCondInfo.CheckedChanged += new System.EventHandler(this._chkCondInfo_CheckedChanged);
             // 
-            // _lblLcmsMode
-            // 
-            this._lblLcmsMode.AutoSize = true;
-            this._lblLcmsMode.Location = new System.Drawing.Point(40, 109);
-            this._lblLcmsMode.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblLcmsMode.Name = "_lblLcmsMode";
-            this._lblLcmsMode.Size = new System.Drawing.Size(58, 21);
-            this._lblLcmsMode.TabIndex = 13;
-            this._lblLcmsMode.Text = "Source";
-            this._tipSideBar.SetToolTip(this._lblLcmsMode, global::MetaboliteLevels.Resx.Manual.LcMsMode);
-            // 
-            // _btnDataSetVar
-            // 
-            this._btnDataSetVar.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnDataSetVar.Location = new System.Drawing.Point(586, 321);
-            this._btnDataSetVar.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this._btnDataSetVar.Name = "_btnDataSetVar";
-            this._btnDataSetVar.Size = new System.Drawing.Size(28, 29);
-            this._btnDataSetVar.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
-            this._tipPopup.SetToolTip(this._btnDataSetVar, "Browse for file");
-            this._btnDataSetVar.UseVisualStyleBackColor = true;
-            this._btnDataSetVar.Click += new System.EventHandler(this._btnDataSetVar_Click);
-            // 
-            // _btnDataSetObs
-            // 
-            this._btnDataSetObs.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnDataSetObs.Location = new System.Drawing.Point(586, 257);
-            this._btnDataSetObs.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this._btnDataSetObs.Name = "_btnDataSetObs";
-            this._btnDataSetObs.Size = new System.Drawing.Size(28, 29);
-            this._btnDataSetObs.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnDataSetObs, global::MetaboliteLevels.Resx.Manual.Observations);
-            this._tipPopup.SetToolTip(this._btnDataSetObs, "Browse for file");
-            this._btnDataSetObs.UseVisualStyleBackColor = true;
-            this._btnDataSetObs.Click += new System.EventHandler(this._btnDataSetObs_Click);
-            // 
-            // _btnDataSetData
-            // 
-            this._btnDataSetData.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnDataSetData.Location = new System.Drawing.Point(586, 193);
-            this._btnDataSetData.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this._btnDataSetData.Name = "_btnDataSetData";
-            this._btnDataSetData.Size = new System.Drawing.Size(28, 29);
-            this._btnDataSetData.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnDataSetData, global::MetaboliteLevels.Resx.Manual.Intensities);
-            this._tipPopup.SetToolTip(this._btnDataSetData, "Browse for file");
-            this._btnDataSetData.UseVisualStyleBackColor = true;
-            this._btnDataSetData.Click += new System.EventHandler(this._btnDataSet_Click);
-            // 
             // _txtDataSetData
             // 
             this._txtDataSetData.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetData.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetData.Location = new System.Drawing.Point(64, 193);
+            this._txtDataSetData.Location = new System.Drawing.Point(64, 201);
             this._txtDataSetData.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetData.Name = "_txtDataSetData";
-            this._txtDataSetData.Size = new System.Drawing.Size(514, 29);
-            this._txtDataSetData.TabIndex = 1;
+            this._txtDataSetData.Size = new System.Drawing.Size(477, 29);
+            this._txtDataSetData.TabIndex = 5;
             this._tipSideBar.SetToolTip(this._txtDataSetData, global::MetaboliteLevels.Resx.Manual.Intensities);
             this._txtDataSetData.Watermark = null;
             this._txtDataSetData.TextChanged += new System.EventHandler(this._txtDataSetData_TextChanged);
@@ -907,70 +679,35 @@ namespace MetaboliteLevels.Forms.Wizards
             // 
             this._txtDataSetObs.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetObs.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetObs.Location = new System.Drawing.Point(64, 257);
+            this._txtDataSetObs.Location = new System.Drawing.Point(64, 265);
             this._txtDataSetObs.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetObs.Name = "_txtDataSetObs";
-            this._txtDataSetObs.Size = new System.Drawing.Size(514, 29);
-            this._txtDataSetObs.TabIndex = 1;
+            this._txtDataSetObs.Size = new System.Drawing.Size(477, 29);
+            this._txtDataSetObs.TabIndex = 8;
             this._tipSideBar.SetToolTip(this._txtDataSetObs, global::MetaboliteLevels.Resx.Manual.Observations);
             this._txtDataSetObs.Watermark = null;
             this._txtDataSetObs.TextChanged += new System.EventHandler(this._txtDataSetObs_TextChanged);
-            // 
-            // _lblDataSetData
-            // 
-            this._lblDataSetData.AutoSize = true;
-            this._lblDataSetData.Location = new System.Drawing.Point(40, 165);
-            this._lblDataSetData.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblDataSetData.Name = "_lblDataSetData";
-            this._lblDataSetData.Size = new System.Drawing.Size(80, 21);
-            this._lblDataSetData.TabIndex = 13;
-            this._lblDataSetData.Text = "Intensities";
-            this._tipSideBar.SetToolTip(this._lblDataSetData, global::MetaboliteLevels.Resx.Manual.Intensities);
-            this._lblDataSetData.Click += new System.EventHandler(this._lblDataSetData_Click);
-            // 
-            // _lblDataSetObs
-            // 
-            this._lblDataSetObs.AutoSize = true;
-            this._lblDataSetObs.Location = new System.Drawing.Point(40, 229);
-            this._lblDataSetObs.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblDataSetObs.Name = "_lblDataSetObs";
-            this._lblDataSetObs.Size = new System.Drawing.Size(102, 21);
-            this._lblDataSetObs.TabIndex = 13;
-            this._lblDataSetObs.Text = "Observations";
-            this._tipSideBar.SetToolTip(this._lblDataSetObs, global::MetaboliteLevels.Resx.Manual.Observations);
-            // 
-            // _lblDataSetVar
-            // 
-            this._lblDataSetVar.AutoSize = true;
-            this._lblDataSetVar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblDataSetVar.Location = new System.Drawing.Point(40, 293);
-            this._lblDataSetVar.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblDataSetVar.Name = "_lblDataSetVar";
-            this._lblDataSetVar.Size = new System.Drawing.Size(50, 21);
-            this._lblDataSetVar.TabIndex = 13;
-            this._lblDataSetVar.Text = "Peaks";
-            this._tipSideBar.SetToolTip(this._lblDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
             // 
             // _txtDataSetVar
             // 
             this._txtDataSetVar.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetVar.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetVar.Location = new System.Drawing.Point(64, 321);
+            this._txtDataSetVar.Location = new System.Drawing.Point(64, 329);
             this._txtDataSetVar.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtDataSetVar.Name = "_txtDataSetVar";
-            this._txtDataSetVar.Size = new System.Drawing.Size(514, 29);
-            this._txtDataSetVar.TabIndex = 1;
+            this._txtDataSetVar.Size = new System.Drawing.Size(477, 29);
+            this._txtDataSetVar.TabIndex = 11;
             this._tipSideBar.SetToolTip(this._txtDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
             this._txtDataSetVar.Watermark = null;
             // 
             // _chkAltVals
             // 
             this._chkAltVals.AutoSize = true;
-            this._chkAltVals.Location = new System.Drawing.Point(20, 366);
+            this._chkAltVals.Location = new System.Drawing.Point(20, 374);
             this._chkAltVals.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
             this._chkAltVals.Name = "_chkAltVals";
             this._chkAltVals.Size = new System.Drawing.Size(230, 25);
-            this._chkAltVals.TabIndex = 0;
+            this._chkAltVals.TabIndex = 13;
             this._chkAltVals.Text = "Include alternative intensities";
             this._tipSideBar.SetToolTip(this._chkAltVals, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
             this._chkAltVals.UseVisualStyleBackColor = true;
@@ -981,49 +718,13 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtAltVals.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtAltVals.Enabled = false;
             this._txtAltVals.ForeColor = System.Drawing.Color.Blue;
-            this._txtAltVals.Location = new System.Drawing.Point(40, 405);
+            this._txtAltVals.Location = new System.Drawing.Point(40, 413);
             this._txtAltVals.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
             this._txtAltVals.Name = "_txtAltVals";
-            this._txtAltVals.Size = new System.Drawing.Size(538, 29);
-            this._txtAltVals.TabIndex = 1;
+            this._txtAltVals.Size = new System.Drawing.Size(501, 29);
+            this._txtAltVals.TabIndex = 14;
             this._tipSideBar.SetToolTip(this._txtAltVals, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
             this._txtAltVals.Watermark = null;
-            // 
-            // _btnAltVals
-            // 
-            this._btnAltVals.Enabled = false;
-            this._btnAltVals.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnAltVals.Location = new System.Drawing.Point(586, 405);
-            this._btnAltVals.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this._btnAltVals.Name = "_btnAltVals";
-            this._btnAltVals.Size = new System.Drawing.Size(28, 29);
-            this._btnAltVals.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnAltVals, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
-            this._tipPopup.SetToolTip(this._btnAltVals, "Browse for file");
-            this._btnAltVals.UseVisualStyleBackColor = true;
-            this._btnAltVals.Click += new System.EventHandler(this._btnAltVals_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
-            this.label7.Location = new System.Drawing.Point(20, 23);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(504, 42);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "^^Select the data files you want to work with.\r\nInformation about supported file " +
-    "formats can be found by viewing help.";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(20, 81);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(66, 21);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "Data set";
             // 
             // _tabConditions
             // 
@@ -1031,7 +732,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._tabConditions.Location = new System.Drawing.Point(4, 4);
             this._tabConditions.Name = "_tabConditions";
             this._tabConditions.Padding = new System.Windows.Forms.Padding(3);
-            this._tabConditions.Size = new System.Drawing.Size(642, 690);
+            this._tabConditions.Size = new System.Drawing.Size(605, 690);
             this._tabConditions.TabIndex = 10;
             this._tabConditions.Text = "Conditions";
             this._tabConditions.UseVisualStyleBackColor = true;
@@ -1061,7 +762,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._pnlConditions.Size = new System.Drawing.Size(636, 684);
+            this._pnlConditions.Size = new System.Drawing.Size(599, 684);
             this._pnlConditions.TabIndex = 31;
             // 
             // _chkConditions
@@ -1071,45 +772,11 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkConditions.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
             this._chkConditions.Name = "_chkConditions";
             this._chkConditions.Size = new System.Drawing.Size(155, 25);
-            this._chkConditions.TabIndex = 21;
+            this._chkConditions.TabIndex = 1;
             this._chkConditions.Text = "Specify conditions";
             this._tipSideBar.SetToolTip(this._chkConditions, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
             this._chkConditions.UseVisualStyleBackColor = true;
             this._chkConditions.CheckedChanged += new System.EventHandler(this._chkConditions_CheckedChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
-            this.label5.Location = new System.Drawing.Point(20, 25);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(258, 21);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "^^Specify the conditions of interest";
-            // 
-            // _lblConditions
-            // 
-            this._lblConditions.AutoSize = true;
-            this._lblConditions.Location = new System.Drawing.Point(40, 94);
-            this._lblConditions.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this._lblConditions.Name = "_lblConditions";
-            this._lblConditions.Size = new System.Drawing.Size(309, 21);
-            this._lblConditions.TabIndex = 13;
-            this._lblConditions.Text = "Group(s) of interest (i.e. not control or QCs)";
-            this._tipSideBar.SetToolTip(this._lblConditions, global::MetaboliteLevels.Resx.Manual.ExperimentalConditions);
-            // 
-            // _btnBrowseContCond
-            // 
-            this._btnBrowseContCond.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnBrowseContCond.Location = new System.Drawing.Point(588, 186);
-            this._btnBrowseContCond.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this._btnBrowseContCond.Name = "_btnBrowseContCond";
-            this._btnBrowseContCond.Size = new System.Drawing.Size(28, 29);
-            this._btnBrowseContCond.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnBrowseContCond, global::MetaboliteLevels.Resx.Manual.ControlConditions);
-            this._tipPopup.SetToolTip(this._btnBrowseContCond, "Show options in new window");
-            this._btnBrowseContCond.UseVisualStyleBackColor = true;
             // 
             // _txtControls
             // 
@@ -1118,22 +785,10 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtControls.Location = new System.Drawing.Point(64, 186);
             this._txtControls.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtControls.Name = "_txtControls";
-            this._txtControls.Size = new System.Drawing.Size(516, 29);
-            this._txtControls.TabIndex = 7;
+            this._txtControls.Size = new System.Drawing.Size(479, 29);
+            this._txtControls.TabIndex = 6;
             this._tipSideBar.SetToolTip(this._txtControls, global::MetaboliteLevels.Resx.Manual.ControlConditions);
             this._txtControls.Watermark = null;
-            // 
-            // _btnBrowseExpCond
-            // 
-            this._btnBrowseExpCond.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnBrowseExpCond.Location = new System.Drawing.Point(588, 122);
-            this._btnBrowseExpCond.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this._btnBrowseExpCond.Name = "_btnBrowseExpCond";
-            this._btnBrowseExpCond.Size = new System.Drawing.Size(28, 29);
-            this._btnBrowseExpCond.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnBrowseExpCond, global::MetaboliteLevels.Resx.Manual.ExperimentalConditions);
-            this._tipPopup.SetToolTip(this._btnBrowseExpCond, "Show options in new window");
-            this._btnBrowseExpCond.UseVisualStyleBackColor = true;
             // 
             // _txtExps
             // 
@@ -1142,28 +797,17 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtExps.Location = new System.Drawing.Point(64, 122);
             this._txtExps.Margin = new System.Windows.Forms.Padding(48, 7, 4, 7);
             this._txtExps.Name = "_txtExps";
-            this._txtExps.Size = new System.Drawing.Size(516, 29);
-            this._txtExps.TabIndex = 1;
+            this._txtExps.Size = new System.Drawing.Size(479, 29);
+            this._txtExps.TabIndex = 3;
             this._tipSideBar.SetToolTip(this._txtExps, global::MetaboliteLevels.Resx.Manual.ExperimentalConditions);
             this._txtExps.Watermark = null;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(40, 158);
-            this.label3.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(125, 21);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Control group(s)";
-            this._tipSideBar.SetToolTip(this.label3, global::MetaboliteLevels.Resx.Manual.ControlConditions);
             // 
             // _tabStatistics
             // 
             this._tabStatistics.Controls.Add(this.tableLayoutPanel5);
             this._tabStatistics.Location = new System.Drawing.Point(4, 4);
             this._tabStatistics.Name = "_tabStatistics";
-            this._tabStatistics.Size = new System.Drawing.Size(642, 690);
+            this._tabStatistics.Size = new System.Drawing.Size(605, 690);
             this._tabStatistics.TabIndex = 6;
             this._tabStatistics.Text = "Statistics";
             this._tabStatistics.UseVisualStyleBackColor = true;
@@ -1193,30 +837,9 @@ namespace MetaboliteLevels.Forms.Wizards
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(642, 690);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(605, 690);
             this.tableLayoutPanel5.TabIndex = 0;
             this.tableLayoutPanel5.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel5_Paint);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
-            this.label14.Location = new System.Drawing.Point(20, 23);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(548, 21);
-            this.label14.TabIndex = 28;
-            this.label14.Text = "^^Select the defult condiguration - you can always add or remove these later.";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 60);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(154, 21);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "Auto-create statistics";
             // 
             // flowLayoutPanel1
             // 
@@ -1259,7 +882,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblTTUnavail.Margin = new System.Windows.Forms.Padding(32, 0, 0, 0);
             this._lblTTUnavail.Name = "_lblTTUnavail";
             this._lblTTUnavail.Size = new System.Drawing.Size(329, 13);
-            this._lblTTUnavail.TabIndex = 2;
+            this._lblTTUnavail.TabIndex = 1;
             this._lblTTUnavail.Text = "Not available - requires control conditions and experimental conditions";
             // 
             // _chkAutoPearson
@@ -1271,7 +894,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkAutoPearson.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
             this._chkAutoPearson.Name = "_chkAutoPearson";
             this._chkAutoPearson.Size = new System.Drawing.Size(184, 25);
-            this._chkAutoPearson.TabIndex = 1;
+            this._chkAutoPearson.TabIndex = 2;
             this._chkAutoPearson.Text = "Correlations (Pearson)";
             this._tipSideBar.SetToolTip(this._chkAutoPearson, "Select this option to create Pearson correlation  tests for each of the groups ag" +
         "ainst time (r[X]) as well as a statistic representing the highest of the absolut" +
@@ -1288,16 +911,6 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblPearsonUnavail.Size = new System.Drawing.Size(225, 13);
             this._lblPearsonUnavail.TabIndex = 3;
             this._lblPearsonUnavail.Text = "Not available - requires experimental conditions";
-            // 
-            // ctlLabel2
-            // 
-            this.ctlLabel2.AutoSize = true;
-            this.ctlLabel2.Location = new System.Drawing.Point(20, 201);
-            this.ctlLabel2.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.ctlLabel2.Name = "ctlLabel2";
-            this.ctlLabel2.Size = new System.Drawing.Size(139, 21);
-            this.ctlLabel2.TabIndex = 24;
-            this.ctlLabel2.Text = "Auto-create trends";
             // 
             // flowLayoutPanel2
             // 
@@ -1339,16 +952,6 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkAutoMedianTrend.TabIndex = 1;
             this._chkAutoMedianTrend.Text = "Median";
             this._chkAutoMedianTrend.UseVisualStyleBackColor = true;
-            // 
-            // ctlLabel4
-            // 
-            this.ctlLabel4.AutoSize = true;
-            this.ctlLabel4.Location = new System.Drawing.Point(20, 316);
-            this.ctlLabel4.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.ctlLabel4.Name = "ctlLabel4";
-            this.ctlLabel4.Size = new System.Drawing.Size(148, 21);
-            this.ctlLabel4.TabIndex = 24;
-            this.ctlLabel4.Text = "Perform corrections";
             // 
             // flowLayoutPanel5
             // 
@@ -1434,59 +1037,6 @@ namespace MetaboliteLevels.Forms.Wizards
             this.flowLayoutPanel4.TabIndex = 6;
             this.flowLayoutPanel4.WrapContents = false;
             // 
-            // _btnAddAdduct
-            // 
-            this._btnAddAdduct.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
-            this._btnAddAdduct.Location = new System.Drawing.Point(8, 8);
-            this._btnAddAdduct.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this._btnAddAdduct.Name = "_btnAddAdduct";
-            this._btnAddAdduct.Size = new System.Drawing.Size(28, 29);
-            this._btnAddAdduct.TabIndex = 2;
-            this._btnAddAdduct.Text = "";
-            this._tipSideBar.SetToolTip(this._btnAddAdduct, global::MetaboliteLevels.Resx.Manual.Adducts);
-            this._tipPopup.SetToolTip(this._btnAddAdduct, "Add selected library");
-            this._btnAddAdduct.UseVisualStyleBackColor = true;
-            this._btnAddAdduct.Click += new System.EventHandler(this._btnAddAdduct_Click);
-            // 
-            // _btnBrowseAdducts
-            // 
-            this._btnBrowseAdducts.Enabled = false;
-            this._btnBrowseAdducts.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnBrowseAdducts.Location = new System.Drawing.Point(8, 45);
-            this._btnBrowseAdducts.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this._btnBrowseAdducts.Name = "_btnBrowseAdducts";
-            this._btnBrowseAdducts.Size = new System.Drawing.Size(28, 29);
-            this._btnBrowseAdducts.TabIndex = 2;
-            this._tipSideBar.SetToolTip(this._btnBrowseAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
-            this._tipPopup.SetToolTip(this._btnBrowseAdducts, "Browse for library");
-            this._btnBrowseAdducts.UseVisualStyleBackColor = true;
-            this._btnBrowseAdducts.Click += new System.EventHandler(this._btnBrowseAdducts_Click);
-            // 
-            // _btnDelAdduct
-            // 
-            this._btnDelAdduct.Image = global::MetaboliteLevels.Properties.Resources.MnuClear;
-            this._btnDelAdduct.Location = new System.Drawing.Point(8, 82);
-            this._btnDelAdduct.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this._btnDelAdduct.Name = "_btnDelAdduct";
-            this._btnDelAdduct.Size = new System.Drawing.Size(28, 29);
-            this._btnDelAdduct.TabIndex = 3;
-            this._tipSideBar.SetToolTip(this._btnDelAdduct, global::MetaboliteLevels.Resx.Manual.Adducts);
-            this._tipPopup.SetToolTip(this._btnDelAdduct, "Remove selected library");
-            this._btnDelAdduct.UseVisualStyleBackColor = true;
-            this._btnDelAdduct.Click += new System.EventHandler(this.ctlButton3_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.tableLayoutPanel7.SetColumnSpan(this.label9, 3);
-            this.label9.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
-            this.label9.Location = new System.Drawing.Point(24, 24);
-            this.label9.Margin = new System.Windows.Forms.Padding(8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(238, 21);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "^^Select the compound libraries";
-            // 
             // _lstAdducts
             // 
             this._lstAdducts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1498,7 +1048,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstAdducts.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this._lstAdducts.Name = "_lstAdducts";
             this._lstAdducts.Size = new System.Drawing.Size(252, 270);
-            this._lstAdducts.TabIndex = 7;
+            this._lstAdducts.TabIndex = 5;
             this._tipPopup.SetToolTip(this._lstAdducts, "Selected libraries");
             this._tipSideBar.SetToolTip(this._lstAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
             // 
@@ -1514,7 +1064,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstAvailableAdducts.Name = "_lstAvailableAdducts";
             this._lstAvailableAdducts.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this._lstAvailableAdducts.Size = new System.Drawing.Size(253, 270);
-            this._lstAvailableAdducts.TabIndex = 5;
+            this._lstAvailableAdducts.TabIndex = 6;
             this._tipPopup.SetToolTip(this._lstAvailableAdducts, "Available libraries");
             this._tipSideBar.SetToolTip(this._lstAvailableAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
             // 
@@ -1529,7 +1079,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstCompounds.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this._lstCompounds.Name = "_lstCompounds";
             this._lstCompounds.Size = new System.Drawing.Size(252, 269);
-            this._lstCompounds.TabIndex = 5;
+            this._lstCompounds.TabIndex = 2;
             this._tipSideBar.SetToolTip(this._lstCompounds, global::MetaboliteLevels.Resx.Manual.Compounds);
             // 
             // flowLayoutPanel3
@@ -1548,61 +1098,6 @@ namespace MetaboliteLevels.Forms.Wizards
             this.flowLayoutPanel3.TabIndex = 6;
             this.flowLayoutPanel3.WrapContents = false;
             // 
-            // _btnAddCompound
-            // 
-            this._btnAddCompound.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
-            this._btnAddCompound.Location = new System.Drawing.Point(8, 8);
-            this._btnAddCompound.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this._btnAddCompound.Name = "_btnAddCompound";
-            this._btnAddCompound.Size = new System.Drawing.Size(28, 29);
-            this._btnAddCompound.TabIndex = 2;
-            this._btnAddCompound.Text = "";
-            this._tipSideBar.SetToolTip(this._btnAddCompound, global::MetaboliteLevels.Resx.Manual.Compounds);
-            this._tipPopup.SetToolTip(this._btnAddCompound, "Add selected library");
-            this._btnAddCompound.UseVisualStyleBackColor = true;
-            this._btnAddCompound.Click += new System.EventHandler(this._btnIdentifications_Click);
-            // 
-            // _btnAddAllCompounds
-            // 
-            this._btnAddAllCompounds.Image = global::MetaboliteLevels.Properties.Resources.MnuAll;
-            this._btnAddAllCompounds.Location = new System.Drawing.Point(8, 45);
-            this._btnAddAllCompounds.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this._btnAddAllCompounds.Name = "_btnAddAllCompounds";
-            this._btnAddAllCompounds.Size = new System.Drawing.Size(28, 29);
-            this._btnAddAllCompounds.TabIndex = 2;
-            this._btnAddAllCompounds.Text = "";
-            this._tipSideBar.SetToolTip(this._btnAddAllCompounds, global::MetaboliteLevels.Resx.Manual.Compounds);
-            this._tipPopup.SetToolTip(this._btnAddAllCompounds, "Add all libraries");
-            this._btnAddAllCompounds.UseVisualStyleBackColor = true;
-            this._btnAddAllCompounds.Click += new System.EventHandler(this._btnAddAllCompounds_Click);
-            // 
-            // _btnAddCompoundLibrary
-            // 
-            this._btnAddCompoundLibrary.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnAddCompoundLibrary.Location = new System.Drawing.Point(8, 82);
-            this._btnAddCompoundLibrary.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this._btnAddCompoundLibrary.Name = "_btnAddCompoundLibrary";
-            this._btnAddCompoundLibrary.Size = new System.Drawing.Size(28, 29);
-            this._btnAddCompoundLibrary.TabIndex = 4;
-            this._btnAddCompoundLibrary.Text = "";
-            this._tipSideBar.SetToolTip(this._btnAddCompoundLibrary, global::MetaboliteLevels.Resx.Manual.Compounds);
-            this._tipPopup.SetToolTip(this._btnAddCompoundLibrary, "Browse for librar");
-            this._btnAddCompoundLibrary.UseVisualStyleBackColor = true;
-            this._btnAddCompoundLibrary.Click += new System.EventHandler(this._btnAddCompoundLibrary_Click);
-            // 
-            // _btnRemoveLibrary
-            // 
-            this._btnRemoveLibrary.Image = global::MetaboliteLevels.Properties.Resources.MnuClear;
-            this._btnRemoveLibrary.Location = new System.Drawing.Point(8, 119);
-            this._btnRemoveLibrary.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this._btnRemoveLibrary.Name = "_btnRemoveLibrary";
-            this._btnRemoveLibrary.Size = new System.Drawing.Size(28, 29);
-            this._btnRemoveLibrary.TabIndex = 3;
-            this._tipSideBar.SetToolTip(this._btnRemoveLibrary, global::MetaboliteLevels.Resx.Manual.Compounds);
-            this._tipPopup.SetToolTip(this._btnRemoveLibrary, "Remove selected library");
-            this._btnRemoveLibrary.UseVisualStyleBackColor = true;
-            this._btnRemoveLibrary.Click += new System.EventHandler(this.ctlButton2_Click);
-            // 
             // _lstAvailCompounds
             // 
             this._lstAvailCompounds.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1615,32 +1110,8 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstAvailCompounds.Name = "_lstAvailCompounds";
             this._lstAvailCompounds.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this._lstAvailCompounds.Size = new System.Drawing.Size(253, 269);
-            this._lstAvailCompounds.TabIndex = 5;
+            this._lstAvailCompounds.TabIndex = 3;
             this._tipSideBar.SetToolTip(this._lstAvailCompounds, global::MetaboliteLevels.Resx.Manual.Compounds);
-            // 
-            // _lblAdducts
-            // 
-            this._lblAdducts.AutoSize = true;
-            this.tableLayoutPanel7.SetColumnSpan(this._lblAdducts, 3);
-            this._lblAdducts.Location = new System.Drawing.Point(24, 367);
-            this._lblAdducts.Margin = new System.Windows.Forms.Padding(8);
-            this._lblAdducts.Name = "_lblAdducts";
-            this._lblAdducts.Size = new System.Drawing.Size(214, 21);
-            this._lblAdducts.TabIndex = 4;
-            this._lblAdducts.Text = "Adduct libraries (LC-MS only)";
-            this._tipSideBar.SetToolTip(this._lblAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.tableLayoutPanel7.SetColumnSpan(this.label6, 3);
-            this.label6.Location = new System.Drawing.Point(24, 61);
-            this.label6.Margin = new System.Windows.Forms.Padding(8);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(148, 21);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Compound libraries";
-            this._tipSideBar.SetToolTip(this.label6, global::MetaboliteLevels.Resx.Manual.Compounds);
             // 
             // _tabAnnotations
             // 
@@ -1697,32 +1168,6 @@ namespace MetaboliteLevels.Forms.Wizards
             this.tableLayoutPanel9.Size = new System.Drawing.Size(599, 684);
             this.tableLayoutPanel9.TabIndex = 0;
             // 
-            // _btnIdentifications
-            // 
-            this._btnIdentifications.Enabled = false;
-            this._btnIdentifications.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnIdentifications.Location = new System.Drawing.Point(547, 374);
-            this._btnIdentifications.Margin = new System.Windows.Forms.Padding(8);
-            this._btnIdentifications.Name = "_btnIdentifications";
-            this._btnIdentifications.Size = new System.Drawing.Size(28, 29);
-            this._btnIdentifications.TabIndex = 6;
-            this._tipSideBar.SetToolTip(this._btnIdentifications, global::MetaboliteLevels.Resx.Manual.Identifications);
-            this._tipPopup.SetToolTip(this._btnIdentifications, "Browse for file");
-            this._btnIdentifications.UseVisualStyleBackColor = true;
-            this._btnIdentifications.Click += new System.EventHandler(this._btnIdentifications_Click_1);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.tableLayoutPanel9.SetColumnSpan(this.label11, 4);
-            this.label11.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
-            this.label11.Location = new System.Drawing.Point(24, 24);
-            this.label11.Margin = new System.Windows.Forms.Padding(8);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(321, 21);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "^^Select methods of annotating compounds";
-            // 
             // _chkAutoIdentify
             // 
             this._chkAutoIdentify.AutoSize = true;
@@ -1731,7 +1176,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkAutoIdentify.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._chkAutoIdentify.Name = "_chkAutoIdentify";
             this._chkAutoIdentify.Size = new System.Drawing.Size(329, 25);
-            this._chkAutoIdentify.TabIndex = 4;
+            this._chkAutoIdentify.TabIndex = 2;
             this._chkAutoIdentify.Text = "Perform m/z based automatic identification";
             this._tipSideBar.SetToolTip(this._chkAutoIdentify, "Select this option to automatically annotate Peaks based on their m/z.\r\n\r\nThis wi" +
         "ll only function if the requisite information has been selected.");
@@ -1746,7 +1191,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkPeakPeakMatch.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._chkPeakPeakMatch.Name = "_chkPeakPeakMatch";
             this._chkPeakPeakMatch.Size = new System.Drawing.Size(231, 25);
-            this._chkPeakPeakMatch.TabIndex = 3;
+            this._chkPeakPeakMatch.TabIndex = 6;
             this._chkPeakPeakMatch.Text = "Perform peak-peak matching";
             this._tipSideBar.SetToolTip(this._chkPeakPeakMatch, "Select this option to automatically annotate peaks with similar peaks.\r\n\r\nThis wi" +
         "ll only function if the requisite information has been selected.\r\n");
@@ -1761,7 +1206,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._chkIdentifications.Margin = new System.Windows.Forms.Padding(8);
             this._chkIdentifications.Name = "_chkIdentifications";
             this._chkIdentifications.Size = new System.Drawing.Size(205, 25);
-            this._chkIdentifications.TabIndex = 3;
+            this._chkIdentifications.TabIndex = 11;
             this._chkIdentifications.Text = "Load manual annotations";
             this._tipSideBar.SetToolTip(this._chkIdentifications, global::MetaboliteLevels.Resx.Manual.Identifications);
             this._chkIdentifications.UseVisualStyleBackColor = true;
@@ -1776,7 +1221,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lstTolerance.Margin = new System.Windows.Forms.Padding(8);
             this._lstTolerance.Name = "_lstTolerance";
             this._lstTolerance.Size = new System.Drawing.Size(121, 29);
-            this._lstTolerance.TabIndex = 2;
+            this._lstTolerance.TabIndex = 10;
             this._tipPopup.SetToolTip(this._lstTolerance, "Select units");
             // 
             // _lblPeakPeakMatchUnavail
@@ -1788,19 +1233,8 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblPeakPeakMatchUnavail.Margin = new System.Windows.Forms.Padding(48, 0, 0, 0);
             this._lblPeakPeakMatchUnavail.Name = "_lblPeakPeakMatchUnavail";
             this._lblPeakPeakMatchUnavail.Size = new System.Drawing.Size(102, 13);
-            this._lblPeakPeakMatchUnavail.TabIndex = 20;
+            this._lblPeakPeakMatchUnavail.TabIndex = 7;
             this._lblPeakPeakMatchUnavail.Text = "<TEXT GOES HERE>";
-            // 
-            // _lblTolerance
-            // 
-            this._lblTolerance.AutoSize = true;
-            this._lblTolerance.Enabled = false;
-            this._lblTolerance.Location = new System.Drawing.Point(24, 251);
-            this._lblTolerance.Margin = new System.Windows.Forms.Padding(8);
-            this._lblTolerance.Name = "_lblTolerance";
-            this._lblTolerance.Size = new System.Drawing.Size(121, 21);
-            this._lblTolerance.TabIndex = 0;
-            this._lblTolerance.Text = "Match tolerance";
             // 
             // _numTolerance
             // 
@@ -1816,7 +1250,7 @@ namespace MetaboliteLevels.Forms.Wizards
             0});
             this._numTolerance.Name = "_numTolerance";
             this._numTolerance.Size = new System.Drawing.Size(330, 29);
-            this._numTolerance.TabIndex = 1;
+            this._numTolerance.TabIndex = 9;
             // 
             // _txtIdentifications
             // 
@@ -1828,20 +1262,9 @@ namespace MetaboliteLevels.Forms.Wizards
             this._txtIdentifications.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
             this._txtIdentifications.Name = "_txtIdentifications";
             this._txtIdentifications.Size = new System.Drawing.Size(467, 29);
-            this._txtIdentifications.TabIndex = 5;
+            this._txtIdentifications.TabIndex = 12;
             this._tipSideBar.SetToolTip(this._txtIdentifications, global::MetaboliteLevels.Resx.Manual.Identifications);
             this._txtIdentifications.Watermark = null;
-            // 
-            // ctlLabel3
-            // 
-            this.ctlLabel3.AutoSize = true;
-            this.ctlLabel3.Enabled = false;
-            this.ctlLabel3.Location = new System.Drawing.Point(64, 419);
-            this.ctlLabel3.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
-            this.ctlLabel3.Name = "ctlLabel3";
-            this.ctlLabel3.Size = new System.Drawing.Size(68, 42);
-            this.ctlLabel3.TabIndex = 0;
-            this.ctlLabel3.Text = "Flag as\r\n(default)";
             // 
             // _manualFlag
             // 
@@ -1854,19 +1277,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._manualFlag.Margin = new System.Windows.Forms.Padding(8);
             this._manualFlag.Name = "_manualFlag";
             this._manualFlag.Size = new System.Drawing.Size(357, 29);
-            this._manualFlag.TabIndex = 2;
-            // 
-            // ctlLabel5
-            // 
-            this.ctlLabel5.AutoSize = true;
-            this.tableLayoutPanel9.SetColumnSpan(this.ctlLabel5, 4);
-            this.ctlLabel5.Enabled = false;
-            this.ctlLabel5.Location = new System.Drawing.Point(24, 61);
-            this.ctlLabel5.Margin = new System.Windows.Forms.Padding(8);
-            this.ctlLabel5.Name = "ctlLabel5";
-            this.ctlLabel5.Size = new System.Drawing.Size(73, 21);
-            this.ctlLabel5.TabIndex = 0;
-            this.ctlLabel5.Text = "Annotate";
+            this._manualFlag.TabIndex = 15;
             // 
             // _lblMzMatchUnavail
             // 
@@ -1876,19 +1287,8 @@ namespace MetaboliteLevels.Forms.Wizards
             this._lblMzMatchUnavail.Margin = new System.Windows.Forms.Padding(48, 0, 0, 0);
             this._lblMzMatchUnavail.Name = "_lblMzMatchUnavail";
             this._lblMzMatchUnavail.Size = new System.Drawing.Size(102, 13);
-            this._lblMzMatchUnavail.TabIndex = 20;
+            this._lblMzMatchUnavail.TabIndex = 3;
             this._lblMzMatchUnavail.Text = "<TEXT GOES HERE>";
-            // 
-            // ctlLabel1
-            // 
-            this.ctlLabel1.AutoSize = true;
-            this.ctlLabel1.Enabled = false;
-            this.ctlLabel1.Location = new System.Drawing.Point(64, 152);
-            this.ctlLabel1.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
-            this.ctlLabel1.Name = "ctlLabel1";
-            this.ctlLabel1.Size = new System.Drawing.Size(58, 21);
-            this.ctlLabel1.TabIndex = 0;
-            this.ctlLabel1.Text = "Flag as";
             // 
             // _automaticFlag
             // 
@@ -1901,7 +1301,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._automaticFlag.Margin = new System.Windows.Forms.Padding(8);
             this._automaticFlag.Name = "_automaticFlag";
             this._automaticFlag.Size = new System.Drawing.Size(357, 29);
-            this._automaticFlag.TabIndex = 2;
+            this._automaticFlag.TabIndex = 5;
             // 
             // _tabReady
             // 
@@ -1909,7 +1309,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this._tabReady.Location = new System.Drawing.Point(4, 4);
             this._tabReady.Name = "_tabReady";
             this._tabReady.Padding = new System.Windows.Forms.Padding(3);
-            this._tabReady.Size = new System.Drawing.Size(642, 690);
+            this._tabReady.Size = new System.Drawing.Size(605, 690);
             this._tabReady.TabIndex = 7;
             this._tabReady.Text = "Ready";
             this._tabReady.UseVisualStyleBackColor = true;
@@ -1927,7 +1327,7 @@ namespace MetaboliteLevels.Forms.Wizards
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(636, 684);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(599, 684);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // _chkAlarm
@@ -1945,20 +1345,6 @@ namespace MetaboliteLevels.Forms.Wizards
             this._tipSideBar.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Windows only).");
             this._tipPopup.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Windows only).");
             this._chkAlarm.UseVisualStyleBackColor = true;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label12.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
-            this.label12.Location = new System.Drawing.Point(64, 64);
-            this.label12.Margin = new System.Windows.Forms.Padding(48);
-            this.label12.Name = "label12";
-            this.label12.Padding = new System.Windows.Forms.Padding(8);
-            this.label12.Size = new System.Drawing.Size(508, 121);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "^^Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSavin" +
-    "g your session from the main menu will allow it to be loaded quickly in future.";
             // 
             // _txtHelp
             // 
@@ -2026,17 +1412,6 @@ namespace MetaboliteLevels.Forms.Wizards
             this.splitContainer1.SplitterDistance = 669;
             this.splitContainer1.TabIndex = 18;
             // 
-            // _lblOrder
-            // 
-            this._lblOrder.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lblOrder.Location = new System.Drawing.Point(0, 66);
-            this._lblOrder.Margin = new System.Windows.Forms.Padding(0);
-            this._lblOrder.Name = "_lblOrder";
-            this._lblOrder.Size = new System.Drawing.Size(301, 28);
-            this._lblOrder.TabIndex = 4;
-            this._lblOrder.Text = " ";
-            this._lblOrder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // _btnShowFf
             // 
             this._btnShowFf.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -2050,11 +1425,636 @@ namespace MetaboliteLevels.Forms.Wizards
             this._btnShowFf.Location = new System.Drawing.Point(0, 636);
             this._btnShowFf.Name = "_btnShowFf";
             this._btnShowFf.Size = new System.Drawing.Size(301, 62);
-            this._btnShowFf.TabIndex = 20;
+            this._btnShowFf.TabIndex = 0;
             this._btnShowFf.Text = "File format details -->";
             this._btnShowFf.UseVisualStyleBackColor = false;
             this._btnShowFf.Visible = false;
             this._btnShowFf.Click += new System.EventHandler(this._btnShowFf_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(536, 9);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(106, 21);
+            this.label15.TabIndex = 23;
+            this.label15.Text = "^^^[NOBAR]";
+            // 
+            // _btnMostRecent
+            // 
+            this._btnMostRecent.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._btnMostRecent.Dock = System.Windows.Forms.DockStyle.Top;
+            this._btnMostRecent.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
+            this._btnMostRecent.FlatAppearance.BorderSize = 8;
+            this._btnMostRecent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnMostRecent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMostRecent.Image = ((System.Drawing.Image)(resources.GetObject("_btnMostRecent.Image")));
+            this._btnMostRecent.Location = new System.Drawing.Point(41, 230);
+            this._btnMostRecent.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
+            this._btnMostRecent.MaximumSize = new System.Drawing.Size(658, 672);
+            this._btnMostRecent.Name = "_btnMostRecent";
+            this._btnMostRecent.Size = new System.Drawing.Size(336, 74);
+            this._btnMostRecent.TabIndex = 2;
+            this._btnMostRecent.Text = "    Last file";
+            this._tipPopup.SetToolTip(this._btnMostRecent, "Load last used session");
+            this._btnMostRecent.UseVisualStyleBackColor = false;
+            this._btnMostRecent.Click += new System.EventHandler(this._btnMostRecent_Click);
+            // 
+            // _btnNewSession
+            // 
+            this._btnNewSession.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._btnNewSession.Dock = System.Windows.Forms.DockStyle.Top;
+            this._btnNewSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
+            this._btnNewSession.FlatAppearance.BorderSize = 8;
+            this._btnNewSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnNewSession.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnNewSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnNewSession.Image")));
+            this._btnNewSession.Location = new System.Drawing.Point(41, 42);
+            this._btnNewSession.Margin = new System.Windows.Forms.Padding(41, 42, 10, 10);
+            this._btnNewSession.MaximumSize = new System.Drawing.Size(658, 672);
+            this._btnNewSession.Name = "_btnNewSession";
+            this._btnNewSession.Size = new System.Drawing.Size(336, 74);
+            this._btnNewSession.TabIndex = 0;
+            this._btnNewSession.Text = "    Create a new session";
+            this._tipPopup.SetToolTip(this._btnNewSession, "Show the new session creation wizard");
+            this._btnNewSession.UseVisualStyleBackColor = false;
+            this._btnNewSession.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // _btnReturnToSession
+            // 
+            this._btnReturnToSession.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._btnReturnToSession.Dock = System.Windows.Forms.DockStyle.Top;
+            this._btnReturnToSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSteelBlue;
+            this._btnReturnToSession.FlatAppearance.BorderSize = 8;
+            this._btnReturnToSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnReturnToSession.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnReturnToSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnReturnToSession.Image")));
+            this._btnReturnToSession.Location = new System.Drawing.Point(41, 136);
+            this._btnReturnToSession.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
+            this._btnReturnToSession.MaximumSize = new System.Drawing.Size(658, 672);
+            this._btnReturnToSession.Name = "_btnReturnToSession";
+            this._btnReturnToSession.Size = new System.Drawing.Size(336, 74);
+            this._btnReturnToSession.TabIndex = 1;
+            this._btnReturnToSession.Text = "    Return to an existing session";
+            this._tipPopup.SetToolTip(this._btnReturnToSession, "Show list of recent session or open the file browser to select a session from dis" +
+        "k");
+            this._btnReturnToSession.UseVisualStyleBackColor = false;
+            this._btnReturnToSession.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // _btnReconfigure
+            // 
+            this._btnReconfigure.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnReconfigure.AutoSize = true;
+            this._btnReconfigure.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._btnReconfigure.FlatAppearance.BorderSize = 0;
+            this._btnReconfigure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnReconfigure.ForeColor = System.Drawing.Color.Silver;
+            this._btnReconfigure.Image = ((System.Drawing.Image)(resources.GetObject("_btnReconfigure.Image")));
+            this._btnReconfigure.Location = new System.Drawing.Point(557, 604);
+            this._btnReconfigure.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
+            this._btnReconfigure.MaximumSize = new System.Drawing.Size(658, 672);
+            this._btnReconfigure.Name = "_btnReconfigure";
+            this._btnReconfigure.Size = new System.Drawing.Size(38, 38);
+            this._btnReconfigure.TabIndex = 3;
+            this._tipPopup.SetToolTip(this._btnReconfigure, "Show settings menu");
+            this._btnReconfigure.Click += new System.EventHandler(this._btnReconfigure_Click);
+            // 
+            // ctlLabel6
+            // 
+            this.ctlLabel6.AutoSize = true;
+            this.tableLayoutPanel8.SetColumnSpan(this.ctlLabel6, 3);
+            this.ctlLabel6.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
+            this.ctlLabel6.Location = new System.Drawing.Point(20, 23);
+            this.ctlLabel6.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this.ctlLabel6.Name = "ctlLabel6";
+            this.ctlLabel6.Size = new System.Drawing.Size(524, 21);
+            this.ctlLabel6.TabIndex = 0;
+            this.ctlLabel6.Text = "^^Start with a blank configuration or use a previous session as a template";
+            this._tipSideBar.SetToolTip(this.ctlLabel6, global::MetaboliteLevels.Resx.Manual.RecentSessions);
+            // 
+            // ctlLabel7
+            // 
+            this.ctlLabel7.AutoSize = true;
+            this.tableLayoutPanel8.SetColumnSpan(this.ctlLabel7, 3);
+            this.ctlLabel7.Location = new System.Drawing.Point(20, 58);
+            this.ctlLabel7.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this.ctlLabel7.Name = "ctlLabel7";
+            this.ctlLabel7.Size = new System.Drawing.Size(74, 21);
+            this.ctlLabel7.TabIndex = 1;
+            this.ctlLabel7.Text = "Template";
+            this._tipSideBar.SetToolTip(this.ctlLabel7, global::MetaboliteLevels.Resx.Manual.RecentSessions);
+            // 
+            // _btnDeleteWorkspace
+            // 
+            this._btnDeleteWorkspace.Image = global::MetaboliteLevels.Properties.Resources.MnuDeleteWorkspace;
+            this._btnDeleteWorkspace.Location = new System.Drawing.Point(552, 176);
+            this._btnDeleteWorkspace.Margin = new System.Windows.Forms.Padding(8);
+            this._btnDeleteWorkspace.Name = "_btnDeleteWorkspace";
+            this._btnDeleteWorkspace.Size = new System.Drawing.Size(29, 29);
+            this._btnDeleteWorkspace.TabIndex = 6;
+            this._btnDeleteWorkspace.Text = "";
+            this._tipSideBar.SetToolTip(this._btnDeleteWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
+            this._tipPopup.SetToolTip(this._btnDeleteWorkspace, "Removes a previous configuration from the session history");
+            this._btnDeleteWorkspace.UseDefaultSize = true;
+            this._btnDeleteWorkspace.UseVisualStyleBackColor = true;
+            this._btnDeleteWorkspace.Click += new System.EventHandler(this.ctlButton3_Click_1);
+            // 
+            // _btnRecentWorkspace
+            // 
+            this._btnRecentWorkspace.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnRecentWorkspace.Location = new System.Drawing.Point(508, 176);
+            this._btnRecentWorkspace.Margin = new System.Windows.Forms.Padding(8);
+            this._btnRecentWorkspace.Name = "_btnRecentWorkspace";
+            this._btnRecentWorkspace.Size = new System.Drawing.Size(28, 29);
+            this._btnRecentWorkspace.TabIndex = 5;
+            this._tipSideBar.SetToolTip(this._btnRecentWorkspace, global::MetaboliteLevels.Resx.Manual.RecentSessions);
+            this._tipPopup.SetToolTip(this._btnRecentWorkspace, "Show drop down menu");
+            this._btnRecentWorkspace.UseVisualStyleBackColor = true;
+            this._btnRecentWorkspace.Click += new System.EventHandler(this.radioButton2_Click);
+            // 
+            // _lblTitle
+            // 
+            this._lblTitle.AutoSize = true;
+            this._lblTitle.Location = new System.Drawing.Point(20, 60);
+            this._lblTitle.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this._lblTitle.Name = "_lblTitle";
+            this._lblTitle.Size = new System.Drawing.Size(106, 21);
+            this._lblTitle.TabIndex = 1;
+            this._lblTitle.Text = "Session name";
+            this._tipSideBar.SetToolTip(this._lblTitle, global::MetaboliteLevels.Resx.Manual.Session);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
+            this.label2.Location = new System.Drawing.Point(20, 23);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(337, 21);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "^^Provide a descriptive name for your session.";
+            this._tipSideBar.SetToolTip(this.label2, global::MetaboliteLevels.Resx.Manual.Session);
+            // 
+            // _btnCondInfo
+            // 
+            this._btnCondInfo.Enabled = false;
+            this._btnCondInfo.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnCondInfo.Location = new System.Drawing.Point(549, 497);
+            this._btnCondInfo.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this._btnCondInfo.Name = "_btnCondInfo";
+            this._btnCondInfo.Size = new System.Drawing.Size(28, 29);
+            this._btnCondInfo.TabIndex = 18;
+            this._tipSideBar.SetToolTip(this._btnCondInfo, global::MetaboliteLevels.Resx.Manual.ConditionNames);
+            this._tipPopup.SetToolTip(this._btnCondInfo, "Browse for file");
+            this._btnCondInfo.UseVisualStyleBackColor = true;
+            this._btnCondInfo.Click += new System.EventHandler(this._btnCondInfo_Click);
+            // 
+            // _lblLcmsMode
+            // 
+            this._lblLcmsMode.AutoSize = true;
+            this._lblLcmsMode.Location = new System.Drawing.Point(40, 109);
+            this._lblLcmsMode.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblLcmsMode.Name = "_lblLcmsMode";
+            this._lblLcmsMode.Size = new System.Drawing.Size(58, 21);
+            this._lblLcmsMode.TabIndex = 2;
+            this._lblLcmsMode.Text = "Source";
+            this._tipSideBar.SetToolTip(this._lblLcmsMode, global::MetaboliteLevels.Resx.Manual.LcMsMode);
+            // 
+            // _btnDataSetVar
+            // 
+            this._btnDataSetVar.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnDataSetVar.Location = new System.Drawing.Point(549, 329);
+            this._btnDataSetVar.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this._btnDataSetVar.Name = "_btnDataSetVar";
+            this._btnDataSetVar.Size = new System.Drawing.Size(28, 29);
+            this._btnDataSetVar.TabIndex = 12;
+            this._tipSideBar.SetToolTip(this._btnDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
+            this._tipPopup.SetToolTip(this._btnDataSetVar, "Browse for file");
+            this._btnDataSetVar.UseVisualStyleBackColor = true;
+            this._btnDataSetVar.Click += new System.EventHandler(this._btnDataSetVar_Click);
+            // 
+            // _btnDataSetObs
+            // 
+            this._btnDataSetObs.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnDataSetObs.Location = new System.Drawing.Point(549, 265);
+            this._btnDataSetObs.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this._btnDataSetObs.Name = "_btnDataSetObs";
+            this._btnDataSetObs.Size = new System.Drawing.Size(28, 29);
+            this._btnDataSetObs.TabIndex = 9;
+            this._tipSideBar.SetToolTip(this._btnDataSetObs, global::MetaboliteLevels.Resx.Manual.Observations);
+            this._tipPopup.SetToolTip(this._btnDataSetObs, "Browse for file");
+            this._btnDataSetObs.UseVisualStyleBackColor = true;
+            this._btnDataSetObs.Click += new System.EventHandler(this._btnDataSetObs_Click);
+            // 
+            // _btnDataSetData
+            // 
+            this._btnDataSetData.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnDataSetData.Location = new System.Drawing.Point(549, 201);
+            this._btnDataSetData.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this._btnDataSetData.Name = "_btnDataSetData";
+            this._btnDataSetData.Size = new System.Drawing.Size(28, 29);
+            this._btnDataSetData.TabIndex = 6;
+            this._tipSideBar.SetToolTip(this._btnDataSetData, global::MetaboliteLevels.Resx.Manual.Intensities);
+            this._tipPopup.SetToolTip(this._btnDataSetData, "Browse for file");
+            this._btnDataSetData.UseVisualStyleBackColor = true;
+            this._btnDataSetData.Click += new System.EventHandler(this._btnDataSet_Click);
+            // 
+            // _lblDataSetData
+            // 
+            this._lblDataSetData.AutoSize = true;
+            this._lblDataSetData.Location = new System.Drawing.Point(40, 173);
+            this._lblDataSetData.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblDataSetData.Name = "_lblDataSetData";
+            this._lblDataSetData.Size = new System.Drawing.Size(80, 21);
+            this._lblDataSetData.TabIndex = 4;
+            this._lblDataSetData.Text = "Intensities";
+            this._tipSideBar.SetToolTip(this._lblDataSetData, global::MetaboliteLevels.Resx.Manual.Intensities);
+            this._lblDataSetData.Click += new System.EventHandler(this._lblDataSetData_Click);
+            // 
+            // _lblDataSetObs
+            // 
+            this._lblDataSetObs.AutoSize = true;
+            this._lblDataSetObs.Location = new System.Drawing.Point(40, 237);
+            this._lblDataSetObs.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblDataSetObs.Name = "_lblDataSetObs";
+            this._lblDataSetObs.Size = new System.Drawing.Size(102, 21);
+            this._lblDataSetObs.TabIndex = 7;
+            this._lblDataSetObs.Text = "Observations";
+            this._tipSideBar.SetToolTip(this._lblDataSetObs, global::MetaboliteLevels.Resx.Manual.Observations);
+            // 
+            // _lblDataSetVar
+            // 
+            this._lblDataSetVar.AutoSize = true;
+            this._lblDataSetVar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblDataSetVar.Location = new System.Drawing.Point(40, 301);
+            this._lblDataSetVar.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblDataSetVar.Name = "_lblDataSetVar";
+            this._lblDataSetVar.Size = new System.Drawing.Size(50, 21);
+            this._lblDataSetVar.TabIndex = 10;
+            this._lblDataSetVar.Text = "Peaks";
+            this._tipSideBar.SetToolTip(this._lblDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
+            // 
+            // _btnAltVals
+            // 
+            this._btnAltVals.Enabled = false;
+            this._btnAltVals.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnAltVals.Location = new System.Drawing.Point(549, 413);
+            this._btnAltVals.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this._btnAltVals.Name = "_btnAltVals";
+            this._btnAltVals.Size = new System.Drawing.Size(28, 29);
+            this._btnAltVals.TabIndex = 15;
+            this._tipSideBar.SetToolTip(this._btnAltVals, global::MetaboliteLevels.Resx.Manual.AlternativeValues);
+            this._tipPopup.SetToolTip(this._btnAltVals, "Browse for file");
+            this._btnAltVals.UseVisualStyleBackColor = true;
+            this._btnAltVals.Click += new System.EventHandler(this._btnAltVals_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
+            this.label7.Location = new System.Drawing.Point(20, 23);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(504, 42);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "^^Select the data files you want to work with.\r\nInformation about supported file " +
+    "formats can be found by viewing help.";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(20, 81);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(66, 21);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Data set";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
+            this.label5.Location = new System.Drawing.Point(20, 25);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(258, 21);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "^^Specify the conditions of interest";
+            // 
+            // _lblConditions
+            // 
+            this._lblConditions.AutoSize = true;
+            this._lblConditions.Location = new System.Drawing.Point(40, 94);
+            this._lblConditions.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this._lblConditions.Name = "_lblConditions";
+            this._lblConditions.Size = new System.Drawing.Size(309, 21);
+            this._lblConditions.TabIndex = 2;
+            this._lblConditions.Text = "Group(s) of interest (i.e. not control or QCs)";
+            this._tipSideBar.SetToolTip(this._lblConditions, global::MetaboliteLevels.Resx.Manual.ExperimentalConditions);
+            // 
+            // _btnBrowseContCond
+            // 
+            this._btnBrowseContCond.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
+            this._btnBrowseContCond.Location = new System.Drawing.Point(551, 186);
+            this._btnBrowseContCond.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this._btnBrowseContCond.Name = "_btnBrowseContCond";
+            this._btnBrowseContCond.Size = new System.Drawing.Size(28, 29);
+            this._btnBrowseContCond.TabIndex = 7;
+            this._tipSideBar.SetToolTip(this._btnBrowseContCond, global::MetaboliteLevels.Resx.Manual.ControlConditions);
+            this._tipPopup.SetToolTip(this._btnBrowseContCond, "Show options in new window");
+            this._btnBrowseContCond.UseVisualStyleBackColor = true;
+            // 
+            // _btnBrowseExpCond
+            // 
+            this._btnBrowseExpCond.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
+            this._btnBrowseExpCond.Location = new System.Drawing.Point(551, 122);
+            this._btnBrowseExpCond.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this._btnBrowseExpCond.Name = "_btnBrowseExpCond";
+            this._btnBrowseExpCond.Size = new System.Drawing.Size(28, 29);
+            this._btnBrowseExpCond.TabIndex = 4;
+            this._tipSideBar.SetToolTip(this._btnBrowseExpCond, global::MetaboliteLevels.Resx.Manual.ExperimentalConditions);
+            this._tipPopup.SetToolTip(this._btnBrowseExpCond, "Show options in new window");
+            this._btnBrowseExpCond.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(40, 158);
+            this.label3.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(125, 21);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Control group(s)";
+            this._tipSideBar.SetToolTip(this.label3, global::MetaboliteLevels.Resx.Manual.ControlConditions);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
+            this.label14.Location = new System.Drawing.Point(20, 23);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(548, 21);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "^^Select the defult condiguration - you can always add or remove these later.";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 60);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(154, 21);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Auto-create statistics";
+            // 
+            // ctlLabel2
+            // 
+            this.ctlLabel2.AutoSize = true;
+            this.ctlLabel2.Location = new System.Drawing.Point(20, 201);
+            this.ctlLabel2.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.ctlLabel2.Name = "ctlLabel2";
+            this.ctlLabel2.Size = new System.Drawing.Size(139, 21);
+            this.ctlLabel2.TabIndex = 2;
+            this.ctlLabel2.Text = "Auto-create trends";
+            // 
+            // ctlLabel4
+            // 
+            this.ctlLabel4.AutoSize = true;
+            this.ctlLabel4.Location = new System.Drawing.Point(20, 316);
+            this.ctlLabel4.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.ctlLabel4.Name = "ctlLabel4";
+            this.ctlLabel4.Size = new System.Drawing.Size(148, 21);
+            this.ctlLabel4.TabIndex = 3;
+            this.ctlLabel4.Text = "Perform corrections";
+            // 
+            // _btnAddAdduct
+            // 
+            this._btnAddAdduct.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
+            this._btnAddAdduct.Location = new System.Drawing.Point(8, 8);
+            this._btnAddAdduct.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnAddAdduct.Name = "_btnAddAdduct";
+            this._btnAddAdduct.Size = new System.Drawing.Size(28, 29);
+            this._btnAddAdduct.TabIndex = 0;
+            this._btnAddAdduct.Text = "";
+            this._tipSideBar.SetToolTip(this._btnAddAdduct, global::MetaboliteLevels.Resx.Manual.Adducts);
+            this._tipPopup.SetToolTip(this._btnAddAdduct, "Add selected library");
+            this._btnAddAdduct.UseVisualStyleBackColor = true;
+            this._btnAddAdduct.Click += new System.EventHandler(this._btnAddAdduct_Click);
+            // 
+            // _btnBrowseAdducts
+            // 
+            this._btnBrowseAdducts.Enabled = false;
+            this._btnBrowseAdducts.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnBrowseAdducts.Location = new System.Drawing.Point(8, 45);
+            this._btnBrowseAdducts.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnBrowseAdducts.Name = "_btnBrowseAdducts";
+            this._btnBrowseAdducts.Size = new System.Drawing.Size(28, 29);
+            this._btnBrowseAdducts.TabIndex = 1;
+            this._tipSideBar.SetToolTip(this._btnBrowseAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
+            this._tipPopup.SetToolTip(this._btnBrowseAdducts, "Browse for library");
+            this._btnBrowseAdducts.UseVisualStyleBackColor = true;
+            this._btnBrowseAdducts.Click += new System.EventHandler(this._btnBrowseAdducts_Click);
+            // 
+            // _btnDelAdduct
+            // 
+            this._btnDelAdduct.Image = global::MetaboliteLevels.Properties.Resources.MnuClear;
+            this._btnDelAdduct.Location = new System.Drawing.Point(8, 82);
+            this._btnDelAdduct.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnDelAdduct.Name = "_btnDelAdduct";
+            this._btnDelAdduct.Size = new System.Drawing.Size(28, 29);
+            this._btnDelAdduct.TabIndex = 2;
+            this._tipSideBar.SetToolTip(this._btnDelAdduct, global::MetaboliteLevels.Resx.Manual.Adducts);
+            this._tipPopup.SetToolTip(this._btnDelAdduct, "Remove selected library");
+            this._btnDelAdduct.UseVisualStyleBackColor = true;
+            this._btnDelAdduct.Click += new System.EventHandler(this.ctlButton3_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.tableLayoutPanel7.SetColumnSpan(this.label9, 3);
+            this.label9.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
+            this.label9.Location = new System.Drawing.Point(24, 24);
+            this.label9.Margin = new System.Windows.Forms.Padding(8);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(238, 21);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "^^Select the compound libraries";
+            // 
+            // _btnAddCompound
+            // 
+            this._btnAddCompound.Image = global::MetaboliteLevels.Properties.Resources.MnuMoveToList;
+            this._btnAddCompound.Location = new System.Drawing.Point(8, 8);
+            this._btnAddCompound.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnAddCompound.Name = "_btnAddCompound";
+            this._btnAddCompound.Size = new System.Drawing.Size(28, 29);
+            this._btnAddCompound.TabIndex = 0;
+            this._btnAddCompound.Text = "";
+            this._tipSideBar.SetToolTip(this._btnAddCompound, global::MetaboliteLevels.Resx.Manual.Compounds);
+            this._tipPopup.SetToolTip(this._btnAddCompound, "Add selected library");
+            this._btnAddCompound.UseVisualStyleBackColor = true;
+            this._btnAddCompound.Click += new System.EventHandler(this._btnIdentifications_Click);
+            // 
+            // _btnAddAllCompounds
+            // 
+            this._btnAddAllCompounds.Image = global::MetaboliteLevels.Properties.Resources.MnuAll;
+            this._btnAddAllCompounds.Location = new System.Drawing.Point(8, 45);
+            this._btnAddAllCompounds.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnAddAllCompounds.Name = "_btnAddAllCompounds";
+            this._btnAddAllCompounds.Size = new System.Drawing.Size(28, 29);
+            this._btnAddAllCompounds.TabIndex = 1;
+            this._btnAddAllCompounds.Text = "";
+            this._tipSideBar.SetToolTip(this._btnAddAllCompounds, global::MetaboliteLevels.Resx.Manual.Compounds);
+            this._tipPopup.SetToolTip(this._btnAddAllCompounds, "Add all libraries");
+            this._btnAddAllCompounds.UseVisualStyleBackColor = true;
+            this._btnAddAllCompounds.Click += new System.EventHandler(this._btnAddAllCompounds_Click);
+            // 
+            // _btnAddCompoundLibrary
+            // 
+            this._btnAddCompoundLibrary.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnAddCompoundLibrary.Location = new System.Drawing.Point(8, 82);
+            this._btnAddCompoundLibrary.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnAddCompoundLibrary.Name = "_btnAddCompoundLibrary";
+            this._btnAddCompoundLibrary.Size = new System.Drawing.Size(28, 29);
+            this._btnAddCompoundLibrary.TabIndex = 2;
+            this._btnAddCompoundLibrary.Text = "";
+            this._tipSideBar.SetToolTip(this._btnAddCompoundLibrary, global::MetaboliteLevels.Resx.Manual.Compounds);
+            this._tipPopup.SetToolTip(this._btnAddCompoundLibrary, "Browse for librar");
+            this._btnAddCompoundLibrary.UseVisualStyleBackColor = true;
+            this._btnAddCompoundLibrary.Click += new System.EventHandler(this._btnAddCompoundLibrary_Click);
+            // 
+            // _btnRemoveLibrary
+            // 
+            this._btnRemoveLibrary.Image = global::MetaboliteLevels.Properties.Resources.MnuClear;
+            this._btnRemoveLibrary.Location = new System.Drawing.Point(8, 119);
+            this._btnRemoveLibrary.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this._btnRemoveLibrary.Name = "_btnRemoveLibrary";
+            this._btnRemoveLibrary.Size = new System.Drawing.Size(28, 29);
+            this._btnRemoveLibrary.TabIndex = 3;
+            this._tipSideBar.SetToolTip(this._btnRemoveLibrary, global::MetaboliteLevels.Resx.Manual.Compounds);
+            this._tipPopup.SetToolTip(this._btnRemoveLibrary, "Remove selected library");
+            this._btnRemoveLibrary.UseVisualStyleBackColor = true;
+            this._btnRemoveLibrary.Click += new System.EventHandler(this.ctlButton2_Click);
+            // 
+            // _lblAdducts
+            // 
+            this._lblAdducts.AutoSize = true;
+            this.tableLayoutPanel7.SetColumnSpan(this._lblAdducts, 3);
+            this._lblAdducts.Location = new System.Drawing.Point(24, 367);
+            this._lblAdducts.Margin = new System.Windows.Forms.Padding(8);
+            this._lblAdducts.Name = "_lblAdducts";
+            this._lblAdducts.Size = new System.Drawing.Size(214, 21);
+            this._lblAdducts.TabIndex = 4;
+            this._lblAdducts.Text = "Adduct libraries (LC-MS only)";
+            this._tipSideBar.SetToolTip(this._lblAdducts, global::MetaboliteLevels.Resx.Manual.Adducts);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.tableLayoutPanel7.SetColumnSpan(this.label6, 3);
+            this.label6.Location = new System.Drawing.Point(24, 61);
+            this.label6.Margin = new System.Windows.Forms.Padding(8);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(148, 21);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Compound libraries";
+            this._tipSideBar.SetToolTip(this.label6, global::MetaboliteLevels.Resx.Manual.Compounds);
+            // 
+            // _btnIdentifications
+            // 
+            this._btnIdentifications.Enabled = false;
+            this._btnIdentifications.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
+            this._btnIdentifications.Location = new System.Drawing.Point(547, 374);
+            this._btnIdentifications.Margin = new System.Windows.Forms.Padding(8);
+            this._btnIdentifications.Name = "_btnIdentifications";
+            this._btnIdentifications.Size = new System.Drawing.Size(28, 29);
+            this._btnIdentifications.TabIndex = 13;
+            this._tipSideBar.SetToolTip(this._btnIdentifications, global::MetaboliteLevels.Resx.Manual.Identifications);
+            this._tipPopup.SetToolTip(this._btnIdentifications, "Browse for file");
+            this._btnIdentifications.UseVisualStyleBackColor = true;
+            this._btnIdentifications.Click += new System.EventHandler(this._btnIdentifications_Click_1);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.tableLayoutPanel9.SetColumnSpan(this.label11, 4);
+            this.label11.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
+            this.label11.Location = new System.Drawing.Point(24, 24);
+            this.label11.Margin = new System.Windows.Forms.Padding(8);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(321, 21);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "^^Select methods of annotating compounds";
+            // 
+            // _lblTolerance
+            // 
+            this._lblTolerance.AutoSize = true;
+            this._lblTolerance.Enabled = false;
+            this._lblTolerance.Location = new System.Drawing.Point(24, 251);
+            this._lblTolerance.Margin = new System.Windows.Forms.Padding(8);
+            this._lblTolerance.Name = "_lblTolerance";
+            this._lblTolerance.Size = new System.Drawing.Size(121, 21);
+            this._lblTolerance.TabIndex = 8;
+            this._lblTolerance.Text = "Match tolerance";
+            // 
+            // ctlLabel3
+            // 
+            this.ctlLabel3.AutoSize = true;
+            this.ctlLabel3.Enabled = false;
+            this.ctlLabel3.Location = new System.Drawing.Point(64, 419);
+            this.ctlLabel3.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
+            this.ctlLabel3.Name = "ctlLabel3";
+            this.ctlLabel3.Size = new System.Drawing.Size(68, 42);
+            this.ctlLabel3.TabIndex = 14;
+            this.ctlLabel3.Text = "Flag as\r\n(default)";
+            // 
+            // ctlLabel5
+            // 
+            this.ctlLabel5.AutoSize = true;
+            this.tableLayoutPanel9.SetColumnSpan(this.ctlLabel5, 4);
+            this.ctlLabel5.Enabled = false;
+            this.ctlLabel5.Location = new System.Drawing.Point(24, 61);
+            this.ctlLabel5.Margin = new System.Windows.Forms.Padding(8);
+            this.ctlLabel5.Name = "ctlLabel5";
+            this.ctlLabel5.Size = new System.Drawing.Size(73, 21);
+            this.ctlLabel5.TabIndex = 1;
+            this.ctlLabel5.Text = "Annotate";
+            // 
+            // ctlLabel1
+            // 
+            this.ctlLabel1.AutoSize = true;
+            this.ctlLabel1.Enabled = false;
+            this.ctlLabel1.Location = new System.Drawing.Point(64, 152);
+            this.ctlLabel1.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
+            this.ctlLabel1.Name = "ctlLabel1";
+            this.ctlLabel1.Size = new System.Drawing.Size(58, 21);
+            this.ctlLabel1.TabIndex = 4;
+            this.ctlLabel1.Text = "Flag as";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label12.LabelStyle = MetaboliteLevels.Controls.ELabelStyle.Caption;
+            this.label12.Location = new System.Drawing.Point(64, 64);
+            this.label12.Margin = new System.Windows.Forms.Padding(48);
+            this.label12.Name = "label12";
+            this.label12.Padding = new System.Windows.Forms.Padding(8);
+            this.label12.Size = new System.Drawing.Size(471, 121);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "^^Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSavin" +
+    "g your session from the main menu will allow it to be loaded quickly in future.";
+            // 
+            // _lblOrder
+            // 
+            this._lblOrder.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lblOrder.Location = new System.Drawing.Point(0, 66);
+            this._lblOrder.Margin = new System.Windows.Forms.Padding(0);
+            this._lblOrder.Name = "_lblOrder";
+            this._lblOrder.Size = new System.Drawing.Size(301, 28);
+            this._lblOrder.TabIndex = 4;
+            this._lblOrder.Text = " ";
+            this._lblOrder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ctlTitleBar1
             // 

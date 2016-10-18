@@ -76,8 +76,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this._imgList = new System.Windows.Forms.ImageList(this.components);
-            this._imgListClusters = new System.Windows.Forms.ImageList(this.components);
             this._cmsSelectionButton = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pLACEHOLDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._statusMain = new System.Windows.Forms.StatusStrip();
@@ -138,9 +136,9 @@ namespace MetaboliteLevels.Forms.Activities
             this._btnSubOther = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this._btnBack = new System.Windows.Forms.ToolStripSplitButton();
-            this._btnSelection = new System.Windows.Forms.ToolStripDropDownButton();
-            this._btnExterior = new System.Windows.Forms.ToolStripButton();
-            this._btnSelectionExterior = new System.Windows.Forms.ToolStripDropDownButton();
+            this._btnPrimarySelection = new System.Windows.Forms.ToolStripDropDownButton();
+            this._btnSwapSelections = new System.Windows.Forms.ToolStripButton();
+            this._btnSecondarySelection = new System.Windows.Forms.ToolStripDropDownButton();
             this.splitContainer3 = new MGui.Controls.CtlSplitter();
             this._mnuMain.SuspendLayout();
             this._cmsSelectionButton.SuspendLayout();
@@ -513,18 +511,6 @@ namespace MetaboliteLevels.Forms.Activities
             this.aboutToolStripMenuItem1.Text = "&About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
-            // _imgList
-            // 
-            this._imgList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this._imgList.ImageSize = new System.Drawing.Size(24, 24);
-            this._imgList.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // _imgListClusters
-            // 
-            this._imgListClusters.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this._imgListClusters.ImageSize = new System.Drawing.Size(24, 24);
-            this._imgListClusters.TransparentColor = System.Drawing.Color.Transparent;
-            // 
             // _cmsSelectionButton
             // 
             this._cmsSelectionButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -812,7 +798,7 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstTrend.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this._lstTrend.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this._lstTrend.ForeColor = System.Drawing.Color.Purple;
-            this._lstTrend.Image = global::MetaboliteLevels.Properties.Resources.IconMatrix;
+            this._lstTrend.Image = global::MetaboliteLevels.Properties.Resources.ListIconResultMatrix;
             this._lstTrend.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._lstTrend.Name = "_lstTrend";
             this._lstTrend.Size = new System.Drawing.Size(39, 43);
@@ -838,7 +824,7 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstMatrix.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this._lstMatrix.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this._lstMatrix.ForeColor = System.Drawing.Color.Purple;
-            this._lstMatrix.Image = global::MetaboliteLevels.Properties.Resources.IconMatrix;
+            this._lstMatrix.Image = global::MetaboliteLevels.Properties.Resources.ListIconResultMatrix;
             this._lstMatrix.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._lstMatrix.Name = "_lstMatrix";
             this._lstMatrix.Size = new System.Drawing.Size(48, 43);
@@ -914,13 +900,11 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstPrimary.Dock = System.Windows.Forms.DockStyle.Fill;
             this._lstPrimary.FullRowSelect = true;
             this._lstPrimary.GridLines = true;
-            this._lstPrimary.LargeImageList = this._imgList;
             this._lstPrimary.Location = new System.Drawing.Point(0, 0);
             this._lstPrimary.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstPrimary.MultiSelect = false;
             this._lstPrimary.Name = "_lstPrimary";
             this._lstPrimary.Size = new System.Drawing.Size(457, 308);
-            this._lstPrimary.SmallImageList = this._imgList;
             this._lstPrimary.TabIndex = 5;
             this._lstPrimary.UseCompatibleStateImageBehavior = false;
             this._lstPrimary.View = System.Windows.Forms.View.Details;
@@ -1096,13 +1080,11 @@ namespace MetaboliteLevels.Forms.Activities
             this._lstSecondary.Dock = System.Windows.Forms.DockStyle.Fill;
             this._lstSecondary.FullRowSelect = true;
             this._lstSecondary.GridLines = true;
-            this._lstSecondary.LargeImageList = this._imgList;
             this._lstSecondary.Location = new System.Drawing.Point(0, 0);
             this._lstSecondary.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstSecondary.MultiSelect = false;
             this._lstSecondary.Name = "_lstSecondary";
             this._lstSecondary.Size = new System.Drawing.Size(457, 277);
-            this._lstSecondary.SmallImageList = this._imgList;
             this._lstSecondary.TabIndex = 6;
             this._lstSecondary.UseCompatibleStateImageBehavior = false;
             this._lstSecondary.View = System.Windows.Forms.View.Details;
@@ -1287,9 +1269,10 @@ namespace MetaboliteLevels.Forms.Activities
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnBack,
-            this._btnSelection,
-            this._btnExterior,
-            this._btnSelectionExterior});
+            this._btnPrimarySelection,
+            this._btnSwapSelections,
+            this._btnSecondarySelection});
+            this.toolStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(457, 32);
@@ -1301,52 +1284,51 @@ namespace MetaboliteLevels.Forms.Activities
             this._btnBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this._btnBack.Image = global::MetaboliteLevels.Properties.Resources.IconBack;
             this._btnBack.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnBack.Margin = new System.Windows.Forms.Padding(8, 1, 0, 2);
+            this._btnBack.Margin = new System.Windows.Forms.Padding(8, 4, 0, 2);
             this._btnBack.Name = "_btnBack";
-            this._btnBack.Size = new System.Drawing.Size(32, 29);
+            this._btnBack.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this._btnBack.Size = new System.Drawing.Size(32, 20);
             this._btnBack.Text = "Back to previous selection";
             this._btnBack.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this._btnBack.ToolTipText = "Click here to view and go back to previous selections.";
+            this._btnBack.ToolTipText = "Selection history";
             this._btnBack.ButtonClick += new System.EventHandler(this._btnBack_ButtonClick);
             this._btnBack.DropDownOpening += new System.EventHandler(this._btnBack_DropDownOpening);
             // 
             // _btnSelection
             // 
-            this._btnSelection.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnSelection.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
-            this._btnSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnSelection.Name = "_btnSelection";
-            this._btnSelection.ShowDropDownArrow = false;
-            this._btnSelection.Size = new System.Drawing.Size(89, 29);
-            this._btnSelection.Text = "VALUE";
-            this._btnSelection.ToolTipText = "The currently selected item is described here.";
-            this._btnSelection.DropDownOpening += new System.EventHandler(this._btnSelection_DropDownOpening);
+            this._btnPrimarySelection.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnPrimarySelection.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
+            this._btnPrimarySelection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnPrimarySelection.Name = "_btnSelection";
+            this._btnPrimarySelection.ShowDropDownArrow = false;
+            this._btnPrimarySelection.Size = new System.Drawing.Size(89, 29);
+            this._btnPrimarySelection.Text = "VALUE";
+            this._btnPrimarySelection.ToolTipText = "Primary selection";
+            this._btnPrimarySelection.DropDownOpening += new System.EventHandler(this._btnSelection_DropDownOpening);
             // 
             // _btnExterior
             // 
-            this._btnExterior.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._btnExterior.Image = ((System.Drawing.Image)(resources.GetObject("_btnExterior.Image")));
-            this._btnExterior.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnExterior.Name = "_btnExterior";
-            this._btnExterior.Size = new System.Drawing.Size(23, 29);
-            this._btnExterior.Text = "toolStripButton11";
-            this._btnExterior.ToolTipText = "If you have selected one item \"inside\" another you can click here to swap the sel" +
-    "ection and display the items relationship from the second items perspective.\r\n";
-            this._btnExterior.Click += new System.EventHandler(this._btnExterior_Click);
+            this._btnSwapSelections.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._btnSwapSelections.Image = ((System.Drawing.Image)(resources.GetObject("_btnExterior.Image")));
+            this._btnSwapSelections.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSwapSelections.Name = "_btnExterior";
+            this._btnSwapSelections.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this._btnSwapSelections.Size = new System.Drawing.Size(23, 28);
+            this._btnSwapSelections.Text = "toolStripButton11";
+            this._btnSwapSelections.ToolTipText = "Swap primary and secondary selections";
+            this._btnSwapSelections.Click += new System.EventHandler(this._btnExterior_Click);
             // 
             // _btnSelectionExterior
             // 
-            this._btnSelectionExterior.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnSelectionExterior.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
-            this._btnSelectionExterior.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnSelectionExterior.Name = "_btnSelectionExterior";
-            this._btnSelectionExterior.ShowDropDownArrow = false;
-            this._btnSelectionExterior.Size = new System.Drawing.Size(89, 29);
-            this._btnSelectionExterior.Text = "VALUE";
-            this._btnSelectionExterior.ToolTipText = "If you have selected one item \"inside\" another, that item is displayed here.\r\nThi" +
-    "s item will be described using the perspective of the first item.\r\nClick the swa" +
-    "p button to reverse the perspective.";
-            this._btnSelectionExterior.DropDownOpening += new System.EventHandler(this._btnSelectionExterior_DropDownOpening);
+            this._btnSecondarySelection.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnSecondarySelection.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
+            this._btnSecondarySelection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._btnSecondarySelection.Name = "_btnSelectionExterior";
+            this._btnSecondarySelection.ShowDropDownArrow = false;
+            this._btnSecondarySelection.Size = new System.Drawing.Size(89, 29);
+            this._btnSecondarySelection.Text = "VALUE";
+            this._btnSecondarySelection.ToolTipText = "Secondary selection";
+            this._btnSecondarySelection.DropDownOpening += new System.EventHandler(this._btnSelectionExterior_DropDownOpening);
             // 
             // splitContainer3
             // 
@@ -1429,7 +1411,6 @@ namespace MetaboliteLevels.Forms.Activities
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripMenuItem printClusterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveClusterImageToolStripMenuItem;
-        private System.Windows.Forms.ImageList _imgList;
         private System.Windows.Forms.ToolStripMenuItem clusteringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem visualOptionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
@@ -1458,7 +1439,6 @@ namespace MetaboliteLevels.Forms.Activities
         private System.Windows.Forms.ListView _lstSecondary;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.ToolTip _toolTipMain;
-        private System.Windows.Forms.ImageList _imgListClusters;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip _cmsSelectionButton;
         private System.Windows.Forms.ToolStripMenuItem experimentalOptionsToolStripMenuItem;
@@ -1496,11 +1476,11 @@ namespace MetaboliteLevels.Forms.Activities
         private System.Windows.Forms.ToolStripMenuItem editNameAndCommentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton _btnSession;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripDropDownButton _btnSelection;
-        private System.Windows.Forms.ToolStripDropDownButton _btnSelectionExterior;
+        private System.Windows.Forms.ToolStripDropDownButton _btnPrimarySelection;
+        private System.Windows.Forms.ToolStripDropDownButton _btnSecondarySelection;
         private System.Windows.Forms.ToolStripSplitButton _btnBack;
         private System.Windows.Forms.ToolStripMenuItem sessionInformationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton _btnExterior;
+        private System.Windows.Forms.ToolStripButton _btnSwapSelections;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel _txtGuid;
         private System.Windows.Forms.ToolStripMenuItem pLACEHOLDERToolStripMenuItem;

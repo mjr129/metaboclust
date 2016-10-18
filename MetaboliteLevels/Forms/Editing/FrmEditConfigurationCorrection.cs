@@ -74,7 +74,7 @@ namespace MetaboliteLevels.Forms.Editing
             _chartChanged = new ChartHelperForPeaks( null, _core, panel2 );
 
             // Choicelists
-            _ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( _lstFilter, _btnFilter, ENullItemName.All );
+            _ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( _lstFilter, _btnFilter, ENullItemName.RepresentingAll );
             _ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms( core ).CreateComboBox( _lstMethod, _btnNewStatistic, ENullItemName.NoNullItem );
             _ecbTypes = DataSet.ForGroups( _core ).CreateComboBox( _lstTypes, _btnEditTypes, ENullItemName.NoNullItem );
             _ecbSource = DataSet.ForMatrixProviders( _core ).CreateComboBox( _lstSource, _btnSource, ENullItemName.NoNullItem );

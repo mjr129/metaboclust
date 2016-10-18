@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MSerialisers;
 
@@ -154,6 +156,6 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Adduct;
+        public override Image Icon=> Resources.ListIconAdduct;
     }
 }

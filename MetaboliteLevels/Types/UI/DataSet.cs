@@ -69,7 +69,7 @@ namespace MetaboliteLevels.Types.UI
                 Core = core,
                 ListTitle = title,
                 ListSource = options.Indices(),
-                ItemTitle = z => options[z]
+                ItemTitle = z => options[z],
             };
         }
 
@@ -102,7 +102,7 @@ namespace MetaboliteLevels.Types.UI
                 ListTitle = "Observations",
                 ListSource = core.Observations,
                 ItemDescription = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition,
-                ListIcon = Resources.IconObservation,
+                Icon = Resources.IconAdduct
             };
         }
 
@@ -117,7 +117,7 @@ namespace MetaboliteLevels.Types.UI
                 ListTitle = "Conditions",
                 ListSource = core.Conditions,
                 ItemDescription = z => "Group = " + z.Group.DisplayName + ", Time = " + z.Time + ", Replicate = " + z.Rep + "\r\nBatch = " + z.Batch + ", Acquisition = " + z.Acquisition,
-                ListIcon = Resources.IconCondition,
+                Icon = Resources.IconCondition,
             };
         }
 
@@ -182,7 +182,7 @@ namespace MetaboliteLevels.Types.UI
                 ItemDescription = z => z.DisplayShortName + ": " + z.DisplayName,
                 StringComparator = _TypeNameComparator,
                 HandleEdit = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
-                ListIcon = Resources.IconGroups,
+                Icon = Resources.IconGroups,
             };
         }
 
@@ -201,7 +201,7 @@ namespace MetaboliteLevels.Types.UI
                 ItemDescription = z => z.DisplayShortName + z.Comment.FormatIf( "\r\nComment: " ),
                 StringComparator = _TypeNameComparator,
                 HandleEdit = z => { return FrmEditGroupBase.Show( z.Owner, z.DefaultValue, z.ReadOnly ) ? z.DefaultValue : null; },
-                ListIcon = Resources.IconGroups,
+                Icon = Resources.IconGroups,
             };
         }
 
@@ -217,7 +217,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Times,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
-                ListIcon = Resources.IconTime,
+                Icon = Resources.IconTime,
             };
         }
 
@@ -233,7 +233,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Reps,
                 CancelValue = int.MinValue,
                 IntegerBehaviour = true,
-                ListIcon = Resources.IconReplicate,
+                Icon = Resources.IconReplicate,
             };
         }
 
@@ -246,7 +246,7 @@ namespace MetaboliteLevels.Types.UI
             {
                 ListTitle = "Headers",
                 ListSource = headerCollection.Headers,
-                ListIcon = Resources.IconInformation,
+                Icon = Resources.IconInformation,
             };
         }
 
@@ -278,7 +278,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Clusters,
                 ItemTitle = _GetDisplayName,
                 ItemDescription = _GetComment,
-                ListIcon = Resources.IconCluster,
+                Icon = Resources.IconCluster,
             };
         }
 
@@ -291,7 +291,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Pathways,
                 ItemTitle = _GetDisplayName,
                 ItemDescription = _GetComment,
-                ListIcon = Resources.IconPathway,
+                Icon = Resources.IconPathway,
             };
         }
 
@@ -304,7 +304,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Adducts,
                 ItemTitle = _GetDisplayName,
                 ItemDescription = _GetComment,
-                ListIcon = Resources.IconAdduct,
+                Icon = Resources.IconAdduct,
             };
         }
 
@@ -317,7 +317,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Compounds,
                 ItemTitle = _GetDisplayName,
                 ItemDescription = _GetComment,
-                ListIcon = Resources.IconCompound,
+                Icon = Resources.IconCompound,
             };
         }
 
@@ -333,7 +333,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Peaks,
                 ItemTitle = _GetDisplayName,
                 ItemDescription = _GetComment,
-                ListIcon = Resources.IconPeak,
+                Icon = Resources.IconPeak,
             };
         }
 
@@ -349,7 +349,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = _EnumerateDatasetProviders( core ),
                 ItemTitle = z => z.Title,
                 ItemDescription = z => z.SubTitle,
-                ListIcon = Resources.IconPeak,
+                Icon = Resources.IconPeak,
             };
         }
 
@@ -391,7 +391,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Annotations,
                 ItemTitle = _GetDisplayName,
                 ItemDescription = _GetComment,
-                ListIcon = Resources.IconAnnotation,
+                Icon = Resources.IconAnnotation,
             };
         }
 
@@ -404,7 +404,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Assignments,
                 ItemTitle = _GetDisplayName,
                 ItemDescription = _GetComment,
-                ListIcon = Resources.IconPeak,
+                Icon = Resources.IconPeak,
             };
         }
 
@@ -420,7 +420,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = matrix.Vectors,
                 ItemTitle = z => z.ToString(),
                 ItemDescription = z => z.Peak.Comment,
-                ListIcon = Resources.IconPeak,
+                Icon = Resources.IconPeak,
             };
         }
 
@@ -443,7 +443,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = all,
                 ItemTitle = z => z.GetType().Name.ToSmallCaps() + ": " + z.ToString(),
                 ItemDescription = z => (z is Visualisable) ? "Selectable" : "Not selectable",
-                ListIcon = Resources.IconCore,
+                Icon = Resources.IconCore,
             };
         }
 
@@ -459,7 +459,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Trends,
                 ItemDescription = _GetComment,
                 ListSupportsReorder = true,
-                ListIcon = Resources.IconScriptTrend,  
+                Icon = Resources.IconScriptTrend,  
                 ItemsReferenceList = true,
                 HandleCommit = z =>
                 {             
@@ -489,7 +489,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = core.Corrections,
                 ItemDescription = _GetComment,
                 ListSupportsReorder = true,
-                ListIcon = Resources.IconScriptCorrect,
+                Icon = Resources.IconScriptCorrect,
                 ItemsReferenceList = true,        
                 HandleCommit = z =>
                 {
@@ -520,7 +520,7 @@ namespace MetaboliteLevels.Types.UI
                 ItemDescription = _GetComment,
                 ListSupportsReorder = true,
                 HandleCommit = z => core.SetClusterers( z.List, z.Progress, z.Transient ),
-                ListIcon = Resources.IconScriptCluster,
+                Icon = Resources.IconScriptCluster,
                 ItemsReferenceList = true,
                 HandleEdit = z =>
                 {
@@ -578,6 +578,7 @@ namespace MetaboliteLevels.Types.UI
                 HandleEdit = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_TRENDS ),
                 ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
+                Icon = Resources.IconR,
             };
         }
 
@@ -594,6 +595,7 @@ namespace MetaboliteLevels.Types.UI
                 HandleEdit = z => _ShowScriptEditor( z ),
                 ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
+                Icon = Resources.IconR,
             };
         }
 
@@ -610,6 +612,7 @@ namespace MetaboliteLevels.Types.UI
                 HandleEdit = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_CLUSTERERS ),
                 ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
+                Icon = Resources.IconR,
             };
         }
 
@@ -626,6 +629,7 @@ namespace MetaboliteLevels.Types.UI
                 HandleEdit = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_TRENDS, UiControls.EInitialFolder.FOLDER_CORRECTIONS ),
                 ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
+                Icon = Resources.IconR,
             };
         }
 
@@ -642,6 +646,7 @@ namespace MetaboliteLevels.Types.UI
                 HandleEdit = z => _ShowScriptEditor( z, UiControls.EInitialFolder.FOLDER_STATISTICS, UiControls.EInitialFolder.FOLDER_METRICS ),
                 ListIsSelfUpdating = true,
                 BeforeItemChanged = _ScriptReplace,
+                Icon = Resources.IconR,
             };
         }
 
@@ -659,7 +664,7 @@ namespace MetaboliteLevels.Types.UI
                 ItemsReferenceList = true,
                 HandleCommit = z => core.SetStatistics( z.List, z.Progress, z.Transient ),
                 ListSupportsReorder = true,
-                ListIcon = Resources.IconScriptStatistic,
+                Icon = Resources.IconScriptStatistic,
                 HandleEdit = z =>
                 {
                     if (!_ShowEditPreamble( z.Cast<ConfigurationBase>() ))
@@ -715,6 +720,7 @@ namespace MetaboliteLevels.Types.UI
                     return FrmEditPeakFlag.Show( z.Owner, val, z.ReadOnly ) ? val : null;
                 },
                 ListIsSelfUpdating = true,
+                Icon = Resources.ListIconFlag,
             };
         }
 
@@ -731,6 +737,7 @@ namespace MetaboliteLevels.Types.UI
                 ItemDescription = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
                 HandleCommit = z => core.SetPeakFilters( z.List ),
                 ListSupportsReorder = true,
+                Icon = Resources.ListIconFilter,
                 HandleEdit = z =>
                 {
                     var newList = DataSet.ForPeakFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
@@ -757,6 +764,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = of != null ? of.Conditions.Cast<ObsFilter.Condition>() : new ObsFilter.Condition[0],
                 HandleEdit = z => FrmEditObsFilterCondition.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
                 ListSupportsReorder = true,
+                Icon = Resources.ListIconFilter,
             };
         }
 
@@ -772,6 +780,7 @@ namespace MetaboliteLevels.Types.UI
                 ListSource = of != null ? of.Conditions.Cast<PeakFilter.Condition>() : new PeakFilter.Condition[0],
                 HandleEdit = z => FrmEditPeakFilterCondition.Show( z.Owner, core, z.DefaultValue, z.ReadOnly ),
                 ListSupportsReorder = true,
+                Icon = Resources.ListIconFilter,
             };
         }
 
@@ -786,6 +795,7 @@ namespace MetaboliteLevels.Types.UI
                 ListTitle = "Observation Filters",
                 ListSource = core.ObsFilters,
                 ItemDescription = z => z.ParamsAsString() + z.Comment.FormatIf( "\r\nComments: " ),
+                Icon = Resources.ListIconFilter,
                 HandleEdit = z =>
                 {
                     var newlist = DataSet.ForObsFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );

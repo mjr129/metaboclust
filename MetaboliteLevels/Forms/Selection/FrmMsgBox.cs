@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Controls;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Forms.Activities;
 using MetaboliteLevels.Forms.Text;
 using MetaboliteLevels.Forms.Wizards;
 using MetaboliteLevels.Properties;
@@ -16,7 +17,7 @@ using MGui.Helpers;
 
 namespace MetaboliteLevels.Forms.Selection
 {
-    public partial class FrmMsgBox : Form
+    internal partial class FrmMsgBox : Form
     {
         /// <summary>
         /// Don't show again IDs
@@ -51,7 +52,7 @@ namespace MetaboliteLevels.Forms.Selection
             MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK)
                                   , new MsgBoxButton("Cancel", Resources.MnuBack, DialogResult.Cancel) };
 
-            return Show(owner, title, null, message, image, buttons, null, null, dontShowAgainId, DialogResult.OK) == DialogResult.OK;
+            return Show(new MsgBox( owner, title, null, message, image, buttons, null, null, dontShowAgainId, DialogResult.OK) )== DialogResult.OK;
         }
 
         public static DialogResult ShowYesCancel(Form owner, string title, string message, Image image = null)
@@ -107,7 +108,7 @@ namespace MetaboliteLevels.Forms.Selection
         public static void ShowInfo(Form owner, string title, string message, EDontShowAgainId dontShowAgainId )
         {
             MsgBoxButton[] buttons = { new MsgBoxButton("OK", Resources.MnuAccept, DialogResult.OK) };
-            Show(owner, title, null, message, Resources.MsgInfo, buttons, null, null, dontShowAgainId, null);
+            Show( new MsgBox( owner, title, null, message, Resources.MsgInfo, buttons, null, null, dontShowAgainId, null ) );
         }
 
         public static void ShowWarning(Form owner, string title, string message, EDontShowAgainId dontShowAgainId = EDontShowAgainId.None )
@@ -168,17 +169,23 @@ namespace MetaboliteLevels.Forms.Selection
         /// <summary>
         /// Constructor. See Show method for parameter descriptions.
         /// </summary>                                                                                           
-        private FrmMsgBox(string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton, bool notAgainVisible, DialogResult? notAgainConstraint)
+        private FrmMsgBox(MsgBox e)
             : this()
         {
-            this.ctlTitleBar1.Text = title;
-            this.ctlTitleBar1.SubText = subTitle;
-            this.label1.Text = message;
-            this.pictureBox1.Image = image;
-            this._chkNotAgain.Visible = notAgainVisible;
-            this._notAgainConstraint = notAgainConstraint;
+            this.ctlTitleBar1.Text = e.Title;
+            this.ctlTitleBar1.SubText = e.SubTitle;
+            this.ctlTitleBar1.HelpText = e.HelpText;
+            this.label1.Text = e.Message;
+            this.pictureBox1.Image = e.Image;
+            this._chkNotAgain.Visible = e.DontShowAgainId != null;
+            this._notAgainConstraint = e.DontShowAgainValue;
 
-            foreach (MsgBoxButton s in buttons)
+            if (e.Buttons == null)
+            {
+                e.Buttons = new MsgBoxButton[] { new MsgBoxButton( DialogResult.OK ) };
+            }
+
+            foreach (MsgBoxButton s in e.Buttons)
             {
                 CtlButton b = new CtlButton();
 
@@ -193,25 +200,23 @@ namespace MetaboliteLevels.Forms.Selection
                 _buttons.Add(b);
             }
 
-            if (defaultButton.HasValue)
+            if (e.DefaultButton.HasValue)
             {
-                this.AcceptButton = this._buttons.First(z => z.DialogResult == defaultButton.Value);
+                this.AcceptButton = this._buttons.First(z => z.DialogResult == e.DefaultButton.Value);
             }
             else
             {
                 this.AcceptButton = _buttons[0];
             }
 
-            if (cancelButton.HasValue)
+            if (e.CancelButton.HasValue)
             {
-                this.CancelButton = this._buttons.First(z => z.DialogResult == cancelButton.Value);
+                this.CancelButton = this._buttons.First(z => z.DialogResult == e.CancelButton.Value);
             }
             else
             {
                 this.CancelButton = this._buttons[this._buttons.Count - 1];
-            }
-
-            // UiControls.CompensateForVisualStyles(this);
+            }                                             
         }
 
         /// <summary>
@@ -230,72 +235,65 @@ namespace MetaboliteLevels.Forms.Selection
 
         public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons)
         {
-            return Show(owner, title, subTitle, message, image, buttons, null, null, EDontShowAgainId.None, null);
+            return Show( new MsgBox( owner, title, subTitle, message, image, buttons, null, null, EDontShowAgainId.None, null ) );
         }
         public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue)
         {
-            return Show(owner, title, subTitle, message, image, buttons, null, null, dontShowAgainId, dontShowAgainValue);
+            return Show( new MsgBox( owner, title, subTitle, message, image, buttons, null, null, dontShowAgainId, dontShowAgainValue ) );
         }
 
         public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton)
         {
-            return Show(owner, title, subTitle, message, image, buttons, defaultButton, cancelButton, EDontShowAgainId.None, null);
-        }
-
-        public static DialogResult Show( Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton, EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue )
-        {
-            string dontShowAgainStringValue = dontShowAgainId == EDontShowAgainId.None ? null : dontShowAgainId.ToString();
-            return Show( owner, title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainStringValue, dontShowAgainValue );
+            return Show( new MsgBox( owner, title, subTitle, message, image, buttons, defaultButton, cancelButton, EDontShowAgainId.None, null ) );
         }
 
         /// <summary>
         /// Shows something
-        /// </summary>
-        /// <param name="owner">Owner form</param>
-        /// <param name="title">Title (or NULL for no title)</param>
-        /// <param name="subTitle">Subtitle (or NULL for no subtitle)</param>
-        /// <param name="message">Message (or NULL for no message)</param>
-        /// <param name="image">Image (or NULL for no image)</param>
-        /// <param name="buttons">Buttons to display</param>
-        /// <param name="defaultButton">AcceptButton index (or NULL to automatically select the first button)</param>
-        /// <param name="cancelButton">CancelButton index (or NULL to automatically select the last button)</param>
-        /// <param name="dontShowAgainId">ID of don't show again status (or NULL to disable option).</param>
-        /// <param name="dontShowAgainValue">Which button to enable if dontShowAgainId is set (or NULL to allow any and remember the result)</param>
-        /// <returns>Dialog result of selected button, or dontShowAgainValue if previously set to not show again.</returns>
-        public static DialogResult Show(Form owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton, string dontShowAgainId, DialogResult? dontShowAgainValue)
+        /// </summary>       
+        /// <returns>Dialog result of selected button, or <see cref="MsgBox.DontShowAgainValue"/> if previously set to not show again.</returns>
+        public static DialogResult Show(MsgBox e)
         {
-            string id = null;
+            string key = null;
 
-            if (dontShowAgainValue != null)
+            if (e.DontShowAgainId != null)
             {
-                id = "FrmMsgBox." + dontShowAgainId;
                 int v;
+                key = GetKey( e.DontShowAgainId );
 
-                if (MainSettings.Instance.DoNotShowAgain.TryGetValue(id, out v))
+                if (MainSettings.Instance.DoNotShowAgain.TryGetValue(key, out v))
                 {
-                    if (dontShowAgainValue.HasValue)
+                    // User said "don't show again"
+
+                    if (e.DontShowAgainValue.HasValue)
                     {
-                        return dontShowAgainValue.Value;
+                        // Always use the same result
+                        return e.DontShowAgainValue.Value;
                     }
                     else
                     {
+                        // Use the user's last selection
                         return (DialogResult)v;
                     }
                 }
             }
 
-            using (FrmMsgBox frm = new FrmMsgBox(title, subTitle, message, image, buttons, defaultButton, cancelButton, dontShowAgainId != null, dontShowAgainValue))
+            using (FrmMsgBox frm = new FrmMsgBox(e))
             {
-                DialogResult result = UiControls.ShowWithDim(owner, frm);
+                DialogResult result = UiControls.ShowWithDim(e.Owner, frm);
 
                 if (frm._chkNotAgain.Checked)
                 {
-                    MainSettings.Instance.DoNotShowAgain.Add(id, (int)result);
+                    MainSettings.Instance.DoNotShowAgain.Add(key, (int)result);
                     MainSettings.Instance.Save();
                 }
 
                 return result;
             }
+        }
+
+        private static string GetKey( string dontShowAgainId )
+        {
+            return "FrmMsgBox." + dontShowAgainId;
         }
 
         public FrmMsgBox()
@@ -354,5 +352,70 @@ namespace MetaboliteLevels.Forms.Selection
         }
     }
 
-   
+    class MsgBox
+    {
+        public IWin32Window Owner;
+        public string SubTitle;
+        public string Message;
+        public IEnumerable<MsgBoxButton> Buttons;
+        public DialogResult? DefaultButton;
+        public DialogResult? CancelButton;
+        public string DontShowAgainId;
+        public DialogResult? DontShowAgainValue;
+        public string HelpText;
+        public ELogLevel Level;
+        private string _title;
+        private Image _image;
+
+        public Image Image
+        {
+            get { return _image ?? FrmMsgBox.GetIcon( Level ); }
+            set { _image = value; }
+        }
+
+        public string Title
+        {
+            get { return _title ?? Level.ToUiString(); }
+            set { _title = value; }
+        }     
+
+        public MsgBox( IWin32Window owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton, string dontShowAgainId, DialogResult? dontShowAgainValue )
+        {
+            Owner = owner;
+            Title = title;
+            SubTitle = subTitle;
+            Message = message;
+            Image = image;
+            Buttons = buttons;
+            DefaultButton = defaultButton;
+            CancelButton = cancelButton;
+            DontShowAgainId = dontShowAgainId;
+            DontShowAgainValue = dontShowAgainValue;
+        }
+
+        public MsgBox( IWin32Window owner, string title, string subTitle, string message, Image image, IEnumerable<MsgBoxButton> buttons, DialogResult? defaultButton, DialogResult? cancelButton, FrmMsgBox.EDontShowAgainId dontShowAgainId, DialogResult? dontShowAgainValue )
+        {
+            Owner = owner;
+            Title = title;
+            SubTitle = subTitle;
+            Message = message;
+            Image = image;
+            Buttons = buttons;
+            DefaultButton = defaultButton;
+            CancelButton = cancelButton;
+            DontShowAgainId = dontShowAgainId == FrmMsgBox.EDontShowAgainId.None ? null : dontShowAgainId.ToString(); ;
+            DontShowAgainValue = dontShowAgainValue;
+        }
+
+        public MsgBox()
+        {       
+            // NA                                                                                            
+        }
+
+        public DialogResult Show( IWin32Window owner )
+        {
+            Owner = owner;
+            return FrmMsgBox.Show( this );
+        }
+    }
 }

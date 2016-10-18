@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Properties;
 using MGui;
 using MGui.Helpers;
 using MSerialisers;
@@ -112,16 +114,16 @@ namespace MetaboliteLevels.Utilities
                 this.Level = level;
             }
 
-            UiControls.ImageListOrder IIconProvider.Icon
+            Image IIconProvider.Icon
             {
                 get
                 {
                     switch (Level)
                     {   
-                        case ELogLevel.Information: return UiControls.ImageListOrder.Info;
+                        case ELogLevel.Information: return Resources.ListIconInformation;
                         default:
                         case ELogLevel.Error: 
-                        case ELogLevel.Warning: return UiControls.ImageListOrder.Warning;
+                        case ELogLevel.Warning: return Resources.MnuWarning;
                     }
                 }
             }

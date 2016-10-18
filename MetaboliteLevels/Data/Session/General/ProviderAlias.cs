@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -78,6 +80,6 @@ namespace MetaboliteLevels.Data.Session.General
         [XColumn("Current target", EColumn.Visible)]
         public override string DefaultDisplayName => Target?.ToString() ?? "Unavailable".ToBold();
 
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Matrix;
+        public override Image Icon => Resources.ListIconResultShortcut;
     }
 }

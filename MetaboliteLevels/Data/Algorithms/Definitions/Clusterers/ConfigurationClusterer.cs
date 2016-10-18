@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
@@ -44,5 +46,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
             ResultClusterer results = this.Cluster( core, -1, prog );
             this.SetResults( results );
         }
+
+        protected override Image ResultIcon => Resources.ListIconResultCluster;
     }
 }

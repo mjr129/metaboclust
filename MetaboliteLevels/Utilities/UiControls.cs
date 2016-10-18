@@ -251,40 +251,102 @@ namespace MetaboliteLevels.Utilities
                 return null;
             }
 
-            Bitmap result = new Bitmap( source );
-            Rectangle entirity = new Rectangle( 0, 0, result.Width, result.Height );
+            BitmapDataHelper data = new BitmapDataHelper( source );
 
-            BitmapData bmpData = result.LockBits( entirity, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb );
+            uint dc = colour.ToArgbU() & 0x00FFFFFF;
 
-            int strideInInts = bmpData.Stride / sizeof( UInt32 );
-            int sizeInInts = bmpData.Height * strideInInts;
-            Int32[] data = new Int32[sizeInInts];
-
-            // Marshal to avoid unsafe code...
-            Marshal.Copy( bmpData.Scan0, data, 0, sizeInInts );
-
-            int dc = colour.ToArgb() & 0x00FFFFFF;
-
-            for (int y = 0; y < bmpData.Height; y++)
+            for (int y = 0; y < data.Height; y++)
             {
-                for (int x = 0; x < bmpData.Width; x++)
+                for (int x = 0; x < data.Width; x++)
                 {
-                    int i = x + (y * strideInInts);
+                    uint i = data[x, y];
 
-                    int c = data[i];
+                    i |= dc;
 
-                    c |= dc;
-
-                    data[i] = c;
+                    data[x, y] = i;
                 }
             }
-            
-            Marshal.Copy( data, 0, bmpData.Scan0, data.Length );
 
-            result.UnlockBits( bmpData );
-
-            return result;
+            return data.Unlock();
         }
+
+        public static Bitmap EmboldenImage( Image source )
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            BitmapDataHelper data = new BitmapDataHelper( source );
+            BitmapDataHelper original = new BitmapDataHelper( source );
+
+            for (int y = 0; y < data.Height; y++)
+            {
+                for (int x = 0; x < data.Width; x++)
+                {
+                    uint i = unchecked((uint)original[x, y]);
+
+                    if ((i & 0xFF000000U) == 0U || (i == 0xFFFFFFFFU))
+                    {
+                        uint u = original.GetOrDefault( x, y - 1 );
+                        uint d = original.GetOrDefault( x, y + 1 );
+                        uint l = original.GetOrDefault( x - 1, y );
+                        uint r = original.GetOrDefault( x + 1, y );
+                        uint cmb = MaxC(u, d, l, r);
+
+
+                        data[x, y] = cmb;
+                    }
+                }
+            }
+
+            return data.Unlock();
+        }
+
+        private static uint MaxC( params uint[] e )
+        {    
+            foreach (var x in e)
+            {
+                if ((x & 0xFF000000) != 0 && (x != 0xFFFFFFFF))
+                {
+                    return x;
+                }
+            }
+
+            return e[0];
+        }
+
+        public static Bitmap OutlineImage( Image source, Color colour )
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            BitmapDataHelper data = new BitmapDataHelper( source );
+            BitmapDataHelper original = new BitmapDataHelper( source );
+
+            uint dc = colour.ToArgbU();
+
+            for (int y = 0; y < data.Height; y++)
+            {
+                for (int x = 0; x < data.Width; x++)
+                {
+                    uint i = original[x, y];
+                    uint u = original.GetOrDefault( x, y - 1 );
+                    uint d = original.GetOrDefault( x, y + 1 );
+                    uint l = original.GetOrDefault( x - 1, y );
+                    uint r = original.GetOrDefault( x + 1, y );
+
+                    if (((i & 0xFF000000) == 0) && (((u | d | l | r) & 0xFF000000) != 0))
+                    {
+                        data[x, y] = dc;
+                    }
+                }
+            }
+
+            return data.Unlock();
+        }    
 
         private static void Tsl_MouseLeave(object sender, EventArgs e)
         {
@@ -373,16 +435,21 @@ namespace MetaboliteLevels.Utilities
 
         internal static Image GetImage( object @object, bool bold )
         {
-            GroupInfoBase g = @object as GroupInfoBase;
+            Image result = GetImage( @object );
 
-            if (g != null)
+            if (bold)
             {
-                return UiControls.CreateExperimentalGroupImage( true, g, false );
+                return EmboldenImage( result );
             }
 
+            return result;
+        }
+
+        internal static Image GetImage( object @object )
+        {              
             IIconProvider vis = @object as IIconProvider;
 
-            return GetImage( vis?.Icon ?? ImageListOrder.Unknown, bold );
+            return vis?.Icon ?? Resources.IconUnknown;
         }
 
         /// <summary>
@@ -469,30 +536,27 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Shows a form, dimming the form behind it.
         /// </summary>                               
-        public static DialogResult ShowWithDim(Form owner, dynamic form)
-        {
-#if ENABLE_DIMMER
-            if (!owner.Visible)
+        public static DialogResult ShowWithDim( IWin32Window owner, dynamic form)
+        {            
+            Form ownerAsForm=owner as Form;
+              
+            if (ownerAsForm==null || !ownerAsForm.Visible)
             {
                 return form.ShowDialog(owner);
             }
 
             DialogResult result;
 
-            using (var dimmer = CreateDimmer(owner))
+            using (Form dimmer = CreateDimmer( ownerAsForm ))
             {
                 result = form.ShowDialog(dimmer);
             }
 
-            owner.Focus();
+            ownerAsForm.Focus();
 
             return result;
-#else
-            return form.ShowDialog(owner);
-#endif
         }
-
-#if ENABLE_DIMMER
+                      
         /// <summary>
         /// Creates the overlay that dims a form.
         /// </summary>  
@@ -514,8 +578,7 @@ namespace MetaboliteLevels.Utilities
             dimmer.Show(owner);
 
             return dimmer;
-        }
-#endif
+        }      
 
         /// <summary>
         /// Makes the form read-only by disabling text-boxes, etc.
@@ -594,103 +657,102 @@ namespace MetaboliteLevels.Utilities
             }
         }
 
-        internal static Image GetImage(ImageListOrder v, bool bold)
+        internal static Image GetImage( EImageListOrder image, bool bold )
         {
-            switch (v)
+            Image result = GetImage( image );
+
+            if (bold)
             {
-                case ImageListOrder.Adduct          : return bold ? Resources.IconAdduct : Resources.ListIconAdduct;
-                case ImageListOrder.AnnotationT     : return bold ? Resources.IconAnnotationTentative : Resources.IconAnnotationTentative;
-                case ImageListOrder.AnnotationA     : return bold ? Resources.IconAnnotationAffirmed : Resources.IconAnnotationAffirmed;
-                case ImageListOrder.AnnotationC     : return bold ? Resources.IconAnnotationConfirmed : Resources.IconAnnotationConfirmed;
-                case ImageListOrder.Compound0       : return bold ? Resources.IconCompound : Resources.ListIconCompound;
-                case ImageListOrder.CompoundT       : return bold ? Resources.IconCompoundTentative : Resources.ListIconCompoundTentative;
-                case ImageListOrder.CompoundA       : return bold ? Resources.IconCompoundAffirmed : Resources.ListIconCompoundAffirmed;
-                case ImageListOrder.CompoundC       : return bold ? Resources.IconCompoundConfirmed : Resources.ListIconCompoundConfirmed;
-                case ImageListOrder.Info            : return bold ? Resources.IconInformation : Resources.ListIconInformation;
-                case ImageListOrder.InfoU           : return bold ? Resources.ListIconInformation : Resources.ListIconInformationMeta; // No large
-                case ImageListOrder.List            : return bold ? Resources.IconList : Resources.IconList; // No large
-                case ImageListOrder.Pathway         : return bold ? Resources.IconPathway : Resources.ListIconPathway;
-                case ImageListOrder.Cluster         : return bold ? Resources.IconCluster : Resources.ListIconCluster;
-                case ImageListOrder.ClusterU        : return bold ? Resources.ListIconCluster : Resources.ListIconClusterInsignificant; // No large
-                case ImageListOrder.Variable0       : return bold ? Resources.IconPeak : Resources.ListIconPeak;
-                case ImageListOrder.VariableT       : return bold ? Resources.IconPeakTentative : Resources.ListIconPeakTentative;
-                case ImageListOrder.VariableA       : return bold ? Resources.IconPeakAffirmed : Resources.ListIconPeakAffirmed;
-                case ImageListOrder.VariableC       : return bold ? Resources.IconPeakConfirmed : Resources.ListIconPeakConfirmed;
-                case ImageListOrder.Line            : return bold ? Resources.IconLine : Resources.IconLine; // No large
-                case ImageListOrder.Assignment      : return bold ? Resources.IconVector : Resources.ListIconVector;
-                case ImageListOrder.Warning         : return bold ? Resources.MnuWarning : Resources.MnuWarning;
-                case ImageListOrder.TestFull        : return bold ? Resources.ListIconTestFull : Resources.ListIconTestFull;
-                case ImageListOrder.TestEmpty       : return bold ? Resources.ListIconTestEmpty : Resources.ListIconTestEmpty;
-                case ImageListOrder.Filter          : return bold ? Resources.MnuFilter : Resources.MnuFilter;
-                case ImageListOrder.Statistic       : return bold ? Resources.IconStatistics : Resources.ListIconStatistics;
-                case ImageListOrder.Point           : return bold ? Resources.IconPoint : Resources.IconPoint; // No large
-                case ImageListOrder.File            : return bold ? Resources.MnuFile : Resources.MnuFile;
-                case ImageListOrder.ListSortUp      : return bold ? Resources.ListIconSortUp : Resources.ListIconSortUp;
-                case ImageListOrder.ListSortDown    : return bold ? Resources.ListIconSortDown : Resources.ListIconSortDown;
-                case ImageListOrder.ListFilter      : return bold ? Resources.ListIconFilter : Resources.ListIconFilter;
-                case ImageListOrder.ScriptInbuilt   : return bold ? Resources.IconBinary : Resources.IconBinary;
-                case ImageListOrder.ScriptFile      : return bold ? Resources.IconR : Resources.IconR;         
-                case ImageListOrder.Group           : return bold ? Resources.MnuGroup : Resources.MnuGroup;
-                case ImageListOrder.Matrix: return Resources.IconMatrix;
-                case ImageListOrder.Unknown: return Resources.IconUnknown;
-                case ImageListOrder.Error: return Resources.MnuCancel;
-                default: throw new SwitchException(v);
+                return EmboldenImage( result );
+            }
+
+            return result;
+        }
+
+        internal static Image GetImage(EImageListOrder image)
+        {                             
+            switch (image)
+            {
+                case EImageListOrder.ListIconAdduct          : return Resources.ListIconAdduct;
+                case EImageListOrder.IconAnnotationTentative     : return Resources.IconAnnotationTentative;
+                case EImageListOrder.IconAnnotationAffirmed     : return Resources.IconAnnotationAffirmed;
+                case EImageListOrder.IconAnnotationConfirmed     : return Resources.IconAnnotationConfirmed;
+                case EImageListOrder.ListIconCompound       : return Resources.ListIconCompound;
+                case EImageListOrder.ListIconCompoundTentative       : return Resources.ListIconCompoundTentative;
+                case EImageListOrder.ListIconCompoundAffirmed       : return Resources.ListIconCompoundAffirmed;
+                case EImageListOrder.ListIconCompoundConfirmed       : return Resources.ListIconCompoundConfirmed;
+                case EImageListOrder.ListIconInformation            : return Resources.ListIconInformation;
+                case EImageListOrder.ListIconInformationMeta           : return Resources.ListIconInformationMeta;      
+                case EImageListOrder.IconList            : return Resources.IconList;                     
+                case EImageListOrder.ListIconPathway         : return Resources.ListIconPathway;
+                case EImageListOrder.ListIconCluster         : return Resources.ListIconCluster;
+                case EImageListOrder.ListIconClusterInsignificant        : return Resources.ListIconClusterInsignificant; 
+                case EImageListOrder.ListIconPeak       : return Resources.ListIconPeak;
+                case EImageListOrder.ListIconPeakTentative       : return Resources.ListIconPeakTentative;
+                case EImageListOrder.ListIconPeakAffirmed       : return Resources.ListIconPeakAffirmed;
+                case EImageListOrder.ListIconPeakConfirmed       : return Resources.ListIconPeakConfirmed;
+                case EImageListOrder.IconLine            : return Resources.IconLine;                     
+                case EImageListOrder.ListIconVector      : return Resources.ListIconVector;
+                case EImageListOrder.MnuWarning         : return Resources.MnuWarning;                  
+                case EImageListOrder.MnuFilter          : return Resources.MnuFilter;
+                case EImageListOrder.ListIconStatistics       : return Resources.ListIconStatistics;
+                case EImageListOrder.IconPoint           : return Resources.IconPoint;                    
+                case EImageListOrder.MnuFile            : return Resources.MnuFile;
+                case EImageListOrder.ListIconSortUp      : return Resources.ListIconSortUp;                                  
+                case EImageListOrder.ListIconSortDown    : return Resources.ListIconSortDown;
+                case EImageListOrder.ListIconFilter      : return Resources.ListIconFilter;
+                case EImageListOrder.IconBinary   : return Resources.IconBinary;
+                case EImageListOrder.IconR      : return Resources.IconR;         
+                case EImageListOrder.MnuGroup           : return Resources.MnuGroup;
+                case EImageListOrder.IconMatrix          : return Resources.ListIconResultMatrix;
+                case EImageListOrder.IconUnknown         : return Resources.IconUnknown;
+                case EImageListOrder.MnuCancel           : return Resources.MnuCancel;
+                case EImageListOrder.IconObservation     : return Resources.IconObservation;
+                default                             : throw new SwitchException(image);
             }
         }
 
         /// <summary>
-        /// Order of images in the standard image list (see PopulateImageList).
+        /// Order of images in the standard image list (see <see cref="PopulateImageList"/>).
         /// </summary>
-        public enum ImageListOrder : int
+        public enum EImageListOrder : int
         {
-            Adduct,     
-            AnnotationT,
-            AnnotationA,
-            AnnotationC,
-            Compound0,
-            CompoundT,
-            CompoundA,
-            CompoundC,
-            Info,
-            InfoU,
-            List,
-            Pathway,
-            Cluster,
-            ClusterU,
-            Variable0,
-            VariableT,
-            VariableA,
-            VariableC,
-            Line,
-            Assignment,
-            Warning,
-            TestFull,
-            TestEmpty,
-            Filter,
-            Statistic,
-            Point,
-            File,
-            ListSortUp,
-            ListSortDown,
-            ListFilter,
-            ScriptInbuilt,
-            ScriptFile,   
-            Group,
-            Matrix,
-            Unknown,
-            Error,
-        }
-
-        /// <summary>
-        /// Creates an image list with the common images (see ImageListOrder). 
-        /// </summary>                                            
-        internal static void PopulateImageList(ImageList il)
-        {
-            foreach (ImageListOrder n in Enum.GetValues(typeof(ImageListOrder)).Cast<ImageListOrder>().OrderBy(z => z))
-            {
-                il.Images.Add(n.ToString(), GetImage(n, false));
-            }
-        }
+            ListIconAdduct,     
+            IconAnnotationTentative,
+            IconAnnotationAffirmed,
+            IconAnnotationConfirmed,
+            ListIconCompound,
+            ListIconCompoundTentative,
+            ListIconCompoundAffirmed,
+            ListIconCompoundConfirmed,
+            ListIconInformation,
+            ListIconInformationMeta,
+            IconList,
+            ListIconPathway,
+            ListIconCluster,
+            ListIconClusterInsignificant,
+            ListIconPeak,
+            ListIconPeakTentative,
+            ListIconPeakAffirmed,
+            ListIconPeakConfirmed,
+            IconLine,
+            ListIconVector,
+            MnuWarning,       
+            MnuFilter,
+            ListIconStatistics,
+            IconPoint,
+            MnuFile,
+            ListIconSortUp,
+            ListIconSortDown,
+            ListIconFilter,
+            IconBinary,
+            IconR,   
+            MnuGroup,
+            IconMatrix,
+            IconUnknown,
+            MnuCancel,
+            IconObservation
+        }           
 
         /// <summary>
         /// Returns true in the designer.
@@ -1109,10 +1171,10 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Creates a color1 image with a color2 border.
         /// </summary>
-        internal static Image CreateExperimentalGroupImage(bool isChecked, GroupInfoBase ti, bool large)
+        internal static Image CreateExperimentalGroupImage(bool isChecked, GroupInfoBase group, bool large)
         {
-            var color1 = ti.Colour;
-            var color2 = ti.ColourLight;
+            var color1 = group.Colour;
+            var color2 = group.ColourLight;
 
             if (!isChecked)
             {
@@ -1120,8 +1182,8 @@ namespace MetaboliteLevels.Utilities
                 color2 = Color.FromArgb(32, color1.R, color1.G, color1.B);
             }
 
-            Color colour = ti.Colour;
-            Color colourLight = ti.ColourLight;
+            Color colour = group.Colour;
+            Color colourLight = group.ColourLight;
 
             if (!isChecked)
             {
@@ -1131,7 +1193,7 @@ namespace MetaboliteLevels.Utilities
 
             Bitmap result = RecolourImage( large ? Resources.IconGroups : Resources.MnuGroup, colour );
 
-            string text = ti.DefaultShortName; // todo: change!
+            string text = group.DefaultShortName; // todo: change!
             if (!string.IsNullOrEmpty( text ) || !isChecked)
             {
                 using (Graphics g = Graphics.FromImage( result ))

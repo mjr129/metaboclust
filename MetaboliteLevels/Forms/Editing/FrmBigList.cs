@@ -59,8 +59,7 @@ namespace MetaboliteLevels.Forms.Editing
         private FrmBigList(Core core, IDataSet config, EShow show, object automaticAddTemplate)
         {
             InitializeComponent();
-            UiControls.SetIcon( this );
-            UiControls.PopulateImageList( imageList1 );
+            UiControls.SetIcon( this );                
 
             _listViewHelper = new CtlAutoList(listView1, core, null);
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;

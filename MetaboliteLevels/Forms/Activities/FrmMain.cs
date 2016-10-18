@@ -115,10 +115,7 @@ namespace MetaboliteLevels.Forms.Activities
                 _ignoreConfirmClose = true;
                 this.BeginInvoke((MethodInvoker)this.Close);
                 return;
-            }
-
-            // Load image list
-            UiControls.PopulateImageList(_imgList);
+            }                                      
 
             // Main menu colours
             _mnuMain.BackColor = UiControls.TitleBackColour;
@@ -416,26 +413,26 @@ namespace MetaboliteLevels.Forms.Activities
                 // Icons
                 if (selection?.Primary != null)
                 {
-                    _btnSelection.Text = selection.Primary.ToString();
-                    _btnSelection.Image = UiControls.GetImage( selection.Primary, true );
-                    _btnSelection.Visible = true;
+                    _btnPrimarySelection.Text = LimitLength( selection.Primary );
+                    _btnPrimarySelection.Image = UiControls.GetImage( selection.Primary, true );
+                    _btnPrimarySelection.Visible = true;
                 }
                 else
                 {
-                    _btnSelection.Visible = false;
+                    _btnPrimarySelection.Visible = false;
                 }
 
                 if (selection?.Secondary != null)
                 {
-                    _btnSelectionExterior.Text = selection.Secondary.ToString();
-                    _btnSelectionExterior.Image = UiControls.GetImage( selection.Secondary, true );
-                    _btnSelectionExterior.Visible = true;
-                    _btnExterior.Visible = true;
+                    _btnSecondarySelection.Text = LimitLength( selection.Secondary );
+                    _btnSecondarySelection.Image = UiControls.GetImage( selection.Secondary, true );
+                    _btnSecondarySelection.Visible = true;
+                    _btnSwapSelections.Visible = true;
                 }
                 else
                 {
-                    _btnSelectionExterior.Visible = false;
-                    _btnExterior.Visible = false;
+                    _btnSecondarySelection.Visible = false;
+                    _btnSwapSelections.Visible = false;
                 }
 
                 // Null selection?
@@ -547,6 +544,18 @@ namespace MetaboliteLevels.Forms.Activities
             {
                 EndWait();
             }
+        }
+
+        private string LimitLength( object x )
+        {
+            string text = Column.AsString( x );
+
+            if (text.Length >= 17)
+            {
+                text = text.Substring( 0, 16 ).TrimEnd() + "…";
+            }
+
+            return text;
         }
 
         private enum EChangeLabelFx
@@ -1471,16 +1480,28 @@ namespace MetaboliteLevels.Forms.Activities
         /// </summary>
         private void addCommentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (_selectionMenuOpenedFromList == null)
+            {
+                return;
+            }
+
             var x = _selectionMenuOpenedFromList as Visualisable;
+
             if (x == null)
             {
+                new MsgBox()
+                {                
+                    Title = "Selection",
+                    Message = "This selection cannot be modified.\r\n\r\nData type = " + _selectionMenuOpenedFromList.GetType().ToUiString() + "\r\nValue = " + _selectionMenuOpenedFromList,
+                    HelpText = "The selection cannot be modified since it is not in the database, it is probably a temporary value; such as the result of a calculation, a compound value; associating two or more other items, or a fixed value; such as a field title.",
+                    Level = ELogLevel.Information,
+                }.Show(this);
+
                 return;
             }
 
             FrmEditINameable.Show(this, x, false);
 
-            // TODO: Lazy - what's actually changed?
-            // Probably doesn't matter these are all fast refreshes
             UpdateAll("Comment changed");
         }
 
@@ -1753,7 +1774,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void _btnSelection_DropDownOpening(object sender, EventArgs e)
         {
             _selectionMenuOpenedFromList = Selection.Primary;
-            PopulateMenu(_btnSelection.DropDownItems);
+            PopulateMenu(_btnPrimarySelection.DropDownItems);
         }
 
         /// <summary>
@@ -1762,7 +1783,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void _btnSelectionExterior_DropDownOpening(object sender, EventArgs e)
         {
             _selectionMenuOpenedFromList = Selection.Secondary;
-            PopulateMenu(_btnSelectionExterior.DropDownItems);
+            PopulateMenu(_btnSecondarySelection.DropDownItems);
         }                              
 
         private void ShowEditor( EDataSet dataSetId)

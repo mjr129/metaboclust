@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -319,7 +320,7 @@ namespace MetaboliteLevels.Controls.Lists
 
         public abstract Color GetColour( object line );
 
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.Point;        
+        public override Image Icon => Resources.IconPoint;        
 
         [XColumn( EColumn.None )]
         public abstract bool HasColourSupport { get; }

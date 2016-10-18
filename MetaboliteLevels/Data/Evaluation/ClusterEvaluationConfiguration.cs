@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -72,12 +74,12 @@ namespace MetaboliteLevels.Data.Evaluation
             this._guid = Guid.NewGuid();
             this.NumberOfRepeats = numberOfRepeats;
             this.ParameterName = clustererConfiguration.GetAlgorithmOrThrow().Parameters[ParameterIndex].Name;
-        }        
+        }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>           
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.TestEmpty;  
+        public override Image Icon => Resources.ListIconResultCluster;
 
         /// <summary>
         /// The parameter configuation as a string.

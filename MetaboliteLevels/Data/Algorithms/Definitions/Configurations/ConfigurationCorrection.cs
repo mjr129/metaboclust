@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
 using MGui.Helpers;
@@ -193,6 +195,8 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
 
             this.SetResults( new ResultCorrection( imresult ) );
         }
+
+        protected override Image ResultIcon => Resources.ListIconResultCorrection;
 
         public IntensityMatrix Provide => Results?.Matrix;
     }

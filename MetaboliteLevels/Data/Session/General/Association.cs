@@ -4,17 +4,20 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Session.General
 {
     interface IAssociation
     {
-        ContentsRequest OriginalRequest { get; }
-        object Associated { get; }
+        [NotNull] ContentsRequest OriginalRequest { get; }
+
+        [NotNull] object Associated { get; }
     }
 
     /// <summary>
@@ -27,14 +30,19 @@ namespace MetaboliteLevels.Data.Session.General
     /// </summary>
     internal sealed class Association<T> : IColumnProvider, IIconProvider, IAssociation
     {
-        public ContentsRequest OriginalRequest { get; }
-                                                                            
-        public T Associated { get; }
+        [NotNull] public ContentsRequest OriginalRequest { get; }
+                        
+        [NotNull] public T Associated { get; }
 
-        private readonly object[] _extraColumnValues;    
+        private readonly object[] _extraColumnValues;
 
-        public Association( ContentsRequest source, T target, object[] extraColumnValues )
+        public Association( [NotNull] ContentsRequest source, [NotNull] T target, object[] extraColumnValues )
         {
+            if (target == null)
+            {
+                throw new ArgumentNullException( "target" );
+            }
+
             if (source == null)
             {
                 throw new ArgumentNullException( "source" );
@@ -43,7 +51,7 @@ namespace MetaboliteLevels.Data.Session.General
             OriginalRequest = source;
             Associated = target;       
             _extraColumnValues = extraColumnValues;
-            Icon = (target as IIconProvider)?.Icon ?? UiControls.ImageListOrder.Unknown;
+            Icon = (target as IIconProvider)?.Icon ?? Resources.IconUnknown;
         }
 
         public void GetXColumns( ColumnCollection list, Core core )
@@ -66,8 +74,13 @@ namespace MetaboliteLevels.Data.Session.General
             }                
         }
 
-        public UiControls.ImageListOrder Icon { get; private set; }
+        public Image Icon { get; private set; }
 
         object IAssociation.Associated => Associated;
+
+        public override string ToString()
+        {
+            return Associated.ToString();
+        }
     }
 }

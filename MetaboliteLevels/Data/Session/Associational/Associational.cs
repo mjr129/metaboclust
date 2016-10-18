@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 using IColumnProvider = MetaboliteLevels.Controls.Lists.IColumnProvider;
@@ -77,7 +78,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
                     foreach (var c in cols)
                     {
-                        request.Add( new ColumnValuePair( c, target, ColumnManager.GetColumnColour( c ), UiControls.ImageListOrder.Info, shortName ) );
+                        request.Add( new ColumnValuePair( c, target, ColumnManager.GetColumnColour( c ), Resources.ListIconInformation, shortName ) );
                     }
                     break;
 
@@ -101,13 +102,13 @@ namespace MetaboliteLevels.Data.Session.Associational
             private readonly Color ColumnColour;
             private readonly bool _shortName;
 
-            public UiControls.ImageListOrder Icon { get; }
+            public Image Icon { get; }
 
             public string Field => _shortName ? Column.DisplayName : Column.Id;
             public Color Colour => Column.GetColour( Target );
             public object Value => Column.GetRow( Target );
 
-            public ColumnValuePair( Column column, object target, Color colour, UiControls.ImageListOrder icon, bool shortName )
+            public ColumnValuePair( Column column, object target, Color colour, Image icon, bool shortName )
             {
                 this.Column = column;
                 this.Target = target;      
@@ -122,6 +123,11 @@ namespace MetaboliteLevels.Data.Session.Associational
 
                 result.Add( "Field", EColumn.Visible, z => z.Field, z => z.ColumnColour );
                 result.Add( "Value", EColumn.Visible, z => z.Value, z => z.Colour );
+            }
+
+            public override string ToString()
+            {
+                return Field + " = " + Column.AsString( Value );
             }
         }    
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -61,7 +63,7 @@ namespace MetaboliteLevels.Data.Evaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override UiControls.ImageListOrder Icon => UiControls.ImageListOrder.TestFull;
+        public override Image Icon => Resources.ListIconResultVector;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable

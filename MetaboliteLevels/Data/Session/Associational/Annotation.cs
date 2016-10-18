@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
 
@@ -56,20 +58,20 @@ namespace MetaboliteLevels.Data.Session.Associational
 
         public override EVisualClass AssociationalClass=>EVisualClass.Annotation;
 
-        public override UiControls.ImageListOrder Icon
+        public override Image Icon
         {
             get
             {
                 switch (this.Status)
                 {
                     case EAnnotation.Tentative:
-                        return UiControls.ImageListOrder.AnnotationT;
+                        return Resources.IconAnnotationTentative;
 
                     case EAnnotation.Affirmative:
-                        return UiControls.ImageListOrder.AnnotationA;
+                        return Resources.IconAnnotationAffirmed;
 
                     case EAnnotation.Confirmed:
-                        return UiControls.ImageListOrder.AnnotationC;
+                        return Resources.IconAnnotationConfirmed;
 
                     default:
                         throw new SwitchException( this.Status );

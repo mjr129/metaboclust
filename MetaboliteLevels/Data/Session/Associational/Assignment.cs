@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.UI;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -109,7 +111,7 @@ namespace MetaboliteLevels.Data.Session.Associational
             }
         }                
 
-        public override UiControls.ImageListOrder Icon=>UiControls.ImageListOrder.Assignment;
+        public override Image Icon=> Resources.ListIconVector;
 
         public override EVisualClass AssociationalClass=> EVisualClass.Assignment;
 

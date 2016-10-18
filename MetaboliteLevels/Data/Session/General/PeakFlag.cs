@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -99,7 +100,7 @@ namespace MetaboliteLevels.Data.Session.General
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>               
-        public override UiControls.ImageListOrder Icon=> UiControls.ImageListOrder.Filter;
+        public override Image Icon=> Resources.ListIconFlag;
 
         /// <summary>
         /// IMPLEMENTS IVisualisable.

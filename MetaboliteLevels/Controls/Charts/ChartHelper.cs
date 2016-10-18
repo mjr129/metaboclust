@@ -210,7 +210,7 @@ namespace MetaboliteLevels.Controls.Charts
 
         private void _menuButtonMenu_Opening(object sender, EventArgs e)
         {
-            _btnNavigateToSelected.Text = "Navigate to " + new VisualisableSelection(CurrentPlot);
+            _btnNavigateToSelected.Text = "Navigate to \"" + new VisualisableSelection( CurrentPlot ) + "\"";
         }
 
         private void _selectionButtonMenu_Opening(object senderu, EventArgs e)

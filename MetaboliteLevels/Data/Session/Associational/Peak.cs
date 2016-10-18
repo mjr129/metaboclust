@@ -8,6 +8,7 @@ using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
@@ -301,27 +302,27 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override UiControls.ImageListOrder Icon
+        public override Image Icon
         {
             get
             {
                 // IMAGE
                 if (this.Annotations.Count == 0)
                 {
-                    return UiControls.ImageListOrder.Variable0;
+                    return Resources.ListIconPeak;
                 }
                 else
                 {
                     switch (this.Annotations.Max( z => z.Status ))
                     {
                         case EAnnotation.Tentative:
-                            return UiControls.ImageListOrder.VariableT;
+                            return Resources.ListIconPeakTentative;
 
                         case EAnnotation.Affirmative:
-                            return UiControls.ImageListOrder.VariableA;
+                            return Resources.ListIconPeakAffirmed;
 
                         case EAnnotation.Confirmed:
-                            return UiControls.ImageListOrder.VariableC;
+                            return Resources.ListIconPeakConfirmed;
 
                         default:
                             throw new SwitchException();

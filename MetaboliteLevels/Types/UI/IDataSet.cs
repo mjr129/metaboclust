@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Types.UI
@@ -15,7 +16,7 @@ namespace MetaboliteLevels.Types.UI
     /// This provides weak wrappers around DataSet(of T).
     /// See DataSet(of T) for the real descriptions.
     /// </summary>
-    internal interface IDataSet
+    internal interface IDataSet : IIconProvider
     {
         [XColumn(EColumn.Visible)]
         string Title { get; }
