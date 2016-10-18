@@ -282,7 +282,7 @@ namespace MetaboliteLevels.Controls.Charts
         {
             MCharting.Plot plot = new MCharting.Plot();
 
-            CoreOptions.PlotSetup userComments = _core.Options.GetUserText(_core, toPlot);
+            CoreOptions.PlotSetup setup = _core.Options.GetPlotSetup(_core, toPlot);
 
             if (_mnuPlot != null)
             {
@@ -291,13 +291,13 @@ namespace MetaboliteLevels.Controls.Charts
                     _mnuPlot.Text  = toPlot.DisplayName;
                     _mnuPlot.Image = UiControls.GetImage(toPlot.Icon, true);
 
-                    if (ParseElementCollection.IsNullOrEmpty(userComments.Information))
+                    if (ParseElementCollection.IsNullOrEmpty(setup.Information))
                     {
                         _mnuCustomText.Text = "(Click here to configure text)";
                     }
                     else
                     {
-                        _mnuCustomText.Text = userComments.Information.ConvertToString(toPlot, _core);
+                        _mnuCustomText.Text = setup.Information.ConvertToString(toPlot, _core);
                     }
 
                     _mnuPlot.Visible = true;
@@ -322,24 +322,24 @@ namespace MetaboliteLevels.Controls.Charts
             {
                 plot.Style.BackColour = _core.Options.Colours.PlotBackground;
 
-                if (!ParseElementCollection.IsNullOrEmpty(userComments.AxisX))
+                if (!ParseElementCollection.IsNullOrEmpty(setup.AxisX))
                 {
-                    plot.XLabel = userComments.AxisX.ConvertToString(toPlot, _core);
+                    plot.XLabel = setup.AxisX.ConvertToString(toPlot, _core);
                 }
 
-                if (!ParseElementCollection.IsNullOrEmpty(userComments.AxisY))
+                if (!ParseElementCollection.IsNullOrEmpty(setup.AxisY))
                 {
-                    plot.YLabel = userComments.AxisY.ConvertToString(toPlot, _core);
+                    plot.YLabel = setup.AxisY.ConvertToString(toPlot, _core);
                 }
 
-                if (!ParseElementCollection.IsNullOrEmpty(userComments.Title))
+                if (!ParseElementCollection.IsNullOrEmpty(setup.Title))
                 {
-                    plot.Title = userComments.Title.ConvertToString(toPlot, _core);
+                    plot.Title = setup.Title.ConvertToString(toPlot, _core);
                 }
 
-                if (!ParseElementCollection.IsNullOrEmpty(userComments.SubTitle))
+                if (!ParseElementCollection.IsNullOrEmpty(setup.SubTitle))
                 {
-                    plot.SubTitle = userComments.SubTitle.ConvertToString(toPlot, _core);
+                    plot.SubTitle = setup.SubTitle.ConvertToString(toPlot, _core);
                 }
 
                 plot.Style.AutoTickX = false;
@@ -355,9 +355,14 @@ namespace MetaboliteLevels.Controls.Charts
                 plot.Style.AutoTickY  = false;
                 plot.Style.GridStyle  = null;
                 plot.Style.TickStyle  = null;
-                plot.Style.AxisStyle  = null;
-                Chart.Style.Margin    = Padding.Empty;
+                plot.Style.AxisStyle = null;
+                Chart.Style.Margin = Padding.Empty;
             }
+
+            plot.Style.XMin = setup.RangeXMin.Get( toPlot );
+            plot.Style.XMax = setup.RangeXMax.Get( toPlot );
+            plot.Style.YMin = setup.RangeYMin.Get( toPlot );
+            plot.Style.YMax = setup.RangeYMax.Get( toPlot );
 
             return plot;
         }

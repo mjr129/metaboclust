@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.ctlTitleBar1 = new MetaboliteLevels.Controls.CtlTitleBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,6 +38,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this._btnOk = new MetaboliteLevels.Controls.CtlButton();
             this._btnCancel = new MetaboliteLevels.Controls.CtlButton();
+            this.ctlError1 = new MGui.Controls.CtlError(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -206,5 +209,7 @@
         private Controls.CtlButton _btnOk;
         private Controls.CtlButton _btnCancel;
         private System.Windows.Forms.Label label4;
+        private MGui.Controls.CtlError ctlError1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

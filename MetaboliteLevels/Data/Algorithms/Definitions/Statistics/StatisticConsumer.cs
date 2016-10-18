@@ -52,7 +52,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Statistics
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection(new AlgoParameter("statistics", AlgoParameterTypes.WeakRefStatisticArray));
+            return new AlgoParameterCollection(new AlgoParameter("statistics", "Input values will be sourced from these statistics", AlgoParameterTypes.WeakRefStatisticArray));
         }
 
         public override bool SupportsInputFilters { get { return false; } }

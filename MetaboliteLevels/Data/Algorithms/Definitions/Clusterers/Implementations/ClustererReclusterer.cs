@@ -66,7 +66,12 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection(new AlgoParameter("Existing clusters (input vector size must match)", AlgoParameterTypes.WeakRefConfigurationClusterer));
+            return new AlgoParameterCollection( new[] 
+            {
+                new AlgoParameter(  "Clusters",
+                                    "The algorithm that produced set of existing clusters to use as exemplars. The observations can be from a different experimental group but must cover the same time range and use the same trendline.",
+                                    AlgoParameterTypes.WeakRefConfigurationClusterer)
+            } );
         }
 
         public override bool RequiresDistanceMatrix { get { return false; } }

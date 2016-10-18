@@ -578,6 +578,7 @@ namespace MetaboliteLevels.Forms.Activities
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip1.CanOverflow = false;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1266,6 +1267,7 @@ namespace MetaboliteLevels.Forms.Activities
             // toolStrip2
             // 
             this.toolStrip2.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip2.CanOverflow = false;
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnBack,
@@ -1294,36 +1296,36 @@ namespace MetaboliteLevels.Forms.Activities
             this._btnBack.ButtonClick += new System.EventHandler(this._btnBack_ButtonClick);
             this._btnBack.DropDownOpening += new System.EventHandler(this._btnBack_DropDownOpening);
             // 
-            // _btnSelection
+            // _btnPrimarySelection
             // 
             this._btnPrimarySelection.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnPrimarySelection.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
             this._btnPrimarySelection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnPrimarySelection.Name = "_btnSelection";
+            this._btnPrimarySelection.Name = "_btnPrimarySelection";
             this._btnPrimarySelection.ShowDropDownArrow = false;
             this._btnPrimarySelection.Size = new System.Drawing.Size(89, 29);
             this._btnPrimarySelection.Text = "VALUE";
             this._btnPrimarySelection.ToolTipText = "Primary selection";
             this._btnPrimarySelection.DropDownOpening += new System.EventHandler(this._btnSelection_DropDownOpening);
             // 
-            // _btnExterior
+            // _btnSwapSelections
             // 
             this._btnSwapSelections.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._btnSwapSelections.Image = ((System.Drawing.Image)(resources.GetObject("_btnExterior.Image")));
+            this._btnSwapSelections.Image = ((System.Drawing.Image)(resources.GetObject("_btnSwapSelections.Image")));
             this._btnSwapSelections.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnSwapSelections.Name = "_btnExterior";
+            this._btnSwapSelections.Name = "_btnSwapSelections";
             this._btnSwapSelections.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             this._btnSwapSelections.Size = new System.Drawing.Size(23, 28);
             this._btnSwapSelections.Text = "toolStripButton11";
             this._btnSwapSelections.ToolTipText = "Swap primary and secondary selections";
             this._btnSwapSelections.Click += new System.EventHandler(this._btnExterior_Click);
             // 
-            // _btnSelectionExterior
+            // _btnSecondarySelection
             // 
             this._btnSecondarySelection.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSecondarySelection.Image = global::MetaboliteLevels.Properties.Resources.IconCore;
             this._btnSecondarySelection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._btnSecondarySelection.Name = "_btnSelectionExterior";
+            this._btnSecondarySelection.Name = "_btnSecondarySelection";
             this._btnSecondarySelection.ShowDropDownArrow = false;
             this._btnSecondarySelection.Size = new System.Drawing.Size(89, 29);
             this._btnSecondarySelection.Text = "VALUE";

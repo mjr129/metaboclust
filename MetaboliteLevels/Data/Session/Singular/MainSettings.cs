@@ -28,7 +28,7 @@ namespace MetaboliteLevels.Data.Session.Singular
             public string RBinPath;
             public string PathwayToolsDatabasesPath;
             public bool? SaveOnClose;
-            public bool AutoBackup = true;
+            public bool AutoBackup = false;
         }
 
         public static void Initialise()

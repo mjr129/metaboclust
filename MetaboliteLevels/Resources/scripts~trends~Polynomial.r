@@ -1,7 +1,7 @@
 ## y = Y
 ## x = X
 ## x.out = X.OUT
-## degree = double
+## degree = double = Degree of the polynomial
 
 model = lm(y ~ poly(x, degree, raw = TRUE))
     

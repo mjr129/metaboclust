@@ -146,11 +146,11 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         /// </summary>
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection( new AlgoParameter("k", AlgoParameterTypes.Integer),
-                                                new AlgoParameter("d", AlgoParameterTypes.Double),
-                                                new AlgoParameter("seed.peak", AlgoParameterTypes.WeakRefPeak),
-                                                new AlgoParameter("seed.group", AlgoParameterTypes.Group),
-                                                new AlgoParameter("use.kmeans", AlgoParameterTypes.Integer)
+            return new AlgoParameterCollection( new AlgoParameter("k", "Maximum number of clusters to return (use MAX for no limit)", AlgoParameterTypes.Integer),
+                                                new AlgoParameter("d", "Minimum distance between exemplars before no more are selected (use MIN for no limit)", AlgoParameterTypes.Double),
+                                                new AlgoParameter("seed.peak", "The peak to act as the first exemplar", AlgoParameterTypes.WeakRefPeak),
+                                                new AlgoParameter("seed.group", "The group to act as the first exemplar (only if one vector is generated per group, otherwise this is ignored)", AlgoParameterTypes.Group),
+                                                new AlgoParameter("use.kmeans", "Whether to perform k-means after the exemplars have been selected (0 = no, 1 = yes).", AlgoParameterTypes.Integer)
                                               );
         }    
 

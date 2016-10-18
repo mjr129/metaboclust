@@ -22,6 +22,7 @@ using MetaboliteLevels.Utilities;
 using MGui;
 using MGui.Helpers;
 using DataSet = MetaboliteLevels.Types.UI.DataSet;
+using System.Diagnostics;
 
 namespace MetaboliteLevels.Forms.Editing
 {
@@ -68,7 +69,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._parameters = algo;
             this.ctlTitleBar1.Text = readOnly ? "View parameters" : "Edit Parameters";
 
-            List<string> elements = StringHelper.SplitGroups(defaults);
+            string[] elements = AlgoParameterTypes.ExternalConvertor.ReadFields(defaults);
 
             if (algo.HasCustomisableParams)
             {
@@ -77,40 +78,57 @@ namespace MetaboliteLevels.Forms.Editing
                     var param = algo[index];
                     int row = index + 1;
 
-                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0f));
+                    tableLayoutPanel1.RowStyles.Add( new RowStyle( SizeType.AutoSize, 0f ) );
 
-                    Label label = new Label();
-                    label.Text = param.Name;
-                    label.AutoSize = true;
-                    label.Visible = true;
-                    label.Margin = new Padding(8, 8, 8, 8);
-                    tableLayoutPanel1.Controls.Add(label, 0, row);
+                    Label label = new Label()
+                    {
+                        Text = param.Name,
+                        AutoSize = true,
+                        Visible = true,
+                        Margin = new Padding( 8, 8, 8, 8 ),
+                    };
+                    tableLayoutPanel1.Controls.Add( label, 0, row );
 
-                    Label label2 = new Label();
-                    label2.Text = param.Type.ToString();
-                    label2.AutoSize = true;
-                    label2.Visible = true;
-                    label2.Margin = new Padding(8, 8, 8, 8);
-                    tableLayoutPanel1.Controls.Add(label2, 1, row);
+                    Label label2 = new Label()
+                    {
+                        Text = param.Type.ToString(),
+                        AutoSize = true,
+                        Visible = true,
+                        Margin = new Padding( 8, 8, 8, 8 ),
+                    };
+                    tableLayoutPanel1.Controls.Add( label2, 1, row );
 
-                    TextBox textBox = new TextBox();
-                    textBox.Dock = DockStyle.Top;
-                    textBox.Visible = true;
-                    textBox.Margin = new Padding(8, 8, 8, 8);
-                    textBox.Text = elements.Count > index ? elements[index] : "";
-                    textBox.ReadOnly = readOnly;
-                    tableLayoutPanel1.Controls.Add(textBox, 2, row);
-                    _textBoxes.Add(textBox);
+                    TextBox textBox = new TextBox()
+                    {
+                        Dock = DockStyle.Top,
+                        Visible = true,
+                        Margin = new Padding( 8, 8, 8, 8 ),
+                        Text = elements.Length > index ? elements[index] : "",
+                        ReadOnly = readOnly,
+                        Tag = index,
+                    };
+                    TextChanged += TextBox_TextChanged;
+                    tableLayoutPanel1.Controls.Add( textBox, 2, row );
+                    _textBoxes.Add( textBox );
 
-                    CtlButton button = new CtlButton();
-                    button.Image = Resources.MnuEdit;
-                    button.Visible = true;
-                    button.UseDefaultSize = true;
-                    button.Margin = new Padding(8, 8, 8, 8);
-                    button.Tag = index;
+                    CtlButton button = new CtlButton()
+                    {
+                        Image = Resources.MnuEnlargeList,
+                        Visible = true,
+                        UseDefaultSize = true,
+                        Margin = new Padding( 8, 8, 8, 8 ),
+                        Tag = index,
+                        Enabled = !readOnly,
+                    };
                     button.Click += button_Click;
-                    button.Enabled = !readOnly;
                     tableLayoutPanel1.Controls.Add(button, 3, row);
+
+                    TextBox_TextChanged( textBox, EventArgs.Empty );
+
+                    toolTip1.SetToolTip( label,   param.Description );
+                    toolTip1.SetToolTip( label2,  param.Description );
+                    toolTip1.SetToolTip( textBox, param.Description );
+                    toolTip1.SetToolTip( button,  param.Description );
                 }
             }
 
@@ -121,6 +139,19 @@ namespace MetaboliteLevels.Forms.Editing
             }
 
             // UiControls.CompensateForVisualStyles(this);
+        }
+
+        private void TextBox_TextChanged( object sender, EventArgs e )
+        {
+            TextBox textBox = (TextBox)sender;
+            int index = (int)textBox.Tag;       
+            var param = this._parameters[index];
+
+            var args = new FromStringArgs( _core, textBox.Text );
+            object value = param.Type.FromString( args );
+
+            ctlError1.Check( textBox, value != null, args.Error );
+            _btnOk.Enabled = !ctlError1.HasErrors;
         }
 
         void button_Click(object sender, EventArgs e)
@@ -150,13 +181,9 @@ namespace MetaboliteLevels.Forms.Editing
                 var param = _parameters[index];
                 var args = new FromStringArgs( _core, _textBoxes[index].Text );
 
-                results[index] = param.Type.FromString(args );
+                results[index] = param.Type.FromString( args );
 
-                if (results[index] == null)
-                {
-                    FrmMsgBox.ShowError( this, "Error", "The \"" + param.Name + "\" parameter is invalid.\r\n" + args.Error );
-                    return;
-                }
+                Debug.Assert( results[index] != null, $"The {{{param.Name}}} parameter is invalid (the OK button should have been disabled).\r\n" + args.Error );
             }
 
             _result = AlgoParameterCollection.ParamsToReversableString(results, _core);

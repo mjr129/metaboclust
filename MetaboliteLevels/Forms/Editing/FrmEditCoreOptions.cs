@@ -274,6 +274,9 @@ namespace MetaboliteLevels.Forms.Editing
             public override Image Icon => Resources.IconPoint;     
         }
 
-     
+        private void label14_Click( object sender, EventArgs e )
+        {
+
+        }
     }
 }

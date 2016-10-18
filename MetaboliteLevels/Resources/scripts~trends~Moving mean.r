@@ -1,7 +1,7 @@
 ## y = Y
 ## x = X
 ## x.out = X.OUT
-## window = integer
+## window = integer = Window width
 
 # There is already a moving mean built into the application
 # This demonstrates the functionality in R

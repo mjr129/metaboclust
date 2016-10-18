@@ -38,7 +38,13 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementatio
 
         protected override AlgoParameterCollection CreateParamaterDesription()
         {                                                                                          
-            return new AlgoParameterCollection(new AlgoParameter("zero", AlgoParameterTypes.Double));
+            return new AlgoParameterCollection( new[]
+                {
+                new AlgoParameter(
+                                "c",
+                                "The value to set NaN and infinite value to.",
+                                AlgoParameterTypes.Double)
+                } );
         }
     }
 }

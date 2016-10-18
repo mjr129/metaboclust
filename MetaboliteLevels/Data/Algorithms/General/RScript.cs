@@ -118,8 +118,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
                     foreach (string e in ee)
                     {
-                        string name = e;
-                        string type = StringHelper.SplitEquals(ref name);
+                        string[] eee = e.Split( "=".ToCharArray(), 3, StringSplitOptions.RemoveEmptyEntries );
+
+                        string name = eee[0];
+                        string type = eee[1];
+                        string desc = eee.Length >= 3 ? eee[2] : null;
 
                         if (type != null)
                         {
@@ -130,7 +133,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
                             if (conv.TryGetValue(type, out etype))
                             {
-                                parameters.Add(new AlgoParameter(name, etype));
+                                parameters.Add(new AlgoParameter(name, desc, etype ) );
                             }
                             else
                             {

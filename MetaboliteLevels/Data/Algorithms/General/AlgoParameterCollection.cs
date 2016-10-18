@@ -11,6 +11,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
+using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Algorithms.General
@@ -112,53 +113,27 @@ namespace MetaboliteLevels.Data.Algorithms.General
             {
                 return string.Empty;
             }
+                                          
+            var fieldsAsStrings = parameters.Select( z => ParamToString( z ) );
 
-            StringBuilder sb = new StringBuilder();
-
-            AlgoParameter[] algoParameters = (!reversable && algorithm != null) ? algorithm.Parameters._parameters : null;
-
-            for (int i = 0; i < parameters.Length; i++)
+            if (reversable || algorithm == null)
             {
-                object param = parameters[i];
-
-                if (sb.Length != 0)
-                {
-                    sb.Append(", ");
-                }
-
-                if (!reversable)
-                {
-                    if (algoParameters != null && i < algoParameters.Length)
-                    {
-                        sb.Append(algoParameters[i].Name + " = ");
-                    }
-                    else
-                    {
-                        sb.Append("Param" + (i + 1) + " = ");
-                    }
-                }
-
-                sb.Append(ParamToString(reversable, core, param));
+                return AlgoParameterTypes.ExternalConvertor.WriteFields( fieldsAsStrings);
             }
-
-            return sb.ToString();
-        }
-
-        internal static string ParamToString(object param)
-        {
-            return ParamToString(false, null, param);
-        }
+            else
+            {
+                return string.Join( ", ", algorithm.Parameters.Zip( fieldsAsStrings ).Select( z => z.Item1.Name + " = " + AlgoParameterTypes.ExternalConvertor.WriteField( z.Item2 ) ) );
+            }                 
+        }   
 
         /// <summary>
         /// Parameter to string
-        /// </summary>
-        /// <param name="reversable">true: Reversable value suitable for StringToParam, else use most readable output</param>
-        /// <param name="core">Core required only if reversable = true</param>
+        /// </summary>                                                            
         /// <param name="param">Parameter value</param>
-        /// <returns>Parameter as string</returns>
-        internal static string ParamToString(bool reversable, Core core, object param)
+        /// <returns>Parameter as string</returns>                                        
+        internal static string ParamToString( object param )
         {
-            return AlgoParameterTypes.ToString( reversable, core, param );
+            return AlgoParameterTypes.ToString( param );
         }
 
         private static string GetDisplayName(WeakReference<ConfigurationStatistic> a)
@@ -192,7 +167,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
             }
 
             return parameters;
-        }
+        }                                                                
 
         /// <summary>
         /// Converts the specified string to a customisable parameter set.
@@ -211,12 +186,12 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return new object[0];
             }
 
-            List<string> elements = StringHelper.SplitGroups(text);
+            string[] elements = AlgoParameterTypes.ExternalConvertor.ReadFields( text);
 
-            if (elements.Count != _parameters.Length)
+            if (elements.Length != _parameters.Length)
             {
                 // Count mismatch
-                error = $"This algorithm takes {{{_parameters.Length}}} parameters but {{{elements.Count}}} were provided.";
+                error = $"This algorithm takes {{{_parameters.Length}}} parameters but {{{elements.Length}}} were provided.";
                 return null;
             }
 

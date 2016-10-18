@@ -104,7 +104,12 @@ namespace MetaboliteLevels.Data.Algorithms.General
             return result;
         }
 
-        internal static string ToString( bool reversable, Core core, object param )
+        /// <summary>
+        /// Converts a single parameter to a string.
+        /// </summary>                                    
+        /// <param name="param">Value to convert</param>
+        /// <returns>Value as a string</returns>
+        internal static string ToString( object param )
         {                                                                         
             return GetAll().Select( z => z.TryToString( param ) ).FirstOrDefault( z => z != null );
         }
@@ -202,7 +207,17 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             internal override string OnTryToString( int x )
             {
-                return x.ToString();
+                switch (x)
+                {
+                    case int.MaxValue:
+                        return "MAX";
+
+                    case int.MinValue:
+                        return "MIN";
+
+                    default:
+                        return x.ToString();
+                }
             }
 
             protected override object OnBrowse( Form owner, Core _core, object value )
@@ -262,7 +277,18 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             internal override string OnTryToString( double x )
             {
-                return x.ToString();
+                if (x == double.MaxValue)
+                {
+                    return "MAX";
+                }
+                else if (x == double.MinValue)
+                {
+                    return "MIN";
+                }
+                else
+                {
+                    return x.ToString();
+                }
             }
 
             public override void SetSymbol( REngine rEngine, string name, object value )
@@ -295,9 +321,25 @@ namespace MetaboliteLevels.Data.Algorithms.General
             }
         }
 
-        private static SpreadsheetReader _WeakRefStatisticArraySr = new SpreadsheetReader()
+        /// <summary>
+        /// Used for converting a list of parameters to and from the individual parameter values.
+        /// </summary>
+        public static SpreadsheetReader ExternalConvertor = new SpreadsheetReader()
         {
-            Delimiter = ';',
+            OpenQuote = '{',
+            CloseQuote = '}',
+            Delimiter = ',',
+            WriteSpaces = 1,
+        };
+
+        /// <summary>
+        /// Used for converting a single array-type parameter to and from an array.
+        /// </summary>
+        public static SpreadsheetReader InternalConvertor = new SpreadsheetReader()
+        {
+            OpenQuote= '"',
+            CloseQuote = '"',
+            Delimiter = ',',
             WriteSpaces = 1,
         };
 
@@ -326,12 +368,12 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             internal override string OnTryToString( WeakReference<ConfigurationStatistic>[] x )
             {
-                return _WeakRefStatisticArraySr.WriteFields( x.Select( ElementToString ) );
+                return InternalConvertor.WriteFields( x.Select( ElementToString ) );
             }
 
             protected override object OnFromString( FromStringArgs args )
             {                 
-                string[] e2 = _WeakRefStatisticArraySr.ReadFields( args.Text );
+                string[] e2 = InternalConvertor.ReadFields( args.Text );
 
                 WeakReference<ConfigurationStatistic>[] r = new WeakReference<ConfigurationStatistic>[e2.Length];
                 var opts = args.Core.Statistics;
@@ -495,12 +537,12 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             internal override string OnTryToString( WeakReference<Cluster>[] x )
             {
-                return _WeakRefStatisticArraySr.WriteFields( x.Select( ElementToString ) );
+                return InternalConvertor.WriteFields( x.Select( ElementToString ) );
             }
 
             protected override object OnFromString( FromStringArgs args )
             {
-                string[] elems = _WeakRefStatisticArraySr.ReadFields( args.Text );
+                string[] elems = InternalConvertor.ReadFields( args.Text );
 
                 WeakReference<Cluster>[] r = new WeakReference<Cluster>[elems.Length];
 

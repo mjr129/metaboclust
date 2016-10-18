@@ -49,42 +49,7 @@ namespace MetaboliteLevels.Data.Session.Singular
         public string Session;                  // session (saved data)
         public bool ForceSaveAs;                // only allow "save as" not "save" (set if saving might lose data)
         public bool? SaveOnClose;               // save automatically on close
-        public Version AppVersion;              // version of app saved using
-
-        #region Obsolete
-
-        [Obsolete("For serialisation of old data only. Should always be null. Please use 'ConditionsOfInterestString'.")]
-        public List<int> ConditionsOfInterest;  // for stats - conditions of interest
-        [Obsolete("For serialisation of old data only. Should always be null. Please use 'ControlConditionsString'.")]
-        public List<int> ControlConditions;     // for stats - control conditions
-
-        [OnDeserialized]
-        void OnDeserialised(StreamingContext context)
-        {
-#pragma warning disable CS0618
-            if (ConditionsOfInterest != null)
-            {
-                Debug.Write("Obsolete field \"ConditionsOfInterest\" updated.");
-                UiControls.Assert(ConditionsOfInterestString == null, "New field ConditionsOfInterestString expected to be null when old field ConditionsOfInterest is present." );
-
-                ConditionsOfInterestString = new List<string>();
-                ConditionsOfInterestString.AddRange(ConditionsOfInterest.Select(z => z.ToString()));
-                ConditionsOfInterest = null;
-            }
-
-            if (ControlConditions != null)
-            {
-                Debug.Write("Obsolete field \"ControlConditions\" updated.");
-
-                UiControls.Assert(ControlConditionsString == null, "New field ControlConditionsString expected to be null when old field ControlConditions is present." );
-
-                ControlConditionsString = new List<string>();
-                ControlConditionsString.AddRange(ControlConditions.Select(z => z.ToString()));
-                ControlConditions = null;
-            }
-#pragma warning restore CS0618
-        }
-        #endregion
+        public Version AppVersion;              // version of app saved using      
 
         /// <summary>
         /// Gets the title

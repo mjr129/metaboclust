@@ -124,6 +124,85 @@ namespace MetaboliteLevels.Data.Session.Singular
 
         public Core Core { get { return _core; } set { _core = value; } }
 
+        enum EAxisRange
+        {
+            Automatic,
+            General,
+            Fixed,
+        }
+
+        class AxisRange
+        {
+            public EAxisRange _source;
+            public double _fixed;
+
+            public AxisRange( string x )
+            {
+                if (x == null)
+                {
+                    throw new ArgumentNullException( nameof( x ) );
+                }
+
+                if (x == EAxisRange.Automatic.ToUiString())
+                {
+                    _source = EAxisRange.Automatic;
+                }
+                else if (x == EAxisRange.General.ToUiString())
+                {
+                    _source = EAxisRange.General;
+                }
+                else
+                {
+                    _source = EAxisRange.Automatic;
+                    _fixed = double.Parse( x );
+                }
+            }
+
+            public override string ToString()
+            {
+                switch (_source)
+                {
+                    case EAxisRange.Fixed:
+                        return _fixed.ToString();
+
+                    default:
+                        return _source.ToUiString();
+                }
+            }
+
+            internal double? Get( Core core, Associational.Associational toPlot )
+            {
+                switch (_source)
+                {
+                    case EAxisRange.Automatic:
+                        return null; // Let the graphing library handle it
+
+                    case EAxisRange.Fixed:
+                        return _fixed;
+
+                    case EAxisRange.General:
+                        switch (toPlot.AssociationalClass)
+                        {
+                            case EVisualClass.Cluster:
+                                var allVectors = core.Clusters.Select( z => z.Assignments.Vectors );
+
+                            case EVisualClass.Peak:
+
+                            case EVisualClass.Compound:
+
+                            case EVisualClass.Pathway:
+
+                            default:
+                                return null; // Not supported
+                        }
+                        break;
+
+                    default:
+                        throw new SwitchException( _source );
+                }
+            }
+        }
+
         [Serializable]
         public class PlotSetup
         {
@@ -152,6 +231,11 @@ namespace MetaboliteLevels.Data.Session.Singular
             [Category( "All plots" )]
             [DefaultValue( "" )]
             public ParseElementCollection AxisY { get; set; }
+
+            public AxisRange RangeXMin;
+            public AxisRange RangeXMax;
+            public AxisRange RangeYMin;
+            public AxisRange RangeYMax;
 
             public override string ToString()
             {
@@ -357,7 +441,7 @@ namespace MetaboliteLevels.Data.Session.Singular
             public string DisplayName;
         }
 
-        internal PlotSetup GetUserText( Core core, Associational.Associational visualisable )
+        internal PlotSetup GetPlotSetup( Core core, Associational.Associational visualisable )
         {
             if (visualisable == null)
             {

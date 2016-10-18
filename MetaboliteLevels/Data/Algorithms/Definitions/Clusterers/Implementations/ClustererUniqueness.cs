@@ -146,7 +146,11 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         /// </summary>
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection( new AlgoParameter( "source", AlgoParameterTypes.WeakRefConfigurationClusterer ) );
+            return new AlgoParameterCollection( new[] {
+                new AlgoParameter(  "Clusters",
+                                    "The algorithm that produced the set of clusters the new set will be based upon.",
+                                    AlgoParameterTypes.WeakRefConfigurationClusterer )
+                } );
         }
 
         public override bool SupportsObservationFilters { get { return false; } }

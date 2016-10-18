@@ -1140,7 +1140,10 @@ namespace MetaboliteLevels.Forms.Activities
 
             for (int row = 0; row < ss.NumRows; ++row)
             {
-                obs[row] = obsFinder[ss.RowNames[row]];
+                if (!obsFinder.TryGetValue( ss.RowNames[row], out obs[row] ))
+                {
+                    throw new FormatException( $"The intensity matrix {{{ss.Title}}} contains a definition for observation {{{ss.RowNames[row]}}} but that observation does not exist." );
+                }
             }
 
             var x =  new IntensityMatrix(peaks, obs, matrix );
@@ -1460,7 +1463,7 @@ namespace MetaboliteLevels.Forms.Activities
     {
         public readonly string[] OBSFILE_TIME_HEADER               = { "time", "day", "t" };
         public readonly string[] OBSFILE_REPLICATE_HEADER          = { "rep", "replicate" };
-        public readonly string[] OBSFILE_GROUP_HEADER              = { "type", "group", "condition", "conditions" };
+        public readonly string[] OBSFILE_GROUP_HEADER              = { "type", "group", "condition", "conditions", "class" };
         public readonly string[] OBSFILE_BATCH_HEADER              = { "batch" };
         public readonly string[] OBSFILE_ACQUISITION_HEADER        = { "acquisition", "order", "file", "index", "acquisition order" };
         public readonly string[] IDFILE_PEAK_HEADER                = { "name", "peak", "variable" };

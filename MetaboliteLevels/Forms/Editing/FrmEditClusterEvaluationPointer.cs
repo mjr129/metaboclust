@@ -162,7 +162,7 @@ namespace MetaboliteLevels.Forms.Editing
             {
                 SelectedAlgorithm = def.ClustererConfiguration;
                 _lstParameters.SelectedIndex = def.ParameterIndex;
-                _txtValues.Text = StringHelper.ArrayToString(def.ParameterValues, z => AlgoParameterCollection.ParamToString(true, core, z), "\r\n");
+                _txtValues.Text = StringHelper.ArrayToString(def.ParameterValues, AlgoParameterCollection.ParamToString, "\r\n");
                 _numNumTimes.Value = def.NumberOfRepeats;
             }
 

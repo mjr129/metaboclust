@@ -57,7 +57,12 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         /// <summary>IMPLEMENTS ClustererBase</summary>
         protected override AlgoParameterCollection CreateParamaterDesription()
         {
-            return new AlgoParameterCollection( new[] { new AlgoParameter( "Source clusters", AlgoParameterTypes.WeakRefConfigurationClusterer ) } );
+            return new AlgoParameterCollection( new[] 
+            {
+                new AlgoParameter(  "Clusters",
+                                    "The clustering algorithm that provided the clusters the new set of clusters will be based upon.",
+                                    AlgoParameterTypes.WeakRefConfigurationClusterer )
+            } );
         }
     }
 }

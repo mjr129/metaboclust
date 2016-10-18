@@ -515,7 +515,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>                                                         
         public static void ApplyDefaultsFromAttributes(object obj)
         {
-            foreach (PropertyInfo property in obj.GetType().GetProperties())
+            foreach (SettableInfo property in obj.GetType().GetSettables())
             {
                 var attr = property.GetCustomAttribute<DefaultValueAttribute>(true);
 

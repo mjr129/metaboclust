@@ -12,12 +12,14 @@ namespace MetaboliteLevels.Data.Algorithms.General
     /// </summary>
     internal class AlgoParameter
     {
-        public readonly string Name; // name
-        public readonly IAlgoParameterType Type; // type
+        public readonly string Name;
+        public readonly string Description;
+        public readonly IAlgoParameterType Type;
 
-        public AlgoParameter(string name, IAlgoParameterType type)
+        public AlgoParameter(string name, string description, IAlgoParameterType type)
         {
             Name = name;
+            Description = description;
             Type = type;
         }
 
