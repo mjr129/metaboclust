@@ -610,6 +610,11 @@ namespace MetaboliteLevels.Data.Session.General
             public ConditionFilter( ELogicOperator op, bool negate, ObsFilter filter, bool filterOp )
                 : base( op, negate )
             {
+                if (filter == null)
+                {
+                    throw new ArgumentNullException( nameof( filter ) );
+                }
+
                 this.Filter = filter;
                 this.FilterOp = filterOp;
             }

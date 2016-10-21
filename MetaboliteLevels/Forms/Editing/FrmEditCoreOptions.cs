@@ -56,11 +56,6 @@ namespace MetaboliteLevels.Forms.Editing
             _readOnly = readOnly;
             _target = core.Options;
 
-            _binder1.Bind(_txtClusterXAxis, λ => λ.ClusterDisplay.AxisX);
-            _binder1.Bind(_txtClusterYAxis, λ => λ.ClusterDisplay.AxisY);
-            _binder1.Bind(_txtClusterInfo, λ => λ.ClusterDisplay.Information);
-            _binder1.Bind(_txtClusterSubtitle, λ => λ.ClusterDisplay.SubTitle);
-            _binder1.Bind(_txtClusterTitle, λ => λ.ClusterDisplay.Title);
 
             _binder1.Bind(_txtEvalFilename, λ => λ.ClusteringEvaluationResultsFileName);
 
@@ -74,28 +69,11 @@ namespace MetaboliteLevels.Forms.Editing
             _binder1.Bind(_btnColourPreviewBackground, λ => λ.Colours.PreviewBackground);
             _binder1.Bind(_btnColourSeries, λ => λ.Colours.SelectedSeries);
 
-            _binder1.Bind(_txtCompXAxis, λ => λ.CompoundDisplay.AxisX);
-            _binder1.Bind(_txtCompYAxis, λ => λ.CompoundDisplay.AxisY);
-            _binder1.Bind(_txtCompInfo, λ => λ.CompoundDisplay.Information);
-            _binder1.Bind(_txtCompSubtitle, λ => λ.CompoundDisplay.SubTitle);
-            _binder1.Bind(_txtCompTitle, λ => λ.CompoundDisplay.Title);
 
             _binder1.Bind(_lstPeakPlotting, λ => λ.ConditionsSideBySide);
             _binder1.Bind(_chkPeakFlag, λ => λ.EnablePeakFlagging);
             _binder1.Bind(_numClusterMaxPlot, λ => λ.MaxPlotVariables);
             _binder1.Bind(_numSizeLimit, λ => λ.ObjectSizeLimit);
-
-            _binder1.Bind(_txtPathXAxis, λ => λ.PathwayDisplay.AxisX);
-            _binder1.Bind(_txtPathYAxis, λ => λ.PathwayDisplay.AxisY);
-            _binder1.Bind(_txtPathInfo, λ => λ.PathwayDisplay.Information);
-            _binder1.Bind(_txtPathSubtitle, λ => λ.PathwayDisplay.SubTitle);
-            _binder1.Bind(_txtPathTitle, λ => λ.PathwayDisplay.Title);
-
-            _binder1.Bind(_txtPeakXAxis, λ => λ.PeakDisplay.AxisX);
-            _binder1.Bind(_txtPeakYAxis, λ => λ.PeakDisplay.AxisY);
-            _binder1.Bind(_txtPeakInfo, λ => λ.PeakDisplay.Information);
-            _binder1.Bind(_txtPeakSubtitle, λ => λ.PeakDisplay.SubTitle);
-            _binder1.Bind(_txtPeakTitle, λ => λ.PeakDisplay.Title);
 
             _binder1.Bind(numericUpDown2, λ => λ.PopoutThumbnailSize);
             _binder1.Bind(_chkClusterCentres, λ => λ.ShowCentres);
@@ -117,7 +95,12 @@ namespace MetaboliteLevels.Forms.Editing
             _binder1.Bind( _btnHhNan, λ => λ.HeatMapNanColour );
             _binder1.Bind( _btnHhOor, λ => λ.HeatMapOorColour );
 
-            _binder1.Read(_target);
+            _poCluster.BindAll( _binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.ClusterDisplay ) );
+            _poCompounds.BindAll( _binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.CompoundDisplay ) );
+            _poPathways.BindAll( _binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PathwayDisplay ) );
+            _poPeaks.BindAll( _binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PeakDisplay ) );
+
+            _binder1.Read( _target );
 
             if (readOnly)
             {

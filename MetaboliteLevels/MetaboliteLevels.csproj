@@ -146,6 +146,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CtlEditPlotSetup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlEditPlotSetup.Designer.cs">
+      <DependentUpon>CtlEditPlotSetup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CtlHelpfulLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -210,6 +216,9 @@
     <Compile Include="Data\Session\General\ProviderAlias.cs" />
     <Compile Include="Data\Session\General\VisualisableExtensions.cs" />
     <Compile Include="Data\Session\General\VisualisableWrapper.cs" />
+    <Compile Include="Data\Session\Singular\AxisRange.cs" />
+    <Compile Include="Data\Session\Singular\EAxisRange.cs" />
+    <Compile Include="Data\Session\Singular\PlotSetup.cs" />
     <Compile Include="Forms\Activities\FrmActExport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -595,6 +604,9 @@
     <Compile Include="Controls\Lists\ShowContextMenuEventArgs.cs" />
     <Compile Include="Controls\Lists\CtlAutoList.SortByColumn.cs" />
     <Compile Include="Utilities\XmlSettings.cs" />
+    <EmbeddedResource Include="Controls\CtlEditPlotSetup.resx">
+      <DependentUpon>CtlEditPlotSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CtlHelpfulLabel.resx">
       <DependentUpon>CtlHelpfulLabel.cs</DependentUpon>
     </EmbeddedResource>
@@ -1166,6 +1178,10 @@
   <PropertyGroup>
     <PreBuildEvent>UpdateVersionNumber.exe "$(ProjectDir)Properties\AssemblyInfo.cs"
 EXIT 0</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>UpdateVersionNumber.exe /r "$(ProjectDir)Properties\AssemblyInfo.cs"
+EXIT 0</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

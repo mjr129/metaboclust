@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 using MSerialisers;
@@ -48,22 +49,23 @@ namespace MetaboliteLevels.Data.Session.Associational
             Rows = rows;
             Columns = columns;
             Values = values;
-        }         
+        }
 
-        internal IntensityMatrix Subset( PeakFilter peakFilter, ObsFilter columnFilter = null, bool splitGroups=false, bool invertPeakFilter =false)
+        internal IntensityMatrix Subset( PeakFilter peakFilter, ObsFilter columnFilter, ESubsetFlags flags )
         {
             return Subset( peakFilter != null ? (Predicate<Peak>)peakFilter.Test : null,
                 columnFilter != null ? (Predicate<ObservationInfo>)columnFilter.Test : null, 
-                splitGroups, 
-                invertPeakFilter );
+                flags );
         }
 
-        internal IntensityMatrix Subset( Predicate<Peak> peakFilter, Predicate<ObservationInfo> columnFilter=null, bool splitGroups =false, bool invertPeakFilter=false )
+        internal IntensityMatrix Subset( Predicate<Peak> peakFilter, Predicate<ObservationInfo> columnFilter, ESubsetFlags flags )
         {
+            // Get the ROWS involved in the subset
             int[] rowIndices;
 
-            if (invertPeakFilter)
+            if (flags.Has(ESubsetFlags.InvertPeakFilter))
             {
+                // Inverted filter
                 if (peakFilter == null)
                 {
                     rowIndices = new int[0];
@@ -85,33 +87,20 @@ namespace MetaboliteLevels.Data.Session.Associational
                 }
             }
 
+            // Get the ROW HEADERS
             RowHeader[] newRows = Rows.At( rowIndices ).ToArray();
+                                  
+            // Get the column indices
+            int[] colIndices = (columnFilter !=null)? Columns.Which( z => columnFilter( z.Observation ) ).ToArray() : Columns.Indices().ToArray();
 
-            if (!splitGroups)
-            {  
-                int[] colIndices = (columnFilter !=null)? Columns.Which( z => columnFilter( z.Observation ) ).ToArray() : Columns.Indices().ToArray();
-                ColumnHeader[] newCols = Columns.At( colIndices ).ToArray();
-                double[][] newValues = Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ).ToArray(); 
+            // Get the COLUMN HEADERS
+            ColumnHeader[] newCols = Columns.At( colIndices ).ToArray();
 
-                return new IntensityMatrix( newRows, newCols, newValues );
-            }
-            else
-            {
-                var groups = this.Columns.Select( z => z.Observation.Group ).Unique();
+            // Get the VALUES
+            double[][] newValues = Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ).ToArray(); 
 
-                List<ColumnHeader> newCols = new List<ColumnHeader>();
-                List<double[]> newValues = new List<double[]>();
-
-                foreach (GroupInfo g in groups)
-                {
-                    int[] colIndices = Columns.Which( z => z.Observation.Group == g && columnFilter( z.Observation ) ).ToArray();
-
-                    newCols.AddRange( Columns.At( colIndices ) );
-                    newValues.AddRange( Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ) );
-                }                                                                                   
-
-                return new IntensityMatrix( newRows.ToArray(), newCols.ToArray(), newValues.ToArray() );
-            }
+            // Return the result
+            return new IntensityMatrix( newRows, newCols, newValues );
         }
 
         internal Vector Find( Peak peak )
@@ -208,5 +197,74 @@ namespace MetaboliteLevels.Data.Session.Associational
         }
 
         public IntensityMatrix Provide => this;
+
+        /// <summary>
+        /// Creates a new intensity matrix with one row per experimental group
+        /// </summary>                                  
+        public IntensityMatrix SplitGroups()
+        {
+            HashSet<GroupInfo> groups = this.Columns.Select( z => z.Observation.Group ).Unique();
+            GroupInfo split = new GroupInfo( "*", -1, new Range( 0, 0 ), string.Join( ", ", groups ), string.Join( "", groups.Select( z => z.DisplayShortName ) ), -1 );
+            double[][] values = new double[this.Rows.Length * groups.Count][];
+            RowHeader[] rowHeaders = new RowHeader[values.Length];
+            ColumnHeader[] colHeaders = null;
+            GroupInfo prevGroup = null;
+
+            int n = 0;
+
+            foreach (GroupInfo group in groups)
+            {
+                int[] colIndices = this.Columns.WhichInOrder( λp => λp.Observation.Group == group, λc => λc.Observation.Time ).ToArray();
+                ColumnHeader[] cols = this.Columns.At( colIndices ).ToArray();
+
+                if (colHeaders == null)
+                {
+                    colHeaders = new ColumnHeader[colIndices.Length];
+                    prevGroup = group;
+
+                    for (int col = 0; col < cols.Length; ++col)
+                    {
+                        colHeaders[col] = new ColumnHeader( new ObservationInfo( null, split, cols[col].Observation.Time ) );
+                    }
+                }
+                else
+                {
+                    if (colHeaders.Length != cols.Length)
+                    {
+                        // User error (probably a missing filter)
+                        throw new InvalidOperationException(
+                            $"Attempt to SPLIT GROUPS on an intensity matrix but there are not the same number of TIME POINTS in each group. For instance {group} has {cols.Length} time points but {prevGroup} has {colHeaders.Length} time points. If SPLIT GROUPS is being used make sure to create a filter to ensure each group contains the same number of time points." );
+                    }
+
+                    for (int col = 0; col < cols.Length; ++col)
+                    {
+                        if (colHeaders[col].Observation.Time != cols[col].Observation.Time)
+                        {
+                            // User error (probably a weird filter) or program error (failure to order input data correctly)
+                            throw new InvalidOperationException(
+                            $"Attempt to SPLIT GROUPS on an intensity matrix but the TIME POINTS are not in the same order in each group. For instance {group} has time points {{{string.Join( ", ", cols.Select( z => z.Observation.Time ) )}}} but {prevGroup} has time points {{{string.Join( ", ", colHeaders.Select( z => z.Observation.Time ) ) }}}. If SPLIT GROUPS is being used make sure to create a filter to ensure each group contains the same time points." );
+                        }
+                    }
+                }
+
+                for (int row = 0; row < NumRows; ++row)
+                {
+                    values[n] = this.Values[row].At( colIndices ).ToArray();
+                    rowHeaders[n] = new RowHeader( this.Rows[row].Peak, group );
+                    ++n;
+                }
+            }
+
+            split.Range = Range.Find( colHeaders.Select( z => z.Observation.Time ) );
+
+            return new IntensityMatrix( rowHeaders, colHeaders, values );
+        }
+    }
+
+    [Flags]
+    public enum ESubsetFlags
+    {
+        None,
+        InvertPeakFilter
     }
 }

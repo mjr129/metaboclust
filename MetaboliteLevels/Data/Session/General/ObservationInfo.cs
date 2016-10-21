@@ -55,7 +55,10 @@ namespace MetaboliteLevels.Data.Session.General
 
         public static int GroupTimeReplicateDisplayOrder(ObservationInfo a, ObservationInfo b)
         {
-            int i = a.Group.DisplayPriority.CompareTo(b.Group.DisplayPriority);
+            int aDp = a.Group?.DisplayPriority ?? -1;
+            int bDp = b.Group?.DisplayPriority ?? -1;
+
+            int i = aDp.CompareTo(bDp);
 
             if (i != 0)
             {

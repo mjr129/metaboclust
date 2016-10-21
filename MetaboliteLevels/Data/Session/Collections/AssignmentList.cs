@@ -55,5 +55,10 @@ namespace MetaboliteLevels.Data.Session.Collections
             List.ForEach(z => z.Discard());
             List.Clear();
         }
+
+        public override string ToString()
+        {
+            return Count.ToString();
+        }
     }
 }

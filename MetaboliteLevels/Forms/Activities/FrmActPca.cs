@@ -125,7 +125,7 @@ namespace MetaboliteLevels.Forms.Activities
             StringBuilder title = new StringBuilder();
 
             IntensityMatrix sourceMatrix = _selectedCorrection.Provide;
-            IntensityMatrix source = sourceMatrix.Subset( _peakFilter, _obsFilter );
+            IntensityMatrix source = sourceMatrix.Subset( _peakFilter, _obsFilter, ESubsetFlags.None );
             
             double[] plsrResponseMatrix = null;             
 

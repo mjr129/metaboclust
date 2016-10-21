@@ -170,7 +170,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
             int cindex = -1;
 
-            IntensityMatrix vm = source.Subset(z=>  peaks.ContainsKey( z ));
+            IntensityMatrix vm = source.Subset(z=>  peaks.ContainsKey( z ), null, ESubsetFlags.None);
 
             for (int vIndex = 0; vIndex < vm.NumVectors; vIndex++)
             {

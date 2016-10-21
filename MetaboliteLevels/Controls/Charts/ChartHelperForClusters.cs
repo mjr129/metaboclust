@@ -120,7 +120,7 @@ namespace MetaboliteLevels.Controls.Charts
 
             // Reset the chart
             bool isPreview = stylisedCluster != null && stylisedCluster.IsPreview;
-            MCharting.Plot plot = PrepareNewPlot(!isPreview, (stylisedCluster != null) ? stylisedCluster.Cluster : null);
+            Plot plot = PrepareNewPlot(!isPreview, (stylisedCluster != null) ? stylisedCluster.Cluster : null);
 
             // Set the selected cluster
             Cluster p = stylisedCluster != null ? stylisedCluster.Cluster : null;
@@ -136,8 +136,8 @@ namespace MetaboliteLevels.Controls.Charts
                 SetCaption("No plot displayed.");
             }
 
-            var core = _core;
-            var colourSettings = core.Options.Colours;
+            Core core = _core;
+            CoreColourSettings colourSettings = core.Options.Colours;
 
             // If there is nothing to plot then exit
             if (p == null)
@@ -157,18 +157,14 @@ namespace MetaboliteLevels.Controls.Charts
             }
 
             int numClusterCentres = 0;
-            HashSet<GroupInfo> groups = p.Assignments.List.Select(z => z.Vector.Group).Unique(); // array containing groups or null
-            bool isMultiGroup = groups.Count != 1;
-            GroupInfo[] groupOrder;
+            HashSet<GroupInfo> groupsInPlot = p.Assignments.Vectors.First().ColHeaders.Unique( z => z.Observation.Group );
 
-            if (_core.Options.DisplayAllGroupsInClusterPlot)
+            if (!_core.Options.DisplayAllGroupsInClusterPlot)
             {
-                groupOrder = _core.Groups.OrderBy(GroupInfo.GroupOrderBy).ToArray();
+                groupsInPlot.RemoveWhere( z => !_core.Options.ViewTypes.Contains( z ) );
             }
-            else
-            {
-                groupOrder = _core.Options.ViewTypes.OrderBy(GroupInfo.GroupOrderBy).ToArray();
-            }
+
+            GroupInfo[] groupOrder = groupsInPlot.OrderBy( GroupInfoBase.GroupOrderBy).ToArray();
 
             MCharting.Series legendEntry = new MCharting.Series();
             legendEntry.Name = "Input vector";
@@ -218,7 +214,7 @@ namespace MetaboliteLevels.Controls.Charts
 
                     lastSeries = series;
 
-                    int typeOffset = GetTypeOffset(groupOrder, group, isMultiGroup);
+                    int typeOffset = GetTypeOffset(groupOrder, group);
 
                     int x = typeOffset + obs.Time;
                     double v = vec.Values[i];
@@ -274,7 +270,7 @@ namespace MetaboliteLevels.Controls.Charts
                         }
 
                         double dp = centre[index];
-                        int x = GetTypeOffset(groupOrder, cond.Group, isMultiGroup) + cond.Time;
+                        int x = GetTypeOffset(groupOrder, cond.Group) + cond.Time;
                         MCharting.DataPoint cdp = new MCharting.DataPoint(x, dp);
                         cdp.Tag = new IntensityInfo(cond.Time, cond.Rep, cond.Group, dp);
                         series.Points.Add(cdp);
@@ -290,7 +286,7 @@ namespace MetaboliteLevels.Controls.Charts
             }
 
             // --- LABELS ---
-            DrawLabels(plot, !isMultiGroup, groupOrder, true);
+            DrawLabels(plot, true, groupOrder, true);
 
             // --- COMPLETE ---
             CompleteNewPlot(plot);

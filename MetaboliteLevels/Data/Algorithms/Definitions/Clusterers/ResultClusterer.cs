@@ -204,7 +204,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
             else
             {
                 filteredIndices = vmatrix.Columns.Which(z=>  obsFilter.Test(z.Observation) ).ToArray(); // TODO: Multuple iteration
-                vmatFiltered = vmatrix.Subset(null, obsFilter, false, false);
+                vmatFiltered = vmatrix.Subset(null, obsFilter, ESubsetFlags.None);
                 dmatFiltered = null;
             }
 

@@ -56,7 +56,7 @@ namespace MetaboliteLevels.Utilities
             t = Math.Sqrt(t);
 
             return t;
-        } 
+        }             
 
         /// <summary>
         /// Returns the unique combinations of [count] numbers, with each combination containing

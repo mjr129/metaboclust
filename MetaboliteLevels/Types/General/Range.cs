@@ -88,5 +88,26 @@ namespace MetaboliteLevels.Types.General
         {
             return GetEnumerator();
         }
+
+        public static Range Find( IEnumerable<int> values)
+        {
+            int max = int.MinValue;
+            int min = int.MaxValue;
+
+            foreach (var i in values)
+            {
+                if (i > max)
+                {
+                    max = i;
+                }
+
+                if (i < min)
+                {
+                    min = i;
+                }
+            }
+
+            return new Range( min, max );
+        }
     }
 }

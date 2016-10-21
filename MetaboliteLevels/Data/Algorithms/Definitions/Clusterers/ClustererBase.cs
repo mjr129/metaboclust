@@ -85,7 +85,12 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
                 insigs.States |= Session.Associational.Cluster.EStates.Insignificants;
 
                 // We still need the vmatrix for plotting later
-                IntensityMatrix operational = src.Subset( args.PeakFilter, args.ObsFilter, args.SplitGroups, true );
+                IntensityMatrix operational = src.Subset( args.PeakFilter, args.ObsFilter, ESubsetFlags.InvertPeakFilter );
+
+                if (args.SplitGroups)
+                {
+                    operational = operational.SplitGroups();
+                }
 
                 for (int index = 0; index < operational.NumRows; index++)
                 {
@@ -96,7 +101,12 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
 
             // CREATE VMATRIX AND FILTER OBSERVATIONS
             PeakFilter temp = new PeakFilter( "filtered in", null, new[] { new PeakFilter.ConditionPeak( Filter.ELogicOperator.And, false, filter.Failed, Filter.EElementOperator.IsNot ) } );
-            IntensityMatrix vmatrix = src.Subset( args.PeakFilter, args.ObsFilter, args.SplitGroups, false);
+            IntensityMatrix vmatrix = src.Subset( args.PeakFilter, args.ObsFilter, ESubsetFlags.None);
+
+            if (args.SplitGroups)
+            {
+                vmatrix = vmatrix.SplitGroups();
+            }
 
             prog.Enter("Creating distance matrix");
             DistanceMatrix dmatrix = RequiresDistanceMatrix ? DistanceMatrix.Create(core, vmatrix, args.Distance, prog) : null;

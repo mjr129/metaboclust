@@ -107,10 +107,10 @@ namespace MetaboliteLevels.Forms.Wizards
                     break;
 
                 case 2:
-                    string errorMessage;
+                    string errorMessage = null;
                     ctlError1.Check( _ecbPeakFilter.ComboBox, _ecbPeakFilter.HasSelection, "Select an item" );
                     ctlError1.Check( _ecbDistance.ComboBox, _ecbDistance.HasSelection, "Select an item" );
-                    object[] x = _ecbDistance.SelectedItem.Parameters.TryStringToParams( _core, _txtDistanceParams.Text, out errorMessage );
+                    object[] x = _ecbDistance.SelectedItem?.Parameters.TryStringToParams( _core, _txtDistanceParams.Text, out errorMessage );
                     ctlError1.Check( _txtDistanceParams, x != null, errorMessage );
                     break;
 

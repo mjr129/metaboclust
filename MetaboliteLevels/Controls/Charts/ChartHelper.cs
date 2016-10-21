@@ -282,7 +282,7 @@ namespace MetaboliteLevels.Controls.Charts
         {
             MCharting.Plot plot = new MCharting.Plot();
 
-            CoreOptions.PlotSetup setup = _core.Options.GetPlotSetup(_core, toPlot);
+            PlotSetup setup = _core.Options.GetPlotSetup(_core, toPlot);
 
             if (_mnuPlot != null)
             {
@@ -359,10 +359,11 @@ namespace MetaboliteLevels.Controls.Charts
                 Chart.Style.Margin = Padding.Empty;
             }
 
-            plot.Style.XMin = setup.RangeXMin.Get( toPlot );
-            plot.Style.XMax = setup.RangeXMax.Get( toPlot );
-            plot.Style.YMin = setup.RangeYMin.Get( toPlot );
-            plot.Style.YMax = setup.RangeYMax.Get( toPlot );
+            // TODO:
+            //plot.Style.XMin = setup.RangeXMin.Get( toPlot );
+            //plot.Style.XMax = setup.RangeXMax.Get( toPlot );
+            //plot.Style.YMin = setup.RangeYMin.Get( toPlot );
+            //plot.Style.YMax = setup.RangeYMax.Get( toPlot );
 
             return plot;
         }
@@ -544,7 +545,7 @@ namespace MetaboliteLevels.Controls.Charts
                     {
                         x = GetTypeOffset((IEnumerable<GroupInfo>)orderOfGroups, (GroupInfo)ti);
                     }
-                    else
+                    else // if (ti is BatchInfo)
                     {
                         x = GetBatchOffset((IEnumerable<BatchInfo>)orderOfGroups, (BatchInfo)ti);
                     }

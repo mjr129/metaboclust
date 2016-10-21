@@ -49,8 +49,7 @@ namespace MetaboliteLevels.Forms.Editing
             InitializeComponent();      
 
             _readOnly = readOnly;
-
-            _binder1.GenerateRevertButtons = false;
+                                                       
             _binder1.Bind(_txtName, z=> z.OverrideDisplayName);
             _binder1.Bind(_txtKey, z => z.Key);
             _binder1.Bind(_numDuration, z => z.BeepDuration);

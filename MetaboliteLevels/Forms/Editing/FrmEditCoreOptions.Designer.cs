@@ -58,32 +58,12 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnColourMajorGrid = new MGui.Controls.CtlColourEditor();
             this.label11 = new System.Windows.Forms.Label();
             this._btnColourAxisTitle = new MGui.Controls.CtlColourEditor();
-            this._txtClusterInfo = new MGui.Controls.CtlTextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this._txtClusterTitle = new MGui.Controls.CtlTextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this._txtClusterXAxis = new MGui.Controls.CtlTextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this._txtClusterSubtitle = new MGui.Controls.CtlTextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this._txtClusterYAxis = new MGui.Controls.CtlTextBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label37 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this._tab = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label17 = new System.Windows.Forms.Label();
-            this._txtPeakYAxis = new MGui.Controls.CtlTextBox();
-            this._txtPeakInfo = new MGui.Controls.CtlTextBox();
-            this._txtPeakXAxis = new MGui.Controls.CtlTextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this._txtPeakSubtitle = new MGui.Controls.CtlTextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this._txtPeakTitle = new MGui.Controls.CtlTextBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this._lstPeakData = new System.Windows.Forms.ComboBox();
             this.label33 = new System.Windows.Forms.Label();
@@ -95,29 +75,7 @@ namespace MetaboliteLevels.Forms.Editing
             this._chkPeakMinMax = new System.Windows.Forms.CheckBox();
             this._chkGroupNames = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.label22 = new System.Windows.Forms.Label();
-            this._txtCompYAxis = new MGui.Controls.CtlTextBox();
-            this._txtCompInfo = new MGui.Controls.CtlTextBox();
-            this._txtCompXAxis = new MGui.Controls.CtlTextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this._txtCompSubtitle = new MGui.Controls.CtlTextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this._txtCompTitle = new MGui.Controls.CtlTextBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.label27 = new System.Windows.Forms.Label();
-            this._txtPathYAxis = new MGui.Controls.CtlTextBox();
-            this._txtPathInfo = new MGui.Controls.CtlTextBox();
-            this._txtPathXAxis = new MGui.Controls.CtlTextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this._txtPathSubtitle = new MGui.Controls.CtlTextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this._txtPathTitle = new MGui.Controls.CtlTextBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tabPage6 = new System.Windows.Forms.TabPage();
@@ -159,33 +117,19 @@ namespace MetaboliteLevels.Forms.Editing
             this.coreOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.resetToDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label47 = new System.Windows.Forms.Label();
-            this.label48 = new System.Windows.Forms.Label();
-            this._txtClusterXRange = new MGui.Controls.CtlTextBox();
-            this._txtClusterYRange = new MGui.Controls.CtlTextBox();
-            this.label50 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
-            this._txtPeakXRange = new MGui.Controls.CtlTextBox();
-            this._txtPeakYRange = new MGui.Controls.CtlTextBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this._txtCompXRange = new MGui.Controls.CtlTextBox();
-            this._txtCompYRange = new MGui.Controls.CtlTextBox();
-            this.label57 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
-            this._txtPathXRange = new MGui.Controls.CtlTextBox();
-            this._txtPathYRange = new MGui.Controls.CtlTextBox();
+            this._poCluster = new MetaboliteLevels.Controls.CtlEditPlotSetup();
+            this._poPeaks = new MetaboliteLevels.Controls.CtlEditPlotSetup();
+            this._poCompounds = new MetaboliteLevels.Controls.CtlEditPlotSetup();
+            this._poPathways = new MetaboliteLevels.Controls.CtlEditPlotSetup();
             ((System.ComponentModel.ISupportInitialize)(this._numSizeLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numClusterMaxPlot)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this._tab.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -239,7 +183,7 @@ namespace MetaboliteLevels.Forms.Editing
             // 
             this._chkClusterCentres.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this._chkClusterCentres, 2);
-            this._chkClusterCentres.Location = new System.Drawing.Point(119, 323);
+            this._chkClusterCentres.Location = new System.Drawing.Point(119, 8);
             this._chkClusterCentres.Margin = new System.Windows.Forms.Padding(8);
             this._chkClusterCentres.Name = "_chkClusterCentres";
             this._chkClusterCentres.Size = new System.Drawing.Size(132, 25);
@@ -250,7 +194,7 @@ namespace MetaboliteLevels.Forms.Editing
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 364);
+            this.label3.Location = new System.Drawing.Point(8, 49);
             this.label3.Margin = new System.Windows.Forms.Padding(8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 21);
@@ -260,7 +204,7 @@ namespace MetaboliteLevels.Forms.Editing
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(939, 364);
+            this.label4.Location = new System.Drawing.Point(939, 49);
             this.label4.Margin = new System.Windows.Forms.Padding(8);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 21);
@@ -270,7 +214,7 @@ namespace MetaboliteLevels.Forms.Editing
             // _numClusterMaxPlot
             // 
             this._numClusterMaxPlot.Dock = System.Windows.Forms.DockStyle.Top;
-            this._numClusterMaxPlot.Location = new System.Drawing.Point(119, 364);
+            this._numClusterMaxPlot.Location = new System.Drawing.Point(119, 49);
             this._numClusterMaxPlot.Margin = new System.Windows.Forms.Padding(8);
             this._numClusterMaxPlot.Maximum = new decimal(new int[] {
             10000,
@@ -284,7 +228,7 @@ namespace MetaboliteLevels.Forms.Editing
             // _chkPeakRanges
             // 
             this._chkPeakRanges.AutoSize = true;
-            this._chkPeakRanges.Location = new System.Drawing.Point(1015, 458);
+            this._chkPeakRanges.Location = new System.Drawing.Point(286, 143);
             this._chkPeakRanges.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakRanges.Name = "_chkPeakRanges";
             this._chkPeakRanges.Size = new System.Drawing.Size(132, 25);
@@ -295,7 +239,7 @@ namespace MetaboliteLevels.Forms.Editing
             // _chkPeakMean
             // 
             this._chkPeakMean.AutoSize = true;
-            this._chkPeakMean.Location = new System.Drawing.Point(116, 499);
+            this._chkPeakMean.Location = new System.Drawing.Point(88, 184);
             this._chkPeakMean.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakMean.Name = "_chkPeakMean";
             this._chkPeakMean.Size = new System.Drawing.Size(158, 25);
@@ -306,7 +250,7 @@ namespace MetaboliteLevels.Forms.Editing
             // _chkPeakData
             // 
             this._chkPeakData.AutoSize = true;
-            this._chkPeakData.Location = new System.Drawing.Point(116, 458);
+            this._chkPeakData.Location = new System.Drawing.Point(88, 143);
             this._chkPeakData.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakData.Name = "_chkPeakData";
             this._chkPeakData.Size = new System.Drawing.Size(104, 25);
@@ -317,7 +261,7 @@ namespace MetaboliteLevels.Forms.Editing
             // _chkPeakTrend
             // 
             this._chkPeakTrend.AutoSize = true;
-            this._chkPeakTrend.Location = new System.Drawing.Point(1015, 499);
+            this._chkPeakTrend.Location = new System.Drawing.Point(286, 184);
             this._chkPeakTrend.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakTrend.Name = "_chkPeakTrend";
             this._chkPeakTrend.Size = new System.Drawing.Size(105, 25);
@@ -328,7 +272,7 @@ namespace MetaboliteLevels.Forms.Editing
             // _chkPeakFlag
             // 
             this._chkPeakFlag.AutoSize = true;
-            this._chkPeakFlag.Location = new System.Drawing.Point(116, 540);
+            this._chkPeakFlag.Location = new System.Drawing.Point(88, 225);
             this._chkPeakFlag.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakFlag.Name = "_chkPeakFlag";
             this._chkPeakFlag.Size = new System.Drawing.Size(182, 25);
@@ -339,7 +283,7 @@ namespace MetaboliteLevels.Forms.Editing
             // _btnEditFlags
             // 
             this._btnEditFlags.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnEditFlags.Location = new System.Drawing.Point(116, 581);
+            this._btnEditFlags.Location = new System.Drawing.Point(88, 266);
             this._btnEditFlags.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditFlags.Name = "_btnEditFlags";
             this._btnEditFlags.Size = new System.Drawing.Size(128, 40);
@@ -484,112 +428,6 @@ namespace MetaboliteLevels.Forms.Editing
             this._btnColourAxisTitle.TabIndex = 4;
             this._btnColourAxisTitle.UseVisualStyleBackColor = false;
             // 
-            // _txtClusterInfo
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this._txtClusterInfo, 2);
-            this._txtClusterInfo.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtClusterInfo.Location = new System.Drawing.Point(119, 8);
-            this._txtClusterInfo.Margin = new System.Windows.Forms.Padding(8);
-            this._txtClusterInfo.Name = "_txtClusterInfo";
-            this._txtClusterInfo.Size = new System.Drawing.Size(880, 29);
-            this._txtClusterInfo.TabIndex = 6;
-            this._txtClusterInfo.Watermark = null;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(8, 8);
-            this.label12.Margin = new System.Windows.Forms.Padding(8);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(92, 21);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Information";
-            // 
-            // _txtClusterTitle
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this._txtClusterTitle, 2);
-            this._txtClusterTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtClusterTitle.Location = new System.Drawing.Point(119, 53);
-            this._txtClusterTitle.Margin = new System.Windows.Forms.Padding(8);
-            this._txtClusterTitle.Name = "_txtClusterTitle";
-            this._txtClusterTitle.Size = new System.Drawing.Size(880, 29);
-            this._txtClusterTitle.TabIndex = 8;
-            this._txtClusterTitle.Watermark = null;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(8, 53);
-            this.label13.Margin = new System.Windows.Forms.Padding(8);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(39, 21);
-            this.label13.TabIndex = 7;
-            this.label13.Text = "Title";
-            // 
-            // _txtClusterXAxis
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this._txtClusterXAxis, 2);
-            this._txtClusterXAxis.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtClusterXAxis.Location = new System.Drawing.Point(119, 143);
-            this._txtClusterXAxis.Margin = new System.Windows.Forms.Padding(8);
-            this._txtClusterXAxis.Name = "_txtClusterXAxis";
-            this._txtClusterXAxis.Size = new System.Drawing.Size(880, 29);
-            this._txtClusterXAxis.TabIndex = 12;
-            this._txtClusterXAxis.Watermark = null;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 143);
-            this.label14.Margin = new System.Windows.Forms.Padding(8);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(51, 21);
-            this.label14.TabIndex = 11;
-            this.label14.Text = "X-axis";
-            this.label14.Click += new System.EventHandler(this.label14_Click);
-            // 
-            // _txtClusterSubtitle
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this._txtClusterSubtitle, 2);
-            this._txtClusterSubtitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtClusterSubtitle.Location = new System.Drawing.Point(119, 98);
-            this._txtClusterSubtitle.Margin = new System.Windows.Forms.Padding(8);
-            this._txtClusterSubtitle.Name = "_txtClusterSubtitle";
-            this._txtClusterSubtitle.Size = new System.Drawing.Size(880, 29);
-            this._txtClusterSubtitle.TabIndex = 10;
-            this._txtClusterSubtitle.Watermark = null;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 98);
-            this.label15.Margin = new System.Windows.Forms.Padding(8);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(63, 21);
-            this.label15.TabIndex = 9;
-            this.label15.Text = "Subtitle";
-            // 
-            // _txtClusterYAxis
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this._txtClusterYAxis, 2);
-            this._txtClusterYAxis.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtClusterYAxis.Location = new System.Drawing.Point(119, 233);
-            this._txtClusterYAxis.Margin = new System.Windows.Forms.Padding(8);
-            this._txtClusterYAxis.Name = "_txtClusterYAxis";
-            this._txtClusterYAxis.Size = new System.Drawing.Size(880, 29);
-            this._txtClusterYAxis.TabIndex = 14;
-            this._txtClusterYAxis.Watermark = null;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(8, 233);
-            this.label16.Margin = new System.Windows.Forms.Padding(8);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(51, 21);
-            this.label16.TabIndex = 13;
-            this.label16.Text = "Y-axis";
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 4;
@@ -597,71 +435,58 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.label12, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this._txtClusterYAxis, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this._txtClusterInfo, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this._txtClusterXAxis, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.label16, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this._txtClusterSubtitle, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label13, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this._txtClusterTitle, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label15, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label14, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 2, 8);
-            this.tableLayoutPanel1.Controls.Add(this._numClusterMaxPlot, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this._chkClusterCentres, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.label37, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.label47, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label48, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this._txtClusterXRange, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this._txtClusterYRange, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this._numClusterMaxPlot, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this._chkClusterCentres, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label37, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 262);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 9;
+            this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1007, 583);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1007, 324);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // label37
             // 
             this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(8, 323);
+            this.label37.Location = new System.Drawing.Point(8, 8);
             this.label37.Margin = new System.Windows.Forms.Padding(8);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(49, 21);
             this.label37.TabIndex = 13;
             this.label37.Text = "Show";
             // 
-            // tabControl1
+            // _tab
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Controls.Add(this.tabPage6);
-            this.tabControl1.Controls.Add(this.tabPage7);
-            this.tabControl1.Controls.Add(this.tabPage8);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 87);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1021, 623);
-            this.tabControl1.TabIndex = 16;
+            this._tab.Controls.Add(this.tabPage1);
+            this._tab.Controls.Add(this.tabPage2);
+            this._tab.Controls.Add(this.tabPage3);
+            this._tab.Controls.Add(this.tabPage4);
+            this._tab.Controls.Add(this.tabPage5);
+            this._tab.Controls.Add(this.tabPage6);
+            this._tab.Controls.Add(this.tabPage7);
+            this._tab.Controls.Add(this.tabPage8);
+            this._tab.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._tab.Location = new System.Drawing.Point(0, 87);
+            this._tab.Name = "_tab";
+            this._tab.SelectedIndex = 0;
+            this._tab.Size = new System.Drawing.Size(1021, 623);
+            this._tab.TabIndex = 16;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.tableLayoutPanel1);
+            this.tabPage1.Controls.Add(this._poCluster);
             this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -673,6 +498,7 @@ namespace MetaboliteLevels.Forms.Editing
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.tableLayoutPanel2);
+            this.tabPage2.Controls.Add(this._poPeaks);
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -689,40 +515,26 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this.label17, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this._txtPeakYAxis, 1, 5);
-            this.tableLayoutPanel2.Controls.Add(this._txtPeakInfo, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this._txtPeakXAxis, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this.label18, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this._txtPeakSubtitle, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.label19, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this._txtPeakTitle, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label20, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.label21, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this._btnEditFlags, 1, 13);
-            this.tableLayoutPanel2.Controls.Add(this.label32, 0, 7);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakFlag, 1, 12);
-            this.tableLayoutPanel2.Controls.Add(this._lstPeakData, 1, 7);
-            this.tableLayoutPanel2.Controls.Add(this.label33, 0, 8);
-            this.tableLayoutPanel2.Controls.Add(this._lstPeakOrder, 1, 8);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakMean, 1, 11);
-            this.tableLayoutPanel2.Controls.Add(this.label34, 0, 9);
-            this.tableLayoutPanel2.Controls.Add(this._lstPeakPlotting, 1, 9);
-            this.tableLayoutPanel2.Controls.Add(this.label35, 0, 10);
-            this.tableLayoutPanel2.Controls.Add(this.label36, 0, 12);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakTrend, 2, 11);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakMinMax, 3, 10);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakRanges, 2, 10);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakData, 1, 10);
-            this.tableLayoutPanel2.Controls.Add(this._chkGroupNames, 3, 11);
-            this.tableLayoutPanel2.Controls.Add(this.label50, 0, 4);
-            this.tableLayoutPanel2.Controls.Add(this.label52, 0, 6);
-            this.tableLayoutPanel2.Controls.Add(this._txtPeakXRange, 1, 4);
-            this.tableLayoutPanel2.Controls.Add(this._txtPeakYRange, 1, 6);
+            this.tableLayoutPanel2.Controls.Add(this._btnEditFlags, 1, 6);
+            this.tableLayoutPanel2.Controls.Add(this.label32, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakFlag, 1, 5);
+            this.tableLayoutPanel2.Controls.Add(this._lstPeakData, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label33, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this._lstPeakOrder, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakMean, 1, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label34, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this._lstPeakPlotting, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label35, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.label36, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakTrend, 2, 4);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakMinMax, 3, 3);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakRanges, 2, 3);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakData, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this._chkGroupNames, 3, 4);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 262);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 14;
+            this.tableLayoutPanel2.RowCount = 7;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -730,125 +542,20 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 583);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 324);
             this.tableLayoutPanel2.TabIndex = 16;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(8, 8);
-            this.label17.Margin = new System.Windows.Forms.Padding(8);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(92, 21);
-            this.label17.TabIndex = 0;
-            this.label17.Text = "Information";
-            // 
-            // _txtPeakYAxis
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakYAxis, 3);
-            this._txtPeakYAxis.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPeakYAxis.Location = new System.Drawing.Point(116, 233);
-            this._txtPeakYAxis.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPeakYAxis.Name = "_txtPeakYAxis";
-            this._txtPeakYAxis.Size = new System.Drawing.Size(883, 29);
-            this._txtPeakYAxis.TabIndex = 14;
-            this._txtPeakYAxis.Watermark = null;
-            // 
-            // _txtPeakInfo
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakInfo, 3);
-            this._txtPeakInfo.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPeakInfo.Location = new System.Drawing.Point(116, 8);
-            this._txtPeakInfo.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPeakInfo.Name = "_txtPeakInfo";
-            this._txtPeakInfo.Size = new System.Drawing.Size(883, 29);
-            this._txtPeakInfo.TabIndex = 6;
-            this._txtPeakInfo.Watermark = null;
-            // 
-            // _txtPeakXAxis
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakXAxis, 3);
-            this._txtPeakXAxis.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPeakXAxis.Location = new System.Drawing.Point(116, 143);
-            this._txtPeakXAxis.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPeakXAxis.Name = "_txtPeakXAxis";
-            this._txtPeakXAxis.Size = new System.Drawing.Size(883, 29);
-            this._txtPeakXAxis.TabIndex = 12;
-            this._txtPeakXAxis.Watermark = null;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(8, 233);
-            this.label18.Margin = new System.Windows.Forms.Padding(8);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(51, 21);
-            this.label18.TabIndex = 13;
-            this.label18.Text = "Y-axis";
-            // 
-            // _txtPeakSubtitle
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakSubtitle, 3);
-            this._txtPeakSubtitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPeakSubtitle.Location = new System.Drawing.Point(116, 98);
-            this._txtPeakSubtitle.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPeakSubtitle.Name = "_txtPeakSubtitle";
-            this._txtPeakSubtitle.Size = new System.Drawing.Size(883, 29);
-            this._txtPeakSubtitle.TabIndex = 10;
-            this._txtPeakSubtitle.Watermark = null;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(8, 53);
-            this.label19.Margin = new System.Windows.Forms.Padding(8);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(39, 21);
-            this.label19.TabIndex = 7;
-            this.label19.Text = "Title";
-            // 
-            // _txtPeakTitle
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this._txtPeakTitle, 3);
-            this._txtPeakTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPeakTitle.Location = new System.Drawing.Point(116, 53);
-            this._txtPeakTitle.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPeakTitle.Name = "_txtPeakTitle";
-            this._txtPeakTitle.Size = new System.Drawing.Size(883, 29);
-            this._txtPeakTitle.TabIndex = 8;
-            this._txtPeakTitle.Watermark = null;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(8, 98);
-            this.label20.Margin = new System.Windows.Forms.Padding(8);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(63, 21);
-            this.label20.TabIndex = 9;
-            this.label20.Text = "Subtitle";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(8, 143);
-            this.label21.Margin = new System.Windows.Forms.Padding(8);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(51, 21);
-            this.label21.TabIndex = 11;
-            this.label21.Text = "X-axis";
             // 
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(8, 323);
+            this.label32.Location = new System.Drawing.Point(8, 8);
             this.label32.Margin = new System.Windows.Forms.Padding(8);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(42, 21);
@@ -864,16 +571,16 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstPeakData.Items.AddRange(new object[] {
             "Standard",
             "Alternate"});
-            this._lstPeakData.Location = new System.Drawing.Point(116, 323);
+            this._lstPeakData.Location = new System.Drawing.Point(88, 8);
             this._lstPeakData.Margin = new System.Windows.Forms.Padding(8);
             this._lstPeakData.Name = "_lstPeakData";
-            this._lstPeakData.Size = new System.Drawing.Size(883, 29);
+            this._lstPeakData.Size = new System.Drawing.Size(911, 29);
             this._lstPeakData.TabIndex = 15;
             // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(8, 368);
+            this.label33.Location = new System.Drawing.Point(8, 53);
             this.label33.Margin = new System.Windows.Forms.Padding(8);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(51, 21);
@@ -889,16 +596,16 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstPeakOrder.Items.AddRange(new object[] {
             "Experimental",
             "Batch"});
-            this._lstPeakOrder.Location = new System.Drawing.Point(116, 368);
+            this._lstPeakOrder.Location = new System.Drawing.Point(88, 53);
             this._lstPeakOrder.Margin = new System.Windows.Forms.Padding(8);
             this._lstPeakOrder.Name = "_lstPeakOrder";
-            this._lstPeakOrder.Size = new System.Drawing.Size(883, 29);
+            this._lstPeakOrder.Size = new System.Drawing.Size(911, 29);
             this._lstPeakOrder.TabIndex = 15;
             // 
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(8, 413);
+            this.label34.Location = new System.Drawing.Point(8, 98);
             this.label34.Margin = new System.Windows.Forms.Padding(8);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(64, 21);
@@ -914,16 +621,16 @@ namespace MetaboliteLevels.Forms.Editing
             this._lstPeakPlotting.Items.AddRange(new object[] {
             "Overlaid",
             "Side-by-side"});
-            this._lstPeakPlotting.Location = new System.Drawing.Point(116, 413);
+            this._lstPeakPlotting.Location = new System.Drawing.Point(88, 98);
             this._lstPeakPlotting.Margin = new System.Windows.Forms.Padding(8);
             this._lstPeakPlotting.Name = "_lstPeakPlotting";
-            this._lstPeakPlotting.Size = new System.Drawing.Size(883, 29);
+            this._lstPeakPlotting.Size = new System.Drawing.Size(911, 29);
             this._lstPeakPlotting.TabIndex = 15;
             // 
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(8, 458);
+            this.label35.Location = new System.Drawing.Point(8, 143);
             this.label35.Margin = new System.Windows.Forms.Padding(8);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(49, 21);
@@ -933,7 +640,7 @@ namespace MetaboliteLevels.Forms.Editing
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(8, 540);
+            this.label36.Location = new System.Drawing.Point(8, 225);
             this.label36.Margin = new System.Windows.Forms.Padding(8);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(46, 21);
@@ -943,10 +650,10 @@ namespace MetaboliteLevels.Forms.Editing
             // _chkPeakMinMax
             // 
             this._chkPeakMinMax.AutoSize = true;
-            this._chkPeakMinMax.Location = new System.Drawing.Point(1163, 458);
+            this._chkPeakMinMax.Location = new System.Drawing.Point(434, 143);
             this._chkPeakMinMax.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakMinMax.Name = "_chkPeakMinMax";
-            this._chkPeakMinMax.Size = new System.Drawing.Size(1, 25);
+            this._chkPeakMinMax.Size = new System.Drawing.Size(127, 25);
             this._chkPeakMinMax.TabIndex = 2;
             this._chkPeakMinMax.Text = "Min/max lines";
             this._chkPeakMinMax.UseVisualStyleBackColor = true;
@@ -954,17 +661,17 @@ namespace MetaboliteLevels.Forms.Editing
             // _chkGroupNames
             // 
             this._chkGroupNames.AutoSize = true;
-            this._chkGroupNames.Location = new System.Drawing.Point(1163, 499);
+            this._chkGroupNames.Location = new System.Drawing.Point(434, 184);
             this._chkGroupNames.Margin = new System.Windows.Forms.Padding(8);
             this._chkGroupNames.Name = "_chkGroupNames";
-            this._chkGroupNames.Size = new System.Drawing.Size(1, 25);
+            this._chkGroupNames.Size = new System.Drawing.Size(215, 25);
             this._chkGroupNames.TabIndex = 2;
             this._chkGroupNames.Text = "Experimental group names";
             this._chkGroupNames.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.tableLayoutPanel3);
+            this.tabPage3.Controls.Add(this._poCompounds);
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -973,143 +680,9 @@ namespace MetaboliteLevels.Forms.Editing
             this.tabPage3.Text = "Compounds";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 3;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.Controls.Add(this.label22, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this._txtCompYAxis, 1, 5);
-            this.tableLayoutPanel3.Controls.Add(this._txtCompInfo, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this._txtCompXAxis, 1, 3);
-            this.tableLayoutPanel3.Controls.Add(this.label23, 0, 5);
-            this.tableLayoutPanel3.Controls.Add(this._txtCompSubtitle, 1, 2);
-            this.tableLayoutPanel3.Controls.Add(this.label24, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this._txtCompTitle, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.label25, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.label26, 0, 3);
-            this.tableLayoutPanel3.Controls.Add(this.label55, 0, 4);
-            this.tableLayoutPanel3.Controls.Add(this.label56, 0, 6);
-            this.tableLayoutPanel3.Controls.Add(this._txtCompXRange, 1, 4);
-            this.tableLayoutPanel3.Controls.Add(this._txtCompYRange, 1, 6);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 7;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1007, 583);
-            this.tableLayoutPanel3.TabIndex = 16;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(8, 8);
-            this.label22.Margin = new System.Windows.Forms.Padding(8);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(92, 21);
-            this.label22.TabIndex = 0;
-            this.label22.Text = "Information";
-            // 
-            // _txtCompYAxis
-            // 
-            this._txtCompYAxis.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtCompYAxis.Location = new System.Drawing.Point(116, 233);
-            this._txtCompYAxis.Margin = new System.Windows.Forms.Padding(8);
-            this._txtCompYAxis.Name = "_txtCompYAxis";
-            this._txtCompYAxis.Size = new System.Drawing.Size(883, 29);
-            this._txtCompYAxis.TabIndex = 14;
-            this._txtCompYAxis.Watermark = null;
-            // 
-            // _txtCompInfo
-            // 
-            this._txtCompInfo.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtCompInfo.Location = new System.Drawing.Point(116, 8);
-            this._txtCompInfo.Margin = new System.Windows.Forms.Padding(8);
-            this._txtCompInfo.Name = "_txtCompInfo";
-            this._txtCompInfo.Size = new System.Drawing.Size(883, 29);
-            this._txtCompInfo.TabIndex = 6;
-            this._txtCompInfo.Watermark = null;
-            // 
-            // _txtCompXAxis
-            // 
-            this._txtCompXAxis.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtCompXAxis.Location = new System.Drawing.Point(116, 143);
-            this._txtCompXAxis.Margin = new System.Windows.Forms.Padding(8);
-            this._txtCompXAxis.Name = "_txtCompXAxis";
-            this._txtCompXAxis.Size = new System.Drawing.Size(883, 29);
-            this._txtCompXAxis.TabIndex = 12;
-            this._txtCompXAxis.Watermark = null;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(8, 233);
-            this.label23.Margin = new System.Windows.Forms.Padding(8);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(51, 21);
-            this.label23.TabIndex = 13;
-            this.label23.Text = "Y-axis";
-            // 
-            // _txtCompSubtitle
-            // 
-            this._txtCompSubtitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtCompSubtitle.Location = new System.Drawing.Point(116, 98);
-            this._txtCompSubtitle.Margin = new System.Windows.Forms.Padding(8);
-            this._txtCompSubtitle.Name = "_txtCompSubtitle";
-            this._txtCompSubtitle.Size = new System.Drawing.Size(883, 29);
-            this._txtCompSubtitle.TabIndex = 10;
-            this._txtCompSubtitle.Watermark = null;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(8, 53);
-            this.label24.Margin = new System.Windows.Forms.Padding(8);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(39, 21);
-            this.label24.TabIndex = 7;
-            this.label24.Text = "Title";
-            // 
-            // _txtCompTitle
-            // 
-            this._txtCompTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtCompTitle.Location = new System.Drawing.Point(116, 53);
-            this._txtCompTitle.Margin = new System.Windows.Forms.Padding(8);
-            this._txtCompTitle.Name = "_txtCompTitle";
-            this._txtCompTitle.Size = new System.Drawing.Size(883, 29);
-            this._txtCompTitle.TabIndex = 8;
-            this._txtCompTitle.Watermark = null;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(8, 98);
-            this.label25.Margin = new System.Windows.Forms.Padding(8);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(63, 21);
-            this.label25.TabIndex = 9;
-            this.label25.Text = "Subtitle";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(8, 143);
-            this.label26.Margin = new System.Windows.Forms.Padding(8);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(51, 21);
-            this.label26.TabIndex = 11;
-            this.label26.Text = "X-axis";
-            // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.tableLayoutPanel4);
+            this.tabPage4.Controls.Add(this._poPathways);
             this.tabPage4.Location = new System.Drawing.Point(4, 30);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -1117,140 +690,6 @@ namespace MetaboliteLevels.Forms.Editing
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Pathways";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 3;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.Controls.Add(this.label27, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this._txtPathYAxis, 1, 5);
-            this.tableLayoutPanel4.Controls.Add(this._txtPathInfo, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this._txtPathXAxis, 1, 3);
-            this.tableLayoutPanel4.Controls.Add(this.label28, 0, 5);
-            this.tableLayoutPanel4.Controls.Add(this._txtPathSubtitle, 1, 2);
-            this.tableLayoutPanel4.Controls.Add(this.label29, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this._txtPathTitle, 1, 1);
-            this.tableLayoutPanel4.Controls.Add(this.label30, 0, 2);
-            this.tableLayoutPanel4.Controls.Add(this.label31, 0, 3);
-            this.tableLayoutPanel4.Controls.Add(this.label57, 0, 4);
-            this.tableLayoutPanel4.Controls.Add(this.label58, 0, 6);
-            this.tableLayoutPanel4.Controls.Add(this._txtPathXRange, 1, 4);
-            this.tableLayoutPanel4.Controls.Add(this._txtPathYRange, 1, 6);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 7;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1007, 583);
-            this.tableLayoutPanel4.TabIndex = 16;
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(8, 8);
-            this.label27.Margin = new System.Windows.Forms.Padding(8);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(92, 21);
-            this.label27.TabIndex = 0;
-            this.label27.Text = "Information";
-            // 
-            // _txtPathYAxis
-            // 
-            this._txtPathYAxis.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPathYAxis.Location = new System.Drawing.Point(116, 233);
-            this._txtPathYAxis.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPathYAxis.Name = "_txtPathYAxis";
-            this._txtPathYAxis.Size = new System.Drawing.Size(883, 29);
-            this._txtPathYAxis.TabIndex = 14;
-            this._txtPathYAxis.Watermark = null;
-            // 
-            // _txtPathInfo
-            // 
-            this._txtPathInfo.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPathInfo.Location = new System.Drawing.Point(116, 8);
-            this._txtPathInfo.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPathInfo.Name = "_txtPathInfo";
-            this._txtPathInfo.Size = new System.Drawing.Size(883, 29);
-            this._txtPathInfo.TabIndex = 6;
-            this._txtPathInfo.Watermark = null;
-            // 
-            // _txtPathXAxis
-            // 
-            this._txtPathXAxis.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPathXAxis.Location = new System.Drawing.Point(116, 143);
-            this._txtPathXAxis.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPathXAxis.Name = "_txtPathXAxis";
-            this._txtPathXAxis.Size = new System.Drawing.Size(883, 29);
-            this._txtPathXAxis.TabIndex = 12;
-            this._txtPathXAxis.Watermark = null;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(8, 233);
-            this.label28.Margin = new System.Windows.Forms.Padding(8);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(51, 21);
-            this.label28.TabIndex = 13;
-            this.label28.Text = "Y-axis";
-            // 
-            // _txtPathSubtitle
-            // 
-            this._txtPathSubtitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPathSubtitle.Location = new System.Drawing.Point(116, 98);
-            this._txtPathSubtitle.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPathSubtitle.Name = "_txtPathSubtitle";
-            this._txtPathSubtitle.Size = new System.Drawing.Size(883, 29);
-            this._txtPathSubtitle.TabIndex = 10;
-            this._txtPathSubtitle.Watermark = null;
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(8, 53);
-            this.label29.Margin = new System.Windows.Forms.Padding(8);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(39, 21);
-            this.label29.TabIndex = 7;
-            this.label29.Text = "Title";
-            // 
-            // _txtPathTitle
-            // 
-            this._txtPathTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPathTitle.Location = new System.Drawing.Point(116, 53);
-            this._txtPathTitle.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPathTitle.Name = "_txtPathTitle";
-            this._txtPathTitle.Size = new System.Drawing.Size(883, 29);
-            this._txtPathTitle.TabIndex = 8;
-            this._txtPathTitle.Watermark = null;
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(8, 98);
-            this.label30.Margin = new System.Windows.Forms.Padding(8);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(63, 21);
-            this.label30.TabIndex = 9;
-            this.label30.Text = "Subtitle";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(8, 143);
-            this.label31.Margin = new System.Windows.Forms.Padding(8);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(51, 21);
-            this.label31.TabIndex = 11;
-            this.label31.Text = "X-axis";
             // 
             // tabPage5
             // 
@@ -1737,169 +1176,37 @@ namespace MetaboliteLevels.Forms.Editing
             this.resetToDefaultToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.resetToDefaultToolStripMenuItem.Text = "&Reset to default";
             // 
-            // label47
+            // _poCluster
             // 
-            this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(8, 188);
-            this.label47.Margin = new System.Windows.Forms.Padding(8);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(69, 21);
-            this.label47.TabIndex = 11;
-            this.label47.Text = "X-Range";
-            this.label47.Click += new System.EventHandler(this.label14_Click);
+            this._poCluster.Dock = System.Windows.Forms.DockStyle.Top;
+            this._poCluster.Location = new System.Drawing.Point(3, 3);
+            this._poCluster.Name = "_poCluster";
+            this._poCluster.Size = new System.Drawing.Size(1007, 259);
+            this._poCluster.TabIndex = 16;
             // 
-            // label48
+            // _poPeaks
             // 
-            this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(8, 278);
-            this.label48.Margin = new System.Windows.Forms.Padding(8);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(69, 21);
-            this.label48.TabIndex = 11;
-            this.label48.Text = "Y-Range";
-            this.label48.Click += new System.EventHandler(this.label14_Click);
+            this._poPeaks.Dock = System.Windows.Forms.DockStyle.Top;
+            this._poPeaks.Location = new System.Drawing.Point(3, 3);
+            this._poPeaks.Name = "_poPeaks";
+            this._poPeaks.Size = new System.Drawing.Size(1007, 259);
+            this._poPeaks.TabIndex = 17;
             // 
-            // _txtClusterXRange
+            // _poCompounds
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this._txtClusterXRange, 2);
-            this._txtClusterXRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtClusterXRange.Location = new System.Drawing.Point(119, 188);
-            this._txtClusterXRange.Margin = new System.Windows.Forms.Padding(8);
-            this._txtClusterXRange.Name = "_txtClusterXRange";
-            this._txtClusterXRange.Size = new System.Drawing.Size(880, 29);
-            this._txtClusterXRange.TabIndex = 12;
-            this._txtClusterXRange.Watermark = null;
+            this._poCompounds.Dock = System.Windows.Forms.DockStyle.Top;
+            this._poCompounds.Location = new System.Drawing.Point(3, 3);
+            this._poCompounds.Name = "_poCompounds";
+            this._poCompounds.Size = new System.Drawing.Size(1007, 259);
+            this._poCompounds.TabIndex = 17;
             // 
-            // _txtClusterYRange
+            // _poPathways
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this._txtClusterYRange, 2);
-            this._txtClusterYRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtClusterYRange.Location = new System.Drawing.Point(119, 278);
-            this._txtClusterYRange.Margin = new System.Windows.Forms.Padding(8);
-            this._txtClusterYRange.Name = "_txtClusterYRange";
-            this._txtClusterYRange.Size = new System.Drawing.Size(880, 29);
-            this._txtClusterYRange.TabIndex = 12;
-            this._txtClusterYRange.Watermark = null;
-            // 
-            // label50
-            // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(8, 188);
-            this.label50.Margin = new System.Windows.Forms.Padding(8);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(65, 21);
-            this.label50.TabIndex = 11;
-            this.label50.Text = "X-range";
-            // 
-            // label52
-            // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(8, 278);
-            this.label52.Margin = new System.Windows.Forms.Padding(8);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(65, 21);
-            this.label52.TabIndex = 11;
-            this.label52.Text = "Y-range";
-            // 
-            // _txtPeakXRange
-            // 
-            this._txtPeakXRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPeakXRange.Location = new System.Drawing.Point(116, 188);
-            this._txtPeakXRange.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPeakXRange.Name = "_txtPeakXRange";
-            this._txtPeakXRange.Size = new System.Drawing.Size(883, 29);
-            this._txtPeakXRange.TabIndex = 12;
-            this._txtPeakXRange.Watermark = null;
-            // 
-            // _txtPeakYRange
-            // 
-            this._txtPeakYRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPeakYRange.Location = new System.Drawing.Point(116, 278);
-            this._txtPeakYRange.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPeakYRange.Name = "_txtPeakYRange";
-            this._txtPeakYRange.Size = new System.Drawing.Size(883, 29);
-            this._txtPeakYRange.TabIndex = 12;
-            this._txtPeakYRange.Watermark = null;
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(8, 188);
-            this.label55.Margin = new System.Windows.Forms.Padding(8);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(65, 21);
-            this.label55.TabIndex = 11;
-            this.label55.Text = "X-range";
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(8, 278);
-            this.label56.Margin = new System.Windows.Forms.Padding(8);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(65, 21);
-            this.label56.TabIndex = 11;
-            this.label56.Text = "Y-range";
-            // 
-            // _txtCompXRange
-            // 
-            this._txtCompXRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtCompXRange.Location = new System.Drawing.Point(116, 188);
-            this._txtCompXRange.Margin = new System.Windows.Forms.Padding(8);
-            this._txtCompXRange.Name = "_txtCompXRange";
-            this._txtCompXRange.Size = new System.Drawing.Size(883, 29);
-            this._txtCompXRange.TabIndex = 12;
-            this._txtCompXRange.Watermark = null;
-            // 
-            // _txtCompYRange
-            // 
-            this._txtCompYRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtCompYRange.Location = new System.Drawing.Point(116, 278);
-            this._txtCompYRange.Margin = new System.Windows.Forms.Padding(8);
-            this._txtCompYRange.Name = "_txtCompYRange";
-            this._txtCompYRange.Size = new System.Drawing.Size(883, 29);
-            this._txtCompYRange.TabIndex = 12;
-            this._txtCompYRange.Watermark = null;
-            // 
-            // label57
-            // 
-            this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(8, 188);
-            this.label57.Margin = new System.Windows.Forms.Padding(8);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(65, 21);
-            this.label57.TabIndex = 11;
-            this.label57.Text = "X-range";
-            // 
-            // label58
-            // 
-            this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(8, 278);
-            this.label58.Margin = new System.Windows.Forms.Padding(8);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(65, 21);
-            this.label58.TabIndex = 11;
-            this.label58.Text = "Y-range";
-            // 
-            // _txtPathXRange
-            // 
-            this._txtPathXRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPathXRange.Location = new System.Drawing.Point(116, 188);
-            this._txtPathXRange.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPathXRange.Name = "_txtPathXRange";
-            this._txtPathXRange.Size = new System.Drawing.Size(883, 29);
-            this._txtPathXRange.TabIndex = 12;
-            this._txtPathXRange.Watermark = null;
-            // 
-            // _txtPathYRange
-            // 
-            this._txtPathYRange.Dock = System.Windows.Forms.DockStyle.Top;
-            this._txtPathYRange.Location = new System.Drawing.Point(116, 278);
-            this._txtPathYRange.Margin = new System.Windows.Forms.Padding(8);
-            this._txtPathYRange.Name = "_txtPathYRange";
-            this._txtPathYRange.Size = new System.Drawing.Size(883, 29);
-            this._txtPathYRange.TabIndex = 12;
-            this._txtPathYRange.Watermark = null;
+            this._poPathways.Dock = System.Windows.Forms.DockStyle.Top;
+            this._poPathways.Location = new System.Drawing.Point(3, 3);
+            this._poPathways.Name = "_poPathways";
+            this._poPathways.Size = new System.Drawing.Size(1007, 259);
+            this._poPathways.TabIndex = 17;
             // 
             // FrmEditCoreOptions
             // 
@@ -1908,7 +1215,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._btnCancel;
             this.ClientSize = new System.Drawing.Size(1021, 766);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this._tab);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.ctlTitleBar1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1920,17 +1227,13 @@ namespace MetaboliteLevels.Forms.Editing
             ((System.ComponentModel.ISupportInitialize)(this._numClusterMaxPlot)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this._tab.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();
@@ -1982,31 +1285,11 @@ namespace MetaboliteLevels.Forms.Editing
         private MGui.Controls.CtlColourEditor _btnColourMajorGrid;
         private System.Windows.Forms.Label label11;
         private MGui.Controls.CtlColourEditor _btnColourAxisTitle;
-        private MGui.Controls.CtlTextBox _txtClusterInfo;
-        private System.Windows.Forms.Label label12;
-        private MGui.Controls.CtlTextBox _txtClusterTitle;
-        private System.Windows.Forms.Label label13;
-        private MGui.Controls.CtlTextBox _txtClusterXAxis;
-        private System.Windows.Forms.Label label14;
-        private MGui.Controls.CtlTextBox _txtClusterSubtitle;
-        private System.Windows.Forms.Label label15;
-        private MGui.Controls.CtlTextBox _txtClusterYAxis;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl _tab;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label17;
-        private MGui.Controls.CtlTextBox _txtPeakYAxis;
-        private MGui.Controls.CtlTextBox _txtPeakInfo;
-        private MGui.Controls.CtlTextBox _txtPeakXAxis;
-        private System.Windows.Forms.Label label18;
-        private MGui.Controls.CtlTextBox _txtPeakSubtitle;
-        private System.Windows.Forms.Label label19;
-        private MGui.Controls.CtlTextBox _txtPeakTitle;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.ComboBox _lstPeakData;
         private System.Windows.Forms.Label label33;
@@ -2016,29 +1299,7 @@ namespace MetaboliteLevels.Forms.Editing
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Label label22;
-        private MGui.Controls.CtlTextBox _txtCompYAxis;
-        private MGui.Controls.CtlTextBox _txtCompInfo;
-        private MGui.Controls.CtlTextBox _txtCompXAxis;
-        private System.Windows.Forms.Label label23;
-        private MGui.Controls.CtlTextBox _txtCompSubtitle;
-        private System.Windows.Forms.Label label24;
-        private MGui.Controls.CtlTextBox _txtCompTitle;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Label label27;
-        private MGui.Controls.CtlTextBox _txtPathYAxis;
-        private MGui.Controls.CtlTextBox _txtPathInfo;
-        private MGui.Controls.CtlTextBox _txtPathXAxis;
-        private System.Windows.Forms.Label label28;
-        private MGui.Controls.CtlTextBox _txtPathSubtitle;
-        private System.Windows.Forms.Label label29;
-        private MGui.Controls.CtlTextBox _txtPathTitle;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label label37;
@@ -2083,21 +1344,9 @@ namespace MetaboliteLevels.Forms.Editing
         private MGui.Controls.CtlColourEditor _btnHhNan;
         private System.Windows.Forms.Label label53;
         private System.Windows.Forms.Label label54;
-        private System.Windows.Forms.Label label47;
-        private System.Windows.Forms.Label label48;
-        private MGui.Controls.CtlTextBox _txtClusterXRange;
-        private MGui.Controls.CtlTextBox _txtClusterYRange;
-        private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.Label label52;
-        private MGui.Controls.CtlTextBox _txtPeakXRange;
-        private MGui.Controls.CtlTextBox _txtPeakYRange;
-        private System.Windows.Forms.Label label55;
-        private System.Windows.Forms.Label label56;
-        private MGui.Controls.CtlTextBox _txtCompXRange;
-        private MGui.Controls.CtlTextBox _txtCompYRange;
-        private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.Label label58;
-        private MGui.Controls.CtlTextBox _txtPathXRange;
-        private MGui.Controls.CtlTextBox _txtPathYRange;
+        private Controls.CtlEditPlotSetup _poCluster;
+        private Controls.CtlEditPlotSetup _poPeaks;
+        private Controls.CtlEditPlotSetup _poCompounds;
+        private Controls.CtlEditPlotSetup _poPathways;
     }
 }

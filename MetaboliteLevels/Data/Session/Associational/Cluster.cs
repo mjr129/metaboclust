@@ -506,7 +506,7 @@ namespace MetaboliteLevels.Data.Session.Associational
         {
             var result = list.Cast<Cluster>();
 
-            result.Add( "Assignments\\As peaks", EColumn.Visible, λ => λ.Assignments.Peaks.ToArray());
+            result.Add( "Assignments\\As peaks", EColumn.None, λ => λ.Assignments.Peaks.ToArray());
             result.Add("Assignments\\As scores", EColumn.Advanced, λ => λ.Assignments.Scores.ToArray());
 
             foreach (GroupInfo group in core.Groups)

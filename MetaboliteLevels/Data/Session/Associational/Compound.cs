@@ -160,7 +160,7 @@ namespace MetaboliteLevels.Data.Session.Associational
 
             HashSet<Peak> peaks = this.Annotations.Select(z => z.Peak).Unique();
 
-            IntensityMatrix vm = source.Subset( z => peaks.Contains( z ) );
+            IntensityMatrix vm = source.Subset( z => peaks.Contains( z ), null, ESubsetFlags.None );
 
             for (int index = 0; index < vm.NumVectors; index++)
             {

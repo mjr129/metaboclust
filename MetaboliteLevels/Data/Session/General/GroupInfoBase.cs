@@ -27,7 +27,7 @@ namespace MetaboliteLevels.Data.Session.General
         private string _id;
         public readonly int Order;          // This program's internal index (Core.Groups[this.Order] / Core.Batches[this.Order]). This is arbitrary but MUST NOT BE CHANGED.
         [XColumn]
-        public readonly Range Range;        // Range covered (days / acquisition-order)
+        public Range Range;        // Range covered (days / acquisition-order)
         public Color ColourLight;           // Display colour (light)
         public Color Colour;                // Display colour       
 
@@ -61,7 +61,9 @@ namespace MetaboliteLevels.Data.Session.General
             this.OverrideShortName = shortName;
             this.DisplayPriority = displayPriority;
 
-            switch (Order % 7)
+            uint colour = unchecked(((uint)Order)) % 7;
+
+            switch (colour)
             {
                 case 0:
                     Colour = Color.FromArgb( 0, 0, 255 );
