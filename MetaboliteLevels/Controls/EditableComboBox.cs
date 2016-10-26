@@ -93,8 +93,8 @@ namespace MetaboliteLevels.Controls
             Rectangle imageDest = new Rectangle( e.Bounds.Left + offset, e.Bounds.Top + offset, image.Width, image.Height );
             Rectangle imageSrc = new Rectangle( 0, 0, image.Width, image.Height );
             e.Graphics.DrawImage( image, imageDest, imageSrc, GraphicsUnit.Pixel );
-            SizeF stringSize = e.Graphics.MeasureString( n.DisplayName, e.Font );
-            e.Graphics.DrawString( n.DisplayName, e.Font, new SolidBrush( e.ForeColor ), imageDest.Right + 4, e.Bounds.Top + e.Bounds.Height / 2 - stringSize.Height / 2 );
+            SizeF stringSize = e.Graphics.MeasureString( n.DisplayName, e.Font );                                                                                          
+            TextRenderer.DrawText( e.Graphics, n.DisplayName, e.Font, new Point(imageDest.Right + 4, (int)(e.Bounds.Top + e.Bounds.Height / 2 - stringSize.Height / 2)), e.ForeColor );
         }
 
         private void ComboBox_DropDown( object sender, EventArgs e )

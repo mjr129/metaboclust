@@ -146,6 +146,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CtlContextHelp.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlContextHelp.Designer.cs">
+      <DependentUpon>CtlContextHelp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtlContextHelpInner.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtlContextHelpInner.Designer.cs">
+      <DependentUpon>CtlContextHelpInner.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CtlEditPlotSetup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -244,6 +256,12 @@
       <DependentUpon>FrmEditColumns.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Selection\MsgBoxButton.cs" />
+    <Compile Include="Forms\Text\FrmFloatingHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Text\FrmFloatingHelp.Designer.cs">
+      <DependentUpon>FrmFloatingHelp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Wizards\FrmViewSpreadsheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -610,6 +628,9 @@
     <Compile Include="Controls\Lists\ShowContextMenuEventArgs.cs" />
     <Compile Include="Controls\Lists\CtlAutoList.SortByColumn.cs" />
     <Compile Include="Utilities\XmlSettings.cs" />
+    <EmbeddedResource Include="Controls\CtlContextHelpInner.resx">
+      <DependentUpon>CtlContextHelpInner.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CtlEditPlotSetup.resx">
       <DependentUpon>CtlEditPlotSetup.cs</DependentUpon>
     </EmbeddedResource>
@@ -687,6 +708,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Setup\FrmSetupInitial.resx">
       <DependentUpon>FrmSetupInitial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Text\FrmFloatingHelp.resx">
+      <DependentUpon>FrmFloatingHelp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Text\FrmInputSingleLine.resx">
       <DependentUpon>FrmInputSingleLine.cs</DependentUpon>

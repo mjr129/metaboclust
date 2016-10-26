@@ -29,6 +29,8 @@ namespace MetaboliteLevels.Forms.Editing
         private readonly bool _readOnly;
         private readonly CtlBinder<CoreOptions> _binder1 = new CtlBinder<CoreOptions>();
 
+        private CtlContextHelp _help;
+
         public static bool Show(Form owner, Core core, bool readOnly)
         {
             using (FrmEditCoreOptions frm = new FrmEditCoreOptions(core, readOnly))
@@ -55,6 +57,8 @@ namespace MetaboliteLevels.Forms.Editing
             _core = core;
             _readOnly = readOnly;
             _target = core.Options;
+            _help = new CtlContextHelp();
+            _help.Bind( ctlTitleBar1, _binder1.ToolTipControl );
 
 
             _binder1.Bind(_txtEvalFilename, λ => λ.ClusteringEvaluationResultsFileName);
