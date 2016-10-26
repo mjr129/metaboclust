@@ -45,8 +45,48 @@ namespace MetaboliteLevels.Controls
                 base.ConfigureControl( control, dataType );
 
                 control.Items.Add( EAxisRange.Automatic.ToUiString() );
-                control.Items.Add( EAxisRange.Fixed.ToUiString() );
+                control.Items.Add( EAxisRange.General.ToUiString() );
                 control.Items.Add( "1.0" );
+
+                control.DrawMode = DrawMode.OwnerDrawFixed;
+                control.DrawItem += Control_DrawItem;
+            }
+
+            private void Control_DrawItem( object sender, DrawItemEventArgs e )
+            {
+                var cb = (ComboBox)sender;
+
+                e.DrawBackground();
+
+                if (e.Index != -1)
+                {
+                    string text = cb.Items[e.Index].ToString();
+
+                    using (SolidBrush b = new SolidBrush( e.ForeColor ))
+                    {
+                        if (!e.State.Has( DrawItemState.ComboBoxEdit ))
+                        {
+                            switch (e.Index)
+                            {
+                                case 0:
+                                    text = EnumHelper.ToDescription( EAxisRange.Automatic );
+                                    break;
+
+                                case 1:
+                                    text = EnumHelper.ToDescription( EAxisRange.General );
+                                    break;
+
+                                case 2:
+                                    text = EnumHelper.ToDescription( EAxisRange.Fixed );
+                                    break;
+                            }
+                        }
+
+                        e.Graphics.DrawString( text, e.Font, b, e.Bounds );
+                    }
+                }
+
+                e.DrawFocusRectangle();
             }
 
             protected override AxisRange GetValue( ComboBox control, Type dataType )

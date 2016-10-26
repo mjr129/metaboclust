@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Controls;
 using MetaboliteLevels.Controls.Lists;
+using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Utilities;
@@ -16,8 +18,10 @@ namespace MetaboliteLevels.Types.UI
     /// This provides weak wrappers around DataSet(of T).
     /// See DataSet(of T) for the real descriptions.
     /// </summary>
-    internal interface IDataSet : IIconProvider
+    internal interface IDataSet : IIconProvider, IExportProvider
     {
+        string ListTitle { get; set; }
+
         [XColumn(EColumn.Visible)]
         string Title { get; }
 
@@ -49,5 +53,7 @@ namespace MetaboliteLevels.Types.UI
 
         [XColumn( EColumn.Visible )]
         Type DataType { get; }
+
+        EditableComboBox UntypedCreateComboBox( ComboBox l, Button b, ENullItemName nullItemName );
     }
 }

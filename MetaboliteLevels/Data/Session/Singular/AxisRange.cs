@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MGui.Helpers;
+using MGui.Datatypes;
 
 namespace MetaboliteLevels.Data.Session.Singular
 {
@@ -68,6 +69,22 @@ namespace MetaboliteLevels.Data.Session.Singular
 
                 default:
                     return Mode.ToUiString();
+            }
+        }
+
+        public double? GetValue()
+        {
+            switch (Mode)
+            {
+                case EAxisRange.Automatic:
+                case EAxisRange.General:
+                    return null;
+
+                case EAxisRange.Fixed:
+                    return Value;
+
+                default:
+                    throw new SwitchException( Mode );
             }
         }
     }

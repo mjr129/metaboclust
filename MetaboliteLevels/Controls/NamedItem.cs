@@ -118,7 +118,7 @@ namespace MetaboliteLevels.Controls
         public static IEnumerable<NamedItem<T>> GetRange<T>(IEnumerable<T> values, Converter<T, string> displayNames)
         {
             return values.Select(z => new NamedItem<T>(z, displayNames));
-        }
+        }   
 
         public static IEnumerable<NamedItem<T>> GetRange<T>(IEnumerable<T> values)
         {

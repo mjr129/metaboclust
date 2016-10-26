@@ -12,6 +12,7 @@ using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Session.General
@@ -81,5 +82,10 @@ namespace MetaboliteLevels.Data.Session.General
         public override string DefaultDisplayName => Target?.ToString() ?? "Unavailable".ToBold();
 
         public override Image Icon => Resources.ListIconResultShortcut;
+
+        public ISpreadsheet ExportData()
+        {
+            return Provide?.ExportData();
+        }
     }
 }

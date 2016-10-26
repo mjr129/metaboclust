@@ -15,7 +15,7 @@ using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Controls
-{     
+{
     /// <summary>
     /// Manages a combo-box populated with a <see cref="DataSet{T}"/>.
     /// Optionally possesses a button for editing the dataset.
@@ -23,13 +23,14 @@ namespace MetaboliteLevels.Controls
     /// This class manages a pre-created combobox and button, it does not create them.
     /// </summary>
     /// <typeparam name="T">Dataset type</typeparam>
-    class EditableComboBox<T>
+    class EditableComboBox   : IDisposable
     {
         public readonly ComboBox ComboBox;
         private Button _button;
-        private DataSet<T> _config;          
+        private IDataSet _config;
         private ENullItemName _includeNull;
-        private NamedItem<T> _none;
+        private NamedItem<object> _none;
+        private bool IsDisposed;
 
         /// <summary>
         /// Constructor
@@ -38,10 +39,10 @@ namespace MetaboliteLevels.Controls
         /// <param name="editButton">Edit button (optional)</param>
         /// <param name="items">Items to populate with</param>
         /// <param name="includeNull">Whether to include an extra item for a "null" or empty selection.</param>
-        public EditableComboBox([NotNull] ComboBox box, [CanBeNull] Button editButton, [NotNull] DataSet<T> items, ENullItemName includeNull)
+        public EditableComboBox( [NotNull] ComboBox box, [CanBeNull] Button editButton, [NotNull] IDataSet items, ENullItemName includeNull )
         {
             ComboBox = box;
-            _button = editButton;             
+            _button = editButton;
             _includeNull = includeNull;
             _config = items;
 
@@ -50,10 +51,29 @@ namespace MetaboliteLevels.Controls
                 _button.Click += _button_Click;
             }
 
-            ComboBox.DrawMode = DrawMode.OwnerDrawFixed;    
+            ComboBox.DrawMode = DrawMode.OwnerDrawFixed;
             ComboBox.DrawItem += ComboBox_DrawItem;
             ComboBox.DropDown += ComboBox_DropDown; // Update on every drop-down in case something else modified the list
             UpdateItemsNoPreserve(); // Don't do this yet or we'll NRE if the caller has events on the combobox
+        }
+
+        /// <summary>
+        /// Unhooks event handlers
+        /// </summary>
+        public void Dispose()
+        {
+            if (!IsDisposed)
+            {
+                IsDisposed = true;
+
+                if (_button != null)
+                {
+                    _button.Click -= _button_Click;
+                }
+
+                ComboBox.DrawItem -= ComboBox_DrawItem;
+                ComboBox.DropDown -= ComboBox_DropDown;
+            }
         }
 
         private void ComboBox_DrawItem( object sender, DrawItemEventArgs e )
@@ -66,7 +86,7 @@ namespace MetaboliteLevels.Controls
                 return;
             }
 
-            NamedItem<T> n = (NamedItem<T>)ComboBox.Items[e.Index];
+            NamedItem<object> n = (NamedItem<object>)ComboBox.Items[e.Index];
 
             Image image = UiControls.GetImage( n.Value, false );
             int offset = e.Bounds.Height / 2 - image.Height / 2;
@@ -80,11 +100,11 @@ namespace MetaboliteLevels.Controls
         private void ComboBox_DropDown( object sender, EventArgs e )
         {
             UpdateItems();
-        }       
+        }
 
         private void UpdateItems()
         {
-            T selection = SelectedItem;
+            object selection = SelectedItem;
             UpdateItemsNoPreserve();
             SelectedItem = selection; // Doesn't seem to care if "selection" isn't in the list (just doesn't do anything)
         }
@@ -95,18 +115,18 @@ namespace MetaboliteLevels.Controls
 
             if (_includeNull != ENullItemName.NoNullItem)
             {
-                _none = new NamedItem<T>( default( T ), _includeNull.ToUiString() );
+                _none = new NamedItem<object>( ReflectionHelper.GetDefault( _config.DataType ), _includeNull.ToUiString() );
                 ComboBox.Items.Add( _none );
             }
 
-            NamedItem<T>[] source = NamedItem.GetRange<T>( _config.TypedGetList( true ), _config.ItemTitle ).ToArray();
-            Array.Sort<NamedItem<T>>( source ); // For Julie
+            NamedItem<object>[] source = NamedItem.GetRange<object>( _config.UntypedGetList( true ).Cast<object>(), _config.UntypedName ).ToArray();
+            Array.Sort<NamedItem<object>>( source ); // For Julie
             ComboBox.Items.AddRange( source );
         }
 
-        void _button_Click(object sender, EventArgs e)
-        {        
-            if (_config.ShowListEditor(ComboBox.FindForm()))
+        void _button_Click( object sender, EventArgs e )
+        {
+            if (_config.ShowListEditor( ComboBox.FindForm() ))
             {
                 UpdateItems();
             }
@@ -138,11 +158,11 @@ namespace MetaboliteLevels.Controls
         /// Since NULL will be returned if the selection is clear OR if the null item is selected, use <see cref="HasSelection"/> to
         /// determine a selection has been made when <see cref="_includeNull"/> is not <see cref="ENullItemName.NoNullItem"/>.
         /// </remarks>
-        public T SelectedItem
+        public object SelectedItem
         {
             get
             {
-                return NamedItem<T>.Extract(ComboBox.SelectedItem);
+                return NamedItem<object>.Extract( ComboBox.SelectedItem );
             }
             set
             {
@@ -158,7 +178,7 @@ namespace MetaboliteLevels.Controls
                         ClearSelection();
                         return;
                     }
-                }         
+                }
 
                 ComboBox.SelectedItem = value;
             }
@@ -196,6 +216,21 @@ namespace MetaboliteLevels.Controls
                     _button.Visible = value;
                 }
             }
+        }
+    }
+
+    
+    class EditableComboBox<T> : EditableComboBox
+    {
+        public EditableComboBox( [NotNull] ComboBox box, [CanBeNull] Button editButton, [NotNull] DataSet<T> items, ENullItemName includeNull )
+            : base( box, editButton, items, includeNull )
+        {
+        }
+
+        public new T SelectedItem
+        {
+            get { return (T)base.SelectedItem; }
+            set { base.SelectedItem = (T)value; }
         }
     }
 

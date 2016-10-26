@@ -19,6 +19,9 @@ using MGui.Helpers;
 
 namespace MetaboliteLevels.Controls.Charts
 {
+    /// <summary>
+    /// Base class for charts (plot of things)
+    /// </summary>
     class ChartHelper : ICoreWatcher
     {
         private const int                       GROUP_SEPARATION = 2;
@@ -27,7 +30,7 @@ namespace MetaboliteLevels.Controls.Charts
 
         protected Core                           _core;
         protected readonly MChart                _chart;
-        protected readonly ISelectionHolder _selector;
+        protected readonly ISelectionHolder      _selector;
                                                                  
         private readonly CaptionBar              _captionBar;
         private readonly ToolStrip               _menuBar;
@@ -66,20 +69,22 @@ namespace MetaboliteLevels.Controls.Charts
 
         public void ChangeCore(Core newCore)
         {
-            PrepareNewPlot(false, null);
+            PrepareNewPlot(false, null, null);
             this._core = newCore;
         }
 
         public ChartHelper( ISelectionHolder selector, Core core, Control targetSite, bool describePeaks)
         {
             this._selector = selector;
-            this._core = core;              
+            this._core = core;
+
+            Color c = core.Options.Colours.MinorGrid;
+            Color c2 = core.Options.Colours.MajorGrid;
+
 
             // CHART
             this._chart      = new MChart();
             this._chart.Name = "_CHART_IN_" + (targetSite != null ? targetSite.Name : "NOTHING");
-            Color c          = core.Options.Colours.MinorGrid;
-            Color c2         = core.Options.Colours.MajorGrid;
 
             this._chart.Style.Animate           = false;
             this._chart.Style.SelectionColour   = Color.Blue;
@@ -142,10 +147,10 @@ namespace MetaboliteLevels.Controls.Charts
             _mnuPlot.DropDownOpening += _menuButtonMenu_Opening;
 
             /**** MENU *****/
-            /* select xxxx */ _btnNavigateToSelected = _mnuPlot.DropDownItems.Add("Select this", null, menu_selectThis);
+            /* select xxxx */ _btnNavigateToSelected = _mnuPlot.DropDownItems.Add("Select this", null, _menu_selectThis);
             /* ----------- */  _mnuPlot.DropDownItems.Add(new ToolStripSeparator());
             /* popout      */ _mnuPlot.DropDownItems .Add("Popout", Resources.MnuEnlarge, menu_popout_Click);
-            /* export      */ _mnuPlot.DropDownItems .Add("Export...", null, menu_exportImage);
+            /* export      */ _mnuPlot.DropDownItems .Add("Export...", null, _menu_exportImage);
             /* display:    */ _mnuSelectionDisplay   = (ToolStripMenuItem)_mnuPlot.DropDownItems.Add("Selection display", null, null);
             /*   custom    */ _chkShowCustom         = AddCheckButton("Custom text", true);
             /*   peak      */ _chkShowPeak           = AddCheckButton("Peak", describePeaks);
@@ -231,25 +236,25 @@ namespace MetaboliteLevels.Controls.Charts
                 }
 
                 items.Add(visualisable);
-                ToolStripItem mnuSelectSelection = sender.DropDownItems.Add("Navigate to " + visualisable.DisplayName, null, menu_navigateTo);
+                ToolStripItem mnuSelectSelection = sender.DropDownItems.Add("Navigate to " + visualisable.DisplayName, null, _menu_navigateTo);
                 mnuSelectSelection.Font          = new Font(mnuSelectSelection.Font, FontStyle.Bold);
                 mnuSelectSelection.Tag           = visualisable;
                 mnuSelectSelection.Enabled       = _selector != null;
             }
         }
 
-        private void menu_navigateTo(object sender, EventArgs e)
+        private void _menu_navigateTo(object sender, EventArgs e)
         {
             ToolStripItem tsender = (ToolStripItem)sender;
             _selector.Selection = new VisualisableSelection((Visualisable)tsender.Tag, null);
         }
 
-        private void menu_selectThis(object sender, EventArgs e)
+        private void _menu_selectThis(object sender, EventArgs e)
         {
             _selector.Selection = new VisualisableSelection(CurrentPlot);
         }  
 
-        private void menu_exportImage(object sender, EventArgs e)
+        private void _menu_exportImage(object sender, EventArgs e)
         {
             FrmActExportImage.Show(_chart.FindForm(), _core, this, CurrentPlot.DisplayName, _captionBar.Text);
         }
@@ -264,7 +269,7 @@ namespace MetaboliteLevels.Controls.Charts
 
         public void ClearPlot()
         {
-            _chart.SetPlot(PrepareNewPlot(false, null));
+            _chart.SetPlot(PrepareNewPlot(false, null, null));
         }
 
         protected void CompleteNewPlot( MCharting.Plot plot)
@@ -278,7 +283,7 @@ namespace MetaboliteLevels.Controls.Charts
         /// <param name="axes">Include axis text (i.e. not a preview)</param>
         /// <param name="toPlot">What will be plotted</param>
         /// <returns>New MChart.Plot object</returns>
-        protected MCharting.Plot PrepareNewPlot(bool axes, Associational toPlot)
+        protected MCharting.Plot PrepareNewPlot(bool axes, Associational toPlot, IntensityMatrix sourceMatrix)
         {
             MCharting.Plot plot = new MCharting.Plot();
 
@@ -359,7 +364,46 @@ namespace MetaboliteLevels.Controls.Charts
                 Chart.Style.Margin = Padding.Empty;
             }
 
-            // TODO:
+            plot.Style.XMin = setup.RangeXMin.GetValue();
+            plot.Style.XMax = setup.RangeXMax.GetValue();
+            plot.Style.YMin = setup.RangeYMin.GetValue();
+            plot.Style.YMax = setup.RangeYMax.GetValue();
+                            
+            // Min/max of IM
+            if (sourceMatrix != null)
+            {
+                if (setup.RangeYMin.Mode == EAxisRange.General)
+                {
+                    if (setup.RangeYMax.Mode == EAxisRange.General)
+                    {
+                        var range = sourceMatrix.AllValues.Range();
+                        plot.Style.YMin = range.Min;
+                        plot.Style.YMax = range.Max;
+                    }
+                    else
+                    {
+                        plot.Style.YMin = sourceMatrix.AllValues.Min();
+                    }
+                }
+                else if (setup.RangeYMax.Mode == EAxisRange.General)
+                {
+                    plot.Style.YMax = sourceMatrix.AllValues.Max();
+                }
+            }
+
+            switch (setup.RangeXMin.Mode)
+            {
+                case EAxisRange.Fixed:
+                    plot.Style.XMin = setup.RangeXMin.Value;
+                    break;
+
+                case EAxisRange.Automatic:
+                case EAxisRange.General:
+                    plot.Style.XMin = null;
+                    break;
+            }
+
+            
             //plot.Style.XMin = setup.RangeXMin.Get( toPlot );
             //plot.Style.XMax = setup.RangeXMax.Get( toPlot );
             //plot.Style.YMin = setup.RangeYMin.Get( toPlot );

@@ -9,6 +9,7 @@ using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Session.Associational
@@ -32,5 +33,9 @@ namespace MetaboliteLevels.Data.Session.Associational
         public override string DefaultDisplayName => Path.GetFileName( _fileName );
 
         public override Image Icon => Resources.ListIconResultOriginal;
+        public ISpreadsheet ExportData()
+        {
+            return _intentisyMatrix?.ExportData();
+        }
     }
 }

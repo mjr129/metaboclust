@@ -11,14 +11,15 @@ using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Types.General;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 using MSerialisers;
 
 namespace MetaboliteLevels.Data.Session.Associational
 {         
-    [Serializable]       
-    class IntensityMatrix
-    {                           
+    [Serializable]
+    class IntensityMatrix : IExportProvider
+    {
         public readonly double[][] Values;
         public readonly RowHeader[] Rows;
         public readonly ColumnHeader[] Columns;
@@ -39,6 +40,24 @@ namespace MetaboliteLevels.Data.Session.Associational
         public override string ToString()
         {
             return NumRows + " vectors of " + NumCols + " values";
+        }
+
+        public ISpreadsheet ExportData(  )
+        {
+            Spreadsheet<double> r = new Spreadsheet<double>( NumRows, NumCols );
+
+            r.ColNames.Set( Columns.Select( z => z.ToString() ) );
+            r.RowNames.Set( Rows.Select( z => z.ToString() ) );
+
+            for (int row = 0; row < NumRows; ++row)
+            {
+                for (int col = 0; col < NumCols; ++col)
+                {
+                    r[row, col] = Values[row][col];
+                }
+            }
+
+            return r;
         }
 
         public IntensityMatrix( RowHeader[] rows, ColumnHeader[] columns, double[][] values )
@@ -103,9 +122,19 @@ namespace MetaboliteLevels.Data.Session.Associational
             return new IntensityMatrix( newRows, newCols, newValues );
         }
 
+        /// <summary>
+        /// Finds the FIRST vector representing the selected peak (or NULL if it does not exist).
+        /// </summary>                                                                     
         internal Vector Find( Peak peak )
         {
-            return new Vector( this, FindIndex( new RowHeader( peak, null ) ) );
+            int index = FindIndex( new RowHeader( peak, null ) );
+
+            if (index == -1)
+            {
+                return null;
+            }
+
+            return new Vector( this, index );
         }
 
         internal int FindIndex( RowHeader row )
@@ -118,6 +147,8 @@ namespace MetaboliteLevels.Data.Session.Associational
         public bool HasSplitGroups => Rows.Length != 0 && Rows[0].Group != null;
 
         public bool IsTrend => Columns.Length != 0 && Columns[0].Observation.Acquisition == null;
+
+        public IEnumerable<double> AllValues => Values.SelectMany( z => z );
 
         /// <summary>
         /// TODO: Horrible workaround, remove it!

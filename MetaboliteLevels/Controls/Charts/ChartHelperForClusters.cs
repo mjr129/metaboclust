@@ -120,10 +120,10 @@ namespace MetaboliteLevels.Controls.Charts
 
             // Reset the chart
             bool isPreview = stylisedCluster != null && stylisedCluster.IsPreview;
-            Plot plot = PrepareNewPlot(!isPreview, (stylisedCluster != null) ? stylisedCluster.Cluster : null);
+            Cluster p = stylisedCluster != null ? stylisedCluster.Cluster : null;
+            Plot plot = PrepareNewPlot(!isPreview, (stylisedCluster != null) ? stylisedCluster.Cluster : null, p?.Assignments.Vectors.FirstOrDefault()?.Source);
 
             // Set the selected cluster
-            Cluster p = stylisedCluster != null ? stylisedCluster.Cluster : null;
             Dictionary<Peak, LineInfo> colours = stylisedCluster != null ? stylisedCluster.Colours : null;
             SelectedCluster = stylisedCluster;
 

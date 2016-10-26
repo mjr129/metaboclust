@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,18 +16,21 @@ namespace MetaboliteLevels.Data.Session.Singular
         /// <summary>
         /// Autoscale the axis
         /// </summary>
-        [Name("(Automatic - this vector)")]
+        [Name("*")]
+        [Description("Scale to min/max")]
         Automatic,
 
         /// <summary>
         /// Autoscale the axis to all possibilities
         /// </summary>
-        [Name( "(Automatic - all vectors)" )]
+        [Name( "{I}" )]
+        [Description( "Scale to min/max of the intensity matrix" )]
         General,
 
         /// <summary>
         /// Use a fixed scale
         /// </summary>
+        [Description( "Custom scale" )]
         Fixed,
     }
 }

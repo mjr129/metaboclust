@@ -15,6 +15,8 @@ using MetaboliteLevels.Forms.Editing;
 using MetaboliteLevels.Forms.Selection;
 using MetaboliteLevels.Utilities;
 using MGui.Controls;
+using MGui.Datatypes;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Types.UI
 {
@@ -383,9 +385,14 @@ namespace MetaboliteLevels.Types.UI
         /// <summary>
         /// Creates a ComboBox (dropdown list and edit button) from the list.
         /// </summary>        
-        internal EditableComboBox<T> CreateComboBox(ComboBox l, Button b, ENullItemName nullItemName)
+        public EditableComboBox<T> CreateComboBox(ComboBox l, Button b, ENullItemName nullItemName)
         {
             return new EditableComboBox<T>(l, b, this, nullItemName);
+        }
+
+        public EditableComboBox UntypedCreateComboBox( ComboBox l, Button b, ENullItemName nullItemName )
+        {
+            return CreateComboBox( l, b, nullItemName );
         }
 
         /// <summary>
@@ -502,6 +509,35 @@ namespace MetaboliteLevels.Types.UI
             {
                 _icon = value;
             }
+        }
+
+        public ISpreadsheet ExportData()
+        {      
+            T[] src = ListSource.ToArray();
+            var c = ColumnManager.GetColumns( DataType, Core ).ToArray();
+
+            Spreadsheet<object> ss = new Spreadsheet<object>( src.Length, c.Length );
+
+            ss.Title = ListTitle;
+            ss.RowNames.Set( ListSource.Select( z => z.ToString() ) );
+            ss.ColNames.Set( c.Select( z => z.Id ) );
+
+            for (int row = 0; row < src.Length; ++row)
+            {
+                object rowValue = src[row];
+
+                for (int col = 0; col < c.Length; ++col)
+                {
+                    ss[row,col] = c[col].GetRowAsString( rowValue );
+                }
+            }
+
+            return ss;
+        }
+
+        public override string ToString()
+        {
+            return ListTitle;
         }
     }
 }

@@ -199,5 +199,9 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
         protected override Image ResultIcon => Resources.ListIconResultCorrection;
 
         public IntensityMatrix Provide => Results?.Matrix;
+        public ISpreadsheet ExportData()
+        {
+            return Provide?.ExportData();
+        }
     }
 }

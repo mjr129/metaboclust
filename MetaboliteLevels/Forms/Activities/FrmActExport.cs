@@ -74,17 +74,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void _chkClusters_CheckedChanged( object sender, EventArgs e )
         {
             Set( _txtClusters , _btnClusters , _chkClusters);
-        }
-
-        private void _chkTrend_CheckedChanged( object sender, EventArgs e )
-        {
-            Set( _txtTrend , _btnTrend , _chkTrend, _lstTrendSource, _btnTrendSource);
-        }
-
-        private void _chkConds_CheckedChanged( object sender, EventArgs e )
-        {
-            Set( _txtConds , _btnConds , _chkConds);
-        }
+        }        
 
         private void _chkOther_CheckedChanged( object sender, EventArgs e )
         {
@@ -140,17 +130,7 @@ namespace MetaboliteLevels.Forms.Activities
         private void _btnClusters_Click( object sender, EventArgs e )
         {
             Browse( _txtClusters );
-        }
-
-        private void _btnTrend_Click( object sender, EventArgs e )
-        {
-            Browse( _txtTrend );
-        }
-
-        private void _btnConds_Click( object sender, EventArgs e )
-        {
-            Browse( _txtConds );
-        }
+        }    
 
         class OtherExportInfo : Visualisable
         {
@@ -262,21 +242,7 @@ namespace MetaboliteLevels.Forms.Activities
                 prog.Enter( "Assignments" );
                 ExportAssignments( _txtClusters.Text );
                 prog.Leave();
-            }
-
-            if (_chkTrend.Checked)
-            {
-                prog.Enter( "Trend" );                    
-                ExportData( _txtTrend.Text, _ecbTrendSource.SelectedItem.Provide );
-                prog.Leave();
-            }
-
-            if (_chkConds.Checked)
-            {
-                prog.Enter( "Conditions" );
-                Export( _txtConds.Text, DataSet.ForConditions( _core ) );
-                prog.Leave();
-            }
+            }    
 
             if (_chkOther.Checked)
             {

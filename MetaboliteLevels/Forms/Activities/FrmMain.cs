@@ -1827,7 +1827,7 @@ namespace MetaboliteLevels.Forms.Activities
 
         private void dataToolStripMenuItem_Click( object sender, EventArgs e )
         {
-            FrmActExport.Show( this, _core );
+            FrmExport2.Show( this, _core );
         }
 
         private void correlationMapToolStripMenuItem_Click( object sender, EventArgs e )

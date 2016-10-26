@@ -62,6 +62,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.label37 = new System.Windows.Forms.Label();
             this._tab = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this._poCluster = new MetaboliteLevels.Controls.CtlEditPlotSetup();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label32 = new System.Windows.Forms.Label();
@@ -74,8 +75,11 @@ namespace MetaboliteLevels.Forms.Editing
             this.label36 = new System.Windows.Forms.Label();
             this._chkPeakMinMax = new System.Windows.Forms.CheckBox();
             this._chkGroupNames = new System.Windows.Forms.CheckBox();
+            this._poPeaks = new MetaboliteLevels.Controls.CtlEditPlotSetup();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this._poCompounds = new MetaboliteLevels.Controls.CtlEditPlotSetup();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this._poPathways = new MetaboliteLevels.Controls.CtlEditPlotSetup();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tabPage6 = new System.Windows.Forms.TabPage();
@@ -117,10 +121,6 @@ namespace MetaboliteLevels.Forms.Editing
             this.coreOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.resetToDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this._poCluster = new MetaboliteLevels.Controls.CtlEditPlotSetup();
-            this._poPeaks = new MetaboliteLevels.Controls.CtlEditPlotSetup();
-            this._poCompounds = new MetaboliteLevels.Controls.CtlEditPlotSetup();
-            this._poPathways = new MetaboliteLevels.Controls.CtlEditPlotSetup();
             ((System.ComponentModel.ISupportInitialize)(this._numSizeLimit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numClusterMaxPlot)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -441,7 +441,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label37, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 262);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 302);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -453,7 +453,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1007, 324);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1007, 284);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // label37
@@ -495,6 +495,17 @@ namespace MetaboliteLevels.Forms.Editing
             this.tabPage1.Text = "Cluster";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // _poCluster
+            // 
+            this._poCluster.AutoSize = true;
+            this._poCluster.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._poCluster.Dock = System.Windows.Forms.DockStyle.Top;
+            this._poCluster.Location = new System.Drawing.Point(3, 3);
+            this._poCluster.MinimumSize = new System.Drawing.Size(256, 0);
+            this._poCluster.Name = "_poCluster";
+            this._poCluster.Size = new System.Drawing.Size(1007, 299);
+            this._poCluster.TabIndex = 16;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.tableLayoutPanel2);
@@ -532,7 +543,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel2.Controls.Add(this._chkPeakData, 1, 3);
             this.tableLayoutPanel2.Controls.Add(this._chkGroupNames, 3, 4);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 262);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 318);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 7;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -549,7 +560,7 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 324);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 268);
             this.tableLayoutPanel2.TabIndex = 16;
             // 
             // label32
@@ -669,6 +680,17 @@ namespace MetaboliteLevels.Forms.Editing
             this._chkGroupNames.Text = "Experimental group names";
             this._chkGroupNames.UseVisualStyleBackColor = true;
             // 
+            // _poPeaks
+            // 
+            this._poPeaks.AutoSize = true;
+            this._poPeaks.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._poPeaks.Dock = System.Windows.Forms.DockStyle.Top;
+            this._poPeaks.Location = new System.Drawing.Point(3, 3);
+            this._poPeaks.MinimumSize = new System.Drawing.Size(256, 0);
+            this._poPeaks.Name = "_poPeaks";
+            this._poPeaks.Size = new System.Drawing.Size(1007, 315);
+            this._poPeaks.TabIndex = 17;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this._poCompounds);
@@ -680,6 +702,17 @@ namespace MetaboliteLevels.Forms.Editing
             this.tabPage3.Text = "Compounds";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // _poCompounds
+            // 
+            this._poCompounds.AutoSize = true;
+            this._poCompounds.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._poCompounds.Dock = System.Windows.Forms.DockStyle.Top;
+            this._poCompounds.Location = new System.Drawing.Point(3, 3);
+            this._poCompounds.MinimumSize = new System.Drawing.Size(256, 0);
+            this._poCompounds.Name = "_poCompounds";
+            this._poCompounds.Size = new System.Drawing.Size(1007, 315);
+            this._poCompounds.TabIndex = 17;
+            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this._poPathways);
@@ -690,6 +723,17 @@ namespace MetaboliteLevels.Forms.Editing
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Pathways";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // _poPathways
+            // 
+            this._poPathways.AutoSize = true;
+            this._poPathways.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._poPathways.Dock = System.Windows.Forms.DockStyle.Top;
+            this._poPathways.Location = new System.Drawing.Point(3, 3);
+            this._poPathways.MinimumSize = new System.Drawing.Size(256, 0);
+            this._poPathways.Name = "_poPathways";
+            this._poPathways.Size = new System.Drawing.Size(1007, 315);
+            this._poPathways.TabIndex = 17;
             // 
             // tabPage5
             // 
@@ -1142,13 +1186,14 @@ namespace MetaboliteLevels.Forms.Editing
             this.ctlTitleBar1.AutoSize = true;
             this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.HelpText = "Use this screen to edit session preferences\r\n\r\nThese preferences affect the activ" +
+    "e session only.\r\n\r\nRight click an input to get help on specifics.";
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
             this.ctlTitleBar1.Size = new System.Drawing.Size(1021, 87);
-            this.ctlTitleBar1.SubText = "These preferences affect the active session only";
+            this.ctlTitleBar1.SubText = "Right click inputs for more details";
             this.ctlTitleBar1.TabIndex = 18;
             this.ctlTitleBar1.Text = "Preferences";
             this.ctlTitleBar1.WarningText = null;
@@ -1176,38 +1221,6 @@ namespace MetaboliteLevels.Forms.Editing
             this.resetToDefaultToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.resetToDefaultToolStripMenuItem.Text = "&Reset to default";
             // 
-            // _poCluster
-            // 
-            this._poCluster.Dock = System.Windows.Forms.DockStyle.Top;
-            this._poCluster.Location = new System.Drawing.Point(3, 3);
-            this._poCluster.Name = "_poCluster";
-            this._poCluster.Size = new System.Drawing.Size(1007, 259);
-            this._poCluster.TabIndex = 16;
-            // 
-            // _poPeaks
-            // 
-            this._poPeaks.Dock = System.Windows.Forms.DockStyle.Top;
-            this._poPeaks.Location = new System.Drawing.Point(3, 3);
-            this._poPeaks.Name = "_poPeaks";
-            this._poPeaks.Size = new System.Drawing.Size(1007, 259);
-            this._poPeaks.TabIndex = 17;
-            // 
-            // _poCompounds
-            // 
-            this._poCompounds.Dock = System.Windows.Forms.DockStyle.Top;
-            this._poCompounds.Location = new System.Drawing.Point(3, 3);
-            this._poCompounds.Name = "_poCompounds";
-            this._poCompounds.Size = new System.Drawing.Size(1007, 259);
-            this._poCompounds.TabIndex = 17;
-            // 
-            // _poPathways
-            // 
-            this._poPathways.Dock = System.Windows.Forms.DockStyle.Top;
-            this._poPathways.Location = new System.Drawing.Point(3, 3);
-            this._poPathways.Name = "_poPathways";
-            this._poPathways.Size = new System.Drawing.Size(1007, 259);
-            this._poPathways.TabIndex = 17;
-            // 
             // FrmEditCoreOptions
             // 
             this.AcceptButton = this._btnOk;
@@ -1229,11 +1242,15 @@ namespace MetaboliteLevels.Forms.Editing
             this.tableLayoutPanel1.PerformLayout();
             this._tab.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel5.PerformLayout();

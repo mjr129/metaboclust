@@ -11,6 +11,7 @@ using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Singular;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
+using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
@@ -63,5 +64,9 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Configurations
         }
 
         protected override Image ResultIcon => Resources.ListIconResultTrend;
+        public ISpreadsheet ExportData()
+        {
+            return Provide?.ExportData();
+        }
     }
 }

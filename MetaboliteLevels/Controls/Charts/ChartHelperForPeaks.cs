@@ -46,12 +46,33 @@ namespace MetaboliteLevels.Controls.Charts
 
         public void Plot( StylisedPeak stylisedPeak )
         {
+            // Get observations
+            Vector vector;
+
+            if (stylisedPeak.ForceObservations != null)
+            {
+                vector = stylisedPeak.ForceObservations;
+            }
+            else
+            {
+                IntensityMatrix matrix = _core.Options.SelectedMatrix;
+
+                if (matrix == null)
+                {
+                    vector = null;
+                }
+                else
+                {
+                    vector = matrix.Find( stylisedPeak.Peak );
+                }
+            }
+
             Debug.WriteLine( "PeakPlot: " + stylisedPeak );
             Dictionary<string, MCharting.Series> seriesNames = new Dictionary<string, MCharting.Series>();
             Peak peak = stylisedPeak?.Peak;
 
             // Clear plot
-            MCharting.Plot plot = PrepareNewPlot( stylisedPeak != null && !stylisedPeak.IsPreview, peak );
+            MCharting.Plot plot = PrepareNewPlot( stylisedPeak != null && !stylisedPeak.IsPreview, peak, vector?.Source );
 
             try // <- CompletNewPlot
             {
@@ -73,25 +94,6 @@ namespace MetaboliteLevels.Controls.Charts
                 // Group legends
                 IEnumerable<GroupInfoBase> order = opts.ShowAcqisition ? (IEnumerable<GroupInfoBase>)opts.ViewBatches : (IEnumerable<GroupInfoBase>)opts.ViewGroups;
                 Dictionary<GroupInfoBase, MCharting.Series> groupLegends = DrawLegend( plot, order );
-
-                // Get observations
-                Vector vector;
-
-                if (stylisedPeak.ForceObservations != null)
-                {
-                    vector = stylisedPeak.ForceObservations;
-                }
-                else
-                {
-                    IntensityMatrix matrix = _core.Options.SelectedMatrix;
-
-                    if (matrix == null)
-                    {
-                        return;
-                    }
-
-                    vector = matrix.Find( stylisedPeak.Peak );
-                }
 
                 if (vector == null)
                 {

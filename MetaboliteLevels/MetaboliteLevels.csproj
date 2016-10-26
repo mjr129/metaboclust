@@ -231,6 +231,12 @@
     <Compile Include="Forms\Activities\FrmActHeatMap.Designer.cs">
       <DependentUpon>FrmActHeatMap.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Activities\FrmExport2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Activities\FrmExport2.Designer.cs">
+      <DependentUpon>FrmExport2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Editing\FrmEditColumns.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -624,6 +630,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Activities\FrmActHeatMap.resx">
       <DependentUpon>FrmActHeatMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Activities\FrmExport2.resx">
+      <DependentUpon>FrmExport2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Editing\FrmEditClusterEvaluationPointer.resx">
       <DependentUpon>FrmEditClusterEvaluationPointer.cs</DependentUpon>
