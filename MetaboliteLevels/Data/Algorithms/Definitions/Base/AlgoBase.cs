@@ -5,10 +5,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Gui.Controls.Lists;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 

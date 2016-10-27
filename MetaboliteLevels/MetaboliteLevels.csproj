@@ -146,41 +146,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\CtlContextHelp.cs">
+    <Compile Include="Gui\Controls\CtlContextHelp.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\CtlContextHelp.Designer.cs">
+    <Compile Include="Gui\Controls\CtlContextHelp.Designer.cs">
       <DependentUpon>CtlContextHelp.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CtlContextHelpInner.cs">
+    <Compile Include="Gui\Controls\CtlContextHelpInner.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CtlContextHelpInner.Designer.cs">
+    <Compile Include="Gui\Controls\CtlContextHelpInner.Designer.cs">
       <DependentUpon>CtlContextHelpInner.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CtlEditPlotSetup.cs">
+    <Compile Include="Gui\Controls\CtlEditPlotSetup.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CtlEditPlotSetup.Designer.cs">
+    <Compile Include="Gui\Controls\CtlEditPlotSetup.Designer.cs">
       <DependentUpon>CtlEditPlotSetup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CtlHelpfulLabel.cs">
+    <Compile Include="Gui\Controls\CtlHelpfulLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CtlHelpfulLabel.Designer.cs">
+    <Compile Include="Gui\Controls\CtlHelpfulLabel.Designer.cs">
       <DependentUpon>CtlHelpfulLabel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CtlLabel.cs">
+    <Compile Include="Gui\Controls\CtlLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\Lists\ColumnAttribute.cs" />
-    <Compile Include="Controls\Lists\ColumnManager.cs" />
-    <Compile Include="Controls\Lists\IColumnProvider.cs" />
-    <Compile Include="Controls\PagerControl.cs" />
+    <Compile Include="Gui\Controls\Lists\ColumnAttribute.cs" />
+    <Compile Include="Gui\Controls\Lists\ColumnManager.cs" />
+    <Compile Include="Gui\Controls\Lists\IColumnProvider.cs" />
+    <Compile Include="Gui\Controls\PagerControl.cs" />
     <Compile Include="Data\Algorithms\Definitions\Base\ArgsBase.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\IConfigutationBase.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\IProvider.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\SourceTracker.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Base\Misc\IConfigutationBase.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Base\Misc\IProvider.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Base\Misc\SourceTracker.cs" />
     <Compile Include="Data\Algorithms\General\Algo.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameter.cs" />
     <Compile Include="Data\Algorithms\General\DistanceMatrix.cs" />
@@ -193,7 +193,7 @@
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\Legacy\LegacyDKMeansPPClusterer.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\Legacy\LegacyKMeansClusterer.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\Legacy\LegacyPathwayClusterer.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\ConfigurationCorrection.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Corrections\ConfigurationCorrection.cs" />
     <Compile Include="Data\Algorithms\Definitions\Corrections\CorrectionBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Corrections\Implementations\CorrectionDirtyRectify.cs" />
     <Compile Include="Data\Algorithms\Definitions\Corrections\Implementations\CorrectionScript.cs" />
@@ -204,68 +204,62 @@
     <Compile Include="Data\Algorithms\Definitions\Statistics\ResultStatistic.cs" />
     <Compile Include="Data\Algorithms\Definitions\Trends\ResultTrend.cs" />
     <Compile Include="Data\Algorithms\General\Vector.cs" />
-    <Compile Include="Controls\EditableComboBox.cs" />
-    <Compile Include="Data\Session\Associational\Associational.cs" />
-    <Compile Include="Data\Session\Associational\IntensityMatrix.cs" />
-    <Compile Include="Data\Session\Associational\OriginalData.cs" />
-    <Compile Include="Data\Session\General\Acquisition.cs" />
-    <Compile Include="Data\Session\General\Association.cs" />
-    <Compile Include="Data\Session\General\BackupData.cs" />
-    <Compile Include="Data\Session\General\BackupManager.cs" />
-    <Compile Include="Data\Session\General\BatchInfo.cs" />
-    <Compile Include="Data\Session\General\CompoundLibrary.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Clusterers\SecondaryStatistic.cs" />
+    <Compile Include="Gui\Controls\EditableComboBox.cs" />
+    <Compile Include="Data\Session\Main\Associational.cs" />
+    <Compile Include="Data\Session\Main\IntensityMatrix.cs" />
+    <Compile Include="Data\Session\Main\OriginalData.cs" />
+    <Compile Include="Data\Session\Main\Acquisition.cs" />
+    <Compile Include="Data\Session\Associational\Association.cs" />
+    <Compile Include="Data\Session\Associational\BackupData.cs" />
+    <Compile Include="Data\Session\Associational\BackupManager.cs" />
+    <Compile Include="Data\Session\Main\BatchInfo.cs" />
+    <Compile Include="Data\Session\Definition\CompoundLibrary.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Clusterers\Misc\ClustererStatisticsHelper.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationConfiguration.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationParameterResult.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationPointer.cs" />
     <Compile Include="Data\Evaluation\ClusterEvaluationResults.cs" />
-    <Compile Include="Data\Session\General\ContentsRequest.cs" />
-    <Compile Include="Data\Session\General\EVisualClass.cs" />
-    <Compile Include="Data\Session\General\GroupInfo.cs" />
-    <Compile Include="Data\Session\General\IBackup.cs" />
-    <Compile Include="Data\Session\General\IIconProvider.cs" />
-    <Compile Include="Data\Session\General\IPreviewProvider.cs" />
+    <Compile Include="Data\Session\Associational\ContentsRequest.cs" />
+    <Compile Include="Data\Session\Associational\EVisualClass.cs" />
+    <Compile Include="Data\Session\Main\GroupInfo.cs" />
+    <Compile Include="Data\Session\Associational\IBackup.cs" />
+    <Compile Include="Data\Session\Associational\IIconProvider.cs" />
+    <Compile Include="Gui\Datatypes\IPreviewProvider.cs" />
     <Compile Include="Data\Session\General\ProviderAlias.cs" />
-    <Compile Include="Data\Session\General\VisualisableExtensions.cs" />
-    <Compile Include="Data\Session\General\VisualisableWrapper.cs" />
-    <Compile Include="Data\Session\Singular\AxisRange.cs" />
-    <Compile Include="Data\Session\Singular\EAxisRange.cs" />
-    <Compile Include="Data\Session\Singular\PlotSetup.cs" />
-    <Compile Include="Forms\Activities\FrmActExport.cs">
+    <Compile Include="Data\Session\Associational\VisualisableExtensions.cs" />
+    <Compile Include="Data\Session\Associational\VisualisableWrapper.cs" />
+    <Compile Include="Data\Session\General\AxisRange.cs" />
+    <Compile Include="Data\Session\General\EAxisRange.cs" />
+    <Compile Include="Data\Session\General\PlotSetup.cs" />
+    <Compile Include="Gui\Forms\Activities\FrmActExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActExport.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActExport.Designer.cs">
       <DependentUpon>FrmActExport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActHeatMap.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActHeatMap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActHeatMap.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActHeatMap.Designer.cs">
       <DependentUpon>FrmActHeatMap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmExport2.cs">
+    <Compile Include="Gui\Forms\Activities\FrmExport2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmExport2.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmExport2.Designer.cs">
       <DependentUpon>FrmExport2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditColumns.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditColumns.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditColumns.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditColumns.Designer.cs">
       <DependentUpon>FrmEditColumns.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Selection\MsgBoxButton.cs" />
-    <Compile Include="Forms\Text\FrmFloatingHelp.cs">
+    <Compile Include="Gui\Forms\Selection\MsgBoxButton.cs" />
+    <Compile Include="Gui\Forms\Wizards\FrmViewSpreadsheet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Text\FrmFloatingHelp.Designer.cs">
-      <DependentUpon>FrmFloatingHelp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Wizards\FrmViewSpreadsheet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Wizards\FrmViewSpreadsheet.Designer.cs">
+    <Compile Include="Gui\Forms\Wizards\FrmViewSpreadsheet.Designer.cs">
       <DependentUpon>FrmViewSpreadsheet.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -283,95 +277,95 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Texts.resx</DependentUpon>
     </Compile>
-    <Compile Include="Types\General\ETolerance.cs" />
-    <Compile Include="Forms\Activities\FrmActEvaluate.cs">
+    <Compile Include="Data\Session\General\ETolerance.cs" />
+    <Compile Include="Gui\Forms\Activities\FrmActEvaluate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActEvaluate.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActEvaluate.Designer.cs">
       <DependentUpon>FrmActEvaluate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditClusterEvaluationPointer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditClusterEvaluationPointer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditClusterEvaluationPointer.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditClusterEvaluationPointer.Designer.cs">
       <DependentUpon>FrmEditClusterEvaluationPointer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditPeakFlag.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditPeakFlag.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditPeakFlag.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditPeakFlag.Designer.cs">
       <DependentUpon>FrmEditPeakFlag.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Selection\FrmSelectAlgorithmType.cs">
+    <Compile Include="Gui\Forms\Selection\FrmSelectAlgorithmType.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Selection\FrmSelectAlgorithmType.Designer.cs">
+    <Compile Include="Gui\Forms\Selection\FrmSelectAlgorithmType.Designer.cs">
       <DependentUpon>FrmSelectAlgorithmType.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditCoreOptions.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditCoreOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditCoreOptions.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditCoreOptions.Designer.cs">
       <DependentUpon>FrmEditCoreOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActAlarm.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActAlarm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActAlarm.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActAlarm.Designer.cs">
       <DependentUpon>FrmActAlarm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActExportImage.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActExportImage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActExportImage.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActExportImage.Designer.cs">
       <DependentUpon>FrmActExportImage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmPopoutPlot.cs">
+    <Compile Include="Gui\Forms\Activities\FrmPopoutPlot.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmPopoutPlot.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmPopoutPlot.Designer.cs">
       <DependentUpon>FrmPopoutPlot.cs</DependentUpon>
     </Compile>
-    <Compile Include="Types\UI\EGraphIcon.cs" />
-    <Compile Include="Types\UI\IDataSet.cs" />
+    <Compile Include="Gui\Datatypes\EGraphIcon.cs" />
+    <Compile Include="Data\Database\IDataSet.cs" />
     <Compile Include="Utilities\ELogLevel.cs" />
     <Compile Include="Utilities\ISelectionHolder.cs" />
-    <Compile Include="Forms\Editing\FrmEditGroupBase.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditGroupBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditGroupBase.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditGroupBase.Designer.cs">
       <DependentUpon>FrmEditGroupBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditParameters.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditParameters.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditParameters.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditParameters.Designer.cs">
       <DependentUpon>FrmEditParameters.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditObsFilterCondition.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditObsFilterCondition.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditObsFilterCondition.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditObsFilterCondition.Designer.cs">
       <DependentUpon>FrmEditObsFilterCondition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActPca.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActPca.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActPca.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActPca.Designer.cs">
       <DependentUpon>FrmActPca.cs</DependentUpon>
     </Compile>
-    <Compile Include="Types\UI\DataSet%28of T%29.cs" />
-    <Compile Include="Types\UI\DataSet.cs" />
-    <Compile Include="Forms\Editing\FrmEditCompoundLibrary.cs">
+    <Compile Include="Data\Database\DataSet%28of T%29.cs" />
+    <Compile Include="Data\Database\DataSet.cs" />
+    <Compile Include="Gui\Forms\Editing\FrmEditCompoundLibrary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditCompoundLibrary.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditCompoundLibrary.Designer.cs">
       <DependentUpon>FrmEditCompoundLibrary.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Setup\FrmSetupWorkspace.cs">
+    <Compile Include="Gui\Forms\Setup\FrmSetupWorkspace.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Setup\FrmSetupWorkspace.Designer.cs">
+    <Compile Include="Gui\Forms\Setup\FrmSetupWorkspace.Designer.cs">
       <DependentUpon>FrmSetupWorkspace.cs</DependentUpon>
     </Compile>
     <Compile Include="Resx\Manual.Designer.cs">
@@ -380,35 +374,35 @@
       <DependentUpon>Manual.resx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\ConstAttribute.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\ConfigurationBase.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Base\ConfigurationBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ArgsClusterer.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ClustererBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererScript.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ConfigurationClusterer.cs" />
     <Compile Include="Data\Algorithms\General\RScript.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Statistics\StatisticConsumer.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Statistics\Implementations\StatisticConsumer.cs" />
     <Compile Include="Data\Algorithms\Definitions\Base\AlgoBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Metrics\MetricBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Metrics\ArgsMetric.cs" />
     <Compile Include="Data\Algorithms\Definitions\Metrics\Implementations\MetricInbuilt.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\ConfigurationMetric.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Metrics\ConfigurationMetric.cs" />
     <Compile Include="Data\Algorithms\Definitions\Metrics\Implementations\MetricScript.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Statistics\StatisticPcaAnova.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Statistics\Implementations\StatisticPcaAnova.cs" />
     <Compile Include="Data\Algorithms\Definitions\Trends\ArgsTrend.cs" />
     <Compile Include="Data\Algorithms\Definitions\Trends\Implementations\TrendAverage.cs" />
     <Compile Include="Data\Algorithms\Definitions\Trends\TrendBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Trends\Implementations\TrendFlatLine.cs" />
     <Compile Include="Data\Algorithms\Definitions\Trends\Implementations\TrendInbuilt.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\ConfigurationTrend.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Trends\ConfigurationTrend.cs" />
     <Compile Include="Data\Algorithms\Definitions\Trends\Implementations\TrendScript.cs" />
     <Compile Include="Data\Algorithms\Definitions\Statistics\ArgsStatistic.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Containers\StatCollection.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Base\enums.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Statistics\InputStatistics.cs" />
+    <Compile Include="Data\Algorithms\General\AlgoCollection.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Base\Misc\enums.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Statistics\Misc\InputStatistics.cs" />
     <Compile Include="Data\Algorithms\Definitions\Statistics\StatisticBase.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Statistics\StatisticInbuilt.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Configurations\ConfigurationStatistic.cs" />
-    <Compile Include="Data\Algorithms\Definitions\Statistics\StatisticScript.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Statistics\Implementations\StatisticInbuilt.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Statistics\ConfigurationStatistic.cs" />
+    <Compile Include="Data\Algorithms\Definitions\Statistics\Implementations\StatisticScript.cs" />
     <Compile Include="Utilities\EnumHelper.cs" />
     <Compile Include="Utilities\FieldWriter.cs" />
     <Compile Include="Utilities\FontHelper.cs" />
@@ -417,362 +411,358 @@
     <Compile Include="Utilities\ParseElementCollectionExtensions.cs" />
     <Compile Include="Utilities\PathwayToolsReader.cs" />
     <Compile Include="Utilities\Arr.cs" />
-    <Compile Include="Data\Session\Collections\AssignmentList.cs" />
-    <Compile Include="Controls\CaptionBar.cs" />
-    <Compile Include="Controls\ConditionBox%28of T%29.cs" />
-    <Compile Include="Controls\CtlButton.cs">
+    <Compile Include="Data\Session\General\AssignmentList.cs" />
+    <Compile Include="Gui\Controls\CaptionBar.cs" />
+    <Compile Include="Gui\Controls\ConditionBox%28of T%29.cs" />
+    <Compile Include="Gui\Controls\CtlButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\CtlTitleBar.cs">
+    <Compile Include="Gui\Controls\CtlTitleBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CtlTitleBar.Designer.cs">
+    <Compile Include="Gui\Controls\CtlTitleBar.Designer.cs">
       <DependentUpon>CtlTitleBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CtlWizard.cs">
+    <Compile Include="Gui\Controls\CtlWizard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CtlWizard.Designer.cs">
+    <Compile Include="Gui\Controls\CtlWizard.Designer.cs">
       <DependentUpon>CtlWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EnumComboBox.cs" />
-    <Compile Include="Controls\NamedItem.cs" />
-    <Compile Include="Types\UI\StylisedPeak.cs" />
+    <Compile Include="Gui\Controls\EnumComboBox.cs" />
+    <Compile Include="Gui\Datatypes\NamedItem.cs" />
+    <Compile Include="Gui\Datatypes\StylisedPeak.cs" />
     <Compile Include="Data\Session\Associational\IVisualisable.cs" />
-    <Compile Include="Types\UI\StylisedCluster.cs" />
-    <Compile Include="Data\Session\Associational\Assignment.cs" />
-    <Compile Include="Forms\Selection\FrmSelectClosure.cs">
+    <Compile Include="Gui\Datatypes\StylisedCluster.cs" />
+    <Compile Include="Data\Session\Main\Assignment.cs" />
+    <Compile Include="Gui\Forms\Selection\FrmSelectClosure.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Selection\FrmSelectClosure.Designer.cs">
+    <Compile Include="Gui\Forms\Selection\FrmSelectClosure.Designer.cs">
       <DependentUpon>FrmSelectClosure.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditConfigurationCluster.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditConfigurationCluster.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditConfigurationCluster.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditConfigurationCluster.Designer.cs">
       <DependentUpon>FrmEditConfigurationCluster.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditConfigurationCorrection.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditConfigurationCorrection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditConfigurationCorrection.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditConfigurationCorrection.Designer.cs">
       <DependentUpon>FrmEditConfigurationCorrection.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmDebug.cs">
+    <Compile Include="Gui\Forms\Editing\FrmDebug.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmDebug.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmDebug.Designer.cs">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditColumnFilter.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditColumnFilter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditColumnFilter.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditColumnFilter.Designer.cs">
       <DependentUpon>FrmEditColumnFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Setup\FrmSetupInitial.cs">
+    <Compile Include="Gui\Forms\Setup\FrmSetupInitial.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Setup\FrmSetupInitial.Designer.cs">
+    <Compile Include="Gui\Forms\Setup\FrmSetupInitial.Designer.cs">
       <DependentUpon>FrmSetupInitial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Text\FrmInputSingleLine.cs">
+    <Compile Include="Gui\Forms\Text\FrmInputSingleLine.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Text\FrmInputSingleLine.Designer.cs">
+    <Compile Include="Gui\Forms\Text\FrmInputSingleLine.Designer.cs">
       <DependentUpon>FrmInputSingleLine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditINameable.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditINameable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditINameable.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditINameable.Designer.cs">
       <DependentUpon>FrmEditINameable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditPeakFilterCondition.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditPeakFilterCondition.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditPeakFilterCondition.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditPeakFilterCondition.Designer.cs">
       <DependentUpon>FrmEditPeakFilterCondition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Selection\FrmSelectList.cs">
+    <Compile Include="Gui\Forms\Selection\FrmSelectList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Selection\FrmSelectList.Designer.cs">
+    <Compile Include="Gui\Forms\Selection\FrmSelectList.Designer.cs">
       <DependentUpon>FrmSelectList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Selection\FrmMsgBox.cs">
+    <Compile Include="Gui\Forms\Selection\FrmMsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Selection\FrmMsgBox.Designer.cs">
+    <Compile Include="Gui\Forms\Selection\FrmMsgBox.Designer.cs">
       <DependentUpon>FrmMsgBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActOldData.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActOldData.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActOldData.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActOldData.Designer.cs">
       <DependentUpon>FrmActOldData.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditSession.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditSession.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditSession.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditSession.Designer.cs">
       <DependentUpon>FrmEditSession.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Text\FrmInputScript.cs">
+    <Compile Include="Gui\Forms\Text\FrmInputScript.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Text\FrmInputScript.Designer.cs">
+    <Compile Include="Gui\Forms\Text\FrmInputScript.Designer.cs">
       <DependentUpon>FrmInputScript.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditConfigurationTrend.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditConfigurationTrend.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditConfigurationTrend.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditConfigurationTrend.Designer.cs">
       <DependentUpon>FrmEditConfigurationTrend.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditConfigurationStatistic.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditConfigurationStatistic.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmEditConfigurationStatistic.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditConfigurationStatistic.Designer.cs">
       <DependentUpon>FrmEditConfigurationStatistic.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Editing\FrmBigList.cs">
+    <Compile Include="Gui\Forms\Editing\FrmBigList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Editing\FrmBigList.Designer.cs">
+    <Compile Include="Gui\Forms\Editing\FrmBigList.Designer.cs">
       <DependentUpon>FrmBigList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmWait.cs">
+    <Compile Include="Gui\Forms\Activities\FrmWait.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmWait.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmWait.Designer.cs">
       <DependentUpon>FrmWait.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\Legacy\LegacyClustererHelper.cs" />
-    <Compile Include="Data\Session\Singular\CoreColourSettings.cs" />
-    <Compile Include="Types\General\ELcMsMode.cs" />
-    <Compile Include="Data\Session\Associational\Annotation.cs" />
-    <Compile Include="Types\General\Range.cs" />
-    <Compile Include="Data\Session\Associational\Adduct.cs" />
-    <Compile Include="Forms\Wizards\FrmWizConfigurationCluster.cs">
+    <Compile Include="Data\Session\General\CoreColourSettings.cs" />
+    <Compile Include="Data\Session\General\ELcMsMode.cs" />
+    <Compile Include="Data\Session\Main\Annotation.cs" />
+    <Compile Include="Data\Session\General\Range.cs" />
+    <Compile Include="Data\Session\Main\Adduct.cs" />
+    <Compile Include="Gui\Forms\Wizards\FrmWizConfigurationCluster.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Wizards\FrmWizConfigurationCluster.Designer.cs">
+    <Compile Include="Gui\Forms\Wizards\FrmWizConfigurationCluster.Designer.cs">
       <DependentUpon>FrmWizConfigurationCluster.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\NativeMethods.cs" />
-    <Compile Include="Data\Session\General\ObservationInfo.cs" />
+    <Compile Include="Data\Session\Main\ObservationInfo.cs" />
     <Compile Include="Utilities\ProgressStream.cs" />
-    <Compile Include="Data\Session\Singular\DataFileNames.cs" />
-    <Compile Include="Types\General\ECandidateMode.cs" />
-    <Compile Include="Types\General\ECentreMode.cs" />
-    <Compile Include="Types\General\EDistanceMode.cs" />
-    <Compile Include="Types\General\EAutoCreateOptions.cs" />
-    <Compile Include="Data\Session\General\Filter.cs" />
-    <Compile Include="Data\Session\Singular\MainSettings.cs" />
-    <Compile Include="Data\Session\General\PeakFlag.cs" />
-    <Compile Include="Data\Session\General\GroupInfoBase.cs" />
+    <Compile Include="Data\Session\Definition\DataFileNames.cs" />
+    <Compile Include="Data\Session\General\ECandidateMode.cs" />
+    <Compile Include="Data\Session\General\ECentreMode.cs" />
+    <Compile Include="Data\Session\General\EDistanceMode.cs" />
+    <Compile Include="Data\Session\General\EAutoCreateOptions.cs" />
+    <Compile Include="Data\Session\Main\Filter.cs" />
+    <Compile Include="Data\Session\General\MainSettings.cs" />
+    <Compile Include="Data\Session\Main\PeakFlag.cs" />
+    <Compile Include="Data\Session\Main\GroupInfoBase.cs" />
     <Compile Include="Utilities\StrRes.cs" />
     <Compile Include="Utilities\UiControls.cs" />
-    <Compile Include="Controls\Charts\ChartHelper.cs" />
-    <Compile Include="Controls\Charts\ChartHelperForClusters.cs" />
-    <Compile Include="Controls\Charts\ChartHelperForPeaks.cs" />
-    <Compile Include="Data\Session\Singular\CoreOptions.cs" />
-    <Compile Include="Data\Session\Associational\Compound.cs" />
-    <Compile Include="Data\Session\Singular\Core.cs" />
-    <Compile Include="Forms\Text\FrmInputMultiLine.cs">
+    <Compile Include="Gui\Controls\Charts\ChartHelper.cs" />
+    <Compile Include="Gui\Controls\Charts\ChartHelperForClusters.cs" />
+    <Compile Include="Gui\Controls\Charts\ChartHelperForPeaks.cs" />
+    <Compile Include="Data\Session\General\CoreOptions.cs" />
+    <Compile Include="Data\Session\Main\Compound.cs" />
+    <Compile Include="Data\Session\General\Core.cs" />
+    <Compile Include="Gui\Forms\Text\FrmInputMultiLine.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Text\FrmInputMultiLine.Designer.cs">
+    <Compile Include="Gui\Forms\Text\FrmInputMultiLine.Designer.cs">
       <DependentUpon>FrmInputMultiLine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Wizards\FrmWizDataFileNames.cs">
+    <Compile Include="Gui\Forms\Wizards\FrmWizDataFileNames.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Wizards\FrmWizDataFileNames.Designer.cs">
+    <Compile Include="Gui\Forms\Wizards\FrmWizDataFileNames.Designer.cs">
       <DependentUpon>FrmWizDataFileNames.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActDataLoad.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActDataLoad.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmActDataLoad.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmActDataLoad.Designer.cs">
       <DependentUpon>FrmActDataLoad.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Activities\FrmPopoutClusterSheet.cs">
+    <Compile Include="Gui\Forms\Activities\FrmPopoutClusterSheet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmPopoutClusterSheet.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmPopoutClusterSheet.Designer.cs">
       <DependentUpon>FrmPopoutClusterSheet.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Maths.cs" />
-    <Compile Include="Data\Session\Associational\Pathway.cs" />
-    <Compile Include="Forms\Activities\FrmMain.cs">
+    <Compile Include="Data\Session\Main\Pathway.cs" />
+    <Compile Include="Gui\Forms\Activities\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Activities\FrmMain.Designer.cs">
+    <Compile Include="Gui\Forms\Activities\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Types\General\Matrix.cs" />
-    <Compile Include="Data\Session\Associational\Cluster.cs" />
+    <Compile Include="Data\Session\Main\Cluster.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\Session\Associational\Peak.cs" />
-    <Compile Include="Types\UI\IntensityInfo.cs" />
-    <Compile Include="Controls\ICoreWatcher.cs" />
-    <Compile Include="Controls\Lists\Column.cs" />
-    <Compile Include="Controls\Lists\EListInvalids.cs" />
-    <Compile Include="Controls\Lists\CtlAutoList.ColumnFilter.cs" />
-    <Compile Include="Controls\Lists\CtlAutoList.cs" />
-    <Compile Include="Controls\Lists\CtlAutoList.EOperator.cs" />
-    <Compile Include="Controls\Lists\ShowContextMenuEventArgs.cs" />
-    <Compile Include="Controls\Lists\CtlAutoList.SortByColumn.cs" />
+    <Compile Include="Data\Session\Main\Peak.cs" />
+    <Compile Include="Gui\Datatypes\IntensityInfo.cs" />
+    <Compile Include="Gui\Datatypes\ICoreWatcher.cs" />
+    <Compile Include="Gui\Controls\Lists\Column.cs" />
+    <Compile Include="Gui\Controls\Lists\EListInvalids.cs" />
+    <Compile Include="Gui\Controls\Lists\CtlAutoList.ColumnFilter.cs" />
+    <Compile Include="Gui\Controls\Lists\CtlAutoList.cs" />
+    <Compile Include="Gui\Controls\Lists\CtlAutoList.EOperator.cs" />
+    <Compile Include="Gui\Controls\Lists\ShowContextMenuEventArgs.cs" />
+    <Compile Include="Gui\Controls\Lists\CtlAutoList.SortByColumn.cs" />
     <Compile Include="Utilities\XmlSettings.cs" />
-    <EmbeddedResource Include="Controls\CtlContextHelpInner.resx">
+    <EmbeddedResource Include="Gui\Controls\CtlContextHelpInner.resx">
       <DependentUpon>CtlContextHelpInner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\CtlEditPlotSetup.resx">
+    <EmbeddedResource Include="Gui\Controls\CtlEditPlotSetup.resx">
       <DependentUpon>CtlEditPlotSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\CtlHelpfulLabel.resx">
+    <EmbeddedResource Include="Gui\Controls\CtlHelpfulLabel.resx">
       <DependentUpon>CtlHelpfulLabel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\CtlTitleBar.resx">
+    <EmbeddedResource Include="Gui\Controls\CtlTitleBar.resx">
       <DependentUpon>CtlTitleBar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\CtlWizard.resx">
+    <EmbeddedResource Include="Gui\Controls\CtlWizard.resx">
       <DependentUpon>CtlWizard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmActEvaluate.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmActEvaluate.resx">
       <DependentUpon>FrmActEvaluate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmActExport.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmActExport.resx">
       <DependentUpon>FrmActExport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmActHeatMap.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmActHeatMap.resx">
       <DependentUpon>FrmActHeatMap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmExport2.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmExport2.resx">
       <DependentUpon>FrmExport2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditClusterEvaluationPointer.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditClusterEvaluationPointer.resx">
       <DependentUpon>FrmEditClusterEvaluationPointer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditColumns.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditColumns.resx">
       <DependentUpon>FrmEditColumns.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditGroupBase.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditGroupBase.resx">
       <DependentUpon>FrmEditGroupBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditPeakFlag.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditPeakFlag.resx">
       <DependentUpon>FrmEditPeakFlag.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditParameters.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditParameters.resx">
       <DependentUpon>FrmEditParameters.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Selection\FrmSelectAlgorithmType.resx">
+    <EmbeddedResource Include="Gui\Forms\Selection\FrmSelectAlgorithmType.resx">
       <DependentUpon>FrmSelectAlgorithmType.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditObsFilterCondition.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditObsFilterCondition.resx">
       <DependentUpon>FrmEditObsFilterCondition.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditCoreOptions.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditCoreOptions.resx">
       <DependentUpon>FrmEditCoreOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmActPca.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmActPca.resx">
       <DependentUpon>FrmActPca.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmActAlarm.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmActAlarm.resx">
       <DependentUpon>FrmActAlarm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmActExportImage.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmActExportImage.resx">
       <DependentUpon>FrmActExportImage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmPopoutPlot.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmPopoutPlot.resx">
       <DependentUpon>FrmPopoutPlot.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Selection\FrmSelectClosure.resx">
+    <EmbeddedResource Include="Gui\Forms\Selection\FrmSelectClosure.resx">
       <DependentUpon>FrmSelectClosure.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditConfigurationCluster.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditConfigurationCluster.resx">
       <DependentUpon>FrmEditConfigurationCluster.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditConfigurationCorrection.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditConfigurationCorrection.resx">
       <DependentUpon>FrmEditConfigurationCorrection.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmDebug.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmDebug.resx">
       <DependentUpon>FrmDebug.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditColumnFilter.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditColumnFilter.resx">
       <DependentUpon>FrmEditColumnFilter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Setup\FrmSetupInitial.resx">
+    <EmbeddedResource Include="Gui\Forms\Setup\FrmSetupInitial.resx">
       <DependentUpon>FrmSetupInitial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Text\FrmFloatingHelp.resx">
-      <DependentUpon>FrmFloatingHelp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Text\FrmInputSingleLine.resx">
+    <EmbeddedResource Include="Gui\Forms\Text\FrmInputSingleLine.resx">
       <DependentUpon>FrmInputSingleLine.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditINameable.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditINameable.resx">
       <DependentUpon>FrmEditINameable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditPeakFilterCondition.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditPeakFilterCondition.resx">
       <DependentUpon>FrmEditPeakFilterCondition.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Selection\FrmSelectList.resx">
+    <EmbeddedResource Include="Gui\Forms\Selection\FrmSelectList.resx">
       <DependentUpon>FrmSelectList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Selection\FrmMsgBox.resx">
+    <EmbeddedResource Include="Gui\Forms\Selection\FrmMsgBox.resx">
       <DependentUpon>FrmMsgBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmActOldData.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmActOldData.resx">
       <DependentUpon>FrmActOldData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditSession.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditSession.resx">
       <DependentUpon>FrmEditSession.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Text\FrmInputScript.resx">
+    <EmbeddedResource Include="Gui\Forms\Text\FrmInputScript.resx">
       <DependentUpon>FrmInputScript.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditConfigurationTrend.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditConfigurationTrend.resx">
       <DependentUpon>FrmEditConfigurationTrend.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditConfigurationStatistic.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditConfigurationStatistic.resx">
       <DependentUpon>FrmEditConfigurationStatistic.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmBigList.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmBigList.resx">
       <DependentUpon>FrmBigList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmWait.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmWait.resx">
       <DependentUpon>FrmWait.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Editing\FrmEditCompoundLibrary.resx">
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditCompoundLibrary.resx">
       <DependentUpon>FrmEditCompoundLibrary.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmMain.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Text\FrmInputMultiLine.resx">
+    <EmbeddedResource Include="Gui\Forms\Text\FrmInputMultiLine.resx">
       <DependentUpon>FrmInputMultiLine.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Wizards\FrmViewSpreadsheet.resx">
+    <EmbeddedResource Include="Gui\Forms\Wizards\FrmViewSpreadsheet.resx">
       <DependentUpon>FrmViewSpreadsheet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Wizards\FrmWizDataFileNames.resx">
+    <EmbeddedResource Include="Gui\Forms\Wizards\FrmWizDataFileNames.resx">
       <DependentUpon>FrmWizDataFileNames.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmActDataLoad.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmActDataLoad.resx">
       <DependentUpon>FrmActDataLoad.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Activities\FrmPopoutClusterSheet.resx">
+    <EmbeddedResource Include="Gui\Forms\Activities\FrmPopoutClusterSheet.resx">
       <DependentUpon>FrmPopoutClusterSheet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Setup\FrmSetupWorkspace.resx">
+    <EmbeddedResource Include="Gui\Forms\Setup\FrmSetupWorkspace.resx">
       <DependentUpon>FrmSetupWorkspace.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Wizards\FrmWizConfigurationCluster.resx">
+    <EmbeddedResource Include="Gui\Forms\Wizards\FrmWizConfigurationCluster.resx">
       <DependentUpon>FrmWizConfigurationCluster.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resx\Manual.resx">
@@ -847,7 +837,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\Algorithms\Definitions\Statistics\Implementations\" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
@@ -1205,7 +1194,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Texts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="VersionHistory.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

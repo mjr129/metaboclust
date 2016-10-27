@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy

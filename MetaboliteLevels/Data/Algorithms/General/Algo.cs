@@ -11,12 +11,12 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations;
 using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy;
-using MetaboliteLevels.Data.Algorithms.Definitions.Containers;
 using MetaboliteLevels.Data.Algorithms.Definitions.Corrections;
 using MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementations;
 using MetaboliteLevels.Data.Algorithms.Definitions.Metrics;
 using MetaboliteLevels.Data.Algorithms.Definitions.Metrics.Implementations;
 using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Statistics.Implementations;
 using MetaboliteLevels.Data.Algorithms.Definitions.Trends;
 using MetaboliteLevels.Data.Algorithms.Definitions.Trends.Implementations;
 using MetaboliteLevels.Utilities;
@@ -58,12 +58,12 @@ namespace MetaboliteLevels.Data.Algorithms.General
         private delegate T Delegate_Constructor<T>(string scriptText, string id, string name, string fileName);
 
         // Our stores of algorithms, by category
-        public readonly StatCollection<AlgoBase> All = new StatCollection<AlgoBase>();                      // All algorithms
-        public readonly StatCollection<MetricBase> Metrics = new StatCollection<MetricBase>();              // Metrics (statistical algorithms which support quick calculate)
-        public readonly StatCollection<StatisticBase> Statistics = new StatCollection<StatisticBase>();     // Statistical algorithms
-        public readonly StatCollection<ClustererBase> Clusterers = new StatCollection<ClustererBase>();     // Clusterer algorithms
-        public readonly StatCollection<TrendBase> Trends = new StatCollection<TrendBase>();                 // Trend generating algorithms
-        public readonly StatCollection<CorrectionBase> Corrections = new StatCollection<CorrectionBase>();  // Correction algorithms
+        public readonly AlgoCollection<AlgoBase> All = new AlgoCollection<AlgoBase>();                      // All algorithms
+        public readonly AlgoCollection<MetricBase> Metrics = new AlgoCollection<MetricBase>();              // Metrics (statistical algorithms which support quick calculate)
+        public readonly AlgoCollection<StatisticBase> Statistics = new AlgoCollection<StatisticBase>();     // Statistical algorithms
+        public readonly AlgoCollection<ClustererBase> Clusterers = new AlgoCollection<ClustererBase>();     // Clusterer algorithms
+        public readonly AlgoCollection<TrendBase> Trends = new AlgoCollection<TrendBase>();                 // Trend generating algorithms
+        public readonly AlgoCollection<CorrectionBase> Corrections = new AlgoCollection<CorrectionBase>();  // Correction algorithms
 
         // Instance of this class
         public static Algo Instance { get; private set; }
@@ -185,7 +185,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// <summary>
         /// Adds the algorithms stored on disk and in the SCRIPTS.RESX file.
         /// </summary>                         
-        private static void PopulateFiles<T>(StatCollection<T> targetCollection, UiControls.EInitialFolder searchFolder, Delegate_Constructor<T> constructorMethod)
+        private static void PopulateFiles<T>(AlgoCollection<T> targetCollection, UiControls.EInitialFolder searchFolder, Delegate_Constructor<T> constructorMethod)
                     where T : AlgoBase
         {
             string folder = UiControls.GetOrCreateFixedFolder( searchFolder );

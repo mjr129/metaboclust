@@ -14,7 +14,6 @@ using System.Text;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Properties;
-using MetaboliteLevels.Forms.Editing;
 using System.Diagnostics;
 using Microsoft.Win32;
 using MetaboliteLevels.Forms;
@@ -24,13 +23,14 @@ using MGui.Helpers;
 using MGui.Controls;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
-using MetaboliteLevels.Types.UI;
 using MCharting;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Definition;
 using MetaboliteLevels.Data.Session.General;
-using MetaboliteLevels.Data.Session.Singular;
-using MetaboliteLevels.Forms.Selection;
-using MetaboliteLevels.Forms.Text;
+using MetaboliteLevels.Data.Session.Main;
+using MetaboliteLevels.Gui.Datatypes;
+using MetaboliteLevels.Gui.Forms.Selection;
+using MetaboliteLevels.Gui.Forms.Text;
 
 namespace MetaboliteLevels.Utilities
 {
@@ -178,20 +178,20 @@ namespace MetaboliteLevels.Utilities
 
             switch (group.GraphIcon)
             {
-                case Types.UI.EGraphIcon.Circle:
-                case Types.UI.EGraphIcon.Default:
-                case Types.UI.EGraphIcon.Diamond:
-                case Types.UI.EGraphIcon.InvertedTriangle:
-                case Types.UI.EGraphIcon.Square:
-                case Types.UI.EGraphIcon.Triangle:
+                case EGraphIcon.Circle:
+                case EGraphIcon.Default:
+                case EGraphIcon.Diamond:
+                case EGraphIcon.InvertedTriangle:
+                case EGraphIcon.Square:
+                case EGraphIcon.Triangle:
                     series.Style.DrawPoints = new SolidBrush( group.Colour );
                     break;
 
-                case Types.UI.EGraphIcon.Asterisk:
-                case Types.UI.EGraphIcon.Cross:
-                case Types.UI.EGraphIcon.HLine:
-                case Types.UI.EGraphIcon.Plus:
-                case Types.UI.EGraphIcon.VLine:
+                case EGraphIcon.Asterisk:
+                case EGraphIcon.Cross:
+                case EGraphIcon.HLine:
+                case EGraphIcon.Plus:
+                case EGraphIcon.VLine:
                     series.Style.DrawPointsLine = new Pen( group.Colour, 3 );
                     break;
 

@@ -5,9 +5,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.General;
-using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Gui.Controls.Lists;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 

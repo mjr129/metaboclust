@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Algorithms.Definitions.Base;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base.Misc;
 using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
+using MetaboliteLevels.Data.Algorithms.Definitions.Statistics.Misc;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Utilities;
 

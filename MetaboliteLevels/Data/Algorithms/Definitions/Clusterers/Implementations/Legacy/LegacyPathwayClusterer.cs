@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy
@@ -45,7 +46,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
                         if (!d.TryGetValue(p, out pat))
                         {
                             pat = new Cluster(p.DefaultDisplayName, tag);
-                            pat.States |= Session.Associational.Cluster.EStates.Pathway;
+                            pat.States |= Session.Main.Cluster.EStates.Pathway;
                             result.Add(pat);
                             d.Add(p, pat);
                         }

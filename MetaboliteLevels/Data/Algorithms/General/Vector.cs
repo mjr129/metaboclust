@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Main;
 
 namespace MetaboliteLevels.Data.Algorithms.General
 {

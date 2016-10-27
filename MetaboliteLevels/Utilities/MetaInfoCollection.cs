@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Session.Associational;
+using MetaboliteLevels.Gui.Controls.Lists;
 
 namespace MetaboliteLevels.Utilities
 {

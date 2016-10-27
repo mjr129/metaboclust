@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MetaboliteLevels.Controls.Lists;
 using MetaboliteLevels.Data.Algorithms.Definitions.Base;
-using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Base.Misc;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Main;
+using MetaboliteLevels.Gui.Controls.Lists;
 using MGui.Datatypes;
 using MGui.Helpers;
 

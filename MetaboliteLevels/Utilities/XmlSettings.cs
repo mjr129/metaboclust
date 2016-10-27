@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Data.Session.General;
 using MGui.Datatypes;
 using MGui.Helpers;
 using MSerialisers;

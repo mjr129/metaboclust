@@ -7,7 +7,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
-using MetaboliteLevels.Data.Session.Singular;
+using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -82,7 +82,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
             else
             {
                 insigs = new Cluster("Insig", tag);
-                insigs.States |= Session.Associational.Cluster.EStates.Insignificants;
+                insigs.States |= Session.Main.Cluster.EStates.Insignificants;
 
                 // We still need the vmatrix for plotting later
                 IntensityMatrix operational = src.Subset( args.PeakFilter, args.ObsFilter, ESubsetFlags.InvertPeakFilter );

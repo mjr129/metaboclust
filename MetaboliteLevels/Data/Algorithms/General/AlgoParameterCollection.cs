@@ -7,10 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Algorithms.Definitions.Base;
 using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
-using MetaboliteLevels.Data.Algorithms.Definitions.Configurations;
+using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
-using MetaboliteLevels.Data.Session.Singular;
 using MGui.Datatypes;
 using MGui.Helpers;
 

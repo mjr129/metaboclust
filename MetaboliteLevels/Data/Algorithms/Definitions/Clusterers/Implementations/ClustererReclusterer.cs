@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementations.Legacy;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
-using MetaboliteLevels.Types.General;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -38,7 +39,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
                 Cluster cluster = config.Results.Clusters[index];
                 prog.SetProgress(index, config.Results.Clusters.Length);
 
-                if (!cluster.States.HasFlag(Session.Associational.Cluster.EStates.Insignificants))
+                if (!cluster.States.HasFlag(Session.Main.Cluster.EStates.Insignificants))
                 {
                     // Get the centre
                     double[] centre = cluster.GetCentre(ECentreMode.Average, ECandidateMode.Assignments)[0];
@@ -59,7 +60,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
             prog.Leave();
 
             Cluster matchCluster = new Cluster("Matches", tag);
-            matchCluster.States |= Session.Associational.Cluster.EStates.Insignificants;
+            matchCluster.States |= Session.Main.Cluster.EStates.Insignificants;
 
             return myClusters;
         }      

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MetaboliteLevels.Data.Algorithms.General;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
