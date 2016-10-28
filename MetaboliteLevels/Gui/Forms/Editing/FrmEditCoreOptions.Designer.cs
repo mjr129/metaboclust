@@ -49,7 +49,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._chkPeakData = new System.Windows.Forms.CheckBox();
             this._chkPeakTrend = new System.Windows.Forms.CheckBox();
             this._chkPeakFlag = new System.Windows.Forms.CheckBox();
-            this._btnEditFlags = new CtlButton();
+            this._btnEditFlags = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._txtEvalFilename = new MGui.Controls.CtlTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this._btnColourCentre = new MGui.Controls.CtlColourEditor();
@@ -68,11 +68,9 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.label37 = new System.Windows.Forms.Label();
             this._tab = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this._poCluster = new CtlEditPlotSetup();
+            this._poCluster = new MetaboliteLevels.Gui.Controls.CtlEditPlotSetup();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label32 = new System.Windows.Forms.Label();
-            this._lstPeakData = new System.Windows.Forms.ComboBox();
             this.label33 = new System.Windows.Forms.Label();
             this._lstPeakOrder = new System.Windows.Forms.ComboBox();
             this.label34 = new System.Windows.Forms.Label();
@@ -81,11 +79,11 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.label36 = new System.Windows.Forms.Label();
             this._chkPeakMinMax = new System.Windows.Forms.CheckBox();
             this._chkGroupNames = new System.Windows.Forms.CheckBox();
-            this._poPeaks = new CtlEditPlotSetup();
+            this._poPeaks = new MetaboliteLevels.Gui.Controls.CtlEditPlotSetup();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this._poCompounds = new CtlEditPlotSetup();
+            this._poCompounds = new MetaboliteLevels.Gui.Controls.CtlEditPlotSetup();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this._poPathways = new CtlEditPlotSetup();
+            this._poPathways = new MetaboliteLevels.Gui.Controls.CtlEditPlotSetup();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tabPage6 = new System.Windows.Forms.TabPage();
@@ -105,8 +103,8 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
             this.label45 = new System.Windows.Forms.Label();
-            this._btnEditColumns = new CtlButton();
-            this._btnEditDefaults = new CtlButton();
+            this._btnEditColumns = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnEditDefaults = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.label46 = new System.Windows.Forms.Label();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
@@ -119,10 +117,10 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.label53 = new System.Windows.Forms.Label();
             this.label54 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnCancel = new CtlButton();
-            this._btnOk = new CtlButton();
+            this._btnCancel = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnOk = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.ctlTitleBar1 = new CtlTitleBar();
+            this.ctlTitleBar1 = new MetaboliteLevels.Gui.Controls.CtlTitleBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.coreOptionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -234,7 +232,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // _chkPeakRanges
             // 
             this._chkPeakRanges.AutoSize = true;
-            this._chkPeakRanges.Location = new System.Drawing.Point(286, 143);
+            this._chkPeakRanges.Location = new System.Drawing.Point(286, 98);
             this._chkPeakRanges.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakRanges.Name = "_chkPeakRanges";
             this._chkPeakRanges.Size = new System.Drawing.Size(132, 25);
@@ -245,7 +243,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // _chkPeakMean
             // 
             this._chkPeakMean.AutoSize = true;
-            this._chkPeakMean.Location = new System.Drawing.Point(88, 184);
+            this._chkPeakMean.Location = new System.Drawing.Point(88, 139);
             this._chkPeakMean.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakMean.Name = "_chkPeakMean";
             this._chkPeakMean.Size = new System.Drawing.Size(158, 25);
@@ -256,7 +254,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // _chkPeakData
             // 
             this._chkPeakData.AutoSize = true;
-            this._chkPeakData.Location = new System.Drawing.Point(88, 143);
+            this._chkPeakData.Location = new System.Drawing.Point(88, 98);
             this._chkPeakData.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakData.Name = "_chkPeakData";
             this._chkPeakData.Size = new System.Drawing.Size(104, 25);
@@ -267,7 +265,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // _chkPeakTrend
             // 
             this._chkPeakTrend.AutoSize = true;
-            this._chkPeakTrend.Location = new System.Drawing.Point(286, 184);
+            this._chkPeakTrend.Location = new System.Drawing.Point(286, 139);
             this._chkPeakTrend.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakTrend.Name = "_chkPeakTrend";
             this._chkPeakTrend.Size = new System.Drawing.Size(105, 25);
@@ -278,7 +276,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // _chkPeakFlag
             // 
             this._chkPeakFlag.AutoSize = true;
-            this._chkPeakFlag.Location = new System.Drawing.Point(88, 225);
+            this._chkPeakFlag.Location = new System.Drawing.Point(88, 180);
             this._chkPeakFlag.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakFlag.Name = "_chkPeakFlag";
             this._chkPeakFlag.Size = new System.Drawing.Size(182, 25);
@@ -289,7 +287,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // _btnEditFlags
             // 
             this._btnEditFlags.Image = global::MetaboliteLevels.Properties.Resources.MnuEnlargeList;
-            this._btnEditFlags.Location = new System.Drawing.Point(88, 266);
+            this._btnEditFlags.Location = new System.Drawing.Point(88, 221);
             this._btnEditFlags.Margin = new System.Windows.Forms.Padding(8);
             this._btnEditFlags.Name = "_btnEditFlags";
             this._btnEditFlags.Size = new System.Drawing.Size(128, 40);
@@ -532,72 +530,38 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this._btnEditFlags, 1, 6);
-            this.tableLayoutPanel2.Controls.Add(this.label32, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakFlag, 1, 5);
-            this.tableLayoutPanel2.Controls.Add(this._lstPeakData, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label33, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this._lstPeakOrder, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakMean, 1, 4);
-            this.tableLayoutPanel2.Controls.Add(this.label34, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this._lstPeakPlotting, 1, 2);
-            this.tableLayoutPanel2.Controls.Add(this.label35, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this.label36, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakTrend, 2, 4);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakMinMax, 3, 3);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakRanges, 2, 3);
-            this.tableLayoutPanel2.Controls.Add(this._chkPeakData, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this._chkGroupNames, 3, 4);
+            this.tableLayoutPanel2.Controls.Add(this._btnEditFlags, 1, 5);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakFlag, 1, 4);
+            this.tableLayoutPanel2.Controls.Add(this.label33, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this._lstPeakOrder, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakMean, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.label34, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this._lstPeakPlotting, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label35, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label36, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakTrend, 2, 3);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakMinMax, 3, 2);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakRanges, 2, 2);
+            this.tableLayoutPanel2.Controls.Add(this._chkPeakData, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this._chkGroupNames, 3, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 318);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 7;
+            this.tableLayoutPanel2.RowCount = 6;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1007, 268);
             this.tableLayoutPanel2.TabIndex = 16;
             // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(8, 8);
-            this.label32.Margin = new System.Windows.Forms.Padding(8);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(42, 21);
-            this.label32.TabIndex = 0;
-            this.label32.Text = "Data";
-            // 
-            // _lstPeakData
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this._lstPeakData, 3);
-            this._lstPeakData.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lstPeakData.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstPeakData.FormattingEnabled = true;
-            this._lstPeakData.Items.AddRange(new object[] {
-            "Standard",
-            "Alternate"});
-            this._lstPeakData.Location = new System.Drawing.Point(88, 8);
-            this._lstPeakData.Margin = new System.Windows.Forms.Padding(8);
-            this._lstPeakData.Name = "_lstPeakData";
-            this._lstPeakData.Size = new System.Drawing.Size(911, 29);
-            this._lstPeakData.TabIndex = 15;
-            // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(8, 53);
+            this.label33.Location = new System.Drawing.Point(8, 8);
             this.label33.Margin = new System.Windows.Forms.Padding(8);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(51, 21);
@@ -613,7 +577,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._lstPeakOrder.Items.AddRange(new object[] {
             "Experimental",
             "Batch"});
-            this._lstPeakOrder.Location = new System.Drawing.Point(88, 53);
+            this._lstPeakOrder.Location = new System.Drawing.Point(88, 8);
             this._lstPeakOrder.Margin = new System.Windows.Forms.Padding(8);
             this._lstPeakOrder.Name = "_lstPeakOrder";
             this._lstPeakOrder.Size = new System.Drawing.Size(911, 29);
@@ -622,7 +586,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // label34
             // 
             this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(8, 98);
+            this.label34.Location = new System.Drawing.Point(8, 53);
             this.label34.Margin = new System.Windows.Forms.Padding(8);
             this.label34.Name = "label34";
             this.label34.Size = new System.Drawing.Size(64, 21);
@@ -638,7 +602,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._lstPeakPlotting.Items.AddRange(new object[] {
             "Overlaid",
             "Side-by-side"});
-            this._lstPeakPlotting.Location = new System.Drawing.Point(88, 98);
+            this._lstPeakPlotting.Location = new System.Drawing.Point(88, 53);
             this._lstPeakPlotting.Margin = new System.Windows.Forms.Padding(8);
             this._lstPeakPlotting.Name = "_lstPeakPlotting";
             this._lstPeakPlotting.Size = new System.Drawing.Size(911, 29);
@@ -647,7 +611,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(8, 143);
+            this.label35.Location = new System.Drawing.Point(8, 98);
             this.label35.Margin = new System.Windows.Forms.Padding(8);
             this.label35.Name = "label35";
             this.label35.Size = new System.Drawing.Size(49, 21);
@@ -657,7 +621,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(8, 225);
+            this.label36.Location = new System.Drawing.Point(8, 180);
             this.label36.Margin = new System.Windows.Forms.Padding(8);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(46, 21);
@@ -667,7 +631,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // _chkPeakMinMax
             // 
             this._chkPeakMinMax.AutoSize = true;
-            this._chkPeakMinMax.Location = new System.Drawing.Point(434, 143);
+            this._chkPeakMinMax.Location = new System.Drawing.Point(434, 98);
             this._chkPeakMinMax.Margin = new System.Windows.Forms.Padding(8);
             this._chkPeakMinMax.Name = "_chkPeakMinMax";
             this._chkPeakMinMax.Size = new System.Drawing.Size(127, 25);
@@ -678,7 +642,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // _chkGroupNames
             // 
             this._chkGroupNames.AutoSize = true;
-            this._chkGroupNames.Location = new System.Drawing.Point(434, 184);
+            this._chkGroupNames.Location = new System.Drawing.Point(434, 139);
             this._chkGroupNames.Margin = new System.Windows.Forms.Padding(8);
             this._chkGroupNames.Name = "_chkGroupNames";
             this._chkGroupNames.Size = new System.Drawing.Size(215, 25);
@@ -1212,7 +1176,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             // 
             // coreOptionsBindingSource
             // 
-            this.coreOptionsBindingSource.DataSource = typeof(CoreOptions);
+            this.coreOptionsBindingSource.DataSource = typeof(MetaboliteLevels.Data.Session.General.CoreOptions);
             // 
             // contextMenuStrip1
             // 
@@ -1313,8 +1277,6 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.ComboBox _lstPeakData;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.ComboBox _lstPeakOrder;
         private System.Windows.Forms.Label label34;

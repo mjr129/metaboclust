@@ -424,15 +424,36 @@ namespace MetaboliteLevels.Utilities
             return result;
         }
 
-        public static void SaveLoad<T>( bool save, FileDescriptor fileName, ref T @default, ObjectSerialiser serialiser, ProgressReporter prog)
+        /// <summary>
+        /// Saves or loads settings depending on the <paramref name="save"/> parameter.
+        /// When loading for the first time (i.e. if the default value is used) the file will also be saved.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="save"></param>
+        /// <param name="fileName"></param>
+        /// <param name="srcDest"></param>
+        /// <param name="serialiser"></param>
+        /// <param name="prog"></param>
+        public static void SaveLoad<T>( bool save, FileDescriptor fileName, ref T srcDest, ObjectSerialiser serialiser, ProgressReporter prog)
         {
             if (save)
             {
-                Save( fileName,  @default, serialiser, prog);
+                Save( fileName,  srcDest, serialiser, prog);
             }
             else
             {
-                @default = LoadOrDefault( fileName,  @default, serialiser, prog);
+                T result;
+
+                if (TryLoad( fileName, prog, out result, srcDest, serialiser ))
+                {
+                    srcDest = result;
+                    return;
+                }
+
+                if (!File.Exists( fileName ))
+                {
+                    Save( fileName, srcDest, serialiser, prog );
+                }
             }
         }          
 

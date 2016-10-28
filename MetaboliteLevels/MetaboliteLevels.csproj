@@ -146,6 +146,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Session\General\FileLoadInfo.cs" />
     <Compile Include="Gui\Controls\CtlContextHelp.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -254,6 +255,12 @@
     </Compile>
     <Compile Include="Gui\Forms\Editing\FrmEditColumns.Designer.cs">
       <DependentUpon>FrmEditColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Forms\Editing\FrmEditFileLoadInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gui\Forms\Editing\FrmEditFileLoadInfo.Designer.cs">
+      <DependentUpon>FrmEditFileLoadInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Forms\Selection\MsgBoxButton.cs" />
     <Compile Include="Gui\Forms\Wizards\FrmViewSpreadsheet.cs">
@@ -653,6 +660,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Forms\Editing\FrmEditColumns.resx">
       <DependentUpon>FrmEditColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditFileLoadInfo.resx">
+      <DependentUpon>FrmEditFileLoadInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Forms\Editing\FrmEditGroupBase.resx">
       <DependentUpon>FrmEditGroupBase.cs</DependentUpon>
@@ -1150,6 +1160,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\adducts~refined.txt" />
+    <None Include="Resources\adducts~all.txt" />
+    <None Include="Resources\IconBarHelp.png" />
     <None Include="Resources\ListIconResultCorrection.png" />
     <None Include="Resources\ListIconResultCluster.png" />
     <None Include="Resources\ListIconResultShortcut.png" />

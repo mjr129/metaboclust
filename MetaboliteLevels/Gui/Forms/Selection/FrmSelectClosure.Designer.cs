@@ -38,9 +38,9 @@ namespace MetaboliteLevels.Gui.Forms.Selection
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox1 = new MGui.Controls.CtlTextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnYes = new CtlButton();
-            this._btnNo = new CtlButton();
-            this._btnCancel = new CtlButton();
+            this._btnYes = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnNo = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnCancel = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
@@ -152,7 +152,7 @@ namespace MetaboliteLevels.Gui.Forms.Selection
             "Ask every time",
             "Remember my decision (this session)",
             "Remember my decision (always)"});
-            this.comboBox1.Location = new System.Drawing.Point(24, 174);
+            this.comboBox1.Location = new System.Drawing.Point(24, 182);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(8);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(344, 29);
@@ -171,7 +171,7 @@ namespace MetaboliteLevels.Gui.Forms.Selection
             this.label1.TabIndex = 4;
             this.label1.Text = "Do you want to save the session before exiting?";
             // 
-            // FrmClosing
+            // FrmSelectClosure
             // 
             this.AcceptButton = this._btnYes;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -187,7 +187,7 @@ namespace MetaboliteLevels.Gui.Forms.Selection
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmClosing";
+            this.Name = "FrmSelectClosure";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

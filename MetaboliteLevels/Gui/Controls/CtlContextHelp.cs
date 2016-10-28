@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Properties;
+using MetaboliteLevels.Utilities;
+using MGui.Controls;
+using MGui.Helpers;
 
 namespace MetaboliteLevels.Gui.Controls
 {
@@ -12,7 +19,11 @@ namespace MetaboliteLevels.Gui.Controls
     {
         private CtlTitleBar _titleBar;
         private ToolTip _toolTip;
-        private CtlContextHelpInner _panel1;        
+        private CtlContextHelpInner _panel1;
+        private Splitter _splitter;
+        private bool _visible;
+        private ErrorProvider _errorProvider;
+        private string _doNotShowAgainKey;
 
         public CtlContextHelp()
         {
@@ -26,43 +37,204 @@ namespace MetaboliteLevels.Gui.Controls
             this.InitializeComponent();
         }
 
-        public void Bind( CtlTitleBar titleBar, ToolTip toolTip )
+        /// <summary>
+        /// Options for this control
+        /// </summary>
+        [Flags]
+        public enum EFlags
         {
+            /// <summary>
+            /// No flags (default)
+            /// </summary>
+            None = 0,
+
+            /// <summary>
+            /// Help when clicking labels
+            /// </summary>
+            ClickLabels = 1,
+
+            /// <summary>
+            /// Help when controls get focus
+            /// </summary>
+            OnFocus = 2,
+
+            /// <summary>
+            /// Allow special FILEFORMAT markup in help text
+            /// </summary>
+            FileFormats = 4,
+
+            /// <summary>
+            /// Help when hovering mouse over controls
+            /// </summary>
+            Hover = 8,
+        }
+
+        public void Bind( Control owner, CtlTitleBar titleBar, ToolTip toolTip, EFlags flags )
+        {
+            // DEFAULT
+            _doNotShowAgainKey = owner.Name + ".context_help";
+
+            // ICON
+            this._errorProvider = new ErrorProvider( );
+            _errorProvider.Icon = Icon.FromHandle( Resources.IconBarHelp.GetHicon() );
+            _errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
+
+            // SPLITTER
+            this._splitter = new Splitter()
+            {
+                Visible = _visible,
+                Width = 8,
+                BackColor = System.Drawing.Color.Black,
+                Dock = DockStyle.Right,
+            };
+
+            _splitter.Paint += _splitter_Paint;
+
+            owner.Controls.Add( _splitter );
+
+            // HELP PANEL
+            this._panel1 = new CtlContextHelpInner
+            {
+                Dock = DockStyle.Right,
+                Visible = _visible,
+                HandleFileFormats = flags.Has( EFlags.FileFormats ),
+                Size = new System.Drawing.Size( 256, 0 )
+            };
+
+            _panel1.CloseClicked += _panel1_CloseClicked;
+            owner.Controls.Add( this._panel1 );
+
+            // TITLE BAR
             this._titleBar = titleBar;
-            this._toolTip = toolTip;
-            toolTip.Active = true;
-            toolTip.InitialDelay = 1;
-            toolTip.Popup += this.ToolTip_Popup;
-
-            this._panel1 = new CtlContextHelpInner();
-            this._panel1.Dock = DockStyle.Right;
-            this._panel1.Visible = false;
-            this._panel1.VisibleChanged += this._panel1_VisibleChanged;
-            this._panel1.Size = new System.Drawing.Size( 256, 0 );
-            titleBar.FindForm().Controls.Add( this._panel1 );
-
+            if (titleBar.HelpText != null)
+            {
+                _panel1.DefaultText = titleBar.HelpText + "\r\n\r\n" + _panel1.DefaultText;
+                titleBar.HelpText = null;
+            }
             titleBar.HelpIcon = CtlTitleBar.EHelpIcon.ShowBar;
             titleBar.HelpClicked += this.TitleBar_HelpClicked;
+
+            // TOOL TIP
+            this._toolTip = toolTip;
+            toolTip.Active = flags.Has(EFlags.Hover);
+            toolTip.InitialDelay = 1;
+            toolTip.Popup += this.ToolTip_Popup;   
+                  
+            // CONTROL BINDINGS
+            if (flags.Has( EFlags.ClickLabels ) || flags.Has( EFlags.OnFocus ))
+            {
+                foreach (Control control in FormHelper.EnumerateControls( owner ))
+                {
+
+                    if (control is CtlLabel)
+                    {
+                        if (flags.Has( EFlags.ClickLabels ))
+                        {
+                            control.MouseEnter += this.Control_MouseEnter;
+                            control.MouseLeave += this.Control_MouseLeave;
+                            control.MouseDown += this.Control_Click;
+                            control.Cursor = Cursors.Help;
+                        }
+                    }
+                    else
+                    {
+                        if (flags.Has( EFlags.OnFocus ))
+                        {
+                            control.GotFocus += this.Control_Click;
+                            control.MouseDown += this.Control_Click;
+                        }
+                    }
+                }
+            }
+
+            // DEFAULT VISIBILITY
+            Visible = !MainSettings.Instance.DoNotShowAgain.ContainsKey( _doNotShowAgainKey );
         }
 
-        private void _panel1_VisibleChanged( object sender, EventArgs e )
+        private void _splitter_Paint( object sender, PaintEventArgs e )
         {
-            this._titleBar.HelpIcon = this._panel1.Visible ? CtlTitleBar.EHelpIcon.Off : CtlTitleBar.EHelpIcon.ShowBar;
+            CtlSplitter.Draw( e.Graphics, false, new Rectangle( 0, 0, _splitter.Width, _splitter.Height ), 0 );
         }
+
+        private void _panel1_CloseClicked( object sender, EventArgs e )
+        {
+            Visible = false;
+        }
+
+        private void Control_MouseLeave( object sender, EventArgs e )
+        {
+            CtlLabel label = (CtlLabel)sender;
+
+            label.LabelStyle = ELabelStyle.Normal;
+            label.Font = FontHelper.RegularFont;
+        }
+
+        private void Control_MouseEnter( object sender, EventArgs e )
+        {
+            CtlLabel label = (CtlLabel)sender;
+
+            label.LabelStyle = ELabelStyle.Highlight;
+            label.Font = FontHelper.UnderlinedFont;
+        }
+
+        private void Control_Click( object sender, EventArgs e )
+        {
+            if (sender is Label)
+            {
+                Visible = true;
+            }
+
+            ShowHelp( (Control)sender );
+        }   
 
         private void TitleBar_HelpClicked( object sender, CancelEventArgs e )
         {
-            this._panel1.Visible = !this._panel1.Visible; 
+            Visible = !Visible;
+        }
+
+        [EditorBrowsable( EditorBrowsableState.Never ), Browsable( false ), DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
+        public bool Visible
+        {
+            get
+            {
+                return _visible;
+            }
+            set
+            {
+                _visible = value;
+
+                MainSettings.Instance.DoNotShowAgain[_doNotShowAgainKey] = (_visible ? 0 : 1); // Intended
+                MainSettings.Instance.Save(MainSettings.EFlags.DoNotShowAgain);
+
+                if (_panel1 != null)
+                {
+                    _panel1.Visible = value;
+                    _splitter.Visible = value;
+                    this._titleBar.HelpIcon = value ? CtlTitleBar.EHelpIcon.Off : CtlTitleBar.EHelpIcon.ShowBar;
+                }
+            }
+        }
+        
+        public void ShowHelp( Control control )
+        {
+            if (!this._panel1.Visible)
+            {
+                return;
+            }
+
+            string text = this._toolTip.GetToolTip( control );
+
+            this._panel1.Text = text;
+
+            _errorProvider.Clear();
+            _errorProvider.SetIconAlignment( control, ErrorIconAlignment.MiddleRight );
+            _errorProvider.SetIconPadding( control, 4 );
+            _errorProvider.SetError( control, "" );
         }
 
         private void ToolTip_Popup( object sender, PopupEventArgs e )
-        {
-            if (this._panel1.Visible)
-            {
-                string text = this._toolTip.GetToolTip( e.AssociatedControl );
-                this._panel1.Text = text;
-            }
-
+        {                
+            ShowHelp( e.AssociatedControl );
             e.Cancel = true;
         }
     }

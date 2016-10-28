@@ -126,9 +126,9 @@ namespace MetaboliteLevels.Data.Session.Main
             return a.DisplayPriority;
         }
 
-        public override void GetXColumns(ColumnCollection list, Core core)
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            var columns = list .Cast< GroupInfoBase>();
+            var columns = request.Results.Cast< GroupInfoBase>();
                                                                                
             columns.Add("Colour", z => ColourHelper.ColourToName(z.Colour), z => z.Colour);
             columns.Add("Light colour", z => ColourHelper.ColourToName(z.ColourLight), z => z.ColourLight);

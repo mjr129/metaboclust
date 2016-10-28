@@ -976,7 +976,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             using (prog.Section( "Adding to sessions list" ))
             {
                 MainSettings.Instance.AddRecentSession( this._core );
-                MainSettings.Instance.Save();
+                MainSettings.Instance.Save( MainSettings.EFlags.RecentSessions);
             }                  
         }
 
@@ -1461,7 +1461,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         private void resetdoNotShowAgainItemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainSettings.Instance.DoNotShowAgain.Clear();
-            MainSettings.Instance.Save();
+            MainSettings.Instance.Save(MainSettings.EFlags.DoNotShowAgain);
 
             FrmMsgBox.ShowCompleted(this, "Show Messages", "\"Do not show again\" items have been reset. You may need to restart the program to see changes.");
         }
@@ -1978,6 +1978,6 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
             this._secondaryListView = dataSet;
             this.UpdateSecondaryList();
-        }
+        }                                    
     }
 }

@@ -133,14 +133,14 @@ namespace MetaboliteLevels.Data.Algorithms.General
             Statistics.Add(new StatisticPcaAnova(@"PCA_ANOVA", "PCA-ANOVA") { Comment = "Constructs a matrix representing a CONDITION and REPLICATE for each row (TIME for each column) and uses PCA to reduce this to 1 dimension. Uses ANOVA to determine if there is a difference between groups of replicates for each CONDITION. It is recommended to constrain this method to CONDITIONS of interest and only use REPLICATES with comparable sets (CONDITIONs and TIMEs) of data since missing values are guessed based on the average of the other replicates." });
 
             // Derived statistics
-            Statistics.Add(new StatisticConsumer(Maths.Mean, "STATS_MEAN", "Mean:"));
-            Statistics.Add(new StatisticConsumer(Maths.Median, "STATS_MEDIAN", "Median:"));
-            Statistics.Add(new StatisticConsumer(Maths.AbsMax, ID_STATS_ABSMAX, "Absolute Maximum:"));
-            Statistics.Add(new StatisticConsumer(Maths.AbsMin, "STATS_ABSMIN", "Absolute Minimum:"));
-            Statistics.Add(new StatisticConsumer(Maths.Max, ID_STATS_MAX, "Maximum:"));
-            Statistics.Add(new StatisticConsumer(Maths.Min, ID_STATS_MIN, "Minimum:"));
-            Statistics.Add(new StatisticConsumer(Maths.Sum, "STATS_SUM", "Sum:"));
-            Statistics.Add(new StatisticConsumer(Maths.NegSum, "STATS_NEGSUM", "-Sum:"));
+            Statistics.Add(new StatisticConsumer(Maths.Mean, "STATS_MEAN", "Mean (of other statistics)" ) );
+            Statistics.Add(new StatisticConsumer(Maths.Median, "STATS_MEDIAN", "Median (of other statistics)" ) );
+            Statistics.Add(new StatisticConsumer(Maths.AbsMax, ID_STATS_ABSMAX, "Absolute Maximum (of other statistics)" ) );
+            Statistics.Add(new StatisticConsumer(Maths.AbsMin, "STATS_ABSMIN", "Absolute Minimum (of other statistics)" ) );
+            Statistics.Add(new StatisticConsumer(Maths.Max, ID_STATS_MAX, "Maximum (of other statistics)" ) );
+            Statistics.Add(new StatisticConsumer(Maths.Min, ID_STATS_MIN, "Minimum (of other statistics)" ) );
+            Statistics.Add(new StatisticConsumer(Maths.Sum, "STATS_SUM", "Sum (of other statistics)" ) );
+            Statistics.Add(new StatisticConsumer(Maths.NegSum, "STATS_NEGSUM", "-Sum (of other statistics)" ) );
 
             // Trends
             Trends.Add( new TrendFlatLine( z => double.NaN, ID_TREND_NAN, "No trend" ) );
@@ -190,8 +190,8 @@ namespace MetaboliteLevels.Data.Algorithms.General
         {
             string folder = UiControls.GetOrCreateFixedFolder( searchFolder );
             string resourcePrefix = "scripts~" + Path.GetFileName( folder ).ToLower() + "~";
-                                                                                                                
-            ResourceSet resources = Resx.Scripts.ResourceManager.GetResourceSet( CultureInfo.CurrentUICulture, true, true );
+
+            ResourceSet resources = UiControls.GetScriptsResources();
 
             // Search Scripts.resx
             foreach (DictionaryEntry resource in resources)
@@ -207,11 +207,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
             }
 
             // Search folder
-            foreach (string fileName in Directory.GetFiles(folder, "*.r"))
+            foreach (string fileName in Directory.GetFiles( folder, "*.r" ))
             {
-                string id = GetId(searchFolder, fileName, false);
-                string name = Path.GetFileName(fileName);
-                targetCollection.Add(constructorMethod(File.ReadAllText(fileName), id, name, fileName));
+                string id = GetId( searchFolder, fileName, false );
+                string name = Path.GetFileName( fileName );
+                targetCollection.Add( constructorMethod( File.ReadAllText( fileName ), id, name, fileName ) );
             }
         }
 

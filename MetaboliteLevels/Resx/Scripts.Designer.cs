@@ -61,6 +61,24 @@ namespace MetaboliteLevels.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string adducts_All {
+            get {
+                return ResourceManager.GetString("adducts~All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string adducts_Refined {
+            get {
+                return ResourceManager.GetString("adducts~Refined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] scripts_clustering_k_means__Hartigan_Wong_algorithm_ {

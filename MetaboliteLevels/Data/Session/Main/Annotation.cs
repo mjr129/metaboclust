@@ -119,11 +119,11 @@ namespace MetaboliteLevels.Data.Session.Main
             }
         }
 
-        public override void GetXColumns( ColumnCollection list, Core core )
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            ColumnCollection<Annotation> results = list .Cast< Annotation>();
+            ColumnCollection<Annotation> results = request.Results.Cast< Annotation>();
 
-            core._annotationsMeta.ReadAllColumns<Annotation>( z => z.Meta, results );
+            request.Core._annotationsMeta.ReadAllColumns<Annotation>( z => z.Meta, results );
         }
     }
 }

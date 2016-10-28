@@ -5,11 +5,16 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using MetaboliteLevels.Data.Session.Definition;
+using MetaboliteLevels.Gui.Forms.Activities;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Session.General
 {
+    /// <summary>
+    /// Main user settings.
+    /// For session-specific settings see <see cref="CoreOptions"/>.
+    /// </summary>
     [Serializable]
     class MainSettings
     {
@@ -20,6 +25,7 @@ namespace MetaboliteLevels.Data.Session.General
         public List<RecentSession> RecentSessions = new List<RecentSession>();
         public List<DataFileNames> RecentWorkspaces = new List<DataFileNames>();
         public GeneralSettings General = new GeneralSettings();
+        public FileLoadInfo FileLoadInfo = new FileLoadInfo();
 
         public static MainSettings Instance;
 
@@ -28,7 +34,6 @@ namespace MetaboliteLevels.Data.Session.General
         {
             public string RBinPath;
             public string PathwayToolsDatabasesPath;
-            public bool? SaveOnClose;
             public bool AutoBackup = false;
         }
 
@@ -41,27 +46,41 @@ namespace MetaboliteLevels.Data.Session.General
 
         public MainSettings()
         {
-            this.SaveLoad(false);
+            this.SaveLoad(false, EFlags.All);
         }
 
         public void Reset()
         {
             this.DoNotShowAgain = new Dictionary<string, int>();
             this.General = new GeneralSettings();
+            Save( EFlags.DoNotShowAgain | EFlags.General );
         }
 
-        private void SaveLoad(bool save)
+        [Flags]
+        public enum EFlags
+        {
+            None=0,
+            DoNotShowAgain=1,
+            RecentSessions=2,
+            RecentWorkspaces=4,
+            General=8,
+            FileLoadInfo = 16,
+            All = 0xFFFF,
+        }
+
+        private void SaveLoad( bool save, EFlags flags )
         {
             ProgressReporter prog = ProgressReporter.GetEmpty(); // too fast to warrent dialogue
-            XmlSettings.SaveLoad(save, FileId.DoNotShowAgain, ref this.DoNotShowAgain, null, prog);
-            XmlSettings.SaveLoad(save, FileId.RecentSessions, ref this.RecentSessions, null, prog);
-            XmlSettings.SaveLoad(save, FileId.RecentWorkspaces, ref this.RecentWorkspaces, null, prog);
-            XmlSettings.SaveLoad(save, FileId.General, ref this.General, null, prog);
+            if (flags.Has( EFlags.DoNotShowAgain ))   XmlSettings.SaveLoad( save, FileId.DoNotShowAgain, ref this.DoNotShowAgain, null, prog );
+            if (flags.Has( EFlags.RecentSessions ))   XmlSettings.SaveLoad( save, FileId.RecentSessions, ref this.RecentSessions, null, prog );
+            if (flags.Has( EFlags.RecentWorkspaces )) XmlSettings.SaveLoad( save, FileId.RecentWorkspaces, ref this.RecentWorkspaces, null, prog );
+            if (flags.Has( EFlags.General ))          XmlSettings.SaveLoad( save, FileId.General, ref this.General, null, prog );
+            if (flags.Has( EFlags.FileLoadInfo ))     XmlSettings.SaveLoad( save, FileId.FileLoadInfo, ref this.FileLoadInfo, null, prog );
         }
 
-        public void Save()
+        public void Save(EFlags flags)
         {
-            this.SaveLoad(true);
+            this.SaveLoad(true, flags);
         }
 
         [OnDeserializing]

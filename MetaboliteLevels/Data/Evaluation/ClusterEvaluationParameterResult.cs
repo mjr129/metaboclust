@@ -68,9 +68,9 @@ namespace MetaboliteLevels.Data.Evaluation
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override void GetXColumns(ColumnCollection list, Core core)
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            var res = list .Cast< ClusterEvaluationParameterResult>();
+            var res = request.Results.Cast< ClusterEvaluationParameterResult>();
 
             for (int n = 0; n < Repetitions.Count; n++)
             {

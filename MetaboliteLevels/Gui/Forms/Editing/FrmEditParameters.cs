@@ -95,7 +95,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                         ReadOnly = readOnly,
                         Tag = index,
                     };
-                    this.TextChanged += this.TextBox_TextChanged;
+                    textBox.TextChanged += this.TextBox_TextChanged;
                     this.tableLayoutPanel1.Controls.Add( textBox, 2, row );
                     this._textBoxes.Add( textBox );
 
@@ -157,7 +157,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                 return;
             }
 
-            textBox.Text = AlgoParameterCollection.ParamsToReversableString(new[] { value }, this._core);
+            textBox.Text = AlgoParameterCollection.ParamToString(value);
         }
 
         private void _btnOk_Click(object sender, EventArgs e)

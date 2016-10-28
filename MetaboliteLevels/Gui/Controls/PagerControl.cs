@@ -215,9 +215,8 @@ namespace MetaboliteLevels.Gui.Controls
                 this._pageno = p;
                 this._current = this.Pages[p];
                 this._current.Visible = true;
-                this.OnPageChanged(EventArgs.Empty);
-
-                this._mainPanel.ResumeDrawingAndLayout();
+                this.OnPageChanged(EventArgs.Empty); 
+                this._mainPanel.ResumeDrawingAndLayout();                                                
 
                 return true;
             }

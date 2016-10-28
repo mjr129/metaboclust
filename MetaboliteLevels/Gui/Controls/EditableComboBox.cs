@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using JetBrains.Annotations;
 using MetaboliteLevels.Data.Database;
 using MetaboliteLevels.Gui.Datatypes;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -86,12 +87,19 @@ namespace MetaboliteLevels.Gui.Controls
             NamedItem<object> n = (NamedItem<object>)this.ComboBox.Items[e.Index];
 
             Image image = UiControls.GetImage( n.Value, false );
+
+            if (!Enabled)
+            {
+                image = UiControls.DisabledImage( image );
+            }
+
             int offset = e.Bounds.Height / 2 - image.Height / 2;
             Rectangle imageDest = new Rectangle( e.Bounds.Left + offset, e.Bounds.Top + offset, image.Width, image.Height );
             Rectangle imageSrc = new Rectangle( 0, 0, image.Width, image.Height );
             e.Graphics.DrawImage( image, imageDest, imageSrc, GraphicsUnit.Pixel );
-            SizeF stringSize = e.Graphics.MeasureString( n.DisplayName, e.Font );                                                                                          
-            TextRenderer.DrawText( e.Graphics, n.DisplayName, e.Font, new Point(imageDest.Right + 4, (int)(e.Bounds.Top + e.Bounds.Height / 2 - stringSize.Height / 2)), e.ForeColor );
+            SizeF stringSize = e.Graphics.MeasureString( n.DisplayName, e.Font );
+            Color colour = Enabled ? e.ForeColor : Color.FromKnownColor( KnownColor.GrayText );
+            TextRenderer.DrawText( e.Graphics, n.DisplayName, e.Font, new Point( imageDest.Right + 4, (int)(e.Bounds.Top + e.Bounds.Height / 2 - stringSize.Height / 2) ), colour );
         }
 
         private void ComboBox_DropDown( object sender, EventArgs e )

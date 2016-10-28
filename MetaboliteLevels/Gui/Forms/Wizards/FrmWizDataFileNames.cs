@@ -22,6 +22,7 @@ using MetaboliteLevels.Gui.Forms.Editing;
 using MetaboliteLevels.Gui.Forms.Selection;
 using MetaboliteLevels.Gui.Forms.Setup;
 using MetaboliteLevels.Properties;
+using MetaboliteLevels.Resx;
 using MetaboliteLevels.Utilities;
 using MGui.Controls;
 using MGui.Datatypes;
@@ -93,9 +94,8 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
         private readonly ToolStripMenuItem _mnuBrowseWorkspace;
         private readonly ToolStripSeparator _mnuBrowseWorkspaceSep;
-        private readonly FileLoadInfo _fileLoadInfo;
         private EditableComboBox<EAnnotation> _cbAutomaticFlag;
-        private EditableComboBox<EAnnotation> _cbManualFlag;                
+        private EditableComboBox<EAnnotation> _cbManualFlag;
 
         /// <summary>
         /// Constructor.
@@ -108,19 +108,24 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._btnNewSession.BackColor = this._btnNewSession.FlatAppearance.BorderColor
                 = this._btnReturnToSession.BackColor = this._btnReturnToSession.FlatAppearance.BorderColor
                 = this._btnMostRecent.BackColor = this._btnMostRecent.FlatAppearance.BorderColor
+                = this._btnReconfigure.BackColor = this._btnReconfigure.FlatAppearance.BorderColor
                 = UiControls.TitleBackColour;
 
             this._btnNewSession.FlatAppearance.MouseOverBackColor
                 = this._btnReturnToSession.FlatAppearance.MouseOverBackColor
                 = this._btnMostRecent.FlatAppearance.MouseOverBackColor
+                = this._btnReconfigure.FlatAppearance.MouseOverBackColor
                 = ColourHelper.Blend( UiControls.TitleBackColour, Color.Black, 0.1 );
 
-            this._fileLoadInfo = XmlSettings.LoadAndResave<FileLoadInfo>( FileId.FileLoadInfo, ProgressReporter.GetEmpty(), null );
+            this._btnNewSession.FlatAppearance.MouseDownBackColor
+                = this._btnReturnToSession.FlatAppearance.MouseDownBackColor
+                = this._btnMostRecent.FlatAppearance.MouseDownBackColor
+                = this._btnReconfigure.FlatAppearance.MouseDownBackColor
+                = ColourHelper.Blend( UiControls.TitleBackColour, Color.Black, 0.25 );                       
 
             // Match program description to title bar
             this._lblProgramDescription.BackColor = UiControls.TitleBackColour;
             this._lblProgramDescription.ForeColor = UiControls.TitleForeColour;
-            this._lblOrder.BackColor = UiControls.TitleBackColour;
 
             // Set texts
             this.Text = UiControls.Title + " - Load data";
@@ -138,12 +143,13 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             // Setup the wizard
             this._wizard = CtlWizard.BindNew( this.tabControl1.Parent, this.tabControl1, CtlWizardOptions.ShowCancel | CtlWizardOptions.HandleBasicChanges );
             this._wizard.Pager.PageTitles[0] = UiControls.Title;
-            this._wizard.HelpClicked += this._wizard_HelpClicked;
             this._wizard.CancelClicked += this._wizard_CancelClicked;
             this._wizard.OkClicked += this._wizard_OkClicked;
             this._wizard.PermitAdvance += this._wizard_PermitAdvance;
             this._wizard.Pager.PageChanged += this._wizard_PageChanged;
-            this.UpdateHelpButton();
+            this._wizard.TitleHelpText = Manual.FrmWizDataFileNames;
+
+            ctlContextHelp1.Bind( this, _wizard.TitleBar, _tipSideBar, CtlContextHelp.EFlags.ClickLabels | CtlContextHelp.EFlags.OnFocus | CtlContextHelp.EFlags.FileFormats );
 
             // Setup the experimental group boxes
             this._cbControl = this.CreateExpConditionBox( this._txtControls, this._btnBrowseContCond );
@@ -153,9 +159,6 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             // -- Passing a null core is okay here provided we don't try to show any columns
             this._cbAutomaticFlag = DataSet.ForDiscreteEnum<EAnnotation>( null, "Annotation", (EAnnotation) (- 1) ).CreateComboBox(this._automaticFlag, null, ENullItemName.NoNullItem);
             this._cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( null, "Annotation", (EAnnotation) (- 1) ).CreateComboBox( this._manualFlag, null, ENullItemName.NoNullItem );               
-
-            // Setup help
-            this.splitContainer1.Panel2Collapsed = true;
 
             // Setup captions
             this.linkLabel1.Text = UiControls.Title + " " + UiControls.VersionString.ToString();
@@ -278,97 +281,30 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
                 {
                     this._btnMostRecent.Visible = false;
                 }
-            }
-
-            // UiControls.CompensateForVisualStyles( this );
-
-            if (!Application.RenderWithVisualStyles)
-            {
-                foreach (var l in FormHelper.EnumerateControls<Label>( this ))
-                {
-                    if (l.ForeColor == Color.CornflowerBlue)
-                    {
-                        l.BackColor   = Color.FromArgb( 255, 255, 192 );
-                        l.ForeColor   = Color.DarkBlue;
-                        l.Padding     = new Padding( 8, 8, 8, 8 );
-                        l.BorderStyle = BorderStyle.Fixed3D;
-                    }
-                }
-            }
-
-            foreach (Control control in FormHelper.EnumerateControls<Control>( this ))
-            {
-                if (!string.IsNullOrWhiteSpace( this._tipSideBar.GetToolTip( control ) ))
-                {
-                    if (control is CtlLabel)
-                    {
-                        control.MouseEnter += this.Control_MouseEnter;
-                        control.MouseLeave += this.Control_MouseLeave;
-                        control.Cursor = Cursors.Help;
-                    }
-
-                    control.GotFocus += this.Control_Click;
-                    control.MouseDown += this.Control_Click;
-                }
-            }
+            }               
         }
-
-        private void Control_Click( object sender, EventArgs e )
-        {
-            if (sender is Label)
-            {
-                if (this.splitContainer1.Panel2Collapsed)
-                {
-                    this.ToggleHelp();
-                }
-            }
-
-            this.ShowControlHelp( (Control)sender );
-        }
-
-        private void Control_MouseLeave( object sender, EventArgs e )
-        {
-            CtlLabel label = (CtlLabel)sender;
-
-            label.LabelStyle = ELabelStyle.Normal;
-            label.Font = FontHelper.RegularFont;
-        }
-
-        private void Control_MouseEnter( object sender, EventArgs e )
-        {
-            CtlLabel label = (CtlLabel)sender;
-
-            label.LabelStyle = ELabelStyle.Highlight;
-            label.Font = FontHelper.UnderlinedFont;
-        }       
 
         private void _recentWorkspaceDetails_Clicked( object sender, EventArgs e )
         {
             DataFileNames recentWorkspace = (DataFileNames)((ToolStripLabel)sender).Tag;
             UiControls.ShowSessionInfo( this, recentWorkspace );
-        }
-
-        protected override void OnSizeChanged( EventArgs e )
-        {
-            base.OnSizeChanged( e );
-
-            int x = Math.Max( 0, (this.ClientSize.Width - 1024) ) / 3;
-            int y = Math.Max( 0, (this.ClientSize.Height - 768) ) / 3;
-
-            this.splitContainer1.Margin = new Padding( x, y, x, y );
-        }
+        }                  
 
         private void ReplaceWithMessage( ListBox list, Button btn )
         {
             var tlp = (TableLayoutPanel)list.Parent;
             var pos = tlp.GetCellPosition( list );
 
-            Label lab     = new Label();
-            lab.Text      = "There are no available libraires.\r\nPlease choose the library manually or reconfigure your library path.";
-            lab.Dock      = DockStyle.Fill;
-            lab.TextAlign = ContentAlignment.MiddleCenter;
-            lab.Visible   = true;
+            LinkLabel lab = new LinkLabel
+                            {
+                                Dock = DockStyle.Fill,
+                                TextAlign = ContentAlignment.MiddleCenter,
+                                Visible = true
+                            };
+
             list.Visible  = false;
+            lab.SetText( "There are no available libraires.\r\nPlease choose the library manually or reconfigure your library path.\r\n\r\nExample library downloads can be found on the <initial setup> screen." );
+            lab.LinkClicked += editPathsAndLibrariesToolStripMenuItem_Click;
             btn.Enabled   = false;
 
             tlp.Controls.Add( lab, pos.Column, pos.Row );
@@ -401,9 +337,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             else
             {
                 this._wizard.Options &= ~(CtlWizardOptions.ShowBack | CtlWizardOptions.ShowNext);
-            }
-
-            this.UpdateHelpButton();
+            }                         
 
             switch (this._wizard.Page)
             {          
@@ -490,12 +424,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
                     break;
             }
-        }
-
-        private void UpdateHelpButton()
-        {              
-            this._wizard.TitleHelpIcon = this.splitContainer1.Panel2Collapsed ? CtlTitleBar.EHelpIcon.ShowBar : CtlTitleBar.EHelpIcon.Off;
-        }
+        }      
 
         void _wizard_CancelClicked( object sender, CancelEventArgs e )
         {
@@ -673,7 +602,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
                 if (FrmMsgBox.ShowYesNo( this, "Delete from history", "Are you sure you wish to remove the following settings from the history:\r\n\r\n    " + fn.Title, null ))
                 {
                     MainSettings.Instance.RecentWorkspaces.Remove( fn );
-                    MainSettings.Instance.Save();
+                    MainSettings.Instance.Save( MainSettings.EFlags.RecentWorkspaces);
                     s.Enabled = false;
                     s.Font = FontHelper.StrikeFont;
                 }
@@ -810,10 +739,10 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
             // Save the workspace (even if there is an error)
             MainSettings.Instance.AddRecentWorkspace( fileNames );
-            MainSettings.Instance.Save();
+            MainSettings.Instance.Save( MainSettings.EFlags.RecentWorkspaces);
 
             // Load the data
-            this._result = FrmActDataLoad.Show( this, fileNames, this._fileLoadInfo );
+            this._result = FrmActDataLoad.Show( this, fileNames );
 
             if (this._result == null)
             {
@@ -844,8 +773,9 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
         {
             if (Browse( this._txtDataSetData ))
             {
-                this.TryAutoSet( this._txtDataSetData.Text, this._txtDataSetObs, this._fileLoadInfo.AUTOFILE_OBSERVATIONS );
-                this.TryAutoSet( this._txtDataSetData.Text, this._txtDataSetVar, this._fileLoadInfo.AUTOFILE_PEAKS );
+                var fli = UiControls.GetFileLoadInfo();
+                this.TryAutoSet( this._txtDataSetData.Text, this._txtDataSetObs, fli.AUTOFILE_OBSERVATIONS );
+                this.TryAutoSet( this._txtDataSetData.Text, this._txtDataSetVar, fli.AUTOFILE_PEAKS );
             }
         }
 
@@ -946,62 +876,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
         private void _chkCondInfo_CheckedChanged( object sender, EventArgs e )
         {
             this.CheckTheBox( this._chkCondInfo, this._txtCondInfo, this._btnCondInfo );
-        }
-
-        private void _wizard_HelpClicked( object sender, EventArgs e )
-        {
-            this.ToggleHelp();
-        }
-
-        private void ToggleHelp()
-        {
-            this.splitContainer1.Panel2Collapsed = !this.splitContainer1.Panel2Collapsed;
-            this.UpdateHelpButton();
-        }
-
-        private void _btnDeleteWorkspace_Click( object sender, EventArgs e )
-        {
-           
-        }
-
-        private void _btnRecent_Click( object sender, EventArgs e )
-        {
-            
-        }
-
-        private void toolTip1_Popup( object sender, PopupEventArgs e )
-        {
-            Control c = e.AssociatedControl;
-
-            this.ShowControlHelp( c );
-
-            e.Cancel = true;
-        }
-
-        private void ShowControlHelp( Control c )
-        {                    
-            string text = this._tipSideBar.GetToolTip( c );
-
-            text = Regex.Replace(text, "(?<!\r)\n", "\r\n" );
-
-            // We use "*" to signify "nothing" or we don't get the Popup event saying when a control has lost focus.
-            if (string.IsNullOrEmpty( text ) || text=="*")
-            {          
-                text = "Click a control for help";
-            }
-
-            if (text.StartsWith("FILEFORMAT"))
-            {
-                this._txtHelp.Text = text.After( "FILEFORMAT\r\n" ).Before( "{" ).Replace( "CSVFILE", "The name of a CSV (spreadsheet) file. Click the button below to shown specific details on the data expected." );
-                this._btnShowFf.Visible = true;
-                this._btnShowFf.Tag = text;
-            }
-            else
-            {
-                this._txtHelp.Text = text;
-                this._btnShowFf.Visible = false;
-            }
-        }
+        }           
 
         private void button2_Click( object sender, EventArgs e )
         {
@@ -1048,7 +923,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
             // Loaded ok!
             MainSettings.Instance.AddRecentSession( this._result );
-            MainSettings.Instance.Save();
+            MainSettings.Instance.Save( MainSettings.EFlags.RecentSessions);
 
             if (this._result.FileNames.AppVersion == null)
             {
@@ -1073,10 +948,9 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
         private void clearRPathrequiresRestartToolStripMenuItem_Click( object sender, EventArgs e )
         {
-            if (FrmMsgBox.ShowYesNo( this, "Restore Settings", "Restore settings to defaults and restart program?", Resources.MsgWarning ))
+            if (FrmMsgBox.ShowOkCancel( this, "Restore Settings", "This will restore the main settings to their defaults and and clear any \"do not show this message again\" preferences. The recent history will be untouched and any session-specific settings will be unaffected. After the settings are restored the program will restart.", Resources.MsgWarning ))
             {
                 MainSettings.Instance.Reset();
-                MainSettings.Instance.Save();
                 UiControls.RestartProgram(this);
             }
         }
@@ -1095,7 +969,11 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
         private void button1_Click( object sender, EventArgs e )
         {
             this._wizard.Page += 1;
-            FrmMsgBox.ShowHint( this, "Select the help button to display the help side-bar describing file-format details, etc.", FrmMsgBox.EDontShowAgainId.HelpSideBar, Resources.MnuHelpBar );
+
+            if (!ctlContextHelp1.Visible)
+            {
+                FrmMsgBox.ShowHint( this, "Select the help button to display the help side-bar describing file-format details, etc.", FrmMsgBox.EDontShowAgainId.HelpSideBar, Resources.MnuHelpBar );
+            }
         }
 
         private void _lstLcmsMode_SelectedIndexChanged( object sender, EventArgs e )
@@ -1134,15 +1012,16 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
                             SpreadsheetReader reader = new SpreadsheetReader()
                             {
                                 Progress = progress.SetProgress,
-                            }
-                            ;
+                            };
+
+                            var fli = UiControls.GetFileLoadInfo();
 
                             if (useObsFile)
                             {
                                 if (File.Exists( observationFile ))
                                 {
                                     Spreadsheet<string> info = reader.Read<string>( observationFile );
-                                    int typeCol = info.TryFindColumn( this._fileLoadInfo.OBSFILE_GROUP_HEADER );
+                                    int typeCol = info.TryFindColumn( fli.OBSFILE_GROUP_HEADER );
 
                                     for (int row = 0; row < info.NumRows; row++)
                                     {
@@ -1157,7 +1036,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
                             }
                             else
                             {
-                                foreach (var kvp in FrmActDataLoad.LoadConditionInfo( this._fileLoadInfo, conditionFile, progress ))
+                                foreach (var kvp in FrmActDataLoad.LoadConditionInfo( fli, conditionFile, progress ))
                                 {
                                     this._experimentalGroupCache.Add( new ExpCond( kvp.Key, kvp.Value ) );
                                 }
@@ -1280,7 +1159,6 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             if (FrmMsgBox.ShowYesNo( this, "Restore Settings", "Clear \"do not show again\" choices and restart program?.", Resources.MsgWarning ))
             {
                 MainSettings.Instance.DoNotShowAgain.Clear();
-                MainSettings.Instance.Save();
                 UiControls.RestartProgram(this);
             }
         }
@@ -1344,7 +1222,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
         private void _btnReconfigure_Click( object sender, EventArgs e )
         {
-            this._mnuDebug.Show( this._btnReconfigure, new Point( this._btnReconfigure.Width, 0 ), ToolStripDropDownDirection.AboveLeft );
+            this._mnuDebug.Show( this._btnReconfigure, new Point( 0, _btnReconfigure.Height ) );
         }
 
         private void editPathsAndLibrariesToolStripMenuItem_Click( object sender, EventArgs e )
@@ -1365,32 +1243,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
         {
             this._numTolerance.Enabled = this._lblTolerance.Enabled = this._lstTolerance.Enabled = (this._chkAutoIdentify.Checked || this._chkPeakPeakMatch.Checked);
             this._cbAutomaticFlag.Enabled = this.ctlLabel1.Enabled = this._chkAutoIdentify.Checked;
-        }
-
-        private void _txtDataSetData_TextChanged( object sender, EventArgs e )
-        {
-
-        }
-
-        private void _lblDataSetData_Click( object sender, EventArgs e )
-        {
-
-        }
-
-        private void _btnShowFf_Click( object sender, EventArgs e )
-        {
-            FrmViewSpreadsheet.Show( this, this._btnShowFf.Tag as string, this._fileLoadInfo );
-        }
-
-        private void cSVManipulatorToolStripMenuItem_Click( object sender, EventArgs e )
-        {
-            UiControls.StartProcess( this, Path.Combine( Application.StartupPath, "ConvertGPDataFormat.exe" ) );
-        }
-
-        private void _txtDataSetObs_TextChanged( object sender, EventArgs e )
-        {
-
-        }
+        }    
 
         private void _btnIdentifications_Click_1( object sender, EventArgs e )
         {
@@ -1413,26 +1266,26 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
         {
             this._historyDelete = true;
             this._cmsRecentWorkspaces.Show( this._btnDeleteWorkspace, 0, this._btnDeleteWorkspace.Height );
-        }
-
-        private void _radRecentWorkspace_CheckedChanged( object sender, EventArgs e )
-        {
-
-        }
-
-        private void ctlTitleBar1_HelpClicked( object sender, CancelEventArgs e )
-        {
-            this.ToggleHelp();
-        }
-
-        private void tableLayoutPanel5_Paint( object sender, PaintEventArgs e )
-        {
-
-        }
+        }         
 
         private void _chkConditions_CheckedChanged( object sender, EventArgs e )
         {
             this._lblConditions.Enabled = this.label3.Enabled = this._cbExp.Enabled = this._cbControl.Enabled = this._chkConditions.Checked;
+        }
+
+        private void defineColumnsToolStripMenuItem_Click( object sender, EventArgs e )
+        {
+            FrmEditFileLoadInfo.Show( this );
+        }
+
+        private void _lstAvailableAdducts_MouseDoubleClick( object sender, MouseEventArgs e )
+        {
+            _btnAddAdduct.PerformClick();
+        }
+
+        private void _lstAvailCompounds_MouseDoubleClick( object sender, MouseEventArgs e )
+        {
+            _btnAddCompound.PerformClick();
         }
     }
 }

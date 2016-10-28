@@ -81,9 +81,9 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-       public override void GetXColumns(ColumnCollection list, Core core)
+       public override void GetXColumns( CustomColumnRequest request )
         {
-            var result = list.Cast<AlgoBase>();
+            var result = request.Results.Cast<AlgoBase>();
                                                
             result.Add("R", z => z.Script != null ? 1 : 0);
             result.Add("File", z => z.Script?.FileName);

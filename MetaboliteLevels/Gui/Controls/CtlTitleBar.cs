@@ -34,9 +34,21 @@ namespace MetaboliteLevels.Gui.Controls
         {
             this.InitializeComponent();
             this.Dock = DockStyle.Top;
+            UpdateColours();
+        }
 
-            this.tableLayoutPanel1.BackColor = UiControls.TitleBackColour;
-            this.tableLayoutPanel1.ForeColor = UiControls.TitleForeColour;
+        private void UpdateColours()
+        {
+            if (HelpIcon == EHelpIcon.HideBar)
+            {
+                this.tableLayoutPanel1.BackColor = Color.FromKnownColor( KnownColor.Info );
+                this.tableLayoutPanel1.ForeColor = Color.FromKnownColor( KnownColor.InfoText );
+            }
+            else
+            {
+                this.tableLayoutPanel1.BackColor = UiControls.TitleBackColour;
+                this.tableLayoutPanel1.ForeColor = UiControls.TitleForeColour;
+            }
         }
 
         protected override void OnLoad( EventArgs e )
@@ -163,23 +175,25 @@ namespace MetaboliteLevels.Gui.Controls
                 }
 
                 this._helpIcon = value;
+                this.UpdateColours();
 
                 switch (this._helpIcon)
                 {
                     case EHelpIcon.Automatic:
                     case EHelpIcon.Normal:
-                        this._btnHelp.Image = UiControls.RecolourImage( Resources.MnuHelp );
+                        this._btnHelp.Image = UiControls.RecolourImage( Resources.MnuHelp, tableLayoutPanel1.ForeColor );
                         break;
 
                     case EHelpIcon.HideBar:
-                        this._btnHelp.Image = UiControls.RecolourImage( Resources.MnuCancel );
+                        this._btnHelp.Image = UiControls.RecolourImage( Resources.MnuCancel, tableLayoutPanel1.ForeColor );
                         break;            
 
                     case EHelpIcon.ShowBar:
-                        this._btnHelp.Image = UiControls.RecolourImage( Resources.MnuHelpBar );
+                        this._btnHelp.Image = UiControls.RecolourImage( Resources.MnuHelpBar, tableLayoutPanel1.ForeColor );
                         break;
                 }
 
+                
                 this.UpdateHelpButtonVisibility();
             }
         }
@@ -239,7 +253,7 @@ namespace MetaboliteLevels.Gui.Controls
         {
             if (this.DrawHBar)
             {
-                UiControls.DrawHBar( e.Graphics, this.tableLayoutPanel1 );
+                UiControls.DrawHBar( e.Graphics, this.tableLayoutPanel1, this.tableLayoutPanel1.BackColor, this.tableLayoutPanel1.ForeColor );
             }
         }
 

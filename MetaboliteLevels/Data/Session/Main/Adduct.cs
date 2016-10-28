@@ -146,11 +146,11 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override void GetXColumns(ColumnCollection list, Core core)
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            ColumnCollection<Adduct> result = list.Cast<Adduct>();       
+            ColumnCollection<Adduct> result = request.Results.Cast<Adduct>();       
 
-            core._annotationsMeta.ReadAllColumns(z => z.MetaInfo, result);
+            request.Core._annotationsMeta.ReadAllColumns(z => z.MetaInfo, result);
         }
 
         /// <summary>

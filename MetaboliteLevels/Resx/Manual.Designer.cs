@@ -245,6 +245,15 @@ namespace MetaboliteLevels.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This screen allows you to create a new session or load an existing one..
+        /// </summary>
+        internal static string FrmWizDataFileNames {
+            get {
+                return ResourceManager.GetString("FrmWizDataFileNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FILEFORMAT
         ///
         ///Use to specify peak-compound annotations manually.
@@ -259,7 +268,8 @@ namespace MetaboliteLevels.Resx {
         ///
         ///{}
         ///Text.
-        ///Row names [rest of string was truncated]&quot;;.
+        ///Row names.
+        ///Unused by so [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Identifications {
             get {

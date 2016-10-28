@@ -15,13 +15,14 @@ using System.Windows.Forms;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Properties;
 using System.Diagnostics;
-using Microsoft.Win32;
-using MetaboliteLevels.Forms;
+using Microsoft.Win32;       
 using MGui;
 using MGui.Datatypes;
 using MGui.Helpers;
 using MGui.Controls;
 using System.Drawing.Drawing2D;
+using System.Globalization;
+using System.Resources;
 using System.Runtime.InteropServices;
 using MCharting;
 using MetaboliteLevels.Data.Session.Associational;
@@ -29,6 +30,7 @@ using MetaboliteLevels.Data.Session.Definition;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Gui.Datatypes;
+using MetaboliteLevels.Gui.Forms.Activities;
 using MetaboliteLevels.Gui.Forms.Selection;
 using MetaboliteLevels.Gui.Forms.Text;
 
@@ -39,8 +41,7 @@ namespace MetaboliteLevels.Utilities
     /// </summary>
     internal static class UiControls
     {
-        // Dictionaries
-        public static Dictionary<Version, string> VersionHistory;
+        // Dictionaries                                              
         public static int ColourIndex;
 
         // Random numbers
@@ -91,49 +92,7 @@ namespace MetaboliteLevels.Utilities
         /// </summary>             
         internal static void Initialise(Font font)
         {
-            FontHelper.Initialise(font);
-            VersionHistory = new Dictionary<Version, string>();
-            Version currentVersion = null;
-            StringBuilder sb = new StringBuilder();
-
-            string mrsn = "MetaboliteLevels.VersionHistory.txt";
-            var mrs = Assembly.GetCallingAssembly().GetManifestResourceStream(mrsn );
-
-            if (mrs == null)
-            {
-                throw new InvalidOperationException( "Failed to retrieve the manifest resource stream: " + mrsn + "." );
-            }
-
-            using (StreamReader sr = new StreamReader( mrs ))
-            {
-                while (!sr.EndOfStream)
-                {
-                    string l = sr.ReadLine();
-
-                    if (l.StartsWith( "VERSION " ))
-                    {
-                        if (currentVersion != null)
-                        {
-                            VersionHistory.Add( currentVersion, sb.ToString().Trim() );
-                            sb.Clear();
-                        }
-
-                        string[] e = l.Substring( 8 ).Split( '.', ',' );
-                        currentVersion = new Version( int.Parse( e[0] ), int.Parse( e[1] ), int.Parse( e[2] ), int.Parse( e[3] ) );
-                    }
-                    else
-                    {
-                        sb.AppendLine( l );
-                    }
-                }
-
-                if (currentVersion != null)
-                {
-                    VersionHistory.Add( currentVersion, sb.ToString().Trim() );
-                    sb.Clear();
-                }
-            }
-                
+            FontHelper.Initialise(font);                       
             Random = new Random();
         }
 
@@ -264,6 +223,31 @@ namespace MetaboliteLevels.Utilities
                     i |= dc;
 
                     data[x, y] = i;
+                }
+            }
+
+            return data.Unlock();
+        }
+
+        public static Bitmap DisabledImage( Image source )
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            BitmapDataHelper data = new BitmapDataHelper( source );
+
+            for (int y = 0; y < data.Height; y++)
+            {
+                for (int x = 0; x < data.Width; x++)
+                {
+                    uint i = data[x, y];
+
+                    if (i != 0 && i != 0xFFFFFFFF)
+                    {
+                        data[x, y] = 0xFFC0C0C0;
+                    }
                 }
             }
 
@@ -501,10 +485,15 @@ namespace MetaboliteLevels.Utilities
 
         internal static void DrawHBar( Graphics graphics, Control control )
         {
+            DrawHBar( graphics, control, UiControls.TitleBackColour, UiControls.TitleForeColour );
+        }
+
+        internal static void DrawHBar( Graphics graphics, Control control, Color ca, Color cb )
+        {
             const int h = 3;
             Rectangle r = new Rectangle( 0, control.Height - h, control.Width, h );
 
-            using (Brush b = new LinearGradientBrush( r, UiControls.TitleBackColour, UiControls.TitleForeColour,180, true ))
+            using (Brush b = new LinearGradientBrush( r, ca,cb,180, true ))
             {
                 graphics.FillRectangle( b, r );
             }
@@ -1534,6 +1523,16 @@ namespace MetaboliteLevels.Utilities
                 return false;
             }
         }
+
+        public static FileLoadInfo GetFileLoadInfo()
+        {
+            return MainSettings.Instance.FileLoadInfo;
+        }
+
+        public static ResourceSet GetScriptsResources()
+        {                                                                                                  
+            return Resx.Scripts.ResourceManager.GetResourceSet( CultureInfo.CurrentUICulture, true, true );
+    }
     }
 
     /// <summary>

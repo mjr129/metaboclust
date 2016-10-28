@@ -102,9 +102,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
             public override Image Icon => Resources.ListIconStatistics;
 
-            public override void GetXColumns(ColumnCollection list, Core core)
+            public override void GetXColumns( CustomColumnRequest request )
             {
-                var cols = list .Cast< ColumnWrapper>();
+                var cols = request.Results.Cast< ColumnWrapper>();
 
                 foreach (ClusterEvaluationParameterResult v in this._results.Results)
                 {

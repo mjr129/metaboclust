@@ -52,12 +52,12 @@ namespace MetaboliteLevels.Data.Session.Associational
             this.Icon = (target as IIconProvider)?.Icon ?? Resources.IconUnknown;
         }
 
-        public void GetXColumns( ColumnCollection list, Core core )
+        public void GetXColumns( CustomColumnRequest request )
         {
-            ColumnCollection<Association<T>> results = list.Cast<Association<T>>();
+            ColumnCollection<Association<T>> results = request.Results.Cast<Association<T>>();
 
-            // Add association as-is
-            results.AddRange( ColumnManager.AddSubObject<Association<T>>( EColumn.Advanced, EColumn.Visible, core, "Association\\", z => z.Associated, typeof(T) ) );
+            // Add association as-is (don't include a folder before it!)
+            results.AddRange( ColumnManager.AddSubObject<Association<T>>( EColumn.Advanced, EColumn.Visible, request.Core, "", z => z.Associated, typeof(T) ) );
 
             // Add extra columns from original request
             if (this.OriginalRequest?.ExtraColumns != null)
@@ -69,7 +69,9 @@ namespace MetaboliteLevels.Data.Session.Associational
 
                     results.Add( new Column<Association<T>>( c.Item1, EColumn.Visible, c.Item2, z => z._extraColumnValues[closure], z => Color.Blue ) );
                 }
-            }                
+            }
+
+            request.NoAutomaticColumns = true; // Else conflicts
         }
 
         public Image Icon { get; private set; }

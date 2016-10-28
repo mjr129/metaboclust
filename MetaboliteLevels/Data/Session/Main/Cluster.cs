@@ -500,9 +500,10 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>    
-        public override void GetXColumns(ColumnCollection list, Core core)
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            var result = list.Cast<Cluster>();
+            var result = request.Results.Cast<Cluster>();
+            Core core = request.Core;
 
             result.Add( "Assignments\\As peaks", EColumn.None, λ => λ.Assignments.Peaks.ToArray());
             result.Add("Assignments\\As scores", EColumn.Advanced, λ => λ.Assignments.Scores.ToArray());

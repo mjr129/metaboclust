@@ -176,9 +176,9 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// IMPLEMENTS IVisualisable.
         /// </summary>     
-        public override void GetXColumns(ColumnCollection list, Core core)
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            var result = list .Cast< PeakFlag>();
+            var result = request.Results.Cast< PeakFlag>();
                                                                                              
             result.Add( "Colour", EColumn.None, z => ColourHelper.ColourToName( z.Colour ), z => z.Colour );
         }

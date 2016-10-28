@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -48,7 +49,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         /// <summary>
         /// Constructor
         /// </summary>
-        private FrmActDataLoad(DataFileNames fileNames, string sessionFileName, FileLoadInfo dataInfo )
+        private FrmActDataLoad(DataFileNames fileNames, string sessionFileName )
         {
             this.InitializeComponent();
             UiControls.SetIcon( this );
@@ -58,7 +59,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
             this._fileNames       = fileNames;
             this._sessionFileName = sessionFileName;
-            this._dataInfo        = dataInfo;
+            this._dataInfo        = UiControls.GetFileLoadInfo();
 
             // UiControls.CompensateForVisualStyles(this);
         }
@@ -66,9 +67,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         /// <summary>
         /// Loads data from file
         /// </summary>
-        internal static Core Show(Form owner, DataFileNames fileNames, FileLoadInfo dataInfo )
+        internal static Core Show(Form owner, DataFileNames fileNames )
         {
-            return Show(owner, fileNames, null, dataInfo );
+            return Show(owner, fileNames, null );
         }
 
         /// <summary>
@@ -76,19 +77,19 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         /// </summary>
         internal static Core Show(Form owner, string sessionFileName )
         {
-            return Show(owner, null, sessionFileName, null );
+            return Show(owner, null, sessionFileName);
         }   
 
         /// <summary>
         /// Loads data from file or session
         /// </summary>
-        private static Core Show(Form owner, DataFileNames fileNames, string sessionFileName, FileLoadInfo dataInfo)
+        private static Core Show(Form owner, DataFileNames fileNames, string sessionFileName)
         {
             UiControls.Assert((fileNames == null) ^ (sessionFileName == null), "Specify filenames to load or session to load.");
 
             owner.Hide();
 
-            using (FrmActDataLoad frm = new FrmActDataLoad(fileNames, sessionFileName, dataInfo ))
+            using (FrmActDataLoad frm = new FrmActDataLoad(fileNames, sessionFileName ))
             {
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
@@ -169,10 +170,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         /// </summary>
         public static void Load_5_UserIdentifications( FileLoadInfo dataInfo, MetaInfoHeader annotationMeta, IEnumerable<Peak> peaks, List<Compound> ccompounds, List<Adduct> adducts, string fileName, EAnnotation status, List<string> warnings, ProgressReporter prog)
         {
-            SpreadsheetReader reader = new SpreadsheetReader()
-            {
-                Progress = prog.SetProgress,
-            };
+            SpreadsheetReader reader = dataInfo.GetReader();
+            reader.Progress = prog.SetProgress;
 
             prog.Enter("Loading identifications");
             Spreadsheet<string> mat = reader.Read<string>(fileName);
@@ -306,19 +305,33 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
         private static void Load_3_Adducts( FileLoadInfo dataInfo, List<Adduct> adducts, List<string> fileNames, MetaInfoHeader header, ProgressReporter prog)
         {
-            SpreadsheetReader reader = new SpreadsheetReader()
-            {
-                Progress = prog.SetProgress,
-            };
+            SpreadsheetReader reader = dataInfo.GetReader();
+            reader.Progress = prog.SetProgress;
 
             for (int index = 0; index < fileNames.Count; index++)
             {
                 string fileName = fileNames[index];
-                prog.Enter("Loading adducts (" + index + " of " + fileNames.Count + ")");
-                Spreadsheet<string> mat = reader.Read<string>( fileName);
+                prog.Enter( "Loading adducts (" + index + " of " + fileNames.Count + ")" );
+                Spreadsheet<string> mat;
+
+                if (fileName.StartsWith( "resx:\\\\" ))
+                {
+                    using (var s = Resx.Scripts.ResourceManager.GetStream( fileName.Substring( 7 ) ))
+                    {
+                        using (StreamReader sr = new StreamReader( s ))
+                        {
+                            mat = reader.Read<string>( sr, fileName );
+                        }
+                    }
+                }
+                else
+                {
+                    mat = reader.Read<string>( fileName );
+                }
+
                 prog.Leave();
 
-                prog.Enter("Interpreting adducts (" + index + " of " + fileNames.Count + ")");
+                prog.Enter( "Interpreting adducts (" + index + " of " + fileNames.Count + ")");
 
                 int nameCol = mat.FindColumn( dataInfo.ADDUCTFILE_NAME_HEADER );
                 int chargeCol = mat.FindColumn( dataInfo.ADDUCTFILE_CHARGE_HEADER );
@@ -474,6 +487,19 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                     name = Path.GetFileName(Path.GetDirectoryName(adductsFile));
                     NamedItem<string> cl = new NamedItem<string>(adductsFile, name);
                     adducts.Add(cl);
+                }
+            }
+
+            string resourcePrefix = "adducts~";
+
+            foreach (DictionaryEntry resource in UiControls.GetScriptsResources())
+            {
+                string key = (string)resource.Key;
+
+                if (key.StartsWith( resourcePrefix ))
+                {
+                    string title = key.Substring( resourcePrefix.Length );
+                    adducts.Add( new NamedItem<string>( "resx:\\\\" + key , title ) );
                 }
             }
         }
@@ -757,10 +783,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
         private static void LoadCsvDatabase( FileLoadInfo dataInfo, List<Compound> compoundsOut, List<Pathway> pathwaysList, MetaInfoHeader pathwayMeta, MetaInfoHeader compoundMeta, string compFile, string patFile, CompoundLibrary tag, ProgressReporter prog)
         {
-            SpreadsheetReader reader = new SpreadsheetReader()
-            {
-                Progress = prog.SetProgress,
-            };
+            SpreadsheetReader reader = dataInfo.GetReader();
+            reader.Progress = prog.SetProgress;
 
             Dictionary<string, Pathway> pathways = new Dictionary<string, Pathway>();
 
@@ -835,10 +859,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
         public static Dictionary<string, string> LoadConditionInfo(FileLoadInfo dataInfo, string fileName, ProgressReporter reportProgress)
         {
-            SpreadsheetReader reader = new SpreadsheetReader()
-            {
-                Progress = reportProgress.SetProgress,
-            };
+            SpreadsheetReader reader = dataInfo.GetReader();
+            reader.Progress = reportProgress.SetProgress;
 
             Dictionary<string, string> output = new Dictionary<string, string>();
 
@@ -884,10 +906,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         private static DataSet Load_1_DataSets(FileLoadInfo dataInfo, DataFileNames files, ProgressReporter prog, List<string> warnings)
         {
             // Generate a SpreadsheetReader to read the CSV files
-            SpreadsheetReader reader = new SpreadsheetReader()
-            {
-                Progress = prog.SetProgress,
-            };
+            SpreadsheetReader reader = dataInfo.GetReader();
+            reader.Progress = prog.SetProgress;
 
             // Create the object to hold the result
             DataSet result = new DataSet();
@@ -940,11 +960,11 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             prog.Enter( "Formatting data" );
 
             // Get the columns
-            int ssObsDayCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_TIME_HEADER );
-            int ssObsRepCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_REPLICATE_HEADER );
-            int ssObsTypCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_GROUP_HEADER );
-            int ssObsBatCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_BATCH_HEADER, "Some batch correction options may not function correctly." );
-            int ssObsAcqCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_ACQUISITION_HEADER, "Some batch correction options may not function correctly." );
+            int ssObsDayCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_TIME_HEADER, "time", "Time information is required for meaningful time-series analysis. Whilst analyses requiring time-series data will function incorrectly you may still be able to perform basic analysis of your data." );
+            int ssObsRepCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_REPLICATE_HEADER, "replicate index", "Replicate information is required primarily to distinguish individual datapoints, however most analyses should function without it." );
+            int ssObsTypCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_GROUP_HEADER, "experimental group", "Group information is required to compare experimental groups, however if you only have one experimental group this warning can be safely ignored." );
+            int ssObsBatCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_BATCH_HEADER, "batch", "Batch information is required in order to apply batch correction. Batch correction options may not function correctly without this information. If your data was not collected batch-wise then this warning can be safely ignored." );
+            int ssObsAcqCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_ACQUISITION_HEADER, "acquisition index", "Acquisition information is required in order to apply certain batch correction methods. Some batch correction options may not function correctly without this information. If your data was not collected batch-wise, or if you only intend to perform basic data corrections, then this warning can be safely ignored." );
 
             int ssPeakMzCol;
             int ssPeakRtCol;
@@ -1093,13 +1113,13 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             return result;
         }
 
-        private static int TryFindColumn( Spreadsheet<string> matrix, List<string> warnings, string[] header, string extraWarning = null )
+        private static int TryFindColumn( Spreadsheet<string> matrix, List<string> warnings, string[] header, string title, string extraWarning )
         {
             int result= matrix.TryFindColumn( header );
 
             if (result == -1)
             {
-                warnings.Add( $"The file {{{matrix.Title}}} does not contain any of the columns {{{string.Join( ", ", header )}}}. This information may show as missing or zero in your analysis." + (extraWarning != null ? (" " + extraWarning) : "") );
+                warnings.Add( $"The file {{{matrix.Title}}} does not contain any of the columns defining {title}, i.e. any of of {{{string.Join( ", ", header )}}} as defined in the program settings. The columns which are present in your data are {{{string.Join( ", ", matrix.ColNames )}}}. This information will be missing or zero in your analysis." + (extraWarning != null ? (" " + extraWarning) : "") );
             }
 
             return result;
@@ -1455,33 +1475,5 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         {
 
         }
-    }
-
-    internal sealed class FileLoadInfo
-    {
-        public readonly string[] OBSFILE_TIME_HEADER               = { "time", "day", "t" };
-        public readonly string[] OBSFILE_REPLICATE_HEADER          = { "rep", "replicate" };
-        public readonly string[] OBSFILE_GROUP_HEADER              = { "type", "group", "condition", "conditions", "class" };
-        public readonly string[] OBSFILE_BATCH_HEADER              = { "batch" };
-        public readonly string[] OBSFILE_ACQUISITION_HEADER        = { "acquisition", "order", "file", "index", "acquisition order" };
-        public readonly string[] IDFILE_PEAK_HEADER                = { "name", "peak", "variable" };
-        public readonly string[] IDFILE_STATUS_HEADER              = { "status", "confirmation" };
-        public readonly string[] IDFILE_COMPOUNDS_HEADER           = { "id", "annotation", "ids", "annotations", "compounds", "compound" };
-        public readonly string[] ADDUCTFILE_NAME_HEADER            = { "name" };
-        public readonly string[] ADDUCTFILE_CHARGE_HEADER          = { "charge", "z" };
-        public readonly string[] ADDUCTFILE_MASS_DIFFERENCE_HEADER = { "mass.difference" };
-        public readonly string[] PATHWAYFILE_NAME_HEADER           = { "name" };
-        public readonly string[] PATHWAYFILE_FRAME_ID_HEADER       = { "frame.id", "id" };
-        public readonly string[] COMPOUNDFILE_NAME_HEADER          = { "name" };
-        public readonly string[] COMPOUNDFILE_FRAME_ID_HEADER      = { "frame.id", "id" };
-        public readonly string[] COMPOUNDFILE_MASS_HEADER          = { "mass", "m" };
-        public readonly string[] COMPOUNDFILE_PATHWAYS_HEADER      = { "pathways", "pathway", "pathway.ids", "pathway.id" };
-        public readonly string[] CONDITIONFILE_ID_HEADER           = { "id", "frame.id" };
-        public readonly string[] CONDITIONFILE_NAME_HEADER         = { "name" };
-        public readonly string[] VARFILE_MZ_HEADER                 = { "mz", "m/z" };
-        public readonly string[] VARFILE_RT_HEADER                 = { "rt", "r.t.", "r.t", "rt.", "ret. time", "retention", "retention time" };
-        public readonly string[] VARFILE_MODE_HEADER               = { "mode", "lcmsmode", "lcms", "lcms.mode" };
-        public readonly string[] AUTOFILE_OBSERVATIONS             = { "Info.csv", "ObsInfo.csv", "ObservationInfo.csv", "Observations.csv", "*.jgf" };
-        public readonly string[] AUTOFILE_PEAKS                    = { "VarInfo.csv", "PeakInfo.csv", "FeatureInfo.csv", "Peaks.csv", "Variables.csv", "Features.csv" };
     }
 }

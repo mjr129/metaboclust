@@ -32,6 +32,8 @@ namespace MetaboliteLevels.Gui.Controls
             }
         }
 
+        public CtlTitleBar TitleBar => ctlTitleBar1;
+
         public event Converter<int, bool> PermitAdvance
         {
             add
@@ -112,6 +114,10 @@ namespace MetaboliteLevels.Gui.Controls
 
         public void Bind(TabControl tctrl, CtlWizardOptions opts)
         {
+            tctrl.FindForm().AcceptButton = _btnNext;
+            tctrl.FindForm().CancelButton = _btnBack;
+            _btnBack.DialogResult = DialogResult.None; // Annoyingly CancelButton sets this
+
             this.Pager = new PagerControl(ref tctrl, this.panel1);
             this.Pager.PageChanged += this.pc_PageChanged;
             this.pc_PageChanged(this.Pager, EventArgs.Empty);

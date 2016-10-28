@@ -403,14 +403,14 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override void GetXColumns(ColumnCollection list, Core core)
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            var result = list .Cast< Pathway>();
+            var result = request.Results.Cast< Pathway>();
 
             result.Add("Compounds with peaks", EColumn.None, λ => λ.Compounds.Where(z => z.Annotations.Count != 0));
             result.Add("Related pathways", EColumn.None, λ => λ.RelatedPathways);
 
-            core._pathwaysMeta.ReadAllColumns(z => z.MetaInfo, result);
+            request.Core._pathwaysMeta.ReadAllColumns(z => z.MetaInfo, result);
         }
 
         /// <summary>

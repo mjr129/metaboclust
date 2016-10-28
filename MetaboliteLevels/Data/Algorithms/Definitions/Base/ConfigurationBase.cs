@@ -301,9 +301,9 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 
         protected abstract Image ResultIcon { get; }
 
-        public override void GetXColumns( ColumnCollection list, Core core )
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            var results = list.Cast<ConfigurationBase<TAlgo, TArgs, TResults, TTracker>>();
+            var results = request.Results.Cast<ConfigurationBase<TAlgo, TArgs, TResults, TTracker>>();
 
             results.Add( "Status", EColumn.Visible, z => z.Status, z =>
                                                                    {

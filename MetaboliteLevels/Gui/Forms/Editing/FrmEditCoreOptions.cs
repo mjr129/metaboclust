@@ -53,7 +53,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._readOnly = readOnly;
             this._target = core.Options;
             this._help = new CtlContextHelp();
-            this._help.Bind( this.ctlTitleBar1, this._binder1.ToolTipControl );
+            this._help.Bind( this, this.ctlTitleBar1, this._binder1.ToolTipControl, CtlContextHelp.EFlags.OnFocus | CtlContextHelp.EFlags.ClickLabels );
 
 
             this._binder1.Bind(this._txtEvalFilename, λ => λ.ClusteringEvaluationResultsFileName);
@@ -196,9 +196,9 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                 return new _btnEditDefaults_Click__Kvp( arg );
             }
 
-            public override void GetXColumns(ColumnCollection list, Core core )
+            public override void GetXColumns( CustomColumnRequest request )
             {
-                var result = list.Cast<_btnEditDefaults_Click__Kvp>();
+                var result = request.Results.Cast<_btnEditDefaults_Click__Kvp>();
 
                 result.Add( "Key"  , z => this._arg.Key );
                 result.Add( "Value", z => Column.AsString( this._arg.Value, EListDisplayMode.CountAndContent ) );
@@ -243,9 +243,9 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                 return new _btnEditColumns_Click__ColumnDisplay( arg );
             }
 
-            public override void GetXColumns( ColumnCollection ulist, Core core )
+            public override void GetXColumns( CustomColumnRequest request )
             {
-                var list = ulist.Cast< _btnEditColumns_Click__ColumnDisplay>();
+                var list = request.Results.Cast< _btnEditColumns_Click__ColumnDisplay>();
 
                 list.Add( "Display index", EColumn.Visible, z => z._col.DisplayIndex );
                 list.Add( "Display name", EColumn.Visible, z => z._col.DisplayName );

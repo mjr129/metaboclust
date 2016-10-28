@@ -145,7 +145,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
         {
             MainSettings.Instance.General.RBinPath = this._txtDataSetData.Text;
             MainSettings.Instance.General.PathwayToolsDatabasesPath = this._txtPathwayTools.Text;
-            MainSettings.Instance.Save();
+            MainSettings.Instance.Save(MainSettings.EFlags.General);
             this.DialogResult = DialogResult.OK;
         }
 

@@ -9,6 +9,6 @@ namespace MetaboliteLevels.Gui.Controls.Lists
 {
     interface IColumnProvider
     {
-        void GetXColumns( ColumnCollection results, Core core);
+        void GetXColumns( CustomColumnRequest request );
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +12,13 @@ namespace MetaboliteLevels.Gui.Forms.Selection
 {
     public partial class FrmSelectClosure : Form
     {
+        const string SAVE_ON_CLOSE = "FrmSelectClosure";
+
         internal static bool? Show(Form owner, Core core)
         {
-            if (MainSettings.Instance.General.SaveOnClose.HasValue)
+            if (MainSettings.Instance.DoNotShowAgain.ContainsKey( SAVE_ON_CLOSE ))
             {
-                return MainSettings.Instance.General.SaveOnClose;
+                return MainSettings.Instance.DoNotShowAgain[SAVE_ON_CLOSE] == 1;
             }
 
             if (core.FileNames.SaveOnClose.HasValue)
@@ -33,12 +36,14 @@ namespace MetaboliteLevels.Gui.Forms.Selection
                         break;
 
                     case 1: // remember this session
+                        Debug.Assert( newValue.HasValue );
                         core.FileNames.SaveOnClose = newValue;
                         break;
 
                     case 2: // remember always
-                        MainSettings.Instance.General.SaveOnClose = newValue;
-                        MainSettings.Instance.Save();
+                        Debug.Assert( newValue.HasValue );
+                        MainSettings.Instance.DoNotShowAgain[SAVE_ON_CLOSE] = newValue.Value ? 1 : 0;
+                        MainSettings.Instance.Save(MainSettings.EFlags.General);
                         break;
                 }
 
@@ -63,8 +68,7 @@ namespace MetaboliteLevels.Gui.Forms.Selection
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this._btnNo.Enabled = this.comboBox1.SelectedIndex != 1;
+        {                                                           
             this._btnCancel.Enabled = this.comboBox1.SelectedIndex == 0;
         }
     }

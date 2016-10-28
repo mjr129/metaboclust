@@ -71,7 +71,7 @@ namespace MetaboliteLevels.Data.Session.Associational
         /// STATIC
         /// Gets columns
         /// </summary>
-        public virtual void GetXColumns( ColumnCollection results, Core core )
+        public virtual void GetXColumns( CustomColumnRequest request )
         {                                                   
         }
 

@@ -113,7 +113,7 @@ namespace MetaboliteLevels.Data.Session.Main
 
         public override EVisualClass AssociationalClass=> EVisualClass.Assignment;
 
-        public override void GetXColumns(ColumnCollection list, Core core)
+        public override void GetXColumns( CustomColumnRequest request )
         {
             
             // TODO: Put this back!

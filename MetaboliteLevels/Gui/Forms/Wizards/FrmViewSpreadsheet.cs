@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Gui.Forms.Activities;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -14,9 +15,9 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 {
     internal partial class FrmViewSpreadsheet : Form
     {
-        public static void Show( IWin32Window owner, string markup, FileLoadInfo fli )
+        public static void Show( IWin32Window owner, string markup )
         {
-            using (FrmViewSpreadsheet frm = new FrmViewSpreadsheet( markup, fli ))
+            using (FrmViewSpreadsheet frm = new FrmViewSpreadsheet( markup ))
             {
                 frm.ShowDialog( owner );
             }
@@ -36,10 +37,12 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this.tableLayoutPanel1.ResumeDrawingAndLayout();
         }
 
-        public FrmViewSpreadsheet( string markup, FileLoadInfo fli )
+        public FrmViewSpreadsheet( string markup )
         {
             this.InitializeComponent();
             UiControls.SetIcon( this );
+
+            FileLoadInfo fli = UiControls.GetFileLoadInfo();
 
             this.tableLayoutPanel1.ColumnStyles.Clear();
             Type t = fli.GetType();

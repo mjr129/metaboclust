@@ -282,7 +282,7 @@ namespace MetaboliteLevels.Gui.Forms.Selection
                 if (frm._chkNotAgain.Checked)
                 {
                     MainSettings.Instance.DoNotShowAgain.Add(key, (int)result);
-                    MainSettings.Instance.Save();
+                    MainSettings.Instance.Save( MainSettings.EFlags.DoNotShowAgain);
                 }
 
                 return result;

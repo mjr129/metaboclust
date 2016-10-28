@@ -231,10 +231,10 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>              
-        public override void GetXColumns(ColumnCollection list, Core core)
+        public override void GetXColumns( CustomColumnRequest request )
         {
-            var columns = list .Cast< Peak>();
-                                                           
+            var columns = request.Results.Cast< Peak>();
+            Core core = request.Core;                      
 
             columns.Add("Cluster assignments", EColumn.None, λ => λ.FindAssignments( core ).Select(z=> z.Cluster ));
             columns.Add(ID_COLUMN_CLUSTERCOMBINATION, EColumn.Advanced, z => StringHelper.ArrayToString(z.FindAssignments( core ).Select(zz=> zz.Cluster )));

@@ -61,6 +61,19 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         {
             return new ColumnCollection<T>( this );
         }
+    }    
+
+    class CustomColumnRequest
+    {
+        public readonly ColumnCollection Results;
+        public readonly Core Core;
+        public bool NoAutomaticColumns;
+
+        public CustomColumnRequest( ColumnCollection results, Core core )
+        {
+            Results = results;
+            Core = core;
+        }           
     }
 
     class ColumnCollection<T> : ColumnCollection
@@ -113,22 +126,28 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         private static ColumnCollection GetColumns( Type type, object @object, Core core )
         {
             ColumnCollection results = new ColumnCollection();
-            GetCustomColumns( results, type, @object, core );
-            GetReflectedColumns( results, type, core );
+            bool noAutomaticColumns;
+            GetCustomColumns( results, type, @object, core, out noAutomaticColumns );
 
-            bool anyVisible = results.Any( z => z.Special.Has( EColumn.Visible ) );
+            if (!noAutomaticColumns)
+            {
+                GetReflectedColumns( results, type, core );
 
-            results.Add( new Column<object>( "Data", anyVisible ? EColumn.Advanced : EColumn.Visible, null, z => z.ToStringSafe(), null ) );
-            results.Add( new Column<object>( "Type", EColumn.Advanced, null, z => z.GetType().ToUiString(), null ) );
+                bool anyVisible = results.Any( z => z.Special.Has( EColumn.Visible ) );
+
+                results.Add( new Column<object>( "Data", anyVisible ? EColumn.Advanced : EColumn.Visible, null, z => z.ToStringSafe(), null ) );
+                results.Add( new Column<object>( "Type", EColumn.Advanced, null, z => z.GetType().ToUiString(), null ) );
+            }
 
             return results;
         }
 
-        private static void GetCustomColumns( ColumnCollection results, Type type, object @object , Core core)
+        private static void GetCustomColumns( ColumnCollection results, Type type, object @object , Core core, out bool automaticColumns)
         {
             if (!typeof( IColumnProvider ).IsAssignableFrom( type ))
             {
                 // Not supported
+                automaticColumns = true;
                 return;
             }
 
@@ -137,13 +156,16 @@ namespace MetaboliteLevels.Gui.Controls.Lists
                 // Unfortunately this won't work if the type is abstract
                 if (type.IsAbstract)
                 {
+                    automaticColumns = true;
                     return;
                 }
 
                 @object = FormatterServices.GetUninitializedObject( type );
             }
 
-            ((IColumnProvider)@object).GetXColumns( results, core );
+            CustomColumnRequest request = new CustomColumnRequest( results, core );
+            ((IColumnProvider)@object).GetXColumns( request );
+            automaticColumns = request.NoAutomaticColumns;
         }
 
         private static void GetReflectedColumns( ColumnCollection results, Type type, Core core )

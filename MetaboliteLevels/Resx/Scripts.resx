@@ -118,6 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="adducts~All" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\adducts~all.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="adducts~Refined" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\adducts~refined.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="scripts~clustering~k-means (Hartigan-Wong algorithm)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\scripts~clusterers~k-means (Hartigan-Wong algorithm).r;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

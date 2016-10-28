@@ -149,6 +149,9 @@ Mandatory.
 {META}
 Any additional data the user wishes to provide, unused but will be available for viewing in the software.</value>
   </data>
+  <data name="FrmWizDataFileNames" xml:space="preserve">
+    <value>This screen allows you to create a new session or load an existing one.</value>
+  </data>
   <data name="AlternativeValues" xml:space="preserve">
     <value>FILEFORMAT
 

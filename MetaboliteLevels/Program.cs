@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
-using MetaboliteLevels.Forms;
+using System.Windows.Forms;  
 using System.Threading;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.General;
