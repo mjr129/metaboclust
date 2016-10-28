@@ -48,7 +48,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         private ToolStripMenuItem _mnuRenameColumn;
         private ToolStripMenuItem _mnuColumnHelp;
 
-        private ToolStripDropDownButton _btnColumns;
+        private ToolStripButton _btnColumns;
         private ToolStripItem _lblFilter;
 
         private bool _disableColumnMenuRebuild;
@@ -117,9 +117,9 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             this._listView.ColumnWidthChanged += this._listView_ColumnWidthChanged;
 
             // Create columns button
-            this._btnColumns = new ToolStripDropDownButton("Columns", Resources.MnuColumn);
+            this._btnColumns = new ToolStripButton("Columns", Resources.MnuColumn);
             this._btnColumns.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-            this._btnColumns.DropDownOpening += this.columnSelectMenu_DropDownOpening;
+            this._btnColumns.Click += this.EditColumnsAsList_Click;
             this._toolStrip.Items.Add(this._btnColumns);
 
             // Menu: Export
@@ -305,34 +305,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             {
                 this._core.Options.OpenColumn(false, this._listViewOptionsKey, col);
             }
-        }    
-
-        /// <summary>
-        /// Toggle column clicked.
-        /// </summary>
-        void toggleColumn_Click(object sender, EventArgs e)
-        {
-            ToolStripMenuItem s = (ToolStripMenuItem)sender;
-            Column c = (Column)s.Tag;
-
-            c.Visible = !c.Visible;
-            s.Checked = c.Visible;
-
-            if (c.Visible)
-            {
-                c.DisplayIndex = this._listView.Columns.Count;
-            }
-
-            this.SaveColumnUserPreferences();
-
-            this.Rebuild(EListInvalids.ToggleColumn);
-
-            this._disableColumnMenuRebuild = true;
-            this._btnColumns.ShowDropDown();
-
-            this.ShowMenu(s.OwnerItem as ToolStripMenuItem);
-            this._disableColumnMenuRebuild = false;
-        }
+        }       
 
         private Column GetColumnDefinition(int headerIndex)
         {
@@ -421,108 +394,6 @@ namespace MetaboliteLevels.Gui.Controls.Lists
 
             this._cmsColumns.Show(Cursor.Position);
         }
-
-        /// <summary>
-        /// Column select menu.
-        /// </summary>
-        void columnSelectMenu_DropDownOpening(object sender, EventArgs e)
-        {
-            if (this._disableColumnMenuRebuild)
-            {
-                return;
-            }
-
-            ToolStripDropDownButton ctrl = (ToolStripDropDownButton)sender;
-
-            // Dispose previous
-            var x = new ArrayList(ctrl.DropDownItems);
-
-            foreach (ToolStripItem cc2 in x)
-            {
-                if (cc2 is ToolStripMenuItem)
-                {
-                    var c2 = (ToolStripMenuItem)cc2;
-                    c2.Click -= this.toggleColumn_Click;
-                }
-                cc2.Dispose();
-            }
-
-            var toShow = this._availableColumns.Where( z => !z.Special.Has( EColumn.Advanced ) ).OrderBy(z=> z.Id ).ToArray();
-
-            ToolStripMenuItem editColumnsAsList = new ToolStripMenuItem("(Column editor...)", Resources.MnuEdit, this.EditColumnsAsList_Click);
-            ctrl.DropDownItems.Add(editColumnsAsList);
-            ctrl.DropDownItems.Add( new ToolStripSeparator() );
-
-            if (toShow.Length >= 50)
-            {
-                return;
-            }
-
-            // Create new
-            var folders = new Dictionary<string, object[]>();
-
-            foreach (Column col in toShow)
-            {
-                if (!col.DisableMenu)
-                {
-                    string colName = col.Id;
-                    ToolStripDropDownItem menuTarget = ctrl;
-
-                    if (colName.Contains("\\"))
-                    {
-                        string[] elems = colName.Split('\\');
-                        colName = elems[elems.Length - 1];
-                        string colFolderName = "";
-
-                        for (int n = 0; n < elems.Length - 1; n++)
-                        {
-                            colFolderName += elems[n] + "\\";
-
-                            object[] newMenuTarget;
-
-                            if (!folders.TryGetValue(colFolderName, out newMenuTarget))
-                            {
-                                newMenuTarget = new object[] { new ToolStripMenuItem( "• " + elems[n] ), elems[n], 0 };
-                                menuTarget.DropDownItems.Add((ToolStripMenuItem)newMenuTarget[0]);
-                                folders.Add(colFolderName, newMenuTarget);
-                                menuTarget = (ToolStripMenuItem)newMenuTarget[0];
-                            }
-                            else
-                            {
-                                menuTarget = (ToolStripMenuItem)newMenuTarget[0];
-                            }
-
-                            if (col.Visible)
-                            {
-                                newMenuTarget[2] = (int)newMenuTarget[2] + 1;
-                                menuTarget.Text = "• " + newMenuTarget[1] + " [" + newMenuTarget[2] + "]";
-                            }
-                        }
-                    }
-
-                    var tsmi = new ToolStripMenuItem(colName);
-                    tsmi.Tag = col;
-                    tsmi.Click += this.toggleColumn_Click;
-
-                    int addAt = menuTarget.DropDownItems.Count;
-
-                    for (int i = 0; i < menuTarget.DropDownItems.Count; i++)
-                    {
-                        var tsddi = menuTarget.DropDownItems[i] as ToolStripDropDownItem;
-
-                        if (tsddi != null && tsddi.DropDownItems.Count != 0)
-                        {
-                            addAt = i;
-                            break;
-                        }
-                    }
-
-                    menuTarget.DropDownItems.Insert(addAt, tsmi);
-
-                    tsmi.Checked = col.Visible;   
-                }
-            }
-        }    
 
         private void EditColumnsAsList_Click(object sender, EventArgs e)
         {                                                                                                                            
