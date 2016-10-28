@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MetaboliteLevels.Data.Database;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Gui.Controls;
 using MetaboliteLevels.Gui.Controls.Lists;
 using MetaboliteLevels.Properties;
@@ -94,10 +95,10 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._binder1.Bind( this._btnHhNan, λ => λ.HeatMapNanColour );
             this._binder1.Bind( this._btnHhOor, λ => λ.HeatMapOorColour );
 
-            this._poCluster.BindAll( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.ClusterDisplay ) );
-            this._poCompounds.BindAll( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.CompoundDisplay ) );
-            this._poPathways.BindAll( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PathwayDisplay ) );
-            this._poPeaks.BindAll( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PeakDisplay ) );
+            this._poCluster.BindAll  ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.ClusterDisplay  ), _core, typeof(Cluster) );
+            this._poCompounds.BindAll( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.CompoundDisplay ), _core, typeof(Compound) );
+            this._poPathways.BindAll ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PathwayDisplay  ), _core, typeof( Pathway ) );
+            this._poPeaks.BindAll    ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PeakDisplay     ), _core, typeof( Peak ) );
 
             this._binder1.Read( this._target );
 

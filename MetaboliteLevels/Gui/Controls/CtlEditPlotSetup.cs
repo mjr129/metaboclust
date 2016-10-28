@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Data.Database;
 using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Gui.Controls.Lists;
 using MGui.Controls;
 using MGui.Datatypes;
 using MGui.Helpers;
@@ -13,14 +15,20 @@ using MGui.Helpers;
 namespace MetaboliteLevels.Gui.Controls
 {
     internal partial class CtlEditPlotSetup : UserControl
-    {                    
+    {
+        private Type _dataType;
+        private Core _core;
+
         public CtlEditPlotSetup()
         {
             this.InitializeComponent();    
         }
 
-        public void BindAll<T>( CtlBinder<T> _binder, PropertyPath<T, PlotSetup> source)
-        {                                        
+        public void BindAll<T>( CtlBinder<T> _binder, PropertyPath<T, PlotSetup> source,Core core, Type dataType)
+        {
+            _core = core;
+            _dataType = dataType;
+
             _binder.BinderCollection.Add( new AxisBinder() );
                                                                                  
             _binder.Bind( this._txtClusterInfo    , source.Append<object>( z => z.Information ) );
@@ -94,6 +102,45 @@ namespace MetaboliteLevels.Gui.Controls
             {
                 control.Text = value.ToString();
             }
-        }      
+        }
+
+        private void ctlButton1_Click( object sender, EventArgs e )
+        {
+            Macro( sender, _txtClusterInfo );
+        }
+
+        private void ctlButton2_Click( object sender, EventArgs e )
+        {
+            Macro( sender, _txtClusterTitle );
+        }
+
+        private void ctlButton3_Click( object sender, EventArgs e )
+        {
+            Macro( sender, _txtClusterSubtitle );
+        }
+
+        private void ctlButton4_Click( object sender, EventArgs e )
+        {
+            Macro( sender, _txtClusterXAxis );
+        }
+
+        private void ctlButton5_Click( object sender, EventArgs e )
+        {
+            Macro( sender, _txtClusterYAxis );
+        }
+
+        private void Macro( object sender,  CtlTextBox textBox )
+        {                                  
+            ColumnCollection columns = ColumnManager.GetColumns( _dataType, _core );
+
+            var column = DataSet.ForColumns( columns.Where( z => !z.Special.Has( EColumn.Advanced ) ) ).ShowRadio( FindForm(), null );
+
+            if (column == null)
+            {
+                return;
+            }
+
+            textBox.TypeText( "{" + column.Id + "}" );
+        }
     }
 }

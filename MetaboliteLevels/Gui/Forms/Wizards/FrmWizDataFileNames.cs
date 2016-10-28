@@ -273,7 +273,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             {
                 var mostRecent = recentSessions[0];
 
-                this._btnMostRecent.Text = "    " + mostRecent.Title;
+                this._btnMostRecent.Text = "    " + "Return to: " + mostRecent.Title;
                 this._tipSideBar.SetToolTip( this._btnMostRecent, mostRecent.FileName );
                 this._btnMostRecent.Tag = mostRecent.FileName;
 

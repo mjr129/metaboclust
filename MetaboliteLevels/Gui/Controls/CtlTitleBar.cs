@@ -27,7 +27,8 @@ namespace MetaboliteLevels.Gui.Controls
             Off,
             Normal,
             ShowBar,
-            HideBar
+            HideBar,
+            Close,
         }
 
         public CtlTitleBar()
@@ -185,6 +186,7 @@ namespace MetaboliteLevels.Gui.Controls
                         break;
 
                     case EHelpIcon.HideBar:
+                    case EHelpIcon.Close:
                         this._btnHelp.Image = UiControls.RecolourImage( Resources.MnuCancel, tableLayoutPanel1.ForeColor );
                         break;            
 

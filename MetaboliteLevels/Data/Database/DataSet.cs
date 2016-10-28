@@ -130,10 +130,10 @@ namespace MetaboliteLevels.Data.Database
         {
             return new DataSet<Column>()
             {
-                ListTitle = "Columns",
+                ListTitle = "Data fields",
                 ListSource = columns.Where( z => !z.IsAlwaysEmpty ),
-                ItemTitle = z => z.Id,
-                ItemDescription = z => z.OverrideDisplayName,
+                ItemTitle = z => z.DisplayName,
+                ItemDescription = z => z.Id,
             };
         }
 
