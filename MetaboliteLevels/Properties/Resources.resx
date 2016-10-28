@@ -127,6 +127,9 @@
   <data name="ClusterIndividually" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ClusterIndividually.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ListIconResultOriginal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListIconResultOriginal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ErrorSignifier" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ErrorSignifier.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -151,8 +154,14 @@
   <data name="MnuDisable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuDisable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MnuPreviewSelect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MnuPreviewSelect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="IconCore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconCore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ListIconResultMatrix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListIconResultMatrix.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IconPeakTentative" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconPeakTentative.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -163,8 +172,8 @@
   <data name="ListIconVector" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ListIconVector.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuSave" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MnuSave.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="IconAnnotationAffirmed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IconAnnotationAffirmed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IconPoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconPoint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -190,8 +199,8 @@
   <data name="MnuEnable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuEnable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="OverlayYes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OverlayYes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MnuSave" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MnuSave.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ListIconCluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ListIconCluster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -216,6 +225,9 @@
   </data>
   <data name="IconPca" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconPca.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ListIconResultCluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListIconResultCluster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MnuSaveList" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuSaveList.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -247,6 +259,9 @@
   <data name="ListIconCompoundTentative" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ListIconCompoundTentative.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="IconScriptTrend" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IconScriptTrend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="OverlayNo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OverlayNo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -274,11 +289,11 @@
   <data name="MnuWorkflowSeparator" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuWorkflowSeparator.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="IconScriptTrend" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\IconScriptTrend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ListIconSortDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ListIconSortDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ClusterTogether" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ClusterTogether.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IconPreferences" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconPreferences.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -309,9 +324,6 @@
   </data>
   <data name="MnuDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconAnnotationAffirmed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\IconAnnotationAffirmed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ListIconCompoundConfirmed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ListIconCompoundConfirmed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -354,6 +366,9 @@
   </data>
   <data name="MnuTrend" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuTrend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconBarHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IconBarHelp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IconMathNet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconMathNet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -403,6 +418,9 @@
   <data name="MnuHelpBar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuHelpBar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ListIconResultPending" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListIconResultPending.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="MnuViewList" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuViewList.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -432,6 +450,9 @@
   </data>
   <data name="IconLine" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconLine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ListIconResultTrend" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListIconResultTrend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IconScriptCluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconScriptCluster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -475,8 +496,8 @@
   <data name="MnuCancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuCancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MnuPreviewSelect" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MnuPreviewSelect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ListIconResultCorrection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListIconResultCorrection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MnuAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuAll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -508,14 +529,23 @@
   <data name="ListIconSortUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ListIconSortUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ListIconResultShortcut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListIconResultShortcut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="MsgError" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MsgError.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ListIconResultVector" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ListIconResultVector.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IconTime" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconTime.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="IconGroups" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconGroups.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OverlayYes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OverlayYes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MnuView" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MnuView.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -538,34 +568,10 @@
   <data name="IconPeak" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IconPeak.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ClusterTogether" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ClusterTogether.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MnuChecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MnuChecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ListIconResultMatrix" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListIconResultMatrix.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ListIconResultPending" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListIconResultPending.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ListIconResultTrend" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListIconResultTrend.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ListIconResultVector" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListIconResultVector.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ListIconResultOriginal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListIconResultOriginal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ListIconResultShortcut" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListIconResultShortcut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ListIconResultCluster" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListIconResultCluster.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ListIconResultCorrection" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ListIconResultCorrection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="IconBarHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\IconBarHelp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MnuUnchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MnuUnchecked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

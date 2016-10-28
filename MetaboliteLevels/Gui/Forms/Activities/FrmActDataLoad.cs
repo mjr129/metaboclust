@@ -1101,7 +1101,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
 
             // Read in "ssIntensities" to an intensity matrix
-            result.IntensityMatrix = InterpretIntensityMatrix( "origin", prog, ssIntensities, result.Peaks, result.Observations );
+            result.IntensityMatrix = InterpretIntensityMatrix( "Original data", prog, ssIntensities, result.Peaks, result.Observations );
 
             if (ssAltIntensities != null)
             {

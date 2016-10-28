@@ -54,7 +54,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._readOnly = readOnly;
             this._target = core.Options;
             this._help = new CtlContextHelp();
-            this._help.Bind( this, this.ctlTitleBar1, this._binder1.ToolTipControl, CtlContextHelp.EFlags.OnFocus | CtlContextHelp.EFlags.ClickLabels );
+            this._help.Bind( this, this.ctlTitleBar1, this._binder1.ToolTipControl, CtlContextHelp.EFlags.HelpOnFocus | CtlContextHelp.EFlags.HelpOnClick );
 
 
             this._binder1.Bind(this._txtEvalFilename, λ => λ.ClusteringEvaluationResultsFileName);

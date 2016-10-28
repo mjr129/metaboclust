@@ -146,6 +146,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererCombine.cs" />
     <Compile Include="Data\Session\General\FileLoadInfo.cs" />
     <Compile Include="Gui\Controls\CtlContextHelp.cs">
       <SubType>Component</SubType>
@@ -1160,6 +1161,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="M.ico" />
+    <None Include="Resources\MnuUnchecked.png" />
+    <None Include="Resources\MnuChecked.png" />
     <None Include="Resources\adducts~refined.txt" />
     <None Include="Resources\adducts~all.txt" />
     <None Include="Resources\IconBarHelp.png" />

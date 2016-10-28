@@ -51,9 +51,15 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
         public readonly EClustererStatistics Statistics;
 
         /// <summary>
+        /// Prefix of cluster names user override.
+        /// </summary>
+        [XColumn]
+        public readonly string OverrideShortName;
+
+        /// <summary>
         /// Constructor.
         /// </summary>  
-        public ArgsClusterer( string id, IMatrixProvider source, PeakFilter sigFilter, ConfigurationMetric distance, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters)
+        public ArgsClusterer( string id, IMatrixProvider source, PeakFilter sigFilter, ConfigurationMetric distance, ObsFilter atypes, bool splitGroups, EClustererStatistics suppressMetric, object[] parameters, string clusterNamePrefix)
             : base( id, source, parameters )
         {
             this.PeakFilter = sigFilter;
@@ -61,7 +67,39 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
             this.ObsFilter = atypes;
             this.SplitGroups = splitGroups;
             this.Statistics = suppressMetric;
-        }            
+            this.OverrideShortName = clusterNamePrefix;
+        }
+
+        /// <summary>
+        /// Prefix of cluster names.
+        /// </summary>
+        [XColumn]
+        public string ShortName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty( OverrideShortName ))
+                {
+                    return DefaultShortName;
+                }
+                else
+                {
+                    return OverrideShortName;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Default prefix of cluster names.
+        /// </summary>
+        public string DefaultShortName
+        {
+            get
+            {
+                string x = DisplayName;
+                return x.Substring( 0, Math.Min( x.Length, 2 ) );
+            }
+        }
 
         public override string DefaultDisplayName
         {

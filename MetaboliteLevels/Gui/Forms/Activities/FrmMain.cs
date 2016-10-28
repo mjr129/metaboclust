@@ -1485,7 +1485,14 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                 return;
             }
 
-            var x = this._selectionMenuOpenedFromList as Visualisable;
+            var src = this._selectionMenuOpenedFromList;
+
+            if (src is IAssociation)
+            {
+                src = ((IAssociation)src).Associated;
+            }
+
+            var x = src as Visualisable;
 
             if (x == null)
             {
@@ -1725,7 +1732,20 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                 this._core.AddPeakFilter(filter);
             }
 
-            ConfigurationClusterer template = new ConfigurationClusterer() { Args = new ArgsClusterer( null, null, filter, null, null, false, EClustererStatistics.None, null ) };
+            ConfigurationClusterer template = new ConfigurationClusterer()
+                                              {
+                                                  Args = new ArgsClusterer(
+                                                      clu.Method.Args.Id,
+                                                      clu.Method.Args.SourceProvider,
+                                                      filter,
+                                                      clu.Method.Args.Distance,
+                                                      clu.Method.Args.ObsFilter,
+                                                      clu.Method.Args.SplitGroups,
+                                                      clu.Method.Args.Statistics,
+                                                      clu.Method.Args.Parameters,
+                                                      clu.DisplayName + "."
+                                                      )
+                                              };
 
             if (DataSet.ForClusterers(this._core).ShowListEditor(this, FrmBigList.EShow.Default, template) != null)
             {

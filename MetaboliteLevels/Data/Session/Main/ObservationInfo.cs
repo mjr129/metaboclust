@@ -106,5 +106,10 @@ namespace MetaboliteLevels.Data.Session.Main
         }
 
         public override Image Icon => Resources.IconPoint;
+
+        public bool IsReplicateOf( ObservationInfo b )
+        {
+            return Group == b.Group && Time == b.Time;
+        }
     }
 }

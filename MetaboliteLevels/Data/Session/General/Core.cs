@@ -324,8 +324,8 @@ namespace MetaboliteLevels.Data.Session.General
                 this._originalData.Add( data.AltIntensityMatrix );
             }
 
-            this._alises.Add( new ProviderAlias( this, EProviderAlias.LastCorrection, null ) { OverrideDisplayName = "Final correction" });
-            this._alises.Add( new ProviderAlias( this, EProviderAlias.LastTrend, null ) { OverrideDisplayName = "Final trend" } );
+            this._alises.Add( new ProviderAlias( this, EProviderAlias.LastCorrection, null ) { OverrideDisplayName = "Latest correction" });
+            this._alises.Add( new ProviderAlias( this, EProviderAlias.LastTrend, null ) { OverrideDisplayName = "Latest trend" } );
         }
 
         private void GenericReplace<T>( List<T> current, IEnumerable<T> replacement, ProgressReporter info )

@@ -36,7 +36,7 @@ namespace MetaboliteLevels.Gui.Controls
             this.InitializeComponent();
             this.Dock = DockStyle.Top;
             UpdateColours();
-        }
+        }          
 
         private void UpdateColours()
         {
@@ -50,11 +50,6 @@ namespace MetaboliteLevels.Gui.Controls
                 this.tableLayoutPanel1.BackColor = UiControls.TitleBackColour;
                 this.tableLayoutPanel1.ForeColor = UiControls.TitleForeColour;
             }
-        }
-
-        protected override void OnLoad( EventArgs e )
-        {
-            base.OnLoad( e );
         }
 
         protected override void WndProc( ref Message m )
@@ -261,5 +256,10 @@ namespace MetaboliteLevels.Gui.Controls
 
         [DefaultValue( true )]
         public bool DrawHBar { get; set; } = true;
+
+        private void tableLayoutPanel1_SizeChanged( object sender, EventArgs e )
+        {
+            this.MinimumSize = new Size( 0, tableLayoutPanel1.Height );
+        }
     }
 }

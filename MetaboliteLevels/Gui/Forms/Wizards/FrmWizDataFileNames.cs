@@ -149,7 +149,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._wizard.Pager.PageChanged += this._wizard_PageChanged;
             this._wizard.TitleHelpText = Manual.FrmWizDataFileNames;
 
-            ctlContextHelp1.Bind( this, _wizard.TitleBar, _tipSideBar, CtlContextHelp.EFlags.ClickLabels | CtlContextHelp.EFlags.OnFocus | CtlContextHelp.EFlags.FileFormats );
+            ctlContextHelp1.Bind( this, _wizard.TitleBar, _tipSideBar, CtlContextHelp.EFlags.HelpOnClick | CtlContextHelp.EFlags.HelpOnFocus | CtlContextHelp.EFlags.FileFormats );
 
             // Setup the experimental group boxes
             this._cbControl = this.CreateExpConditionBox( this._txtControls, this._btnBrowseContCond );

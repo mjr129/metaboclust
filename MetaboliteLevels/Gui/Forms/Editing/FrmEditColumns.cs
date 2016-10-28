@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetaboliteLevels.Gui.Controls;
 using MetaboliteLevels.Gui.Controls.Lists;
+using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
 
@@ -15,6 +17,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
     {
         private readonly List<Column> _available;
         private readonly HashSet<Column> _selected;
+        private readonly HashSet<object> _view = new HashSet<object>();
 
         public static HashSet<Column> Show( IWin32Window owner, IEnumerable<Column> available, IEnumerable<Column> selected )
         {
@@ -37,6 +40,18 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._available = available.ToList();
             this._selected = selected.Unique();
 
+            this._chkAdvanced.ForeColor = ColumnManager.COLCOL_ADVANCED;
+            this._chkMetaFields.ForeColor = ColumnManager.COLCOL_META;
+            this._chkNormal.ForeColor = ColumnManager.COLCOL_NORMAL;
+            this._chkProperties.ForeColor = ColumnManager.COLCOL_PROPERTY;
+            this._chkStatistics.ForeColor = ColumnManager.COLCOL_STATISTIC;
+            this._chkDefault.ForeColor = ColumnManager.COLCOL_VISIBLE;
+            this._chkFolders.ForeColor = ColumnManager.COLCOL_FOLDER;
+
+            _view.AddRange( new[] { _chkMetaFields , _chkNormal , _chkStatistics, _chkDefault, _chkFolders } );
+
+            ctlContextHelp1.Bind( this, ctlTitleBar1, null, CtlContextHelp.EFlags.None );
+
             this.RefreshView();
         }
 
@@ -44,57 +59,112 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         {
             this.treeView1.Nodes.Clear();
 
+            bool hideAdva = IsHidden( _chkAdvanced );
+            bool hideMeta = IsHidden( _chkMetaFields );
+            bool hideProp = IsHidden( _chkProperties );
+            bool hideStat = IsHidden( _chkStatistics );
+            bool hideDefa = IsHidden( _chkDefault );
+            bool hideNorm = IsHidden( _chkNormal );
+            bool hideFold = IsHidden( _chkFolders );
+
             foreach (Column col in this._available)
             {
                 bool isSelected = this._selected.Contains( col );
 
-                if (!isSelected && !this._chkShowAdvanced.Checked && col.Special.Has( EColumn.Advanced ))
-                {
-                    continue;
-                }
-
-                string[] elements = col.Id.Split( '\\' );
-
-                TreeNodeCollection parent = this.treeView1.Nodes;
-
-                for (int n = 0; n < elements.Length - 1; n++)
-                {
-                    bool found = false;
-
-                    foreach (TreeNode child in parent)
+                if (!isSelected)
+                {   
+                    if (col.Special.Has( EColumn.IsMeta ))
                     {
-                        if (child.Text == elements[n])
+                        if (hideMeta)
+                            continue;
+                    }
+                    else if (col.Special.Has( EColumn.IsProperty ))
+                    {
+                        if (hideProp)
+                            continue;
+                    }
+                    else if (col.Special.Has( EColumn.IsStatistic ))
+                    {
+                        if (hideStat)
+                            continue;
+                    }
+                    else if (col.Special.Has( EColumn.Visible ))
+                    {
+                        if (hideDefa)
+                            continue;
+                    }
+                    else if (col.Special.Has( EColumn.Advanced ))
+                    {
+                        if (hideAdva)
+                            continue;
+                    }
+                    else if (hideNorm)
+                    {
+                        continue;
+                    }              
+                }
+                                
+                TreeNodeCollection parent = this.treeView1.Nodes;
+                string text;
+
+                if (hideFold)
+                {
+                    string dir = UiControls.GetDirectory( col.Id );
+
+                    if (!string.IsNullOrEmpty( dir ))
+                    {
+                        dir += "\\";
+                    }
+
+                    text = dir + col.DisplayName;
+                }
+                else
+                {   
+                    string[] elements = col.Id.Split( '\\' );
+
+                    for (int n = 0; n < elements.Length - 1; n++)
+                    {
+                        bool found = false;
+
+                        foreach (TreeNode child in parent)
                         {
-                            parent = child.Nodes;
-                            found = true;
-                            break;
+                            if (child.Text == elements[n])
+                            {
+                                parent = child.Nodes;
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            TreeNode newNode = new TreeNode( elements[n] );
+                            newNode.NodeFont = FontHelper.ItalicFont;
+                            newNode.ForeColor = ColumnManager.COLCOL_FOLDER;
+                            parent.Add( newNode );
+                            parent = newNode.Nodes;
                         }
                     }
 
-                    if (!found)
-                    {
-                        TreeNode newNode = new TreeNode( elements[n] );
-                        newNode.NodeFont = FontHelper.ItalicFont;
-                        newNode.ForeColor = Color.Orange;
-                        parent.Add( newNode );
-                        parent = newNode.Nodes;
-                    }
+                    text = col.DisplayName;
                 }
 
-                TreeNode node = new TreeNode( elements[elements.Length - 1] );
+                TreeNode node = new TreeNode( text );
                 node.Tag = col;
                 node.Checked = isSelected;
-                node.ForeColor = ColumnManager.GetColumnColour( col );
-
-                if (this._chkShowAdvanced.Checked)
-                {
-                    node.Text += " = " + col.FunctionDescription;
-                }
+                node.ForeColor = ColumnManager.GetColumnColour( col );  
 
                 parent.Add( node );
             }
 
             this.treeView1.ExpandAll();
+        }
+
+        private bool IsHidden( ToolStripButton button )
+        {
+            bool isChecked = _view.Contains( button );
+            button.Image = UiControls.RecolourImage( isChecked ? Resources.MnuChecked : Resources.MnuUnchecked, button.ForeColor );
+            return !isChecked;
         }
 
         private void _btnDefaults_Click( object sender, EventArgs e )
@@ -126,12 +196,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                 all.Add( node );
                 this.AllNodes( all, node.Nodes );
             }
-        }
-
-        private void _chkShowAdvanced_CheckedChanged( object sender, EventArgs e )
-        {
-            this.RefreshView();
-        }
+        }   
 
         bool _ignoreCheck = false;
 
@@ -189,6 +254,61 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._ignoreCheck = true;
             parent.Checked = allChecked;
             this._ignoreCheck = false;
+        }        
+
+        private void treeView1_AfterSelect( object sender, TreeViewEventArgs e )
+        {
+            Column col = (Column)e.Node.Tag;
+
+            if (col == null)
+            {
+                ctlContextHelp1.ShowHelp( "Select a column to display more information about it." );
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            string fName = col.DefaultDisplayName;
+
+            if (string.IsNullOrEmpty( col.Comment ))
+            {
+                if (col.Special.Has( EColumn.IsMeta ))
+                {
+                    sb.AppendLine( $"This field shows the meta-data {{{fName}}} provided in the information matrix when the file was loaded." );
+                }
+                else if (col.Special.Has( EColumn.IsStatistic ))
+                {
+                    sb.AppendLine( $"This column shows the value of the statistic {{{fName}}}." );
+                }
+                else if (col.Special.Has( EColumn.IsProperty ))
+                {
+                    sb.AppendLine( $"This column shows an internal value {{{fName}}} reflected by the software." );
+                }                                                                                                 
+                else
+                {
+                    sb.AppendLine( $"This column shows the {{{fName}}}." );
+                }
+            }
+            else
+            {                                    
+                sb.AppendLine( col.Comment );
+            }
+
+            if (_view.Contains( _chkAdvanced ))
+            {
+                sb.AppendLine();
+                sb.AppendLine( "ID = " + col.Id );
+                sb.AppendLine( "Date type = " + col.FunctionDescription );
+                sb.AppendLine( "Flags = " + string.Join( ", ", EnumHelper.SplitEnum( col.Special ).Select( z => z.ToUiString() ) ) );
+            }
+
+            ctlContextHelp1.ShowHelp( sb.ToString() );
         }
+
+        private void _chkFolders_Click( object sender, EventArgs e )
+        {
+            _view.Toggle( sender );
+            this.RefreshView();
+        }       
     }
 }

@@ -72,6 +72,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                 this._ecbMethod.SelectedItem = (TrendBase)def.GetAlgorithmOrNull();
                 this._comments = def.Comment;
                 this._txtParams.Text = AlgoParameterCollection.ParamsToReversableString(def.Parameters, core);
+                this._ecbSource.SelectedItem = def.SourceProvider;
             }
 
             this.CheckAndChange(null, null);

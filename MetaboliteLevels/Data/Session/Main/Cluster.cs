@@ -112,9 +112,9 @@ namespace MetaboliteLevels.Data.Session.Main
         {
             get
             {
-                if (this.Method != null)
-                {
-                    return this.Method.ToString() + " " + this.ShortName;
+                if (this.Method?.Args != null)
+                {                                       
+                    return this.Method.Args.ShortName + this.ShortName;
                 }
                 else
                 {

@@ -228,7 +228,8 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
                 trueFilter,
                 this._chkClusterIndividually.Checked,
                 EClustererStatistics.None,
-                parameters )
+                parameters,
+                "DK")
             {
                 OverrideDisplayName = name,
                 Comment = "Generated using wizard"

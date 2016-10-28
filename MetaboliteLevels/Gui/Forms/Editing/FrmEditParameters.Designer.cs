@@ -36,17 +36,18 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.ctlTitleBar1 = new CtlTitleBar();
+            this.ctlTitleBar1 = new MetaboliteLevels.Gui.Controls.CtlTitleBar();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this._btnOk = new CtlButton();
-            this._btnCancel = new CtlButton();
+            this._btnOk = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnCancel = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.ctlError1 = new MGui.Controls.CtlError(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.ctlContextHelp1 = new MetaboliteLevels.Gui.Controls.CtlContextHelp(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -59,9 +60,9 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.ctlTitleBar1.HelpText = null;
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(0, 56);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(842, 66);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(842, 56);
             this.ctlTitleBar1.SubText = "";
             this.ctlTitleBar1.TabIndex = 0;
             this.ctlTitleBar1.Text = "TEXT GOES HERE";
@@ -79,11 +80,11 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.tableLayoutPanel1.Controls.Add(this.label3, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label4, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 66);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 56);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(842, 547);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(842, 557);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // label1
@@ -218,5 +219,6 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private System.Windows.Forms.Label label4;
         private MGui.Controls.CtlError ctlError1;
         private System.Windows.Forms.ToolTip toolTip1;
+        private CtlContextHelp ctlContextHelp1;
     }
 }

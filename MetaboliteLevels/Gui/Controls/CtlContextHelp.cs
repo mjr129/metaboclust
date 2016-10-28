@@ -51,12 +51,12 @@ namespace MetaboliteLevels.Gui.Controls
             /// <summary>
             /// Help when clicking labels
             /// </summary>
-            ClickLabels = 1,
+            HelpOnClick = 1,
 
             /// <summary>
             /// Help when controls get focus
             /// </summary>
-            OnFocus = 2,
+            HelpOnFocus = 2,
 
             /// <summary>
             /// Allow special FILEFORMAT markup in help text
@@ -66,7 +66,7 @@ namespace MetaboliteLevels.Gui.Controls
             /// <summary>
             /// Help when hovering mouse over controls
             /// </summary>
-            Hover = 8,
+            HelpOnHover = 8,
         }
 
         public void Bind( Control owner, CtlTitleBar titleBar, ToolTip toolTip, EFlags flags )
@@ -98,7 +98,7 @@ namespace MetaboliteLevels.Gui.Controls
                 Dock = DockStyle.Right,
                 Visible = _visible,
                 HandleFileFormats = flags.Has( EFlags.FileFormats ),
-                Size = new System.Drawing.Size( 256, 0 )
+                Size = new System.Drawing.Size( 192, 0 )
             };
 
             _panel1.CloseClicked += _panel1_CloseClicked;
@@ -116,19 +116,23 @@ namespace MetaboliteLevels.Gui.Controls
 
             // TOOL TIP
             this._toolTip = toolTip;
-            toolTip.Active = flags.Has(EFlags.Hover);
-            toolTip.InitialDelay = 1;
-            toolTip.Popup += this.ToolTip_Popup;   
-                  
+
+            if (toolTip != null)
+            {
+                toolTip.Active = flags.Has( EFlags.HelpOnHover );
+                toolTip.InitialDelay = 1;
+                toolTip.Popup += this.ToolTip_Popup;
+            }
+
             // CONTROL BINDINGS
-            if (flags.Has( EFlags.ClickLabels ) || flags.Has( EFlags.OnFocus ))
+            if (flags.Has( EFlags.HelpOnClick ) || flags.Has( EFlags.HelpOnFocus ))
             {
                 foreach (Control control in FormHelper.EnumerateControls( owner ))
                 {
 
                     if (control is CtlLabel)
                     {
-                        if (flags.Has( EFlags.ClickLabels ))
+                        if (flags.Has( EFlags.HelpOnClick ))
                         {
                             control.MouseEnter += this.Control_MouseEnter;
                             control.MouseLeave += this.Control_MouseLeave;
@@ -138,7 +142,7 @@ namespace MetaboliteLevels.Gui.Controls
                     }
                     else
                     {
-                        if (flags.Has( EFlags.OnFocus ))
+                        if (flags.Has( EFlags.HelpOnFocus ))
                         {
                             control.GotFocus += this.Control_Click;
                             control.MouseDown += this.Control_Click;
@@ -203,7 +207,15 @@ namespace MetaboliteLevels.Gui.Controls
             {
                 _visible = value;
 
-                MainSettings.Instance.DoNotShowAgain[_doNotShowAgainKey] = (_visible ? 0 : 1); // Intended
+                if (_visible)
+                {
+                    MainSettings.Instance.DoNotShowAgain.Remove( _doNotShowAgainKey );
+                }
+                else
+                {
+                    MainSettings.Instance.DoNotShowAgain[_doNotShowAgainKey] = 1;
+                }
+
                 MainSettings.Instance.Save(MainSettings.EFlags.DoNotShowAgain);
 
                 if (_panel1 != null)
@@ -214,7 +226,19 @@ namespace MetaboliteLevels.Gui.Controls
                 }
             }
         }
-        
+
+        public void ShowHelp( string text )
+        {
+            if (!this._panel1.Visible)
+            {
+                return;
+            }
+
+            this._panel1.Text = text;
+
+            _errorProvider.Clear();
+        }
+
         public void ShowHelp( Control control )
         {
             if (!this._panel1.Visible)

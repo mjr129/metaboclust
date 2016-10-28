@@ -69,6 +69,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             {
                 // Name
                 this._txtName.Text = def.OverrideDisplayName;
+                this._txtShortName.Text = def.OverrideShortName;
 
                 // Comment
                 this._comment = def.Comment;
@@ -135,6 +136,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             PeakFilter peakFilter;
             ObsFilter obsFilter;
             string title;
+            string shortName;
 
             this._checker.Clear();
 
@@ -143,6 +145,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
 
             // Title / comments
             title = string.IsNullOrWhiteSpace(this._txtName.Text) ? null : this._txtName.Text;
+            shortName = string.IsNullOrWhiteSpace( this._txtShortName.Text ) ? null : this._txtShortName.Text;
 
             // Parameters
             object[] parameters;
@@ -204,6 +207,8 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                 this._checker.Check( this._ecbSource.ComboBox, src != null, "Select a valid source" );
             }
 
+            _lblRepWarn.Visible = HasReplicates( src );
+
             // Vector A
             if (sel==null || !sel.SupportsObservationFilters)
             {
@@ -233,13 +238,45 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                     OverrideDisplayName = dMet.DisplayName
                 };
             }
-            ArgsClusterer args = new ArgsClusterer( sel.Id, src, peakFilter, df, obsFilter, this._chkSepGroups.Checked, suppressMetric, parameters )
+
+            ArgsClusterer args = new ArgsClusterer( sel.Id, src, peakFilter, df, obsFilter, this._chkSepGroups.Checked, suppressMetric, parameters, shortName )
             {
                 OverrideDisplayName = title,
                 Comment = this._comment
             };                                                                          
 
             return args;
+        }
+
+        private bool HasReplicates( IMatrixProvider src )
+        {
+            if (src == null)
+            {
+                return false;
+            }
+
+            IntensityMatrix matrix = src.Provide;
+
+            if (matrix == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < matrix.NumCols; ++i)
+            {
+                for (int j = 0; j < i; ++j)
+                {
+                    var a= matrix.Columns[i].Observation;
+                    var b = matrix.Columns[j].Observation;
+
+                    if (a.IsReplicateOf( b ))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         private void CheckAndChange(object sender, EventArgs e)
@@ -281,6 +318,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         {
             var sel = this.GetSelection();
             this._txtName.Watermark = sel != null ? sel.DefaultDisplayName : Texts.default_name;
+            this._txtShortName.Watermark = sel != null ? sel.DefaultShortName : Texts.default_name;
             this._btnOk.Enabled = sel != null;
         }      
 
@@ -299,7 +337,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             FrmMsgBox.ShowInfo(this, "Distance Metric Not Supported",
-                               "This clustering algorithm either does not use a distance metric, or it uses its own internal metric. The metric you specify will only be used for clustering performance (e.g. silhouette width) calculations. Disabling performance evaluations may noticeably decrease cluster generation time in this case.");
+                               "This clustering algorithm either does not use a distance metric, or it uses its own internal metric. The metric you specify will however be used for clustering performance (e.g. silhouette width) calculations if you have selected these. Disabling performance evaluations may noticeably decrease cluster generation time in this case since the calculation of the distance matrix can be avoided.");
         }
 
         private void ctlButton1_Click(object sender, EventArgs e)
@@ -328,18 +366,22 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         }
 
         private void _btnObs_Click( object sender, EventArgs e )
-        {
-            DataSet.ForObservations( this._core ).ShowListEditor( this );
-        }
-
-        private void _btnTrend_Click( object sender, EventArgs e )
-        {
-            DataSet.ForTrends( this._core ).ShowListEditor( this );
-        }
+        {                                                                     
+        }          
 
         private void _btnExperimentalGroups_Click( object sender, EventArgs e )
         {
             DataSet.ForGroups( this._core ).ShowListEditor( this );
+        }
+
+        private void linkLabel2_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        {
+            FrmMsgBox.ShowWarning( this, "Warning", "The selected source matrix contains replicates, did you mean to select a trend matrix instead?" );
+        }
+
+        private void _btnObsFilter_Click( object sender, EventArgs e )
+        {
+
         }
     }
 }

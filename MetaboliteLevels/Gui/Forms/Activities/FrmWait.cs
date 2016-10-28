@@ -213,6 +213,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                 {
                     ListSource = logs,
                     ListTitle = "Logs",
+                    HandleEdit = DisplayLog,
                 };
 
                 ELogLevel max = logs.Max( z => z.Level );
@@ -227,7 +228,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                 }
                 else
                 {
-                    msg = $"One or more {max}s were reported.";
+                    msg = $"One or more {max.ToUiString().ToLower()}s were reported.";
                     bts = new MsgBoxButton[] { new MsgBoxButton( "Details", Resources.MnuNext, DialogResult.Cancel ),
                                                 new MsgBoxButton( "Ignore", Resources.MnuCancel, DialogResult.OK) };
                 }
@@ -237,6 +238,16 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                     ds.ShowListEditor( owner, FrmBigList.EShow.ReadOnly, null );
                 }
             }
+        }
+
+        private static ProgressReporter.LogRecord DisplayLog( DataSet<ProgressReporter.LogRecord>.EditItemArgs input )
+        {
+            if (input.DefaultValue != null)
+            {
+                FrmMsgBox.Show( input.Owner, input.DefaultValue.Level, input.DefaultValue.Message );
+            }
+
+            return null;
         }
 
         public FrmWait()

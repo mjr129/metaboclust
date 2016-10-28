@@ -10,12 +10,12 @@ namespace MetaboliteLevels.Gui.Controls.Lists
 {
     class ShowContextMenuEventArgs : EventArgs
     {
-        public readonly Visualisable Selection;
+        public readonly object Selection;
         public readonly Control Control;
         public readonly int X;
         public readonly int Y;
 
-        public ShowContextMenuEventArgs(Visualisable selection, Control control, int x, int y)
+        public ShowContextMenuEventArgs(object selection, Control control, int x, int y)
         {
             this.Selection = selection;
             this.Control = control;

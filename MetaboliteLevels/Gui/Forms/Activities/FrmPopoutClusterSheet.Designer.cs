@@ -60,14 +60,15 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.listView1.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.listView1_RetrieveVirtualItem);
             this.listView1.SearchForVirtualItem += new System.Windows.Forms.SearchForVirtualItemEventHandler(this.listView1_SearchForVirtualItem);
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyDown);
             // 
-            // FrmClusterSheet
+            // FrmPopoutClusterSheet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1007, 687);
             this.Controls.Add(this.listView1);
-            this.Name = "FrmClusterSheet";
+            this.Name = "FrmPopoutClusterSheet";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Browser";
             this.ResumeLayout(false);

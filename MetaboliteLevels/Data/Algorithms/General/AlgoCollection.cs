@@ -36,6 +36,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             T v;
 
+            if (id == null)
+            {
+                return null;
+            }
+
             if (this._collection.TryGetValue(id, out v))
             {
                 return v;

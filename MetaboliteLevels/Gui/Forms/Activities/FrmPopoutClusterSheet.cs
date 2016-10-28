@@ -38,12 +38,17 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.listView1.TileSize = this._imageSize;
             this.listView1.VirtualListSize = items.Count;
 
-            // UiControls.CompensateForVisualStyles(this);
+            this.imageList1.Images.Add( ChartHelperForClusters.CreatePlaceholderBitmap( null, this._imageSize ) );
         }
 
         private int GeneratePreviewImage(Visualisable item)
         {
             int index;
+
+            if (item.Hidden)
+            {
+                return 0;
+            }
 
             if (!this._imgListPreviewIndexes.TryGetValue(item, out index))
             {
@@ -79,6 +84,12 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             Visualisable item = this._items[e.ItemIndex];
             e.Item = new ListViewItem(item.DisplayName);
             e.Item.ImageIndex = this.GeneratePreviewImage(item);
+
+            if (item.Hidden)
+            {
+                e.Item.ForeColor = Color.Gray;
+                e.Item.Font = FontHelper.StrikeFont;
+            }
         }
 
         private void listView1_SearchForVirtualItem(object sender, SearchForVirtualItemEventArgs e)
@@ -98,6 +109,17 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                 int index = this.listView1.SelectedIndices[0];
                 this._result = index;
                 this.DialogResult = DialogResult.OK;
+            }
+        }
+
+        private void listView1_KeyDown( object sender, KeyEventArgs e )
+        {
+            if (e.KeyCode == Keys.Delete && this.listView1.SelectedIndices.Count != 0)
+            {
+                Visualisable item = _items[this.listView1.SelectedIndices[0]];
+
+                item.Hidden = !item.Hidden;
+                listView1.Refresh();
             }
         }
     }

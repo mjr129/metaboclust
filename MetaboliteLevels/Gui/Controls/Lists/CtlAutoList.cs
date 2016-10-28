@@ -50,14 +50,14 @@ namespace MetaboliteLevels.Gui.Controls.Lists
 
         private ToolStripButton _btnColumns;
         private ToolStripItem _lblFilter;
-
-        private bool _disableColumnMenuRebuild;
+        private ToolStripItem _lblHidden;
 
         private bool _isCreatingColumns;
         private Column _clickedColumn;
 
         private SortByColumn _sortOrder;
         private ColumnFilter _filter;
+        private bool _showHidden;
 
         protected List<object> _filteredList;
 
@@ -88,6 +88,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             listView.RetrieveVirtualItem += this._listView_RetrieveVirtualItem;
             listView.ItemActivate += this._listView_ItemActivate;
             listView.MouseDown += this._listView_MouseDown;
+            listView.KeyDown += ListView_KeyDown;
 
             listView.View = View.Details;
             listView.HeaderStyle = ColumnHeaderStyle.Clickable;
@@ -182,6 +183,26 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             this._lblFilter.ForeColor = Color.Red;
             this._lblFilter.Visible = false;
             this._lblFilter.Click += this._filterm_Click;
+
+            // Create filter label
+            this._lblHidden = this._toolStrip.Items.Add( "FILTER" );
+            this._lblHidden.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            this._lblHidden.ForeColor = Color.Green;
+            this._lblHidden.Visible = false;
+            this._lblHidden.Click += this._hiddenm_Click;
+        }
+
+        private void ListView_KeyDown( object sender, KeyEventArgs e )
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                Visualisable selection = this.Selection as Visualisable;
+
+                if (selection != null)
+                {
+                    selection.Hidden = !selection.Hidden;
+                }
+            }
         }
 
         internal void DivertList<T>( IEnumerable<T> results ) 
@@ -245,7 +266,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             }
         }
 
-        private void OnShowContextMenu(Visualisable selection, Control control, int x, int y)
+        private void OnShowContextMenu(object selection, Control control, int x, int y)
         {
             if (this.ShowContextMenu != null)
             {
@@ -269,7 +290,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
                     lvi.Focused = true;
                     lvi.EnsureVisible();
 
-                    this.OnShowContextMenu((Visualisable)lvi.Tag, this._listView, e.X, e.Y);
+                    this.OnShowContextMenu(lvi.Tag, this._listView, e.X, e.Y);
                 }
             }
         }
@@ -396,14 +417,16 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         }
 
         private void EditColumnsAsList_Click(object sender, EventArgs e)
-        {                                                                                                                            
-            IEnumerable<Column> selected = FrmEditColumns.Show( this.ListView.FindForm(), this._availableColumns, this._availableColumns.Where( z => z.Visible ) );
+        {
+            var avail = this._availableColumns.Where( z => !z.IsAlwaysEmpty ).ToArray();
+            IEnumerable<Column> selected = FrmEditColumns.Show( this.ListView.FindForm(), avail, avail.Where( z => z.Visible ) );
 
-            if (selected != null)
+            if (selected == null)
             {
-                this._availableColumns.ForEach(z => z.Visible = z.IsAlwaysEmpty || selected.Contains(z));
+                return;                                                                                  
             }
 
+            this._availableColumns.ForEach( z => z.Visible = z.IsAlwaysEmpty || selected.Contains( z ) );
             this.SaveColumnUserPreferences();
             this.Rebuild(EListInvalids.ToggleColumn);
         }             
@@ -414,6 +437,18 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         void _descm_Click(object sender, EventArgs e)
         {
             FrmInputMultiLine.ShowFixed(this.ListView.FindForm(), "Help", "Column Help", this._clickedColumn.Id, this._clickedColumn.Comment);
+        }
+
+        void _hiddenm_Click( object sender, EventArgs e )
+        {
+            _showHidden = !_showHidden;
+            this.Rebuild( EListInvalids.Filter );
+
+            if (_showHidden)
+            {
+                this._lblHidden.Text = "Showing hidden entries";
+                this._lblHidden.Visible = true;
+            }
         }
 
         void _filterm_Click(object sender, EventArgs e)
@@ -808,6 +843,13 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         {
             this._filteredList = this.GetSourceContent().Cast<object>().ToList();
 
+            if (!_showHidden && _source != null && typeof(Visualisable).IsAssignableFrom( _source.DataType ))
+            {
+                int remCount = this._filteredList.RemoveAll( z => ((Visualisable)z).Hidden );
+                this._lblHidden.Text = remCount + " hidden";
+                this._lblHidden.Visible = remCount != 0;
+            }  
+
             if (this._emptyList && this._filteredList.Count != 0)
             {
                 // List was empty, now is not - make sure to rebuild columns since we might have new ones
@@ -819,7 +861,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             if (this._filter != null)
             {
                 int remCount = this._filteredList.RemoveAll(this._filter.FilterRemove);
-                this._lblFilter.Text = remCount.ToString() + " hidden by filter";
+                this._lblFilter.Text = remCount + " filtered";
             }
 
             if (this._sortOrder != null)

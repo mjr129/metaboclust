@@ -40,7 +40,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
             return this.Args.GetAlgorithmOrThrow().SmoothByType(inOrder, outOrder, typeInfo, raw, this.Args);
         }              
 
-        public IntensityMatrix Provide => this.Results.Matrix;
+        public IntensityMatrix Provide => this.Results?.Matrix;
 
         protected override void OnRun( Core core, ProgressReporter prog )
         {         

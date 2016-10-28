@@ -147,7 +147,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             if (!typeof( IColumnProvider ).IsAssignableFrom( type ))
             {
                 // Not supported
-                automaticColumns = true;
+                automaticColumns = false;
                 return;
             }
 
@@ -156,7 +156,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
                 // Unfortunately this won't work if the type is abstract
                 if (type.IsAbstract)
                 {
-                    automaticColumns = true;
+                    automaticColumns = false;
                     return;
                 }
 
@@ -246,30 +246,38 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             }               
         }
 
+        public static readonly Color COLCOL_VISIBLE = Color.Blue;
+        public static readonly Color COLCOL_STATISTIC = Color.DarkCyan;
+        public static readonly Color COLCOL_META = Color.Green;
+        public static readonly Color COLCOL_PROPERTY = Color.DimGray;
+        public static readonly Color COLCOL_ADVANCED = Color.Olive;
+        public static readonly Color COLCOL_NORMAL = Color.Black;
+        public static readonly Color COLCOL_FOLDER = Color.Orange;
+
         public static Color GetColumnColour( Column col )
         {
             if (col.Special.Has( EColumn.Visible ))
             {
-                return Color.Blue;
+                return COLCOL_VISIBLE;
             }
             else if (col.Special.Has( EColumn.IsStatistic ))
             {
-                return Color.DarkCyan;
+                return COLCOL_STATISTIC;
             }
             else if (col.Special.Has( EColumn.IsMeta ))
             {
-                return Color.Green;
+                return COLCOL_META;
             }
             else if (col.Special.Has( EColumn.IsProperty ))
             {
-                return Color.DimGray;
+                return COLCOL_PROPERTY;
             }
             else if (col.Special.Has( EColumn.Advanced ))
             {
-                return Color.Olive;
+                return COLCOL_ADVANCED;
             }
 
-            return Color.Black;
+            return COLCOL_NORMAL;
         }                                                                  
 
         public static IEnumerable<Column<T>> AddSubObject<T>( EColumn valueVisibility, EColumn descendentVisibility, Core core, string prefix, Column<T>.ColumnProvider convertor, Type targetType )

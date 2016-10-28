@@ -611,7 +611,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                         test.ClustererConfiguration.ObsFilter,
                         test.ClustererConfiguration.SplitGroups,
                         test.ClustererConfiguration.Statistics,
-                        copyOfParameters )
+                        copyOfParameters,
+                        test.ClustererConfiguration.OverrideShortName)
                     {
                         OverrideDisplayName = newName,
                         Comment = test.ClustererConfiguration.Comment
