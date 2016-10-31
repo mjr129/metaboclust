@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ctlTitleBar1.HelpText" xml:space="preserve">
+    <value>When files are loaded the column headers in the CSV files define the content of the columns.
+This screen allows you to modify how those columns are mapped to values in the MetaboClust.
+Each field takes a comma delimited list of possible headers.
+For instance PEAKFILE_MZ_FIELD defines the possible column names MetaboClust will use for the Peak m/z value.
+
+The delimiters in the CSV file can also be modified, for instance they can be changed from comma (CSV) to tab (TXT).
+</value>
+  </data>
 </root>

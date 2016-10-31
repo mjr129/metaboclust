@@ -178,11 +178,11 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             prog.Leave();
 
             prog.Enter("Interpreting identifications");
-            int peakCol      = mat.TryFindColumn( dataInfo.IDFILE_PEAK_HEADER );
-            int mzCol        = mat.TryFindColumn( dataInfo.VARFILE_MZ_HEADER );
-            int rtCol        = mat.TryFindColumn( dataInfo.VARFILE_RT_HEADER );
-            int statusCol    = mat.TryFindColumn( dataInfo.IDFILE_STATUS_HEADER );
-            int compoundsCol = mat.FindColumn( dataInfo.IDFILE_COMPOUNDS_HEADER );
+            int peakCol      = mat.TryFindColumn( dataInfo.ANNOTATIONFILE_PEAK_HEADER );
+            int mzCol        = mat.TryFindColumn( dataInfo.PEAKFILE_MZ_HEADER );
+            int rtCol        = mat.TryFindColumn( dataInfo.PEAKFILE_RT_HEADER );
+            int statusCol    = mat.TryFindColumn( dataInfo.ANNOTATIONFILE_STATUS_HEADER );
+            int compoundsCol = mat.FindColumn( dataInfo.ANNOTATIONFILE_COMPOUNDS_HEADER );
 
             if (peakCol == -1 && (mzCol == -1 || rtCol == -1))
             {
@@ -960,11 +960,11 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             prog.Enter( "Formatting data" );
 
             // Get the columns
-            int ssObsDayCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_TIME_HEADER, "time", "Time information is required for meaningful time-series analysis. Whilst analyses requiring time-series data will function incorrectly you may still be able to perform basic analysis of your data." );
-            int ssObsRepCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_REPLICATE_HEADER, "replicate index", "Replicate information is required primarily to distinguish individual datapoints, however most analyses should function without it." );
-            int ssObsTypCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_GROUP_HEADER, "experimental group", "Group information is required to compare experimental groups, however if you only have one experimental group this warning can be safely ignored." );
-            int ssObsBatCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_BATCH_HEADER, "batch", "Batch information is required in order to apply batch correction. Batch correction options may not function correctly without this information. If your data was not collected batch-wise then this warning can be safely ignored." );
-            int ssObsAcqCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSFILE_ACQUISITION_HEADER, "acquisition index", "Acquisition information is required in order to apply certain batch correction methods. Some batch correction options may not function correctly without this information. If your data was not collected batch-wise, or if you only intend to perform basic data corrections, then this warning can be safely ignored." );
+            int ssObsDayCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSERVATIONFILE_TIME_HEADER, "time", "Time information is required for meaningful time-series analysis. Whilst analyses requiring time-series data will function incorrectly you may still be able to perform basic analysis of your data." );
+            int ssObsRepCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSERVATIONFILE_REPLICATE_HEADER, "replicate index", "Replicate information is required primarily to distinguish individual datapoints, however most analyses should function without it." );
+            int ssObsTypCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSERVATIONFILE_GROUP_HEADER, "experimental group", "Group information is required to compare experimental groups, however if you only have one experimental group this warning can be safely ignored." );
+            int ssObsBatCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSERVATIONFILE_BATCH_HEADER, "batch", "Batch information is required in order to apply batch correction. Batch correction options may not function correctly without this information. If your data was not collected batch-wise then this warning can be safely ignored." );
+            int ssObsAcqCol = TryFindColumn( ssObservations, warnings, dataInfo.OBSERVATIONFILE_ACQUISITION_HEADER, "acquisition index", "Acquisition information is required in order to apply certain batch correction methods. Some batch correction options may not function correctly without this information. If your data was not collected batch-wise, or if you only intend to perform basic data corrections, then this warning can be safely ignored." );
 
             int ssPeakMzCol;
             int ssPeakRtCol;
@@ -980,15 +980,15 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
                 case ELcmsMode.Positive:
                 case ELcmsMode.Negative:
-                    ssPeakMzCol = ssPeaks.FindColumn( dataInfo.VARFILE_MZ_HEADER );
-                    ssPeakRtCol = ssPeaks.FindColumn( dataInfo.VARFILE_RT_HEADER );
+                    ssPeakMzCol = ssPeaks.FindColumn( dataInfo.PEAKFILE_MZ_HEADER );
+                    ssPeakRtCol = ssPeaks.FindColumn( dataInfo.PEAKFILE_RT_HEADER );
                     ssPeakLcmsCol = -1;
                     break;
 
                 case ELcmsMode.Mixed:
-                    ssPeakMzCol = ssPeaks.FindColumn( dataInfo.VARFILE_MZ_HEADER );
-                    ssPeakRtCol = ssPeaks.FindColumn( dataInfo.VARFILE_RT_HEADER );
-                    ssPeakLcmsCol = ssPeaks.FindColumn( dataInfo.VARFILE_MODE_HEADER );
+                    ssPeakMzCol = ssPeaks.FindColumn( dataInfo.PEAKFILE_MZ_HEADER );
+                    ssPeakRtCol = ssPeaks.FindColumn( dataInfo.PEAKFILE_RT_HEADER );
+                    ssPeakLcmsCol = ssPeaks.FindColumn( dataInfo.PEAKFILE_LCMSMODE_HEADER );
                     break;
 
                 default:

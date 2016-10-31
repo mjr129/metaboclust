@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmEditFileLoadInfo));
             this.panel1 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ctlButton2 = new MetaboliteLevels.Gui.Controls.CtlButton();
@@ -40,10 +41,10 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 87);
+            this.panel1.Location = new System.Drawing.Point(0, 77);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(747, 334);
+            this.panel1.Size = new System.Drawing.Size(747, 344);
             this.panel1.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -92,12 +93,12 @@
             this.ctlTitleBar1.AutoSize = true;
             this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.HelpText = resources.GetString("ctlTitleBar1.HelpText");
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(0, 77);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(747, 87);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(747, 77);
             this.ctlTitleBar1.SubText = "View and modify the fields used when loading data files";
             this.ctlTitleBar1.TabIndex = 1;
             this.ctlTitleBar1.Text = "File load information";

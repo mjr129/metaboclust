@@ -774,8 +774,8 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             if (Browse( this._txtDataSetData ))
             {
                 var fli = UiControls.GetFileLoadInfo();
-                this.TryAutoSet( this._txtDataSetData.Text, this._txtDataSetObs, fli.AUTOFILE_OBSERVATIONS );
-                this.TryAutoSet( this._txtDataSetData.Text, this._txtDataSetVar, fli.AUTOFILE_PEAKS );
+                this.TryAutoSet( this._txtDataSetData.Text, this._txtDataSetObs, fli.FILENAMES_OBSERVATIONS );
+                this.TryAutoSet( this._txtDataSetData.Text, this._txtDataSetVar, fli.FILENAMES_PEAKS );
             }
         }
 
@@ -1021,7 +1021,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
                                 if (File.Exists( observationFile ))
                                 {
                                     Spreadsheet<string> info = reader.Read<string>( observationFile );
-                                    int typeCol = info.TryFindColumn( fli.OBSFILE_GROUP_HEADER );
+                                    int typeCol = info.TryFindColumn( fli.OBSERVATIONFILE_GROUP_HEADER );
 
                                     for (int row = 0; row < info.NumRows; row++)
                                     {

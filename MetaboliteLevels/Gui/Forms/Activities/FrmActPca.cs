@@ -87,6 +87,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._regressAgainst._colourByObervation = this._colourBy._colourByObervation;
 
             this._chart.AddControls( this.toolStripDropDownButton1);
+            this._chart.Style.LegendDisplay = ELegendDisplay.Visible;
 
             this.UpdateScores();
         }

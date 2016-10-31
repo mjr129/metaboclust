@@ -17,14 +17,14 @@ namespace MetaboliteLevels.Data.Session.General
         /// Autoscale the axis
         /// </summary>
         [Name("*")]
-        [Description("Scale to min/max")]
+        [Description("Scale to vector")]
         Automatic,
 
         /// <summary>
         /// Autoscale the axis to all possibilities
         /// </summary>
-        [Name( "{I}" )]
-        [Description( "Scale to min/max of the intensity matrix" )]
+        [Name( "**" )]
+        [Description( "Scale to matrix" )]
         General,
 
         /// <summary>
