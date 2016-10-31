@@ -191,7 +191,7 @@ namespace MetaboliteLevels.Gui.Controls.Charts
                 ///////////////////
                 // PLOT THE POINT
                 // Okay! Now plot the values pertinent to this peak & type                                           
-                for(int i = 0; i < vec.Length; ++i)
+                for(int i = 0; i < vec.Count; ++i)
                 {
                     // Peak, by observation
                     ObservationInfo obs = vec.Observations[i];

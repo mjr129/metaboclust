@@ -271,7 +271,7 @@ namespace MetaboliteLevels.Gui.Controls.Charts
         private void AddMeanAndSdLines(
             MCharting.Plot plot,
             StylisedPeakOptions o,
-            double[] observations,
+            IReadOnlyList<double> observations,
             Peak peak,
             Dictionary<GroupInfoBase, MCharting.Series> groupLegends )
         {

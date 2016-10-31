@@ -37,7 +37,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
         /// <summary>
         /// Smooths input data by type with x = time.
         /// </summary>
-        internal double[] SmoothByType(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ObservationInfo> outputOrder, IReadOnlyList<GroupInfo> groups, double[] raw, ArgsTrend a)
+        internal double[] SmoothByType(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ObservationInfo> outputOrder, IReadOnlyList<GroupInfo> groups, IReadOnlyList< double> raw, ArgsTrend a)
         {
             return this.SmoothByType(inputOrder, outputOrder, groups, raw, a.Parameters);
         }
@@ -45,7 +45,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
         /// <summary>
         /// Smooths input data by type with x = time.
         /// </summary>
-        protected double[] SmoothByType(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ObservationInfo> outputOrder, IReadOnlyList<GroupInfo> groups, double[] raw, object[] args)
+        protected double[] SmoothByType(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ObservationInfo> outputOrder, IReadOnlyList<GroupInfo> groups, IReadOnlyList< double> raw, object[] args)
         {
             double[] r = new double[outputOrder.Count];
 
@@ -76,7 +76,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
         /// <summary>
         /// Smooths data by batch with x = acquisition order.
         /// </summary>
-        internal double[] SmoothByBatch(IReadOnlyList<ObservationInfo> x, IReadOnlyList<ObservationInfo> xOut, IEnumerable<BatchInfo> batches, double[] raw, ArgsTrend a)
+        internal double[] SmoothByBatch(IReadOnlyList<ObservationInfo> x, IReadOnlyList<ObservationInfo> xOut, IEnumerable<BatchInfo> batches, IReadOnlyList< double> raw, ArgsTrend a)
         {
             return this.SmoothByBatch(x, xOut, batches, raw, a.Parameters);
         }
@@ -84,7 +84,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
         /// <summary>
         /// Smooths data by batch with x = acquisition order.
         /// </summary>
-        protected double[] SmoothByBatch(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ObservationInfo> outputOrder, IEnumerable<BatchInfo> batches, double[] raw, object[] args)
+        protected double[] SmoothByBatch(IReadOnlyList<ObservationInfo> inputOrder, IReadOnlyList<ObservationInfo> outputOrder, IEnumerable<BatchInfo> batches, IReadOnlyList< double> raw, object[] args)
         {
             double[] r = new double[outputOrder.Count];
 

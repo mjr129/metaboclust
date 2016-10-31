@@ -25,7 +25,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Metrics
         /// Calculates the metric of the two input vectors [a] and [b].
         /// This is only available if the statistic has declared [ESpecial.SupportsQuickCalculate] on its parameters.
         /// </summary>
-        public abstract double QuickCalculate(double[] a, double[] b, object[] parameters);
+        public abstract double QuickCalculate(IReadOnlyList< double> a, IReadOnlyList< double> b, object[] parameters);
 
         /// <summary>
         /// OVERRIDE

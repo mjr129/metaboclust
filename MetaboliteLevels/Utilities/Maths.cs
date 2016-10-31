@@ -25,11 +25,11 @@ namespace MetaboliteLevels.Utilities
         /// <summary>
         /// Calculates the Euclidean distance between two vectors.
         /// </summary>
-        public static double Euclidean(double[] a, double[] b)
+        public static double Euclidean(IReadOnlyList< double> a, IReadOnlyList< double> b)
         {
             double t = 0;
 
-            for (int n = 0; n < a.Length; n++)
+            for (int n = 0; n < a.Count; n++)
             {
                 double d = a[n] - b[n];
                 t += d * d;

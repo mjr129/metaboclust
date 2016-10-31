@@ -55,7 +55,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
                 for (int j = 0; j < n; j++)
                 {
-                    s[i, j] = metric.Calculate(valueMatrix.Values[i], valueMatrix.Values[j]);
+                    s[i, j] = metric.Calculate(valueMatrix.Vectors[i], valueMatrix.Vectors[j]);
                 }
             }
 

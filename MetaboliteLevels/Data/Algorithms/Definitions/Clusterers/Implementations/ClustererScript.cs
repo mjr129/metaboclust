@@ -46,7 +46,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         {
             object[] inputs =
             {
-                _script.IsInputPresent(0) ? vmatrix.Values.Flatten() : null,
+                _script.IsInputPresent(0) ? vmatrix.Values : null,
                 _script.IsInputPresent(1) ? dmatrix.Values : null
             };
 

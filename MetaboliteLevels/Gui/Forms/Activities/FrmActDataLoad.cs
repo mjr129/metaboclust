@@ -1134,12 +1134,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             Dictionary<string, Peak> peakFinder = availPeaks.ToDictionary( z => z.Id );
             Dictionary<string, ObservationInfo> obsFinder = availableObs.ToDictionary( z => z.Id );
 
-            double[][] matrix = new double[ss.NumCols][];
-
-            for (int n = 0; n < matrix.Length; n++)
-            {
-                matrix[n] = new double[ss.NumRows];
-            }
+            double[,] matrix = new double[ss.NumCols,ss.NumRows];
 
             Peak[] peaks = new Peak[ss.NumCols];
             ObservationInfo[] obs = new ObservationInfo[ss.NumRows];
@@ -1150,7 +1145,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
                 for (int obsIndex = 0; obsIndex < ss.NumRows; obsIndex++)
                 {
-                    matrix[peakIndex][obsIndex] = ss[obsIndex, peakIndex];
+                    matrix[peakIndex,obsIndex] = ss[obsIndex, peakIndex];
                 }
 
                 peaks[peakIndex] =  peakFinder[ss.ColNames[peakIndex]] ;

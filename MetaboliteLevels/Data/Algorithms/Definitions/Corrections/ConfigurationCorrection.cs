@@ -28,7 +28,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
         /// <summary>
         /// Like Correct(), but just gets the trend (for plots).
         /// </summary>
-        internal double[] ExtractTrend(Core core, double[] raw, out IReadOnlyList<ObservationInfo> trendOrder)
+        internal double[] ExtractTrend(Core core, IReadOnlyList< double> raw, out IReadOnlyList<ObservationInfo> trendOrder)
         {
             if (!this.Args.IsUsingTrend)
             {
@@ -58,7 +58,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
                         {
                             IReadOnlyList<ObservationInfo> x = core.Observations;
                             IReadOnlyList<ObservationInfo> xOut = core.Observations;
-                            double[] y = raw;
+                            IReadOnlyList< double> y = raw;
                             IReadOnlyList<BatchInfo> g = core.Batches;
 
                             trendOrder = xOut;
@@ -86,7 +86,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
         /// <summary>
         /// Executes the correction for a set of raw values (in core.observation order).
         /// </summary>
-        public double[] Calculate(Core core, double[] raw)
+        public double[] Calculate(Core core, IReadOnlyList< double> raw)
         {
             double[] result;
 
@@ -105,7 +105,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
                 IReadOnlyList<ObservationInfo> trendOrder;
                 double[] trend = this.ExtractTrend(core, raw, out trendOrder);
                 IReadOnlyList<ObservationInfo> resultOrder = core.Observations;
-                result = new double[raw.Length];
+                result = new double[raw.Count];
 
                 switch (args.Mode)
                 {
@@ -123,7 +123,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
                                     break;
 
                                 case ECorrectionMethod.Subtract:
-                                    for (int i = 0; i < raw.Length; i++)
+                                    for (int i = 0; i < raw.Count; i++)
                                     {
                                         result[i] = raw[i] - trend[i];
                                     }
@@ -138,7 +138,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
                     case ECorrectionMode.Control:
                         {
                             // Here the trend will only represent the control group
-                            for (int i = 0; i < raw.Length; i++)
+                            for (int i = 0; i < raw.Count; i++)
                             {
                                 ObservationInfo obs = resultOrder[i];
 
@@ -181,13 +181,15 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
         {         
             // For each peak
             IntensityMatrix source = this.Args.SourceMatrix;
-            double[][] results = new double[source.NumRows][];
+            double[,] results = new double[source.NumRows, source.NumCols];
 
             for (int peakIndex = 0; peakIndex < source.NumRows; peakIndex++)
             {
                 prog.SetProgress( peakIndex, source.NumRows );
                 Peak x = source.Rows[peakIndex].Peak;
-                results[peakIndex] =this.Calculate( core, source.Values[peakIndex] );
+                var row = this.Calculate( core, source.Vectors[peakIndex] );
+
+                ArrayHelper.CopyRow( row, results, peakIndex );
             }
 
             IntensityMatrix imresult = new IntensityMatrix( source.Rows, source.Columns, results );

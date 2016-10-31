@@ -16,7 +16,7 @@ namespace MetaboliteLevels.Data.Session.Main
     [Serializable]
     class IntensityMatrix : IExportProvider
     {
-        public readonly double[][] Values;
+        public readonly double[,] Values;
         public readonly RowHeader[] Rows;
         public readonly ColumnHeader[] Columns;
 
@@ -24,7 +24,7 @@ namespace MetaboliteLevels.Data.Session.Main
         public int NumVectors => this.Rows.Length;
         public int NumCols => this.Columns.Length;
 
-        public IntensityMatrix( Peak[] rows, ObservationInfo[] columns, double[][] values )
+        public IntensityMatrix( Peak[] rows, ObservationInfo[] columns, double[,] values )
             : this(   rows.Select( z => new RowHeader( z, null ) ).ToArray(),
                   columns.Select( z => new ColumnHeader( z ) ).ToArray(),
                   values )
@@ -49,17 +49,17 @@ namespace MetaboliteLevels.Data.Session.Main
             {
                 for (int col = 0; col < this.NumCols; ++col)
                 {
-                    r[row, col] = this.Values[row][col];
+                    r[row, col] = this.Values[row,col];
                 }
             }
 
             return r;
         }
 
-        public IntensityMatrix( RowHeader[] rows, ColumnHeader[] columns, double[][] values )
+        public IntensityMatrix( RowHeader[] rows, ColumnHeader[] columns, double[,] values )
         {
-            Debug.Assert( rows.Length == values.Length, "IntensityMatrix number of rows mismatch." );
-            Debug.Assert( values.Length == 0 || columns.Length == values[0].Length, "IntensityMatrix number of columns mismatch." );
+            Debug.Assert( rows.Length == values.GetLength(0), "IntensityMatrix number of rows mismatch." );
+            Debug.Assert( columns.Length == values.GetLength(1), "IntensityMatrix number of columns mismatch." );
                                    
             this.Rows = rows;
             this.Columns = columns;
@@ -112,7 +112,19 @@ namespace MetaboliteLevels.Data.Session.Main
             ColumnHeader[] newCols = this.Columns.At( colIndices ).ToArray();
 
             // Get the VALUES
-            double[][] newValues = this.Values.At( rowIndices ).Select( z => z.At( colIndices ).ToArray() ).ToArray(); 
+            double[,] newValues = new double[rowIndices.Length, colIndices.Length];
+
+            for (int row = 0; row < rowIndices.Length; ++row)
+            {
+                int origRowIndex = rowIndices[row];
+
+                for(int col = 0; col < colIndices.Length; ++col)
+                {
+                    int origColIndex = colIndices[col];
+
+                    newValues[row, col] = Values[origRowIndex, origColIndex];
+                }
+            }                                                                                   
 
             // Return the result
             return new IntensityMatrix( newRows, newCols, newValues );
@@ -144,7 +156,7 @@ namespace MetaboliteLevels.Data.Session.Main
 
         public bool IsTrend => this.Columns.Length != 0 && this.Columns[0].Observation.Acquisition == null;
 
-        public IEnumerable<double> AllValues => this.Values.SelectMany( z => z );
+        public IEnumerable<double> AllValues => this.Values.Cast<double>();
 
         /// <summary>
         /// TODO: Horrible workaround, remove it!
@@ -230,32 +242,44 @@ namespace MetaboliteLevels.Data.Session.Main
         /// </summary>                                  
         public IntensityMatrix SplitGroups()
         {
+            // Get the groups involved
             HashSet<GroupInfo> groups = this.Columns.Select( z => z.Observation.Group ).Unique();
+
+            // Create a fake group (since the new observations/columns will have no group)
             GroupInfo split = new GroupInfo( "*", -1, new Range( 0, 0 ), string.Join( ", ", groups ), string.Join( "", groups.Select( z => z.DisplayShortName ) ), -1 );
-            double[][] values = new double[this.Rows.Length * groups.Count][];
-            RowHeader[] rowHeaders = new RowHeader[values.Length];
+            int numNewRows = this.Rows.Length * groups.Count;
+
+            // Write in sequence
+            int newRow = 0;
+
+            // Create the new value matrix -
+            double[,] newValues = null;
             ColumnHeader[] colHeaders = null;
-            GroupInfo prevGroup = null;
+            RowHeader[] rowHeaders = new RowHeader[numNewRows];
+            GroupInfo prevGroup = null; // Used for error messages
 
-            int n = 0;
-
+            // - Iterate groups
             foreach (GroupInfo group in groups)
             {
+                // Get columns for this group
                 int[] colIndices = this.Columns.WhichInOrder( λp => λp.Observation.Group == group, λc => λc.Observation.Time ).ToArray();
                 ColumnHeader[] cols = this.Columns.At( colIndices ).ToArray();
 
                 if (colHeaders == null)
                 {
-                    colHeaders = new ColumnHeader[colIndices.Length];
-                    prevGroup = group;
+                    // First group creates the column headers and data matrix
+                    colHeaders = new ColumnHeader[colIndices.Length];      
 
                     for (int col = 0; col < cols.Length; ++col)
                     {
                         colHeaders[col] = new ColumnHeader( new ObservationInfo( null, split, cols[col].Observation.Time ) );
                     }
+
+                    newValues = new double[numNewRows, colHeaders.Length];
                 }
                 else
                 {
+                    // Subsequent groups just assert the data order matches
                     if (colHeaders.Length != cols.Length)
                     {
                         // User error (probably a missing filter)
@@ -274,20 +298,33 @@ namespace MetaboliteLevels.Data.Session.Main
                     }
                 }
 
+                // Copy values
                 for (int row = 0; row < this.NumRows; ++row)
-                {
-                    values[n] = this.Values[row].At( colIndices ).ToArray();
-                    rowHeaders[n] = new RowHeader( this.Rows[row].Peak, group );
-                    ++n;
+                {   
+                    rowHeaders[newRow] = new RowHeader( this.Rows[row].Peak, group );
+
+                    for (int newCol = 0; newCol < colIndices.Length; ++newCol)
+                    {
+                        newValues[newRow, newCol] = this.Values[row, colIndices[newCol]];
+                    }
+
+                    ++newRow;
                 }
+
+                prevGroup = group;
             }
 
+            // Set group range
             split.Range = Range.Find( colHeaders.Select( z => z.Observation.Time ) );
 
-            return new IntensityMatrix( rowHeaders, colHeaders, values );
+            // Return the result
+            return new IntensityMatrix( rowHeaders, colHeaders, newValues );
         }
     }
 
+    /// <summary>
+    /// Flags for creating an intensity matrix subset
+    /// </summary>
     [Flags]
     public enum ESubsetFlags
     {

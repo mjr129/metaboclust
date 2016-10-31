@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Metrics
     [Serializable]
     sealed class ConfigurationMetric : ConfigurationBase<MetricBase, ArgsMetric, ResultStatistic, SourceTracker>
     {        
-        internal double Calculate(double[] a, double[] b)
+        internal double Calculate(IReadOnlyList< double> a, IReadOnlyList< double> b)
         {
             return this.Args.GetAlgorithmOrThrow().QuickCalculate(a, b, this.Args.Parameters);
         }

@@ -13,11 +13,11 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementatio
         {
         }
 
-        public override double[] Calculate(double[] raw, ArgsCorrection args)
+        public override double[] Calculate(IReadOnlyList< double> raw, ArgsCorrection args)
         {
             double c = (double)args.Parameters[0];
 
-            double[] result = new double[raw.Length];
+            double[] result = new double[raw.Count];
 
             for (int index = 0; index < result.Length; index++)
             {

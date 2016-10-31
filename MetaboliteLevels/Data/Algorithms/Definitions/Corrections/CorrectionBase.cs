@@ -19,7 +19,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections
             // NA
         }
 
-        public abstract double[] Calculate(double[] raw, ArgsCorrection args);
+        public abstract double[] Calculate(IReadOnlyList< double> raw, ArgsCorrection args);
 
         protected abstract override AlgoParameterCollection CreateParamaterDesription();
     }

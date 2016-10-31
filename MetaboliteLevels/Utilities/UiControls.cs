@@ -401,7 +401,7 @@ namespace MetaboliteLevels.Utilities
         public static Version Version
         {
             get
-            {
+            {                                 
                 return typeof(UiControls).Assembly.GetName().Version;
             }
         }

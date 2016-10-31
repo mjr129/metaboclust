@@ -56,7 +56,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
                 throw new InvalidOperationException( $"The chosen peak {{{seedPeak}}} cannot be used a seed because it is not present in the value matrix. Please check that this peak has not been excluded by the filter condition {{{args.PeakFilter}}}.");
             }
 
-            seedCluster.Exemplars.Add( vmatrix.Values[seedIndex]);
+            seedCluster.Exemplars.Add( vmatrix.Vectors[seedIndex]);
 
             // Autogenerate the clusters
             int? nCountLimit = (countLimit != Int32.MinValue) ? countLimit : (int?)null;

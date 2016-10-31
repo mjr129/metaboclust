@@ -42,7 +42,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Metrics.Implementations
             _supportsQuickCalculate = _script.CheckInputMask("1100000000");   
         }
 
-        public override double QuickCalculate(double[] a, double[] b, object[] args)
+        public override double QuickCalculate(IReadOnlyList< double> a, IReadOnlyList< double> b, object[] args)
         {
             UiControls.Assert(SupportsQuickCalculate, "Quick calculate called on a non quick-calculate script.");
 

@@ -26,7 +26,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
         public Vector CreateTrend( Core core, Vector vector )
         {
             double[] newValues = this.CreateTrend( vector.Observations, core.Conditions, core.Groups, vector.Values );
-            IntensityMatrix temporary = new IntensityMatrix( new[] { vector.Peak }, core.Conditions.ToArray(), new[] { newValues } );
+            IntensityMatrix temporary = new IntensityMatrix( new[] { vector.Peak }, core.Conditions.ToArray(), Vector.VectorToMatrix( newValues ) );
             return temporary.Vectors[0];
         }
 
@@ -35,7 +35,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
             return new SourceTracker( this.Args );
         }
 
-        internal double[] CreateTrend(IReadOnlyList<ObservationInfo> inOrder, IReadOnlyList<ObservationInfo> outOrder, IReadOnlyList<GroupInfo> typeInfo, double[] raw)
+        internal double[] CreateTrend(IReadOnlyList<ObservationInfo> inOrder, IReadOnlyList<ObservationInfo> outOrder, IReadOnlyList<GroupInfo> typeInfo, IReadOnlyList< double> raw)
         {
             return this.Args.GetAlgorithmOrThrow().SmoothByType(inOrder, outOrder, typeInfo, raw, this.Args);
         }              
@@ -45,15 +45,22 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Trends
         protected override void OnRun( Core core, ProgressReporter prog )
         {         
             IntensityMatrix source = this.Args.SourceMatrix;
-            double[][] results = new double[source.NumRows][];
+            double[,] results = null;
 
             for (int index = 0; index < source.NumRows; index++)
             {
                 prog.SetProgress( index, source.NumRows );
 
                 // Apply new trend
-                // TODO: Should we be using core. here?
-                results[index] = this.CreateTrend( core.Observations, core.Conditions, core.Groups, source.Values[index] ); // obs
+                // TODO: Should we be using core here?
+                double[] r = this.CreateTrend( core.Observations, core.Conditions, core.Groups, source.Vectors[index] ); // obs
+
+                if (results == null)
+                {
+                    results = new double[source.NumRows, r.Length];
+                }
+
+                ArrayHelper.CopyRow( r, results, index );
             }
 
             IntensityMatrix.RowHeader[] rows = source.Rows;

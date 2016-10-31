@@ -121,7 +121,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
         {
             // Add basics
             ClustererStatistics[STAT_NUM_VECTORS] = vmatrix.NumRows;
-            ClustererStatistics[STAT_LENGTH_OF_VECTORS] = vmatrix.Values[0].Length;
+            ClustererStatistics[STAT_LENGTH_OF_VECTORS] = vmatrix.NumCols;
 
             // Don't calculate metrics?
             if (statistics == EClustererStatistics.None)

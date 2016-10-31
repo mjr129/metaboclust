@@ -134,6 +134,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._coreWatchers.Add(this._chartCluster);
             this._coreWatchers.Add(this._chartPeakForPrinting);
             this._coreWatchers.Add(this._chartClusterForPrinting);
+            _chartPeak.Chart.Style.LegendDisplay = MCharting.ELegendDisplay.Visible;
+            _chartCluster.Chart.Style.LegendDisplay = MCharting.ELegendDisplay.Visible;
 
             // Primary lists
             this._primaryList = new CtlAutoList(this._lstPrimary, this._core, this);

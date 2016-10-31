@@ -140,7 +140,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Misc
         {
             double numClusters = clusters.Count();
             double numPoints = assignments.Count;
-            double numDims = assignments[0].Vector.Values.Length;
+            double numDims = assignments[0].Vector.Values.Count;
 
             double logLikelihood = CalculateBic_CalculateLogLikelihood(clusters, numPoints, numDims);
             double numParams = CalculateBic_CalculateFreeParams(numClusters, numDims);

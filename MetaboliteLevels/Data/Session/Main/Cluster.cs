@@ -45,7 +45,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// Vectors used to generate cluster centre
         /// </summary>
         [XColumn()]
-        public readonly List<double[]> Exemplars = new List<double[]>();
+        public readonly List<IReadOnlyList<double>> Exemplars = new List<IReadOnlyList<double>>();
 
         /// <summary>
         /// Cluster mode
@@ -264,7 +264,7 @@ namespace MetaboliteLevels.Data.Session.Main
         {
             centres.Clear();
 
-            IEnumerable<double[]> list;
+            IEnumerable<IReadOnlyList< double>> list;
             int listCount;
 
             switch (iMode)
@@ -305,7 +305,7 @@ namespace MetaboliteLevels.Data.Session.Main
                     ////////////////////////////
                     // AVERGE OF ALL EXEMPLARS
                     {
-                        int numPoints = list.First().Length;
+                        int numPoints = list.First().Count;
 
                         double[] centre = new double[numPoints];
 
@@ -331,7 +331,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// Calculates the score for variable v against this cluster.
         /// The centres must have been called first by calling [SetCentre].
         /// </summary>
-        public double CalculateScore(double[] vector, EDistanceMode distanceMode, ConfigurationMetric distanceMetric)
+        public double CalculateScore( IReadOnlyList<double> vector, EDistanceMode distanceMode, ConfigurationMetric distanceMetric )
         {
             switch (distanceMode)
             {

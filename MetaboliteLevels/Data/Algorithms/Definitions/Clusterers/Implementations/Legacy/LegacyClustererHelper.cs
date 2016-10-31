@@ -98,7 +98,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         /// Calculates the cluster with the best score for v.
         /// Will not assign to insignificant, distant or disabled clusters.
         /// </summary>
-        private static ClusterScore FindClosestCluster(double[] vector, IEnumerable<Cluster> toChoose, ConfigurationMetric distanceMetric)
+        private static ClusterScore FindClosestCluster(IReadOnlyList< double> vector, IEnumerable<Cluster> toChoose, ConfigurationMetric distanceMetric)
         {
             Cluster bestCluster = null;
             double bestScore = double.NaN;

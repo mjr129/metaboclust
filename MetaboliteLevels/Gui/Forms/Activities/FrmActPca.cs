@@ -162,11 +162,11 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                 {
                     if (this._transposeToShowPeaks)
                     {
-                        valueMatrix[row, col] = source.Values[row][col];
+                        valueMatrix[row, col] = source.Values[row,col];
                     }
                     else
                     {
-                        valueMatrix[col, row] = source.Values[row][col];
+                        valueMatrix[col, row] = source.Values[row,col];
                     }
 
                     ++obsIndex;

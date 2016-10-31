@@ -364,7 +364,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
                 for (int nObs = 0; nObs < this._core.Observations.Count; ++nObs)
                 {
-                    ss[nPeak, nObs] = source.Values[nPeak][nObs];
+                    ss[nPeak, nObs] = source.Values[nPeak,nObs];
                 }
             }
 

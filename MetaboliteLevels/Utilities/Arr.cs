@@ -142,7 +142,7 @@ namespace MetaboliteLevels.Utilities
                 groups[r] = types[r / replicates.Count].Order;
             }
 
-            double[] raw = source.Find( peak ).Values; // TODO: Dirty
+            IReadOnlyList<double> raw = source.Find( peak ).Values; // TODO: Dirty
 
             // Fill out the values we know
             for (int i = 0; i < core.Observations.Count; i++)
@@ -309,14 +309,14 @@ pval = an$""Pr(>F)""[1]").AsNumeric()[0];
                     var obj = inputs[i];
                     SymbolicExpression sym;
 
-                    if (obj is double[])
+                    if (obj is double[,])
                     {
-                        sym = _r.CreateNumericVector((double[])obj);
+                        sym = _r.CreateNumericMatrix( (double[,])obj );
                     }
-                    else if (obj is double[,])
+                    else if (obj is IReadOnlyList<double>)
                     {
-                        sym = _r.CreateNumericMatrix((double[,])obj);
-                    }
+                        sym = _r.CreateNumericVector((IReadOnlyList<double>)obj);
+                    }    
                     else if (obj is IEnumerable<double>)
                     {
                         sym = _r.CreateNumericVector((IEnumerable<double>)obj);

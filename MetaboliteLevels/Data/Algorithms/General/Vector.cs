@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,20 +12,21 @@ namespace MetaboliteLevels.Data.Algorithms.General
 {
     /// <summary>
     /// An input vector
+    /// Doesn't actually store the values, just references the source matrix and row index.
     /// </summary>
     [Serializable]
-    internal sealed class Vector
+    internal sealed class Vector : IReadOnlyList<double>
     {
+        // Data fields...
         public readonly IntensityMatrix Source;
         public readonly int RowIndex;
 
+        // Wrapped stuff...
         public Peak Peak => Source.Rows[RowIndex].Peak;
         public GroupInfo Group => Source.Rows[RowIndex].Group;
         public ObservationInfo[] Observations => Source.Columns.Select( z => z.Observation ).ToArray();
-        public double[] Values => Source.Values[RowIndex];
-        public int Index => RowIndex;
-
-        public int Length => Values.Length;
+        public IReadOnlyList<double> Values => this;
+        public int Index => RowIndex;              
         public IntensityMatrix.RowHeader Header => Source.Rows[RowIndex];
         public IntensityMatrix.ColumnHeader[] ColHeaders => Source.Columns;
 
@@ -45,8 +47,59 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// </summary>                                                                     
         public Vector( double[] values, IntensityMatrix.RowHeader row, IntensityMatrix.ColumnHeader[] cols)
         {
-            Source = new IntensityMatrix( new[] { row }, cols, new[] { values } );
+            double[,] valuesAsMatrix = VectorToMatrix( values );
+
+            Source = new IntensityMatrix( new[] { row }, cols, valuesAsMatrix );
             RowIndex = 0;
+        }
+
+        public static double[,] VectorToMatrix( IReadOnlyList<double> values )
+        {
+            double[,] valuesAsMatrix = new double[1, values.Count];
+
+            for (int col = 0; col < values.Count; ++col)
+            {
+                valuesAsMatrix[0, col] = values[col];
+            }
+
+            return valuesAsMatrix;
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            return new VectorEnumerator( this );
+        }
+
+        private class VectorEnumerator : IEnumerator<double>
+        {
+            private Vector vector;
+            private int index;
+
+            public VectorEnumerator( Vector vector )
+            {
+                this.index = -1;
+                this.vector = vector;
+            }
+
+            public void Dispose()
+            {
+               // NA
+            }
+
+            public bool MoveNext()
+            {
+                ++index;
+                return index < vector.Count;
+            }
+
+            public void Reset()
+            {
+                index = -1;
+            }
+
+            public double Current => vector[index];
+
+            object IEnumerator.Current => this.Current;
         }
 
         public override string ToString()
@@ -60,7 +113,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// </summary>                    
         public IntensityMatrix ToIntensityMatrix()
         {
-            return new IntensityMatrix(  new[] { Source.Rows[RowIndex] }, Source.Columns, new[] { Values } );
+            return new IntensityMatrix(  new[] { Source.Rows[RowIndex] }, Source.Columns, VectorToMatrix(this) );
         }
 
         /// <summary>
@@ -85,5 +138,14 @@ namespace MetaboliteLevels.Data.Algorithms.General
         {
             return RowIndex << 16 ^ Source.GetHashCode();
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public int Count => Source.NumCols;
+
+        public double this[ int colIndex ] => Source.Values[RowIndex, colIndex];
     }
 }

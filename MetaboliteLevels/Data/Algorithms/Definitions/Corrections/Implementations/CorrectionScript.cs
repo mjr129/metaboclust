@@ -22,7 +22,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Corrections.Implementatio
             this._script = new RScript(script, INPUT_TABLE, fileName);
         }
 
-        public override double[] Calculate(double[] raw, ArgsCorrection args)
+        public override double[] Calculate(IReadOnlyList< double> raw, ArgsCorrection args)
         {
             object[] inputs = { raw };
             object[] parameters = args.Parameters;

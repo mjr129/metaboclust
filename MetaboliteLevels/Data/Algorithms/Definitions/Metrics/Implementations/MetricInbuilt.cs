@@ -38,9 +38,9 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Metrics.Implementations
             return _delegate(a, b);
         }
 
-        public override double QuickCalculate(double[] a, double[] b, object[] parameters)
-        {
-            return _delegate(a, b);
+        public override double QuickCalculate(IReadOnlyList< double> a, IReadOnlyList< double> b, object[] parameters)
+        {   
+            return _delegate(a.ToArray(), b.ToArray()); // TODO: Inefficient
         }
 
         protected override AlgoParameterCollection CreateParamaterDesription()
