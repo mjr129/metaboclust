@@ -46,11 +46,11 @@ namespace MetaboliteLevels.Gui.Controls
             this.textBox1.BackColor = System.Drawing.SystemColors.Info;
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox1.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.textBox1.Location = new System.Drawing.Point(0, 77);
+            this.textBox1.Location = new System.Drawing.Point(0, 102);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(261, 304);
+            this.textBox1.Size = new System.Drawing.Size(261, 279);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -62,7 +62,7 @@ namespace MetaboliteLevels.Gui.Controls
             this.ctlTitleBar1.HelpIcon = MetaboliteLevels.Gui.Controls.CtlTitleBar.EHelpIcon.HideBar;
             this.ctlTitleBar1.HelpText = null;
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(0, 77);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
             this.ctlTitleBar1.Size = new System.Drawing.Size(261, 77);
             this.ctlTitleBar1.SubText = "Context sensitive help";
@@ -73,6 +73,7 @@ namespace MetaboliteLevels.Gui.Controls
             // 
             // toolStrip1
             // 
+            this.toolStrip1.BackColor = System.Drawing.SystemColors.Info;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._btnFileFormatDetails});
             this.toolStrip1.Location = new System.Drawing.Point(0, 77);
@@ -80,10 +81,10 @@ namespace MetaboliteLevels.Gui.Controls
             this.toolStrip1.Size = new System.Drawing.Size(261, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
-            this.toolStrip1.Visible = false;
             // 
             // _btnFileFormatDetails
             // 
+            this._btnFileFormatDetails.BackColor = System.Drawing.Color.Yellow;
             this._btnFileFormatDetails.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnFileFormatDetails.Image = global::MetaboliteLevels.Properties.Resources.MnuNext;
             this._btnFileFormatDetails.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -97,8 +98,8 @@ namespace MetaboliteLevels.Gui.Controls
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.ctlTitleBar1);
             this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.ctlTitleBar1);
             this.Name = "CtlContextHelpInner";
             this.Size = new System.Drawing.Size(261, 381);
             this.toolStrip1.ResumeLayout(false);

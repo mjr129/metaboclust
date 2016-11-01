@@ -1124,7 +1124,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnSubInfo.Margin = new System.Windows.Forms.Padding(0);
             this._btnSubInfo.Name = "_btnSubInfo";
             this._btnSubInfo.Size = new System.Drawing.Size(44, 44);
-            this._btnSubInfo.Text = "Meta";
+            this._btnSubInfo.Text = "Info";
             this._btnSubInfo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this._btnSubInfo.ToolTipText = "Information";
             this._btnSubInfo.Click += new System.EventHandler(this._btnSubPeak_Click);

@@ -316,9 +316,11 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
                 if (fileName.StartsWith( "resx:\\\\" ))
                 {
-                    using (var s = Resx.Scripts.ResourceManager.GetStream( fileName.Substring( 7 ) ))
+                    byte[] text = (byte[])Resx.Scripts.ResourceManager.GetObject( fileName.Substring( 7 ) );
+
+                    using (MemoryStream ms = new MemoryStream( text ))
                     {
-                        using (StreamReader sr = new StreamReader( s ))
+                        using (StreamReader sr = new StreamReader( ms ))
                         {
                             mat = reader.Read<string>( sr, fileName );
                         }

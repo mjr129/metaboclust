@@ -119,8 +119,9 @@
   </resheader>
   <data name="label4.Text" xml:space="preserve">
     <value>{ProductName} can make use of the pathways and compounds stored in "PathwayTools" databases, as well as your own custom databases.
-For easy access later, please specify the folder in which you keep your PathwayTools databases.
-If you don't have any yet a folder has been created for you to put them in, until you do you won't see any compounds or you will have to select the file locations manually.</value>
+PathwayTools databases are propritary and cannot be supplied with the software, but some can be obtained at the download link below.
+Please specify the folder in which you keep your PathwayTools databases.
+If you don't have any databases, you should select the default (empty) folder and put them in there when you get some.</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>This indicates where this application should store its settings and scripts, and where your data files are placed by default. This is normally the same folder as the application is stored in. However, if you already have a setup somewhere else, or would like to customise the folder, you can change this here (the application will restart using the new directory).</value>

@@ -41,21 +41,18 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
-            this.ctlButton3 = new CtlButton();
+            this.ctlButton3 = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
-            this.ctlButton2 = new CtlButton();
+            this.ctlButton2 = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this.ctlButton1 = new CtlButton();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnOk = new CtlButton();
-            this._btnCancel = new CtlButton();
+            this.ctlButton1 = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._txtDataSetData = new MGui.Controls.CtlTextBox();
-            this._btnDataSetData = new CtlButton();
-            this.ctlTitleBar1 = new CtlTitleBar();
+            this._btnDataSetData = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this.ctlTitleBar1 = new MetaboliteLevels.Gui.Controls.CtlTitleBar();
             this._txtPathwayTools = new MGui.Controls.CtlTextBox();
-            this._btnPathwayTools = new CtlButton();
+            this._btnPathwayTools = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
@@ -66,10 +63,13 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.label9 = new System.Windows.Forms.Label();
-            this.ctlButton5 = new CtlButton();
+            this.ctlButton5 = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.label10 = new System.Windows.Forms.Label();
             this._txtWorkingDirectory = new MGui.Controls.CtlTextBox();
-            this._btnSetWorkingDirectory = new CtlButton();
+            this._btnSetWorkingDirectory = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this._btnOk = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnCancel = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._cmsR = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.browseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -78,15 +78,22 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.errorProvider1 = new MGui.Controls.CtlError(this.components);
+            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.ctlButton4 = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this.label12 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
-            this.flowLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this._cmsR.SuspendLayout();
             this._cmsPathwayTools.SuspendLayout();
+            this.flowLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -94,13 +101,13 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label1.Location = new System.Drawing.Point(24, 310);
+            this.label1.Location = new System.Drawing.Point(24, 300);
             this.label1.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(664, 32);
             this.label1.TabIndex = 7;
             this.label1.Text = "The programming environment \"R\" is required to perform some of the statistical ca" +
-    "lculations used in this software.\nIf you\'ve not got R yet exit the application a" +
+    "lculations used in this software.\r\nIf R is not installed, exit the application a" +
     "nd download R first. The link is below.";
             this.label1.Visible = false;
             // 
@@ -113,7 +120,6 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel4, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel3, 0, 12);
             this.tableLayoutPanel1.Controls.Add(this._txtDataSetData, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this._btnDataSetData, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 5);
@@ -130,7 +136,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 13;
+            this.tableLayoutPanel1.RowCount = 12;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -143,8 +149,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(990, 807);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(990, 751);
             this.tableLayoutPanel1.TabIndex = 8;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
@@ -154,7 +159,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel4.Controls.Add(this.label5);
             this.flowLayoutPanel4.Controls.Add(this.ctlButton3);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 579);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 569);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(164, 37);
@@ -192,7 +197,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel2.Controls.Add(this.label2);
             this.flowLayoutPanel2.Controls.Add(this.ctlButton2);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 406);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 396);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(288, 37);
@@ -229,7 +234,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.label3);
             this.flowLayoutPanel1.Controls.Add(this.ctlButton1);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 265);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 255);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(121, 37);
@@ -260,54 +265,12 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.ctlButton1.UseVisualStyleBackColor = true;
             this.ctlButton1.Click += new System.EventHandler(this.ctlButton1_Click);
             // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel3.AutoSize = true;
-            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel3, 2);
-            this.flowLayoutPanel3.Controls.Add(this._btnOk);
-            this.flowLayoutPanel3.Controls.Add(this._btnCancel);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(702, 751);
-            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(288, 56);
-            this.flowLayoutPanel3.TabIndex = 18;
-            this.flowLayoutPanel3.WrapContents = false;
-            // 
-            // _btnOk
-            // 
-            this._btnOk.Enabled = false;
-            this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
-            this._btnOk.Location = new System.Drawing.Point(8, 8);
-            this._btnOk.Margin = new System.Windows.Forms.Padding(8);
-            this._btnOk.Name = "_btnOk";
-            this._btnOk.Size = new System.Drawing.Size(128, 40);
-            this._btnOk.TabIndex = 12;
-            this._btnOk.Text = "OK";
-            this._btnOk.UseDefaultSize = true;
-            this._btnOk.UseVisualStyleBackColor = true;
-            this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
-            // 
-            // _btnCancel
-            // 
-            this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
-            this._btnCancel.Location = new System.Drawing.Point(152, 8);
-            this._btnCancel.Margin = new System.Windows.Forms.Padding(8);
-            this._btnCancel.Name = "_btnCancel";
-            this._btnCancel.Size = new System.Drawing.Size(128, 40);
-            this._btnCancel.TabIndex = 16;
-            this._btnCancel.Text = "Cancel";
-            this._btnCancel.UseDefaultSize = true;
-            this._btnCancel.UseVisualStyleBackColor = true;
-            // 
             // _txtDataSetData
             // 
             this._txtDataSetData.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtDataSetData.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtDataSetData.ForeColor = System.Drawing.Color.Blue;
-            this._txtDataSetData.Location = new System.Drawing.Point(24, 358);
+            this._txtDataSetData.Location = new System.Drawing.Point(24, 348);
             this._txtDataSetData.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._txtDataSetData.Name = "_txtDataSetData";
             this._txtDataSetData.Size = new System.Drawing.Size(814, 29);
@@ -319,7 +282,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             // 
             this._btnDataSetData.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnDataSetData.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnDataSetData.Location = new System.Drawing.Point(854, 358);
+            this._btnDataSetData.Location = new System.Drawing.Point(854, 348);
             this._btnDataSetData.Margin = new System.Windows.Forms.Padding(8);
             this._btnDataSetData.Name = "_btnDataSetData";
             this._btnDataSetData.Size = new System.Drawing.Size(128, 40);
@@ -335,12 +298,12 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.SetColumnSpan(this.ctlTitleBar1, 2);
             this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = null;
+            this.ctlTitleBar1.HelpText = "";
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(0);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(256, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(0, 98);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(990, 108);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(990, 98);
             this.ctlTitleBar1.SubText = "Welcome to {ProductName}.\r\nBefore we begin there\'s a couple of details we need.";
             this.ctlTitleBar1.TabIndex = 19;
             this.ctlTitleBar1.Text = "{ProductName}";
@@ -351,7 +314,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this._txtPathwayTools.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtPathwayTools.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtPathwayTools.ForeColor = System.Drawing.Color.Blue;
-            this._txtPathwayTools.Location = new System.Drawing.Point(24, 531);
+            this._txtPathwayTools.Location = new System.Drawing.Point(24, 521);
             this._txtPathwayTools.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._txtPathwayTools.Name = "_txtPathwayTools";
             this._txtPathwayTools.Size = new System.Drawing.Size(814, 29);
@@ -363,7 +326,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             // 
             this._btnPathwayTools.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnPathwayTools.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnPathwayTools.Location = new System.Drawing.Point(854, 531);
+            this._btnPathwayTools.Location = new System.Drawing.Point(854, 521);
             this._btnPathwayTools.Margin = new System.Windows.Forms.Padding(8);
             this._btnPathwayTools.Name = "_btnPathwayTools";
             this._btnPathwayTools.Size = new System.Drawing.Size(128, 40);
@@ -378,7 +341,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label4.Location = new System.Drawing.Point(24, 451);
+            this.label4.Location = new System.Drawing.Point(24, 441);
             this.label4.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(810, 64);
@@ -399,14 +362,14 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.tableLayoutPanel2.Controls.Add(this.linkLabel1, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.label6, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.linkLabel3, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 616);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 606);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(793, 111);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(829, 111);
             this.tableLayoutPanel2.TabIndex = 17;
             this.tableLayoutPanel2.Visible = false;
             // 
@@ -414,7 +377,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             // 
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel2.Location = new System.Drawing.Point(370, 82);
+            this.linkLabel2.Location = new System.Drawing.Point(406, 82);
             this.linkLabel2.Margin = new System.Windows.Forms.Padding(8);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(415, 21);
@@ -439,15 +402,15 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.label8.Location = new System.Drawing.Point(24, 8);
             this.label8.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(72, 21);
+            this.label8.Size = new System.Drawing.Size(209, 21);
             this.label8.TabIndex = 3;
-            this.label8.Text = "R Project";
+            this.label8.Text = "R Project (download R here!)";
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.Location = new System.Drawing.Point(370, 45);
+            this.linkLabel1.Location = new System.Drawing.Point(406, 45);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(8);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(407, 21);
@@ -462,15 +425,15 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.label6.Location = new System.Drawing.Point(24, 45);
             this.label6.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(227, 21);
+            this.label6.Size = new System.Drawing.Size(366, 21);
             this.label6.TabIndex = 0;
-            this.label6.Text = "Pathway Tools database format";
+            this.label6.Text = "A description of the Pathway Tools database format";
             // 
             // linkLabel3
             // 
             this.linkLabel3.AutoSize = true;
             this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel3.Location = new System.Drawing.Point(370, 8);
+            this.linkLabel3.Location = new System.Drawing.Point(406, 8);
             this.linkLabel3.Margin = new System.Windows.Forms.Padding(8);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(192, 21);
@@ -485,7 +448,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.flowLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel5.Controls.Add(this.label9);
             this.flowLayoutPanel5.Controls.Add(this.ctlButton5);
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(0, 108);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(0, 98);
             this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Size = new System.Drawing.Size(188, 37);
@@ -521,7 +484,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label10.Location = new System.Drawing.Point(24, 153);
+            this.label10.Location = new System.Drawing.Point(24, 143);
             this.label10.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(811, 48);
@@ -534,7 +497,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this._txtWorkingDirectory.Dock = System.Windows.Forms.DockStyle.Top;
             this._txtWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._txtWorkingDirectory.ForeColor = System.Drawing.Color.Blue;
-            this._txtWorkingDirectory.Location = new System.Drawing.Point(24, 217);
+            this._txtWorkingDirectory.Location = new System.Drawing.Point(24, 207);
             this._txtWorkingDirectory.Margin = new System.Windows.Forms.Padding(24, 8, 8, 8);
             this._txtWorkingDirectory.Name = "_txtWorkingDirectory";
             this._txtWorkingDirectory.ReadOnly = true;
@@ -547,7 +510,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             // 
             this._btnSetWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._btnSetWorkingDirectory.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnSetWorkingDirectory.Location = new System.Drawing.Point(854, 217);
+            this._btnSetWorkingDirectory.Location = new System.Drawing.Point(854, 207);
             this._btnSetWorkingDirectory.Margin = new System.Windows.Forms.Padding(8);
             this._btnSetWorkingDirectory.Name = "_btnSetWorkingDirectory";
             this._btnSetWorkingDirectory.Size = new System.Drawing.Size(128, 40);
@@ -556,6 +519,47 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this._btnSetWorkingDirectory.UseDefaultSize = true;
             this._btnSetWorkingDirectory.UseVisualStyleBackColor = true;
             this._btnSetWorkingDirectory.Click += new System.EventHandler(this._btnSetWorkingDirectory_Click);
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel3.AutoSize = true;
+            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel3.Controls.Add(this._btnOk);
+            this.flowLayoutPanel3.Controls.Add(this._btnCancel);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(702, 0);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(288, 56);
+            this.flowLayoutPanel3.TabIndex = 18;
+            this.flowLayoutPanel3.WrapContents = false;
+            // 
+            // _btnOk
+            // 
+            this._btnOk.Enabled = false;
+            this._btnOk.Image = global::MetaboliteLevels.Properties.Resources.MnuAccept;
+            this._btnOk.Location = new System.Drawing.Point(8, 8);
+            this._btnOk.Margin = new System.Windows.Forms.Padding(8);
+            this._btnOk.Name = "_btnOk";
+            this._btnOk.Size = new System.Drawing.Size(128, 40);
+            this._btnOk.TabIndex = 12;
+            this._btnOk.Text = "OK";
+            this._btnOk.UseDefaultSize = true;
+            this._btnOk.UseVisualStyleBackColor = true;
+            this._btnOk.Click += new System.EventHandler(this._btnOk_Click);
+            // 
+            // _btnCancel
+            // 
+            this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._btnCancel.Image = global::MetaboliteLevels.Properties.Resources.MnuCancel;
+            this._btnCancel.Location = new System.Drawing.Point(152, 8);
+            this._btnCancel.Margin = new System.Windows.Forms.Padding(8);
+            this._btnCancel.Name = "_btnCancel";
+            this._btnCancel.Size = new System.Drawing.Size(128, 40);
+            this._btnCancel.TabIndex = 16;
+            this._btnCancel.Text = "Cancel";
+            this._btnCancel.UseDefaultSize = true;
+            this._btnCancel.UseVisualStyleBackColor = true;
             // 
             // _cmsR
             // 
@@ -605,6 +609,75 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.defaultToolStripMenuItem.Text = "{Default}";
             this.defaultToolStripMenuItem.Click += new System.EventHandler(this.defaultToolStripMenuItem_Click);
             // 
+            // flowLayoutPanel6
+            // 
+            this.flowLayoutPanel6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.flowLayoutPanel6.AutoSize = true;
+            this.flowLayoutPanel6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel6.BackColor = System.Drawing.SystemColors.Info;
+            this.flowLayoutPanel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flowLayoutPanel6.Controls.Add(this.label11);
+            this.flowLayoutPanel6.Controls.Add(this.ctlButton4);
+            this.flowLayoutPanel6.Controls.Add(this.label12);
+            this.flowLayoutPanel6.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 14);
+            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+            this.flowLayoutPanel6.Padding = new System.Windows.Forms.Padding(8);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(320, 39);
+            this.flowLayoutPanel6.TabIndex = 9;
+            this.flowLayoutPanel6.WrapContents = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(8, 8);
+            this.label11.Margin = new System.Windows.Forms.Padding(0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(69, 21);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Click the";
+            // 
+            // ctlButton4
+            // 
+            this.ctlButton4.FlatAppearance.BorderSize = 0;
+            this.ctlButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ctlButton4.Image = global::MetaboliteLevels.Properties.Resources.MnuHelp;
+            this.ctlButton4.Location = new System.Drawing.Point(77, 8);
+            this.ctlButton4.Margin = new System.Windows.Forms.Padding(0);
+            this.ctlButton4.Name = "ctlButton4";
+            this.ctlButton4.Size = new System.Drawing.Size(21, 21);
+            this.ctlButton4.TabIndex = 17;
+            this.ctlButton4.Text = "";
+            this.ctlButton4.UseVisualStyleBackColor = true;
+            this.ctlButton4.Click += new System.EventHandler(this.ctlButton4_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(98, 8);
+            this.label12.Margin = new System.Windows.Forms.Padding(0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(212, 21);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "buttons to show more details";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.AutoSize = true;
+            this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel6, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.flowLayoutPanel3, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 751);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(990, 56);
+            this.tableLayoutPanel3.TabIndex = 10;
+            // 
             // FrmInitialSetup
             // 
             this.AcceptButton = this._btnOk;
@@ -613,6 +686,7 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.CancelButton = this._btnCancel;
             this.ClientSize = new System.Drawing.Size(990, 807);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.tableLayoutPanel3);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "FrmInitialSetup";
@@ -626,14 +700,19 @@ namespace MetaboliteLevels.Gui.Forms.Setup
             this.flowLayoutPanel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            this.flowLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.flowLayoutPanel5.ResumeLayout(false);
             this.flowLayoutPanel5.PerformLayout();
+            this.flowLayoutPanel3.ResumeLayout(false);
             this._cmsR.ResumeLayout(false);
             this._cmsPathwayTools.ResumeLayout(false);
+            this.flowLayoutPanel6.ResumeLayout(false);
+            this.flowLayoutPanel6.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -680,5 +759,10 @@ namespace MetaboliteLevels.Gui.Forms.Setup
         private MGui.Controls.CtlTextBox _txtWorkingDirectory;
         private Controls.CtlButton _btnSetWorkingDirectory;
         private MGui.Controls.CtlError errorProvider1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
+        private System.Windows.Forms.Label label11;
+        private CtlButton ctlButton4;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
     }
 }

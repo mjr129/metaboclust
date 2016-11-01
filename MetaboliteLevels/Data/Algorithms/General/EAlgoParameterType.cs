@@ -83,6 +83,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
     internal static class AlgoParameterTypes
     {
         public static IAlgoParameterType Integer                       = new _Integer();
+        public static IAlgoParameterType Boolean                       = new _Boolean();
         public static IAlgoParameterType Double                        = new _Double();
         public static IAlgoParameterType WeakRefStatisticArray         = new _WeakRefStatisticArray();
         public static IAlgoParameterType WeakRefPeak                   = new _WeakRefPeak();
@@ -177,7 +178,62 @@ namespace MetaboliteLevels.Data.Algorithms.General
             }
 
             internal abstract string OnTryToString( T x );
-        }        
+        }
+
+        private class _Boolean : _AlgoParameterType<bool>
+        {
+            public override IEnumerable<string> Aliases => new[] { "Boolean", "Bool" };
+
+            protected override object OnBrowse( Form owner, Core _core, object value )
+            {
+                MsgBoxButton[] btns =
+               {
+                    new MsgBoxButton( "YES", Resources.MnuUp, DialogResult.Yes ),
+                    new MsgBoxButton( "NO", Resources.MnuDown, DialogResult.No ),
+                    new MsgBoxButton( "Cancel", Resources.MnuCancel, DialogResult.Cancel )
+                };
+
+                switch (FrmMsgBox.Show( owner, "Select Value", null, "Select a value", Resources.MsgHelp, btns, DialogResult.Cancel, DialogResult.Cancel ))
+                {
+                    case DialogResult.Yes:
+                        return (object)true;
+
+                    case DialogResult.No:
+                        return (object)false;
+
+                    default:
+                        return null;
+                }
+            }
+
+            protected override object OnFromString( FromStringArgs args )
+            {
+                switch (args.Text.ToUpper())
+                {
+                    case "1":
+                    case "YES":
+                    case "Y":
+                    case "TRUE":
+                    case "T":
+                        return true;
+
+                    case "0":
+                    case "NO":
+                    case "N":
+                    case "FALSE":
+                    case "F":
+                        return false;
+
+                    default:
+                        return null;
+                }
+            }
+
+            internal override string OnTryToString( bool x )
+            {
+                return x ? "Yes" : "No";
+            }
+        }
 
         private class _Integer : _AlgoParameterType<int>
         {

@@ -19,9 +19,22 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private readonly HashSet<Column> _selected;
         private readonly HashSet<object> _view = new HashSet<object>();
 
+        public static Column Show( IWin32Window owner, IEnumerable<Column> available, Column selected )
+        {
+            using (FrmEditColumns frm = new FrmEditColumns( available, new[] { selected }, false ))
+            {
+                if (frm.ShowDialog( owner ) == DialogResult.OK)
+                {
+                    return frm._selected.FirstOrDefault();
+                }
+
+                return null;
+            }
+        }
+
         public static HashSet<Column> Show( IWin32Window owner, IEnumerable<Column> available, IEnumerable<Column> selected )
         {
-            using (FrmEditColumns frm = new FrmEditColumns( available, selected ))
+            using (FrmEditColumns frm = new FrmEditColumns( available, selected, true ))
             {
                 if (frm.ShowDialog( owner ) == DialogResult.OK)
                 {
@@ -32,7 +45,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             }
         }
 
-        internal FrmEditColumns(IEnumerable<Column> available, IEnumerable<Column> selected )
+        internal FrmEditColumns(IEnumerable<Column> available, IEnumerable<Column> selected, bool multiSelect )
         {
             this.InitializeComponent();
             UiControls.SetIcon( this );
@@ -47,6 +60,8 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._chkStatistics.ForeColor = ColumnManager.COLCOL_STATISTIC;
             this._chkDefault.ForeColor = ColumnManager.COLCOL_VISIBLE;
             this._chkFolders.ForeColor = ColumnManager.COLCOL_FOLDER;
+
+            this._multiSelect = multiSelect;              
 
             _view.AddRange( new[] { _chkMetaFields , _chkNormal , _chkStatistics, _chkDefault, _chkFolders } );
 
@@ -199,12 +214,27 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         }   
 
         bool _ignoreCheck = false;
+        private readonly bool _multiSelect;
 
         private void treeView1_AfterCheck( object sender, TreeViewEventArgs e )
         {
             if (this._ignoreCheck)
             {
                 return;
+            }
+
+            if (!_multiSelect)
+            {
+                if (e.Node.Nodes.Count != 0)
+                {
+                    e.Node.Checked = false;
+                    return;
+                }
+
+                foreach (TreeNode node in  treeView1.GetAllNodes() )
+                {
+                    node.Checked = node == e.Node;
+                }      
             }
 
             Column col = e.Node.Tag as Column;

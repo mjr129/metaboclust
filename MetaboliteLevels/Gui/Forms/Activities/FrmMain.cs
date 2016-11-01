@@ -162,7 +162,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnSubAnnot.Tag = EVisualClass.Annotation;
             this._btnSubAss.Tag = EVisualClass.Assignment;
             this._btnSubComp.Tag = EVisualClass.Compound;
-            this._btnSubInfo.Tag = EVisualClass.SpecialMeta;
+            this._btnSubInfo.Tag = EVisualClass.SpecialAll;
             this._btnSubStat.Tag = EVisualClass.SpecialStatistic;
             this._btnSubPat.Tag = EVisualClass.Cluster;
             this._btnSubPeak.Tag = EVisualClass.Peak;

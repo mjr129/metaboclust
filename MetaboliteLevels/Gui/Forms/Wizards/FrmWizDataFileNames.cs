@@ -96,6 +96,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
         private readonly ToolStripSeparator _mnuBrowseWorkspaceSep;
         private EditableComboBox<EAnnotation> _cbAutomaticFlag;
         private EditableComboBox<EAnnotation> _cbManualFlag;
+        bool _showAdvancedData = false;
 
         /// <summary>
         /// Constructor.
@@ -463,7 +464,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
                     this._checker.Check( this._txtDataSetObs, File.Exists( this._txtDataSetObs.Text ), "Filename not provided or file not found." );
                     this._checker.Check( this._txtDataSetVar, File.Exists( this._txtDataSetVar.Text ), "Filename not provided or file not found." );
                     this._checker.Check( this._txtAltVals, !this._chkAltVals.Checked || File.Exists( this._txtAltVals.Text ), "Filename not provided or file not found." );
-                    this._checker.Check( this._chkCondInfo, !this._chkCondInfo.Checked || File.Exists( this._txtCondInfo.Text ), "Filename not provided or file not found." );
+                    this._checker.Check( this._txtCondInfo, !this._chkCondInfo.Checked || File.Exists( this._txtCondInfo.Text ), "Filename not provided or file not found." );
                     break;
 
                 case 4: // Conditions
@@ -664,6 +665,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.FileName = textBox.Text;
+                ofd.ShowReadOnly = false;
 
                 if (!string.IsNullOrEmpty( textBox.Text ) && Directory.Exists( Path.GetDirectoryName( textBox.Text ) ))
                 {
@@ -871,11 +873,13 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
         private void _chkAltVals_CheckedChanged( object sender, EventArgs e )
         {
             this.CheckTheBox( this._chkAltVals, this._txtAltVals, this._btnAltVals );
+            UpdateShowAdvancedData();
         }
 
         private void _chkCondInfo_CheckedChanged( object sender, EventArgs e )
         {
             this.CheckTheBox( this._chkCondInfo, this._txtCondInfo, this._btnCondInfo );
+            UpdateShowAdvancedData();
         }           
 
         private void button2_Click( object sender, EventArgs e )
@@ -1286,6 +1290,24 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
         private void _lstAvailCompounds_MouseDoubleClick( object sender, MouseEventArgs e )
         {
             _btnAddCompound.PerformClick();
+        }
+
+        private void UpdateShowAdvancedData()
+        {
+            bool visible = _showAdvancedData || _chkAltVals.Checked || _chkCondInfo.Checked;
+
+            _chkAltVals.Visible = _txtAltVals.Visible = _btnAltVals.Visible = _chkCondInfo.Visible = _txtCondInfo.Visible = _btnCondInfo.Visible = visible;
+        }
+
+        private void _btnShowAdvancedData_Click( object sender, EventArgs e )
+        {
+            _showAdvancedData = !_showAdvancedData;
+            UpdateShowAdvancedData();
+        }
+
+        private void _lstCompounds_SelectedIndexChanged( object sender, EventArgs e )
+        {
+
         }
     }
 }

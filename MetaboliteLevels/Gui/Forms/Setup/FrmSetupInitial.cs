@@ -254,5 +254,10 @@ namespace MetaboliteLevels.Gui.Forms.Setup
         {
             this.label10.Visible = !this.label10.Visible;
         }
+
+        private void ctlButton4_Click( object sender, EventArgs e )
+        {
+            flowLayoutPanel6.Visible = false;
+        }
     }
 }

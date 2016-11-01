@@ -262,7 +262,7 @@ namespace MetaboliteLevels.Resx {
         ///
         ///NOTE: Purely textual or numeric annotations can be added to the peaks by including this information as extra columns in the peak-info file. See the &quot;𝚂𝚎𝚕𝚎𝚌𝚝 𝙳𝚊𝚝𝚊&quot; page for more details.
         ///
-        ///NOTEL Automatic identifications can be performed by selecting the &quot;𝙿𝚎𝚛𝚏𝚘𝚛𝚖 𝚖/𝚣 𝚋𝚊𝚜𝚎𝚍 𝚊𝚞𝚝𝚘𝚖𝚊𝚝𝚒𝚌 𝚒𝚍𝚎𝚗𝚝𝚒𝚏𝚒𝚌𝚊𝚝𝚒𝚘𝚗&quot; option.
+        ///NOTE: Automatic identifications can be performed by selecting the &quot;𝙿𝚎𝚛𝚏𝚘𝚛𝚖 𝚖/𝚣 𝚋𝚊𝚜𝚎𝚍 𝚊𝚞𝚝𝚘𝚖𝚊𝚝𝚒𝚌 𝚒𝚍𝚎𝚗𝚝𝚒𝚏𝚒𝚌𝚊𝚝𝚒𝚘𝚗&quot; option.
         ///
         ///EXPECTS: CSVFILE
         ///
@@ -280,7 +280,8 @@ namespace MetaboliteLevels.Resx {
         /// <summary>
         ///   Looks up a localized string similar to FILEFORMAT
         ///
-        ///Specify the intentisities for each peak (row) and observation (column).
+        ///Specify the intentisities for each peak and observation.
+        ///Provide a CSV file with one row for each observation and one column for each peak.
         ///
         ///MANDATORY: An intensity matrix must be provided.
         ///

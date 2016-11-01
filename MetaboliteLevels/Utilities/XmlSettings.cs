@@ -206,7 +206,8 @@ namespace MetaboliteLevels.Utilities
             try
             {
                 // Create backup
-                if (MainSettings.Instance.General.AutoBackup)
+                // Need to check main settings is initialised because this function is used when loading the main settings themselves
+                if (MainSettings.Instance != null && MainSettings.Instance.General.AutoBackup)
                 {
                     if (File.Exists( fileName ))
                     {

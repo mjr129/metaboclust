@@ -146,7 +146,14 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             lvi.SubItems[1].ForeColor = Color.Gray;
 
             this.listView1.Items.Add( lvi );
-        }                
+        }
+
+        [InList]
+        [Description( "Throws an unhandled exception (crashes the program)." )]
+        void unhandled_exception()
+        {
+            throw new InvalidOperationException( "This exception is intentionally unhandled." );
+        }
 
         [InList]
         [Description( "Creates a cluster from each of the pathways, allowing you to explore pathways as you do with clusters." )]

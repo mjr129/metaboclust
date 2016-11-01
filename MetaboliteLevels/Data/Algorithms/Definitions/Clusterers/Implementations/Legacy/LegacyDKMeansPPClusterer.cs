@@ -44,7 +44,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
             // SEED GROUP
             GroupInfo groupInfo = (GroupInfo)tag.UntypedArgs.Parameters[3];
             // DO-K-MEANS?
-            bool doKMeans = (int)tag.UntypedArgs.Parameters[4] != 0;
+            bool doKMeans = (bool)tag.UntypedArgs.Parameters[4];
 
             // Create the seed cluster
             Cluster seedCluster = new Cluster("1", tag);
@@ -150,7 +150,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
                                                 new AlgoParameter("d", "Minimum distance between exemplars before no more are selected (use MIN for no limit)", AlgoParameterTypes.Double),
                                                 new AlgoParameter("seed.peak", "The peak to act as the first exemplar", AlgoParameterTypes.WeakRefPeak),
                                                 new AlgoParameter("seed.group", "The group to act as the first exemplar (only if one vector is generated per group, otherwise this is ignored)", AlgoParameterTypes.Group),
-                                                new AlgoParameter("use.kmeans", "Whether to perform k-means after the exemplars have been selected (0 = no, 1 = yes).", AlgoParameterTypes.Integer)
+                                                new AlgoParameter("use.kmeans", "Whether to perform k-means after the exemplars have been selected (0 = no, 1 = yes).", AlgoParameterTypes.Boolean)
                                               );
         }    
 

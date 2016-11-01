@@ -268,6 +268,14 @@ namespace MetaboliteLevels.Gui.Controls.Charts
             }
         }
 
+        /// <summary>
+        /// Adds the mean and standard deviation lines to the plot.
+        /// </summary>
+        /// <param name="plot">Target plot</param>
+        /// <param name="o">Options</param>
+        /// <param name="observations">Set of observations</param>
+        /// <param name="peak">Peak being plotted</param>
+        /// <param name="groupLegends">Dictionary to get group legends from</param>
         private void AddMeanAndSdLines(
             MCharting.Plot plot,
             StylisedPeakOptions o,
@@ -331,8 +339,9 @@ namespace MetaboliteLevels.Gui.Controls.Charts
                 sMin.Style.DrawLines = new Pen( c, this._core.Options.LineWidth );
                 sMax.Style.DrawLines = new Pen( c, this._core.Options.LineWidth );
 
-                sMin.Style.DrawLines.DashStyle = DashStyle.Dot;
-                sMax.Style.DrawLines.DashStyle = DashStyle.Dot;
+                sMean.Style.DrawLines.DashStyle = DashStyle.Dash;
+                sMin.Style.DrawLines.DashStyle = DashStyle.Dash;
+                sMax.Style.DrawLines.DashStyle = DashStyle.Dash;
 
                 // Add the points
                 AddDataPoint( sMean, xLeft, yMean, @group );

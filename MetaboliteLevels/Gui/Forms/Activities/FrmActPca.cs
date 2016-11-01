@@ -14,6 +14,7 @@ using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Gui.Controls.Lists;
+using MetaboliteLevels.Gui.Forms.Editing;
 using MetaboliteLevels.Gui.Forms.Selection;
 using MetaboliteLevels.Utilities;
 using MGui.Datatypes;
@@ -734,7 +735,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
                 default:
                     throw new SwitchException(this.WhatPlotting);
-            }   
+            }
+
+            FrmEditColumns.Show( this, columns, selected );
 
             foreach (Column column in columns)
             {

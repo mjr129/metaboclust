@@ -61,20 +61,22 @@ namespace MetaboliteLevels.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static string adducts_All {
+        internal static byte[] adducts_All {
             get {
-                return ResourceManager.GetString("adducts~All", resourceCulture);
+                object obj = ResourceManager.GetObject("adducts~All", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static string adducts_Refined {
+        internal static byte[] adducts_Refined {
             get {
-                return ResourceManager.GetString("adducts~Refined", resourceCulture);
+                object obj = ResourceManager.GetObject("adducts~Refined", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

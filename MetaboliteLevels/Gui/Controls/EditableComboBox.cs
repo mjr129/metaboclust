@@ -193,7 +193,7 @@ namespace MetaboliteLevels.Gui.Controls
         {
             get
             {
-                return this.ComboBox.Enabled && this._button.Enabled;
+                return this.ComboBox.Enabled;
             }
             set
             {
