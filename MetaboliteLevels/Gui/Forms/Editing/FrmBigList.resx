@@ -117,45 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ctlTitleBar1.HelpText" xml:space="preserve">
-    <value>Use this screen to view and edit datasets.
-Depending on the dataset not options elements may be available.
-
-NEW:
-Create a new entry
-
-DUPLICATE:
-Create a new entry from a copy of the selected entry
-
-REMOVE:
-Remove the selected entry
-
-VIEW:
-View the selected entry
-
-EDIT:
-Replace the selected entry
-If applicable, results associated with this entry will need to be recalculated.
-
-RENAME:
-Rename the selected entry
-If applicable, results associated with this entry will be retained under the new name.
-
-UP/DOWN:
-Move the selected entry or down
-
-DISABLE:
-Disable the selected entry.
-This entry will no longer be visible in dialogues until it is reenabled.
-If applicable, results associated with this entry may be discarded to save space. These will be recalculated when the entry is reenabled.
-
-OK:
-Accepts the changes.
-If applicable, results for new or modified entries will be calculated.
-
-CANCEL:
-Discards the changes.
-This only affects the current list, any changes made in other dialogues may be retained.
-</value>
-  </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

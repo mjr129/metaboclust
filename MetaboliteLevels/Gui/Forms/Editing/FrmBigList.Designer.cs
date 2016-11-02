@@ -35,24 +35,25 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBigList));
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listView1 = new System.Windows.Forms.ListView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnOk = new CtlButton();
-            this._btnCancel = new CtlButton();
+            this._btnOk = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnCancel = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this._btnAdd = new CtlButton();
-            this._btnDuplicate = new CtlButton();
-            this._btnRemove = new CtlButton();
-            this._btnView = new CtlButton();
-            this._btnEdit = new CtlButton();
-            this._btnRename = new CtlButton();
-            this._btnUp = new CtlButton();
-            this._btnDown = new CtlButton();
-            this._btnEnableDisable = new CtlButton();
-            this.ctlTitleBar1 = new CtlTitleBar();
+            this._btnAdd = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnDuplicate = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnRemove = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnView = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnEdit = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnRename = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnUp = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnDown = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnEnableDisable = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this.ctlTitleBar1 = new MetaboliteLevels.Gui.Controls.CtlTitleBar();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -68,13 +69,13 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel2, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 87);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 77);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(960, 651);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(960, 661);
             this.tableLayoutPanel2.TabIndex = 23;
             // 
             // panel1
@@ -84,7 +85,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.panel1.Location = new System.Drawing.Point(8, 8);
             this.panel1.Margin = new System.Windows.Forms.Padding(8);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 579);
+            this.panel1.Size = new System.Drawing.Size(800, 589);
             this.panel1.TabIndex = 25;
             // 
             // listView1
@@ -93,7 +94,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Margin = new System.Windows.Forms.Padding(0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(800, 579);
+            this.listView1.Size = new System.Drawing.Size(800, 589);
             this.listView1.TabIndex = 25;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -106,7 +107,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.tableLayoutPanel2.SetColumnSpan(this.flowLayoutPanel1, 2);
             this.flowLayoutPanel1.Controls.Add(this._btnOk);
             this.flowLayoutPanel1.Controls.Add(this._btnCancel);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(672, 595);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(672, 605);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(288, 56);
@@ -173,6 +174,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnAdd.Size = new System.Drawing.Size(128, 40);
             this._btnAdd.TabIndex = 1;
             this._btnAdd.Text = "New";
+            this.toolTip1.SetToolTip(this._btnAdd, "Create a new item");
             this._btnAdd.UseDefaultSize = true;
             this._btnAdd.UseVisualStyleBackColor = false;
             this._btnAdd.Click += new System.EventHandler(this._btnAdd_Click);
@@ -187,6 +189,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnDuplicate.Size = new System.Drawing.Size(128, 40);
             this._btnDuplicate.TabIndex = 6;
             this._btnDuplicate.Text = "Duplicate";
+            this.toolTip1.SetToolTip(this._btnDuplicate, "Create a new item using an existing item as a template");
             this._btnDuplicate.UseDefaultSize = true;
             this._btnDuplicate.UseVisualStyleBackColor = false;
             this._btnDuplicate.Click += new System.EventHandler(this._btnDuplicate_Click);
@@ -202,6 +205,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnRemove.Size = new System.Drawing.Size(128, 40);
             this._btnRemove.TabIndex = 1;
             this._btnRemove.Text = "Remove";
+            this.toolTip1.SetToolTip(this._btnRemove, "Remove the selected item");
             this._btnRemove.UseDefaultSize = true;
             this._btnRemove.UseVisualStyleBackColor = false;
             this._btnRemove.Click += new System.EventHandler(this._btnRemove_Click);
@@ -217,6 +221,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnView.Size = new System.Drawing.Size(128, 40);
             this._btnView.TabIndex = 1;
             this._btnView.Text = "View";
+            this.toolTip1.SetToolTip(this._btnView, "View the selected item without making changes to it");
             this._btnView.UseDefaultSize = true;
             this._btnView.UseVisualStyleBackColor = false;
             this._btnView.Click += new System.EventHandler(this._btnView_Click);
@@ -233,6 +238,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnEdit.Size = new System.Drawing.Size(128, 40);
             this._btnEdit.TabIndex = 1;
             this._btnEdit.Text = "Edit";
+            this.toolTip1.SetToolTip(this._btnEdit, "Edit the selected item");
             this._btnEdit.UseDefaultSize = true;
             this._btnEdit.UseVisualStyleBackColor = false;
             this._btnEdit.Click += new System.EventHandler(this._btnEdit_Click);
@@ -248,6 +254,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnRename.Size = new System.Drawing.Size(128, 40);
             this._btnRename.TabIndex = 2;
             this._btnRename.Text = "Rename";
+            this.toolTip1.SetToolTip(this._btnRename, "Rename the selected item");
             this._btnRename.UseDefaultSize = true;
             this._btnRename.UseVisualStyleBackColor = false;
             this._btnRename.Click += new System.EventHandler(this._btnRename_Click);
@@ -263,6 +270,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnUp.Size = new System.Drawing.Size(128, 40);
             this._btnUp.TabIndex = 3;
             this._btnUp.Text = "Up";
+            this.toolTip1.SetToolTip(this._btnUp, "Move the selected item up in the list");
             this._btnUp.UseDefaultSize = true;
             this._btnUp.UseVisualStyleBackColor = false;
             this._btnUp.Click += new System.EventHandler(this._btnUp_Click);
@@ -278,6 +286,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnDown.Size = new System.Drawing.Size(128, 40);
             this._btnDown.TabIndex = 4;
             this._btnDown.Text = "Down";
+            this.toolTip1.SetToolTip(this._btnDown, "Move the selected item down in the list");
             this._btnDown.UseDefaultSize = true;
             this._btnDown.UseVisualStyleBackColor = false;
             this._btnDown.Click += new System.EventHandler(this._btnDown_Click);
@@ -292,7 +301,9 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._btnEnableDisable.Name = "_btnEnableDisable";
             this._btnEnableDisable.Size = new System.Drawing.Size(128, 40);
             this._btnEnableDisable.TabIndex = 5;
-            this._btnEnableDisable.Text = "Disable";
+            this._btnEnableDisable.Text = "Hide";
+            this.toolTip1.SetToolTip(this._btnEnableDisable, "Hide or show the selected item\r\nHidden items will not show up in lists by default" +
+        "");
             this._btnEnableDisable.UseDefaultSize = true;
             this._btnEnableDisable.UseVisualStyleBackColor = false;
             this._btnEnableDisable.Click += new System.EventHandler(this._btnEnableDisable_Click);
@@ -302,12 +313,12 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.ctlTitleBar1.AutoSize = true;
             this.ctlTitleBar1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ctlTitleBar1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlTitleBar1.HelpText = resources.GetString("ctlTitleBar1.HelpText");
+            this.ctlTitleBar1.HelpText = "";
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(0, 77);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(960, 87);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(960, 77);
             this.ctlTitleBar1.SubText = "And here";
             this.ctlTitleBar1.TabIndex = 24;
             this.ctlTitleBar1.Text = "Text goes here";
@@ -356,5 +367,6 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private Controls.CtlButton _btnDuplicate;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

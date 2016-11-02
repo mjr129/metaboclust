@@ -393,7 +393,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.pCAToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
             this.pCAToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
-            this.pCAToolStripMenuItem.Text = "&PCA";
+            this.pCAToolStripMenuItem.Text = "&PCA / PLSR";
             this.pCAToolStripMenuItem.Click += new System.EventHandler(this.pCAToolStripMenuItem_Click);
             // 
             // toolStripMenuItem10
@@ -660,8 +660,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.toolStripButton7.Image = global::MetaboliteLevels.Properties.Resources.IconPca;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(34, 43);
-            this.toolStripButton7.Text = "PCA";
+            this.toolStripButton7.Size = new System.Drawing.Size(37, 43);
+            this.toolStripButton7.Text = "MVA";
             this.toolStripButton7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButton7.ToolTipText = "PCA / PLSR";
             this.toolStripButton7.Click += new System.EventHandler(this.pCAToolStripMenuItem_Click);

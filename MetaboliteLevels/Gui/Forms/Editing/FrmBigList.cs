@@ -405,13 +405,13 @@ namespace MetaboliteLevels.Gui.Forms.Editing
 
             if ((p as Visualisable)?.Hidden ?? false)
             {
-                this._btnEnableDisable.Text = "Disable";
-                this._btnEnableDisable.Image = Resources.MnuDisable;
+                this._btnEnableDisable.Text = "Unhide";
+                this._btnEnableDisable.Image = Resources.MnuEnable;
             }
             else
             {
-                this._btnEnableDisable.Text = "Enable";
-                this._btnEnableDisable.Image = Resources.MnuEnable;
+                this._btnEnableDisable.Text = "Hide";
+                this._btnEnableDisable.Image = Resources.MnuDisable;
             }
         }
 

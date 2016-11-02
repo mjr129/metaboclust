@@ -42,8 +42,8 @@ namespace MetaboliteLevels.Gui.Controls
         {
             if (HelpIcon == EHelpIcon.HideBar)
             {
-                this.tableLayoutPanel1.BackColor = Color.FromKnownColor( KnownColor.Info );
-                this.tableLayoutPanel1.ForeColor = Color.FromKnownColor( KnownColor.InfoText );
+                this.tableLayoutPanel1.BackColor = UiControls.HelpBackColour;
+                this.tableLayoutPanel1.ForeColor = UiControls.HelpForeColour;
             }
             else
             {

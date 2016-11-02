@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using JetBrains.Annotations;
-using MetaboliteLevels.Data.Algorithms.Definitions.Base.Misc;
 using MetaboliteLevels.Data.Algorithms.Definitions.Clusterers;
 using MetaboliteLevels.Data.Algorithms.Definitions.Statistics;
 using MetaboliteLevels.Data.Database;
@@ -20,76 +18,19 @@ using RDotNet;
 
 namespace MetaboliteLevels.Data.Algorithms.General
 {
-    class FromStringArgs
-    {
-        public readonly string Text;
-        public readonly Core Core;
-        public string Error;
-
-        public FromStringArgs( Core core, string text )
-        {
-            this.Core = core;
-            this.Text = text;
-        }
-    }
-
-    /// <summary>
-    /// Represents a type of parameter requested for an algorithm.
-    /// </summary>
-    internal interface IAlgoParameterType
-    {
-        /// <summary>
-        /// Converts text (from user input) to the parameter type.
-        /// </summary>                                            
-        /// <returns>Result, or null on failure.</returns>
-        [CanBeNull] object FromString( FromStringArgs args );
-
-        /// <summary>
-        /// Opens a GUI browse to select a value for the parameter type.
-        /// </summary>                                                  
-        /// <returns>Result, or null if cancelled.</returns>
-        [CanBeNull] object Browse( Form owner, Core core, object sel );
-
-        /// <summary>
-        /// Creates an R symbol in <paramref name="rEngine"/> with the specified <paramref name="name"/> and <paramref name="value"/>.
-        /// </summary>                                    
-        void SetSymbol( REngine rEngine, string name, object value );
-
-        /// <summary>
-        /// Obtains the name of this type, used in user R scripts.
-        /// </summary>
-        [NotNull] string Name { get; }
-
-        /// <summary>
-        /// Things the user can call this type.
-        /// </summary>
-        [NotNull]
-        IEnumerable <string> Aliases { get; }
-
-        /// <summary>
-        /// Obtains tracking details (i.e. pointers to the current results held by objects).
-        /// See <see cref="SourceTracker"/> for details.
-        /// </summary>
-        /// <param name="param">Parameter value to track</param>
-        /// <returns>Null, or one or more references which will be used to test for changes to this parameter. Note: Use NULL for paramters that are actually NULL, not WeakReference(null), since it is null may be interpreted as an expired reference.</returns>
-        [CanBeNull] WeakReference[] TrackChanges( object param );
-
-        string TryToString( object x );
-    }
-
     /// <summary>
     /// Contains the concrete implementations of <see cref="IAlgoParameterType"/>.
     /// </summary>
     internal static class AlgoParameterTypes
     {
-        public static IAlgoParameterType Integer                       = new _Integer();
-        public static IAlgoParameterType Boolean                       = new _Boolean();
-        public static IAlgoParameterType Double                        = new _Double();
-        public static IAlgoParameterType WeakRefStatisticArray         = new _WeakRefStatisticArray();
-        public static IAlgoParameterType WeakRefPeak                   = new _WeakRefPeak();
-        public static IAlgoParameterType Group                         = new _Group();
+        public static IAlgoParameterType Integer = new _Integer();
+        public static IAlgoParameterType Boolean = new _Boolean();
+        public static IAlgoParameterType Double = new _Double();
+        public static IAlgoParameterType WeakRefStatisticArray = new _WeakRefStatisticArray();
+        public static IAlgoParameterType WeakRefPeak = new _WeakRefPeak();
+        public static IAlgoParameterType Group = new _Group();
         public static IAlgoParameterType WeakRefConfigurationClusterer = new _WeakRefConfigurationClusterer();
-        public static IAlgoParameterType WeakRefClusterArray           = new _WeakRefClusterArray();
+        public static IAlgoParameterType WeakRefClusterArray = new _WeakRefClusterArray();
 
         public static Dictionary<string, IAlgoParameterType> GetKeys()
         {
@@ -112,13 +53,14 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// <param name="param">Value to convert</param>
         /// <returns>Value as a string</returns>
         internal static string ToString( object param )
-        {                                                                         
+        {
             return GetAll().Select( z => z.TryToString( param ) ).FirstOrDefault( z => z != null );
         }
 
         public static IEnumerable<IAlgoParameterType> GetAll()
         {
             yield return Integer;
+            yield return Boolean;
             yield return Double;
             yield return WeakRefStatisticArray;
             yield return WeakRefPeak;
@@ -144,7 +86,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
             }
 
             public object FromString( FromStringArgs args )
-            {                                  
+            {
                 return OnFromString( args );
             }
 
@@ -158,7 +100,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 throw new InvalidOperationException( "ApplyArgs: " + ToString() + " on " + name );
             }
 
-            protected abstract object OnBrowse( Form owner, Core _core, object value );
+            protected abstract object OnBrowse( Form owner, Core core, object value );
 
             protected abstract object OnFromString( FromStringArgs args );
 
@@ -184,7 +126,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
         {
             public override IEnumerable<string> Aliases => new[] { "Boolean", "Bool" };
 
-            protected override object OnBrowse( Form owner, Core _core, object value )
+            protected override object OnBrowse( Form owner, Core core, object value )
             {
                 MsgBoxButton[] btns =
                {
@@ -208,7 +150,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
 
             protected override object OnFromString( FromStringArgs args )
             {
-                switch (args.Text.ToUpper())
+                switch (args.Text.Trim().ToUpper())
                 {
                     case "1":
                     case "YES":
@@ -232,6 +174,11 @@ namespace MetaboliteLevels.Data.Algorithms.General
             internal override string OnTryToString( bool x )
             {
                 return x ? "Yes" : "No";
+            }
+
+            public override void SetSymbol( REngine rEngine, string name, object value )
+            {
+                rEngine.SetSymbol( name, rEngine.CreateLogical( (bool)value ) );
             }
         }
 
@@ -277,7 +224,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 }
             }
 
-            protected override object OnBrowse( Form owner, Core _core, object value )
+            protected override object OnBrowse( Form owner, Core core, object value )
             {
                 MsgBoxButton[] btns =
                 {
@@ -304,7 +251,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 rEngine.SetSymbol( name, rEngine.CreateInteger( (int)value ) );
             }
         }
-                                         
+
         private class _Double : _AlgoParameterType<double>
         {
             public override IEnumerable<string> Aliases => new[] { "Double", "Numeric", "Real" };
@@ -353,7 +300,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 rEngine.SetSymbol( name, rEngine.CreateNumeric( (double)value ) );
             }
 
-            protected override object OnBrowse( Form owner, Core _core, object value )
+            protected override object OnBrowse( Form owner, Core core, object value )
             {
                 {
                     MsgBoxButton[] btns =
@@ -394,7 +341,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
         /// </summary>
         public static SpreadsheetReader InternalConvertor = new SpreadsheetReader()
         {
-            OpenQuote= '"',
+            OpenQuote = '"',
             CloseQuote = '"',
             Delimiter = ',',
             WriteSpaces = 1,
@@ -429,7 +376,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
             }
 
             protected override object OnFromString( FromStringArgs args )
-            {                 
+            {
                 string[] e2 = InternalConvertor.ReadFields( args.Text );
 
                 WeakReference<ConfigurationStatistic>[] r = new WeakReference<ConfigurationStatistic>[e2.Length];
@@ -445,17 +392,17 @@ namespace MetaboliteLevels.Data.Algorithms.General
                         return null;
                     }
 
-                    r[n] = new WeakReference<ConfigurationStatistic>(x);    
+                    r[n] = new WeakReference<ConfigurationStatistic>( x );
                 }
 
                 return r;
             }
 
-            protected override object OnBrowse( Form owner, Core _core, object value )
+            protected override object OnBrowse( Form owner, Core core, object value )
             {
                 WeakReference<ConfigurationStatistic>[] typedValue = (WeakReference<ConfigurationStatistic>[])value;
                 IEnumerable<ConfigurationStatistic> validSelection = typedValue?.Select( z => z.GetTarget() ).Where( z => z != null );
-                IEnumerable<ConfigurationStatistic> newSelection = DataSet.ForStatistics( _core ).ShowCheckList( owner, validSelection );
+                IEnumerable<ConfigurationStatistic> newSelection = DataSet.ForStatistics( core ).ShowCheckList( owner, validSelection );
 
                 if (newSelection == null)
                 {
@@ -465,14 +412,14 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return newSelection.Select( z => new WeakReference<ConfigurationStatistic>( z ) ).ToArray();
             }
         }
-                                  
+
         private class _WeakRefPeak : _AlgoParameterType<WeakReference<Peak>>
         {
             public override IEnumerable<string> Aliases => new[] { "Peak", "WeakReference<Peak>" };
 
-            protected override object OnBrowse( Form owner, Core _core, object value )
+            protected override object OnBrowse( Form owner, Core core, object value )
             {
-                var sel = DataSet.ForPeaks( _core ).ShowList( owner, ((WeakReference<Peak>)value).GetTarget() );
+                var sel = DataSet.ForPeaks( core ).ShowList( owner, ((WeakReference<Peak>)value).GetTarget() );
 
                 if (sel == null)
                 {
@@ -511,7 +458,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return xx.DisplayName;
             }
         }
-                                   
+
         private class _Group : _AlgoParameterType<GroupInfo>
         {
             public override IEnumerable<string> Aliases => new[] { "Group", "GroupInfo" };
@@ -519,7 +466,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
             protected override object OnFromString( FromStringArgs args )
             {
                 string el = args.Text.Trim();
-                var res= args.Core.Groups.FirstOrDefault( z => z.Id == el );
+                var res = args.Core.Groups.FirstOrDefault( z => z.Id == el );
 
                 if (res == null)
                 {
@@ -529,9 +476,9 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return res;
             }
 
-            protected override object OnBrowse( Form owner, Core _core, object value )
+            protected override object OnBrowse( Form owner, Core core, object value )
             {
-                return DataSet.ForGroups( _core ).ShowList( owner, (GroupInfo)value );
+                return DataSet.ForGroups( core ).ShowList( owner, (GroupInfo)value );
             }
 
             internal override string OnTryToString( GroupInfo x )
@@ -539,7 +486,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return x.Id;
             }
         }
-                    
+
         private class _WeakRefConfigurationClusterer : _AlgoParameterType<WeakReference<ConfigurationClusterer>>
         {
             public override IEnumerable<string> Aliases => new[] { "Clusterer", "ConfigurationClusterer", "WeakReference<ConfigurationClusterer>" };
@@ -549,10 +496,10 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return new[] { param.GetTargetOrThrow().Results.ToWeakReferenceO() };
             }
 
-            protected override object OnBrowse( Form owner, Core _core, object value )
+            protected override object OnBrowse( Form owner, Core core, object value )
             {
                 ConfigurationClusterer def = ((WeakReference<ConfigurationClusterer>)value).GetTarget();
-                var sel = DataSet.ForClusterers( _core ).ShowList( owner, def );
+                var sel = DataSet.ForClusterers( core ).ShowList( owner, def );
 
                 if (sel == null)
                 {
@@ -573,7 +520,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 }
 
                 return new WeakReference<ConfigurationClusterer>( x );
-            }   
+            }
 
             internal override string OnTryToString( WeakReference<ConfigurationClusterer> x )
             {
@@ -587,7 +534,7 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return xx.DisplayName;
             }
         }
-                                   
+
         private class _WeakRefClusterArray : _AlgoParameterType<WeakReference<Cluster>[]>
         {
             public override IEnumerable<string> Aliases => new[] { "Cluster[]", "WeakReference<Cluster>[]" };
@@ -619,10 +566,10 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return r;
             }
 
-            protected override object OnBrowse( Form owner, Core _core, object value )
+            protected override object OnBrowse( Form owner, Core core, object value )
             {
                 Cluster def = ((WeakReference<Cluster>)value).GetTarget();
-                var sel = DataSet.ForClusters( _core ).ShowList( owner, def );
+                var sel = DataSet.ForClusters( core ).ShowList( owner, def );
 
                 if (sel == null)
                 {
@@ -632,5 +579,5 @@ namespace MetaboliteLevels.Data.Algorithms.General
                 return new WeakReference<Cluster>( sel );
             }
         }
-    }   
+    }
 }

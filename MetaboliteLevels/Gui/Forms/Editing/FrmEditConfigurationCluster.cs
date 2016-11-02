@@ -50,7 +50,9 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private FrmEditConfigurationCluster()
         {
             this.InitializeComponent();
-            UiControls.SetIcon(this);    
+            UiControls.SetIcon(this);
+
+            ctlContextHelp1.Bind( this, this.ctlTitleBar1, this.toolTip1, CtlContextHelp.EFlags.HelpOnClick | CtlContextHelp.EFlags.HelpOnFocus );
         }
 
         private FrmEditConfigurationCluster(Core core, ArgsClusterer def, bool readOnly, bool hideOptimise)

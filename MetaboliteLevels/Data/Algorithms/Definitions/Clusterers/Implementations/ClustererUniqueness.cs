@@ -62,7 +62,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
                     pat = new Cluster( name, tag );
 
                     // Centre (merge centres)
-                    IEnumerable<double[]> centres = assignments.Select( z => z.Cluster.Centres.First() );
+                    IEnumerable<IReadOnlyList<double>> centres = assignments.Select( z => z.Cluster.Centres.First() );
                     pat.Centres.Add( centres.SelectMany( z => z ).ToArray() );
 
                     // Vector (merge vectors)        

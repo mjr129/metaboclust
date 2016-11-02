@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Session.General;
@@ -98,7 +99,7 @@ namespace MetaboliteLevels.Gui.Controls
                 Dock = DockStyle.Right,
                 Visible = _visible,
                 HandleFileFormats = flags.Has( EFlags.FileFormats ),
-                Size = new System.Drawing.Size( 192, 0 )
+                Size = new Size( 224, 0 )
             };
 
             _panel1.CloseClicked += _panel1_CloseClicked;
@@ -119,37 +120,34 @@ namespace MetaboliteLevels.Gui.Controls
 
             if (toolTip != null)
             {
-                toolTip.Active = flags.Has( EFlags.HelpOnHover );
-                toolTip.InitialDelay = 1;
+                toolTip.Active = true;
+                toolTip.InitialDelay = 2000;
                 toolTip.Popup += this.ToolTip_Popup;
             }
 
-            // CONTROL BINDINGS
-            if (flags.Has( EFlags.HelpOnClick ) || flags.Has( EFlags.HelpOnFocus ))
+            // CONTROL BINDINGS 
+            foreach (Control control in FormHelper.EnumerateControls( owner ))
             {
-                foreach (Control control in FormHelper.EnumerateControls( owner ))
-                {
 
-                    if (control is CtlLabel)
+                if (control is CtlLabel)
+                {
+                    if (flags.Has( EFlags.HelpOnClick ))
                     {
-                        if (flags.Has( EFlags.HelpOnClick ))
-                        {
-                            control.MouseEnter += this.Control_MouseEnter;
-                            control.MouseLeave += this.Control_MouseLeave;
-                            control.MouseDown += this.Control_Click;
-                            control.Cursor = Cursors.Help;
-                        }
-                    }
-                    else
-                    {
-                        if (flags.Has( EFlags.HelpOnFocus ))
-                        {
-                            control.GotFocus += this.Control_Click;
-                            control.MouseDown += this.Control_Click;
-                        }
+                        control.MouseEnter += this.Control_MouseEnter;
+                        control.MouseLeave += this.Control_MouseLeave;
+                        control.MouseDown += this.Control_Click;
+                        control.Cursor = Cursors.Help;
                     }
                 }
-            }
+                else
+                {
+                    if (flags.Has( EFlags.HelpOnFocus ))
+                    {
+                        control.GotFocus += this.Control_Click;
+                        control.MouseDown += this.Control_Click;
+                    }
+                }
+            }     
 
             // DEFAULT VISIBILITY
             Visible = !MainSettings.Instance.DoNotShowAgain.ContainsKey( _doNotShowAgainKey );
@@ -214,6 +212,7 @@ namespace MetaboliteLevels.Gui.Controls
                 else
                 {
                     MainSettings.Instance.DoNotShowAgain[_doNotShowAgainKey] = 1;
+                    _errorProvider.Clear();
                 }
 
                 MainSettings.Instance.Save(MainSettings.EFlags.DoNotShowAgain);
@@ -250,10 +249,43 @@ namespace MetaboliteLevels.Gui.Controls
 
             this._panel1.Text = text;
 
+            if (_cancel != null)
+            {
+                _cancel.Cancel();
+                _hideErrorProvider.Wait();
+            }
+
             _errorProvider.Clear();
-            _errorProvider.SetIconAlignment( control, ErrorIconAlignment.MiddleRight );
-            _errorProvider.SetIconPadding( control, 4 );
-            _errorProvider.SetError( control, "" );
+
+            if (!string.IsNullOrEmpty( text ))
+            {
+                _errorProvider.SetIconAlignment( control, ErrorIconAlignment.MiddleRight );
+                _errorProvider.SetIconPadding( control, 4 );
+                _errorProvider.SetError( control, "This input is currently being described in the help side-bar" );
+
+                _cancel = new CancellationTokenSource();
+                _hideErrorProvider = new Task( HideErrorProvider );
+                _hideErrorProvider.Start();
+            }
+        }
+
+        private CancellationTokenSource _cancel;
+        private Task _hideErrorProvider;
+
+        public async void HideErrorProvider()
+        {
+            try
+            {
+                await Task.Delay( 1000, _cancel.Token );
+
+                if (!_panel1.IsDisposed)
+                {
+                    _panel1.Invoke( (MethodInvoker)_errorProvider.Clear );
+                }
+            }
+            catch (TaskCanceledException)
+            {       
+            }
         }
 
         private void ToolTip_Popup( object sender, PopupEventArgs e )

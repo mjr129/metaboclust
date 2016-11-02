@@ -81,7 +81,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
         public class ForStat
         {
             internal Assignment Assignment;
-            internal double[] ClusterVector;
+            internal IReadOnlyList<double> ClusterVector;
             internal ObsFilter ObsFilter;
             public Vector AssignmentVector;
             internal DistanceMatrix DistanceMatrix;
@@ -208,14 +208,14 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers
                 dmatFiltered = null;
             }
 
-            Dictionary<Cluster, double[]> centreVectors = new Dictionary<Cluster, double[]>();
+            Dictionary<Cluster, IReadOnlyList<double>> centreVectors = new Dictionary<Cluster, IReadOnlyList<double>>();
 
             foreach (Cluster cluster in realClusters)
             {
                 /////////////////////
                 // ASSIGNMENT STATS
                 var centre = cluster.GetCentre(ECentreMode.Average, ECandidateMode.Assignments);
-                double[] centreVector = centre.Count != 0 ? centre[0] : null;
+                IReadOnlyList<double> centreVector = centre.Count != 0 ? centre[0] : null;
 
                 if (filteredIndices != null)
                 {

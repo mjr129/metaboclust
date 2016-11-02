@@ -18,8 +18,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
     {
         public ClustererAffinityPropagation(string id, string name)
             : base(id, name)
-        {
-            Comment = "Clusters using Affinity Propogation";
+        {    
         }
 
         protected override AlgoParameterCollection CreateParamaterDesription()

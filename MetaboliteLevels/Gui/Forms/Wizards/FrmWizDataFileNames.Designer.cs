@@ -62,57 +62,6 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._chkPeakPeakMatch = new System.Windows.Forms.CheckBox();
             this._chkIdentifications = new System.Windows.Forms.CheckBox();
             this._chkAlarm = new System.Windows.Forms.CheckBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this._tabWelcome = new System.Windows.Forms.TabPage();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this._imgPhotograph = new System.Windows.Forms.PictureBox();
-            this._lbl32BitWarning = new System.Windows.Forms.Label();
-            this._lblProgramDescription = new System.Windows.Forms.Label();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
-            this._tabSessionName = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this._tabSelectData = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this._tabConditions = new System.Windows.Forms.TabPage();
-            this._pnlConditions = new System.Windows.Forms.TableLayoutPanel();
-            this._tabStatistics = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._lblTTUnavail = new System.Windows.Forms.Label();
-            this._lblPearsonUnavail = new System.Windows.Forms.Label();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this._chkAutoMeanTrend = new System.Windows.Forms.CheckBox();
-            this._chkAutoMedianTrend = new System.Windows.Forms.CheckBox();
-            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
-            this._chkAutoUvSC = new System.Windows.Forms.CheckBox();
-            this._tabCompounds = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.ctlLabel8 = new System.Windows.Forms.Label();
-            this.ctlLabel9 = new System.Windows.Forms.Label();
-            this.ctlLabel10 = new System.Windows.Forms.Label();
-            this.ctlLabel11 = new System.Windows.Forms.Label();
-            this._tabAnnotations = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
-            this._lstTolerance = new System.Windows.Forms.ComboBox();
-            this._lblPeakPeakMatchUnavail = new System.Windows.Forms.Label();
-            this._numTolerance = new System.Windows.Forms.NumericUpDown();
-            this._manualFlag = new System.Windows.Forms.ComboBox();
-            this._lblMzMatchUnavail = new System.Windows.Forms.Label();
-            this._automaticFlag = new System.Windows.Forms.ComboBox();
-            this._tabReady = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
-            this.label15 = new MetaboliteLevels.Gui.Controls.CtlLabel();
-            this._btnMostRecent = new MetaboliteLevels.Gui.Controls.CtlButton();
-            this._btnNewSession = new MetaboliteLevels.Gui.Controls.CtlButton();
-            this._btnReturnToSession = new MetaboliteLevels.Gui.Controls.CtlButton();
-            this._btnReconfigure = new MetaboliteLevels.Gui.Controls.CtlButton();
             this.ctlLabel6 = new MetaboliteLevels.Gui.Controls.CtlLabel();
             this.ctlLabel7 = new MetaboliteLevels.Gui.Controls.CtlLabel();
             this._btnDeleteWorkspace = new MetaboliteLevels.Gui.Controls.CtlButton();
@@ -134,38 +83,89 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._txtDataSetVar = new MGui.Controls.CtlTextBox();
             this._txtAltVals = new MGui.Controls.CtlTextBox();
             this._btnAltVals = new MetaboliteLevels.Gui.Controls.CtlButton();
-            this.label7 = new MetaboliteLevels.Gui.Controls.CtlLabel();
-            this.label10 = new MetaboliteLevels.Gui.Controls.CtlLabel();
-            this._btnShowAdvancedData = new MetaboliteLevels.Gui.Controls.CtlButton();
-            this.label5 = new MetaboliteLevels.Gui.Controls.CtlLabel();
             this._lblConditions = new MetaboliteLevels.Gui.Controls.CtlLabel();
             this._btnBrowseContCond = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._txtControls = new MGui.Controls.CtlTextBox();
             this._btnBrowseExpCond = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._txtExps = new MGui.Controls.CtlTextBox();
             this.label3 = new MetaboliteLevels.Gui.Controls.CtlLabel();
-            this.label14 = new MetaboliteLevels.Gui.Controls.CtlLabel();
-            this.label4 = new MetaboliteLevels.Gui.Controls.CtlLabel();
-            this.ctlLabel2 = new MetaboliteLevels.Gui.Controls.CtlLabel();
-            this.ctlLabel4 = new MetaboliteLevels.Gui.Controls.CtlLabel();
             this._lblAdducts = new MetaboliteLevels.Gui.Controls.CtlLabel();
             this.label6 = new MetaboliteLevels.Gui.Controls.CtlLabel();
             this._btnAddAdduct = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._btnBrowseAdducts = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._btnDelAdduct = new MetaboliteLevels.Gui.Controls.CtlButton();
-            this.label9 = new MetaboliteLevels.Gui.Controls.CtlLabel();
             this._btnAddCompound = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._btnAddAllCompounds = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._btnAddCompoundLibrary = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._btnRemoveLibrary = new MetaboliteLevels.Gui.Controls.CtlButton();
             this._txtIdentifications = new MGui.Controls.CtlTextBox();
             this._btnIdentifications = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this._tabWelcome = new System.Windows.Forms.TabPage();
+            this.label15 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this._imgPhotograph = new System.Windows.Forms.PictureBox();
+            this._lbl32BitWarning = new System.Windows.Forms.Label();
+            this._btnMostRecent = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnNewSession = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnReturnToSession = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._btnReconfigure = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._lblProgramDescription = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
+            this._tabSessionName = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this._tabSelectData = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label7 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this.label10 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this._btnShowAdvancedData = new MetaboliteLevels.Gui.Controls.CtlButton();
+            this._tabConditions = new System.Windows.Forms.TabPage();
+            this._pnlConditions = new System.Windows.Forms.TableLayoutPanel();
+            this.label5 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this._tabStatistics = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.label14 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this.label4 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this._lblTTUnavail = new System.Windows.Forms.Label();
+            this._lblPearsonUnavail = new System.Windows.Forms.Label();
+            this.ctlLabel2 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this._chkAutoMeanTrend = new System.Windows.Forms.CheckBox();
+            this._chkAutoMedianTrend = new System.Windows.Forms.CheckBox();
+            this.ctlLabel4 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this._chkAutoUvSC = new System.Windows.Forms.CheckBox();
+            this._tabCompounds = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
+            this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label9 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.ctlLabel8 = new System.Windows.Forms.Label();
+            this.ctlLabel9 = new System.Windows.Forms.Label();
+            this.ctlLabel10 = new System.Windows.Forms.Label();
+            this.ctlLabel11 = new System.Windows.Forms.Label();
+            this._tabAnnotations = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label11 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this._lstTolerance = new System.Windows.Forms.ComboBox();
+            this._lblPeakPeakMatchUnavail = new System.Windows.Forms.Label();
             this._lblTolerance = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this._numTolerance = new System.Windows.Forms.NumericUpDown();
             this.ctlLabel3 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this._manualFlag = new System.Windows.Forms.ComboBox();
             this.ctlLabel5 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this._lblMzMatchUnavail = new System.Windows.Forms.Label();
             this.ctlLabel1 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this._automaticFlag = new System.Windows.Forms.ComboBox();
+            this._tabReady = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label12 = new MetaboliteLevels.Gui.Controls.CtlLabel();
+            this._cmsRecentSessions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._tipPopup = new System.Windows.Forms.ToolTip(this.components);
             this.ctlContextHelp1 = new MetaboliteLevels.Gui.Controls.CtlContextHelp(this.components);
             this._checker = new MGui.Controls.CtlError(this.components);
             this._mnuDebug.SuspendLayout();
@@ -490,8 +490,9 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._chkPeakPeakMatch.Size = new System.Drawing.Size(231, 25);
             this._chkPeakPeakMatch.TabIndex = 6;
             this._chkPeakPeakMatch.Text = "Perform peak-peak matching";
-            this._tipSideBar.SetToolTip(this._chkPeakPeakMatch, "Select this option to automatically annotate peaks with similar peaks.\r\n\r\nThis wi" +
-        "ll only function if the requisite information has been selected.\r\n");
+            this._tipSideBar.SetToolTip(this._chkPeakPeakMatch, "Select this option to automatically annotate peaks with peaks having similar m/z " +
+        "values.\r\n\r\nThis will only function if the m/z values are specified in your peak " +
+        "information file.\r\n");
             this._chkPeakPeakMatch.UseVisualStyleBackColor = true;
             this._chkPeakPeakMatch.CheckedChanged += new System.EventHandler(this._chkAutoIdentify_CheckedChanged);
             // 
@@ -524,863 +525,6 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._tipSideBar.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Windows only).");
             this._tipPopup.SetToolTip(this._chkAlarm, "Set to play a brief sound when the dataset is created (Windows only).");
             this._chkAlarm.UseVisualStyleBackColor = true;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Right;
-            this.tabControl1.Controls.Add(this._tabWelcome);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this._tabSessionName);
-            this.tabControl1.Controls.Add(this._tabSelectData);
-            this.tabControl1.Controls.Add(this._tabConditions);
-            this.tabControl1.Controls.Add(this._tabStatistics);
-            this.tabControl1.Controls.Add(this._tabCompounds);
-            this.tabControl1.Controls.Add(this._tabAnnotations);
-            this.tabControl1.Controls.Add(this._tabReady);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
-            this.tabControl1.Multiline = true;
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1076, 725);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // _tabWelcome
-            // 
-            this._tabWelcome.Controls.Add(this.label15);
-            this._tabWelcome.Controls.Add(this.linkLabel1);
-            this._tabWelcome.Controls.Add(this.pictureBox1);
-            this._tabWelcome.Controls.Add(this.tableLayoutPanel1);
-            this._tabWelcome.Controls.Add(this._lblProgramDescription);
-            this._tabWelcome.Location = new System.Drawing.Point(4, 4);
-            this._tabWelcome.Margin = new System.Windows.Forms.Padding(0);
-            this._tabWelcome.Name = "_tabWelcome";
-            this._tabWelcome.Size = new System.Drawing.Size(1012, 717);
-            this._tabWelcome.TabIndex = 5;
-            this._tabWelcome.Text = "Welcome";
-            this._tabWelcome.UseVisualStyleBackColor = true;
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.Gray;
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.BackColor = System.Drawing.Color.White;
-            this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.linkLabel1.ForeColor = System.Drawing.Color.DimGray;
-            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel1.LinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel1.Location = new System.Drawing.Point(0, 693);
-            this.linkLabel1.Margin = new System.Windows.Forms.Padding(0);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
-            this.linkLabel1.Size = new System.Drawing.Size(130, 24);
-            this.linkLabel1.TabIndex = 4;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "#############";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this._tipPopup.SetToolTip(this.linkLabel1, "Show about dialogue");
-            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.DimGray;
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(-601, -21);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(167, 210);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 20;
-            this.pictureBox1.TabStop = false;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this._imgPhotograph, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this._lbl32BitWarning, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this._btnMostRecent, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this._btnNewSession, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this._btnReturnToSession, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this._btnReconfigure, 0, 3);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 38);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1012, 679);
-            this.tableLayoutPanel1.TabIndex = 2;
-            // 
-            // _imgPhotograph
-            // 
-            this._imgPhotograph.Image = global::MetaboliteLevels.Properties.Resources.StartLogo2;
-            this._imgPhotograph.Location = new System.Drawing.Point(802, 0);
-            this._imgPhotograph.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
-            this._imgPhotograph.Name = "_imgPhotograph";
-            this.tableLayoutPanel1.SetRowSpan(this._imgPhotograph, 5);
-            this._imgPhotograph.Size = new System.Drawing.Size(202, 239);
-            this._imgPhotograph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this._imgPhotograph.TabIndex = 3;
-            this._imgPhotograph.TabStop = false;
-            this._tipPopup.SetToolTip(this._imgPhotograph, "A photograph of Medicago truncatula A17 showing the shoot with leaves and seed po" +
-        "ds.\r\nNinjatacoshell 2009. Modified.\r\n");
-            // 
-            // _lbl32BitWarning
-            // 
-            this._lbl32BitWarning.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this._lbl32BitWarning.AutoSize = true;
-            this._lbl32BitWarning.BackColor = System.Drawing.Color.Red;
-            this._lbl32BitWarning.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this._lbl32BitWarning.ForeColor = System.Drawing.Color.White;
-            this._lbl32BitWarning.Location = new System.Drawing.Point(119, 503);
-            this._lbl32BitWarning.Name = "_lbl32BitWarning";
-            this._lbl32BitWarning.Padding = new System.Windows.Forms.Padding(8);
-            this._lbl32BitWarning.Size = new System.Drawing.Size(556, 81);
-            this._lbl32BitWarning.TabIndex = 20;
-            this._lbl32BitWarning.Text = "This application is running in 32 bit mode.\r\n\r\nFor very large datasets or cluster" +
-    " optimisation 64 bit mode is recommended.";
-            this._lbl32BitWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // _lblProgramDescription
-            // 
-            this._lblProgramDescription.Dock = System.Windows.Forms.DockStyle.Top;
-            this._lblProgramDescription.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblProgramDescription.Location = new System.Drawing.Point(0, 0);
-            this._lblProgramDescription.Margin = new System.Windows.Forms.Padding(0);
-            this._lblProgramDescription.Name = "_lblProgramDescription";
-            this._lblProgramDescription.Padding = new System.Windows.Forms.Padding(41, 0, 0, 0);
-            this._lblProgramDescription.Size = new System.Drawing.Size(1012, 38);
-            this._lblProgramDescription.TabIndex = 2;
-            this._lblProgramDescription.Text = "Description goes here";
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.tableLayoutPanel8);
-            this.tabPage1.Location = new System.Drawing.Point(4, 4);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1012, 717);
-            this.tabPage1.TabIndex = 9;
-            this.tabPage1.Text = "Template";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel8
-            // 
-            this.tableLayoutPanel8.AutoSize = true;
-            this.tableLayoutPanel8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel8.ColumnCount = 3;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel8.Controls.Add(this._radRecentWorkspace, 0, 3);
-            this.tableLayoutPanel8.Controls.Add(this.ctlLabel6, 0, 0);
-            this.tableLayoutPanel8.Controls.Add(this.ctlLabel7, 0, 1);
-            this.tableLayoutPanel8.Controls.Add(this._radEmptyWorkspace, 0, 2);
-            this.tableLayoutPanel8.Controls.Add(this._btnDeleteWorkspace, 2, 4);
-            this.tableLayoutPanel8.Controls.Add(this._btnRecentWorkspace, 1, 4);
-            this.tableLayoutPanel8.Controls.Add(this._txtPreviousConfig, 0, 4);
-            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(4);
-            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.Padding = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel8.RowCount = 6;
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(1012, 717);
-            this.tableLayoutPanel8.TabIndex = 1;
-            // 
-            // _tabSessionName
-            // 
-            this._tabSessionName.Controls.Add(this.tableLayoutPanel6);
-            this._tabSessionName.Location = new System.Drawing.Point(4, 4);
-            this._tabSessionName.Margin = new System.Windows.Forms.Padding(4);
-            this._tabSessionName.Name = "_tabSessionName";
-            this._tabSessionName.Padding = new System.Windows.Forms.Padding(4);
-            this._tabSessionName.Size = new System.Drawing.Size(1012, 717);
-            this._tabSessionName.TabIndex = 4;
-            this._tabSessionName.Text = "Session name";
-            this._tabSessionName.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.AutoSize = true;
-            this.tableLayoutPanel6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel6.ColumnCount = 1;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Controls.Add(this._lblTitle, 0, 1);
-            this.tableLayoutPanel6.Controls.Add(this._txtTitle, 0, 2);
-            this.tableLayoutPanel6.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(4, 4);
-            this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(4);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.Padding = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel6.RowCount = 3;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1004, 709);
-            this.tableLayoutPanel6.TabIndex = 0;
-            // 
-            // _tabSelectData
-            // 
-            this._tabSelectData.Controls.Add(this.tableLayoutPanel2);
-            this._tabSelectData.Location = new System.Drawing.Point(4, 4);
-            this._tabSelectData.Margin = new System.Windows.Forms.Padding(4);
-            this._tabSelectData.Name = "_tabSelectData";
-            this._tabSelectData.Padding = new System.Windows.Forms.Padding(4);
-            this._tabSelectData.Size = new System.Drawing.Size(1012, 717);
-            this._tabSelectData.TabIndex = 0;
-            this._tabSelectData.Text = "Select data";
-            this._tabSelectData.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.AutoSize = true;
-            this.tableLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this._btnCondInfo, 1, 13);
-            this.tableLayoutPanel2.Controls.Add(this._txtCondInfo, 0, 13);
-            this.tableLayoutPanel2.Controls.Add(this._lstLcmsMode, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this._chkCondInfo, 0, 12);
-            this.tableLayoutPanel2.Controls.Add(this._lblLcmsMode, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this._btnDataSetVar, 1, 9);
-            this.tableLayoutPanel2.Controls.Add(this._btnDataSetObs, 1, 7);
-            this.tableLayoutPanel2.Controls.Add(this._btnDataSetData, 1, 5);
-            this.tableLayoutPanel2.Controls.Add(this._txtDataSetData, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this._txtDataSetObs, 0, 7);
-            this.tableLayoutPanel2.Controls.Add(this._lblDataSetData, 0, 4);
-            this.tableLayoutPanel2.Controls.Add(this._lblDataSetObs, 0, 6);
-            this.tableLayoutPanel2.Controls.Add(this._lblDataSetVar, 0, 8);
-            this.tableLayoutPanel2.Controls.Add(this._txtDataSetVar, 0, 9);
-            this.tableLayoutPanel2.Controls.Add(this._chkAltVals, 0, 10);
-            this.tableLayoutPanel2.Controls.Add(this._txtAltVals, 0, 11);
-            this.tableLayoutPanel2.Controls.Add(this._btnAltVals, 1, 11);
-            this.tableLayoutPanel2.Controls.Add(this.label7, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label10, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this._btnShowAdvancedData, 0, 14);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 4);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel2.RowCount = 15;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1004, 709);
-            this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // _tabConditions
-            // 
-            this._tabConditions.Controls.Add(this._pnlConditions);
-            this._tabConditions.Location = new System.Drawing.Point(4, 4);
-            this._tabConditions.Name = "_tabConditions";
-            this._tabConditions.Padding = new System.Windows.Forms.Padding(3);
-            this._tabConditions.Size = new System.Drawing.Size(1012, 717);
-            this._tabConditions.TabIndex = 10;
-            this._tabConditions.Text = "Conditions";
-            this._tabConditions.UseVisualStyleBackColor = true;
-            // 
-            // _pnlConditions
-            // 
-            this._pnlConditions.ColumnCount = 2;
-            this._pnlConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._pnlConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this._pnlConditions.Controls.Add(this._chkConditions, 0, 1);
-            this._pnlConditions.Controls.Add(this.label5, 0, 0);
-            this._pnlConditions.Controls.Add(this._lblConditions, 0, 2);
-            this._pnlConditions.Controls.Add(this._btnBrowseContCond, 1, 5);
-            this._pnlConditions.Controls.Add(this._txtControls, 0, 5);
-            this._pnlConditions.Controls.Add(this._btnBrowseExpCond, 1, 3);
-            this._pnlConditions.Controls.Add(this._txtExps, 0, 3);
-            this._pnlConditions.Controls.Add(this.label3, 0, 4);
-            this._pnlConditions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pnlConditions.Location = new System.Drawing.Point(3, 3);
-            this._pnlConditions.Margin = new System.Windows.Forms.Padding(4);
-            this._pnlConditions.Name = "_pnlConditions";
-            this._pnlConditions.Padding = new System.Windows.Forms.Padding(16);
-            this._pnlConditions.RowCount = 6;
-            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._pnlConditions.Size = new System.Drawing.Size(1006, 711);
-            this._pnlConditions.TabIndex = 31;
-            // 
-            // _tabStatistics
-            // 
-            this._tabStatistics.Controls.Add(this.tableLayoutPanel5);
-            this._tabStatistics.Location = new System.Drawing.Point(4, 4);
-            this._tabStatistics.Name = "_tabStatistics";
-            this._tabStatistics.Size = new System.Drawing.Size(1012, 717);
-            this._tabStatistics.TabIndex = 6;
-            this._tabStatistics.Text = "Statistics";
-            this._tabStatistics.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel5
-            // 
-            this.tableLayoutPanel5.ColumnCount = 2;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel5.Controls.Add(this.label14, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.label4, 0, 1);
-            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel1, 0, 2);
-            this.tableLayoutPanel5.Controls.Add(this.ctlLabel2, 0, 3);
-            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel2, 0, 4);
-            this.tableLayoutPanel5.Controls.Add(this.ctlLabel4, 0, 5);
-            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel5, 0, 6);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(4);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.Padding = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel5.RowCount = 7;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(1012, 717);
-            this.tableLayoutPanel5.TabIndex = 0;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Controls.Add(this._chkAutoTTest);
-            this.flowLayoutPanel1.Controls.Add(this._lblTTUnavail);
-            this.flowLayoutPanel1.Controls.Add(this._chkAutoPearson);
-            this.flowLayoutPanel1.Controls.Add(this._lblPearsonUnavail);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(16, 88);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(361, 104);
-            this.flowLayoutPanel1.TabIndex = 30;
-            this.flowLayoutPanel1.WrapContents = false;
-            // 
-            // _lblTTUnavail
-            // 
-            this._lblTTUnavail.AutoSize = true;
-            this._lblTTUnavail.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblTTUnavail.Location = new System.Drawing.Point(32, 39);
-            this._lblTTUnavail.Margin = new System.Windows.Forms.Padding(32, 0, 0, 0);
-            this._lblTTUnavail.Name = "_lblTTUnavail";
-            this._lblTTUnavail.Size = new System.Drawing.Size(329, 13);
-            this._lblTTUnavail.TabIndex = 1;
-            this._lblTTUnavail.Text = "Not available - requires control conditions and experimental conditions";
-            // 
-            // _lblPearsonUnavail
-            // 
-            this._lblPearsonUnavail.AutoSize = true;
-            this._lblPearsonUnavail.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblPearsonUnavail.Location = new System.Drawing.Point(32, 91);
-            this._lblPearsonUnavail.Margin = new System.Windows.Forms.Padding(32, 0, 0, 0);
-            this._lblPearsonUnavail.Name = "_lblPearsonUnavail";
-            this._lblPearsonUnavail.Size = new System.Drawing.Size(225, 13);
-            this._lblPearsonUnavail.TabIndex = 3;
-            this._lblPearsonUnavail.Text = "Not available - requires experimental conditions";
-            // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.AutoSize = true;
-            this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel2.Controls.Add(this._chkAutoMeanTrend);
-            this.flowLayoutPanel2.Controls.Add(this._chkAutoMedianTrend);
-            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(16, 229);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(109, 78);
-            this.flowLayoutPanel2.TabIndex = 30;
-            this.flowLayoutPanel2.WrapContents = false;
-            // 
-            // _chkAutoMeanTrend
-            // 
-            this._chkAutoMeanTrend.AutoSize = true;
-            this._chkAutoMeanTrend.Checked = true;
-            this._chkAutoMeanTrend.CheckState = System.Windows.Forms.CheckState.Checked;
-            this._chkAutoMeanTrend.Location = new System.Drawing.Point(24, 7);
-            this._chkAutoMeanTrend.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
-            this._chkAutoMeanTrend.Name = "_chkAutoMeanTrend";
-            this._chkAutoMeanTrend.Size = new System.Drawing.Size(68, 25);
-            this._chkAutoMeanTrend.TabIndex = 0;
-            this._chkAutoMeanTrend.Text = "Mean";
-            this._chkAutoMeanTrend.UseVisualStyleBackColor = true;
-            this._chkAutoMeanTrend.CheckedChanged += new System.EventHandler(this._chkStatT_CheckedChanged);
-            // 
-            // _chkAutoMedianTrend
-            // 
-            this._chkAutoMedianTrend.AutoSize = true;
-            this._chkAutoMedianTrend.Checked = true;
-            this._chkAutoMedianTrend.CheckState = System.Windows.Forms.CheckState.Checked;
-            this._chkAutoMedianTrend.Location = new System.Drawing.Point(24, 46);
-            this._chkAutoMedianTrend.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
-            this._chkAutoMedianTrend.Name = "_chkAutoMedianTrend";
-            this._chkAutoMedianTrend.Size = new System.Drawing.Size(81, 25);
-            this._chkAutoMedianTrend.TabIndex = 1;
-            this._chkAutoMedianTrend.Text = "Median";
-            this._chkAutoMedianTrend.UseVisualStyleBackColor = true;
-            // 
-            // flowLayoutPanel5
-            // 
-            this.flowLayoutPanel5.AutoSize = true;
-            this.flowLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel5.Controls.Add(this._chkAutoUvSC);
-            this.flowLayoutPanel5.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(16, 344);
-            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-            this.flowLayoutPanel5.Size = new System.Drawing.Size(193, 39);
-            this.flowLayoutPanel5.TabIndex = 30;
-            this.flowLayoutPanel5.WrapContents = false;
-            // 
-            // _chkAutoUvSC
-            // 
-            this._chkAutoUvSC.AutoSize = true;
-            this._chkAutoUvSC.Checked = true;
-            this._chkAutoUvSC.CheckState = System.Windows.Forms.CheckState.Checked;
-            this._chkAutoUvSC.Location = new System.Drawing.Point(24, 7);
-            this._chkAutoUvSC.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
-            this._chkAutoUvSC.Name = "_chkAutoUvSC";
-            this._chkAutoUvSC.Size = new System.Drawing.Size(165, 25);
-            this._chkAutoUvSC.TabIndex = 0;
-            this._chkAutoUvSC.Text = "UV scale and centre";
-            this._chkAutoUvSC.UseVisualStyleBackColor = true;
-            this._chkAutoUvSC.CheckedChanged += new System.EventHandler(this._chkStatT_CheckedChanged);
-            // 
-            // _tabCompounds
-            // 
-            this._tabCompounds.Controls.Add(this.tableLayoutPanel7);
-            this._tabCompounds.Location = new System.Drawing.Point(4, 4);
-            this._tabCompounds.Margin = new System.Windows.Forms.Padding(4);
-            this._tabCompounds.Name = "_tabCompounds";
-            this._tabCompounds.Padding = new System.Windows.Forms.Padding(4);
-            this._tabCompounds.Size = new System.Drawing.Size(1012, 717);
-            this._tabCompounds.TabIndex = 2;
-            this._tabCompounds.Text = "Compounds";
-            this._tabCompounds.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel7
-            // 
-            this.tableLayoutPanel7.ColumnCount = 3;
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.Controls.Add(this.flowLayoutPanel4, 1, 6);
-            this.tableLayoutPanel7.Controls.Add(this.label9, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this._lstAdducts, 0, 6);
-            this.tableLayoutPanel7.Controls.Add(this._lstAvailableAdducts, 2, 6);
-            this.tableLayoutPanel7.Controls.Add(this._lstCompounds, 0, 3);
-            this.tableLayoutPanel7.Controls.Add(this.flowLayoutPanel3, 1, 3);
-            this.tableLayoutPanel7.Controls.Add(this._lstAvailCompounds, 2, 3);
-            this.tableLayoutPanel7.Controls.Add(this._lblAdducts, 0, 4);
-            this.tableLayoutPanel7.Controls.Add(this.label6, 0, 1);
-            this.tableLayoutPanel7.Controls.Add(this.ctlLabel8, 0, 2);
-            this.tableLayoutPanel7.Controls.Add(this.ctlLabel9, 2, 2);
-            this.tableLayoutPanel7.Controls.Add(this.ctlLabel10, 2, 5);
-            this.tableLayoutPanel7.Controls.Add(this.ctlLabel11, 0, 5);
-            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(4, 4);
-            this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(24, 0, 0, 0);
-            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
-            this.tableLayoutPanel7.Padding = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel7.RowCount = 7;
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(1004, 709);
-            this.tableLayoutPanel7.TabIndex = 19;
-            // 
-            // flowLayoutPanel4
-            // 
-            this.flowLayoutPanel4.AutoSize = true;
-            this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel4.Controls.Add(this._btnAddAdduct);
-            this.flowLayoutPanel4.Controls.Add(this._btnBrowseAdducts);
-            this.flowLayoutPanel4.Controls.Add(this._btnDelAdduct);
-            this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(480, 441);
-            this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(44, 111);
-            this.flowLayoutPanel4.TabIndex = 6;
-            this.flowLayoutPanel4.WrapContents = false;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.AutoSize = true;
-            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel3.Controls.Add(this._btnAddCompound);
-            this.flowLayoutPanel3.Controls.Add(this._btnAddAllCompounds);
-            this.flowLayoutPanel3.Controls.Add(this._btnAddCompoundLibrary);
-            this.flowLayoutPanel3.Controls.Add(this._btnRemoveLibrary);
-            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(480, 132);
-            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(44, 148);
-            this.flowLayoutPanel3.TabIndex = 6;
-            this.flowLayoutPanel3.WrapContents = false;
-            // 
-            // ctlLabel8
-            // 
-            this.ctlLabel8.AutoSize = true;
-            this.ctlLabel8.BackColor = System.Drawing.Color.LightGray;
-            this.ctlLabel8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlLabel8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlLabel8.Location = new System.Drawing.Point(24, 119);
-            this.ctlLabel8.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this.ctlLabel8.Name = "ctlLabel8";
-            this.ctlLabel8.Size = new System.Drawing.Size(448, 13);
-            this.ctlLabel8.TabIndex = 1;
-            this.ctlLabel8.Text = "SELECTED";
-            this.ctlLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ctlLabel9
-            // 
-            this.ctlLabel9.AutoSize = true;
-            this.ctlLabel9.BackColor = System.Drawing.Color.LightGray;
-            this.ctlLabel9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlLabel9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlLabel9.Location = new System.Drawing.Point(524, 119);
-            this.ctlLabel9.Margin = new System.Windows.Forms.Padding(0, 8, 8, 0);
-            this.ctlLabel9.Name = "ctlLabel9";
-            this.ctlLabel9.Size = new System.Drawing.Size(456, 13);
-            this.ctlLabel9.TabIndex = 1;
-            this.ctlLabel9.Text = "AVAILABLE";
-            this.ctlLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ctlLabel10
-            // 
-            this.ctlLabel10.AutoSize = true;
-            this.ctlLabel10.BackColor = System.Drawing.Color.LightGray;
-            this.ctlLabel10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlLabel10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlLabel10.Location = new System.Drawing.Point(524, 428);
-            this.ctlLabel10.Margin = new System.Windows.Forms.Padding(0, 8, 8, 0);
-            this.ctlLabel10.Name = "ctlLabel10";
-            this.ctlLabel10.Size = new System.Drawing.Size(456, 13);
-            this.ctlLabel10.TabIndex = 1;
-            this.ctlLabel10.Text = "AVAILABLE";
-            this.ctlLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ctlLabel11
-            // 
-            this.ctlLabel11.AutoSize = true;
-            this.ctlLabel11.BackColor = System.Drawing.Color.LightGray;
-            this.ctlLabel11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ctlLabel11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ctlLabel11.Location = new System.Drawing.Point(24, 428);
-            this.ctlLabel11.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
-            this.ctlLabel11.Name = "ctlLabel11";
-            this.ctlLabel11.Size = new System.Drawing.Size(448, 13);
-            this.ctlLabel11.TabIndex = 1;
-            this.ctlLabel11.Text = "SELECTED";
-            this.ctlLabel11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // _tabAnnotations
-            // 
-            this._tabAnnotations.Controls.Add(this.tableLayoutPanel9);
-            this._tabAnnotations.Location = new System.Drawing.Point(4, 4);
-            this._tabAnnotations.Name = "_tabAnnotations";
-            this._tabAnnotations.Padding = new System.Windows.Forms.Padding(3);
-            this._tabAnnotations.Size = new System.Drawing.Size(1012, 717);
-            this._tabAnnotations.TabIndex = 8;
-            this._tabAnnotations.Text = "Annotations";
-            this._tabAnnotations.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel9
-            // 
-            this.tableLayoutPanel9.ColumnCount = 4;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel9.Controls.Add(this._btnIdentifications, 3, 10);
-            this.tableLayoutPanel9.Controls.Add(this.label11, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this._chkAutoIdentify, 0, 2);
-            this.tableLayoutPanel9.Controls.Add(this._chkPeakPeakMatch, 0, 5);
-            this.tableLayoutPanel9.Controls.Add(this._chkIdentifications, 0, 9);
-            this.tableLayoutPanel9.Controls.Add(this._lstTolerance, 2, 8);
-            this.tableLayoutPanel9.Controls.Add(this._lblPeakPeakMatchUnavail, 0, 6);
-            this.tableLayoutPanel9.Controls.Add(this._lblTolerance, 0, 7);
-            this.tableLayoutPanel9.Controls.Add(this._numTolerance, 0, 8);
-            this.tableLayoutPanel9.Controls.Add(this._txtIdentifications, 0, 10);
-            this.tableLayoutPanel9.Controls.Add(this.ctlLabel3, 0, 11);
-            this.tableLayoutPanel9.Controls.Add(this._manualFlag, 1, 11);
-            this.tableLayoutPanel9.Controls.Add(this.ctlLabel5, 0, 1);
-            this.tableLayoutPanel9.Controls.Add(this._lblMzMatchUnavail, 0, 3);
-            this.tableLayoutPanel9.Controls.Add(this.ctlLabel1, 0, 4);
-            this.tableLayoutPanel9.Controls.Add(this._automaticFlag, 1, 4);
-            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(4);
-            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
-            this.tableLayoutPanel9.Padding = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel9.RowCount = 12;
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(1043, 711);
-            this.tableLayoutPanel9.TabIndex = 0;
-            // 
-            // _lstTolerance
-            // 
-            this._lstTolerance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._lstTolerance.Enabled = false;
-            this._lstTolerance.FormattingEnabled = true;
-            this._lstTolerance.Location = new System.Drawing.Point(854, 288);
-            this._lstTolerance.Margin = new System.Windows.Forms.Padding(8);
-            this._lstTolerance.Name = "_lstTolerance";
-            this._lstTolerance.Size = new System.Drawing.Size(121, 29);
-            this._lstTolerance.TabIndex = 10;
-            this._tipPopup.SetToolTip(this._lstTolerance, "Select units");
-            // 
-            // _lblPeakPeakMatchUnavail
-            // 
-            this._lblPeakPeakMatchUnavail.AutoSize = true;
-            this.tableLayoutPanel9.SetColumnSpan(this._lblPeakPeakMatchUnavail, 4);
-            this._lblPeakPeakMatchUnavail.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblPeakPeakMatchUnavail.Location = new System.Drawing.Point(64, 230);
-            this._lblPeakPeakMatchUnavail.Margin = new System.Windows.Forms.Padding(48, 0, 0, 0);
-            this._lblPeakPeakMatchUnavail.Name = "_lblPeakPeakMatchUnavail";
-            this._lblPeakPeakMatchUnavail.Size = new System.Drawing.Size(102, 13);
-            this._lblPeakPeakMatchUnavail.TabIndex = 7;
-            this._lblPeakPeakMatchUnavail.Text = "<TEXT GOES HERE>";
-            // 
-            // _numTolerance
-            // 
-            this.tableLayoutPanel9.SetColumnSpan(this._numTolerance, 2);
-            this._numTolerance.Dock = System.Windows.Forms.DockStyle.Top;
-            this._numTolerance.Enabled = false;
-            this._numTolerance.Location = new System.Drawing.Point(64, 288);
-            this._numTolerance.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
-            this._numTolerance.Maximum = new decimal(new int[] {
-            276447232,
-            23283,
-            0,
-            0});
-            this._numTolerance.Name = "_numTolerance";
-            this._numTolerance.Size = new System.Drawing.Size(774, 29);
-            this._numTolerance.TabIndex = 9;
-            // 
-            // _manualFlag
-            // 
-            this.tableLayoutPanel9.SetColumnSpan(this._manualFlag, 2);
-            this._manualFlag.Dock = System.Windows.Forms.DockStyle.Top;
-            this._manualFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._manualFlag.Enabled = false;
-            this._manualFlag.FormattingEnabled = true;
-            this._manualFlag.Location = new System.Drawing.Point(174, 419);
-            this._manualFlag.Margin = new System.Windows.Forms.Padding(8);
-            this._manualFlag.Name = "_manualFlag";
-            this._manualFlag.Size = new System.Drawing.Size(801, 29);
-            this._manualFlag.TabIndex = 15;
-            // 
-            // _lblMzMatchUnavail
-            // 
-            this._lblMzMatchUnavail.AutoSize = true;
-            this._lblMzMatchUnavail.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblMzMatchUnavail.Location = new System.Drawing.Point(64, 131);
-            this._lblMzMatchUnavail.Margin = new System.Windows.Forms.Padding(48, 0, 0, 0);
-            this._lblMzMatchUnavail.Name = "_lblMzMatchUnavail";
-            this._lblMzMatchUnavail.Size = new System.Drawing.Size(102, 13);
-            this._lblMzMatchUnavail.TabIndex = 3;
-            this._lblMzMatchUnavail.Text = "<TEXT GOES HERE>";
-            // 
-            // _automaticFlag
-            // 
-            this.tableLayoutPanel9.SetColumnSpan(this._automaticFlag, 2);
-            this._automaticFlag.Dock = System.Windows.Forms.DockStyle.Top;
-            this._automaticFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this._automaticFlag.Enabled = false;
-            this._automaticFlag.FormattingEnabled = true;
-            this._automaticFlag.Location = new System.Drawing.Point(174, 152);
-            this._automaticFlag.Margin = new System.Windows.Forms.Padding(8);
-            this._automaticFlag.Name = "_automaticFlag";
-            this._automaticFlag.Size = new System.Drawing.Size(801, 29);
-            this._automaticFlag.TabIndex = 5;
-            // 
-            // _tabReady
-            // 
-            this._tabReady.Controls.Add(this.tableLayoutPanel3);
-            this._tabReady.Location = new System.Drawing.Point(4, 4);
-            this._tabReady.Name = "_tabReady";
-            this._tabReady.Padding = new System.Windows.Forms.Padding(3);
-            this._tabReady.Size = new System.Drawing.Size(1012, 717);
-            this._tabReady.TabIndex = 7;
-            this._tabReady.Text = "Ready";
-            this._tabReady.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this._chkAlarm, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.label12, 0, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(16);
-            this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(1043, 711);
-            this.tableLayoutPanel3.TabIndex = 5;
-            // 
-            // _cmsRecentSessions
-            // 
-            this._cmsRecentSessions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._cmsRecentSessions.Name = "contextMenuStrip2";
-            this._cmsRecentSessions.Size = new System.Drawing.Size(61, 4);
-            // 
-            // _tipPopup
-            // 
-            this._tipPopup.AutomaticDelay = 200;
-            this._tipPopup.AutoPopDelay = 5000;
-            this._tipPopup.InitialDelay = 200;
-            this._tipPopup.ReshowDelay = 40;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(536, 9);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(106, 21);
-            this.label15.TabIndex = 23;
-            this.label15.Text = "^^^[NOBAR]";
-            // 
-            // _btnMostRecent
-            // 
-            this._btnMostRecent.BackColor = System.Drawing.Color.LightSteelBlue;
-            this._btnMostRecent.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnMostRecent.FlatAppearance.BorderColor = System.Drawing.Color.LightSlateGray;
-            this._btnMostRecent.FlatAppearance.BorderSize = 8;
-            this._btnMostRecent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnMostRecent.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnMostRecent.Image = ((System.Drawing.Image)(resources.GetObject("_btnMostRecent.Image")));
-            this._btnMostRecent.Location = new System.Drawing.Point(41, 230);
-            this._btnMostRecent.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
-            this._btnMostRecent.MaximumSize = new System.Drawing.Size(658, 672);
-            this._btnMostRecent.Name = "_btnMostRecent";
-            this._btnMostRecent.Size = new System.Drawing.Size(658, 74);
-            this._btnMostRecent.TabIndex = 2;
-            this._btnMostRecent.Text = "    Last file";
-            this._tipPopup.SetToolTip(this._btnMostRecent, "Load last used session");
-            this._btnMostRecent.UseVisualStyleBackColor = false;
-            this._btnMostRecent.Click += new System.EventHandler(this._btnMostRecent_Click);
-            // 
-            // _btnNewSession
-            // 
-            this._btnNewSession.BackColor = System.Drawing.Color.LightSteelBlue;
-            this._btnNewSession.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnNewSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSlateGray;
-            this._btnNewSession.FlatAppearance.BorderSize = 8;
-            this._btnNewSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnNewSession.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnNewSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnNewSession.Image")));
-            this._btnNewSession.Location = new System.Drawing.Point(41, 42);
-            this._btnNewSession.Margin = new System.Windows.Forms.Padding(41, 42, 10, 10);
-            this._btnNewSession.MaximumSize = new System.Drawing.Size(658, 672);
-            this._btnNewSession.Name = "_btnNewSession";
-            this._btnNewSession.Size = new System.Drawing.Size(658, 74);
-            this._btnNewSession.TabIndex = 0;
-            this._btnNewSession.Text = "    Create a new session";
-            this._tipPopup.SetToolTip(this._btnNewSession, "Show the new session creation wizard");
-            this._btnNewSession.UseVisualStyleBackColor = false;
-            this._btnNewSession.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // _btnReturnToSession
-            // 
-            this._btnReturnToSession.BackColor = System.Drawing.Color.LightSteelBlue;
-            this._btnReturnToSession.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnReturnToSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSlateGray;
-            this._btnReturnToSession.FlatAppearance.BorderSize = 8;
-            this._btnReturnToSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnReturnToSession.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnReturnToSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnReturnToSession.Image")));
-            this._btnReturnToSession.Location = new System.Drawing.Point(41, 136);
-            this._btnReturnToSession.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
-            this._btnReturnToSession.MaximumSize = new System.Drawing.Size(658, 672);
-            this._btnReturnToSession.Name = "_btnReturnToSession";
-            this._btnReturnToSession.Size = new System.Drawing.Size(658, 74);
-            this._btnReturnToSession.TabIndex = 1;
-            this._btnReturnToSession.Text = "    Return to an existing session";
-            this._tipPopup.SetToolTip(this._btnReturnToSession, "Show list of recent session or open the file browser to select a session from dis" +
-        "k");
-            this._btnReturnToSession.UseVisualStyleBackColor = false;
-            this._btnReturnToSession.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // _btnReconfigure
-            // 
-            this._btnReconfigure.BackColor = System.Drawing.Color.LightSteelBlue;
-            this._btnReconfigure.Dock = System.Windows.Forms.DockStyle.Top;
-            this._btnReconfigure.FlatAppearance.BorderColor = System.Drawing.Color.LightSlateGray;
-            this._btnReconfigure.FlatAppearance.BorderSize = 8;
-            this._btnReconfigure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._btnReconfigure.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnReconfigure.Image = ((System.Drawing.Image)(resources.GetObject("_btnReconfigure.Image")));
-            this._btnReconfigure.Location = new System.Drawing.Point(41, 324);
-            this._btnReconfigure.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
-            this._btnReconfigure.MaximumSize = new System.Drawing.Size(658, 672);
-            this._btnReconfigure.Name = "_btnReconfigure";
-            this._btnReconfigure.Size = new System.Drawing.Size(658, 74);
-            this._btnReconfigure.TabIndex = 3;
-            this._btnReconfigure.Text = "    Settings";
-            this._tipPopup.SetToolTip(this._btnReconfigure, "Show settings menu");
-            this._btnReconfigure.UseVisualStyleBackColor = false;
-            this._btnReconfigure.Click += new System.EventHandler(this._btnReconfigure_Click);
             // 
             // ctlLabel6
             // 
@@ -1602,9 +746,9 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._lblDataSetVar.Location = new System.Drawing.Point(40, 301);
             this._lblDataSetVar.Margin = new System.Windows.Forms.Padding(24, 0, 4, 0);
             this._lblDataSetVar.Name = "_lblDataSetVar";
-            this._lblDataSetVar.Size = new System.Drawing.Size(153, 21);
+            this._lblDataSetVar.Size = new System.Drawing.Size(190, 21);
             this._lblDataSetVar.TabIndex = 10;
-            this._lblDataSetVar.Text = "Variable information";
+            this._lblDataSetVar.Text = "Peak/variable information";
             this._tipSideBar.SetToolTip(this._lblDataSetVar, global::MetaboliteLevels.Resx.Manual.Variables);
             // 
             // _txtDataSetVar
@@ -1647,53 +791,6 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._btnAltVals.UseVisualStyleBackColor = true;
             this._btnAltVals.Visible = false;
             this._btnAltVals.Click += new System.EventHandler(this._btnAltVals_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.LabelStyle = MetaboliteLevels.Gui.Controls.ELabelStyle.Caption;
-            this.label7.Location = new System.Drawing.Point(20, 23);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(504, 42);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "^^Select the data files you want to work with.\r\nInformation about supported file " +
-    "formats can be found by viewing help.";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(20, 81);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(66, 21);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Data set";
-            // 
-            // _btnShowAdvancedData
-            // 
-            this._btnShowAdvancedData.Enabled = false;
-            this._btnShowAdvancedData.Image = global::MetaboliteLevels.Properties.Resources.MnuView;
-            this._btnShowAdvancedData.Location = new System.Drawing.Point(20, 540);
-            this._btnShowAdvancedData.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this._btnShowAdvancedData.Name = "_btnShowAdvancedData";
-            this._btnShowAdvancedData.Size = new System.Drawing.Size(128, 40);
-            this._btnShowAdvancedData.TabIndex = 18;
-            this._btnShowAdvancedData.Text = "Advanced";
-            this._btnShowAdvancedData.UseDefaultSize = true;
-            this._btnShowAdvancedData.UseVisualStyleBackColor = true;
-            this._btnShowAdvancedData.Click += new System.EventHandler(this._btnShowAdvancedData_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.LabelStyle = MetaboliteLevels.Gui.Controls.ELabelStyle.Caption;
-            this.label5.Location = new System.Drawing.Point(20, 25);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(258, 21);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "^^Specify the conditions of interest";
             // 
             // _lblConditions
             // 
@@ -1771,47 +868,6 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this.label3.Text = "Control group(s)";
             this._tipSideBar.SetToolTip(this.label3, global::MetaboliteLevels.Resx.Manual.ControlConditions);
             // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.LabelStyle = MetaboliteLevels.Gui.Controls.ELabelStyle.Caption;
-            this.label14.Location = new System.Drawing.Point(20, 23);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(548, 21);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "^^Select the defult condiguration - you can always add or remove these later.";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 60);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(154, 21);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Auto-create statistics";
-            // 
-            // ctlLabel2
-            // 
-            this.ctlLabel2.AutoSize = true;
-            this.ctlLabel2.Location = new System.Drawing.Point(20, 201);
-            this.ctlLabel2.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.ctlLabel2.Name = "ctlLabel2";
-            this.ctlLabel2.Size = new System.Drawing.Size(146, 21);
-            this.ctlLabel2.TabIndex = 2;
-            this.ctlLabel2.Text = "Replicate averaging";
-            // 
-            // ctlLabel4
-            // 
-            this.ctlLabel4.AutoSize = true;
-            this.ctlLabel4.Location = new System.Drawing.Point(20, 316);
-            this.ctlLabel4.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
-            this.ctlLabel4.Name = "ctlLabel4";
-            this.ctlLabel4.Size = new System.Drawing.Size(148, 21);
-            this.ctlLabel4.TabIndex = 3;
-            this.ctlLabel4.Text = "Perform corrections";
-            // 
             // _lblAdducts
             // 
             this._lblAdducts.AutoSize = true;
@@ -1875,19 +931,6 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._tipPopup.SetToolTip(this._btnDelAdduct, "Remove selected library");
             this._btnDelAdduct.UseVisualStyleBackColor = true;
             this._btnDelAdduct.Click += new System.EventHandler(this.ctlButton3_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.tableLayoutPanel7.SetColumnSpan(this.label9, 3);
-            this.label9.LabelStyle = MetaboliteLevels.Gui.Controls.ELabelStyle.Caption;
-            this.label9.Location = new System.Drawing.Point(24, 24);
-            this.label9.Margin = new System.Windows.Forms.Padding(8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(494, 42);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "^^Select the compound libraries used for automated peak annotation\r\nThis informat" +
-    "ion is optional";
             // 
             // _btnAddCompound
             // 
@@ -1953,7 +996,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._txtIdentifications.Location = new System.Drawing.Point(64, 374);
             this._txtIdentifications.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
             this._txtIdentifications.Name = "_txtIdentifications";
-            this._txtIdentifications.Size = new System.Drawing.Size(911, 29);
+            this._txtIdentifications.Size = new System.Drawing.Size(874, 29);
             this._txtIdentifications.TabIndex = 12;
             this._tipSideBar.SetToolTip(this._txtIdentifications, global::MetaboliteLevels.Resx.Manual.Identifications);
             this._txtIdentifications.Watermark = null;
@@ -1962,7 +1005,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             // 
             this._btnIdentifications.Enabled = false;
             this._btnIdentifications.Image = global::MetaboliteLevels.Properties.Resources.MnuOpen;
-            this._btnIdentifications.Location = new System.Drawing.Point(991, 374);
+            this._btnIdentifications.Location = new System.Drawing.Point(954, 374);
             this._btnIdentifications.Margin = new System.Windows.Forms.Padding(8);
             this._btnIdentifications.Name = "_btnIdentifications";
             this._btnIdentifications.Size = new System.Drawing.Size(28, 29);
@@ -1971,6 +1014,847 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._tipPopup.SetToolTip(this._btnIdentifications, "Browse for file");
             this._btnIdentifications.UseVisualStyleBackColor = true;
             this._btnIdentifications.Click += new System.EventHandler(this._btnIdentifications_Click_1);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Right;
+            this.tabControl1.Controls.Add(this._tabWelcome);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this._tabSessionName);
+            this.tabControl1.Controls.Add(this._tabSelectData);
+            this.tabControl1.Controls.Add(this._tabConditions);
+            this.tabControl1.Controls.Add(this._tabStatistics);
+            this.tabControl1.Controls.Add(this._tabCompounds);
+            this.tabControl1.Controls.Add(this._tabAnnotations);
+            this.tabControl1.Controls.Add(this._tabReady);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl1.Multiline = true;
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1076, 725);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // _tabWelcome
+            // 
+            this._tabWelcome.Controls.Add(this.label15);
+            this._tabWelcome.Controls.Add(this.linkLabel1);
+            this._tabWelcome.Controls.Add(this.pictureBox1);
+            this._tabWelcome.Controls.Add(this.tableLayoutPanel1);
+            this._tabWelcome.Controls.Add(this._lblProgramDescription);
+            this._tabWelcome.Location = new System.Drawing.Point(4, 4);
+            this._tabWelcome.Margin = new System.Windows.Forms.Padding(0);
+            this._tabWelcome.Name = "_tabWelcome";
+            this._tabWelcome.Size = new System.Drawing.Size(1012, 717);
+            this._tabWelcome.TabIndex = 5;
+            this._tabWelcome.Text = "Welcome";
+            this._tabWelcome.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(536, 9);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(106, 21);
+            this.label15.TabIndex = 23;
+            this.label15.Text = "^^^[NOBAR]";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.Gray;
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.BackColor = System.Drawing.Color.White;
+            this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.linkLabel1.ForeColor = System.Drawing.Color.DimGray;
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabel1.LinkColor = System.Drawing.Color.DimGray;
+            this.linkLabel1.Location = new System.Drawing.Point(0, 693);
+            this.linkLabel1.Margin = new System.Windows.Forms.Padding(0);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
+            this.linkLabel1.Size = new System.Drawing.Size(130, 24);
+            this.linkLabel1.TabIndex = 4;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "#############";
+            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this._tipPopup.SetToolTip(this.linkLabel1, "Show about dialogue");
+            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.DimGray;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(-601, -21);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(167, 210);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 20;
+            this.pictureBox1.TabStop = false;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this._imgPhotograph, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this._lbl32BitWarning, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this._btnMostRecent, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this._btnNewSession, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this._btnReturnToSession, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this._btnReconfigure, 0, 3);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 38);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1012, 679);
+            this.tableLayoutPanel1.TabIndex = 2;
+            // 
+            // _imgPhotograph
+            // 
+            this._imgPhotograph.Image = global::MetaboliteLevels.Properties.Resources.StartLogo2;
+            this._imgPhotograph.Location = new System.Drawing.Point(802, 0);
+            this._imgPhotograph.Margin = new System.Windows.Forms.Padding(8, 0, 8, 8);
+            this._imgPhotograph.Name = "_imgPhotograph";
+            this.tableLayoutPanel1.SetRowSpan(this._imgPhotograph, 5);
+            this._imgPhotograph.Size = new System.Drawing.Size(202, 239);
+            this._imgPhotograph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this._imgPhotograph.TabIndex = 3;
+            this._imgPhotograph.TabStop = false;
+            this._tipPopup.SetToolTip(this._imgPhotograph, "A photograph of Medicago truncatula A17 showing the shoot with leaves and seed po" +
+        "ds.\r\nNinjatacoshell 2009. Modified.\r\n");
+            // 
+            // _lbl32BitWarning
+            // 
+            this._lbl32BitWarning.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this._lbl32BitWarning.AutoSize = true;
+            this._lbl32BitWarning.BackColor = System.Drawing.Color.Red;
+            this._lbl32BitWarning.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this._lbl32BitWarning.ForeColor = System.Drawing.Color.White;
+            this._lbl32BitWarning.Location = new System.Drawing.Point(119, 503);
+            this._lbl32BitWarning.Name = "_lbl32BitWarning";
+            this._lbl32BitWarning.Padding = new System.Windows.Forms.Padding(8);
+            this._lbl32BitWarning.Size = new System.Drawing.Size(556, 81);
+            this._lbl32BitWarning.TabIndex = 20;
+            this._lbl32BitWarning.Text = "This application is running in 32 bit mode.\r\n\r\nFor very large datasets or cluster" +
+    " optimisation 64 bit mode is recommended.";
+            this._lbl32BitWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // _btnMostRecent
+            // 
+            this._btnMostRecent.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._btnMostRecent.Dock = System.Windows.Forms.DockStyle.Top;
+            this._btnMostRecent.FlatAppearance.BorderColor = System.Drawing.Color.LightSlateGray;
+            this._btnMostRecent.FlatAppearance.BorderSize = 8;
+            this._btnMostRecent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnMostRecent.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnMostRecent.Image = ((System.Drawing.Image)(resources.GetObject("_btnMostRecent.Image")));
+            this._btnMostRecent.Location = new System.Drawing.Point(41, 230);
+            this._btnMostRecent.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
+            this._btnMostRecent.MaximumSize = new System.Drawing.Size(658, 672);
+            this._btnMostRecent.Name = "_btnMostRecent";
+            this._btnMostRecent.Size = new System.Drawing.Size(658, 74);
+            this._btnMostRecent.TabIndex = 2;
+            this._btnMostRecent.Text = "    Last file";
+            this._tipPopup.SetToolTip(this._btnMostRecent, "Load last used session");
+            this._btnMostRecent.UseVisualStyleBackColor = false;
+            this._btnMostRecent.Click += new System.EventHandler(this._btnMostRecent_Click);
+            // 
+            // _btnNewSession
+            // 
+            this._btnNewSession.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._btnNewSession.Dock = System.Windows.Forms.DockStyle.Top;
+            this._btnNewSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSlateGray;
+            this._btnNewSession.FlatAppearance.BorderSize = 8;
+            this._btnNewSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnNewSession.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnNewSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnNewSession.Image")));
+            this._btnNewSession.Location = new System.Drawing.Point(41, 42);
+            this._btnNewSession.Margin = new System.Windows.Forms.Padding(41, 42, 10, 10);
+            this._btnNewSession.MaximumSize = new System.Drawing.Size(658, 672);
+            this._btnNewSession.Name = "_btnNewSession";
+            this._btnNewSession.Size = new System.Drawing.Size(658, 74);
+            this._btnNewSession.TabIndex = 0;
+            this._btnNewSession.Text = "    Create a new session";
+            this._tipPopup.SetToolTip(this._btnNewSession, "Show the new session creation wizard");
+            this._btnNewSession.UseVisualStyleBackColor = false;
+            this._btnNewSession.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // _btnReturnToSession
+            // 
+            this._btnReturnToSession.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._btnReturnToSession.Dock = System.Windows.Forms.DockStyle.Top;
+            this._btnReturnToSession.FlatAppearance.BorderColor = System.Drawing.Color.LightSlateGray;
+            this._btnReturnToSession.FlatAppearance.BorderSize = 8;
+            this._btnReturnToSession.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnReturnToSession.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnReturnToSession.Image = ((System.Drawing.Image)(resources.GetObject("_btnReturnToSession.Image")));
+            this._btnReturnToSession.Location = new System.Drawing.Point(41, 136);
+            this._btnReturnToSession.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
+            this._btnReturnToSession.MaximumSize = new System.Drawing.Size(658, 672);
+            this._btnReturnToSession.Name = "_btnReturnToSession";
+            this._btnReturnToSession.Size = new System.Drawing.Size(658, 74);
+            this._btnReturnToSession.TabIndex = 1;
+            this._btnReturnToSession.Text = "    Return to an existing session";
+            this._tipPopup.SetToolTip(this._btnReturnToSession, "Show list of recent session or open the file browser to select a session from dis" +
+        "k");
+            this._btnReturnToSession.UseVisualStyleBackColor = false;
+            this._btnReturnToSession.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // _btnReconfigure
+            // 
+            this._btnReconfigure.BackColor = System.Drawing.Color.LightSteelBlue;
+            this._btnReconfigure.Dock = System.Windows.Forms.DockStyle.Top;
+            this._btnReconfigure.FlatAppearance.BorderColor = System.Drawing.Color.LightSlateGray;
+            this._btnReconfigure.FlatAppearance.BorderSize = 8;
+            this._btnReconfigure.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._btnReconfigure.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._btnReconfigure.Image = ((System.Drawing.Image)(resources.GetObject("_btnReconfigure.Image")));
+            this._btnReconfigure.Location = new System.Drawing.Point(41, 324);
+            this._btnReconfigure.Margin = new System.Windows.Forms.Padding(41, 10, 10, 10);
+            this._btnReconfigure.MaximumSize = new System.Drawing.Size(658, 672);
+            this._btnReconfigure.Name = "_btnReconfigure";
+            this._btnReconfigure.Size = new System.Drawing.Size(658, 74);
+            this._btnReconfigure.TabIndex = 3;
+            this._btnReconfigure.Text = "    Settings";
+            this._tipPopup.SetToolTip(this._btnReconfigure, "Show settings menu");
+            this._btnReconfigure.UseVisualStyleBackColor = false;
+            this._btnReconfigure.Click += new System.EventHandler(this._btnReconfigure_Click);
+            // 
+            // _lblProgramDescription
+            // 
+            this._lblProgramDescription.Dock = System.Windows.Forms.DockStyle.Top;
+            this._lblProgramDescription.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblProgramDescription.Location = new System.Drawing.Point(0, 0);
+            this._lblProgramDescription.Margin = new System.Windows.Forms.Padding(0);
+            this._lblProgramDescription.Name = "_lblProgramDescription";
+            this._lblProgramDescription.Padding = new System.Windows.Forms.Padding(41, 0, 0, 0);
+            this._lblProgramDescription.Size = new System.Drawing.Size(1012, 38);
+            this._lblProgramDescription.TabIndex = 2;
+            this._lblProgramDescription.Text = "Description goes here";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tableLayoutPanel8);
+            this.tabPage1.Location = new System.Drawing.Point(4, 4);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(1012, 717);
+            this.tabPage1.TabIndex = 9;
+            this.tabPage1.Text = "Template";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel8
+            // 
+            this.tableLayoutPanel8.AutoSize = true;
+            this.tableLayoutPanel8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel8.ColumnCount = 3;
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel8.Controls.Add(this._radRecentWorkspace, 0, 3);
+            this.tableLayoutPanel8.Controls.Add(this.ctlLabel6, 0, 0);
+            this.tableLayoutPanel8.Controls.Add(this.ctlLabel7, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this._radEmptyWorkspace, 0, 2);
+            this.tableLayoutPanel8.Controls.Add(this._btnDeleteWorkspace, 2, 4);
+            this.tableLayoutPanel8.Controls.Add(this._btnRecentWorkspace, 1, 4);
+            this.tableLayoutPanel8.Controls.Add(this._txtPreviousConfig, 0, 4);
+            this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel8.Name = "tableLayoutPanel8";
+            this.tableLayoutPanel8.Padding = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel8.RowCount = 6;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(1012, 717);
+            this.tableLayoutPanel8.TabIndex = 1;
+            // 
+            // _tabSessionName
+            // 
+            this._tabSessionName.Controls.Add(this.tableLayoutPanel6);
+            this._tabSessionName.Location = new System.Drawing.Point(4, 4);
+            this._tabSessionName.Margin = new System.Windows.Forms.Padding(4);
+            this._tabSessionName.Name = "_tabSessionName";
+            this._tabSessionName.Padding = new System.Windows.Forms.Padding(4);
+            this._tabSessionName.Size = new System.Drawing.Size(1012, 717);
+            this._tabSessionName.TabIndex = 4;
+            this._tabSessionName.Text = "Session name";
+            this._tabSessionName.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.AutoSize = true;
+            this.tableLayoutPanel6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Controls.Add(this._lblTitle, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this._txtTitle, 0, 2);
+            this.tableLayoutPanel6.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.Padding = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel6.RowCount = 3;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1004, 709);
+            this.tableLayoutPanel6.TabIndex = 0;
+            // 
+            // _tabSelectData
+            // 
+            this._tabSelectData.Controls.Add(this.tableLayoutPanel2);
+            this._tabSelectData.Location = new System.Drawing.Point(4, 4);
+            this._tabSelectData.Margin = new System.Windows.Forms.Padding(4);
+            this._tabSelectData.Name = "_tabSelectData";
+            this._tabSelectData.Padding = new System.Windows.Forms.Padding(4);
+            this._tabSelectData.Size = new System.Drawing.Size(1012, 717);
+            this._tabSelectData.TabIndex = 0;
+            this._tabSelectData.Text = "Select data";
+            this._tabSelectData.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.AutoSize = true;
+            this.tableLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this._btnCondInfo, 1, 13);
+            this.tableLayoutPanel2.Controls.Add(this._txtCondInfo, 0, 13);
+            this.tableLayoutPanel2.Controls.Add(this._lstLcmsMode, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this._chkCondInfo, 0, 12);
+            this.tableLayoutPanel2.Controls.Add(this._lblLcmsMode, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this._btnDataSetVar, 1, 9);
+            this.tableLayoutPanel2.Controls.Add(this._btnDataSetObs, 1, 7);
+            this.tableLayoutPanel2.Controls.Add(this._btnDataSetData, 1, 5);
+            this.tableLayoutPanel2.Controls.Add(this._txtDataSetData, 0, 5);
+            this.tableLayoutPanel2.Controls.Add(this._txtDataSetObs, 0, 7);
+            this.tableLayoutPanel2.Controls.Add(this._lblDataSetData, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this._lblDataSetObs, 0, 6);
+            this.tableLayoutPanel2.Controls.Add(this._lblDataSetVar, 0, 8);
+            this.tableLayoutPanel2.Controls.Add(this._txtDataSetVar, 0, 9);
+            this.tableLayoutPanel2.Controls.Add(this._chkAltVals, 0, 10);
+            this.tableLayoutPanel2.Controls.Add(this._txtAltVals, 0, 11);
+            this.tableLayoutPanel2.Controls.Add(this._btnAltVals, 1, 11);
+            this.tableLayoutPanel2.Controls.Add(this.label7, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label10, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this._btnShowAdvancedData, 0, 14);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.Padding = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel2.RowCount = 15;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1004, 709);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.LabelStyle = MetaboliteLevels.Gui.Controls.ELabelStyle.Caption;
+            this.label7.Location = new System.Drawing.Point(20, 23);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(504, 42);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "^^Select the data files you want to work with.\r\nInformation about supported file " +
+    "formats can be found by viewing help.";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(20, 81);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(66, 21);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Data set";
+            // 
+            // _btnShowAdvancedData
+            // 
+            this._btnShowAdvancedData.Enabled = false;
+            this._btnShowAdvancedData.Image = global::MetaboliteLevels.Properties.Resources.MnuView;
+            this._btnShowAdvancedData.Location = new System.Drawing.Point(20, 540);
+            this._btnShowAdvancedData.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this._btnShowAdvancedData.Name = "_btnShowAdvancedData";
+            this._btnShowAdvancedData.Size = new System.Drawing.Size(128, 40);
+            this._btnShowAdvancedData.TabIndex = 18;
+            this._btnShowAdvancedData.Text = "Advanced";
+            this._btnShowAdvancedData.UseDefaultSize = true;
+            this._btnShowAdvancedData.UseVisualStyleBackColor = true;
+            this._btnShowAdvancedData.Click += new System.EventHandler(this._btnShowAdvancedData_Click);
+            // 
+            // _tabConditions
+            // 
+            this._tabConditions.Controls.Add(this._pnlConditions);
+            this._tabConditions.Location = new System.Drawing.Point(4, 4);
+            this._tabConditions.Name = "_tabConditions";
+            this._tabConditions.Padding = new System.Windows.Forms.Padding(3);
+            this._tabConditions.Size = new System.Drawing.Size(1012, 717);
+            this._tabConditions.TabIndex = 10;
+            this._tabConditions.Text = "Conditions";
+            this._tabConditions.UseVisualStyleBackColor = true;
+            // 
+            // _pnlConditions
+            // 
+            this._pnlConditions.ColumnCount = 2;
+            this._pnlConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._pnlConditions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this._pnlConditions.Controls.Add(this._chkConditions, 0, 1);
+            this._pnlConditions.Controls.Add(this.label5, 0, 0);
+            this._pnlConditions.Controls.Add(this._lblConditions, 0, 2);
+            this._pnlConditions.Controls.Add(this._btnBrowseContCond, 1, 5);
+            this._pnlConditions.Controls.Add(this._txtControls, 0, 5);
+            this._pnlConditions.Controls.Add(this._btnBrowseExpCond, 1, 3);
+            this._pnlConditions.Controls.Add(this._txtExps, 0, 3);
+            this._pnlConditions.Controls.Add(this.label3, 0, 4);
+            this._pnlConditions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pnlConditions.Location = new System.Drawing.Point(3, 3);
+            this._pnlConditions.Margin = new System.Windows.Forms.Padding(4);
+            this._pnlConditions.Name = "_pnlConditions";
+            this._pnlConditions.Padding = new System.Windows.Forms.Padding(16);
+            this._pnlConditions.RowCount = 6;
+            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._pnlConditions.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._pnlConditions.Size = new System.Drawing.Size(1006, 711);
+            this._pnlConditions.TabIndex = 31;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.LabelStyle = MetaboliteLevels.Gui.Controls.ELabelStyle.Caption;
+            this.label5.Location = new System.Drawing.Point(20, 25);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(258, 21);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "^^Specify the conditions of interest";
+            // 
+            // _tabStatistics
+            // 
+            this._tabStatistics.Controls.Add(this.tableLayoutPanel5);
+            this._tabStatistics.Location = new System.Drawing.Point(4, 4);
+            this._tabStatistics.Name = "_tabStatistics";
+            this._tabStatistics.Size = new System.Drawing.Size(1012, 717);
+            this._tabStatistics.TabIndex = 6;
+            this._tabStatistics.Text = "Statistics";
+            this._tabStatistics.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel5.Controls.Add(this.label14, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.label4, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel1, 0, 2);
+            this.tableLayoutPanel5.Controls.Add(this.ctlLabel2, 0, 3);
+            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel2, 0, 4);
+            this.tableLayoutPanel5.Controls.Add(this.ctlLabel4, 0, 5);
+            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel5, 0, 6);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.Padding = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel5.RowCount = 7;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(1012, 717);
+            this.tableLayoutPanel5.TabIndex = 0;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.LabelStyle = MetaboliteLevels.Gui.Controls.ELabelStyle.Caption;
+            this.label14.Location = new System.Drawing.Point(20, 23);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(548, 21);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "^^Select the defult condiguration - you can always add or remove these later.";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 60);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(154, 21);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Auto-create statistics";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel1.Controls.Add(this._chkAutoTTest);
+            this.flowLayoutPanel1.Controls.Add(this._lblTTUnavail);
+            this.flowLayoutPanel1.Controls.Add(this._chkAutoPearson);
+            this.flowLayoutPanel1.Controls.Add(this._lblPearsonUnavail);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(16, 88);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(361, 104);
+            this.flowLayoutPanel1.TabIndex = 30;
+            this.flowLayoutPanel1.WrapContents = false;
+            // 
+            // _lblTTUnavail
+            // 
+            this._lblTTUnavail.AutoSize = true;
+            this._lblTTUnavail.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblTTUnavail.Location = new System.Drawing.Point(32, 39);
+            this._lblTTUnavail.Margin = new System.Windows.Forms.Padding(32, 0, 0, 0);
+            this._lblTTUnavail.Name = "_lblTTUnavail";
+            this._lblTTUnavail.Size = new System.Drawing.Size(329, 13);
+            this._lblTTUnavail.TabIndex = 1;
+            this._lblTTUnavail.Text = "Not available - requires control conditions and experimental conditions";
+            // 
+            // _lblPearsonUnavail
+            // 
+            this._lblPearsonUnavail.AutoSize = true;
+            this._lblPearsonUnavail.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPearsonUnavail.Location = new System.Drawing.Point(32, 91);
+            this._lblPearsonUnavail.Margin = new System.Windows.Forms.Padding(32, 0, 0, 0);
+            this._lblPearsonUnavail.Name = "_lblPearsonUnavail";
+            this._lblPearsonUnavail.Size = new System.Drawing.Size(225, 13);
+            this._lblPearsonUnavail.TabIndex = 3;
+            this._lblPearsonUnavail.Text = "Not available - requires experimental conditions";
+            // 
+            // ctlLabel2
+            // 
+            this.ctlLabel2.AutoSize = true;
+            this.ctlLabel2.Location = new System.Drawing.Point(20, 201);
+            this.ctlLabel2.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.ctlLabel2.Name = "ctlLabel2";
+            this.ctlLabel2.Size = new System.Drawing.Size(146, 21);
+            this.ctlLabel2.TabIndex = 2;
+            this.ctlLabel2.Text = "Replicate averaging";
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.AutoSize = true;
+            this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel2.Controls.Add(this._chkAutoMeanTrend);
+            this.flowLayoutPanel2.Controls.Add(this._chkAutoMedianTrend);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(16, 229);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(109, 78);
+            this.flowLayoutPanel2.TabIndex = 30;
+            this.flowLayoutPanel2.WrapContents = false;
+            // 
+            // _chkAutoMeanTrend
+            // 
+            this._chkAutoMeanTrend.AutoSize = true;
+            this._chkAutoMeanTrend.Checked = true;
+            this._chkAutoMeanTrend.CheckState = System.Windows.Forms.CheckState.Checked;
+            this._chkAutoMeanTrend.Location = new System.Drawing.Point(24, 7);
+            this._chkAutoMeanTrend.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
+            this._chkAutoMeanTrend.Name = "_chkAutoMeanTrend";
+            this._chkAutoMeanTrend.Size = new System.Drawing.Size(68, 25);
+            this._chkAutoMeanTrend.TabIndex = 0;
+            this._chkAutoMeanTrend.Text = "Mean";
+            this._chkAutoMeanTrend.UseVisualStyleBackColor = true;
+            this._chkAutoMeanTrend.CheckedChanged += new System.EventHandler(this._chkStatT_CheckedChanged);
+            // 
+            // _chkAutoMedianTrend
+            // 
+            this._chkAutoMedianTrend.AutoSize = true;
+            this._chkAutoMedianTrend.Checked = true;
+            this._chkAutoMedianTrend.CheckState = System.Windows.Forms.CheckState.Checked;
+            this._chkAutoMedianTrend.Location = new System.Drawing.Point(24, 46);
+            this._chkAutoMedianTrend.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
+            this._chkAutoMedianTrend.Name = "_chkAutoMedianTrend";
+            this._chkAutoMedianTrend.Size = new System.Drawing.Size(81, 25);
+            this._chkAutoMedianTrend.TabIndex = 1;
+            this._chkAutoMedianTrend.Text = "Median";
+            this._chkAutoMedianTrend.UseVisualStyleBackColor = true;
+            // 
+            // ctlLabel4
+            // 
+            this.ctlLabel4.AutoSize = true;
+            this.ctlLabel4.Location = new System.Drawing.Point(20, 316);
+            this.ctlLabel4.Margin = new System.Windows.Forms.Padding(4, 9, 4, 7);
+            this.ctlLabel4.Name = "ctlLabel4";
+            this.ctlLabel4.Size = new System.Drawing.Size(148, 21);
+            this.ctlLabel4.TabIndex = 3;
+            this.ctlLabel4.Text = "Perform corrections";
+            // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.AutoSize = true;
+            this.flowLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel5.Controls.Add(this._chkAutoUvSC);
+            this.flowLayoutPanel5.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(16, 344);
+            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(193, 39);
+            this.flowLayoutPanel5.TabIndex = 30;
+            this.flowLayoutPanel5.WrapContents = false;
+            // 
+            // _chkAutoUvSC
+            // 
+            this._chkAutoUvSC.AutoSize = true;
+            this._chkAutoUvSC.Checked = true;
+            this._chkAutoUvSC.CheckState = System.Windows.Forms.CheckState.Checked;
+            this._chkAutoUvSC.Location = new System.Drawing.Point(24, 7);
+            this._chkAutoUvSC.Margin = new System.Windows.Forms.Padding(24, 7, 4, 7);
+            this._chkAutoUvSC.Name = "_chkAutoUvSC";
+            this._chkAutoUvSC.Size = new System.Drawing.Size(165, 25);
+            this._chkAutoUvSC.TabIndex = 0;
+            this._chkAutoUvSC.Text = "UV scale and centre";
+            this._chkAutoUvSC.UseVisualStyleBackColor = true;
+            this._chkAutoUvSC.CheckedChanged += new System.EventHandler(this._chkStatT_CheckedChanged);
+            // 
+            // _tabCompounds
+            // 
+            this._tabCompounds.Controls.Add(this.tableLayoutPanel7);
+            this._tabCompounds.Location = new System.Drawing.Point(4, 4);
+            this._tabCompounds.Margin = new System.Windows.Forms.Padding(4);
+            this._tabCompounds.Name = "_tabCompounds";
+            this._tabCompounds.Padding = new System.Windows.Forms.Padding(4);
+            this._tabCompounds.Size = new System.Drawing.Size(1012, 717);
+            this._tabCompounds.TabIndex = 2;
+            this._tabCompounds.Text = "Compounds";
+            this._tabCompounds.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel7
+            // 
+            this.tableLayoutPanel7.ColumnCount = 3;
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Controls.Add(this.flowLayoutPanel4, 1, 6);
+            this.tableLayoutPanel7.Controls.Add(this.label9, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this._lstAdducts, 0, 6);
+            this.tableLayoutPanel7.Controls.Add(this._lstAvailableAdducts, 2, 6);
+            this.tableLayoutPanel7.Controls.Add(this._lstCompounds, 0, 3);
+            this.tableLayoutPanel7.Controls.Add(this.flowLayoutPanel3, 1, 3);
+            this.tableLayoutPanel7.Controls.Add(this._lstAvailCompounds, 2, 3);
+            this.tableLayoutPanel7.Controls.Add(this._lblAdducts, 0, 4);
+            this.tableLayoutPanel7.Controls.Add(this.label6, 0, 1);
+            this.tableLayoutPanel7.Controls.Add(this.ctlLabel8, 0, 2);
+            this.tableLayoutPanel7.Controls.Add(this.ctlLabel9, 2, 2);
+            this.tableLayoutPanel7.Controls.Add(this.ctlLabel10, 2, 5);
+            this.tableLayoutPanel7.Controls.Add(this.ctlLabel11, 0, 5);
+            this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(4, 4);
+            this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(24, 0, 0, 0);
+            this.tableLayoutPanel7.Name = "tableLayoutPanel7";
+            this.tableLayoutPanel7.Padding = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel7.RowCount = 7;
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(1004, 709);
+            this.tableLayoutPanel7.TabIndex = 19;
+            // 
+            // flowLayoutPanel4
+            // 
+            this.flowLayoutPanel4.AutoSize = true;
+            this.flowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel4.Controls.Add(this._btnAddAdduct);
+            this.flowLayoutPanel4.Controls.Add(this._btnBrowseAdducts);
+            this.flowLayoutPanel4.Controls.Add(this._btnDelAdduct);
+            this.flowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(480, 441);
+            this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel4.Name = "flowLayoutPanel4";
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(44, 111);
+            this.flowLayoutPanel4.TabIndex = 6;
+            this.flowLayoutPanel4.WrapContents = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.tableLayoutPanel7.SetColumnSpan(this.label9, 3);
+            this.label9.LabelStyle = MetaboliteLevels.Gui.Controls.ELabelStyle.Caption;
+            this.label9.Location = new System.Drawing.Point(24, 24);
+            this.label9.Margin = new System.Windows.Forms.Padding(8);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(494, 42);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "^^Select the compound libraries used for automated peak annotation\r\nThis informat" +
+    "ion is optional";
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.AutoSize = true;
+            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel3.Controls.Add(this._btnAddCompound);
+            this.flowLayoutPanel3.Controls.Add(this._btnAddAllCompounds);
+            this.flowLayoutPanel3.Controls.Add(this._btnAddCompoundLibrary);
+            this.flowLayoutPanel3.Controls.Add(this._btnRemoveLibrary);
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(480, 132);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(44, 148);
+            this.flowLayoutPanel3.TabIndex = 6;
+            this.flowLayoutPanel3.WrapContents = false;
+            // 
+            // ctlLabel8
+            // 
+            this.ctlLabel8.AutoSize = true;
+            this.ctlLabel8.BackColor = System.Drawing.Color.LightGray;
+            this.ctlLabel8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlLabel8.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlLabel8.Location = new System.Drawing.Point(24, 119);
+            this.ctlLabel8.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this.ctlLabel8.Name = "ctlLabel8";
+            this.ctlLabel8.Size = new System.Drawing.Size(448, 13);
+            this.ctlLabel8.TabIndex = 1;
+            this.ctlLabel8.Text = "SELECTED";
+            this.ctlLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ctlLabel9
+            // 
+            this.ctlLabel9.AutoSize = true;
+            this.ctlLabel9.BackColor = System.Drawing.Color.LightGray;
+            this.ctlLabel9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlLabel9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlLabel9.Location = new System.Drawing.Point(524, 119);
+            this.ctlLabel9.Margin = new System.Windows.Forms.Padding(0, 8, 8, 0);
+            this.ctlLabel9.Name = "ctlLabel9";
+            this.ctlLabel9.Size = new System.Drawing.Size(456, 13);
+            this.ctlLabel9.TabIndex = 1;
+            this.ctlLabel9.Text = "AVAILABLE";
+            this.ctlLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ctlLabel10
+            // 
+            this.ctlLabel10.AutoSize = true;
+            this.ctlLabel10.BackColor = System.Drawing.Color.LightGray;
+            this.ctlLabel10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlLabel10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlLabel10.Location = new System.Drawing.Point(524, 428);
+            this.ctlLabel10.Margin = new System.Windows.Forms.Padding(0, 8, 8, 0);
+            this.ctlLabel10.Name = "ctlLabel10";
+            this.ctlLabel10.Size = new System.Drawing.Size(456, 13);
+            this.ctlLabel10.TabIndex = 1;
+            this.ctlLabel10.Text = "AVAILABLE";
+            this.ctlLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ctlLabel11
+            // 
+            this.ctlLabel11.AutoSize = true;
+            this.ctlLabel11.BackColor = System.Drawing.Color.LightGray;
+            this.ctlLabel11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ctlLabel11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ctlLabel11.Location = new System.Drawing.Point(24, 428);
+            this.ctlLabel11.Margin = new System.Windows.Forms.Padding(8, 8, 8, 0);
+            this.ctlLabel11.Name = "ctlLabel11";
+            this.ctlLabel11.Size = new System.Drawing.Size(448, 13);
+            this.ctlLabel11.TabIndex = 1;
+            this.ctlLabel11.Text = "SELECTED";
+            this.ctlLabel11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // _tabAnnotations
+            // 
+            this._tabAnnotations.Controls.Add(this.tableLayoutPanel9);
+            this._tabAnnotations.Location = new System.Drawing.Point(4, 4);
+            this._tabAnnotations.Name = "_tabAnnotations";
+            this._tabAnnotations.Padding = new System.Windows.Forms.Padding(3);
+            this._tabAnnotations.Size = new System.Drawing.Size(1012, 717);
+            this._tabAnnotations.TabIndex = 8;
+            this._tabAnnotations.Text = "Annotations";
+            this._tabAnnotations.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel9
+            // 
+            this.tableLayoutPanel9.ColumnCount = 4;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel9.Controls.Add(this._btnIdentifications, 3, 10);
+            this.tableLayoutPanel9.Controls.Add(this.label11, 0, 0);
+            this.tableLayoutPanel9.Controls.Add(this._chkAutoIdentify, 0, 2);
+            this.tableLayoutPanel9.Controls.Add(this._chkPeakPeakMatch, 0, 5);
+            this.tableLayoutPanel9.Controls.Add(this._chkIdentifications, 0, 9);
+            this.tableLayoutPanel9.Controls.Add(this._lstTolerance, 2, 8);
+            this.tableLayoutPanel9.Controls.Add(this._lblPeakPeakMatchUnavail, 0, 6);
+            this.tableLayoutPanel9.Controls.Add(this._lblTolerance, 0, 7);
+            this.tableLayoutPanel9.Controls.Add(this._numTolerance, 0, 8);
+            this.tableLayoutPanel9.Controls.Add(this._txtIdentifications, 0, 10);
+            this.tableLayoutPanel9.Controls.Add(this.ctlLabel3, 0, 11);
+            this.tableLayoutPanel9.Controls.Add(this._manualFlag, 1, 11);
+            this.tableLayoutPanel9.Controls.Add(this.ctlLabel5, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this._lblMzMatchUnavail, 0, 3);
+            this.tableLayoutPanel9.Controls.Add(this.ctlLabel1, 0, 4);
+            this.tableLayoutPanel9.Controls.Add(this._automaticFlag, 1, 4);
+            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
+            this.tableLayoutPanel9.Padding = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel9.RowCount = 12;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(1006, 711);
+            this.tableLayoutPanel9.TabIndex = 0;
             // 
             // label11
             // 
@@ -1984,6 +1868,30 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this.label11.TabIndex = 0;
             this.label11.Text = "^^Select methods of annotating compounds";
             // 
+            // _lstTolerance
+            // 
+            this._lstTolerance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._lstTolerance.Enabled = false;
+            this._lstTolerance.FormattingEnabled = true;
+            this._lstTolerance.Location = new System.Drawing.Point(817, 288);
+            this._lstTolerance.Margin = new System.Windows.Forms.Padding(8);
+            this._lstTolerance.Name = "_lstTolerance";
+            this._lstTolerance.Size = new System.Drawing.Size(121, 29);
+            this._lstTolerance.TabIndex = 10;
+            this._tipPopup.SetToolTip(this._lstTolerance, "Select units");
+            // 
+            // _lblPeakPeakMatchUnavail
+            // 
+            this._lblPeakPeakMatchUnavail.AutoSize = true;
+            this.tableLayoutPanel9.SetColumnSpan(this._lblPeakPeakMatchUnavail, 4);
+            this._lblPeakPeakMatchUnavail.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblPeakPeakMatchUnavail.Location = new System.Drawing.Point(64, 230);
+            this._lblPeakPeakMatchUnavail.Margin = new System.Windows.Forms.Padding(48, 0, 0, 0);
+            this._lblPeakPeakMatchUnavail.Name = "_lblPeakPeakMatchUnavail";
+            this._lblPeakPeakMatchUnavail.Size = new System.Drawing.Size(102, 13);
+            this._lblPeakPeakMatchUnavail.TabIndex = 7;
+            this._lblPeakPeakMatchUnavail.Text = "<TEXT GOES HERE>";
+            // 
             // _lblTolerance
             // 
             this._lblTolerance.AutoSize = true;
@@ -1995,6 +1903,22 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._lblTolerance.TabIndex = 8;
             this._lblTolerance.Text = "Match tolerance";
             // 
+            // _numTolerance
+            // 
+            this.tableLayoutPanel9.SetColumnSpan(this._numTolerance, 2);
+            this._numTolerance.Dock = System.Windows.Forms.DockStyle.Top;
+            this._numTolerance.Enabled = false;
+            this._numTolerance.Location = new System.Drawing.Point(64, 288);
+            this._numTolerance.Margin = new System.Windows.Forms.Padding(48, 8, 8, 8);
+            this._numTolerance.Maximum = new decimal(new int[] {
+            276447232,
+            23283,
+            0,
+            0});
+            this._numTolerance.Name = "_numTolerance";
+            this._numTolerance.Size = new System.Drawing.Size(737, 29);
+            this._numTolerance.TabIndex = 9;
+            // 
             // ctlLabel3
             // 
             this.ctlLabel3.AutoSize = true;
@@ -2005,6 +1929,19 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this.ctlLabel3.Size = new System.Drawing.Size(68, 42);
             this.ctlLabel3.TabIndex = 14;
             this.ctlLabel3.Text = "Flag as\r\n(default)";
+            // 
+            // _manualFlag
+            // 
+            this.tableLayoutPanel9.SetColumnSpan(this._manualFlag, 2);
+            this._manualFlag.Dock = System.Windows.Forms.DockStyle.Top;
+            this._manualFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._manualFlag.Enabled = false;
+            this._manualFlag.FormattingEnabled = true;
+            this._manualFlag.Location = new System.Drawing.Point(174, 419);
+            this._manualFlag.Margin = new System.Windows.Forms.Padding(8);
+            this._manualFlag.Name = "_manualFlag";
+            this._manualFlag.Size = new System.Drawing.Size(764, 29);
+            this._manualFlag.TabIndex = 15;
             // 
             // ctlLabel5
             // 
@@ -2018,6 +1955,17 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this.ctlLabel5.TabIndex = 1;
             this.ctlLabel5.Text = "Annotate";
             // 
+            // _lblMzMatchUnavail
+            // 
+            this._lblMzMatchUnavail.AutoSize = true;
+            this._lblMzMatchUnavail.Font = new System.Drawing.Font("Segoe UI Light", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._lblMzMatchUnavail.Location = new System.Drawing.Point(64, 131);
+            this._lblMzMatchUnavail.Margin = new System.Windows.Forms.Padding(48, 0, 0, 0);
+            this._lblMzMatchUnavail.Name = "_lblMzMatchUnavail";
+            this._lblMzMatchUnavail.Size = new System.Drawing.Size(102, 13);
+            this._lblMzMatchUnavail.TabIndex = 3;
+            this._lblMzMatchUnavail.Text = "<TEXT GOES HERE>";
+            // 
             // ctlLabel1
             // 
             this.ctlLabel1.AutoSize = true;
@@ -2029,6 +1977,46 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this.ctlLabel1.TabIndex = 4;
             this.ctlLabel1.Text = "Flag as";
             // 
+            // _automaticFlag
+            // 
+            this.tableLayoutPanel9.SetColumnSpan(this._automaticFlag, 2);
+            this._automaticFlag.Dock = System.Windows.Forms.DockStyle.Top;
+            this._automaticFlag.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._automaticFlag.Enabled = false;
+            this._automaticFlag.FormattingEnabled = true;
+            this._automaticFlag.Location = new System.Drawing.Point(174, 152);
+            this._automaticFlag.Margin = new System.Windows.Forms.Padding(8);
+            this._automaticFlag.Name = "_automaticFlag";
+            this._automaticFlag.Size = new System.Drawing.Size(764, 29);
+            this._automaticFlag.TabIndex = 5;
+            // 
+            // _tabReady
+            // 
+            this._tabReady.Controls.Add(this.tableLayoutPanel3);
+            this._tabReady.Location = new System.Drawing.Point(4, 4);
+            this._tabReady.Name = "_tabReady";
+            this._tabReady.Padding = new System.Windows.Forms.Padding(3);
+            this._tabReady.Size = new System.Drawing.Size(1012, 717);
+            this._tabReady.TabIndex = 7;
+            this._tabReady.Text = "Ready";
+            this._tabReady.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this._chkAlarm, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.label12, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(16);
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1006, 711);
+            this.tableLayoutPanel3.TabIndex = 5;
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -2038,10 +2026,23 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this.label12.Margin = new System.Windows.Forms.Padding(48);
             this.label12.Name = "label12";
             this.label12.Padding = new System.Windows.Forms.Padding(8);
-            this.label12.Size = new System.Drawing.Size(915, 100);
+            this.label12.Size = new System.Drawing.Size(878, 100);
             this.label12.TabIndex = 4;
             this.label12.Text = "^^Click OK to create your session.\r\n\r\nThis might take a couple of minutes.\r\nSavin" +
     "g your session from the main menu will allow it to be loaded quickly in future.";
+            // 
+            // _cmsRecentSessions
+            // 
+            this._cmsRecentSessions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._cmsRecentSessions.Name = "contextMenuStrip2";
+            this._cmsRecentSessions.Size = new System.Drawing.Size(61, 4);
+            // 
+            // _tipPopup
+            // 
+            this._tipPopup.AutomaticDelay = 200;
+            this._tipPopup.AutoPopDelay = 5000;
+            this._tipPopup.InitialDelay = 200;
+            this._tipPopup.ReshowDelay = 40;
             // 
             // FrmEditDataFileNames
             // 

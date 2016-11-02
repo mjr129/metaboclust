@@ -419,7 +419,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         private void EditColumnsAsList_Click(object sender, EventArgs e)
         {
             var avail = this._availableColumns.Where( z => !z.IsAlwaysEmpty ).ToArray();
-            IEnumerable<Column> selected = FrmEditColumns.Show( this.ListView.FindForm(), avail, avail.Where( z => z.Visible ) );
+            IEnumerable<Column> selected = FrmEditColumns.Show( this.ListView.FindForm(), avail, avail.Where( z => z.Visible ), "Visible columns" );
 
             if (selected == null)
             {

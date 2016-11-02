@@ -126,6 +126,25 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             return AsString(result, EListDisplayMode.Smart);
         }
 
+        // override object.Equals
+        public override bool Equals( object obj )
+        {
+            Column col = obj as Column;
+
+            if (col == null)
+            {
+                return false;
+            }
+
+            return col.Id == this.Id;
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
+
         public static double AsDouble( object result )
         {
             if (result == null)

@@ -147,6 +147,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererCombine.cs" />
+    <Compile Include="Data\Algorithms\General\AlgoParameterTypes.cs" />
+    <Compile Include="Data\Algorithms\General\IAlgoParameterType.cs" />
     <Compile Include="Data\Session\General\FileLoadInfo.cs" />
     <Compile Include="Gui\Controls\CtlContextHelp.cs">
       <SubType>Component</SubType>
@@ -199,7 +201,7 @@
     <Compile Include="Data\Algorithms\Definitions\Corrections\CorrectionBase.cs" />
     <Compile Include="Data\Algorithms\Definitions\Corrections\Implementations\CorrectionDirtyRectify.cs" />
     <Compile Include="Data\Algorithms\Definitions\Corrections\Implementations\CorrectionScript.cs" />
-    <Compile Include="Data\Algorithms\General\EAlgoParameterType.cs" />
+    <Compile Include="Data\Algorithms\General\FromStringArgs.cs" />
     <Compile Include="Data\Algorithms\Definitions\Clusterers\ResultClusterer.cs" />
     <Compile Include="Data\Algorithms\Definitions\Corrections\ResultCorrection.cs" />
     <Compile Include="Data\Algorithms\Definitions\Base\ResultBase.cs" />

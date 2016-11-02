@@ -62,7 +62,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// Cluster centres
         /// </summary>
         [XColumn()]
-        public readonly List<double[]> Centres = new List<double[]>();
+        public readonly List<IReadOnlyList<double>> Centres = new List<IReadOnlyList<double>>();
 
         /// <summary>
         /// Cluster assignments
@@ -248,9 +248,9 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// Gets specified centre.
         /// </summary>
-        public List<double[]> GetCentre(ECentreMode mode, ECandidateMode iMode)
+        public List<IReadOnlyList<double>> GetCentre(ECentreMode mode, ECandidateMode iMode)
         {
-            List<double[]> centre = new List<double[]>();
+            List<IReadOnlyList<double>> centre = new List<IReadOnlyList<double>>();
 
             this.GetCentre(mode, iMode, centre);
 
@@ -260,7 +260,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// Calculates cluster centre.
         /// </summary>
-        private void GetCentre(ECentreMode mode, ECandidateMode iMode, List<double[]> centres)
+        private void GetCentre(ECentreMode mode, ECandidateMode iMode, List<IReadOnlyList<double>> centres)
         {
             centres.Clear();
 
@@ -294,7 +294,7 @@ namespace MetaboliteLevels.Data.Session.Main
                     //////////////////
                     // ALL EXEMPLARS
                     {
-                        foreach (double[] e in list)
+                        foreach (IReadOnlyList<double> e in list)
                         {
                             centres.Add(e);
                         }
@@ -313,7 +313,7 @@ namespace MetaboliteLevels.Data.Session.Main
                         {
                             double total = 0;
 
-                            foreach (double[] v in list)
+                            foreach (IReadOnlyList<double> v in list)
                             {
                                 total += v[o];
                             }

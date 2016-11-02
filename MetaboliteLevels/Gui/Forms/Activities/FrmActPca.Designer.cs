@@ -58,17 +58,12 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this._mnuCorrections = new System.Windows.Forms.ToolStripDropDownButton();
             this._lblCorrections = new System.Windows.Forms.ToolStripLabel();
-            this._mnuTrend = new System.Windows.Forms.ToolStripDropDownButton();
-            this.usetrendLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.useAllobservationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this._lblAspect = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._mnuObsFilter = new System.Windows.Forms.ToolStripDropDownButton();
             this._lblObs = new System.Windows.Forms.ToolStripLabel();
             this._mnuPeakFilter = new System.Windows.Forms.ToolStripDropDownButton();
             this._lblPeaks = new System.Windows.Forms.ToolStripLabel();
             this._btnNavigate = new System.Windows.Forms.ToolStripButton();
-            this._lblNavigate = new System.Windows.Forms.ToolStripLabel();
             this._btnMarkAsOutlier = new System.Windows.Forms.ToolStripButton();
             this._lblOutlier = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -82,7 +77,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._cmsFilter = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._chart = new MCharting.MChart();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.ctlTitleBar1 = new CtlTitleBar();
+            this.ctlTitleBar1 = new MetaboliteLevels.Gui.Controls.CtlTitleBar();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -107,15 +102,11 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.toolStripSeparator2,
             this._mnuCorrections,
             this._lblCorrections,
-            this._mnuTrend,
-            this._lblAspect,
             this.toolStripSeparator1,
             this._mnuObsFilter,
             this._lblObs,
             this._mnuPeakFilter,
             this._lblPeaks,
-            this._btnNavigate,
-            this._lblNavigate,
             this._btnMarkAsOutlier,
             this._lblOutlier,
             this.toolStripSeparator5,
@@ -123,12 +114,13 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblPcNumber,
             this._btnPrevPc,
             this.toolStripSeparator3,
+            this._btnNavigate,
             this.toolStripDropDownButton1});
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.toolStrip1.Location = new System.Drawing.Point(0, 66);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 56);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(155, 755);
+            this.toolStrip1.Size = new System.Drawing.Size(155, 765);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "Flag as outlier";
             // 
@@ -145,13 +137,14 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.toolStripDropDownButton2.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.toolStripDropDownButton2.Size = new System.Drawing.Size(152, 36);
             this.toolStripDropDownButton2.Text = "Method";
+            this.toolStripDropDownButton2.ToolTipText = "Select the MVA method - PCA or PLSR";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem1.Image")));
             this.toolStripMenuItem1.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(102, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(154, 24);
             this.toolStripMenuItem1.Text = "&PCA";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
@@ -160,7 +153,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.toolStripMenuItem2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItem2.Image")));
             this.toolStripMenuItem2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(102, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(154, 24);
             this.toolStripMenuItem2.Text = "&PLSR";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -174,6 +167,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblMethod.Size = new System.Drawing.Size(104, 15);
             this._lblMethod.Text = "(value)";
             this._lblMethod.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblMethod.ToolTipText = "Select the MVA method - PCA or PLSR";
             // 
             // _mnuPlsrSource
             // 
@@ -185,7 +179,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._mnuPlsrSource.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._mnuPlsrSource.Size = new System.Drawing.Size(152, 36);
             this._mnuPlsrSource.Text = "&Response";
-            this._mnuPlsrSource.ToolTipText = "Select PCA input";
+            this._mnuPlsrSource.ToolTipText = "Select the PLSR response variable";
             this._mnuPlsrSource.DropDownOpening += new System.EventHandler(this._btnColour_DropDownOpening);
             this._mnuPlsrSource.Click += new System.EventHandler(this._mnuPlsrSource_Click);
             // 
@@ -199,6 +193,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblPlsrSource.Size = new System.Drawing.Size(104, 15);
             this._lblPlsrSource.Text = "(value)";
             this._lblPlsrSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblPlsrSource.ToolTipText = "Select the PLSR response variable";
             // 
             // _mnuTranspose
             // 
@@ -213,7 +208,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._mnuTranspose.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._mnuTranspose.Size = new System.Drawing.Size(152, 36);
             this._mnuTranspose.Text = "&Source";
-            this._mnuTranspose.ToolTipText = "Select PCA input";
+            this._mnuTranspose.ToolTipText = "Choose between an analysis of peaks or observations";
             // 
             // transposeToShowObservationsToolStripMenuItem
             // 
@@ -243,6 +238,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblPcaSource.Size = new System.Drawing.Size(104, 15);
             this._lblPcaSource.Text = "(value)";
             this._lblPcaSource.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblPcaSource.ToolTipText = "Choose between an analysis of peaks or observations";
             // 
             // _btnScoresOrLoadings
             // 
@@ -257,14 +253,14 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnScoresOrLoadings.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._btnScoresOrLoadings.Size = new System.Drawing.Size(152, 36);
             this._btnScoresOrLoadings.Text = "&View";
-            this._btnScoresOrLoadings.ToolTipText = "Select plot mode";
+            this._btnScoresOrLoadings.ToolTipText = "Choose between the scores plot and the loadings plot";
             // 
             // _btnScores
             // 
             this._btnScores.Image = ((System.Drawing.Image)(resources.GetObject("_btnScores.Image")));
             this._btnScores.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this._btnScores.Name = "_btnScores";
-            this._btnScores.Size = new System.Drawing.Size(143, 22);
+            this._btnScores.Size = new System.Drawing.Size(152, 22);
             this._btnScores.Text = "&Plot scores";
             this._btnScores.Click += new System.EventHandler(this._btnScores_Click);
             // 
@@ -273,7 +269,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnLoadings.Image = ((System.Drawing.Image)(resources.GetObject("_btnLoadings.Image")));
             this._btnLoadings.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this._btnLoadings.Name = "_btnLoadings";
-            this._btnLoadings.Size = new System.Drawing.Size(143, 22);
+            this._btnLoadings.Size = new System.Drawing.Size(152, 22);
             this._btnLoadings.Text = "&Plot loadings";
             this._btnLoadings.Click += new System.EventHandler(this._btnLoadings_Click);
             // 
@@ -287,6 +283,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblPlotView.Size = new System.Drawing.Size(104, 15);
             this._lblPlotView.Text = "(value)";
             this._lblPlotView.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblPlotView.ToolTipText = "Choose between the scores plot and the loadings plot";
             // 
             // _btnColour
             // 
@@ -298,7 +295,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnColour.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._btnColour.Size = new System.Drawing.Size(152, 36);
             this._btnColour.Text = "Legend";
-            this._btnColour.ToolTipText = "Select peak filter";
+            this._btnColour.ToolTipText = "Select how the points in the plot should be coloured";
             this._btnColour.DropDownOpening += new System.EventHandler(this._btnColour_DropDownOpening);
             // 
             // _lblLegend
@@ -311,6 +308,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblLegend.Size = new System.Drawing.Size(104, 15);
             this._lblLegend.Text = "(value)";
             this._lblLegend.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblLegend.ToolTipText = "Select how the points in the plot should be coloured";
             // 
             // toolStripSeparator2
             // 
@@ -326,8 +324,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._mnuCorrections.Name = "_mnuCorrections";
             this._mnuCorrections.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._mnuCorrections.Size = new System.Drawing.Size(152, 36);
-            this._mnuCorrections.Text = "Corrections";
-            this._mnuCorrections.ToolTipText = "Select source data";
+            this._mnuCorrections.Text = "Source";
+            this._mnuCorrections.ToolTipText = "Select the target matrix";
             this._mnuCorrections.DropDownOpening += new System.EventHandler(this._mnuCorrections_DropDownOpening);
             // 
             // _lblCorrections
@@ -340,49 +338,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblCorrections.Size = new System.Drawing.Size(104, 15);
             this._lblCorrections.Text = "(value)";
             this._lblCorrections.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // _mnuTrend
-            // 
-            this._mnuTrend.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.usetrendLineToolStripMenuItem,
-            this.useAllobservationsToolStripMenuItem});
-            this._mnuTrend.ForeColor = System.Drawing.Color.Purple;
-            this._mnuTrend.Image = ((System.Drawing.Image)(resources.GetObject("_mnuTrend.Image")));
-            this._mnuTrend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._mnuTrend.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._mnuTrend.Name = "_mnuTrend";
-            this._mnuTrend.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this._mnuTrend.Size = new System.Drawing.Size(152, 36);
-            this._mnuTrend.Text = "Input";
-            this._mnuTrend.ToolTipText = "Select source data";
-            this._mnuTrend.DropDownOpening += new System.EventHandler(this._mnuTrend_DropDownOpening);
-            // 
-            // usetrendLineToolStripMenuItem
-            // 
-            this.usetrendLineToolStripMenuItem.Image = global::MetaboliteLevels.Properties.Resources.MnuTrend;
-            this.usetrendLineToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.usetrendLineToolStripMenuItem.Name = "usetrendLineToolStripMenuItem";
-            this.usetrendLineToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.usetrendLineToolStripMenuItem.Text = "OBSOLETE";                                                                  
-            // 
-            // useAllobservationsToolStripMenuItem
-            // 
-            this.useAllobservationsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("useAllobservationsToolStripMenuItem.Image")));
-            this.useAllobservationsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.useAllobservationsToolStripMenuItem.Name = "useAllobservationsToolStripMenuItem";
-            this.useAllobservationsToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.useAllobservationsToolStripMenuItem.Text = "OBSOLETE";                                                               
-            // 
-            // _lblAspect
-            // 
-            this._lblAspect.BackColor = System.Drawing.Color.Transparent;
-            this._lblAspect.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblAspect.ForeColor = System.Drawing.Color.Teal;
-            this._lblAspect.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
-            this._lblAspect.Name = "_lblAspect";
-            this._lblAspect.Size = new System.Drawing.Size(104, 15);
-            this._lblAspect.Text = "(value)";
-            this._lblAspect.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblCorrections.ToolTipText = "Select the target matrix";
             // 
             // toolStripSeparator1
             // 
@@ -399,7 +355,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._mnuObsFilter.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._mnuObsFilter.Size = new System.Drawing.Size(152, 36);
             this._mnuObsFilter.Text = "Observations";
-            this._mnuObsFilter.ToolTipText = "Select observation filter";
+            this._mnuObsFilter.ToolTipText = "Filter out specific observations from the target matrix";
             this._mnuObsFilter.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton3_DropDownOpening);
             // 
             // _lblObs
@@ -412,6 +368,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblObs.Size = new System.Drawing.Size(104, 15);
             this._lblObs.Text = "(value)";
             this._lblObs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblObs.ToolTipText = "Filter out specific observations from the target matrix";
             // 
             // _mnuPeakFilter
             // 
@@ -423,7 +380,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._mnuPeakFilter.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._mnuPeakFilter.Size = new System.Drawing.Size(152, 36);
             this._mnuPeakFilter.Text = "Peaks";
-            this._mnuPeakFilter.ToolTipText = "Select peak filter";
+            this._mnuPeakFilter.ToolTipText = "Filter out specific peaks from the target matrix";
             this._mnuPeakFilter.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton1_DropDownOpening);
             // 
             // _lblPeaks
@@ -436,6 +393,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblPeaks.Size = new System.Drawing.Size(104, 15);
             this._lblPeaks.Text = "(value)";
             this._lblPeaks.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblPeaks.ToolTipText = "Filter out specific peaks from the target matrix";
             // 
             // _btnNavigate
             // 
@@ -447,18 +405,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnNavigate.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._btnNavigate.Size = new System.Drawing.Size(152, 36);
             this._btnNavigate.Text = "View on main";
+            this._btnNavigate.ToolTipText = "View the selected point on the main screen";
             this._btnNavigate.Click += new System.EventHandler(this._btnNavigate_Click);
-            // 
-            // _lblNavigate
-            // 
-            this._lblNavigate.BackColor = System.Drawing.Color.Transparent;
-            this._lblNavigate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._lblNavigate.ForeColor = System.Drawing.Color.Teal;
-            this._lblNavigate.Margin = new System.Windows.Forms.Padding(48, -16, 0, 0);
-            this._lblNavigate.Name = "_lblNavigate";
-            this._lblNavigate.Size = new System.Drawing.Size(104, 15);
-            this._lblNavigate.Text = "(value)";
-            this._lblNavigate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // _btnMarkAsOutlier
             // 
@@ -470,6 +418,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnMarkAsOutlier.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this._btnMarkAsOutlier.Size = new System.Drawing.Size(152, 36);
             this._btnMarkAsOutlier.Text = "Mark as outlier";
+            this._btnMarkAsOutlier.ToolTipText = "Mark the selected point as an outlier, automatically creating a filter you can us" +
+    "e to exclude this from further analysis.\r\nWhether this is a peak or observation " +
+    "filter depends on the point selected.";
             this._btnMarkAsOutlier.Click += new System.EventHandler(this._btnMarkAsOutlier_Click);
             // 
             // _lblOutlier
@@ -482,6 +433,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblOutlier.Size = new System.Drawing.Size(104, 15);
             this._lblOutlier.Text = "(value)";
             this._lblOutlier.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblOutlier.ToolTipText = "Mark the selected point as an outlier, automatically creating a filter you can us" +
+    "e to exclude this from further analysis.\r\nWhether this is a peak or observation " +
+    "filter depends on the point selected.";
             // 
             // toolStripSeparator5
             // 
@@ -497,6 +451,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnNextPc.Name = "_btnNextPc";
             this._btnNextPc.Size = new System.Drawing.Size(152, 36);
             this._btnNextPc.Text = "Next component";
+            this._btnNextPc.ToolTipText = "Select the component to plot";
             this._btnNextPc.Click += new System.EventHandler(this._btnNextPc_Click);
             // 
             // _lblPcNumber
@@ -510,6 +465,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblPcNumber.Size = new System.Drawing.Size(104, 15);
             this._lblPcNumber.Text = "(value)";
             this._lblPcNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._lblPcNumber.ToolTipText = "Select the component to plot";
             // 
             // _btnPrevPc
             // 
@@ -521,6 +477,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._btnPrevPc.Name = "_btnPrevPc";
             this._btnPrevPc.Size = new System.Drawing.Size(151, 36);
             this._btnPrevPc.Text = "Previous component";
+            this._btnPrevPc.ToolTipText = "Select the component to plot";
             this._btnPrevPc.Click += new System.EventHandler(this._btnPrevPc_Click);
             // 
             // toolStripSeparator3
@@ -538,6 +495,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.toolStripDropDownButton1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(152, 36);
             this.toolStripDropDownButton1.Text = "Plot options";
+            this.toolStripDropDownButton1.ToolTipText = "View the standard list of plot options";
             // 
             // statusStrip1
             // 
@@ -555,6 +513,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lblSelection.Name = "_lblSelection";
             this._lblSelection.Size = new System.Drawing.Size(96, 21);
             this._lblSelection.Text = "No selection";
+            this._lblSelection.ToolTipText = "The selected point is described here";
             // 
             // _cmsFilter
             // 
@@ -564,11 +523,11 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             // _chart
             // 
             this._chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._chart.Location = new System.Drawing.Point(155, 66);
+            this._chart.Location = new System.Drawing.Point(155, 56);
             this._chart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._chart.Name = "_chart";
             this._chart.SelectedItem = selection1;
-            this._chart.Size = new System.Drawing.Size(969, 755);
+            this._chart.Size = new System.Drawing.Size(969, 765);
             this._chart.TabIndex = 0;
             this._chart.SelectionChanged += new System.EventHandler(this._chart_SelectionChanged);
             // 
@@ -576,9 +535,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(155, 66);
+            this.panel1.Location = new System.Drawing.Point(155, 56);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(4, 755);
+            this.panel1.Size = new System.Drawing.Size(4, 765);
             this.panel1.TabIndex = 4;
             // 
             // ctlTitleBar1
@@ -589,9 +548,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.ctlTitleBar1.HelpText = null;
             this.ctlTitleBar1.Location = new System.Drawing.Point(0, 0);
             this.ctlTitleBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(384, 0);
+            this.ctlTitleBar1.MinimumSize = new System.Drawing.Size(0, 56);
             this.ctlTitleBar1.Name = "ctlTitleBar1";
-            this.ctlTitleBar1.Size = new System.Drawing.Size(1124, 66);
+            this.ctlTitleBar1.Size = new System.Drawing.Size(1124, 56);
             this.ctlTitleBar1.SubText = "";
             this.ctlTitleBar1.TabIndex = 1;
             this.ctlTitleBar1.Text = "#method name";
@@ -636,12 +595,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         private System.Windows.Forms.ToolStripDropDownButton _mnuTranspose;
         private System.Windows.Forms.ToolStripMenuItem transposeToShowObservationsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transposeToShowPeaksToolStripMenuItem;
-        private System.Windows.Forms.ToolStripDropDownButton _mnuTrend;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripDropDownButton _mnuObsFilter;
         private System.Windows.Forms.ToolStripDropDownButton _mnuPeakFilter;
-        private System.Windows.Forms.ToolStripMenuItem usetrendLineToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem useAllobservationsToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton _btnScoresOrLoadings;
         private System.Windows.Forms.ToolStripMenuItem _btnScores;
         private System.Windows.Forms.ToolStripMenuItem _btnLoadings;
@@ -662,11 +618,9 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         private System.Windows.Forms.ToolStripLabel _lblPlotView;
         private System.Windows.Forms.ToolStripLabel _lblLegend;
         private System.Windows.Forms.ToolStripLabel _lblCorrections;
-        private System.Windows.Forms.ToolStripLabel _lblAspect;
         private System.Windows.Forms.ToolStripLabel _lblObs;
         private System.Windows.Forms.ToolStripLabel _lblPeaks;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripButton _btnNavigate;
-        private System.Windows.Forms.ToolStripLabel _lblNavigate;
     }
 }

@@ -20,8 +20,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         /// </summary>  
         public LegacyDkMeansPpClusterer(string id, string name)
             : base(id, name)
-        {
-            Comment = "k-means clustering using the k-means++ initial centre assignment, always choosing the most likley (most distant) centre.";
+        {              
         }
 
         public override bool RequiresDistanceMatrix { get { return false; } }

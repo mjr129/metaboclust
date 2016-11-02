@@ -62,6 +62,9 @@ namespace MetaboliteLevels.Utilities
         public static readonly Color TitleForeColour = Color.Purple; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
         public static readonly Color PreviewBackColour = Color.LightSteelBlue; // Color.FromKnownColor(KnownColor.ActiveCaption);
         public static readonly Color PreviewForeColour = Color.Black; // Color.FromKnownColor(KnownColor.ActiveCaptionText);
+        public static readonly Color HelpBackColour = Color.Silver; // Color.FromKnownColor(KnownColor.ActiveCaption);
+        public static readonly Color HelpForeColour = Color.FromArgb( 64, 64,192); // Color.FromKnownColor(KnownColor.ActiveCaptionText);
+        public static readonly Color HelpForeColour2 = Color.FromArgb( 64, 64, 64 ); // Color.FromKnownColor(KnownColor.ActiveCaptionText);
 
         public static readonly Color[] BrightColours =
             {

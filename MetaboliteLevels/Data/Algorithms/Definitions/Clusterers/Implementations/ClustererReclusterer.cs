@@ -22,8 +22,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
     {
         public ClustererReclusterer(string id, string name)
             : base(id, name)
-        {
-            Comment = "Performs k-means clustering on vectors starting with the cluster centres at existing cluster assignments.";
+        {                                                                                                                         
         }
 
         protected override IEnumerable<Cluster> Cluster(IntensityMatrix vmatrix, DistanceMatrix UNUSED, ArgsClusterer args, ConfigurationClusterer tag, ProgressReporter prog)
@@ -42,7 +41,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
                 if (!cluster.States.HasFlag(Session.Main.Cluster.EStates.Insignificants))
                 {
                     // Get the centre
-                    double[] centre = cluster.GetCentre(ECentreMode.Average, ECandidateMode.Assignments)[0];
+                    IReadOnlyList<double> centre = cluster.GetCentre(ECentreMode.Average, ECandidateMode.Assignments)[0];
 
                     // Reorder the centre to match our vmatrix
                     // centre = Reorder(centre, config.Results.VMatrix.Conditions, vmatrix.Conditions);

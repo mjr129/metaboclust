@@ -19,9 +19,9 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private readonly HashSet<Column> _selected;
         private readonly HashSet<object> _view = new HashSet<object>();
 
-        public static Column Show( IWin32Window owner, IEnumerable<Column> available, Column selected )
+        public static Column Show( IWin32Window owner, IEnumerable<Column> available, Column selected, string title )
         {
-            using (FrmEditColumns frm = new FrmEditColumns( available, new[] { selected }, false ))
+            using (FrmEditColumns frm = new FrmEditColumns( available, new[] { selected }, false,title ))
             {
                 if (frm.ShowDialog( owner ) == DialogResult.OK)
                 {
@@ -32,9 +32,9 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             }
         }
 
-        public static HashSet<Column> Show( IWin32Window owner, IEnumerable<Column> available, IEnumerable<Column> selected )
+        public static HashSet<Column> Show( IWin32Window owner, IEnumerable<Column> available, IEnumerable<Column> selected, string title )
         {
-            using (FrmEditColumns frm = new FrmEditColumns( available, selected, true ))
+            using (FrmEditColumns frm = new FrmEditColumns( available, selected, true,title ))
             {
                 if (frm.ShowDialog( owner ) == DialogResult.OK)
                 {
@@ -45,13 +45,14 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             }
         }
 
-        internal FrmEditColumns(IEnumerable<Column> available, IEnumerable<Column> selected, bool multiSelect )
+        internal FrmEditColumns(IEnumerable<Column> available, IEnumerable<Column> selected, bool multiSelect, string title )
         {
             this.InitializeComponent();
             UiControls.SetIcon( this );
 
             this._available = available.ToList();
             this._selected = selected.Unique();
+            this.ctlTitleBar1.Text = title; 
 
             this._chkAdvanced.ForeColor = ColumnManager.COLCOL_ADVANCED;
             this._chkMetaFields.ForeColor = ColumnManager.COLCOL_META;
@@ -222,43 +223,59 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             {
                 return;
             }
+                   
+            Column col = e.Node.Tag as Column;
 
             if (!_multiSelect)
             {
-                if (e.Node.Nodes.Count != 0)
+                // No multiselect - deselect all other nodes
+                if (col == null)
                 {
+                    // Can't select group in single-select
+                    this._ignoreCheck = true;
                     e.Node.Checked = false;
+                    this._ignoreCheck = false;
                     return;
                 }
 
-                foreach (TreeNode node in  treeView1.GetAllNodes() )
+                this._ignoreCheck = true;
+
+                foreach (TreeNode node in treeView1.GetAllNodes())
                 {
                     node.Checked = node == e.Node;
-                }      
-            }
-
-            Column col = e.Node.Tag as Column;
-
-            if (col != null)
-            {
-                if (e.Node.Checked)
-                {
-                    this._selected.Add( col );
                 }
-                else
-                {
-                    this._selected.Remove( col );
-                }
+
+                this._ignoreCheck = false;
+
+                _selected.Clear();
+                _selected.Add( col );
 
                 this.UpdateParent( e.Node.Parent );
             }
             else
             {
-                bool newState = e.Node.Checked;
-
-                foreach (TreeNode n in e.Node.Nodes)
+                if (col == null)
                 {
-                    n.Checked = newState;
+                    // Group selected - toggle all descendents
+                    bool newState = e.Node.Checked;
+
+                    foreach (TreeNode n in e.Node.Nodes)
+                    {
+                        n.Checked = newState;
+                    }
+                }
+                else
+                {
+                    if (e.Node.Checked)
+                    {
+                        this._selected.Add( col );
+                    }
+                    else
+                    {
+                        this._selected.Remove( col );
+                    }
+
+                    this.UpdateParent( e.Node.Parent );
                 }
             }
         }

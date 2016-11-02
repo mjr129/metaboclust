@@ -238,17 +238,19 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             if (this._scores == null)
             {
                 this._lblSelection.Text = this._errorMessage;
+                this._lblSelection.ForeColor = Color.Red;
                 this._chart.Visible = false;
                 return;
             }
-
+            
             this._chart.Visible = true;
             this._lblSelection.Text = "";
+            this._lblSelection.ForeColor = ForeColor;
 
             MCharting.Plot plot = new MCharting.Plot();
 
             plot.Title = $"{this._lblMethod.Text} of {this._core.FileNames.Title}";
-            plot.SubTitle = $"Source: {this._lblPcaSource.Text}, View: {this._lblPlotView.Text}, Legend: {this._lblLegend.Text}, Corrections: {this._lblCorrections.Text}, Aspect: {this._lblAspect.Text}, Observations: {this._lblObs.Text}, Peaks: {this._lblPeaks.Text}";
+            plot.SubTitle = $"Source: {this._lblPcaSource.Text}, View: {this._lblPlotView.Text}, Legend: {this._lblLegend.Text}, Corrections: {this._lblCorrections.Text}, Observations: {this._lblObs.Text}, Peaks: {this._lblPeaks.Text}";
 
             switch (this._method)
             {
@@ -712,15 +714,13 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         {
             ToolStripDropDownButton tsddb = (ToolStripDropDownButton)sender;
 
-            tsddb.DropDownItems.Clear();
-
             IEnumerable<Column> columns;
             Column selected;
 
             bool isColour = tsddb == this._btnColour;
 
             SourceSet ss = isColour ? this._colourBy : this._regressAgainst;
-
+             
             switch (this.WhatPlotting)
             {
                 case EPlotting.Peaks:
@@ -737,32 +737,25 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                     throw new SwitchException(this.WhatPlotting);
             }
 
-            FrmEditColumns.Show( this, columns, selected );
+            selected = FrmEditColumns.Show( this, columns, selected, isColour ? "Colour by" : "Regress against" );
 
-            foreach (Column column in columns)
+            if (selected == null)
             {
-                ToolStripMenuItem tsmi = new ToolStripMenuItem(column.Id) { Tag = column };
-                if (isColour)
-                {
-                    tsmi.Click += this._btnColour_column_Click;
-                }
-                else
-                {
-                    tsmi.Click += this.Tsmi_Click;
-                }
-
-                tsmi.Checked = column == selected;
-
-                tsddb.DropDownItems.Add(tsmi);
+                return;
             }
-        }
 
-        private void _btnColour_column_Click(object sender, EventArgs e)
-        {
-            Column selected = (Column)((ToolStripMenuItem)sender).Tag;
-            this.ColourBy( this._colourBy, selected );
-            this.UpdatePlot();
-        }
+            if (isColour)
+            {                                                             
+                this.ColourBy( this._colourBy, selected );
+                this.UpdatePlot();
+            }
+            else
+            {
+                this.ColourBy( this._regressAgainst, selected );
+                this.ColourBy( this._colourBy, selected );
+                this.UpdateScores();
+            }          
+        }      
 
         private void ColourBy( SourceSet ss, Column selected )
         {
@@ -807,16 +800,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         private void _mnuPlsrSource_DropDownOpening( object sender, EventArgs e )
         {
 
-        }
-
-        private void Tsmi_Click( object sender, EventArgs e )
-        {
-            Column selected = (Column)((ToolStripMenuItem)sender).Tag;
-
-            this.ColourBy( this._regressAgainst, selected );
-            this.ColourBy( this._colourBy, selected );
-            this.UpdateScores();
-        }
+        }       
 
         private void _mnuPlsrSource_Click( object sender, EventArgs e )
         {

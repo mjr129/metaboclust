@@ -58,9 +58,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
 
         protected abstract AlgoParameterCollection CreateParamaterDesription();              
    
-        public override string DefaultDisplayName => Id;
-
-        public override EPrevent SupportsHide => EPrevent.Hide;
+        public override string DefaultDisplayName => Id;       
 
         /// <summary>
         /// Script (if any)
@@ -81,12 +79,12 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Base
         /// <summary>
         /// Implements IVisualisable
         /// </summary>              
-       public override void GetXColumns( CustomColumnRequest request )
+        public override void GetXColumns( CustomColumnRequest request )
         {
             var result = request.Results.Cast<AlgoBase>();
-                                               
-            result.Add("R", z => z.Script != null ? 1 : 0);
-            result.Add("File", z => z.Script?.FileName);
-        }
+
+            result.Add( "R", z => z.Script != null ? 1 : 0 );
+            result.Add( "File", z => z.Script?.FileName );
+        }             
     }
 }

@@ -17,8 +17,7 @@ namespace MetaboliteLevels.Data.Algorithms.Definitions.Clusterers.Implementation
         /// </summary>
         public LegacyPathwayClusterer(string id, string name)
             : base(id, name)
-        {
-            Comment = "Creates clusters based on the pathways in which the peaks' potential metabolites may be involved.";
+        {    
         }
 
         /// <summary>
