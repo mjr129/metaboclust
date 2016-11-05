@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using JetBrains.Annotations;
 using MetaboliteLevels.Data.Database;
 using MetaboliteLevels.Gui.Datatypes;
+using MetaboliteLevels.Gui.Forms.Editing;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Helpers;
@@ -24,11 +25,36 @@ namespace MetaboliteLevels.Gui.Controls
     class EditableComboBox   : IDisposable
     {
         public readonly ComboBox ComboBox;
-        private Button _button;
-        private IDataSet _config;
-        private ENullItemName _includeNull;
+        private readonly Button _button;
+        private readonly IDataSet _config;
+        private readonly ENullItemName _includeNull;
         private NamedItem<object> _none;
         private bool IsDisposed;
+        private EFlags _flags;
+
+        [Flags]
+        public enum EFlags
+        {
+            /// <summary>
+            /// Nothing special
+            /// </summary>
+            None = 0,
+
+            /// <summary>
+            /// Include an item representing a "none" selection (a null selection). Incompatible with <see cref="IncludeAll"/>.
+            /// </summary>
+            IncludeNone = 1,
+
+            /// <summary>
+            /// Include an item representing an "all" selection (a null selection). Incompatible with <see cref="IncludeNone"/>.
+            /// </summary>
+            IncludeAll = 2,
+
+            /// <summary>
+            /// If SelectedItem is set to a non-existant item then that item will be added to the list UNTIL the user changes the selection
+            /// </summary>
+            CreateSelection = 4,
+        }
 
         /// <summary>
         /// Constructor
@@ -37,11 +63,12 @@ namespace MetaboliteLevels.Gui.Controls
         /// <param name="editButton">Edit button (optional)</param>
         /// <param name="items">Items to populate with</param>
         /// <param name="includeNull">Whether to include an extra item for a "null" or empty selection.</param>
-        public EditableComboBox( [NotNull] ComboBox box, [CanBeNull] Button editButton, [NotNull] IDataSet items, ENullItemName includeNull )
+        public EditableComboBox( [NotNull] ComboBox box, [CanBeNull] Button editButton, [NotNull] IDataSet items, EFlags flags )
         {
             this.ComboBox = box;
             this._button = editButton;
-            this._includeNull = includeNull;
+            this._includeNull = flags.Has( EFlags.IncludeNone ) ? ENullItemName.RepresentingNone : flags.Has( EFlags.IncludeAll ) ? ENullItemName.RepresentingAll : ENullItemName.NoNullItem;
+            this._flags = flags;
             this._config = items;
 
             if (this._button != null)
@@ -131,9 +158,12 @@ namespace MetaboliteLevels.Gui.Controls
 
         void _button_Click( object sender, EventArgs e )
         {
-            if (this._config.ShowListEditor( this.ComboBox.FindForm() ))
+            BigListResult<object> res = this._config.ShowListEditor( this.ComboBox.FindForm()  );
+
+            if (res != null)
             {
-                this.UpdateItems();
+                this.UpdateItemsNoPreserve();
+                this.SelectedItem = res.Selection;
             }
         }
 
@@ -171,6 +201,7 @@ namespace MetaboliteLevels.Gui.Controls
             }
             set
             {
+                // Special case for null handling
                 if (value == null)
                 {
                     if ((this._includeNull != ENullItemName.NoNullItem))
@@ -185,7 +216,16 @@ namespace MetaboliteLevels.Gui.Controls
                     }
                 }
 
-                this.ComboBox.SelectedItem = value;
+                // Special case for EFlags.CreateSelection
+                if (_flags.Has( EFlags.CreateSelection ))
+                {
+                    if (!this.ComboBox.Items.Contains( value ))
+                    {
+                        this.ComboBox.Items.Add( new NamedItem<object>( value, this._config.UntypedName ) );
+                    }
+                }
+
+                this.ComboBox.SelectedItem = value; // Doesn't do anything if value isn't in list
             }
         }
 
@@ -227,8 +267,8 @@ namespace MetaboliteLevels.Gui.Controls
     
     class EditableComboBox<T> : EditableComboBox
     {
-        public EditableComboBox( [NotNull] ComboBox box, [CanBeNull] Button editButton, [NotNull] DataSet<T> items, ENullItemName includeNull )
-            : base( box, editButton, items, includeNull )
+        public EditableComboBox( [NotNull] ComboBox box, [CanBeNull] Button editButton, [NotNull] DataSet<T> items, EFlags flags )
+            : base( box, editButton, items, flags )
         {
         }
 

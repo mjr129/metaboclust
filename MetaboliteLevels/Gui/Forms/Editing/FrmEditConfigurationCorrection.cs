@@ -74,10 +74,10 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._chartChanged = new ChartHelperForPeaks( null, this._core, this.panel2 );
 
             // Choicelists
-            this._ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( this._lstFilter, this._btnFilter, ENullItemName.RepresentingAll );
-            this._ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms( core ).CreateComboBox( this._lstMethod, this._btnNewStatistic, ENullItemName.NoNullItem );
-            this._ecbTypes = DataSet.ForGroups( this._core ).CreateComboBox( this._lstTypes, this._btnEditTypes, ENullItemName.NoNullItem );
-            this._ecbSource = DataSet.ForMatrixProviders( this._core ).CreateComboBox( this._lstSource, this._btnSource, ENullItemName.NoNullItem );
+            this._ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( this._lstFilter, this._btnFilter, EditableComboBox.EFlags.IncludeAll );
+            this._ecbMethod = DataSet.ForTrendAndCorrectionAlgorithms( core ).CreateComboBox( this._lstMethod, this._btnNewStatistic, EditableComboBox.EFlags.None );
+            this._ecbTypes = DataSet.ForGroups( this._core ).CreateComboBox( this._lstTypes, this._btnEditTypes, EditableComboBox.EFlags.None );
+            this._ecbSource = DataSet.ForMatrixProviders( this._core ).CreateComboBox( this._lstSource, this._btnSource, EditableComboBox.EFlags.None );
 
             // Buttons
             this.GenerateTypeButtons();

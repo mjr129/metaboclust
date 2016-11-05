@@ -10,21 +10,13 @@ using MetaboliteLevels.Gui.Controls.Lists;
 using MetaboliteLevels.Properties;
 
 namespace MetaboliteLevels.Data.Session.Associational
-{
-    interface IAssociation
-    {
-        [NotNull] ContentsRequest OriginalRequest { get; }
-
-        [NotNull] object Associated { get; }
-    }
-
+{                  
     /// <summary>
     /// Throwaway object that "associates" two other objects.
     /// 
     /// These are obtained by calling FindAssociations on an Associational object.
     /// 
-    /// The type parameter (T) is needed because the list views need to see different types of associations differently in order
-    /// to find use the correct columns.
+    /// The type parameter (T) is needed because the list views need to find the correct columns.
     /// </summary>
     internal sealed class Association<T> : IColumnProvider, IIconProvider, IAssociation
     {

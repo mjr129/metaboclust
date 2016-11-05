@@ -742,14 +742,14 @@ namespace MetaboliteLevels.Data.Database
                 Icon = Resources.ListIconFilter,
                 HandleEdit = z =>
                 {
-                    var newList = DataSet.ForPeakFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
+                    BigListResult<PeakFilter.Condition> newList = DataSet.ForPeakFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
 
                     if (newList == null || z.ReadOnly)
                     {
                         return null;
                     }
 
-                    return new PeakFilter( z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newList );
+                    return new PeakFilter( z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newList.List );
                 },
             };
         }
@@ -800,14 +800,14 @@ namespace MetaboliteLevels.Data.Database
                 Icon = Resources.ListIconFilter,
                 HandleEdit = z =>
                 {
-                    var newlist = DataSet.ForObsFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
+                    BigListResult<ObsFilter.Condition> newlist = DataSet.ForObsFilterConditions( core, z.DefaultValue ).ShowListEditor( z.Owner, z.ReadOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Acceptor, null );
 
                     if (newlist == null || z.ReadOnly)
                     {
                         return null;
                     }
 
-                    return new ObsFilter( z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newlist );
+                    return new ObsFilter( z.DefaultValue?.OverrideDisplayName, z.DefaultValue?.Comment, newlist.List );
                 },
                 HandleCommit = z => core.SetObsFilters( z.List ),
                 ListSupportsReorder = true,

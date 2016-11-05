@@ -451,7 +451,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         /// </summary>              
         private void _btnNewTest_Click(object sender, EventArgs e)
         {
-            if (!DataSet.ForTests(this._core).ShowListEditor(this))
+            if (DataSet.ForTests(this._core).ShowListEditor(this) == null)
             {
                 return;
             }

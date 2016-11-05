@@ -149,6 +149,7 @@
     <Compile Include="Data\Algorithms\Definitions\Clusterers\Implementations\ClustererCombine.cs" />
     <Compile Include="Data\Algorithms\General\AlgoParameterTypes.cs" />
     <Compile Include="Data\Algorithms\General\IAlgoParameterType.cs" />
+    <Compile Include="Data\Session\Associational\IAssociation.cs" />
     <Compile Include="Data\Session\General\FileLoadInfo.cs" />
     <Compile Include="Gui\Controls\CtlContextHelp.cs">
       <SubType>Component</SubType>

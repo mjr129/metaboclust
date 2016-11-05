@@ -14,7 +14,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
     /// <summary>
     /// Warns user about using data saved using a previous version of the software.
     /// </summary>
-    public partial class FrmActOldData : Form
+    public sealed partial class FrmActOldData : Form
     {
         DataFileNames _dfn;
 

@@ -1578,7 +1578,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
             if (t is Cluster)
             {
-                items.Add("&Break up large cluster...", null, this.breakUpLargeClusterToolStripMenuItem_Click);
+                items.Add( "&Break up cluster...", null, this.breakUpLargeClusterToolStripMenuItem_Click);
+                items.Add( "&Combine clusters...", null, this.combineClustersToolStripMenuItem_Click );
             }
 
             if (t is Peak)
@@ -1592,7 +1593,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             }
 
             items[0].Font = new Font(items[0].Font, FontStyle.Bold);
-        }        
+        }                                                           
 
         /// <summary>
         /// Menu: Debug
@@ -1703,13 +1704,32 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         }
 
         /// <summary>
-        /// Menu: Break up selection
-        /// </summary>
-        private void breakUpLargeClusterToolStripMenuItem_Click(object sender, EventArgs e)
+        /// Menu: Combine selection
+        /// </summary>              
+        private void combineClustersToolStripMenuItem_Click( object sender, EventArgs e )
         {
-            Cluster clu = (Cluster)this._selectionMenuOpenedFromList;
+            // Prompt for clusters
+            var clu = (Cluster)this._selectionMenuOpenedFromList;
+            IEnumerable<Cluster> clustersSel = DataSet.ForClusters( _core ).ShowCheckList( this, new[] {clu } );
+
+            if (clustersSel == null)
+            {
+                return;
+            }
+
+            PeakFilter filter = GetOrCreateClusterFilter( clustersSel.Unique() );
+            BreakOrCombine( clu, filter, true );
+        }
+
+        /// <summary>
+        /// Gets the existing filter that only lets passed this set of clusters.
+        /// This filter is created if it does not already exist.
+        /// </summary>                
+        private PeakFilter GetOrCreateClusterFilter( HashSet<Cluster> clusters )
+        {
             PeakFilter filter = null;
 
+            // Find an existing filter that only lets passed this cluster
             foreach (PeakFilter pf in this._core.PeakFilters)
             {
                 if (pf.Conditions.Count == 1)
@@ -1718,7 +1738,14 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
                     if (x != null)
                     {
-                        if (x.Clusters.Count == 1 && x.Clusters[0].GetTarget() == clu && x.ClustersOp == Filter.ELimitedSetOperator.Any && x.CombiningOperator == Filter.ELogicOperator.And && x.Negate == false)
+                        HashSet<Cluster> thisOne = new HashSet<Cluster>();
+
+                        if (!x.Clusters.TryGetStrong( thisOne ))
+                        {
+                            continue;
+                        }
+
+                        if (thisOne.SetEquals( clusters ) && x.ClustersOp == Filter.ELimitedSetOperator.Any && x.CombiningOperator == Filter.ELogicOperator.And && x.Negate == false)
                         {
                             filter = pf;
                             break;
@@ -1729,15 +1756,34 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
             if (filter == null)
             {
-                PeakFilter.Condition condition = new PeakFilter.ConditionCluster(Filter.ELogicOperator.And, false, Filter.ELimitedSetOperator.Any, new[] { clu });
-                filter = new PeakFilter(null, null, new[] { condition });
-                this._core.AddPeakFilter(filter);
+                PeakFilter.Condition condition = new PeakFilter.ConditionCluster( Filter.ELogicOperator.And, false, Filter.ELimitedSetOperator.Any, clusters );
+                filter = new PeakFilter( null, null, new[] { condition } );
+                this._core.AddPeakFilter( filter );
             }
 
+            return filter;
+        }
+
+        /// <summary>
+        /// Menu: Break up selection
+        /// </summary>
+        private void breakUpLargeClusterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Cluster clu = (Cluster)this._selectionMenuOpenedFromList;
+            PeakFilter filter = GetOrCreateClusterFilter( new HashSet<Cluster>() { clu } );
+            BreakOrCombine( clu, filter, false );
+        }
+
+        private void BreakOrCombine( Cluster clu, PeakFilter filter, bool combine )
+        {
             ConfigurationClusterer template = new ConfigurationClusterer()
-                                              {
-                                                  Args = new ArgsClusterer(
-                                                      clu.Method.Args.Id,
+            {
+                Args = new ArgsClusterer(
+                                                      (combine)
+                                                        ? Algo.ID_COMBINE
+                                                        : (clu.Method.Args.Id == Algo.ID_COMBINE) 
+                                                            ? null
+                                                            : clu.Method.Args.Id,
                                                       clu.Method.Args.SourceProvider,
                                                       filter,
                                                       clu.Method.Args.Distance,
@@ -1747,11 +1793,12 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                                                       clu.Method.Args.Parameters,
                                                       clu.DisplayName + "."
                                                       )
-                                              };
+            };
 
-            if (DataSet.ForClusterers(this._core).ShowListEditor(this, FrmBigList.EShow.Default, template) != null)
+            // Show the cluster editor with a default "template"
+            if (DataSet.ForClusterers( this._core ).ShowListEditor( this, FrmBigList.EShow.Default, template ) != null)
             {
-                this.UpdateAll("Clusters changed");
+                this.UpdateAll( "Clusters changed" );
             }
         }
 
@@ -1812,7 +1859,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         {
             IDataSet dataSet = DataSet.For( dataSetId, this._core );
 
-            if (dataSet.ShowListEditor( this ))
+            if (dataSet.ShowListEditor( this ) != null)
             {
                 switch (dataSetId)
                 {

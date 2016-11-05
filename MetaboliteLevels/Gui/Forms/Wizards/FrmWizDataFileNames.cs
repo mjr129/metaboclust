@@ -158,8 +158,8 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
             // Setup annotations
             // -- Passing a null core is okay here provided we don't try to show any columns
-            this._cbAutomaticFlag = DataSet.ForDiscreteEnum<EAnnotation>( null, "Annotation", (EAnnotation) (- 1) ).CreateComboBox(this._automaticFlag, null, ENullItemName.NoNullItem);
-            this._cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( null, "Annotation", (EAnnotation) (- 1) ).CreateComboBox( this._manualFlag, null, ENullItemName.NoNullItem );               
+            this._cbAutomaticFlag = DataSet.ForDiscreteEnum<EAnnotation>( null, "Annotation", (EAnnotation) (- 1) ).CreateComboBox(this._automaticFlag, null, EditableComboBox.EFlags.None);
+            this._cbManualFlag = DataSet.ForDiscreteEnum<EAnnotation>( null, "Annotation", (EAnnotation) (- 1) ).CreateComboBox( this._manualFlag, null, EditableComboBox.EFlags.None );               
 
             // Setup captions
             this.linkLabel1.Text = UiControls.Title + " " + UiControls.VersionString.ToString();
@@ -1297,6 +1297,7 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             bool visible = _showAdvancedData || _chkAltVals.Checked || _chkCondInfo.Checked;
 
             _chkAltVals.Visible = _txtAltVals.Visible = _btnAltVals.Visible = _chkCondInfo.Visible = _txtCondInfo.Visible = _btnCondInfo.Visible = visible;
+            _btnShowAdvancedData.Visible = !visible;
         }
 
         private void _btnShowAdvancedData_Click( object sender, EventArgs e )

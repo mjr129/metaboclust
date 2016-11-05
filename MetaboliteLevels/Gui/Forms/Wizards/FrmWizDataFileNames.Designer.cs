@@ -1407,14 +1407,14 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             // 
             // _btnShowAdvancedData
             // 
-            this._btnShowAdvancedData.Enabled = false;
             this._btnShowAdvancedData.Image = global::MetaboliteLevels.Properties.Resources.MnuView;
             this._btnShowAdvancedData.Location = new System.Drawing.Point(20, 540);
             this._btnShowAdvancedData.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
             this._btnShowAdvancedData.Name = "_btnShowAdvancedData";
             this._btnShowAdvancedData.Size = new System.Drawing.Size(128, 40);
             this._btnShowAdvancedData.TabIndex = 18;
-            this._btnShowAdvancedData.Text = "Advanced";
+            this._btnShowAdvancedData.Text = "Advanced...";
+            this._tipSideBar.SetToolTip(this._btnShowAdvancedData, "Click this button to show additional configuration options");
             this._btnShowAdvancedData.UseDefaultSize = true;
             this._btnShowAdvancedData.UseVisualStyleBackColor = true;
             this._btnShowAdvancedData.Click += new System.EventHandler(this._btnShowAdvancedData_Click);
@@ -1929,6 +1929,8 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this.ctlLabel3.Size = new System.Drawing.Size(68, 42);
             this.ctlLabel3.TabIndex = 14;
             this.ctlLabel3.Text = "Flag as\r\n(default)";
+            this._tipSideBar.SetToolTip(this.ctlLabel3, "This option controls the status of the manual annotations. If the status is set i" +
+        "nside the manual annotation file itself then this value is ignored.");
             // 
             // _manualFlag
             // 
@@ -1942,6 +1944,8 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
             this._manualFlag.Name = "_manualFlag";
             this._manualFlag.Size = new System.Drawing.Size(764, 29);
             this._manualFlag.TabIndex = 15;
+            this._tipSideBar.SetToolTip(this._manualFlag, "This option controls the status of the manual annotations. If the status is set i" +
+        "nside the manual annotation file itself then this value is ignored.");
             // 
             // ctlLabel5
             // 

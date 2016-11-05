@@ -61,8 +61,8 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._core = core;
             this._previewPeak = previewPeak;
 
-            this._ecbMethod = DataSet.ForTrendAlgorithms(core).CreateComboBox(this._lstMethod, this._btnNewStatistic, ENullItemName.NoNullItem);
-            this._ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstSource, this._btnSource, ENullItemName.NoNullItem );
+            this._ecbMethod = DataSet.ForTrendAlgorithms(core).CreateComboBox(this._lstMethod, this._btnNewStatistic, EditableComboBox.EFlags.None);
+            this._ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstSource, this._btnSource, EditableComboBox.EFlags.None );
 
             this._chart1 = new ChartHelperForPeaks(null, core, this.panel1);
 

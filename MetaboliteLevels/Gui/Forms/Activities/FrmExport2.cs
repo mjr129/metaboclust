@@ -34,7 +34,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.InitializeComponent();
             UiControls.SetIcon( this );
 
-            this._cbDatasets = DataSet.ForDatasetProviders( core ).CreateComboBox( this.comboBox1, this.ctlButton2, ENullItemName.NoNullItem );
+            this._cbDatasets = DataSet.ForDatasetProviders( core ).CreateComboBox( this.comboBox1, this.ctlButton2, EditableComboBox.EFlags.None );
 
             this._txtDir.Watermark = UiControls.GetOrCreateFixedFolder( UiControls.EInitialFolder.ExportedData );
         }
@@ -55,7 +55,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                     this._cbItems.Dispose();
                 }
 
-                this._cbItems = ds.CreateComboBox( this.comboBox2, this.ctlButton3, ENullItemName.RepresentingAll );
+                this._cbItems = ds.CreateComboBox( this.comboBox2, this.ctlButton3, EditableComboBox.EFlags.IncludeAll );
                 this._cbItems.ClearSelection();
             }
         }

@@ -43,8 +43,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.InitializeComponent();
             UiControls.SetIcon( this );
 
-            this._ecbIntensitySource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstIntensitySource, this._btnIntensitySource, ENullItemName.NoNullItem );
-            this._ecbTrendSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstIntensitySource, this._btnIntensitySource, ENullItemName.NoNullItem );
+            this._ecbIntensitySource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstIntensitySource, this._btnIntensitySource, EditableComboBox.EFlags.None );
+            this._ecbTrendSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstIntensitySource, this._btnIntensitySource, EditableComboBox.EFlags.None );
 
             this._core = core;
         }
@@ -162,7 +162,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
                 HandleCommit = z => this._otherExports.ReplaceAll(z.List),
             };
 
-            if (dex.ShowListEditor( this ) )
+            if (dex.ShowListEditor( this ) != null)
             {
                 this._txtOther.Text = string.Join( ", ", this._otherExports.Select( z => z.DataSet ) );
             }                                                                         

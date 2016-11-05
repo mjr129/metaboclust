@@ -1307,26 +1307,37 @@ namespace MetaboliteLevels.Utilities
         internal static bool TryGetStrong<T>(this IEnumerable<WeakReference<T>> self, out List<T> strong)
             where T : class
         {
-            List<T> result = new List<T>();
+            strong = new List<T>();
+            return TryGetStrong( self, strong );
+        }            
+
+        /// <summary>
+        /// (MJR) Attempts to get the contents of an enumerable of WeakReferences.
+        /// </summary>
+        /// <param name="self">The weak references</param>
+        /// <param name="destination">All strong references successfully obtained are placed here, regardless of result</param>
+        /// <returns>true if all elements extracted successfully, false otherwise</returns>
+        internal static bool TryGetStrong<T>( this IEnumerable<WeakReference<T>> self, ICollection<T> destination )
+           where T : class
+        {                    
             bool success = true;
 
             foreach (WeakReference<T> refr in self)
             {
                 T t;
 
-                if (refr.TryGetTarget(out t))
+                if (refr.TryGetTarget( out t ))
                 {
-                    result.Add(t);
+                    destination.Add( t );
                 }
                 else
                 {
                     success = false;
                 }
             }
-
-            strong = result;
+                            
             return success;
-        }              
+        }
 
         /// <summary>
         /// Gets the colour of a statistic.

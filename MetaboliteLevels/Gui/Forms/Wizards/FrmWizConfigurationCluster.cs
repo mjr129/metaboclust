@@ -55,15 +55,15 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
             this._chart = new ChartHelperForPeaks( null, core, this.panel1 );
 
-            this._ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( this._lstFilters, this._btnEditFilters, ENullItemName.RepresentingAll );
-            this._ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstSource, this._btnSource, ENullItemName.RepresentingNone );
-            this._ecbSeedPeak = DataSet.ForPeaks( core ).CreateComboBox( this._lstSeedPeak, this._btnSeedPeak, ENullItemName.NoNullItem );
-            this._ecbSeedGroup = DataSet.ForGroups( core ).CreateComboBox( this._lstGroups, this._btnGroups, ENullItemName.NoNullItem );
+            this._ecbFilter = DataSet.ForObsFilter( core ).CreateComboBox( this._lstFilters, this._btnEditFilters, EditableComboBox.EFlags.IncludeAll );
+            this._ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstSource, this._btnSource, EditableComboBox.EFlags.IncludeNone );
+            this._ecbSeedPeak = DataSet.ForPeaks( core ).CreateComboBox( this._lstSeedPeak, this._btnSeedPeak, EditableComboBox.EFlags.None );
+            this._ecbSeedGroup = DataSet.ForGroups( core ).CreateComboBox( this._lstGroups, this._btnGroups, EditableComboBox.EFlags.None );
             this._lstGroups.Items.AddRange( NamedItem.GetRange( core.Groups, z => z.DisplayName ).ToArray() );
             this._lstGroups.SelectedIndex = 0;
 
-            this._ecbPeakFilter = DataSet.ForPeakFilter( core ).CreateComboBox( this._lstPeakFilter, this._btnPeakFilter, ENullItemName.RepresentingAll );
-            this._ecbDistance = DataSet.ForMetricAlgorithms( core ).CreateComboBox( this._lstDistanceMeasure, this._btnDistanceMeasure, ENullItemName.NoNullItem );
+            this._ecbPeakFilter = DataSet.ForPeakFilter( core ).CreateComboBox( this._lstPeakFilter, this._btnPeakFilter, EditableComboBox.EFlags.IncludeAll );
+            this._ecbDistance = DataSet.ForMetricAlgorithms( core ).CreateComboBox( this._lstDistanceMeasure, this._btnDistanceMeasure, EditableComboBox.EFlags.None );
             this._lstDistanceMeasure.SelectedIndexChanged += this._lstDistanceMeasure_SelectedIndexChanged;
 
             this._ecbSeedPeak.SelectedItem = current;

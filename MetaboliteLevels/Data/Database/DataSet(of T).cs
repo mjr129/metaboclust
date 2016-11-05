@@ -311,26 +311,19 @@ namespace MetaboliteLevels.Data.Database
         /// <summary>
         /// Shows the big list (FrmBigList).
         /// </summary>         
-        public IEnumerable<T> ShowListEditor(Form owner, FrmBigList.EShow show, object automaticAddTemplate)
+        public BigListResult<T> ShowListEditor(Form owner, FrmBigList.EShow show, object automaticAddTemplate)
         {
-            IEnumerable result = FrmBigList.Show(owner, this.Core, this, show, automaticAddTemplate);
-
-            if (result == null)
-            {
-                return null;
-            }
-
-            return result.Cast<T>();
-        }
+            return FrmBigList.Show( owner, this.Core, this, show, automaticAddTemplate )?.Cast<T>();
+        }   
 
         /// <summary>
         /// Shows the big list (FrmBigList).
         /// The list is editable if a ListChangeAcceptor is set.
         /// </summary>        
         /// <returns>If the list was modified</returns>
-        public bool ShowListEditor(Form owner)
+        public BigListResult<object> ShowListEditor(Form owner)
         {
-            return this.ShowListEditor(owner, FrmBigList.EShow.Default, null) != null;
+            return FrmBigList.Show( owner, this.Core, this, FrmBigList.EShow.Default, null );
         }
 
         /// <summary>
@@ -384,14 +377,14 @@ namespace MetaboliteLevels.Data.Database
         /// <summary>
         /// Creates a ComboBox (dropdown list and edit button) from the list.
         /// </summary>        
-        public EditableComboBox<T> CreateComboBox(ComboBox l, Button b, ENullItemName nullItemName)
+        public EditableComboBox<T> CreateComboBox(ComboBox l, Button b, EditableComboBox.EFlags flags)
         {
-            return new EditableComboBox<T>(l, b, this, nullItemName);
+            return new EditableComboBox<T>(l, b, this, flags );
         }
 
-        public EditableComboBox UntypedCreateComboBox( ComboBox l, Button b, ENullItemName nullItemName )
+        public EditableComboBox UntypedCreateComboBox( ComboBox l, Button b, EditableComboBox.EFlags flags )
         {
-            return this.CreateComboBox( l, b, nullItemName );
+            return this.CreateComboBox( l, b, flags );
         }
 
         /// <summary>

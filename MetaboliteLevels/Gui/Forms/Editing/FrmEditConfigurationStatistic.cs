@@ -211,11 +211,11 @@ namespace MetaboliteLevels.Gui.Forms.Editing
 
             this._previewPeak = defaultPeak;
 
-            this._ecbFilter1 = DataSet.ForObsFilter(core).CreateComboBox(this._lstFilter1, this._btnFilter1,  ENullItemName.RepresentingAll);
-            this._ecbFilter2 = DataSet.ForObsFilter(core).CreateComboBox(this._lstFilter2, this._btnFilter2,  ENullItemName.RepresentingAll);
-            this._ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstSource, this._btnSource, ENullItemName.NoNullItem );
-            this._ecbMeasure = DataSet.ForStatisticsAlgorithms(core).CreateComboBox(this._lstMethod, this._btnNewStatistic, ENullItemName.NoNullItem);
-            this._ecbDiffPeak = DataSet.ForPeaks( core ).CreateComboBox( this._lstDiffPeak, this._btnSelectDiffPeak, ENullItemName.NoNullItem );
+            this._ecbFilter1 = DataSet.ForObsFilter(core).CreateComboBox(this._lstFilter1, this._btnFilter1, EditableComboBox.EFlags.IncludeAll);
+            this._ecbFilter2 = DataSet.ForObsFilter(core).CreateComboBox(this._lstFilter2, this._btnFilter2, EditableComboBox.EFlags.IncludeAll);
+            this._ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstSource, this._btnSource, EditableComboBox.EFlags.None );
+            this._ecbMeasure = DataSet.ForStatisticsAlgorithms(core).CreateComboBox(this._lstMethod, this._btnNewStatistic, EditableComboBox.EFlags.None);
+            this._ecbDiffPeak = DataSet.ForPeaks( core ).CreateComboBox( this._lstDiffPeak, this._btnSelectDiffPeak, EditableComboBox.EFlags.None );
                         
             this._ecbDiffPeak.SelectedItem = defaultPeak;  
 

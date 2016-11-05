@@ -9,6 +9,7 @@ using MetaboliteLevels.Data.Algorithms.Definitions.Base.Misc;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Gui.Controls;
 using MetaboliteLevels.Gui.Controls.Lists;
+using MetaboliteLevels.Gui.Forms.Editing;
 using MetaboliteLevels.Utilities;
 
 namespace MetaboliteLevels.Data.Database
@@ -41,7 +42,7 @@ namespace MetaboliteLevels.Data.Database
         object UntypedEdit(Form owner, object @default, bool readOnly, bool workOnCopy);
         void UntypedAfterApply(Form owner, IEnumerable list);
         void UntypedApplyChanges(IEnumerable newList, ProgressReporter prog, bool transient );
-        bool ShowListEditor(Form owner);   
+        BigListResult<object> ShowListEditor(Form owner);   
         bool ListIsSelfUpdating { get; }
         bool ListSupportsReorder { get; }
 
@@ -53,6 +54,6 @@ namespace MetaboliteLevels.Data.Database
         [XColumn( EColumn.Visible )]
         Type DataType { get; }
 
-        EditableComboBox UntypedCreateComboBox( ComboBox l, Button b, ENullItemName nullItemName );
+        EditableComboBox UntypedCreateComboBox( ComboBox l, Button b, EditableComboBox.EFlags nullItemName );
     }
 }

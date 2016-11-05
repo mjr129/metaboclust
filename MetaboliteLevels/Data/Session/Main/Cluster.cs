@@ -336,29 +336,12 @@ namespace MetaboliteLevels.Data.Session.Main
             switch (distanceMode)
             {
                 case EDistanceMode.ClosestCentre:
-                    double bestDistance = double.MaxValue;
-
-                    foreach (double[] centre in this.Centres)
-                    {
-                        double d = distanceMetric.Calculate(vector, centre);
-
-                        if (d < bestDistance)
-                        {
-                            bestDistance = d;
-                        }
-                    }
-
-                    return bestDistance;
+                    return this.Centres.Count == 0
+                        ? double.NaN
+                        : (this.Centres.Cast<double[]>().Select( centre => distanceMetric.Calculate( vector, centre ) )).Min();
 
                 case EDistanceMode.AverageToAllCentres:
-                    double totalDistance = 0;
-
-                    foreach (double[] centre in this.Centres)
-                    {
-                        double d = distanceMetric.Calculate(vector, centre);
-
-                        totalDistance += d;
-                    }
+                    double totalDistance = this.Centres.Cast<double[]>().Sum( centre => distanceMetric.Calculate( vector, centre ) );
 
                     return totalDistance / this.Centres.Count;
 
@@ -370,13 +353,10 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// IMPLEMENTS IVisualisable
         /// </summary>
-        public override EVisualClass AssociationalClass
-        {
-            get { return EVisualClass.Cluster; }
-        }
+        public override EVisualClass AssociationalClass => EVisualClass.Cluster;
 
         /// <summary>
-        /// IMPLEMENTS IVisualisable
+        /// IMPLEMENTS Associational
         /// </summary>
         protected override void OnFindAssociations(ContentsRequest request)
         {
@@ -386,9 +366,9 @@ namespace MetaboliteLevels.Data.Session.Main
                     request.Text = "Peaks assigned to {0}";
                     Assignment.AddHeaders(request);
 
-                    foreach (var ass in this.Assignments.List)
+                    foreach (Assignment assignment in this.Assignments.List)
                     {
-                        request.Add(ass.Peak, ass.GetHeaders());
+                        request.Add(assignment.Peak, assignment.GetHeaders());
                     }
 
                     break;
@@ -401,22 +381,16 @@ namespace MetaboliteLevels.Data.Session.Main
                 case EVisualClass.Cluster:
                     request.Text = "Clusters with peaks also in {0}";
 
-                    foreach (Cluster c in request.Core.Clusters)
+                    foreach (Cluster c in request.Core.Clusters.Where( c => c != this ).Where( c => c.Assignments.Peaks.Any(this.Assignments.Peaks.Contains) ))
                     {
-                        if (c != this)
-                        {
-                            if (c.Assignments.Peaks.Any(this.Assignments.Peaks.Contains))
-                            {
-                                request.Add(c);
-                            }
-                        }
+                        request.Add(c);
                     }                          
                     break;
 
                 case EVisualClass.Compound:
                     {
                         request.Text = "Potential compounds of peaks assigned to {0}";
-                        request.AddExtraColumn("Peaks", "Peaks potentially representing this compound also in {0}");
+                        request.AddExtraColumn("Overlapping Peaks", "Peaks potentially representing this compound also in {0}");
                         Dictionary<Compound, List<Peak>> counter = new Dictionary<Compound, List<Peak>>();
 
                         foreach (var peak in this.Assignments.Peaks)
@@ -437,15 +411,12 @@ namespace MetaboliteLevels.Data.Session.Main
                 case EVisualClass.Adduct:
                     {
                         request.Text = "Adducts of potential compounds of peaks assigned to {0}";
-                        request.AddExtraColumn("Compounds", "Compounds potentially representing {0} with this adduct");
+                        request.AddExtraColumn("Overlapping Compounds", "Compounds potentially representing {0} with this adduct");
                         Dictionary<Adduct, List<Compound>> counter = new Dictionary<Adduct, List<Compound>>();
 
-                        foreach (var p in this.Assignments.Peaks)
+                        foreach (Annotation c in this.Assignments.Peaks.SelectMany( p => p.Annotations ))
                         {
-                            foreach (var c in p.Annotations)
-                            {
-                                counter.GetOrNew(c.Adduct).Add(c.Compound);
-                            }
+                            counter.GetOrNew(c.Adduct).Add(c.Compound);
                         }
 
                         foreach (var kvp in counter)
@@ -458,19 +429,19 @@ namespace MetaboliteLevels.Data.Session.Main
                 case EVisualClass.Pathway:
                     {
                         request.Text = "Pathways of potential compounds of peaks assigned to {0}";
-                        request.AddExtraColumn("Compounds", "Compounds in this pathway with peaks in {0}");
-                        request.AddExtraColumn("Peaks", "Peaks potentially representing compounds in this pathway in {0}");
+                        request.AddExtraColumn( "Overlapping Compounds", "Compounds in this pathway with peaks in {0}" );
+                        request.AddExtraColumn( "Overlapping Peaks", "Peaks potentially representing compounds in this pathway in {0}");
                         Dictionary<Pathway, HashSet<Compound>> compounds = new Dictionary<Pathway, HashSet<Compound>>();
                         Dictionary<Pathway, HashSet<Peak>> peaks = new Dictionary<Pathway, HashSet<Peak>>();
 
-                        foreach (var peak in this.Assignments.Peaks) // peaks in cluster
+                        foreach (Peak peak in this.Assignments.Peaks) // peaks in cluster
                         {
-                            foreach (var comp in peak.Annotations) // compounds in peak
+                            foreach (Annotation annotation in peak.Annotations) // compounds in peak
                             {
-                                foreach (var path in comp.Compound.Pathways) // pathways in compound
+                                foreach (Pathway pathway in annotation.Compound.Pathways) // pathways in compound
                                 {
-                                    compounds.GetOrNew(path).Add(comp.Compound); // pathway += compound
-                                    peaks.GetOrNew(path).Add(peak);              // pathway += peak
+                                    compounds.GetOrNew(pathway).Add(annotation.Compound); // pathway += compound
+                                    peaks.GetOrNew(pathway).Add(peak);              // pathway += peak
                                 }
                             }
                         }
@@ -485,10 +456,7 @@ namespace MetaboliteLevels.Data.Session.Main
                 case EVisualClass.Annotation:
                     request.Text = "Annotations for peaks in {0}";
 
-                    foreach (Peak peak in this.Assignments.Peaks)
-                    {
-                        request.AddRange(peak.Annotations);
-                    }
+                    request.AddRange( this.Assignments.Peaks.SelectMany( z => z.Annotations ) );
 
                     break;
 
@@ -502,7 +470,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// </summary>    
         public override void GetXColumns( CustomColumnRequest request )
         {
-            var result = request.Results.Cast<Cluster>();
+            ColumnCollection<Cluster> result = request.Results.Cast<Cluster>();
             Core core = request.Core;
 
             result.Add( "Assignments\\As peaks", EColumn.None, λ => λ.Assignments.Peaks.ToArray());

@@ -321,8 +321,8 @@ namespace MetaboliteLevels.Data.Session.Main
                 case EVisualClass.Cluster:
                     {
                         request.Text = "Clusters representing potential peaks of compounds in {0}";
-                        request.AddExtraColumn("Peaks", "Number of peaks in this cluster in with compounds in {0}");
-                        request.AddExtraColumn("Compounds", "Number of compounds with peaks in this cluster with peaks also in {0}");
+                        request.AddExtraColumn( "Overlapping Peaks", "Number of peaks in this cluster in with compounds in {0}" );
+                        request.AddExtraColumn( "Overlapping Compounds", "Number of compounds with peaks in this cluster with peaks also in {0}");
 
                         foreach (Cluster cluster in request.Core.Clusters)
                         {
@@ -355,7 +355,7 @@ namespace MetaboliteLevels.Data.Session.Main
                         request.Text = "Compounds in {0}";
                         request.AddExtraColumn("Clusters", "Clusters");  // TODO: This is actually generic to all compounds and not related to this Pathway class
 
-                        foreach (var c in this.Compounds)
+                        foreach (Compound c in this.Compounds)
                         {
                             HashSet<Cluster> pats = new HashSet<Cluster>();
 

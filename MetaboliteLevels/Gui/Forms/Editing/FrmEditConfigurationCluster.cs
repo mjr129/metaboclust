@@ -58,14 +58,14 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private FrmEditConfigurationCluster(Core core, ArgsClusterer def, bool readOnly, bool hideOptimise)
             : this()
         {
-            this._core = core;
-            this._ecbPeakFilter = DataSet.ForPeakFilter(core).CreateComboBox(this._lstPeakFilter, this._btnPeakFilter,  ENullItemName.RepresentingAll);
-            this._ecbObsFilter = DataSet.ForObsFilter(core).CreateComboBox(this._lstObsFilter, this._btnObsFilter,  ENullItemName.RepresentingAll);
-            this._ecbMethod = DataSet.ForClustererAlgorithms(core).CreateComboBox(this._lstMethod, this._btnNewStatistic, ENullItemName.RepresentingNone);
-            this._ecbMeasure = DataSet.ForMetricAlgorithms(core).CreateComboBox(this._lstMeasure, this._btnNewDistance, ENullItemName.RepresentingNone);
-            this._ecbSource = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstSource, this._btnSource, ENullItemName.NoNullItem );
-            this._cbStatistics = DataSet.ForFlagsEnum<EClustererStatistics>( this._core, "Cluster Statistics" ).CreateConditionBox(this._txtStatistics, this._btnSetStatistics);
-            this._readOnly = readOnly;
+            this._core          = core;
+            this._ecbPeakFilter = DataSet.ForPeakFilter(core).CreateComboBox(this._lstPeakFilter, this._btnPeakFilter, EditableComboBox.EFlags.IncludeAll);
+            this._ecbObsFilter  = DataSet.ForObsFilter(core).CreateComboBox(this._lstObsFilter, this._btnObsFilter, EditableComboBox.EFlags.IncludeAll);
+            this._ecbMethod     = DataSet.ForClustererAlgorithms(core).CreateComboBox(this._lstMethod, this._btnNewStatistic, EditableComboBox.EFlags.CreateSelection);
+            this._ecbMeasure    = DataSet.ForMetricAlgorithms(core).CreateComboBox(this._lstMeasure, this._btnNewDistance, EditableComboBox.EFlags.IncludeNone);
+            this._ecbSource     = DataSet.ForMatrixProviders( core ).CreateComboBox( this._lstSource, this._btnSource, EditableComboBox.EFlags.None );
+            this._cbStatistics  = DataSet.ForFlagsEnum<EClustererStatistics>( this._core, "Cluster Statistics" ).CreateConditionBox(this._txtStatistics, this._btnSetStatistics);
+            this._readOnly      = readOnly;
 
             if (def != null)
             {

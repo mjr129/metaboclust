@@ -31,6 +31,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private bool _activated;
         private readonly CtlAutoList _listViewHelper;
         private bool _keepChanges;
+        private object _selectionResult;
 
         public enum EShow
         {
@@ -121,7 +122,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._originalList = new List<object>( this._list );
         }               
 
-        public static IEnumerable Show(Form owner, Core core, IDataSet config, EShow show, object automaticAddTemplate)
+        public static BigListResult<object> Show(Form owner, Core core, IDataSet config, EShow show, object automaticAddTemplate)
         {
             using (var frm = new FrmBigList(core, config, show, automaticAddTemplate))
             {
@@ -135,7 +136,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                     return null;
                 }
 
-                return frm._list;
+                return new BigListResult<object>( frm._list, frm._selectionResult );
             }
         }
 
@@ -355,6 +356,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
 
         private void _btnOk_Click(object sender, EventArgs e)
         {
+            this._selectionResult = _listViewHelper.Selection;
             this._keepChanges = true;
 
             try
@@ -437,6 +439,24 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         private void _btnCancel_Click( object sender, EventArgs e )
         {
 
+        }
+    }
+
+    public class BigListResult<T>
+    {
+        public readonly IEnumerable<T> List;
+        public readonly T Selection;
+
+        public BigListResult( IEnumerable<T> list, T selection )
+        {
+            this.List = list;
+            this.Selection = selection;
+        }
+
+        public BigListResult<T2> Cast<T2>()
+            where T2 : T
+        {
+            return new BigListResult<T2>( List.Cast<T2>(), (T2)Selection );
         }
     }
 }
