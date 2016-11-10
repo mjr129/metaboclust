@@ -150,7 +150,7 @@ namespace MetaboliteLevels.Data.Session.Main
         {
             ColumnCollection<Adduct> result = request.Results.Cast<Adduct>();       
 
-            request.Core._annotationsMeta.ReadAllColumns(z => z.MetaInfo, result);
+            request.Core._annotationsMeta.ReadAllColumns<Adduct>(z => z.MetaInfo, result);
         }
 
         /// <summary>

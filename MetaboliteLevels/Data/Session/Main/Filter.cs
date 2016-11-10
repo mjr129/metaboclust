@@ -839,17 +839,17 @@ namespace MetaboliteLevels.Data.Session.Main
         public sealed class ConditionFlags : Condition
         {
             public readonly ESetOperator FlagsOp;
-            public readonly ReadOnlyCollection<WeakReference<PeakFlag>> Flags;
+            public readonly ReadOnlyCollection<WeakReference<UserFlag>> Flags;
 
-            public ConditionFlags( ELogicOperator op, bool negate, ESetOperator flagsOp, IEnumerable<PeakFlag> flags ) : base( op, negate )
+            public ConditionFlags( ELogicOperator op, bool negate, ESetOperator flagsOp, IEnumerable<UserFlag> flags ) : base( op, negate )
             {
                 this.FlagsOp = flagsOp;
-                this.Flags = new ReadOnlyCollection<WeakReference<PeakFlag>>( flags.Select( WeakReferenceHelper.ToWeakReference ).ToList() );
+                this.Flags = new ReadOnlyCollection<WeakReference<UserFlag>>( flags.Select( WeakReferenceHelper.ToWeakReference ).ToList() );
             }
 
             protected override bool Test( Peak p )
             {
-                return CompareSets( this.FlagsOp, p.CommentFlags, this.Flags.Select( z => z.GetTargetOrThrow() ) );
+                return CompareSets( this.FlagsOp, p.UserFlags, this.Flags.Select( z => z.GetTargetOrThrow() ) );
             }            
 
             public override string DefaultDisplayName

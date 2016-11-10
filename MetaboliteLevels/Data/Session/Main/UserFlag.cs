@@ -14,11 +14,16 @@ using MGui.Helpers;
 
 namespace MetaboliteLevels.Data.Session.Main
 {
+    internal interface IFlaggable
+    {
+        HashSet<UserFlag> UserFlags { get; set; }
+    }       
+
     /// <summary>
     /// Used to allow the user to "flag" variables with quick comments.
     /// </summary>
     [Serializable]
-    internal class PeakFlag : Associational
+    internal class UserFlag : Associational
     {
         private char _key;
 
@@ -60,7 +65,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// CONSTRUCTOR
         /// </summary>
-        public PeakFlag()
+        public UserFlag()
         {
             this.Init();
         }
@@ -68,7 +73,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// CONSTRUCTOR
         /// </summary>
-        public PeakFlag(string overrideDisplayName, char key, string comments, Color colour)
+        public UserFlag(string overrideDisplayName, char key, string comments, Color colour)
         {
             this.Key = key;
             this.OverrideDisplayName = overrideDisplayName;
@@ -111,7 +116,7 @@ namespace MetaboliteLevels.Data.Session.Main
             {
                 case EVisualClass.Peak:
                     list.Text = "Peaks marked with {0}";
-                    list.AddRange(list.Core.Peaks.Where(z => z.CommentFlags.Contains(this)));
+                    list.AddRange(list.Core.Peaks.Where(z => z.UserFlags.Contains(this)));
                     break;
 
                 case EVisualClass.Cluster:
@@ -131,7 +136,7 @@ namespace MetaboliteLevels.Data.Session.Main
                     list.Text = "Pathways containing compounds annotated with peaks marked with {0}";
                     foreach (Pathway c in list.Core.Pathways)
                     {
-                        if (c.Compounds.Any(z => z.Annotations.Any(zz => zz.Peak.CommentFlags.Contains(this))))
+                        if (c.Compounds.Any(z => z.Annotations.Any(zz => zz.Peak.UserFlags.Contains(this))))
                         {
                             list.Add(c);
                         }
@@ -142,7 +147,7 @@ namespace MetaboliteLevels.Data.Session.Main
                     list.Text = "Annotations for peaks peaks marked with {0}";
                     foreach (Annotation c in list.Core.Annotations)
                     {
-                        if (c.Peak.CommentFlags.Contains(this))
+                        if (c.Peak.UserFlags.Contains(this))
                         {
                             list.Add(c);
                         }
@@ -153,7 +158,7 @@ namespace MetaboliteLevels.Data.Session.Main
                     list.Text = "Assignments for peaks peaks marked with {0}";
                     foreach (Assignment c in list.Core.Assignments)
                     {
-                        if (c.Peak.CommentFlags.Contains(this))
+                        if (c.Peak.UserFlags.Contains(this))
                         {
                             list.Add(c);
                         }
@@ -164,7 +169,7 @@ namespace MetaboliteLevels.Data.Session.Main
                     list.Text = "Compounds with annotations for peaks peaks marked with {0}";
                     foreach (Compound c in list.Core.Compounds)
                     {
-                        if (c.Annotations.Any(z => z.Peak.CommentFlags.Contains(this)))
+                        if (c.Annotations.Any(z => z.Peak.UserFlags.Contains(this)))
                         {
                             list.Add(c);
                         }
@@ -178,7 +183,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// </summary>     
         public override void GetXColumns( CustomColumnRequest request )
         {
-            var result = request.Results.Cast< PeakFlag>();
+            var result = request.Results.Cast< UserFlag>();
                                                                                              
             result.Add( "Colour", EColumn.None, z => ColourHelper.ColourToName( z.Colour ), z => z.Colour );
         }
@@ -186,9 +191,9 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// Creates a copy of this object.
         /// </summary>     
-        public PeakFlag Clone()
+        public UserFlag Clone()
         {
-            return (PeakFlag)this.MemberwiseClone();
+            return (UserFlag)this.MemberwiseClone();
         }
     }
 }

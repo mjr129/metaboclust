@@ -1,0 +1,5 @@
+Plant: Medicago truncatula
+Experimental groups: C Control, D Drought, F Fusarium, B Both
+Method: LC-MS, Negative ion mode
+Peak picking: Progenesis QI
+Details: Rusilowicz, M., Dickinson, M., Charlton, A., O’Keefe, S. and Wilson, J., 2016. A batch correction method for liquid chromatography–mass spectrometry data that does not depend on quality control samples. Metabolomics, 12(3)

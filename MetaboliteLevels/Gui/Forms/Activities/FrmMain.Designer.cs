@@ -908,8 +908,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lstPrimary.Size = new System.Drawing.Size(457, 308);
             this._lstPrimary.TabIndex = 5;
             this._lstPrimary.UseCompatibleStateImageBehavior = false;
-            this._lstPrimary.View = System.Windows.Forms.View.Details;
-            this._lstPrimary.KeyDown += new System.Windows.Forms.KeyEventHandler(this._lstVariables_KeyDown);
+            this._lstPrimary.View = System.Windows.Forms.View.Details;                                       
             // 
             // _tsDatasetsPrimary
             // 

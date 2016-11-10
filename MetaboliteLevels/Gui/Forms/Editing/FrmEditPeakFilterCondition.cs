@@ -19,13 +19,13 @@ using MGui.Helpers;
 namespace MetaboliteLevels.Gui.Forms.Editing
 {
     /// <summary>
-    /// SigFilter editor form.
+    /// Editor for class <see cref="PeakFilter"/>.
     /// </summary>
-    public partial class FrmEditPeakFilterCondition : Form
+    internal sealed partial class FrmEditPeakFilterCondition : Form
     {
         Core _core;
         private ConditionBox<Peak> _cbPeaks;
-        private ConditionBox<PeakFlag> _cbFlags;
+        private ConditionBox<UserFlag> _cbFlags;
         private ConditionBox<Cluster> _cbClusters;
         private EnumComboBox<PeakFilter.ESetOperator> _lsoFlags;
         private EnumComboBox<PeakFilter.ELimitedSetOperator> _lsoPats;
@@ -84,15 +84,15 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this.ctlTitleBar1.Text = readOnly ? "View Condition" : "Edit Condition";
 
             // Setup boxes
-            this._cbPeaks = DataSet.ForPeaks(core).CreateConditionBox(this._txtIsInSet, this._btnIsInSet);
-            this._cbFlags = DataSet.ForPeakFlags(core).CreateConditionBox(this._txtIsFlaggedWith, this._btnIsFlaggedWith);
+            this._cbPeaks    = DataSet.ForPeaks(core).CreateConditionBox(this._txtIsInSet, this._btnIsInSet);
+            this._cbFlags    = DataSet.ForUserFlags(core).CreateConditionBox(this._txtIsFlaggedWith, this._btnIsFlaggedWith);
             this._cbClusters = DataSet.ForClusters(core).CreateConditionBox(this._txtIsInCluster, this._btnIsInCluster);
 
-            this._lsoFlags = EnumComboBox.Create(this._lstFlagComparator, Filter.ESetOperator.Any);
-            this._lsoPats = EnumComboBox.Create(this._lstClusterComparator, Filter.ELimitedSetOperator.Any);
-            this._lsoPeaks = EnumComboBox.Create(this._lstPeakComparator, Filter.EElementOperator.Is);
+            this._lsoFlags  = EnumComboBox.Create(this._lstFlagComparator, Filter.ESetOperator.Any);
+            this._lsoPats   = EnumComboBox.Create(this._lstClusterComparator, Filter.ELimitedSetOperator.Any);
+            this._lsoPeaks  = EnumComboBox.Create(this._lstPeakComparator, Filter.EElementOperator.Is);
             this._lsoFilter = EnumComboBox.Create(this._lstFilterOp, Filter.EElementOperator.Is);
-            this._lsoStats = EnumComboBox.Create(this._lstStatisticComparator, Filter.EStatOperator.LessThan);
+            this._lsoStats  = EnumComboBox.Create(this._lstStatisticComparator, Filter.EStatOperator.LessThan);
             this._lstIsStatistic.Items.AddRange(IVisualisableExtensions.WhereEnabled(core.Statistics).ToArray());
 
             this._ecbFilter = DataSet.ForPeakFilter(core).CreateComboBox(this._lstFilter, null, EditableComboBox.EFlags.IncludeAll);
@@ -146,7 +146,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                 {
                     PeakFilter.ConditionFlags def = (PeakFilter.ConditionFlags)defaults;
 
-                    List<PeakFlag> strong;
+                    List<UserFlag> strong;
 
                     if (!def.Flags.TryGetStrong(out strong))
                     {
@@ -175,16 +175,16 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                         FrmMsgBox.ShowError(this, "The statistic specified when this condition was created has since been removed. Please select a different statistic.");
                     }
 
-                    this._chkIsStatistic.Checked = true;
-                    this._lsoStats.SelectedItem = def.StatisticOp;
+                    this._chkIsStatistic.Checked      = true;
+                    this._lsoStats.SelectedItem       = def.StatisticOp;
                     this._lstIsStatistic.SelectedItem = stat;
-                    this._txtStatisticValue.Text = def.StatisticValue.ToString();
+                    this._txtStatisticValue.Text      = def.StatisticValue.ToString();
                 }
                 else if (defaults is PeakFilter.ConditionFilter)
                 {
                     PeakFilter.ConditionFilter def = (PeakFilter.ConditionFilter)defaults;
 
-                    this._radFilter.Checked = true;
+                    this._radFilter.Checked      = true;
                     this._lsoFilter.SelectedItem = def.FilterOp ? Filter.EElementOperator.Is : Filter.EElementOperator.IsNot;
                     this._ecbFilter.SelectedItem = def.Filter;
                 }

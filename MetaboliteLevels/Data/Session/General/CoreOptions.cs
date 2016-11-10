@@ -79,15 +79,15 @@ namespace MetaboliteLevels.Data.Session.General
         [DefaultValue( true )]
         public bool ShowTrend { get; set; }
 
-        [DisplayName( "Enable peak flagging" )]
+        [DisplayName( "Enable flagging" )]
         [Category( "Peaks" )]
-        [Description( "When set you can toggle peak flags by pressing the corresponding key on your keyboard with the peak list selected. See the \"Peak flags\" field to edit the list of available flags." )]
+        [Description( "When set you can toggle flags on certain elements by pressing the corresponding key on your keyboard with the list selected. See the \"Flags\" field to edit the list of available flags." )]
         [DefaultValue( false )]
         public bool EnablePeakFlagging { get; set; }
 
-        [DisplayName( "Peak flags" )]
-        [Category( "Peaks" )]
-        public List<PeakFlag> PeakFlags { get; set; }
+        [DisplayName( "Flags" )]
+        [Category( "Miscelleneous" )]
+        public List<UserFlag> UserFlags { get; set; }
 
         [DisplayName( "Colours" )]
         [Category( "All" )]
@@ -254,10 +254,10 @@ namespace MetaboliteLevels.Data.Session.General
             UiControls.ApplyDefaultsFromAttributes( this );
             this.ViewTypes = new List<GroupInfo>();
             this.Colours = new CoreColourSettings();
-            this.PeakFlags = new List<PeakFlag>();
-            this.PeakFlags.Add( new PeakFlag( "INT", '1', "Interesting", Color.Green ) );
-            this.PeakFlags.Add( new PeakFlag( "CHK", '2', "Checked", Color.Gray ) );
-            this.PeakFlags.Add( new PeakFlag( "BOR", '3', "Boring", Color.DarkRed ) );
+            this.UserFlags = new List<UserFlag>();
+            this.UserFlags.Add( new UserFlag( "INT", '1', "Interesting", Color.Green ) );
+            this.UserFlags.Add( new UserFlag( "CHK", '2', "Checked", Color.Gray ) );
+            this.UserFlags.Add( new UserFlag( "BOR", '3', "Boring", Color.DarkRed ) );
 
             this.PeakDisplay = new PlotSetup();
             this.ClusterDisplay = new PlotSetup();

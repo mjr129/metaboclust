@@ -410,7 +410,7 @@ namespace MetaboliteLevels.Data.Session.Main
             result.Add("Compounds with peaks", EColumn.None, λ => λ.Compounds.Where(z => z.Annotations.Count != 0));
             result.Add("Related pathways", EColumn.None, λ => λ.RelatedPathways);
 
-            request.Core._pathwaysMeta.ReadAllColumns(z => z.MetaInfo, result);
+            request.Core._pathwaysMeta.ReadAllColumns<Pathway>(z => z.MetaInfo, result);
         }
 
         /// <summary>

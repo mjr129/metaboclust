@@ -1029,11 +1029,11 @@ namespace MetaboliteLevels.Gui.Forms.Wizards
 
                                     for (int row = 0; row < info.NumRows; row++)
                                     {
-                                        string id = typeCol == -1 ? "A" : info[row, typeCol];
+                                        string id = typeCol == -1 ? "All" : info[row, typeCol];
 
                                         if (!this._experimentalGroupCache.Any( z => z.Id.ToUpper() == id.ToUpper() ))
                                         {
-                                            this._experimentalGroupCache.Add( new ExpCond( id, "Type " + id ) );
+                                            this._experimentalGroupCache.Add( new ExpCond( id, id ) );
                                         }
                                     }
                                 }

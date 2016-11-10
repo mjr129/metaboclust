@@ -281,7 +281,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._chkPeakFlag.Name = "_chkPeakFlag";
             this._chkPeakFlag.Size = new System.Drawing.Size(182, 25);
             this._chkPeakFlag.TabIndex = 2;
-            this._chkPeakFlag.Text = "Enabled peak flagging";
+            this._chkPeakFlag.Text = "Enabled flagging";
             this._chkPeakFlag.UseVisualStyleBackColor = true;
             // 
             // _btnEditFlags

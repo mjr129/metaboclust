@@ -287,7 +287,7 @@ namespace MetaboliteLevels.Data.Session.Main
             columns.Add( "Annotations\\As statuses", EColumn.None, λ => λ.Annotations.Select( z => z.Status ) );
             columns.Add( "Annotations\\As compounds", EColumn.None, λ => λ.Annotations.Select( z => z.Compound ) );
             
-            request.Core._compoundsMeta.ReadAllColumns(z => z.MetaInfo, columns);
+            request.Core._compoundsMeta.ReadAllColumns<Compound>(z => z.MetaInfo, columns);
         }
 
         [XColumn("Best annotation")]

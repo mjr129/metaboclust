@@ -60,6 +60,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\MetaboliteLevels.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>097F62E6ABF287EA7DDCCF8F0EF64CC53FB622D6</ManifestCertificateThumbprint>
@@ -301,11 +302,11 @@
     <Compile Include="Gui\Forms\Editing\FrmEditClusterEvaluationPointer.Designer.cs">
       <DependentUpon>FrmEditClusterEvaluationPointer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Gui\Forms\Editing\FrmEditPeakFlag.cs">
+    <Compile Include="Gui\Forms\Editing\FrmEditUserFlag.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Gui\Forms\Editing\FrmEditPeakFlag.Designer.cs">
-      <DependentUpon>FrmEditPeakFlag.cs</DependentUpon>
+    <Compile Include="Gui\Forms\Editing\FrmEditUserFlag.Designer.cs">
+      <DependentUpon>FrmEditUserFlag.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\Forms\Selection\FrmSelectAlgorithmType.cs">
       <SubType>Form</SubType>
@@ -576,7 +577,7 @@
     <Compile Include="Data\Session\General\EAutoCreateOptions.cs" />
     <Compile Include="Data\Session\Main\Filter.cs" />
     <Compile Include="Data\Session\General\MainSettings.cs" />
-    <Compile Include="Data\Session\Main\PeakFlag.cs" />
+    <Compile Include="Data\Session\Main\UserFlag.cs" />
     <Compile Include="Data\Session\Main\GroupInfoBase.cs" />
     <Compile Include="Utilities\StrRes.cs" />
     <Compile Include="Utilities\UiControls.cs" />
@@ -671,8 +672,8 @@
     <EmbeddedResource Include="Gui\Forms\Editing\FrmEditGroupBase.resx">
       <DependentUpon>FrmEditGroupBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditPeakFlag.resx">
-      <DependentUpon>FrmEditPeakFlag.cs</DependentUpon>
+    <EmbeddedResource Include="Gui\Forms\Editing\FrmEditUserFlag.resx">
+      <DependentUpon>FrmEditUserFlag.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Forms\Editing\FrmEditParameters.resx">
       <DependentUpon>FrmEditParameters.cs</DependentUpon>

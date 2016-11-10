@@ -29,7 +29,7 @@ namespace MetaboliteLevels.Data.Session.General
         public readonly string[] CONDITIONFILE_ID_HEADER            = { "id", "frame.id" };
         public readonly string[] CONDITIONFILE_NAME_HEADER          = { "name" };
         public readonly string[] PEAKFILE_MZ_HEADER                 = { "mz", "m/z" };
-        public readonly string[] PEAKFILE_RT_HEADER                 = { "rt", "r.t.", "r.t", "rt.", "ret. time", "retention", "retention time" };
+        public readonly string[] PEAKFILE_RT_HEADER                 = { "rt", "r.t.", "r.t", "rt.", "ret. time", "retention", "retention time", "tr" };
         public readonly string[] PEAKFILE_LCMSMODE_HEADER           = { "mode", "lcmsmode", "lcms", "lcms.mode" };
         public readonly string[] FILENAMES_OBSERVATIONS             = { "Info.csv", "ObsInfo.csv", "ObservationInfo.csv", "Observations.csv", "*.jgf" };
         public readonly string[] FILENAMES_PEAKS                    = { "VarInfo.csv", "PeakInfo.csv", "FeatureInfo.csv", "Peaks.csv", "Variables.csv", "Features.csv" };

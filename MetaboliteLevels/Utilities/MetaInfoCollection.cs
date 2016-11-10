@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Gui.Controls.Lists;
 
@@ -11,9 +12,9 @@ namespace MetaboliteLevels.Utilities
     [Serializable]
     internal sealed class MetaInfoCollection
     {
-        private string[][] _contents = new string[0][];
+        private string[] _contents = new string[0];
 
-        public void Write(MetaInfoHeader headers, string key, string value, bool allowDuplicates = false)
+        public void Write(MetaInfoHeader headers, string key, string value)
         {
             int index = headers.GetOrCreateIndex(key);
 
@@ -21,34 +22,18 @@ namespace MetaboliteLevels.Utilities
             {
                 Array.Resize(ref _contents, index + 1);
             }
-
-            if (_contents[index] == null)
-            {
-                // New array
-                _contents[index] = new string[1];
-            }
-            else if (!allowDuplicates && _contents[index].Contains(value))
-            {
-                // Already contained
-                return;
-            }
-            else
-            {
-                // Needs resize
-                Array.Resize(ref _contents[index], _contents[index].Length + 1);
-            }
-
-            _contents[index][_contents[index].Length - 1] = value;
+                                     
+            _contents[index] = value;
         }
 
-        public IEnumerable<string> Read(int index)
+        public string Read(int index)
         {
             if (index >= _contents.Length)
             {
-                return new string[0];
+                return null;
             }
 
-            return _contents[index] ?? new string[0];
+            return _contents[index];
         }
     }
 
@@ -90,7 +75,7 @@ namespace MetaboliteLevels.Utilities
             get { return _headers; }
         }      
 
-        internal void ReadAllColumns<T>(Converter<T, MetaInfoCollection> collectionRetriever, ColumnCollection<T> columns)
+        internal void ReadAllColumns<T>(Converter<T, MetaInfoCollection> collectionRetriever, ColumnCollection columns)
             where T : Visualisable
         {
             for (int index = 0; index < this._headers.Length; index++)
@@ -101,13 +86,8 @@ namespace MetaboliteLevels.Utilities
                 columns.Add(new Column<T>("Meta\\" + header, EColumn.IsMeta, description, λ => collectionRetriever(λ).Read(__closure), null));
             }
         }
-
-        internal IEnumerable<string> GetValue(MetaInfoCollection collection, string key)
-        {
-            return TryGetValue(collection, key) ?? new string[0];
-        }
-
-        internal IEnumerable<string> TryGetValue(MetaInfoCollection collection, string key)
+                   
+        internal string GetValue(MetaInfoCollection collection, string key)
         {
             int index;
 

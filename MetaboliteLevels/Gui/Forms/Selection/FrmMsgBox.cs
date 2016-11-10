@@ -33,6 +33,7 @@ namespace MetaboliteLevels.Gui.Forms.Selection
             PlsrMode,
             HeatmapColumnNotNumerical,
             HelpSideBar,
+            ToggleFlagFailed,
         }                  
 
         internal static bool ShowOkCancel(Form owner, string title, string message, Image image = null)
