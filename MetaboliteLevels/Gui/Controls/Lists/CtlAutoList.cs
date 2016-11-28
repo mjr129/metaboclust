@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -1049,8 +1050,28 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             // Save the ID (this is used to load/save columns)
             this._listViewOptionsKey = this._listView.FindForm().Name + "\\" + this._listView.Name + "\\" + dataType.Name;
 
+            IEnumerable<Column> cols;
+
             // Get columns for the type "T"
-            IEnumerable<Column> cols = ColumnManager.GetColumns( dataType, this._core );
+            if (dataType.GetCustomAttribute<XColumnConcreteGeneratorAttribute>() != null)
+            {
+                // Hack for association columns
+                object concrete = _source.UntypedGetList( false ).FirstOrDefault2();
+
+                if (concrete == null)
+                {
+                    // Wait for columns
+                    cols = null;
+                }
+                else
+                {
+                    cols = ColumnManager.GetColumns( this._core, concrete );
+                }
+            }
+            else
+            {
+                cols = ColumnManager.GetColumns( dataType, this._core );
+            }
 
             if (cols == null)
             {

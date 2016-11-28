@@ -448,6 +448,7 @@ namespace MetaboliteLevels.Data.Session.Main
 
                         foreach (var kvp in compounds)
                         {
+                            // Pathway, compound, peaks
                             request.Add(kvp.Key, kvp.Value.ToArray(), peaks[kvp.Key].ToArray());
                         }
                     }

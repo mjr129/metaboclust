@@ -41,9 +41,7 @@ namespace MetaboliteLevels.Data.Session.Main
                 case EVisualClass.SpecialAdvanced:
                 case EVisualClass.SpecialMeta:
                 case EVisualClass.SpecialAll:
-                case EVisualClass.SpecialStatistic:
-                    request.AddExtraColumn( "Value", "Value of the field" );
-
+                case EVisualClass.SpecialStatistic:                         
                     IEnumerable<Column> cols = ColumnManager.GetColumns( request.Core, target ).OrderBy( z => z.Special.Has( EColumn.Visible ) );
                     bool shortName;
 

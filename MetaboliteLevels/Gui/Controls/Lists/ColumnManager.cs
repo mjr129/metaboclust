@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
 using MGui.Helpers;
 
@@ -76,6 +77,8 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         }           
     }
 
+    class XColumnConcreteGeneratorAttribute : Attribute { }
+
     class ColumnCollection<T> : ColumnCollection
     {
         public ColumnCollection( ColumnCollection columnList )
@@ -109,7 +112,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         public static ColumnCollection GetColumns( Type type, Core core )
         {
             return ColumnManager.GetColumns( type, null, core );
-        }
+        }                              
 
         public static object QueryProperty( Core core, object target, string propertyId )
         {   
@@ -156,6 +159,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
                 // Unfortunately this won't work if the type is abstract
                 if (type.IsAbstract)
                 {
+                    // This just means we get the "data" column alone
                     automaticColumns = false;
                     return;
                 }
