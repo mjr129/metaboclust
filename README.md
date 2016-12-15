@@ -13,7 +13,7 @@ The user guide in my thesis now contains all available information.
 Following feedback version 1.2 uses an intensity matrix rather than a vector for each peak.
 The main effect from this, aside from speedier calculations, is that the user can select the input matrix allowing a "branched" workflow.
 
-## Screenshots ##
+## Screenshots (version 1.0) ##
 The screenshots below are from an older version (1.0). The current release is 1.2.
 
 ### Startup ###
