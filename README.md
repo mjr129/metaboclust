@@ -3,6 +3,11 @@ MetaboClust is a project to display and analyse time-course metabolomics data (o
 It features data correction, cluster analysis and user interactive visualisation.
 The user guide in my thesis now contains all available information.
 
+## Download the latest release ##
+* [MetaboClust 1.2.0.131 (latest)](https://bitbucket.org/mjr129/metabolitelevels/downloads/MetaboClust%201.2.0.131.zip)
+* [User manual](https://bitbucket.org/mjr129/metabolitelevels/downloads/UserGuide.pdf)
+* [Sample data set](https://bitbucket.org/mjr129/metabolitelevels/downloads/SampleData.zip)
+
 ## Changes ##
 ### 1.2 ###
 Following feedback version 1.2 uses an intensity matrix rather than a vector for each peak.
