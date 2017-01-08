@@ -18,6 +18,9 @@ using MGui.Datatypes;
 
 namespace MetaboliteLevels.Gui.Forms.Editing
 {
+    /// <summary>
+    /// Editor for: <see cref="CoreOptions"/>.
+    /// </summary>
     internal partial class FrmEditCoreOptions : Form
     {
         private CoreOptions _target;
@@ -95,19 +98,17 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             this._binder1.Bind( this._btnHhNan, λ => λ.HeatMapNanColour );
             this._binder1.Bind( this._btnHhOor, λ => λ.HeatMapOorColour );
 
-            this._poCluster.BindAll  ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.ClusterDisplay  ), _core, typeof(Cluster) );
-            this._poCompounds.BindAll( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.CompoundDisplay ), _core, typeof(Compound) );
-            this._poPathways.BindAll ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PathwayDisplay  ), _core, typeof( Pathway ) );
-            this._poPeaks.BindAll    ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PeakDisplay     ), _core, typeof( Peak ) );
+            this._poCluster  .BindAll    ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.ClusterDisplay  ), _core, typeof(Cluster) );
+            this._poCompounds.BindAll    ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.CompoundDisplay ), _core, typeof(Compound) );
+            this._poPathways .BindAll    ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PathwayDisplay  ), _core, typeof( Pathway ) );
+            this._poPeaks    .BindAll    ( this._binder1, new PropertyPath<CoreOptions, PlotSetup>( z => z.PeakDisplay     ), _core, typeof( Peak ) );
 
             this._binder1.Read( this._target );
 
             if (readOnly)
             {
                 UiControls.MakeReadOnly(this);
-            }
-
-            // UiControls.CompensateForVisualStyles(this);
+            }                                             
         }
 
         private void _btnOk_Click(object sender, EventArgs e)
@@ -124,7 +125,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
 
         private void _btnEditFlags_Click(object sender, EventArgs e)
         {
-            DataSet.ForPeakFlags(this._core).ShowListEditor(this, this._readOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Default, null);
+            DataSet.ForUserFlags(this._core).ShowListEditor(this, this._readOnly ? FrmBigList.EShow.ReadOnly : FrmBigList.EShow.Default, null);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

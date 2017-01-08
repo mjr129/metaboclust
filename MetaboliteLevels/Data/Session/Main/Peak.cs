@@ -24,7 +24,7 @@ namespace MetaboliteLevels.Data.Session.Main
     /// </summary>
     [Serializable]
     [DeferSerialisation]
-    class Peak : Associational
+    class Peak : Associational, IFlaggable
     {                                                  
         public const string ID_COLUMN_CLUSTERCOMBINATION = "Clusters\\Combination (for colours)";
 
@@ -37,7 +37,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// Comment flags.
         /// </summary>
-        public List<PeakFlag> CommentFlags = new List<PeakFlag>();
+        public HashSet<UserFlag> UserFlags { get; set; } = new HashSet<UserFlag>();
 
         /// <summary>
         /// M/Z
@@ -91,25 +91,6 @@ namespace MetaboliteLevels.Data.Session.Main
         /// Default display name.
         /// </summary>
         public override string DefaultDisplayName=> this.Id;       
-
-        /// <summary>
-        /// Toggles a comment flag on and off.
-        /// </summary>
-        /// <param name="f">The flag to toggle</param>
-        /// <returns>The new status of the flag</returns>
-        public bool ToggleCommentFlag(PeakFlag f)
-        {
-            if (!this.CommentFlags.Contains(f))
-            {
-                this.CommentFlags.Add(f);
-                return true;
-            }
-            else
-            {
-                this.CommentFlags.Remove(f);
-                return false;
-            }
-        }
 
         /// <summary>
         /// IMPLEMENTS IVisualisable
@@ -250,16 +231,16 @@ namespace MetaboliteLevels.Data.Session.Main
                 columns.Add("Clusters assignments\\For " + group.DisplayName + " (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == closure).Select(z => z.Score).ToArray(), z => closure.Colour);
             }
 
-            foreach (PeakFlag flag in core.Options.PeakFlags)
+            foreach (UserFlag flag in core.Options.UserFlags)
             {
                 var closure = flag;
-                columns.Add("Flags\\" + flag, EColumn.Advanced, λ => λ.CommentFlags.Contains(closure) ? closure.DisplayName : string.Empty, z => closure.Colour);
+                columns.Add("Flags\\" + flag, EColumn.Advanced, λ => λ.UserFlags.Contains(closure) ? closure.DisplayName : string.Empty, z => closure.Colour);
             }
 
             columns.Add("Cluster assignments\\For no group", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == null).Select(z => z.Cluster).ToList());
             columns.Add("Cluster assignments\\For no group (scores)", EColumn.Advanced, λ => λ.FindAssignments( core ).Where(z => z.Vector.Group == null).Select(z => z.Score).ToList());
 
-            columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.CommentFlags), z=> z.CommentFlags.Count == 1 ? z.CommentFlags[0].Colour : Color.Black );
+            columns.Add("Flags\\All", EColumn.None, λ => StringHelper.ArrayToString(λ.UserFlags), z=> z.UserFlags.Count == 1 ? z.UserFlags.First().Colour : Color.Black );
                                    
             foreach (ConfigurationStatistic stat in core.Statistics.WhereEnabled())
             {
@@ -275,7 +256,7 @@ namespace MetaboliteLevels.Data.Session.Main
             columns.Add( "Annotations\\As adducts", EColumn.Advanced, λ => λ.Annotations.Select(λλ => λλ.Adduct));
             columns.Add( "Annotations\\As statuses", EColumn.Advanced, λ => λ.Annotations.Select( λλ => λλ.Status ) );
 
-            core._peakMeta.ReadAllColumns(z => z.MetaInfo, columns);
+            core._peakMeta.ReadAllColumns<Peak>(z => z.MetaInfo, columns);
 
             foreach (PeakFilter fi in core.PeakFilters)
             {

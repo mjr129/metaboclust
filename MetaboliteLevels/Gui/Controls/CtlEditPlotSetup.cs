@@ -8,12 +8,16 @@ using System.Windows.Forms;
 using MetaboliteLevels.Data.Database;
 using MetaboliteLevels.Data.Session.General;
 using MetaboliteLevels.Gui.Controls.Lists;
+using MetaboliteLevels.Gui.Forms.Editing;
 using MGui.Controls;
 using MGui.Datatypes;
 using MGui.Helpers;
 
 namespace MetaboliteLevels.Gui.Controls
 {
+    /// <summary>
+    /// Editor for: <see cref="PlotSetup"/>.
+    /// </summary>
     internal partial class CtlEditPlotSetup : UserControl
     {
         private Type _dataType;
@@ -29,7 +33,10 @@ namespace MetaboliteLevels.Gui.Controls
             _core = core;
             _dataType = dataType;
 
-            _binder.BinderCollection.Add( new AxisBinder() );
+            if (!_binder.BinderCollection.Any( z => z is AxisBinder ))
+            {
+                _binder.BinderCollection.Add( new AxisBinder() );
+            }
                                                                                  
             _binder.Bind( this._txtClusterInfo    , source.Append<object>( z => z.Information ) );
             _binder.Bind( this._txtClusterSubtitle, source.Append<object>( z => z.SubTitle    ) );
@@ -106,41 +113,42 @@ namespace MetaboliteLevels.Gui.Controls
 
         private void ctlButton1_Click( object sender, EventArgs e )
         {
-            Macro( sender, _txtClusterInfo );
+            InsertMacro( sender, _txtClusterInfo );
         }
 
         private void ctlButton2_Click( object sender, EventArgs e )
         {
-            Macro( sender, _txtClusterTitle );
+            InsertMacro( sender, _txtClusterTitle );
         }
 
         private void ctlButton3_Click( object sender, EventArgs e )
         {
-            Macro( sender, _txtClusterSubtitle );
+            InsertMacro( sender, _txtClusterSubtitle );
         }
 
         private void ctlButton4_Click( object sender, EventArgs e )
         {
-            Macro( sender, _txtClusterXAxis );
+            InsertMacro( sender, _txtClusterXAxis );
         }
 
         private void ctlButton5_Click( object sender, EventArgs e )
         {
-            Macro( sender, _txtClusterYAxis );
+            InsertMacro( sender, _txtClusterYAxis );
         }
 
-        private void Macro( object sender,  CtlTextBox textBox )
-        {                                  
-            ColumnCollection columns = ColumnManager.GetColumns( _dataType, _core );
+        private void InsertMacro( object sender,  CtlTextBox textBox )
+        {
+            ColumnCollection available = ColumnManager.GetColumns( _dataType, _core );
 
-            var column = DataSet.ForColumns( columns.Where( z => !z.Special.Has( EColumn.Advanced ) ) ).ShowRadio( FindForm(), null );
+            IEnumerable<Column> columns = FrmEditColumns.Show( this.FindForm(), available, (IEnumerable<Column>)null, "Insert field(s)" );
 
-            if (column == null)
+            if (columns == null)
             {
                 return;
             }
 
-            textBox.TypeText( "{" + column.Id + "}" );
+            string text = string.Join( ", ", columns.Select( z => z.DisplayName + " = {" + z.Id + "}" ) );
+            textBox.TypeText(  text);
         }
     }
 }

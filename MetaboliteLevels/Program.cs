@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;  
+using System.Windows.Forms;
 using System.Threading;
 using MetaboliteLevels.Data.Session;
 using MetaboliteLevels.Data.Session.General;
@@ -8,6 +8,7 @@ using MetaboliteLevels.Gui.Forms.Activities;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
 using MGui.Controls;
+using MGui.Helpers;
 
 namespace MetaboliteLevels
 {
@@ -39,7 +40,7 @@ namespace MetaboliteLevels
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             }
-
+                                                        
             UiControls.Initialise(new System.Drawing.Font("Segoe UI", 12));
             MainSettings.Initialise();
             CtlError.DefaultIcon = Icon.FromHandle( Resources.IconInputError.GetHicon() );

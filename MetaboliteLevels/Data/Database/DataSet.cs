@@ -706,20 +706,20 @@ namespace MetaboliteLevels.Data.Database
         /// <summary>
         /// The session's peak (user-comment) flags
         /// </summary>
-        public static DataSet<PeakFlag> ForPeakFlags( Core core )
+        public static DataSet<UserFlag> ForUserFlags( Core core )
         {
-            return new DataSet<PeakFlag>()
+            return new DataSet<UserFlag>()
             {
                 Core = core,
-                ListTitle = "Peak Flags",
+                ListTitle = "Flags",
                 ListDescription = "These flags can be used to assign categories or labels to data",
-                ListSource = core.Options.PeakFlags,
+                ListSource = core.Options.UserFlags,
                 ItemDescription = _GetComment,
                 ListSupportsReorder = true,
                 HandleEdit = z =>
                 {
-                    var val = z.WorkOnCopy ? z.DefaultValue.Clone() : (z.DefaultValue ?? new PeakFlag());
-                    return FrmEditPeakFlag.Show( z.Owner, val, z.ReadOnly ) ? val : null;
+                    var val = z.WorkOnCopy ? z.DefaultValue.Clone() : (z.DefaultValue ?? new UserFlag());
+                    return FrmEditUserFlag.Show( z.Owner, val, z.ReadOnly ) ? val : null;
                 },
                 ListIsSelfUpdating = true,
                 Icon = Resources.ListIconFlag,
@@ -987,7 +987,7 @@ namespace MetaboliteLevels.Data.Database
                     return DataSet.ForPeakFilter( core );
                                                    
                 case EDataSet.PeakFlags:
-                    return DataSet.ForPeakFlags( core );
+                    return DataSet.ForUserFlags( core );
                                                    
                 case EDataSet.Peaks:
                     return DataSet.ForPeaks( core );
@@ -1208,7 +1208,7 @@ namespace MetaboliteLevels.Data.Database
         [Name( "Data\\Replicate indices" )]
         Replicates,
 
-        [Name( "Data\\Peak flags" )]
+        [Name( "Data\\User flags" )]
         PeakFlags,
 
         [Name( "Data\\Experimental observations" )]

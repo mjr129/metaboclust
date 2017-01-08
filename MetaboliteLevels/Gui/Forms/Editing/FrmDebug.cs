@@ -382,8 +382,8 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         {
             Core core = this._core;
 
-            PeakFlag type1;
-            PeakFlag type2;
+            UserFlag type1;
+            UserFlag type2;
 
             ConfigurationStatistic stat = DataSet.ForStatistics( this._core ).ShowList( this, null );
 
@@ -396,14 +396,14 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             string sign = FrmInputSingleLine.Show( this, "Classifier settings", "Find classifier", "Enter the cutoff, or 0 for for automatic", "0" );
             double manCutoff;
 
-            type1 = DataSet.ForPeakFlags( this._core ).IncludeMessage( "Specify the comment flag signifying the first type" ).ShowList( this, null );
+            type1 = DataSet.ForUserFlags( this._core ).IncludeMessage( "Specify the comment flag signifying the first type" ).ShowList( this, null );
 
             if (type1 == null)
             {
                 return;
             }
 
-            type2 = DataSet.ForPeakFlags( this._core ).IncludeMessage( "Specify the comment flag signifying the second type" ).ShowList( this, null );
+            type2 = DataSet.ForUserFlags( this._core ).IncludeMessage( "Specify the comment flag signifying the second type" ).ShowList( this, null );
 
             if (type2 == null)
             {
@@ -564,23 +564,23 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             sb.AppendLine();
 
             sb.AppendLine( "Flags:" );
-            HashSet<PeakFlag> flags = new HashSet<PeakFlag>();
+            HashSet<UserFlag> flags = new HashSet<UserFlag>();
 
             foreach (Peak v in core.Peaks)
             {
-                foreach (PeakFlag flag in v.CommentFlags)
+                foreach (UserFlag flag in v.UserFlags)
                 {
                     flags.Add( flag );
                 }
             }
 
-            foreach (PeakFlag flag in flags)
+            foreach (UserFlag flag in flags)
             {
                 int c = 0;
 
                 foreach (Peak v in core.Peaks)
                 {
-                    if (v.CommentFlags.Contains( flag ))
+                    if (v.UserFlags.Contains( flag ))
                     {
                         c++;
                     }
@@ -669,7 +669,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
              * */
         }
 
-        private Tuple<double, int, int, int, int> SimpleClassify( double cutoff, PeakFlag type1, PeakFlag type2, List<double> sigs, List<bool> inTrainingSet, bool checkTrainingSet )
+        private Tuple<double, int, int, int, int> SimpleClassify( double cutoff, UserFlag type1, UserFlag type2, List<double> sigs, List<bool> inTrainingSet, bool checkTrainingSet )
         {
             int correct1 = 0;
             int incorrect1 = 0;
@@ -683,7 +683,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                     Peak v = this._core.Peaks[vi];
                     double sig = sigs[vi];
 
-                    if (v.CommentFlags.Contains( type1 ))
+                    if (v.UserFlags.Contains( type1 ))
                     {
                         if (sig <= cutoff)
                         {
@@ -694,7 +694,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
                             incorrect1++;
                         }
                     }
-                    else if (v.CommentFlags.Contains( type2 ))
+                    else if (v.UserFlags.Contains( type2 ))
                     {
                         if (sig <= cutoff)
                         {

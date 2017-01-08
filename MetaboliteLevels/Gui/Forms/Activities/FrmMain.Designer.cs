@@ -534,7 +534,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.toolStripProgressBar1,
             this.toolStripStatusLabel3,
             this._txtGuid});
-            this._statusMain.Location = new System.Drawing.Point(0, 782);
+            this._statusMain.Location = new System.Drawing.Point(0, 728);
             this._statusMain.Name = "_statusMain";
             this._statusMain.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
             this._statusMain.Size = new System.Drawing.Size(1185, 22);
@@ -861,7 +861,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.White;
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer1.Panel2.ForeColor = System.Drawing.Color.Black;
-            this.splitContainer1.Size = new System.Drawing.Size(1185, 711);
+            this.splitContainer1.Size = new System.Drawing.Size(1185, 657);
             this.splitContainer1.SplitterDistance = 457;
             this.splitContainer1.TabIndex = 5;
             // 
@@ -881,8 +881,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.panel1);
-            this.splitContainer2.Size = new System.Drawing.Size(457, 711);
-            this.splitContainer2.SplitterDistance = 352;
+            this.splitContainer2.Size = new System.Drawing.Size(457, 657);
+            this.splitContainer2.SplitterDistance = 325;
             this.splitContainer2.TabIndex = 11;
             // 
             // panel3
@@ -892,7 +892,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.panel3.Location = new System.Drawing.Point(0, 44);
             this.panel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(457, 308);
+            this.panel3.Size = new System.Drawing.Size(457, 281);
             this.panel3.TabIndex = 11;
             // 
             // _lstPrimary
@@ -905,11 +905,10 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lstPrimary.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstPrimary.MultiSelect = false;
             this._lstPrimary.Name = "_lstPrimary";
-            this._lstPrimary.Size = new System.Drawing.Size(457, 308);
+            this._lstPrimary.Size = new System.Drawing.Size(457, 281);
             this._lstPrimary.TabIndex = 5;
             this._lstPrimary.UseCompatibleStateImageBehavior = false;
             this._lstPrimary.View = System.Windows.Forms.View.Details;
-            this._lstPrimary.KeyDown += new System.Windows.Forms.KeyEventHandler(this._lstVariables_KeyDown);
             // 
             // _tsDatasetsPrimary
             // 
@@ -1062,17 +1061,17 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(457, 353);
+            this.panel1.Size = new System.Drawing.Size(457, 326);
             this.panel1.TabIndex = 7;
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this._lstSecondary);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 76);
+            this.panel4.Location = new System.Drawing.Point(0, 95);
             this.panel4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(457, 277);
+            this.panel4.Size = new System.Drawing.Size(457, 231);
             this.panel4.TabIndex = 21;
             // 
             // _lstSecondary
@@ -1085,7 +1084,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._lstSecondary.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._lstSecondary.MultiSelect = false;
             this._lstSecondary.Name = "_lstSecondary";
-            this._lstSecondary.Size = new System.Drawing.Size(457, 277);
+            this._lstSecondary.Size = new System.Drawing.Size(457, 231);
             this._lstSecondary.TabIndex = 6;
             this._lstSecondary.UseCompatibleStateImageBehavior = false;
             this._lstSecondary.View = System.Windows.Forms.View.Details;
@@ -1110,7 +1109,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this._tsBarSelection.Location = new System.Drawing.Point(0, 32);
             this._tsBarSelection.Name = "_tsBarSelection";
             this._tsBarSelection.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this._tsBarSelection.Size = new System.Drawing.Size(457, 44);
+            this._tsBarSelection.Size = new System.Drawing.Size(457, 63);
             this._tsBarSelection.TabIndex = 18;
             this._tsBarSelection.Text = "toolStrip4";
             // 
@@ -1339,8 +1338,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.splitContainer3.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.splitContainer3.Size = new System.Drawing.Size(722, 711);
-            this.splitContainer3.SplitterDistance = 349;
+            this.splitContainer3.Size = new System.Drawing.Size(722, 657);
+            this.splitContainer3.SplitterDistance = 322;
             this.splitContainer3.TabIndex = 10;
             // 
             // FrmMain
@@ -1348,7 +1347,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1185, 804);
+            this.ClientSize = new System.Drawing.Size(1185, 750);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this._statusMain);
             this.Controls.Add(this.toolStrip1);

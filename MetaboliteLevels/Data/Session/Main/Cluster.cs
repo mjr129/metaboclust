@@ -79,7 +79,7 @@ namespace MetaboliteLevels.Data.Session.Main
         /// <summary>
         /// Comment flag counts for assignments
         /// </summary>                  
-        public readonly Dictionary<PeakFlag, int> CommentFlags = new Dictionary<PeakFlag, int>();
+        public readonly Dictionary<UserFlag, int> CommentFlags = new Dictionary<UserFlag, int>();
 
         /// <summary>
         /// Related clusters
@@ -223,7 +223,7 @@ namespace MetaboliteLevels.Data.Session.Main
 
             foreach (Peak v in this.Assignments.Peaks)
             {
-                foreach (PeakFlag flag in v.CommentFlags)
+                foreach (UserFlag flag in v.UserFlags)
                 {
                     if (this.CommentFlags.ContainsKey(flag))
                     {
@@ -448,6 +448,7 @@ namespace MetaboliteLevels.Data.Session.Main
 
                         foreach (var kvp in compounds)
                         {
+                            // Pathway, compound, peaks
                             request.Add(kvp.Key, kvp.Value.ToArray(), peaks[kvp.Key].ToArray());
                         }
                     }
@@ -486,9 +487,9 @@ namespace MetaboliteLevels.Data.Session.Main
                     z => closure.Colour );
             }             
 
-            foreach (PeakFlag flag in core.Options.PeakFlags)
+            foreach (UserFlag flag in core.Options.UserFlags)
             {
-                PeakFlag closure = flag;
+                UserFlag closure = flag;
                 result.Add(
                     "Flags\\" + flag, 
                     EColumn.Advanced, 

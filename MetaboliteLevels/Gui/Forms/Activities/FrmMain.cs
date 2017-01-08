@@ -1283,75 +1283,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         private void exportClustersToolStripMenuItem_Click(object sender, EventArgs e)
         {
            // RM
-        }
-
-        /// <summary>
-        /// Peak list: Keypress --> Set/clear comment flags
-        /// </summary>
-        private void _lstVariables_KeyDown(object sender, KeyEventArgs e)
-        {
-            Peak peakk = this._primaryList.Selection as Peak;
-
-            if (peakk == null)
-            {
-                return;
-            }
-
-            if (this._core.Options.EnablePeakFlagging)
-            {
-                foreach (var f in this._core.Options.PeakFlags)
-                {
-                    if (f.Key == (char)e.KeyCode)
-                    {
-                        NativeMethods.Beep(f.BeepFrequency, f.BeepDuration);
-
-                        if (e.Control)
-                        {            
-                            bool add = !peakk.CommentFlags.Contains(f);
-
-                            if (FrmMsgBox.ShowOkCancel(this, f.ToString(), (add ? "Apply this flag to" : "Remove this flag from") + " all peaks shown in list?"))
-                            {
-                                foreach (object xx in this._primaryList.GetVisible())
-                                {
-                                    Peak peak = xx as Peak;
-
-                                    if (peak == null)
-                                    {
-                                        continue;
-                                    }
-
-                                    if (add)
-                                    {
-                                        if (!peak.CommentFlags.Contains(f))
-                                        {
-                                            peak.CommentFlags.Add(f);
-                                        }
-                                    }
-
-                                    if (!add)
-                                    {
-                                        if (peak.CommentFlags.Contains(f))
-                                        {
-                                            peak.CommentFlags.Remove(f);
-                                        }
-                                    }
-                                }
-
-                                this._primaryList.Rebuild(EListInvalids.ValuesChanged);
-                            }
-                        }
-                        else
-                        {
-                            peakk.ToggleCommentFlag(f);
-                            this._primaryList.Update( peakk);
-                            e.Handled = true;
-                        }
-
-                        return;
-                    }
-                }
-            }
-        }
+        }    
 
         /// <summary>
         /// Handles: Form closing
@@ -1497,15 +1429,8 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             var x = src as Visualisable;
 
             if (x == null)
-            {
-                new MsgBox()
-                {                
-                    Title = "Selection",
-                    Message = "This selection cannot be modified.\r\n\r\nData type = " + this._selectionMenuOpenedFromList.GetType().ToUiString() + "\r\nValue = " + this._selectionMenuOpenedFromList,
-                    HelpText = "The selection cannot be modified since it is not in the database, it is probably a temporary value; such as the result of a calculation, a compound value; associating two or more other items, or a fixed value; such as a field title.",
-                    Level = ELogLevel.Information,
-                }.Show(this);
-
+            {    
+                // Should never be the case
                 return;
             }
 
@@ -1563,7 +1488,11 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             if (t != null)
             {
                 items.Add("&Navigate to " + t.ToString(), null, this.openToolStripMenuItem_Click_1);
-                items.Add("&Edit name and comments", null, this.addCommentsToolStripMenuItem_Click);
+
+                if (t is Visualisable)
+                {
+                    items.Add( "&Edit name and comments", null, this.addCommentsToolStripMenuItem_Click );
+                }                        
             }
             else
             {

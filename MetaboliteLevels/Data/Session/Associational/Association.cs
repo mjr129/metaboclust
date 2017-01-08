@@ -10,7 +10,7 @@ using MetaboliteLevels.Gui.Controls.Lists;
 using MetaboliteLevels.Properties;
 
 namespace MetaboliteLevels.Data.Session.Associational
-{                  
+{
     /// <summary>
     /// Throwaway object that "associates" two other objects.
     /// 
@@ -18,6 +18,7 @@ namespace MetaboliteLevels.Data.Session.Associational
     /// 
     /// The type parameter (T) is needed because the list views need to find the correct columns.
     /// </summary>
+    [XColumnConcreteGeneratorAttribute]
     internal sealed class Association<T> : IColumnProvider, IIconProvider, IAssociation
     {
         [NotNull] public ContentsRequest OriginalRequest { get; }
@@ -59,11 +60,21 @@ namespace MetaboliteLevels.Data.Session.Associational
                     int closure = n;
                     Tuple<string, string> c = this.OriginalRequest.ExtraColumns[n];
 
-                    results.Add( new Column<Association<T>>( c.Item1, EColumn.Visible, c.Item2, z => z._extraColumnValues[closure], z => Color.Blue ) );
+                    results.Add( new Column<Association<T>>( c.Item1, EColumn.Visible, c.Item2, z => z.GetExtraColumnValue(closure), z => Color.Blue ) );
                 }
             }
 
             request.NoAutomaticColumns = true; // Else conflicts
+        }
+
+        private object GetExtraColumnValue( int closure )
+        {
+            if (closure < 0 || closure >= _extraColumnValues.Length)
+            {
+                return "Missing column data";
+            }
+
+            return _extraColumnValues[closure];
         }
 
         public Image Icon { get; private set; }

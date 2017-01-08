@@ -889,6 +889,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             public List<BatchInfo> Batches;
             public List<Peak> Peaks;
             public MetaInfoHeader PeakMetaHeader;
+            public MetaInfoHeader ObsMetaHeader;
             internal OriginalData IntensityMatrix;
             internal OriginalData AltIntensityMatrix;
         }
@@ -914,6 +915,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             // Create the object to hold the result
             DataSet result = new DataSet();
             result.PeakMetaHeader = new MetaInfoHeader();
+            result.ObsMetaHeader = new MetaInfoHeader();
 
             // Check for common problems
             UiControls.Assert( !string.IsNullOrEmpty( files.Data ), "The intensities file has not been specified." );
@@ -1056,17 +1058,32 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
                 GroupInfo groupInfo = expGroupsById[typeId];
 
-                // Add condition (if not already)
-                ObservationInfo condition = conditions.FirstOrDefault( λ => λ.Time == day && λ.Group == groupInfo );
-
-                if (condition == null)
-                {
-                    condition = new ObservationInfo( null, groupInfo, day );
-                    conditions.Add( condition ); // all conditions
-                }
-
                 // Add observation
-                observations.Add( new ObservationInfo( new Acquisition( ssObservations.RowNames[row], repId, batchesById[batchId], acquisition ), groupInfo, day ) );
+                var newObs = new ObservationInfo( new Acquisition( ssObservations.RowNames[row], repId, batchesById[batchId], acquisition ), groupInfo, day );
+                observations.Add( newObs );
+                WriteMeta( ssObservations, row, newObs.MetaInfo, result.ObsMetaHeader );
+            }
+
+            // Generate CONDITIONS from OBSERVATIONS
+            foreach (var group in observations.GroupBy( z => z.Group ))
+            {
+                foreach (var time in group.GroupBy( z => z.Time ))
+                {
+                    ObservationInfo condition = new ObservationInfo( null, group.Key, time.Key );
+
+                    // Write META where it is the same across everything
+                    for (int n = 0; n < result.ObsMetaHeader.Headers.Length; ++n)
+                    {
+                        var metaValues = time.Unique( z => z.MetaInfo.Read( n ) );
+                                              
+                        if (metaValues.Count == 1)
+                        {
+                            condition.MetaInfo.Write( result.ObsMetaHeader, result.ObsMetaHeader.Headers[n], metaValues.First() );
+                        }
+                    }
+
+                    conditions.Add( condition );
+                }
             }
 
             // Add to result

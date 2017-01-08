@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Gui.Controls.Lists;
 using MetaboliteLevels.Properties;
+using MetaboliteLevels.Utilities;
 using MSerialisers;
 
 namespace MetaboliteLevels.Data.Session.Main
@@ -22,15 +25,19 @@ namespace MetaboliteLevels.Data.Session.Main
     [DeferSerialisation]
     class ObservationInfo : Visualisable
     {                                                  
-        [XColumn( "Acquisition\\", EColumn.Decompose)]
+        [XColumn( "Acquisition\\", EColumn.Decompose), CanBeNull]
         public readonly Acquisition Acquisition;
-        [XColumn]
+        [XColumn, NotNull]
         public readonly GroupInfo Group;
         [XColumn]
         public readonly int Time;
 
-        public ObservationInfo( Acquisition acquisition, GroupInfo group, int time)
+        public readonly MetaInfoCollection MetaInfo = new MetaInfoCollection();
+
+        public ObservationInfo( [CanBeNull] Acquisition acquisition, [NotNull] GroupInfo group, int time)
         {
+            Debug.Assert( group != null );
+
             this.Acquisition = acquisition;
             this.Group = group;
             this.Time = time;
@@ -110,6 +117,13 @@ namespace MetaboliteLevels.Data.Session.Main
         public bool IsReplicateOf( ObservationInfo b )
         {
             return Group == b.Group && Time == b.Time;
+        }
+
+        public override void GetXColumns( CustomColumnRequest request )
+        {
+            base.GetXColumns( request );
+
+            request.Core._peakMeta.ReadAllColumns<ObservationInfo>( z => z.MetaInfo, request.Results );
         }
     }
 }

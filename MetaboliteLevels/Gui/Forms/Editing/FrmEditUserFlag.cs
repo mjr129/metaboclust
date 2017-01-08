@@ -10,20 +10,23 @@ using MGui.Controls;
 
 namespace MetaboliteLevels.Gui.Forms.Editing
 {
-    internal partial class FrmEditPeakFlag : Form
+    /// <summary>
+    /// Editor for <see cref="UserFlag"/>.
+    /// </summary>
+    internal partial class FrmEditUserFlag : Form
     {
         private string _comment;
         private readonly bool _readOnly;
-        private readonly CtlBinder<PeakFlag> _binder1 = new CtlBinder<PeakFlag>();
+        private readonly CtlBinder<UserFlag> _binder1 = new CtlBinder<UserFlag>();
 
         /// <summary>
         /// Shows the PeakFlag editor
         /// </summary>               
-        public static bool Show(Form owner, PeakFlag flag, bool readOnly)
+        public static bool Show(Form owner, UserFlag flag, bool readOnly)
         {
             UiControls.Assert(flag != null, "flag must not be null");
 
-            using (FrmEditPeakFlag frm = new FrmEditPeakFlag(flag, readOnly))
+            using (FrmEditUserFlag frm = new FrmEditUserFlag(flag, readOnly))
             {
                 if (UiControls.ShowWithDim(owner, frm) == DialogResult.OK)
                 {
@@ -39,7 +42,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
         /// <summary>
         /// CONSTRUCTOR
         /// </summary>                     
-        private FrmEditPeakFlag(PeakFlag flag, bool readOnly)
+        private FrmEditUserFlag(UserFlag flag, bool readOnly)
         {
             this.InitializeComponent();      
 

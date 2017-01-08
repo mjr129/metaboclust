@@ -5,16 +5,19 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetaboliteLevels.Data.Database;
 using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Data.Session.General;
+using MetaboliteLevels.Data.Session.Main;
 using MetaboliteLevels.Gui.Controls.Charts;
 using MetaboliteLevels.Gui.Datatypes;
 using MetaboliteLevels.Gui.Forms.Activities;
 using MetaboliteLevels.Gui.Forms.Editing;
+using MetaboliteLevels.Gui.Forms.Selection;
 using MetaboliteLevels.Gui.Forms.Text;
 using MetaboliteLevels.Properties;
 using MetaboliteLevels.Utilities;
@@ -89,6 +92,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             listView.ItemActivate += this._listView_ItemActivate;
             listView.MouseDown += this._listView_MouseDown;
             listView.KeyDown += ListView_KeyDown;
+            listView.SearchForVirtualItem += ListView_SearchForVirtualItem;
 
             listView.View = View.Details;
             listView.HeaderStyle = ColumnHeaderStyle.Clickable;
@@ -192,6 +196,36 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             this._lblHidden.Click += this._hiddenm_Click;
         }
 
+        private void ListView_SearchForVirtualItem( object sender, SearchForVirtualItemEventArgs e )
+        {
+            for (int n = e.StartIndex + 1; n < _filteredList.Count; ++n)
+            {
+                if (SearchForVirtualItem( n, e ))
+                {
+                    return;
+                }
+            }
+
+            for (int n = 0; n < e.StartIndex; ++n)
+            {
+                if (SearchForVirtualItem( n, e ))
+                {
+                    return;
+                }
+            }
+        }
+
+        private bool SearchForVirtualItem( int n, SearchForVirtualItemEventArgs e )
+        {
+            if (_filteredList[n].ToString().ToUpper().StartsWith( e.Text.ToUpper() ))
+            {
+                e.Index = n;
+                return true;
+            }
+
+            return false;
+        }
+
         private void ListView_KeyDown( object sender, KeyEventArgs e )
         {
             if (e.KeyCode == Keys.Delete)
@@ -201,6 +235,79 @@ namespace MetaboliteLevels.Gui.Controls.Lists
                 if (selection != null)
                 {
                     selection.Hidden = !selection.Hidden;
+                    e.Handled = true;
+                    return;
+                }
+            }
+
+            if (this._core.Options.EnablePeakFlagging)
+            {
+                foreach (UserFlag f in this._core.Options.UserFlags)
+                {
+                    if (f.Key == (char)e.KeyCode)
+                    {
+                        IFlaggable flaggable = this.Selection as IFlaggable;
+
+                        if (flaggable == null)
+                        {
+                            FrmMsgBox.ShowInfo( _listView.FindForm(), "Toggle flag", $"You have bound the key \"{f.Key}\" to toggle the \"{f.DisplayName}\" flag, but the selection in the list does not support flags.", FrmMsgBox.EDontShowAgainId.ToggleFlagFailed);
+                            return;
+                        }
+
+                        NativeMethods.Beep( f.BeepFrequency, f.BeepDuration );
+
+                        if (e.Control)
+                        {
+                            bool add = !flaggable.UserFlags.Contains( f );
+
+                            if (FrmMsgBox.ShowOkCancel( _listView.FindForm(), f.ToString(), (add ? "Apply this flag to" : "Remove this flag from") + " all peaks shown in list?" ))
+                            {
+                                foreach (object xx in this.GetVisible())
+                                {
+                                    IFlaggable peak = xx as IFlaggable;
+
+                                    if (peak == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (add)
+                                    {
+                                        if (!peak.UserFlags.Contains( f ))
+                                        {
+                                            peak.UserFlags.Add( f );
+                                        }
+                                    }
+
+                                    if (!add)
+                                    {
+                                        if (peak.UserFlags.Contains( f ))
+                                        {
+                                            peak.UserFlags.Remove( f );
+                                        }
+                                    }
+                                }
+
+                                this.Rebuild( EListInvalids.ValuesChanged );
+                            }
+                        }
+                        else
+                        {
+                            if (!flaggable.UserFlags.Contains( f ))
+                            {
+                                flaggable.UserFlags.Add( f );
+                            }
+                            else
+                            {
+                                flaggable.UserFlags.Remove( f );  
+                            }
+
+                            this.Update( flaggable );
+                        }
+
+                        e.Handled = true;
+                        return;
+                    }
                 }
 
                 _imageList.RemoveAssociation( selection );
@@ -947,8 +1054,28 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             // Save the ID (this is used to load/save columns)
             this._listViewOptionsKey = this._listView.FindForm().Name + "\\" + this._listView.Name + "\\" + dataType.Name;
 
+            IEnumerable<Column> cols;
+
             // Get columns for the type "T"
-            IEnumerable<Column> cols = ColumnManager.GetColumns( dataType, this._core );
+            if (dataType.GetCustomAttribute<XColumnConcreteGeneratorAttribute>() != null)
+            {
+                // Hack for association columns
+                object concrete = _source.UntypedGetList( false ).FirstOrDefault2();
+
+                if (concrete == null)
+                {
+                    // Wait for columns
+                    cols = null;
+                }
+                else
+                {
+                    cols = ColumnManager.GetColumns( this._core, concrete );
+                }
+            }
+            else
+            {
+                cols = ColumnManager.GetColumns( dataType, this._core );
+            }
 
             if (cols == null)
             {

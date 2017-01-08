@@ -123,6 +123,11 @@ namespace MetaboliteLevels.Data.Session.General
         public readonly MetaInfoHeader _peakMeta;
 
         /// <summary>
+        /// Meta data - for _observations
+        /// </summary>
+        public readonly MetaInfoHeader _obsMeta;
+
+        /// <summary>
         /// Meta data - for _compounds
         /// </summary>
         public readonly MetaInfoHeader _compoundsMeta;
@@ -301,6 +306,7 @@ namespace MetaboliteLevels.Data.Session.General
             this._batches = data.Batches;
 
             this._peakMeta = data.PeakMetaHeader;
+            this._obsMeta = data.ObsMetaHeader;
             this._compoundsMeta = compMeta;
             this._pathwaysMeta = pathMeta;
             this._adductsMeta = adductsHeader;

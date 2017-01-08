@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Gui.Forms.Editing
             UiControls.SetIcon( this );
 
             this._available = available.ToList();
-            this._selected = selected.Unique();
+            this._selected = selected?.Unique() ?? new HashSet<Column>();
             this.ctlTitleBar1.Text = title; 
 
             this._chkAdvanced.ForeColor = ColumnManager.COLCOL_ADVANCED;
