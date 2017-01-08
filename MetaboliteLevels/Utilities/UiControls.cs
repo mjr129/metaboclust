@@ -435,8 +435,16 @@ namespace MetaboliteLevels.Utilities
         internal static Image GetImage( object @object )
         {              
             IIconProvider vis = @object as IIconProvider;
+            Visualisable visy = @object as Visualisable;
 
-            return vis?.Icon ?? Resources.IconUnknown;
+            var deficon = vis?.Icon ?? Resources.IconUnknown;
+
+            if (visy?.Hidden ?? false)
+            {
+                deficon = UiControls.Crossout( deficon );
+            }
+
+            return deficon;
         }
 
         /// <summary>
