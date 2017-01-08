@@ -61,6 +61,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <DocumentationFile>bin\Release\MetaboliteLevels.XML</DocumentationFile>
+    <NoWarn>1591,1573,1572,1574,1711,419</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>097F62E6ABF287EA7DDCCF8F0EF64CC53FB622D6</ManifestCertificateThumbprint>

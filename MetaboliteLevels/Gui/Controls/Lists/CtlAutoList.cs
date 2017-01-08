@@ -308,11 +308,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
                         e.Handled = true;
                         return;
                     }
-                }
-
-                _imageList.RemoveAssociation( selection );
-
-                _listView.Refresh();
+                }                   
             }
         }
 

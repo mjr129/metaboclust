@@ -150,6 +150,7 @@ namespace MetaboliteLevels.Gui.Controls
 
         /// <summary>
         /// Sets the value of an EnumComboBox.
+        /// </summary>
         /// <typeparam name="T">Enum type</typeparam>
         /// <param name="comboBox">The combobox</param>
         /// <param name="value">Selected value</param>
@@ -165,6 +166,7 @@ namespace MetaboliteLevels.Gui.Controls
 
         /// <summary>
         /// Sets the value of an EnumComboBox.
+        /// </summary>
         /// <typeparam name="T">Enum type</typeparam>
         /// <param name="comboBox">The combobox</param>
         /// <param name="val">Initially selected value (if not a member of the enum then selects nothing)</param>
