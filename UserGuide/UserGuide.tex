@@ -49,24 +49,24 @@
 
 \begin{document}
 \maketitle
+\newpage
 
 \section{System requirements}
-For large datasets, a 64-bit system with 8Gb RAM is recommended. MetaboClust is dependent on the .NET framework. If you are running a recent version of Windows it is more than likely that this is already installed on your computer. If not you will need to download the installer version (see below), or download and install the Microsoft .NET framework from \url{https://www.microsoft.com/net/download}.
+For large datasets, a 64-bit system with 8Gb RAM is recommended. MetaboClust is dependent on the .NET framework and R. If you are running a recent version of Windows it is more than likely that .NET is already installed on your computer. If not you will need to download and install the Microsoft .NET framework from \url{https://www.microsoft.com/net/download}. R installation instructions can be found at \url{https://www.r-project.org/}.
 
 \section{Downloading binaries}
 
 If the .NET framework is installed, download the most recent MetaboClust zip file from \\
- \url{https://bitbucket.org/mjr129/MetaboliteLevels_Release}.  After downloading and unzipping, launch \textit{MetaboliteLevels.exe} to start the application.\\
+ \url{https://bitbucket.org/mjr129/metabolitelevels_release}.  After downloading and unzipping, launch \textit{MetaboliteLevels.exe} to start the application.\\
 \\
-If the .NET framework is not already installed, a full installation, which includes the .NET framework, desktop and start-menu shortcuts and an un-installer, can be downloaded
-instead. In this case download the most recent MetaboClust(installer) zip file. After downloading and unzipping, run \textit{Setup.exe} and follow the on-screen instructions. The application will be installed using Microsoft ClickOnce - for troubleshooting and details see \url{https://msdn.microsoft.com/en-us/library/t71a733d.aspx}. After the install you should be able to run the application from your start menu, or by launching \textit{MetaboliteLevels.exe} from the folder you installed the application to.
-\newpage
+
 \begin{detailbox}[Note]
 	If an error message appears when you try to start the application, check that the latest version of the .NET framework is installed and working.
 \end{detailbox}
 
+Note that administrator access is not required to run MetboClust. .NET and R will however require administrator privileges to install if they are not already installed.
+
 \section{Compiling from source}
-If a full installation is preferred, which (if required) includes the .NET framework, desktop and start-menu shortcuts and an un-installer, the \textit{Installer} version can be downloaded instead.
 MetaboClust is written in C\# using Visual Studio 2015. The source consists of three projects, all of which must be downloaded:\\
 \\
 \begin{tabularx}{\linewidth}{l X X X}
@@ -96,6 +96,8 @@ Build and run the \textit{MetaboliteLevels} project to start the application. No
 \begin{center}
 \includegraphics[max width=0.7\linewidth]{"Images/userguide/initial setup"}
 \end{center}
+Launch \menu{MetaboliteLevels.exe} from the folder you installed or compiled the application to. If you installed the application a shortcut to this should be available from the Start Menu.
+
 When MetaboClust starts for the first time the initial setup screen shown above is presented and requires the following information to be entered:
 
 \begin{detailbox}[Initial setup options]
@@ -132,12 +134,14 @@ Clicking the \menu{Next} button progresses to the next stage of input. If this g
 		\subitem \textbf{Data matrix} -- The data matrix is a grid containing the recorded intensities, with 1 row per observation and 1 column per variable (peak). Row and column names must be provided and must specify unique names for all observations (which can be O1, O2, O3,... for example) and variables (V1, V2, V3, ... for example). See the help bar as described above for exact details.
 		\subitem \textbf{Observation information} -- The observation information matrix gives details for each observation, with one observation on each row and one field of information in each column. Row namess should contain the observation IDs as specified for the \menu{Data} matrix and column headers should contain the field names. Most fields are optional, but some features do require specific fields (for instance batch correction requires the \menu{batch} and/or \menu{acquisition order} fields). Since the exact file format may change with a new release, please see the help bar in the software itself for the list of fields (column headers) available.
 		\subitem \textbf{Peak/variable information} -- The peak/variable information matrix gives details for each covariate. The software refers to these variable as peaks to avoid ambiguity with other variables, such as algorithm parameters. Please see the help bar for the list of fields available.
-		\subitem \textbf{Alternate intensities} -- Sometimes another version of your data may be available, e.g. scaled or unscaled, normalised or raw. The alternate intensities option allows this to be loaded in for quick reference later. This data can be viewed, but it will not be used in the actual analysis. This feature is not present from version 1.2 onwards as an unlimited number of intensity matrices can be loaded from the file menu.
-		\subitem \textbf{Condition names} -- If your experimental groups do not have intuitive names, e.g. just ``1'', ``2'' and ``3'', then this allows them to be mapped to more informative names.
+		\subitem \textbf{Advanced} –- Clicking this button displays the advanced configuration options ``alternate data'' and ``configuration names''.
+		\subsubitem \textbf{Alternate intensities} -- Sometimes another version of your data may be available, e.g. scaled or unscaled, normalised or raw. The alternate intensities option allows you to select or view this data instead of your primary dataset.
+		\subsubitem \textbf{Condition names} -- If your experimental groups do not have intuitive names, e.g. just ``1'', ``2'' and ``3'', then this allows them to be mapped to more informative names.
 		\item \textbf{Conditions}
-		\subitem \textbf{Specify conditions} -- Details of the experimental groups can be provided here. The conditions should be the same as in the \textit{observation information} file or, if present, the \textit{condition names} file. This information is not mandatory, but if specified  will allow the software to generate default statistics and filters (described later). Conditions can also be added manually later.
+		\subitem \textbf{Specify conditions} -- Details of the experimental groups can be provided here. The conditions should be specified as a comma delimited list, using the same names or IDs provided in the observation information file or, if present, the condition names file. This information is not mandatory, but if specified  will allow the software to generate default statistics and filters (described later).
 		\item \textbf{Statistics}
 		\subitem \textbf{Auto-create statistics} -- If  conditions have been specified, $t$-tests between experimental groups and controls, as well as Pearson correlations of the intensities for each group against time, can be generated. These options are not available if conditions were not specified, but can be calculated later.		
+		\subitem \textbf{Replicate averaging} -- Select these options to generate basic trend lines that average out dataset replicates using the listed methods (mean and/or median) for each time-point and experimental condition.
 		\subitem \textbf{Perform corrections} -- The UV-scale and centre data correction can be added to your pipeline here. This and other corrections can also be added or modified later.
 		\item \textbf{Compound libraries} -- These are the compound and pathway libraries used for annotations and pathway analysis. One or more of these must be selected to enable automated annotations. If you don't have any libraries on your system then the list will be empty.
 		\subitem \textbf{Adduct libraries} -- Adduct libraries are used for automated annotations. There are two adduct libraries built into MetaboClust, \textit{All} and \textit{Refined}. All adducts listed on http://fiehnlab.ucdavis.edu/staff/kind/Metabolomics/MS-Adduct-Calculator (Kind, 2016) are incorporated in the \textit{All} library with a subset in the \textit{Refined} library.
@@ -153,7 +157,9 @@ When all the fields you wish to select are complete click the \menu{OK} button t
 \begin{center}
 	\includegraphics[max width=0.7\linewidth]{"Images/userguide/main screen"}
 \end{center}
-Once you have created or loaded a session you will be presented with the main screen, shown above. There is no fixed series of steps in data analysis, but a brief overview of possibilities will be presented here. The images shown are taken from the analysis of the \textit{Medicago} leaf data, provided as a sample data set. This LC-MS dataset (negative mode) is provided as a sample data set and comprises 184 observations and 2920 peaks, with four experimental groups, C (Control), D (Droughted), F (Fusarium treated), and B (Both Fusarium treated and Droughted), as well as QC samples. Peaks were automatically annotated using the MedicCyc database (Urbanczyk-Wochniak et al., 2007, Bioinformatics 23(11), pp 1418-1423).
+Once you have created or loaded a session you will be presented with the main screen, shown above. The main screen comprises four panes, top left: primary-list, bottom-left: secondary list, top-right: peak plot, bottom-right: cluster plot.
+
+There is no fixed series of steps in data analysis, but a brief overview of possibilities will be presented here. The images shown are taken from the analysis of the \textit{Medicago} leaf data, provided as a sample data set. This LC-MS dataset (negative mode) is provided as a sample data set and comprises 184 observations and 2920 peaks, with four experimental groups, C (Control), D (Droughted), F (Fusarium treated), and B (Both Fusarium treated and Droughted), as well as QC samples. Peaks were automatically annotated using the MedicCyc database (Urbanczyk-Wochniak et al., 2007, Bioinformatics 23(11), pp 1418-1423).
 
 \section{Univariate statistics}
 \label{section:ug_univariate}
@@ -239,7 +245,7 @@ The MVA window presents a PCA plot of the dataset. The options to the left contr
 		\item \textbf{Source} -- Perform the analysis on observations or variables (peaks)
 		\item \textbf{View} -- Toggle between scores and loadings plots.
 		\item \textbf{Legend} -- Select what the colours on the graph represent.
-		\item \textbf{Corrections} -- View your data with various corrections.\footnote{\label{note:abct} Corrections and trends are defined from the main screen.}
+		\item \textbf{Source} – Select which corrections have been applied to your data. \footnote{\label{note:abct} You must have created these corrections for them to appear in the list. Corrections and trends are defined from the main screen.}
 		\item \textbf{Input} -- Choose between performing PCA of all observations, or just your trend line (useful for noisy datasets).
 		\item \textbf{Observations} -- Select a filter to determine the set of observations to explore.
 		\item \textbf{Peaks} -- Select a filter to determine the set of peaks to explore.
@@ -263,7 +269,7 @@ The data correction window presents a list of data-correction methods, as well a
 	\begin{itemize}
 		\item \textbf{Title} -- A title for the correction method. A name will be provided for you if you don't specify one. Clicking the \icon{comment} icon provides space to add detailed comments.
 		\item \textbf{Source} -- Data on which to perform the correction.
-		\item \textbf{Method} -- The correction to be performed. Click the \icon{database} button to the right of the method to define your own methods.
+		\item \textbf{Method} -- The correction to be performed. Click the \icon{database} button to the right of the method to define your own methods, as well as view further details on existing methods.
 		\item \textbf{Parameters} -- If the method takes any parameters, enter them here. Multiple parameters are separated by commas. Clicking the button next to the text-box displays the parameters as individual inputs rather than a single-line text-box.
 		\item \textbf{Operator} -- \textit{Only available for trend-based corrections.} The correction takes the form $x\prime = f(x, t)$, where $f$ is defined as divide or subtract. Generally a batch correction will use \menu{divide} and control correction \menu{subtract}.
 		\item \textbf{Filter} -- \textit{Only available for trend-based corrections.} Selects the set of points used to generate the trend.
@@ -306,7 +312,7 @@ Back on the main screen you will need to select your trend before your changes c
 After selecting your trend any peaks you plot will show the specified trend. You may see bold lines through 0 on peak plots pre-version 1.2 before a trend line has been defined. 
 
 \section{Clustering}
-Clusters are created in the same way as corrections, statistics or trends. Select the \menu{Cluster} option from the tool-bar of the main window.
+Clusters are created in the same way as corrections, statistics or trends. Select the \menu{Cluster} \icon{cluster button} option from the tool-bar of the main window.
 
 \begin{detailbox}[Clustering options]
 	\begin{itemize}
