@@ -172,8 +172,7 @@ namespace MetaboliteLevels.Gui.Forms.Selection
             : this()
         {
             this.ctlTitleBar1.Text = e.Title;
-            this.ctlTitleBar1.SubText = e.SubTitle;
-            this.ctlTitleBar1.HelpText = e.HelpText;
+            this.ctlTitleBar1.SubText = e.SubTitle;     
             this.label1.Text = e.Message;
             this.pictureBox1.Image = e.Image;
             this._chkNotAgain.Visible = e.DontShowAgainId != null;
@@ -361,20 +360,18 @@ namespace MetaboliteLevels.Gui.Forms.Selection
         public DialogResult? CancelButton;
         public string DontShowAgainId;
         public DialogResult? DontShowAgainValue;
-        public string HelpText;
-        public ELogLevel Level;
         private string _title;
         private Image _image;
 
         public Image Image
         {
-            get { return this._image ?? FrmMsgBox.GetIcon( this.Level ); }
+            get { return this._image ; }
             set { this._image = value; }
         }
 
         public string Title
         {
-            get { return this._title ?? this.Level.ToUiString(); }
+            get { return this._title; }
             set { this._title = value; }
         }     
 

@@ -40,7 +40,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         private readonly Core _core;
         private readonly ArgsClusterer _templateConfig;
         private ClusterEvaluationResults _selectedResults;
-        private ImageListHelper _imageList;
+        private ImageListIndexHelper _imageList;
 
         /// <summary>
         /// Shows the form
@@ -63,7 +63,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             this.InitializeComponent();
 
             UiControls.SetIcon(this);
-            this._imageList= new ImageListHelper(this.imageList1);
+            this._imageList= new ImageListIndexHelper(this.imageList1);
         }
 
         internal FrmActEvaluate(Core core, ArgsClusterer config )

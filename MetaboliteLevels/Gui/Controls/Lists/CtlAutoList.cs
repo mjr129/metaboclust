@@ -34,26 +34,26 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         private IDataSet _source;
 
         protected ListView _listView; // listview control to use                                                    
-        private IPreviewProvider _previewProvider; // thumbnail provider
+        private readonly IPreviewProvider _previewProvider; // thumbnail provider
         private bool _enablePreviews; // if in thumbnail mode
         protected readonly ToolStrip _toolStrip;
 
         public event EventHandler<ShowContextMenuEventArgs> ShowContextMenu; // right clicked item
         public event EventHandler<ListViewItemEventArgs> Activate; // double clicked item
 
-        private List<Column> _availableColumns = new List<Column>();
+        private readonly List<Column> _availableColumns = new List<Column>();
 
-        private ContextMenuStrip _cmsColumns;
-        private ToolStripMenuItem _mnuSortAscending;
-        private ToolStripMenuItem _mnuSortDescending;
-        private ToolStripMenuItem _mnuFilterColumn;
-        private ToolStripMenuItem _mnuHideColumn;
+        private readonly ContextMenuStrip _cmsColumns;
+        private readonly ToolStripMenuItem _mnuSortAscending;
+        private readonly ToolStripMenuItem _mnuSortDescending;
+        private readonly ToolStripMenuItem _mnuFilterColumn;
+        private readonly ToolStripMenuItem _mnuHideColumn;
         private ToolStripMenuItem _mnuRenameColumn;
-        private ToolStripMenuItem _mnuColumnHelp;
+        private readonly ToolStripMenuItem _mnuColumnHelp;
 
-        private ToolStripButton _btnColumns;
-        private ToolStripItem _lblFilter;
-        private ToolStripItem _lblHidden;
+        private readonly ToolStripButton _btnColumns;
+        private readonly ToolStripItem _lblFilter;
+        private readonly ToolStripItem _lblHidden;
 
         private bool _isCreatingColumns;
         private Column _clickedColumn;
@@ -65,12 +65,12 @@ namespace MetaboliteLevels.Gui.Controls.Lists
         protected List<object> _filteredList;
 
         private bool _emptyList;
-        private ToolStripMenuItem _mnuDisplayColumn;
+        private readonly ToolStripMenuItem _mnuDisplayColumn;
         private readonly ToolStripMenuItem _tsThumbNails;
         private string _listViewOptionsKey;
         private readonly ToolStripMenuItem _mnuViewAsHeatMap;
         private bool _suspendVirtual;
-        private ImageListHelper _imageList;
+        private readonly ImageListKeyHelper _imageList;
 
         /// <summary>
         /// Constructor
@@ -106,7 +106,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
 
             listView.SmallImageList = new ImageList();
             listView.SmallImageList.ImageSize = new Size( 24, 24 );
-            this._imageList = new ImageListHelper( listView.SmallImageList );
+            this._imageList = new ImageListKeyHelper( listView.SmallImageList );
             listView.LargeImageList = listView.SmallImageList;
 
             this._toolStrip = new ToolStrip();
@@ -191,7 +191,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             // Create filter label
             this._lblHidden = this._toolStrip.Items.Add( "FILTER" );
             this._lblHidden.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            this._lblHidden.ForeColor = Color.Green;
+            this._lblHidden.ForeColor = Color.Red;
             this._lblHidden.Visible = false;
             this._lblHidden.Click += this._hiddenm_Click;
         }
@@ -308,7 +308,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
                         e.Handled = true;
                         return;
                     }
-                }
+                }                   
             }
         }
 
@@ -874,16 +874,16 @@ namespace MetaboliteLevels.Gui.Controls.Lists
                 {
                     if (this._sortOrder._ascending)
                     {
-                        h.ImageIndex = this._imageList.GetAssociatedImageIndex( "ListIconSortUp", () => Resources.ListIconSortUp );
+                        h.ImageKey = this._imageList.GetAssociatedImageKey( "ListIconSortUp", () => Resources.ListIconSortUp );
                     }
                     else
                     {
-                        h.ImageIndex = this._imageList.GetAssociatedImageIndex( "ListIconSortDown", () => Resources.ListIconSortDown );
+                        h.ImageKey = this._imageList.GetAssociatedImageKey( "ListIconSortDown", () => Resources.ListIconSortDown );
                     }
                 }
                 else if (this._filter != null && this._filter._column == c)
                 {
-                    h.ImageIndex = this._imageList.GetAssociatedImageIndex( "ListIconFilter", () => Resources.ListIconFilter );
+                    h.ImageKey = this._imageList.GetAssociatedImageKey( "ListIconFilter", () => Resources.ListIconFilter );
                 }
             }
 
@@ -1114,7 +1114,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
             Visualisable vis = tag as Visualisable;
 
             // Update icon                                                                                    
-            lvi.ImageIndex = this._imageList.GetAssociatedImageIndex( tag, () => this.GeneratePreviewImage( tag ) );
+            lvi.ImageKey = this._imageList.GetAssociatedImageKey( tag, () => this.GeneratePreviewImage( tag ) );
 
             // Update columns
             foreach (ColumnHeader h in this._listView.Columns)
@@ -1132,7 +1132,7 @@ namespace MetaboliteLevels.Gui.Controls.Lists
 
                     if (vis?.Hidden ?? false)
                     {
-                        lvsi.Font = FontHelper.StrikeFont;
+                        lvsi.Font = FontHelper.ItalicFont;
                         color = Color.Gray;
                     }
                     else

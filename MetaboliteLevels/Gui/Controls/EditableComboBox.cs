@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using JetBrains.Annotations;
 using MetaboliteLevels.Data.Database;
+using MetaboliteLevels.Data.Session.Associational;
 using MetaboliteLevels.Gui.Datatypes;
 using MetaboliteLevels.Gui.Forms.Editing;
 using MetaboliteLevels.Properties;
@@ -79,6 +81,7 @@ namespace MetaboliteLevels.Gui.Controls
             this.ComboBox.DrawMode = DrawMode.OwnerDrawFixed;
             this.ComboBox.DrawItem += this.ComboBox_DrawItem;
             this.ComboBox.DropDown += this.ComboBox_DropDown; // Update on every drop-down in case something else modified the list
+            this.ComboBox.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             this.UpdateItemsNoPreserve(); // Don't do this yet or we'll NRE if the caller has events on the combobox
         }
 
@@ -120,12 +123,36 @@ namespace MetaboliteLevels.Gui.Controls
                 image = UiControls.DisabledImage( image );
             }
 
+            Color colour = Enabled ? e.ForeColor : Color.FromKnownColor( KnownColor.GrayText );
+
+            if (Enabled && n.Value is SpecialEditItem)
+            {
+                if (e.State.Has( DrawItemState.ComboBoxEdit ))
+                {
+                    return;
+                }
+
+                Rectangle rect;
+                const int BUTTON_WIDTH = 64;
+
+                if (e.Bounds.Width > BUTTON_WIDTH)
+                {
+                    rect = new Rectangle( e.Bounds.Right - BUTTON_WIDTH, e.Bounds.Top, BUTTON_WIDTH, e.Bounds.Height );
+                }
+                else
+                {
+                    rect = new Rectangle( e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height );
+                }
+
+                ButtonRenderer.DrawButton( e.Graphics, rect, n.Value.ToString(), e.Font, e.State.Has( DrawItemState.Focus ), PushButtonState.Normal );
+                return;
+            }
+
             int offset = e.Bounds.Height / 2 - image.Height / 2;
             Rectangle imageDest = new Rectangle( e.Bounds.Left + offset, e.Bounds.Top + offset, image.Width, image.Height );
             Rectangle imageSrc = new Rectangle( 0, 0, image.Width, image.Height );
             e.Graphics.DrawImage( image, imageDest, imageSrc, GraphicsUnit.Pixel );
             SizeF stringSize = e.Graphics.MeasureString( n.DisplayName, e.Font );
-            Color colour = Enabled ? e.ForeColor : Color.FromKnownColor( KnownColor.GrayText );
             TextRenderer.DrawText( e.Graphics, n.DisplayName, e.Font, new Point( imageDest.Right + 4, (int)(e.Bounds.Top + e.Bounds.Height / 2 - stringSize.Height / 2) ), colour );
         }
 
@@ -145,25 +172,65 @@ namespace MetaboliteLevels.Gui.Controls
         {
             this.ComboBox.Items.Clear();
 
+            // Null ("all" or "none") item
             if (this._includeNull != ENullItemName.NoNullItem)
             {
                 this._none = new NamedItem<object>( ReflectionHelper.GetDefault( this._config.DataType ), this._includeNull.ToUiString() );
                 this.ComboBox.Items.Add( this._none );
             }
 
+            // Regular items
             NamedItem<object>[] source = NamedItem.GetRange<object>( this._config.UntypedGetList( true ).Cast<object>(), this._config.UntypedName ).ToArray();
             Array.Sort<NamedItem<object>>( source ); // For Julie
             this.ComboBox.Items.AddRange( source );
+
+            // Edit button item        
+            if (_button != null)
+            {
+                this.ComboBox.Items.Add( new NamedItem<object>( new SpecialEditItem() ) );
+            }
+        }
+
+        class SpecialEditItem : IIconProvider
+        {
+            public override string ToString()
+            {
+                return "More...";
+            }
+
+            public Image Icon => Resources.MnuEnlargeList;
+        }
+
+        private object _lastValidSelection;
+
+        private void ComboBox_SelectedIndexChanged( object sender, EventArgs e )
+        {
+            if (InternalSelection is SpecialEditItem)
+            {
+                ShowEditor();
+                return;
+            }
+
+            _lastValidSelection = SelectedItem;
         }
 
         void _button_Click( object sender, EventArgs e )
         {
-            BigListResult<object> res = this._config.ShowListEditor( this.ComboBox.FindForm()  );
+            ShowEditor();
+        }
+
+        private void ShowEditor()
+        {
+            BigListResult<object> res = this._config.ShowListEditor( this.ComboBox.FindForm() );
 
             if (res != null)
             {
                 this.UpdateItemsNoPreserve();
                 this.SelectedItem = res.Selection;
+            }
+            else
+            {
+                this.SelectedItem = _lastValidSelection;
             }
         }
 
@@ -184,6 +251,11 @@ namespace MetaboliteLevels.Gui.Controls
         }
 
         /// <summary>
+        /// The item really selected.
+        /// </summary>
+        private object InternalSelection => NamedItem<object>.Extract( this.ComboBox.SelectedItem );
+
+        /// <summary>
         /// Selected item
         /// </summary>
         /// <remarks>
@@ -197,7 +269,18 @@ namespace MetaboliteLevels.Gui.Controls
         {
             get
             {
-                return NamedItem<object>.Extract( this.ComboBox.SelectedItem );
+                // The caller might be responding to a SelectedItemChanged event when we get this,
+                // so we might not have have had chance to update our own _lastValidSelection, depending on the order the
+                // events come through. Instead return the real item, unless it is the "button", in which case stick
+                // with whatever was selected last (the caller will think nothing has happened).
+                if (InternalSelection is SpecialEditItem)
+                {
+                    return _lastValidSelection;
+                }
+                else
+                {
+                    return InternalSelection;
+                }                            
             }
             set
             {
@@ -221,7 +304,14 @@ namespace MetaboliteLevels.Gui.Controls
                 {
                     if (!this.ComboBox.Items.Contains( value ))
                     {
-                        this.ComboBox.Items.Add( new NamedItem<object>( value, this._config.UntypedName ) );
+                        int index = this.ComboBox.Items.Count - 1;
+
+                        if (this.ComboBox.Items[index] is SpecialEditItem)
+                        {
+                            --index;
+                        }           
+
+                        this.ComboBox.Items.Insert( index, new NamedItem<object>( value, this._config.UntypedName ) );
                     }
                 }
 

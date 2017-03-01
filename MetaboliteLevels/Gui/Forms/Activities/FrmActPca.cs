@@ -51,7 +51,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
 
         private string _errorMessage;
         private EMethod _method;
-        private readonly ISelectionHolder _frmMain;
+        private readonly ISelectionHolder _frmMain;    
 
         class SourceSet
         {
@@ -69,7 +69,7 @@ namespace MetaboliteLevels.Gui.Forms.Activities
         }    
 
         private FrmPca(Core core, FrmMain frmMain)
-        {
+        {           
             this.InitializeComponent();
             UiControls.SetIcon( this );
             UiControls.ColourMenuButtons( this.toolStrip1 );
@@ -225,7 +225,16 @@ namespace MetaboliteLevels.Gui.Forms.Activities
             }
             catch (Exception ex)
             {
-                this._errorMessage = ex.Message;
+                if (ex.Message.Contains( "there is no package called 'pls'" ))
+                {
+                    this._errorMessage = "The 'pls' library for R is not installed on your system. Please install that library to use the PLS feature.";
+                    FrmMsgBox.ShowError( this, this._errorMessage );
+                }
+                else
+                {
+                    this._errorMessage = ex.Message;
+                }
+
                 this._scores = null;
                 this._loadings = null;
             }
