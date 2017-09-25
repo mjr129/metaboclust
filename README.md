@@ -41,3 +41,13 @@ The screenshots below are from an older version (1.0). The current release is 1.
 ### This page ###
 
 Download icon by Picol
+
+## Meta
+
+```
+tags: metabolomics, omics, clustering, time-series
+language: C#
+sub-language: .NET, R
+date: 2017
+author: Martin Rusilowicz
+```
