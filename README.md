@@ -4,9 +4,9 @@ It features data correction, cluster analysis and user interactive visualisation
 Please see the user guide for further information.
 
 ## ![save-disk.png](https://bitbucket.org/repo/44K5Kx/images/2280906455-save-disk.png) Download the latest release ##
-* [MetaboClust 1.2.0.142 (latest)](https://bitbucket.org/mjr129/metabolitelevels/downloads/MetaboClust%201.2.0.142.zip) - 19th May 2017
-* [User manual](https://bitbucket.org/mjr129/metabolitelevels/downloads/UserGuide.pdf)
-* [Sample data set](https://bitbucket.org/mjr129/metabolitelevels/downloads/SampleData.zip)
+* [MetaboClust 1.2.0.142 (latest)](https://bitbucket.org/mjr129/metaboclust/downloads/MetaboClust%201.2.0.142.zip) - 19th May 2017
+* [User manual](https://bitbucket.org/mjr129/metaboclust/downloads/UserGuide.pdf)
+* [Sample data set](https://bitbucket.org/mjr129/metaboclust/downloads/SampleData.zip)
 
 ## Screenshots (version 1.0) ##
 The screenshots below are from an older version (1.0). The current release is 1.2.
