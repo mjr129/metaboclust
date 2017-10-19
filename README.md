@@ -1,4 +1,6 @@
-# MetaboClust #
+MetaboClust
+===========
+
 MetaboClust is a project to display and analyse time-course metabolomics data (or similar).
 It features data correction, cluster analysis and user interactive visualisation.
 Please see the user guide for further information.
@@ -8,7 +10,9 @@ Please see the user guide for further information.
 * [User manual](https://bitbucket.org/mjr129/metaboclust/downloads/UserGuide.pdf)
 * [Sample data set](https://bitbucket.org/mjr129/metaboclust/downloads/SampleData.zip)
 
-## Screenshots (version 1.0) ##
+Screenshots (version 1.0)
+-------------------------
+
 The screenshots below are from an older version (1.0). The current release is 1.2.
 
 ### Startup ###
