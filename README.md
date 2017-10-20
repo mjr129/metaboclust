@@ -48,10 +48,12 @@ Download icon by Picol
 
 ## Meta
 
-```
-tags: metabolomics, omics, clustering, time-series
-language: C#
-sub-language: .NET, R
-date: 2017
-author: Martin Rusilowicz
+```ini
+tags= metabolomics, omics, clustering, time-series
+language= C#
+sub-language= .NET, R
+date= 2017
+author= Martin Rusilowicz
+host=bitbucket
+type=application,gui
 ```
